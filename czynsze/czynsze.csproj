@@ -75,27 +75,52 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Rekord.aspx" />
-    <Content Include="Tabela.aspx" />
+    <Content Include="Login.aspx" />
+    <Content Include="Record.aspx" />
+    <Content Include="List.aspx" />
+    <Content Include="RecordValidation.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\ButtonP.cs" />
-    <Compile Include="Controls\HtmlInputHiddenP.cs" />
-    <Compile Include="Controls\LabelP.cs" />
-    <Compile Include="Controls\RadioButtonP.cs" />
-    <Compile Include="Controls\TableP.cs" />
+    <Compile Include="ControlsP\ButtonP.cs" />
+    <Compile Include="ControlsP\DropDownListP.cs" />
+    <Compile Include="ControlsP\HtmlInputHiddenP.cs" />
+    <Compile Include="ControlsP\LabelP.cs" />
+    <Compile Include="ControlsP\RadioButtonListP.cs" />
+    <Compile Include="ControlsP\RadioButtonP.cs" />
+    <Compile Include="ControlsP\TableP.cs" />
+    <Compile Include="ControlsP\TextBoxP.cs" />
     <Compile Include="DataAccess\Building.cs" />
     <Compile Include="DataAccess\Czynsze_Entities.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rekord.aspx.cs">
-      <DependentUpon>Rekord.aspx</DependentUpon>
+    <Compile Include="DataAccess\Place.cs" />
+    <Compile Include="DataAccess\Tenant.cs" />
+    <Compile Include="DataAccess\Title.cs" />
+    <Compile Include="DataAccess\TypeOfKitchen.cs" />
+    <Compile Include="DataAccess\TypeOfPlace.cs" />
+    <Compile Include="EnumP.cs" />
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Rekord.aspx.designer.cs">
-      <DependentUpon>Rekord.aspx</DependentUpon>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Record.aspx.cs">
+      <DependentUpon>Record.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Record.aspx.designer.cs">
+      <DependentUpon>Record.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RecordValidation.aspx.cs">
+      <DependentUpon>RecordValidation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RecordValidation.aspx.designer.cs">
+      <DependentUpon>RecordValidation.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
@@ -104,12 +129,12 @@
     <Compile Include="Site.Master.designer.cs">
       <DependentUpon>Site.Master</DependentUpon>
     </Compile>
-    <Compile Include="Tabela.aspx.cs">
-      <DependentUpon>Tabela.aspx</DependentUpon>
+    <Compile Include="List.aspx.cs">
+      <DependentUpon>List.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Tabela.aspx.designer.cs">
-      <DependentUpon>Tabela.aspx</DependentUpon>
+    <Compile Include="List.aspx.designer.cs">
+      <DependentUpon>List.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

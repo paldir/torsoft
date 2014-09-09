@@ -9,6 +9,10 @@
     </asp:ContentPlaceHolder>
 </head>
 <body>
+    <div class="menu">
+        <a href="List.aspx?table=Buildings">Budynki</a>
+        <a href="List.aspx?table=Places">Lokale</a>
+    </div>
     <div>
         <asp:ContentPlaceHolder ID="ContentPlaceHolder" runat="server">
         
