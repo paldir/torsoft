@@ -8,18 +8,22 @@ using System.ComponentModel.DataAnnotations;
 
 namespace czynsze.DataAccess
 {
-    [Table("tyt_praw", Schema="public")]
+    [Table("tyt_praw", Schema = "public")]
     public class Title
     {
         [Key, Column("kod_praw")]
-        int kod_praw { get; set; }
+        public int kod_praw { get; set; }
 
         [Column("tyt_prawny")]
-        string tyt_prawny { get; set; }
+        public string tyt_prawny { get; set; }
 
         public string[] ImportantFields()
         {
-            return new string[] { kod_praw.ToString(), tyt_prawny };
+            return new string[] 
+            { 
+                kod_praw.ToString(), 
+                tyt_prawny 
+            };
         }
     }
 }

@@ -17,6 +17,7 @@ namespace czynsze
         {
             List<string[]> rows = null;
             string[] headers = null;
+            string heading = null;
 
             table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))]);
             string postBackUrl = "Record.aspx";
@@ -32,18 +33,29 @@ namespace czynsze
                 switch (table)
                 {
                     case EnumP.Table.Buildings:
-                        this.Title = "Budynki";
+                        this.Title = heading = "Budynki";
                         headers = new string[] { "Kod", "Adres", "Adres cd." };
-                        rows = db.buildings.ToList().OrderBy(b => b.kod_1).Select(b => b.ImportantFields()).ToList();
+                        rows = db.buildings.OrderBy(b => b.kod_1).ToList().Select(b => b.ImportantFields()).ToList();
                         break;
                     case EnumP.Table.Places:
-                        this.Title = "Lokale";
+                        this.Title = heading = "Lokale";
                         headers = new string[] { "Kod budynku", "Numer lokalu", "Typ lokalu", "Powierzchnia użytkowa", "Nazwisko", "Imię" };
-                        rows = db.places.ToList().OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok).Select(p => p.ImportantFields()).ToList();
+                        rows = db.places.OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok).ToList().Select(p => p.ImportantFields()).ToList();
+                        break;
+                    case EnumP.Table.Tenants:
+                        this.Title = heading = "Najemcy";
+                        headers = new string[] { "Numer kontrolny", "Nazwisko", "Imię", "Adres", "Adres cd." };
+                        rows = db.tenants.OrderBy(t => t.nazwisko).ThenBy(t => t.imie).ToList().Select(t => t.ImportantFields()).ToList();
+                        break;
+                    case EnumP.Table.RentComponents:
+                        this.Title = heading = "Składniki czynszu";
+                        headers = new string[] { "Numer", "Nazwa", "Sposób naliczania", "Typ", "Stawka zł" };
+                        rows = db.rentComponents.OrderBy(c => c.nr_skl).ToList().Select(c => c.ImportantFields()).ToList();
                         break;
                 }
             }
 
+            placeOfHeading.Controls.Add(new LiteralControl("<h2>" + heading + "</h2>"));
             placeOfMainTable.Controls.Add(new ControlsP.TableP("mainTable", rows, headers));
             placeOfMainTableButtons.Controls.Add(new ControlsP.HtmlInputHiddenP("table", table.ToString()));
 

@@ -120,7 +120,11 @@ namespace czynsze
                         Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("p_4"))],
                         Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("p_5"))],
                         Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("p_6"))],
-                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("kod_kuch"))]
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("kod_kuch"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("nr_kontr"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("il_osob"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("kod_praw"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("uwagi"))]
                     };
 
                     validationResult = DataAccess.Place.Validate(action, record);
@@ -167,6 +171,151 @@ namespace czynsze
                                         dbWriteResult = "Lokal usunięty.";
                                     }
                                     catch { dbWriteResult = "Nie można usunąć lokalu!"; }
+                                    break;
+                            }
+                        }
+                    }
+                    break;
+                case EnumP.Table.Tenants:
+                    this.Title = "Edycja najemcy";
+                    DataAccess.Tenant tenant;
+
+                    record = new string[]
+                    {
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("kod_najem"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("nazwisko"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("imie"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("adres_1"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("adres_2"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("nr_dow"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("pesel"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("nazwa_z"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("e_mail"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("l__has"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("uwagi"))]
+                    };
+
+                    validationResult = "";
+
+                    if (validationResult == String.Empty)
+                    {
+                        using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                        {
+                            switch (action)
+                            {
+                                case EnumP.Action.Dodaj:
+                                    try
+                                    {
+                                        tenant = new DataAccess.Tenant();
+
+                                        tenant.Set(record);
+                                        db.tenants.Add(tenant);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Najemca dodany.";
+                                    }
+                                    catch { dbWriteResult = "Nie można dodać najemcy!"; }
+                                    break;
+                                case EnumP.Action.Edytuj:
+                                    try
+                                    {
+                                        tenant = db.tenants.Where(t => t.nr_kontr == id).FirstOrDefault();
+
+                                        tenant.Set(record);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Najemca wyedytowany.";
+                                    }
+                                    catch { dbWriteResult = "Nie można edytować najemcy!"; }
+                                    break;
+                                case EnumP.Action.Usuń:
+                                    try
+                                    {
+                                        tenant = db.tenants.Where(t => t.nr_kontr == id).FirstOrDefault();
+
+                                        db.tenants.Remove(tenant);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Najemca usunięty.";
+                                    }
+                                    catch { dbWriteResult = "Nie można usunąć najemcy!"; }
+                                    break;
+                            }
+                        }
+                    }
+                    break;
+                case EnumP.Table.RentComponents:
+                    this.Title = "Edycja składnika czynszu";
+                    DataAccess.RentComponent rentComponent;
+
+                    record = new string[]
+                    {
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("nazwa"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("rodz_e"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("s_zaplat"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_inf"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("typ_skl"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("data_1"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("data_2"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_00"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_01"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_02"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_03"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_04"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_05"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_06"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_07"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_08"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_09"))]
+                    };
+
+                    validationResult = DataAccess.RentComponent.Validate(action, record);
+
+                    if (validationResult == String.Empty)
+                    {
+                        using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                        {
+                            switch (action)
+                            {
+                                case EnumP.Action.Dodaj:
+                                    try
+                                    {
+                                        rentComponent = new DataAccess.RentComponent();
+
+                                        rentComponent.Set(record);
+                                        db.rentComponents.Add(rentComponent);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Składnik czynszu dodany.";
+                                    }
+                                    catch { dbWriteResult = "Nie można dodać składnika czynszu!"; }
+                                    break;
+                                case EnumP.Action.Edytuj:
+                                    try
+                                    {
+                                        rentComponent = db.rentComponents.Where(c => c.nr_skl == id).FirstOrDefault();
+
+                                        rentComponent.Set(record);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Składnik czynszu wyedytowany.";
+                                    }
+                                    catch { dbWriteResult = "Nie można edytować składnika czynszu!"; }
+                                    break;
+                                case EnumP.Action.Usuń:
+                                    try
+                                    {
+                                        rentComponent = db.rentComponents.Where(c => c.nr_skl == id).FirstOrDefault();
+
+                                        db.rentComponents.Remove(rentComponent);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Składnik czynszu usunięty.";
+                                    }
+                                    catch { dbWriteResult = "Nie można usunąć składnika czynszu!"; }
                                     break;
                             }
                         }

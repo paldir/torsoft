@@ -75,10 +75,12 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="JavaScripts\Script.js" />
     <Content Include="Login.aspx" />
     <Content Include="Record.aspx" />
     <Content Include="List.aspx" />
     <Content Include="RecordValidation.aspx" />
+    <Content Include="StyleSheet.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -95,10 +97,12 @@
     <Compile Include="DataAccess\Building.cs" />
     <Compile Include="DataAccess\Czynsze_Entities.cs" />
     <Compile Include="DataAccess\Place.cs" />
+    <Compile Include="DataAccess\RentComponent.cs" />
     <Compile Include="DataAccess\Tenant.cs" />
     <Compile Include="DataAccess\Title.cs" />
     <Compile Include="DataAccess\TypeOfKitchen.cs" />
     <Compile Include="DataAccess\TypeOfPlace.cs" />
+    <Compile Include="DataAccess\TypeOfTenant.cs" />
     <Compile Include="EnumP.cs" />
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>

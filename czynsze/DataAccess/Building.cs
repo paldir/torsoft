@@ -79,7 +79,7 @@ namespace czynsze.DataAccess
                         id = Convert.ToInt16(record[0]);
 
                         using (Czynsze_Entities db = new Czynsze_Entities())
-                            if (db.buildings.Where(b => b.kod_1 == id).Count() != 0)
+                            if (db.buildings.Count(b => b.kod_1 == id) != 0)
                                 result += "Kod budynku jest już używany! <br />";
                     }
                     catch { result += "Kod budynku musi być liczbą całkowitą! <br />"; }
@@ -101,18 +101,41 @@ namespace czynsze.DataAccess
                 else
                     record[5] = "0";
             }
+            else
+            {
+                id = Convert.ToInt16(record[0]);
+
+                using (Czynsze_Entities db = new Czynsze_Entities())
+                    if (db.places.Count(p => p.kod_lok == id) > 0)
+                        result += "Nie można usunąć budynku, w którym znajdują się lokale! <br />";
+            }
 
             return result;
         }
         
         public string[] ImportantFields()
         {
-            return new string[] { kod_1.ToString(), kod_1.ToString(), adres, adres_2 };
+            return new string[] 
+            { 
+                kod_1.ToString(), 
+                kod_1.ToString(), 
+                adres, 
+                adres_2 
+            };
         }
 
         public string[] AllFields()
         {
-            return new string[] { kod_1.ToString(), il_miesz.ToString(), sp_rozl.ToString(), adres.Trim(), adres_2.Trim(), udzial_w_k.ToString(), String.Concat(uwagi_1.Trim(), uwagi_2.Trim(), uwagi_3.Trim(), uwagi_4.Trim(), uwagi_5.Trim(), uwagi_6.Trim()) };
+            return new string[] 
+            { 
+                kod_1.ToString(), 
+                il_miesz.ToString(), 
+                sp_rozl.ToString(), 
+                adres.Trim(), 
+                adres_2.Trim(), 
+                udzial_w_k.ToString(), 
+                String.Concat(uwagi_1.Trim(), uwagi_2.Trim(), uwagi_3.Trim(), uwagi_4.Trim(), uwagi_5.Trim(), uwagi_6.Trim()) 
+            };
         }
     }
 }

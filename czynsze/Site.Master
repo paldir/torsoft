@@ -5,6 +5,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
+    <link type="text/css" rel="stylesheet" href="StyleSheet.css" />
+    <script src="JavaScripts/Script.js"></script>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -12,6 +14,8 @@
     <div class="menu">
         <a href="List.aspx?table=Buildings">Budynki</a>
         <a href="List.aspx?table=Places">Lokale</a>
+        <a href="List.aspx?table=Tenants">Najemcy</a>
+        <a href="List.aspx?table=RentComponents">Składniki czynszu</a>
     </div>
     <div>
         <asp:ContentPlaceHolder ID="ContentPlaceHolder" runat="server">

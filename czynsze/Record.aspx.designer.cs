@@ -22,13 +22,58 @@ namespace czynsze {
         protected global::System.Web.UI.HtmlControls.HtmlForm form;
         
         /// <summary>
-        /// placeOfFields control.
+        /// placeOfHeading control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl placeOfFields;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl placeOfHeading;
+        
+        /// <summary>
+        /// formRow control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow formRow;
+        
+        /// <summary>
+        /// column0 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell column0;
+        
+        /// <summary>
+        /// column1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell column1;
+        
+        /// <summary>
+        /// column2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell column2;
+        
+        /// <summary>
+        /// column3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell column3;
         
         /// <summary>
         /// placeOfButtons control.

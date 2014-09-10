@@ -3,7 +3,15 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder" runat="server">
     <form id="form" method="post" runat="server">
-        <div id="placeOfFields" runat="server"></div>
+        <div id="placeOfHeading" runat="server"></div>
+        <table>
+            <tr id="formRow" runat="server">
+                <td id="column0" style="vertical-align: top;"></td>
+                <td id="column1" style="vertical-align: top;"></td>
+                <td id="column2" style="vertical-align: top;"></td>
+                <td id="column3" style="vertical-align: top;"></td>
+            </tr>
+        </table>
         <div id="placeOfButtons" runat="server"></div>
     </form>
 </asp:Content>

@@ -19,7 +19,11 @@ namespace czynsze.DataAccess
 
         public string[] ImportantFields()
         {
-            return new string[] { kod_kuch.ToString(), typ_kuch };
+            return new string[] 
+            { 
+                kod_kuch.ToString(), 
+                typ_kuch 
+            };
         }
     }
 }

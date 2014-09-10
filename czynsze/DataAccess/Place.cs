@@ -69,31 +69,50 @@ namespace czynsze.DataAccess
         public float p_6 { get; set; }
 
         [Column("kod_kuch")]
-        public int kod_kuch { get; set; }
+        public Nullable<int> kod_kuch { get; set; }
 
         [Column("nr_kontr")]
-        public int nr_kontr { get; set; }
+        public Nullable<int> nr_kontr { get; set; }
+
+        [Column("il_osob")]
+        public Nullable<int> il_osob { get; set; }
+
+        [Column("kod_praw")]
+        public Nullable<int> kod_praw { get; set; }
+
+        [Column("uwagi_1")]
+        public string uwagi_1 { get; set; }
+
+        [Column("uwagi_2")]
+        public string uwagi_2 { get; set; }
+
+        [Column("uwagi_3")]
+        public string uwagi_3 { get; set; }
+
+        [Column("uwagi_4")]
+        public string uwagi_4 { get; set; }
 
         public string[] ImportantFields()
         {
             string kod_typ = String.Empty;
             TypeOfPlace typeOfPlace;
-            string kod_kuch = String.Empty;
-            TypeOfKitchen typeOfKitchen;
 
             using (Czynsze_Entities db = new Czynsze_Entities())
-            {
                 typeOfPlace = db.typesOfPlace.Where(t => t.kod_typ == this.kod_typ).FirstOrDefault();
-                typeOfKitchen = db.typesOfKitchen.Where(t => t.kod_kuch == this.kod_kuch).FirstOrDefault();
-            }
 
             if (typeOfPlace != null)
                 kod_typ = typeOfPlace.typ_lok;
 
-            if (typeOfKitchen != null)
-                kod_kuch = typeOfKitchen.typ_kuch;
-
-            return new string[] { nr_system.ToString(), kod_lok.ToString(), nr_lok.ToString(), kod_typ, pow_uzyt.ToString("F2"), nazwisko, imie };
+            return new string[] 
+            { 
+                nr_system.ToString(), 
+                kod_lok.ToString(), 
+                nr_lok.ToString(), 
+                kod_typ, 
+                pow_uzyt.ToString("F2"), 
+                nazwisko, 
+                imie 
+            };
         }
 
         public string[] AllFields()
@@ -110,7 +129,31 @@ namespace czynsze.DataAccess
             else
                 dat_do = this.dat_do.ToString();
 
-            return new string[] { nr_system.ToString(), kod_lok.ToString(), nr_lok.ToString(), kod_typ.ToString(), adres.Trim(), adres_2.Trim(), pow_uzyt.ToString("F2"), pow_miesz.ToString("F2"), udzial.ToString("F2"), dat_od, dat_do, p_1.ToString("F2"), p_2.ToString("F2"), p_3.ToString("F2"), p_4.ToString("F2"), p_5.ToString("F2"), p_6.ToString("F2"), kod_kuch.ToString() };
+            return new string[] 
+            { 
+                nr_system.ToString(), 
+                kod_lok.ToString(), 
+                nr_lok.ToString(), 
+                kod_typ.ToString(), 
+                adres.Trim(), 
+                adres_2.Trim(), 
+                pow_uzyt.ToString("F2"),
+                pow_miesz.ToString("F2"), 
+                udzial.ToString("F2"), 
+                dat_od, 
+                dat_do,
+                p_1.ToString("F2"),
+                p_2.ToString("F2"),
+                p_3.ToString("F2"), 
+                p_4.ToString("F2"), 
+                p_5.ToString("F2"), 
+                p_6.ToString("F2"),
+                kod_kuch.ToString(), 
+                nr_kontr.ToString(), 
+                il_osob.ToString(), 
+                kod_praw.ToString(), 
+                String.Concat(uwagi_1.Trim(), uwagi_2.Trim(), uwagi_3.Trim(), uwagi_4.Trim()) 
+            };
         }
 
         public void Set(string[] record)
@@ -133,6 +176,24 @@ namespace czynsze.DataAccess
             p_5 = Convert.ToSingle(record[15]);
             p_6 = Convert.ToSingle(record[16]);
             kod_kuch = Convert.ToInt16(record[17]);
+            nr_kontr = Convert.ToInt16(record[18]);
+
+            using (Czynsze_Entities db = new Czynsze_Entities())
+            {
+                Tenant tenant = db.tenants.Where(t => t.nr_kontr == nr_kontr).FirstOrDefault();
+                nazwisko = tenant.nazwisko;
+                imie = tenant.imie;
+            }
+
+            il_osob = Convert.ToInt16(record[19]);
+            kod_praw = Convert.ToInt16(record[20]);
+
+            record[21] = record[21].PadRight(240);
+
+            uwagi_1 = record[21].Substring(0, 60).Trim();
+            uwagi_2 = record[21].Substring(60, 60).Trim();
+            uwagi_3 = record[21].Substring(120, 60).Trim();
+            uwagi_4 = record[21].Substring(180, 60).Trim();
         }
 
         public static string Validate(EnumP.Action action, string[] record)
@@ -172,6 +233,7 @@ namespace czynsze.DataAccess
                 result += Czynsze_Entities.ValidateFloat("Powierzchnia IV pokoju", ref record[14]);
                 result += Czynsze_Entities.ValidateFloat("Powierzchnia V pokoju", ref record[15]);
                 result += Czynsze_Entities.ValidateFloat("Powierzchnia VI pokoju", ref record[16]);
+                result += Czynsze_Entities.ValidateInt("Ilość osób", ref record[19]);
             }
 
             return result;
