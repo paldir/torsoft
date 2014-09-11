@@ -15,7 +15,7 @@ namespace czynsze.ControlsP
             this.ID = id;
             this.Enabled = enabled;
 
-            this.Items.Add(new ListItem(String.Empty, "0"));
+            //this.Items.Add(new ListItem(String.Empty, "0"));
             
             foreach (string[] row in rows)
             {

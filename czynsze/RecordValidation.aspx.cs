@@ -145,6 +145,15 @@ namespace czynsze
                                         db.SaveChanges();
 
                                         dbWriteResult = "Lokal dodany.";
+
+                                        //
+                                        //CXP PART
+                                        //
+                                        db.Database.ExecuteSqlCommand("INSERT INTO skl_cz(kod_lok, nr_lok, nr_skl, dan_p) SELECT " + record[1] + ", " + record[2] + ", nr_skl, dan_p FROM skl_cz_tmp");
+                                        db.Database.ExecuteSqlCommand("INSERT INTO pliki(id, plik, nazwa_pliku, opis, nr_system) SELECT id, plik, nazwa_pliku, opis, nr_system FROM pliki_tmp");
+                                        //
+                                        //TO DUMP BEHIND THE WALL
+                                        //
                                     }
                                     catch { dbWriteResult = "Nie można dodać lokalu!"; }
                                     break;
@@ -157,6 +166,17 @@ namespace czynsze
                                         db.SaveChanges();
 
                                         dbWriteResult = "Lokal wyedytowany.";
+
+                                        //
+                                        //CXP PART
+                                        //
+                                        db.Database.ExecuteSqlCommand("DELETE FROM skl_cz WHERE kod_lok=" + record[1] + " AND nr_lok=" + record[2]);
+                                        db.Database.ExecuteSqlCommand("INSERT INTO skl_cz(kod_lok, nr_lok, nr_skl, dan_p) SELECT kod_lok, nr_lok, nr_skl, dan_p FROM skl_cz_tmp");
+                                        db.Database.ExecuteSqlCommand("DELETE FROM pliki WHERE nr_system=" + record[0]);
+                                        db.Database.ExecuteSqlCommand("INSERT INTO pliki(id, plik, nazwa_pliku, opis, nr_system) SELECT id, plik, nazwa_pliku, opis, nr_system FROM pliki_tmp");
+                                        //
+                                        //TO DUMP BEHIND THE WALL
+                                        //
                                     }
                                     catch { dbWriteResult = "Nie można edytować lokalu!"; }
                                     break;
@@ -169,6 +189,15 @@ namespace czynsze
                                         db.SaveChanges();
 
                                         dbWriteResult = "Lokal usunięty.";
+
+                                        //
+                                        //CXP PART
+                                        //
+                                        db.Database.ExecuteSqlCommand("DELETE FROM skl_cz WHERE kod_lok=" + record[1] + " AND nr_lok=" + record[2]);
+                                        db.Database.ExecuteSqlCommand("DELETE FROM pliki WHERE nr_system=" + record[0]);
+                                        //
+                                        //TO DUMP BEHIND THE WALL
+                                        //
                                     }
                                     catch { dbWriteResult = "Nie można usunąć lokalu!"; }
                                     break;
@@ -259,7 +288,7 @@ namespace czynsze
                         Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_inf"))],
                         Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("typ_skl"))],
                         Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("data_1"))],
-                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("data_2"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("data_2"))]/*,
                         Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_00"))],
                         Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_01"))],
                         Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_02"))],
@@ -269,8 +298,25 @@ namespace czynsze
                         Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_06"))],
                         Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_07"))],
                         Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_08"))],
-                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_09"))]
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_09"))]*/
                     };
+
+                    if (record[3] == "6")
+                        record = record.ToList().Concat(new string[] 
+                        {
+                            Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_00"))],
+                            Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_01"))],
+                            Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_02"))],
+                            Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_03"))],
+                            Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_04"))],
+                            Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_05"))],
+                            Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_06"))],
+                            Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_07"))],
+                            Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_08"))],
+                            Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("stawka_09"))]
+                        }).ToArray();
+                    else
+                        record = record.ToList().Concat(new string[] { "", "", "", "", "", "", "", "", "", "" }).ToArray();
 
                     validationResult = DataAccess.RentComponent.Validate(action, record);
 

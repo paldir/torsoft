@@ -12,11 +12,12 @@
 </head>
 <body>
     <div class="menu">
-        <a href="List.aspx?table=Buildings">Budynki</a>
-        <a href="List.aspx?table=Places">Lokale</a>
-        <a href="List.aspx?table=Tenants">Najemcy</a>
-        <a href="List.aspx?table=RentComponents">Składniki czynszu</a>
+        <a href="List.aspx?table=Buildings" class="menuItem">Budynki</a>
+        <a href="List.aspx?table=Places" class="menuItem">Lokale</a>
+        <a href="List.aspx?table=Tenants" class="menuItem">Najemcy</a>
+        <a href="List.aspx?table=RentComponents" class="menuItem">Składniki czynszu</a>
     </div>
+    <div id="waterMark"></div>
     <div>
         <asp:ContentPlaceHolder ID="ContentPlaceHolder" runat="server">
         

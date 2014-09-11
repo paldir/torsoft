@@ -9,11 +9,12 @@ namespace czynsze.ControlsP
 {
     public class LabelP : Label
     {
-        public LabelP(string cSSClass, string associatedControlId, string text)
+        public LabelP(string cSSClass, string associatedControlId, string text, string id)
         {
             this.CssClass = cSSClass;
             this.AssociatedControlID = associatedControlId;
             this.Text = text;
+            this.ID = id;
         }
     }
 }

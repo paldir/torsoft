@@ -18,12 +18,13 @@ namespace czynsze.ControlsP
             {
                 TableRow tableRow = new TableRow();
                 tableRow.CssClass = "tableRow";
+                tableRow.ID = row[0] + "_row";
 
                 TableCell tableCell = new TableCell();
                 tableCell.CssClass = "tableCell";
 
                 tableCell.Controls.Add(new RadioButtonP("radioButton", row[0], "id"));
-                tableCell.Controls.Add(new LabelP("label", row[0], row[1]));
+                tableCell.Controls.Add(new LabelP("label", row[0], row[1], String.Empty));
                 tableRow.Cells.Add(tableCell);
                 this.Rows.Add(tableRow);
             }
@@ -35,7 +36,7 @@ namespace czynsze.ControlsP
                     TableCell tableCell = new TableCell();
                     tableCell.CssClass = "tableCell";
 
-                    tableCell.Controls.Add(new LabelP("label", rows.ElementAt(i)[0], rows.ElementAt(i)[j]));
+                    tableCell.Controls.Add(new LabelP("label", rows.ElementAt(i)[0], rows.ElementAt(i)[j], String.Empty));
                     this.Rows[i].Cells.Add(tableCell);
                 }
             }

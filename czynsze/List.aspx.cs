@@ -60,6 +60,27 @@ namespace czynsze
             placeOfMainTableButtons.Controls.Add(new ControlsP.HtmlInputHiddenP("table", table.ToString()));
 
             Session["values"] = null;
+
+            //
+            //CXP PART
+            //
+            switch (table)
+            {
+                case EnumP.Table.Places:
+                    using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                    {
+                        try
+                        {
+                            db.Database.ExecuteSqlCommand("DROP TABLE skl_cz_tmp");
+                            db.Database.ExecuteSqlCommand("DROP TABLE pliki_tmp");
+                        }
+                        catch { }
+                    }
+                    break;
+            }
+            //
+            //TO DUMP BEHIND THE WALL
+            //
         }
     }
 }

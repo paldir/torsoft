@@ -75,6 +75,10 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\waterMark.bmp" />
+    <Content Include="Images\logo.png" />
+    <Content Include="JavaScripts\List.js" />
+    <Content Include="JavaScripts\Record.js" />
     <Content Include="JavaScripts\Script.js" />
     <Content Include="Login.aspx" />
     <Content Include="Record.aspx" />
@@ -88,16 +92,21 @@
   <ItemGroup>
     <Compile Include="ControlsP\ButtonP.cs" />
     <Compile Include="ControlsP\DropDownListP.cs" />
+    <Compile Include="ControlsP\FindControl.cs" />
+    <Compile Include="ControlsP\HtmlIframeP.cs" />
     <Compile Include="ControlsP\HtmlInputHiddenP.cs" />
+    <Compile Include="ControlsP\HtmlInputRadioButtonP.cs" />
     <Compile Include="ControlsP\LabelP.cs" />
     <Compile Include="ControlsP\RadioButtonListP.cs" />
     <Compile Include="ControlsP\RadioButtonP.cs" />
     <Compile Include="ControlsP\TableP.cs" />
     <Compile Include="ControlsP\TextBoxP.cs" />
     <Compile Include="DataAccess\Building.cs" />
+    <Compile Include="DataAccess\Configuration.cs" />
     <Compile Include="DataAccess\Czynsze_Entities.cs" />
     <Compile Include="DataAccess\Place.cs" />
     <Compile Include="DataAccess\RentComponent.cs" />
+    <Compile Include="DataAccess\RentComponentOfPlace.cs" />
     <Compile Include="DataAccess\Tenant.cs" />
     <Compile Include="DataAccess\Title.cs" />
     <Compile Include="DataAccess\TypeOfKitchen.cs" />

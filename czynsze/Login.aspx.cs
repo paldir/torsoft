@@ -11,7 +11,9 @@ namespace czynsze
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Response.Redirect("List.aspx?table=Buildings");
+            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                companyName.InnerText = db.configurations.Select(c => c.naz_wiz).FirstOrDefault();
+
         }
     }
 }

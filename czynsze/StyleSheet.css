@@ -1,1 +1,189 @@
-﻿
+﻿/*#region ogólne*/
+body, input, select, button {
+    color: #383838;
+    font-size: small;
+}
+
+a {
+    color: dodgerblue;
+}
+
+    a:hover {
+        color: black;
+    }
+
+input[type="submit"] {
+    background-color: lightsteelblue;
+    background: linear-gradient(lightsteelblue, aliceblue);
+    color: black;
+    border: solid 1px dodgerblue;
+    border-radius: 3px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 4px;
+    padding-right: 4px;
+    margin: 5px;
+}
+
+    input[type="submit"]:hover {
+        background-color: dodgerblue;
+        background: linear-gradient(dodgerblue, dodgerblue);
+        color: white;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:disabled {
+        background-color: lightgray;
+        background: linear-gradient(lightgray, lightgray);
+        color: gray;
+        border-color: gray;
+        cursor: auto;
+        box-shadow: none;
+    }
+
+input, select, textarea {
+    border: solid 1px dodgerblue;
+}
+
+    input:focus, select:focus, textarea:focus {
+        border-color: mediumblue;
+        background-color: aliceblue;
+    }
+/*#endregion*/
+
+/*#region menu*/
+.menu {
+    background-color: aliceblue;
+    border: 1px solid dodgerblue;
+    margin-top: 5px;
+    padding: 5px;
+}
+
+.menuItem {
+    color: #606060;
+    text-decoration: none;
+    font-weight: bold;
+    border-right: solid 1px gray;
+    padding-right: 3px;
+}
+/*#endregion*/
+
+/*#region główne tabele*/
+.mainTable {
+    border-collapse: collapse;
+    border: 1px solid lightgray;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    display: inline-block;
+    height: 500px;
+}
+
+    .mainTable th {
+        background-color: #E8E8E8;
+        font-weight: bold;
+        padding: 3px;
+    }
+
+    .mainTable input[type="radio"] {
+        display: none;
+    }
+
+    .mainTable label {
+        display: block;
+        padding: 3px;
+        padding-left: 25px;
+        padding-right: 25px;
+        cursor: pointer;
+    }
+
+    .mainTable .tableRow {
+        border: 1px solid lightgray;
+    }
+
+        .mainTable .tableRow:hover {
+            background-color: lightgray;
+        }
+
+    .mainTable .selectedRow {
+        background-color: gray;
+        color: white;
+    }
+/*#endregion*/
+
+/*#region zakładki*/
+.tabBorder {
+    border: solid 2px mediumblue;
+    margin-top: 1px;
+}
+
+.tabSeparator {
+    height: 10px;
+    background-color: dodgerblue;
+    border-bottom: 2px solid mediumblue;
+}
+
+.tab {
+    width: 100%;
+    height: 500px;
+}
+
+.tabRadio {
+    display: none;
+}
+
+.tabLabel {
+    margin-left: 2px;
+    border-top: solid 2px mediumblue;
+    border-left: solid 1px mediumblue;
+    border-right: solid 1px mediumblue;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background-color: aliceblue;
+    color: #606060;
+    font-weight: bold;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.tabRadio:checked + label {
+    background-color: dodgerblue;
+    color: white;
+    border-bottom: 2px solid dodgerblue;
+}
+
+.tabLabel:hover {
+    color: black;
+}
+
+.fieldWithLabel {
+    padding-bottom: 10px;
+}
+/*#endregion*/
+
+/*#region znak wodny*/
+#waterMark {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 215px;
+    height: 82px;
+    margin-top: -41px;
+    margin-left: -107px;
+    background-image: url(/Images/waterMark.bmp);
+    opacity: 0.1;
+    pointer-events: none;
+}
+/*#endregion*/
+
+/*#region login*/
+#placeOfLogin {
+    width: 540px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -190px;
+    margin-left: -270px;
+    border: solid 3px mediumblue;
+    padding: 20px;
+}
+/*#endregion*/

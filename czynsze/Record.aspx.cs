@@ -24,6 +24,10 @@ namespace czynsze
             List<ControlsP.ButtonP> buttons = new List<ControlsP.ButtonP>();
             List<Control> controls = new List<Control>();
             List<int> columnSwitching = null;
+            List<ControlsP.HtmlIframeP> tabs = null;
+            List<ControlsP.HtmlInputRadioButtonP> tabButtons = null;
+            List<ControlsP.LabelP> labelsOfTabButtons = null;
+            List<Control> preview = null;
 
             id = Convert.ToInt16(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))]);
             action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("action"))]);
@@ -145,8 +149,64 @@ namespace czynsze
 
                             using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                                 values[0] = (db.places.Select(p => p.nr_system).ToList().Max() + 1).ToString();
+
+                            values[1] = values[2] = "0";
                         }
                     }
+
+                    tabButtons = new List<ControlsP.HtmlInputRadioButtonP>()
+                    {
+                        new ControlsP.HtmlInputRadioButtonP("tabRadio", "dane", "tabRadios", "dane", true),
+                        new ControlsP.HtmlInputRadioButtonP("tabRadio", "skladnikiCzynszu", "tabRadios", "skladnikiCzynszu", false),
+                        new ControlsP.HtmlInputRadioButtonP("tabRadio", "dokumenty", "tabRadios", "dokumenty", false)
+                    };
+
+                    labelsOfTabButtons = new List<ControlsP.LabelP>()
+                    {
+                        new ControlsP.LabelP("tabLabel", tabButtons.ElementAt(0).ID, "Dane", String.Empty),
+                        new ControlsP.LabelP("tabLabel", tabButtons.ElementAt(1).ID, "Składniki czynszu", String.Empty),
+                        new ControlsP.LabelP("tabLabel", tabButtons.ElementAt(2).ID, "Dokumenty", String.Empty)
+                    };
+
+                    preview = new List<Control>()
+                    {
+                        new LiteralControl("Nr budynku: "),
+                        new ControlsP.LabelP("previewLabel", String.Empty, values[1], "kod_lok_preview"),
+                        new LiteralControl("Nr lokalu: "),
+                        new ControlsP.LabelP("previewLabel", String.Empty, values[2], "nr_lok_preview"),
+                        new LiteralControl("Adres: "),
+                        new ControlsP.LabelP("previewLabel", String.Empty, values[4], "adres_preview"),
+                        new LiteralControl("Adres cd.: "),
+                        new ControlsP.LabelP("previewLabel", String.Empty, values[5], "adres_2_preview")
+                    };
+
+                    //
+                    //CXP PART
+                    //
+                    string parentAction;
+
+                    switch (action)
+                    {
+                        case EnumP.Action.Dodaj:
+                            parentAction = "add";
+                            break;
+                        case EnumP.Action.Edytuj:
+                            parentAction = "edit";
+                            break;
+                        case EnumP.Action.Usuń:
+                            parentAction = "delete";
+                            break;
+                        default:
+                            parentAction = "browse";
+                            break;
+                    }
+                    //
+                    //TO DUMP BEHIND THE WALL
+                    //
+
+                    tabs = new List<ControlsP.HtmlIframeP>()
+                    {
+                        new ControlsP.HtmlIframeP("tab", "skladnikiCzynszu_tab", "http://localhost:80/czynsze/SkladnikiCzynszuLokalu.cxp?parentAction="+parentAction+"&kod_lok="+values[1]+"&nr_lok="+values[2], "hidden"),                        new ControlsP.HtmlIframeP("tab", "dokumenty_tab", "http://localhost:80/czynsze/PlikiNajemcy.cxp?parentAction="+parentAction+"&nr_system="+values[0], "hidden")                    };
 
                     //controls.Add(new ControlsP.TextBoxP("field", "Nr_system_disabled", values[0], ControlsP.TextBoxP.TextBoxModeP.Number, 14, 1, false));
                     form.Controls.Add(new ControlsP.HtmlInputHiddenP("id", values[0]));
@@ -199,6 +259,30 @@ namespace czynsze
 
                     controls.Add(new ControlsP.TextBoxP("field", "uwagi", values[21], ControlsP.TextBoxP.TextBoxModeP.MultiLine, 240, 4, globalEnabled));
 
+                    //
+                    //CXP PART
+                    //
+                    try
+                    {
+                        using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                        {
+                            switch (action)
+                            {
+                                case EnumP.Action.Dodaj:
+                                    db.Database.ExecuteSqlCommand("CREATE TABLE skl_cz_tmp AS SELECT * FROM skl_cz WHERE 1=2");
+                                    db.Database.ExecuteSqlCommand("CREATE TABLE pliki_tmp AS SELECT * FROM pliki WHERE 1=2");
+                                    break;
+                                default:
+                                    db.Database.ExecuteSqlCommand("CREATE TABLE skl_cz_tmp AS SELECT * FROM skl_cz WHERE kod_lok=" + values[1] + " AND nr_lok=" + values[2]);
+                                    db.Database.ExecuteSqlCommand("CREATE TABLE pliki_tmp AS SELECT * FROM pliki WHERE nr_system=" + values[0]);
+                                    break;
+                            }
+                        }
+                    }
+                    catch { }
+                    //
+                    //TO DUMP BEHIND THE WALL
+                    //
                     break;
                 case EnumP.Table.Tenants:
                     this.Title = "Najemca";
@@ -345,10 +429,36 @@ namespace czynsze
                 }
 
                 cell.Controls.Add(new LiteralControl("<div class='fieldWithLabel'>"));
-                cell.Controls.Add(new ControlsP.LabelP("fieldLabel", controls[i].ID, labels[i]));
+                cell.Controls.Add(new ControlsP.LabelP("fieldLabel", controls[i].ID, labels[i], String.Empty));
                 cell.Controls.Add(new LiteralControl("<br />"));
                 cell.Controls.Add(controls[i]);
                 cell.Controls.Add(new LiteralControl("</div>"));
+            }
+
+            if (preview != null)
+            {
+                placeOfPreview.Controls.Add(new LiteralControl("<h3>"));
+
+                for (int i = 0; i < preview.Count; i += 2)
+                {
+                    placeOfPreview.Controls.Add(preview[i]);
+                    placeOfPreview.Controls.Add(preview[i + 1]);
+                    placeOfPreview.Controls.Add(new LiteralControl("<br />"));
+                }
+
+                placeOfPreview.Controls.Add(new LiteralControl("</h3>"));
+            }
+
+            if (tabButtons != null)
+            {
+                for (int i = 0; i < tabButtons.Count; i++)
+                {
+                    placeOfTabButtons.Controls.Add(tabButtons[i]);
+                    placeOfTabButtons.Controls.Add(labelsOfTabButtons[i]);
+                }
+
+                foreach (ControlsP.HtmlIframeP tab in tabs)
+                    placeOfTabs.Controls.Add(tab);
             }
 
             foreach (ControlsP.ButtonP button in buttons)

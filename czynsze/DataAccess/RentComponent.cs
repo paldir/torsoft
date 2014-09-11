@@ -212,6 +212,14 @@ namespace czynsze.DataAccess
                 result += Czynsze_Entities.ValidateFloat("Stawka za osiem osób", ref record[17]);
                 result += Czynsze_Entities.ValidateFloat("Stawka za dziewięć osób", ref record[18]);
             }
+            else
+            {
+                id = Convert.ToInt16(record[0]);
+                
+                using (Czynsze_Entities db = new Czynsze_Entities())
+                    if (db.rentComponentsOfPlaces.Count(c => c.nr_skl == id) > 0)
+                        result += "Nie można usunąć składnika czynszu, który jest przypisany do lokali! <br />";
+            }
 
             return result;
         }
