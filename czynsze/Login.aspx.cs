@@ -12,8 +12,9 @@ namespace czynsze
         protected void Page_Load(object sender, EventArgs e)
         {
             using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                companyName.InnerText = db.configurations.Select(c => c.naz_wiz).FirstOrDefault();
+                Session["naz_wiz"] = companyName.InnerText = db.configurations.Select(c => c.naz_wiz).FirstOrDefault();
 
+            Response.Redirect("ReportConfiguration.aspx?report=PlacesInEachBuilding");
         }
     }
 }

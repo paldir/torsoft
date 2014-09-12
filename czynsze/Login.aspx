@@ -26,12 +26,13 @@
                 </tr>
                 <tr>
                     <td colspan="2" style="text-align: right">
-                        <asp:Button Text="Zaloguj" runat="server" />
+                        <asp:Button Text="Zaloguj" runat="server" PostBackUrl="~/List.aspx?table=Buildings" />
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2" style="text-align: center">
-                        <img src="/Images/logo.png" /></td>
+                        <img src="/Images/logo.png" />
+                    </td>
                 </tr>
             </table>
         </div>

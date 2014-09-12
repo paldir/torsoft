@@ -36,6 +36,8 @@ namespace czynsze
                         this.Title = heading = "Budynki";
                         headers = new string[] { "Kod", "Adres", "Adres cd." };
                         rows = db.buildings.OrderBy(b => b.kod_1).ToList().Select(b => b.ImportantFields()).ToList();
+
+                        placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("button", "report", "Wydruk lokali wg budynków", "ReportConfiguration.aspx?report=PlacesInEachBuilding"));
                         break;
                     case EnumP.Table.Places:
                         this.Title = heading = "Lokale";

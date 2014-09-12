@@ -160,6 +160,21 @@ input, select, textarea {
 }
 /*#endregion*/
 
+/*#region walidacja rekordu*/
+.placeOfResultWindow {
+    text-align: center;
+    padding: 10px;
+}
+
+.resultWindow {
+    background-color: aliceblue;
+    text-align: center;
+    display: inline-block;
+    border: solid 1px dodgerblue;
+    padding: 5px;
+}
+/*#endregion*/
+
 /*#region znak wodny*/
 #waterMark {
     position: fixed;
@@ -185,5 +200,16 @@ input, select, textarea {
     margin-left: -270px;
     border: solid 3px mediumblue;
     padding: 20px;
+}
+/*#endregion*/
+
+/*#region raport*/
+.reportTable {
+    color: black;
+    border-color: black;
+}
+
+.newPage {
+    page-break-after: always;
 }
 /*#endregion*/
