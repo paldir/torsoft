@@ -6,13 +6,25 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|Win32 = Debug|Win32
 		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{78E725B0-B718-4CAF-8A66-933976B8B2CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{78E725B0-B718-4CAF-8A66-933976B8B2CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78E725B0-B718-4CAF-8A66-933976B8B2CD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{78E725B0-B718-4CAF-8A66-933976B8B2CD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{78E725B0-B718-4CAF-8A66-933976B8B2CD}.Debug|Win32.ActiveCfg = Debug|x86
+		{78E725B0-B718-4CAF-8A66-933976B8B2CD}.Debug|Win32.Build.0 = Debug|x86
 		{78E725B0-B718-4CAF-8A66-933976B8B2CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78E725B0-B718-4CAF-8A66-933976B8B2CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78E725B0-B718-4CAF-8A66-933976B8B2CD}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{78E725B0-B718-4CAF-8A66-933976B8B2CD}.Release|Mixed Platforms.Build.0 = Debug|Any CPU
+		{78E725B0-B718-4CAF-8A66-933976B8B2CD}.Release|Win32.ActiveCfg = Release|x86
+		{78E725B0-B718-4CAF-8A66-933976B8B2CD}.Release|Win32.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

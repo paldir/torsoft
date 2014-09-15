@@ -17,6 +17,7 @@
         <a href="List.aspx?table=Tenants" class="menuItem">Najemcy</a>
         <a href="List.aspx?table=RentComponents" class="menuItem">Składniki czynszu</a>
     </div>
+    <div style="text-align: right; position: absolute; top: 13px; right: 13px;">Zalogowany jako <span id="user" runat="server"></span> <a href="Login.aspx">Wyloguj</a></div>
     <div id="waterMark"></div>
     <div>
         <asp:ContentPlaceHolder ID="ContentPlaceHolder" runat="server">

@@ -8,30 +8,30 @@
     <link rel="stylesheet" type="text/css" href="StyleSheet.css" />
 </head>
 <body>
-    <form id="login" runat="server">
+    <form id="login" method="post" action="http://localhost/czynsze/UserValidation.cxp">
         <div id="placeOfLogin">
             <span id="companyName" style="position: absolute; left: -3px; top: -20px;" runat="server"></span>
             <table>
                 <tr>
                     <td style="text-align: right">Użytkownik: </td>
                     <td>
-                        <asp:TextBox Columns="40" runat="server"></asp:TextBox>
+                        <input name="uzytkownik" type="text" size="40" maxlength="40" />
                     </td>
                 </tr>
                 <tr>
                     <td style="text-align: right">Hasło: </td>
                     <td>
-                        <asp:TextBox TextMode="Password" runat="server"></asp:TextBox>
+                        <input name="haslo" type="password" />
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2" style="text-align: right">
-                        <asp:Button Text="Zaloguj" runat="server" PostBackUrl="~/List.aspx?table=Buildings" />
+                        <input name="Submit" type="submit" value="Zaloguj" />
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2" style="text-align: center">
-                        <img src="/Images/logo.png" />
+                        <img src="Images/logo.png" />
                     </td>
                 </tr>
             </table>

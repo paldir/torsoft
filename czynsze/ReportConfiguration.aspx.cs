@@ -12,7 +12,7 @@ namespace czynsze
     public partial class ReportConfiguration : System.Web.UI.Page
     {
         EnumP.Report report;
-        
+
         protected void Page_Load(object sender, EventArgs e)
         {
             report = (EnumP.Report)Enum.Parse(typeof(EnumP.Report), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("report"))]);
@@ -22,16 +22,21 @@ namespace czynsze
             switch (report)
             {
                 case EnumP.Report.PlacesInEachBuilding:
-                    controls = new List<Control>()
-                        {
-                            new ControlsP.TextBoxP("field", "kod_1_start", String.Empty, ControlsP.TextBoxP.TextBoxModeP.Number, 5, 1, true),
-                            new ControlsP.TextBoxP("field", "kod_1_end", String.Empty, ControlsP.TextBoxP.TextBoxModeP.Number, 5, 1, true)
-                        };
+                    using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                    {
+                        controls = new List<Control>()
+                            {
+                                new ControlsP.TextBoxP("field", "kod_1_start", String.Empty, ControlsP.TextBoxP.TextBoxModeP.Number, 5, 1, true),
+                                new ControlsP.TextBoxP("field", "kod_1_end", String.Empty, ControlsP.TextBoxP.TextBoxModeP.Number, 5, 1, true),
+                                new ControlsP.CheckBoxListP("field", "kod_typ", db.typesOfPlace.Select(t=>t.typ_lok).ToList(), db.typesOfPlace.Select(t=>t.kod_typ.ToString()).ToList(), db.typesOfPlace.Select(t=>t.kod_typ.ToString()).ToList())
+                            };
+                    }
 
                     labels = new List<string>()
                     {
                         "Numer pierwszego budynku: ",
-                        "Numer ostatniego budynku:"
+                        "Numer ostatniego budynku:",
+                        "Typy lokali: "
                     };
                     break;
             }
@@ -46,7 +51,7 @@ namespace czynsze
             }
 
             generationButton.Click += generationButton_Click;
-            
+
             /*font = new Font("Arial", 10);
 
             using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
@@ -94,17 +99,17 @@ namespace czynsze
         {
             List<List<string[]>> tables = new List<List<string[]>>();
             List<string> headers = null;
+            List<string> captions = new List<string>();
             Font font = new Font("Arial", 8);
-            
+
             switch (report)
             {
                 case EnumP.Report.PlacesInEachBuilding:
-                    int kod_1_start = Convert.ToInt16(((TextBox)placeOfConfigurationFields.FindControl("kod_1_start")).Text);
-                    int kod_1_end = Convert.ToInt16(((TextBox)placeOfConfigurationFields.FindControl("kod_1_end")).Text);
+                    int kod_1_start;
+                    int kod_1_end;
+                    List<int> selectedTypesOfPlace = new List<int>();
                     headers = new List<string>()
                     {
-                        "ąćęłńóśźż",
-                        "Kod budynku",
                         "Numer lokalu",
                         "Typ lokalu",
                         "Powierzchnia użytkowa",
@@ -112,15 +117,38 @@ namespace czynsze
                         "Imię"
                     };
 
+                    try { kod_1_start = Convert.ToInt16(((TextBox)placeOfConfigurationFields.FindControl("kod_1_start")).Text); }
+                    catch { kod_1_start = 0; }
+
+                    try { kod_1_end = Convert.ToInt16(((TextBox)placeOfConfigurationFields.FindControl("kod_1_end")).Text); }
+                    catch { kod_1_end = 0; }
+
+                    try
+                    {
+                        foreach (ListItem item in ((CheckBoxList)placeOfConfigurationFields.FindControl("kod_typ")).Items)
+                            if (item.Selected)
+                                selectedTypesOfPlace.Add(Convert.ToInt16(item.Value));
+                    }
+                    catch { }
+
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                         for (int i = kod_1_start; i <= kod_1_end; i++)
-                            tables.Add(db.places.Where(p => p.kod_lok == i).OrderBy(p => p.nr_lok).ToList().Select(p => p.ImportantFields()).ToList());
-                       
+                        {
+                            DataAccess.Building building = db.buildings.Where(b => b.kod_1 == i).FirstOrDefault();
+
+                            if (building != null)
+                            {
+                                captions.Add("Budynek nr " + building.kod_1.ToString() + ", " + building.adres + ", " + building.adres_2);
+                                tables.Add(db.places.Where(p => p.kod_lok == i && selectedTypesOfPlace.Contains(p.kod_typ)).OrderBy(p => p.nr_lok).ToList().Select(p => p.ImportantFields().ToList().GetRange(2, p.ImportantFields().Length - 2).ToArray()).ToList());
+                            }
+                        }
+
                     break;
             }
 
             Session["headers"] = headers;
             Session["tables"] = tables;
+            Session["captions"] = captions;
 
             Response.Redirect("Report.aspx");
         }

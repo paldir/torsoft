@@ -184,7 +184,7 @@ input, select, textarea {
     height: 82px;
     margin-top: -41px;
     margin-left: -107px;
-    background-image: url(/Images/waterMark.bmp);
+    background-image: url(Images/waterMark.bmp);
     opacity: 0.1;
     pointer-events: none;
 }
@@ -206,8 +206,15 @@ input, select, textarea {
 /*#region raport*/
 .reportTable {
     color: black;
-    border-color: black;
+    margin-top: 50px;
+    border: 1px solid black;
+    border-collapse: collapse;
 }
+
+    .reportTable th {
+        border: 1px solid black;
+        padding: 5px;
+    }
 
 .newPage {
     page-break-after: always;

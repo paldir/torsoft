@@ -8,13 +8,15 @@ using System.Web.UI.WebControls;
 namespace czynsze
 {
     public partial class Login : System.Web.UI.Page
-    {
+    {   
         protected void Page_Load(object sender, EventArgs e)
         {
-            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                Session["naz_wiz"] = companyName.InnerText = db.configurations.Select(c => c.naz_wiz).FirstOrDefault();
+            Session.Clear();
 
-            Response.Redirect("ReportConfiguration.aspx?report=PlacesInEachBuilding");
+            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                Session["nazwa_1"] = companyName.InnerText = db.configurations.Select(c => c.nazwa_1).FirstOrDefault();
+
+            //Response.Redirect("ReportConfiguration.aspx?report=PlacesInEachBuilding");
         }
     }
 }

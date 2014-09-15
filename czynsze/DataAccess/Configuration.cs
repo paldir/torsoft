@@ -14,7 +14,7 @@ namespace czynsze.DataAccess
         [Key, Column("w_station")]
         public string w_station { get; set; }
         
-        [Column("naz_wiz")]
-        public string naz_wiz { get; set; }
+        [Column("nazwa_1")]
+        public string nazwa_1 { get; set; }
     }
 }

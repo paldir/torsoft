@@ -42,7 +42,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Common.Logging">
+    <Reference Include="Common.Logging, Version=2.1.2.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework">
@@ -62,8 +63,13 @@
     <Reference Include="Npgsql.EntityFramework">
       <HintPath>..\packages\Npgsql.EntityFramework.2.2.0\lib\net45\Npgsql.EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Pechkin">
+    <Reference Include="Pechkin, Version=0.5.8.1, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Pechkin.0.5.8.1\lib\net40\Pechkin.dll</HintPath>
+    </Reference>
+    <Reference Include="Pechkin.Synchronized, Version=0.5.8.1, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Pechkin.Synchronized.0.5.8.1\lib\net40\Pechkin.Synchronized.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Linq" />
@@ -88,14 +94,14 @@
     <Content Include="JavaScripts\List.js" />
     <Content Include="JavaScripts\Record.js" />
     <Content Include="JavaScripts\Script.js" />
-    <Content Include="DLLs\libeay32.dll">
+    <Content Include="libeay32.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="DLLs\libgcc_s_dw2-1.dll">
+    <Content Include="libgcc_s_dw2-1.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Login.aspx" />
-    <Content Include="DLLs\mingwm10.dll">
+    <Content Include="mingwm10.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Record.aspx" />
@@ -103,19 +109,21 @@
     <Content Include="RecordValidation.aspx" />
     <Content Include="Report.aspx" />
     <Content Include="ReportConfiguration.aspx" />
-    <Content Include="DLLs\ssleay32.dll">
+    <Content Include="ssleay32.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="StyleSheet.css" />
+    <Content Include="UserValidation.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="DLLs\wkhtmltox0.dll">
+    <Content Include="wkhtmltox0.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControlsP\ButtonP.cs" />
+    <Compile Include="ControlsP\CheckBoxListP.cs" />
     <Compile Include="ControlsP\DropDownListP.cs" />
     <Compile Include="ControlsP\FindControl.cs" />
     <Compile Include="ControlsP\HtmlIframeP.cs" />
@@ -137,6 +145,7 @@
     <Compile Include="DataAccess\TypeOfKitchen.cs" />
     <Compile Include="DataAccess\TypeOfPlace.cs" />
     <Compile Include="DataAccess\TypeOfTenant.cs" />
+    <Compile Include="DataAccess\User.cs" />
     <Compile Include="EnumP.cs" />
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
@@ -188,10 +197,18 @@
     <Compile Include="List.aspx.designer.cs">
       <DependentUpon>List.aspx</DependentUpon>
     </Compile>
+    <Compile Include="UserValidation.aspx.cs">
+      <DependentUpon>UserValidation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserValidation.aspx.designer.cs">
+      <DependentUpon>UserValidation.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="Site.Master" />
+    <None Include="Properties\PublishProfiles\pz.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

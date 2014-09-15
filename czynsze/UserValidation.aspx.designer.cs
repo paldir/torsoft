@@ -10,24 +10,15 @@
 namespace czynsze {
     
     
-    public partial class ReportConfiguration {
+    public partial class UserValidation {
         
         /// <summary>
-        /// placeOfConfigurationFields control.
+        /// form1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell placeOfConfigurationFields;
-        
-        /// <summary>
-        /// generationButton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button generationButton;
+        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
     }
 }

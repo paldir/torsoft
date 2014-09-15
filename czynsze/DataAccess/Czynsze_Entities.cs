@@ -20,6 +20,7 @@ namespace czynsze.DataAccess
         public DbSet<RentComponent> rentComponents { get; set; }
         public DbSet<RentComponentOfPlace> rentComponentsOfPlaces { get; set; }
         public DbSet<Configuration> configurations { get; set; }
+        public DbSet<User> users { get; set; }
 
         public static string ValidateInt(string name, ref string integer)
         {

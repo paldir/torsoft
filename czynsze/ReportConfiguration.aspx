@@ -3,7 +3,11 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder" runat="server">
     <form runat="server">
-        <div id="placeOfConfigurationFields" runat="server"></div>
+        <table>
+            <tr>
+                <td id="placeOfConfigurationFields" runat="server"></td>
+            </tr>
+        </table>            
         <asp:Button ID="generationButton" Text="Generuj" runat="server" />
     </form>
 </asp:Content>

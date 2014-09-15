@@ -6,7 +6,6 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 
 using System.IO;
-
 using Pechkin;
 
 namespace czynsze
@@ -15,33 +14,31 @@ namespace czynsze
     {
         string html;
 
+        List<string> headers;
+        List<List<string[]>> tables;
+        List<string> captions;
+        HtmlTextWriter writer;
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            List<string> headers = (List<string>)Session["headers"];
-            List<List<string[]>> tables = (List<List<string[]>>)Session["tables"];
+            headers = (List<string>)Session["headers"];
+            tables = (List<List<string[]>>)Session["tables"];
+            captions = (List<string>)Session["captions"];
 
             StringWriter stringWriter = new StringWriter();
 
-            using (HtmlTextWriter writer = new HtmlTextWriter(stringWriter))
+            using (writer = new HtmlTextWriter(stringWriter))
             {
 
-                foreach (List<string[]> table in tables)
+                for (int i = 0; i < tables.Count; i++)
                 {
-                    writer.AddAttribute(HtmlTextWriterAttribute.Class, "reportTable");
-                    writer.RenderBeginTag(HtmlTextWriterTag.Table);
-                    writer.RenderBeginTag(HtmlTextWriterTag.Tr);
+                    int rowNumber = 0;
 
-                    foreach (string header in headers)
+                    RenderTableHeader(i);
+
+                    foreach (string[] row in tables[i])
                     {
-                        writer.RenderBeginTag(HtmlTextWriterTag.Th);
-                        writer.Write(header);
-                        writer.RenderEndTag();
-                    }
-
-                    writer.RenderEndTag();
-
-                    foreach (string[] row in table)
-                    {
+                        writer.AddAttribute(HtmlTextWriterAttribute.Id, "row" + rowNumber.ToString());
                         writer.RenderBeginTag(HtmlTextWriterTag.Tr);
 
                         foreach (string cell in row)
@@ -52,13 +49,23 @@ namespace czynsze
                         }
 
                         writer.RenderEndTag();
+
+                        if (rowNumber == 60)
+                        {
+                            writer.RenderEndTag();
+                            RenderNewPage();
+                            RenderTableHeader(i);
+
+                            rowNumber = -1;
+                        }
+
+                        rowNumber++;
                     }
 
                     writer.RenderEndTag();
 
-                    writer.AddAttribute(HtmlTextWriterAttribute.Class, "newPage");
-                    writer.RenderBeginTag(HtmlTextWriterTag.Div);
-                    writer.RenderEndTag();
+                    if (i != tables.Count - 1)
+                        RenderNewPage();
                 }
             }
 
@@ -67,6 +74,32 @@ namespace czynsze
             placeOfReport.Controls.Add(new LiteralControl(html));
 
             downloadButton.Click += downloadButton_Click;
+        }
+
+        void RenderTableHeader(int tableNumber)
+        {
+            writer.AddAttribute(HtmlTextWriterAttribute.Class, "reportTable");
+            writer.RenderBeginTag(HtmlTextWriterTag.Table);
+            writer.RenderBeginTag(HtmlTextWriterTag.Caption);
+            writer.Write(captions[tableNumber]);
+            writer.RenderEndTag();
+            writer.RenderBeginTag(HtmlTextWriterTag.Tr);
+
+            foreach (string header in headers)
+            {
+                writer.RenderBeginTag(HtmlTextWriterTag.Th);
+                writer.Write(header);
+                writer.RenderEndTag();
+            }
+
+            writer.RenderEndTag();
+        }
+
+        void RenderNewPage()
+        {
+            writer.AddAttribute(HtmlTextWriterAttribute.Class, "newPage");
+            writer.RenderBeginTag(HtmlTextWriterTag.Div);
+            writer.RenderEndTag();
         }
 
         void downloadButton_Click(object sender, EventArgs e)
@@ -88,10 +121,10 @@ namespace czynsze
 
             config.SetPrintBackground(true);
             config.SetAllowLocalContent(true);
-            config.Header.SetTexts("System CZYNSZE\n" + Session["naz_wiz"].ToString(), "LOKALE W BUDYNKACH", "Data: " + DateTime.Today.ToShortDateString() + "\nCzas: " + DateTime.Now.ToShortTimeString());
+            config.Header.SetTexts("System CZYNSZE\n\n" + Session["nazwa_1"].ToString(), "LOKALE W BUDYNKACH", "Data: " + DateTime.Today.ToShortDateString() + "\n\nCzas: " + DateTime.Now.ToShortTimeString());
             config.Header.SetFontName("Arial");
             config.Header.SetFontSize(8);
-            config.Footer.SetTexts("Torsoft Toruń", String.Empty, String.Empty);
+            config.Footer.SetTexts("Torsoft Torun", String.Empty, "Strona [page] z [topage]");
             config.Footer.SetFontName("Arial");
             config.Footer.SetFontSize(8);
 
