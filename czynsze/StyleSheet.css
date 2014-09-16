@@ -78,6 +78,15 @@ input, select, textarea {
     height: 500px;
 }
 
+    .mainTable .sortLink {
+        color: #383838;
+        text-decoration: underline;
+    }
+
+        .mainTable .sortLink:hover {
+            color: black;
+        }
+
     .mainTable th {
         background-color: #E8E8E8;
         font-weight: bold;

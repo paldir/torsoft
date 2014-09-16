@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace czynsze
+namespace czynsze.Forms
 {
     public partial class Record : System.Web.UI.Page
     {
@@ -206,7 +206,7 @@ namespace czynsze
 
                     tabs = new List<ControlsP.HtmlIframeP>()
                     {
-                        new ControlsP.HtmlIframeP("tab", "skladnikiCzynszu_tab", "http://localhost:80/czynsze/SkladnikiCzynszuLokalu.cxp?parentAction="+parentAction+"&kod_lok="+values[1]+"&nr_lok="+values[2], "hidden"),                        new ControlsP.HtmlIframeP("tab", "dokumenty_tab", "http://localhost:80/czynsze/PlikiNajemcy.cxp?parentAction="+parentAction+"&nr_system="+values[0], "hidden")                    };
+                        new ControlsP.HtmlIframeP("tab", "skladnikiCzynszu_tab", "/czynsze1/SkladnikiCzynszuLokalu.cxp?parentAction="+parentAction+"&kod_lok="+values[1]+"&nr_lok="+values[2], "hidden"),                        new ControlsP.HtmlIframeP("tab", "dokumenty_tab", "/czynsze1/PlikiNajemcy.cxp?parentAction="+parentAction+"&nr_system="+values[0], "hidden")                    };
 
                     //controls.Add(new ControlsP.TextBoxP("field", "Nr_system_disabled", values[0], ControlsP.TextBoxP.TextBoxModeP.Number, 14, 1, false));
                     form.Controls.Add(new ControlsP.HtmlInputHiddenP("id", values[0]));

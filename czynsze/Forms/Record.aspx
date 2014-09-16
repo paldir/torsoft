@@ -1,6 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Record.aspx.cs" Inherits="czynsze.Record" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Record.aspx.cs" Inherits="czynsze.Forms.Record" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script src="JavaScripts/Record.js"></script>
+    <script src="../JavaScripts/Record.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder" runat="server">
     <div id="placeOfHeading" runat="server"></div>

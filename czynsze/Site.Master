@@ -6,7 +6,7 @@
 <head runat="server">
     <title></title>
     <link type="text/css" rel="stylesheet" href="StyleSheet.css" />
-    <script src="JavaScripts/Script.js"></script>
+    <script src="../JavaScripts/Script.js"></script>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -17,7 +17,7 @@
         <a href="List.aspx?table=Tenants" class="menuItem">Najemcy</a>
         <a href="List.aspx?table=RentComponents" class="menuItem">Składniki czynszu</a>
     </div>
-    <div style="text-align: right; position: absolute; top: 13px; right: 13px;">Zalogowany jako <span id="user" runat="server"></span> <a href="Login.aspx">Wyloguj</a></div>
+    <div style="text-align: right; position: absolute; top: 13px; right: 13px;">Zalogowany jako <span id="user" runat="server"></span> <a href="../Login.aspx">Wyloguj</a></div>
     <div id="waterMark"></div>
     <div>
         <asp:ContentPlaceHolder ID="ContentPlaceHolder" runat="server">

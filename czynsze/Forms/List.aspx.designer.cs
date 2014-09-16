@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace czynsze {
+namespace czynsze.Forms {
     
     
     public partial class List {

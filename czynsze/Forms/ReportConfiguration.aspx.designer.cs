@@ -7,18 +7,27 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace czynsze {
+namespace czynsze.Forms {
     
     
-    public partial class RecordValidation {
+    public partial class ReportConfiguration {
         
         /// <summary>
-        /// form control.
+        /// placeOfConfigurationFields control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell placeOfConfigurationFields;
+        
+        /// <summary>
+        /// generationButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button generationButton;
     }
 }

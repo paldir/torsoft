@@ -89,6 +89,12 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Forms\List.aspx" />
+    <Content Include="Forms\Record.aspx" />
+    <Content Include="Forms\RecordValidation.aspx" />
+    <Content Include="Forms\Report.aspx" />
+    <Content Include="Forms\ReportConfiguration.aspx" />
+    <Content Include="Forms\UserValidation.aspx" />
     <Content Include="Images\waterMark.bmp" />
     <Content Include="Images\logo.png" />
     <Content Include="JavaScripts\List.js" />
@@ -104,16 +110,10 @@
     <Content Include="mingwm10.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Record.aspx" />
-    <Content Include="List.aspx" />
-    <Content Include="RecordValidation.aspx" />
-    <Content Include="Report.aspx" />
-    <Content Include="ReportConfiguration.aspx" />
     <Content Include="ssleay32.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="StyleSheet.css" />
-    <Content Include="UserValidation.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -130,6 +130,7 @@
     <Compile Include="ControlsP\HtmlInputHiddenP.cs" />
     <Compile Include="ControlsP\HtmlInputRadioButtonP.cs" />
     <Compile Include="ControlsP\LabelP.cs" />
+    <Compile Include="ControlsP\LinkButtonP.cs" />
     <Compile Include="ControlsP\RadioButtonListP.cs" />
     <Compile Include="ControlsP\RadioButtonP.cs" />
     <Compile Include="ControlsP\TableP.cs" />
@@ -147,6 +148,48 @@
     <Compile Include="DataAccess\TypeOfTenant.cs" />
     <Compile Include="DataAccess\User.cs" />
     <Compile Include="EnumP.cs" />
+    <Compile Include="Forms\List.aspx.cs">
+      <DependentUpon>List.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Forms\List.aspx.designer.cs">
+      <DependentUpon>List.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Record.aspx.cs">
+      <DependentUpon>Record.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Forms\Record.aspx.designer.cs">
+      <DependentUpon>Record.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\RecordValidation.aspx.cs">
+      <DependentUpon>RecordValidation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Forms\RecordValidation.aspx.designer.cs">
+      <DependentUpon>RecordValidation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Report.aspx.cs">
+      <DependentUpon>Report.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Forms\Report.aspx.designer.cs">
+      <DependentUpon>Report.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ReportConfiguration.aspx.cs">
+      <DependentUpon>ReportConfiguration.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Forms\ReportConfiguration.aspx.designer.cs">
+      <DependentUpon>ReportConfiguration.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserValidation.aspx.cs">
+      <DependentUpon>UserValidation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Forms\UserValidation.aspx.designer.cs">
+      <DependentUpon>UserValidation.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -155,54 +198,12 @@
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Record.aspx.cs">
-      <DependentUpon>Record.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Record.aspx.designer.cs">
-      <DependentUpon>Record.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="RecordValidation.aspx.cs">
-      <DependentUpon>RecordValidation.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="RecordValidation.aspx.designer.cs">
-      <DependentUpon>RecordValidation.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Report.aspx.cs">
-      <DependentUpon>Report.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Report.aspx.designer.cs">
-      <DependentUpon>Report.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="ReportConfiguration.aspx.cs">
-      <DependentUpon>ReportConfiguration.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ReportConfiguration.aspx.designer.cs">
-      <DependentUpon>ReportConfiguration.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Site.Master.designer.cs">
       <DependentUpon>Site.Master</DependentUpon>
-    </Compile>
-    <Compile Include="List.aspx.cs">
-      <DependentUpon>List.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="List.aspx.designer.cs">
-      <DependentUpon>List.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="UserValidation.aspx.cs">
-      <DependentUpon>UserValidation.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="UserValidation.aspx.designer.cs">
-      <DependentUpon>UserValidation.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

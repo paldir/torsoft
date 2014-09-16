@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="StyleSheet.css" />
 </head>
 <body>
-    <form id="login" method="post" action="http://localhost/czynsze/UserValidation.cxp">
+    <form id="login" method="post" action="/czynsze1/UserValidation.cxp">
         <div id="placeOfLogin">
             <span id="companyName" style="position: absolute; left: -3px; top: -20px;" runat="server"></span>
             <table>

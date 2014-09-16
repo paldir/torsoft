@@ -10,7 +10,7 @@ namespace czynsze.ControlsP
 {
     public class TableP : Table
     {
-        public TableP(string cSSClass, List<string[]> rows, string[] headerRow)
+        public TableP(string cSSClass, List<string[]> rows, string[] headerRow, bool sortable)
         {
             this.CssClass = cSSClass;
 
@@ -44,12 +44,16 @@ namespace czynsze.ControlsP
             TableHeaderRow tableHeaderRow = new TableHeaderRow();
             tableHeaderRow.CssClass = "tableHeaderRow";
 
-            foreach (string cell in headerRow)
+            for (int i = 0; i < headerRow.Length; i++)
             {
                 TableHeaderCell tableHeaderCell = new TableHeaderCell();
                 tableHeaderCell.CssClass = "tableHeaderCell";
 
-                tableHeaderCell.Controls.Add(new LiteralControl(cell));
+                if (sortable)
+                    tableHeaderCell.Controls.Add(new LinkButtonP("sortLink", "column" + i.ToString(), headerRow[i]));
+                else
+                    tableHeaderCell.Controls.Add(new LiteralControl(headerRow[i]));
+
                 tableHeaderRow.Cells.Add(tableHeaderCell);
             }
 

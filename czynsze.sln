@@ -21,8 +21,8 @@ Global
 		{78E725B0-B718-4CAF-8A66-933976B8B2CD}.Debug|Win32.Build.0 = Debug|x86
 		{78E725B0-B718-4CAF-8A66-933976B8B2CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78E725B0-B718-4CAF-8A66-933976B8B2CD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{78E725B0-B718-4CAF-8A66-933976B8B2CD}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{78E725B0-B718-4CAF-8A66-933976B8B2CD}.Release|Mixed Platforms.Build.0 = Debug|Any CPU
+		{78E725B0-B718-4CAF-8A66-933976B8B2CD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{78E725B0-B718-4CAF-8A66-933976B8B2CD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{78E725B0-B718-4CAF-8A66-933976B8B2CD}.Release|Win32.ActiveCfg = Release|x86
 		{78E725B0-B718-4CAF-8A66-933976B8B2CD}.Release|Win32.Build.0 = Release|x86
 	EndGlobalSection

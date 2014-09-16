@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 using System.Drawing;
 
-namespace czynsze
+namespace czynsze.Forms
 {
     public partial class ReportConfiguration : System.Web.UI.Page
     {

@@ -9,12 +9,15 @@ namespace czynsze
 {
     public partial class Site : System.Web.UI.MasterPage
     {
-        protected void Page_Load(object sender, EventArgs e)
+        protected void Page_Init(object sender, EventArgs e)
         {
             if (Session["user"] == null)
-                Response.Redirect("Login.aspx");
-            else
-                user.InnerText = Session["user"].ToString();
+                Response.Redirect("../Login.aspx");
+        }
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            user.InnerText = Session["user"].ToString();
         }
     }
 }
