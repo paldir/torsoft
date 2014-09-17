@@ -16,17 +16,7 @@ namespace czynsze
             using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                 Session["nazwa_1"] = companyName.InnerText = db.configurations.Select(c => c.nazwa_1).FirstOrDefault();
 
-            /*using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-            {
-                string tmp = db.users.Where(u => u.uzytkownik == "Zaw Pat").FirstOrDefault().haslo.Trim();
-
-                foreach (var enc in System.Text.Encoding.GetEncodings())
-                {
-                    byte[] ascii = System.Text.Encoding.GetEncoding(enc.CodePage).GetBytes(tmp);
-                }
-            }*/
-
-            //Response.Redirect("Forms/UserValidation.aspx?uzytkownik=Zaw Pat");
+            Response.Redirect("Forms/UserValidation.aspx?uzytkownik=Zaw Pat&haslo=148,34,6,255");
         }
     }
 }

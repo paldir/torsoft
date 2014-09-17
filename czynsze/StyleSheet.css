@@ -1,7 +1,8 @@
 ﻿/*#region ogólne*/
-body, input, select, button {
+body, input, select, button, .superMenu li {
     color: #383838;
     font-size: small;
+    font-family: 'Times New Roman';
 }
 
 a {
@@ -12,7 +13,7 @@ a {
         color: black;
     }
 
-input[type="submit"] {
+input[type="submit"], .superMenu li {
     background-color: lightsteelblue;
     background: linear-gradient(lightsteelblue, aliceblue);
     color: black;
@@ -25,7 +26,7 @@ input[type="submit"] {
     margin: 5px;
 }
 
-    input[type="submit"]:hover {
+    input[type="submit"]:hover, .superMenu li:hover {
         background-color: dodgerblue;
         background: linear-gradient(dodgerblue, dodgerblue);
         color: white;
@@ -72,11 +73,19 @@ input, select, textarea {
 .mainTable {
     border-collapse: collapse;
     border: 1px solid lightgray;
-    overflow-x: hidden;
-    overflow-y: scroll;
     display: inline-block;
-    height: 500px;
 }
+
+    .mainTable thead, .mainTable .tableHeaderRow {
+        display: block;
+    }
+
+    .mainTable tbody {
+        overflow-x: hidden;
+        overflow-y: scroll;
+        height: 500px;
+        display: inline-block;
+    }
 
     .mainTable .sortLink {
         color: #383838;
@@ -117,6 +126,73 @@ input, select, textarea {
         background-color: gray;
         color: white;
     }
+/*#endregion*/
+
+/*#region rozwijane menu*/
+.superMenu {
+    display: inline;
+    list-style-type: none;
+    padding: 0;
+    margin-left: 50px;
+}
+
+.superMenu li {
+    display: inline;
+    padding-bottom: 3px;
+    position: relative;
+}
+
+    .superMenu li:hover {
+        cursor: default;
+    }
+
+        .superMenu li:hover .subMenu {
+            display: table;
+        }
+
+            .superMenu li:hover .subMenu li {
+                float: none;
+            }
+
+.subMenu {
+    display: none;
+    position: absolute;
+    top: 21px;
+    left: 0px;
+    padding: 0;
+    margin: 0;
+    border: 2px solid gray;
+    border-collapse:collapse;
+}
+
+    .subMenu li {
+        display: table-row;
+        margin: 0;
+        padding: 0;
+        border-radius: 0px;
+        border: 1px solid lightgray;
+        background-color: white;
+        background: linear-gradient(white, white);
+    }
+
+        .subMenu li:hover {
+            background-color: lightgray;
+            background: linear-gradient(lightgray, lightgray);
+        }
+
+    .subMenu a {
+        display: block;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        padding-left: 4px;
+        padding-right: 4px;
+        text-decoration: none;
+        color: #383838;
+    }
+
+        .subMenu a:hover {
+            cursor: pointer;
+        }
 /*#endregion*/
 
 /*#region zakładki*/

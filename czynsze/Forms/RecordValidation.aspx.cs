@@ -185,6 +185,9 @@ namespace czynsze.Forms
                                     {
                                         place = db.places.Where(p => p.nr_system == id).FirstOrDefault();
 
+                                        foreach (DataAccess.RentComponentOfPlace component in db.rentComponentsOfPlaces.Where(c => c.kod_lok == place.kod_lok && c.nr_lok == place.nr_lok))
+                                            db.rentComponentsOfPlaces.Remove(component);
+
                                         db.places.Remove(place);
                                         db.SaveChanges();
 

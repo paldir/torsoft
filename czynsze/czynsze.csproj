@@ -126,6 +126,7 @@
     <Compile Include="ControlsP\CheckBoxListP.cs" />
     <Compile Include="ControlsP\DropDownListP.cs" />
     <Compile Include="ControlsP\FindControl.cs" />
+    <Compile Include="ControlsP\HtmlGenericControlP.cs" />
     <Compile Include="ControlsP\HtmlIframeP.cs" />
     <Compile Include="ControlsP\HtmlInputHiddenP.cs" />
     <Compile Include="ControlsP\HtmlInputRadioButtonP.cs" />

@@ -12,6 +12,28 @@
     for (var i = 0; i < idRadio.length; i++)
         if (idRadio[i].type == 'radio')
             idRadio[i].onchange = function () { ChangeRow(this.id, editingButton.id, deletingButton.id, browsingButton.id); }
+
+    var tableRows = document.getElementsByClassName('tableRow');
+
+    if (tableRows != null) {
+        var widthsOfColumns = new Array(tableRows[0].cells.length)
+
+        for (var i = 0; i < widthsOfColumns.length; i++)
+            widthsOfColumns[i] = 0;
+
+        for (var i = 0; i < tableRows.length; i++)
+            for (var j = 0; j < tableRows[i].cells.length; j++)
+                if (tableRows[i].cells[j].clientWidth > widthsOfColumns[j])
+                    widthsOfColumns[j] = tableRows[i].cells[j].clientWidth;
+        
+        var headers = document.getElementsByClassName("tableHeaderCell");
+
+        if (headers != null) {
+            for (var i = 0; i < headers.length; i++)
+                if (headers[i].clientWidth < widthsOfColumns[i])
+                    headers[i].clientWidth = widthsOfColumns[i];
+        }
+    }
 }
 
 function ChangeRow(rowId, editingButtonId, deletingButtonId, browsingButtonId) {

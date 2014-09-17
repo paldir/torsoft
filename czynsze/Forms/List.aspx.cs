@@ -46,8 +46,7 @@ namespace czynsze.Forms
                 else
                     return (EnumP.SortOrder)Enum.Parse(typeof(EnumP.SortOrder), ViewState["sortOrder"].ToString());
             }
-            set
-            { ViewState["sortOrder"] = value; }
+            set { ViewState["sortOrder"] = value; }
         }
 
 
@@ -56,6 +55,7 @@ namespace czynsze.Forms
             table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))]);
             string postBackUrl = "Record.aspx";
             string heading = null;
+            List<string> printingsSubMenu=null;
 
             placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "addaction", "Dodaj", postBackUrl));
             placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "editaction", "Edytuj", postBackUrl));
@@ -69,7 +69,15 @@ namespace czynsze.Forms
                     heading = "Budynki";
                     headers = new string[] { "Kod", "Adres", "Adres cd." };
 
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("printingsButton", "report", "Wydruk lokali wg budynków", "ReportConfiguration.aspx?report=PlacesInEachBuilding"));
+                    //placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("superMenuButton", "report", "Wydruk lokali wg budynków", "ReportConfiguration.aspx?report=PlacesInEachBuilding"));
+                    printingsSubMenu = new List<string>()
+                    {
+                        "<a href='ReportConfiguration.aspx?report="+EnumP.Report.PlacesInEachBuilding.ToString()+"'>Lokale w budynkach</a>",
+                        "<a href='#'>Kolejny wydruk</a>",
+                        "<a href='#'>I jeszcze jeden</a>"
+                    };
+
+                    //placeOfMainTableButtons.Controls.Add(new LiteralControl("<ul class='superMenu'><li>Wydruki<ul class='subMenu'><li><a href='ReportConfiguration.aspx?report=PlacesInEachBuilding'>Lokale w budynkach</a></li><li><a href='#'>Kolejny wydruk</a></li><li><a href='#'>I jeszcze jeden</a></li></ul></li></ul>"));
                     
                     if (!IsPostBack)
                         using (db = new DataAccess.Czynsze_Entities())
@@ -103,6 +111,27 @@ namespace czynsze.Forms
 
             placeOfHeading.Controls.Add(new LiteralControl("<h2>" + heading + "</h2>"));
             placeOfMainTableButtons.Controls.Add(new ControlsP.HtmlInputHiddenP("table", table.ToString()));
+
+            if (printingsSubMenu != null)
+            {
+                ControlsP.HtmlGenericControlP superUl = new ControlsP.HtmlGenericControlP("ul", "superMenu");
+                ControlsP.HtmlGenericControlP superLi = new ControlsP.HtmlGenericControlP("li", String.Empty);
+                ControlsP.HtmlGenericControlP subUl = new ControlsP.HtmlGenericControlP("ul", "subMenu");
+
+                superLi.Controls.Add(new LiteralControl("Wydruki"));
+
+                foreach (string item in printingsSubMenu)
+                {
+                    ControlsP.HtmlGenericControlP subLi = new ControlsP.HtmlGenericControlP("li", String.Empty);
+
+                    subLi.Controls.Add(new LiteralControl(item));
+                    subUl.Controls.Add(subLi);
+                }
+
+                superLi.Controls.Add(subUl);
+                superUl.Controls.Add(superLi);
+                placeOfMainTableButtons.Controls.Add(superUl);
+            }
 
             this.Title = heading;
             Session["values"] = null;
