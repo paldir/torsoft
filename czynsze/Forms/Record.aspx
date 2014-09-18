@@ -68,7 +68,7 @@
                     
                 %>
                 InitRentComponent('<%=s_zaplat_Id%>');
-                <%
+        <%
     
                 break;
         }

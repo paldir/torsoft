@@ -77,14 +77,14 @@ input, select, textarea {
 }
 
     .mainTable thead, .mainTable .tableHeaderRow {
-        display: block;
+        //display: block;
     }
 
     .mainTable tbody {
         overflow-x: hidden;
         overflow-y: scroll;
         height: 500px;
-        display: inline-block;
+        //display: inline-block;
     }
 
     .mainTable .sortLink {
