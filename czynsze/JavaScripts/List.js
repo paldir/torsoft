@@ -12,7 +12,7 @@
     if (browsingButton != null)
         browsingButton.disabled = true;
 
-    var idRadio = document.getElementsByTagName('input');
+    var idRadio = document.querySelectorAll(".mainTable input");
 
     if (idRadio != null)
         for (var i = 0; i < idRadio.length; i++)
@@ -44,7 +44,7 @@
         }
     }*/
 
-    var header = document.querySelector(".mainTable thead");
+    /*var header = document.querySelector(".mainTable thead");
     var headerRow = document.querySelector(".mainTable .tableHeaderRow");
 
     if (headerRow != null)
@@ -65,13 +65,23 @@
 
                 if (rows.length > 0) {
                     for (var i = 0; i < headerRow.cells.length; i++) {
-                        headerRow.cells[i].width = widthsOfColumns[i];
-                        rows[0].cells[i].width = widthsOfColumns[i] + 1;
+                        headerRow.cells[i].width = widthsOfColumns[i] * 0.99;
+                        rows[0].cells[i].width = widthsOfColumns[i];
                     }
                 }
             }
         }
-    }
+    }*/
+
+    /*var table = document.querySelector(".mainTable");
+
+    if (table != null)
+    {
+        var clone = table.cloneNode(true);
+        clone.className = "mainTable mainTableClone";
+
+        table.parentNode.appendChild(clone);
+    }*/
 }
 
 function ChangeRow(rowId, editingButtonId, deletingButtonId, browsingButtonId) {

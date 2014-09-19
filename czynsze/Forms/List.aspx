@@ -6,7 +6,7 @@
     <form id="form" method="post" runat="server">
         <div id="placeOfHeading" runat="server"></div>
         <div id="placeOfMainTableButtons" runat="server"></div>
-        <div id="placeOfMainTable" runat="server"></div>
+        <div id="placeOfMainTable" class="placeOfMainTable" runat="server"></div>
     </form>
     <script>
         Init('<%=placeOfMainTableButtons.FindControl("editaction").ClientID%>', '<%=placeOfMainTableButtons.FindControl("deleteaction").ClientID%>', '<%=placeOfMainTableButtons.FindControl("browseaction").ClientID%>')

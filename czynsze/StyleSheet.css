@@ -3,6 +3,7 @@ body, input, select, button, .superMenu li {
     color: #383838;
     font-size: small;
     font-family: 'Times New Roman';
+    z-index: 1;
 }
 
 a {
@@ -70,7 +71,34 @@ input, select, textarea {
 /*#endregion*/
 
 /*#region główne tabele*/
+.placeOfMainTable {
+    position: relative;
+}
+
+.mainTableOriginal thead {
+    display: none;
+    z-index: 2;
+    position: relative;
+}
+
+.mainTableClone tbody {
+    display: none;
+    z-index: 2;
+    position: relative;
+}
+
+.mainTableClone thead {
+    z-index: 1;
+    position: relative;
+}
+
+.mainTableOriginal tbody {
+    z-index: 1;
+    position: relative;
+}
+
 .mainTable {
+    position: absolute;
     border-collapse: collapse;
     border: 1px solid lightgray;
     display: inline-block;
@@ -81,11 +109,15 @@ input, select, textarea {
     }
 
     .mainTable tbody {
-        overflow-x: hidden;
-        overflow-y: scroll;
+        //overflow-x: hidden;
+        //overflow-y: scroll;
         height: 500px;
         //display: inline-block;
     }
+
+.mainTableOriginal tbody {
+    //display: inline-block;
+}
 
     .mainTable .sortLink {
         color: #383838;

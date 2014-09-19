@@ -166,12 +166,14 @@ namespace czynsze.Forms
 
         void CreateMainTable()
         {
-            ControlsP.TableP mainTable = new ControlsP.TableP("mainTable", rows, headers, true);
+            ControlsP.TableP mainTable = new ControlsP.TableP("mainTable mainTableOriginal", rows, headers, true, String.Empty);
+            ControlsP.TableP mainTableClone = new ControlsP.TableP("mainTable mainTableClone", rows, headers, true, "clone");
 
             foreach (TableCell cell in mainTable.Rows[0].Cells)
                 ((ControlsP.LinkButtonP)cell.Controls[0]).Click += LinkButtonOfColumn_Click;
 
             placeOfMainTable.Controls.Clear();
+            placeOfMainTable.Controls.Add(mainTableClone);
             placeOfMainTable.Controls.Add(mainTable);
         }
 
