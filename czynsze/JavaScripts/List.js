@@ -1,7 +1,7 @@
-﻿function Init(editingButtonId, deletingButtonId, browsingButtonId) {
-    var editingButton = document.getElementById(editingButtonId);
-    var deletingButton = document.getElementById(deletingButtonId);
-    var browsingButton = document.getElementById(browsingButtonId);
+﻿function Init() {
+    var editingButton = document.getElementById("editaction");
+    var deletingButton = document.getElementById("deleteaction");
+    var browsingButton = document.getElementById("browseaction");
 
     if (editingButton != null)
         editingButton.disabled = true;
@@ -84,10 +84,10 @@
     }*/
 }
 
-function ChangeRow(rowId, editingButtonId, deletingButtonId, browsingButtonId) {
-    var editingButton = document.getElementById(editingButtonId);
-    var deletingButton = document.getElementById(deletingButtonId);
-    var browsingButton = document.getElementById(browsingButtonId);
+function ChangeRow(rowId) {
+    var editingButton = document.getElementById("editaction");
+    var deletingButton = document.getElementById("deleteaction");
+    var browsingButton = document.getElementById("browseaction");
 
     editingButton.disabled = false;
     deletingButton.disabled = false;

@@ -10,6 +10,7 @@ namespace czynsze
         public enum Action { Dodaj, Edytuj, Usuń, Przeglądaj };
         public enum Table { Buildings, Places, Tenants, RentComponents };
         public enum Report { PlacesInEachBuilding };
+        public enum ReportFormat { Pdf, Csv };
         public enum SortOrder { Asc, Desc };
     }
 }

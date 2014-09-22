@@ -10,19 +10,70 @@
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
-<body>
-    <div class="menu">
-        <a href="List.aspx?table=Buildings" class="menuItem">Budynki</a>
-        <a href="List.aspx?table=Places" class="menuItem">Lokale</a>
-        <a href="List.aspx?table=Tenants" class="menuItem">Najemcy</a>
-        <a href="List.aspx?table=RentComponents" class="menuItem">Składniki czynszu</a>
+<body onclick="body_onclick(event)">
+    <div style="text-align: right;">Zalogowany jako <span id="user" runat="server"></span> <a href="../Login.aspx">Wyloguj</a></div>
+    <div class="mainMenu">
+        <ul class="mainSuperMenu">
+            <li class="mainSuperMenuItem">Kartoteki
+                <ul class="mainSubMenu">
+                    <li class="mainSubMenuItem"><a href="List.aspx?table=Places">Lokale</a>
+                        <!--<ul class="mainSubSubMenu">
+                            <li class="mainSubSubMenuItem">
+                                <a href="List.aspx?table=Places">Aktywne</a>
+                            <li class="mainSubSubMenuItem">
+                                <a href="#">Nieaktywne</a>
+                            </li>
+                        </ul>-->
+                    </li>
+                    <li class="mainSubMenuItem"><a href="List.aspx?table=Tenants">Najemcy</a></li>
+                    <li class="mainSubMenuItem"><a href="List.aspx?table=Buildings">Budynki</a></li>
+                    <li class="mainSubMenuItem"><a href="List.aspx?table=RentComponents">Składniki opłat</a></li>
+                </ul>
+            </li>
+            <li class="mainSuperMenuItem">Rozliczenia finansowe
+                <ul class="mainSubMenu">
+                    <li class="mainSubMenuItem"><a href="#">Rozliczenie1</a></li>
+                    <li class="mainSubMenuItem"><a href="#">Rozliczenie2</a></li>
+                    <li class="mainSubMenuItem"><a href="#">Rozliczenie3</a></li>
+                </ul>
+            </li>
+            <li class="mainSuperMenuItem">Słowniki
+                <ul class="mainSubMenu">
+                    <li class="mainSubMenuItem"><a href="#">Słownik1</a></li>
+                    <li class="mainSubMenuItem"><a href="#">Słownik2</a></li>
+                    <li class="mainSubMenuItem"><a href="#">Słownik3</a></li>
+                </ul>
+            </li>
+            <li class="mainSuperMenuItem">Analizy
+                <ul class="mainSubMenu">
+                    <li class="mainSubMenuItem"><a href="#">Analiza1</a></li>
+                    <li class="mainSubMenuItem"><a href="#">Analiza2</a></li>
+                    <li class="mainSubMenuItem"><a href="#">Analiza3</a></li>
+                </ul>
+            </li>
+            <li class="mainSuperMenuItem">Raporty
+                <ul class="mainSubMenu">
+                    <li class="mainSubMenuItem"><a href="#">Raport1</a></li>
+                    <li class="mainSubMenuItem"><a href="#">Raport2</a></li>
+                    <li class="mainSubMenuItem"><a href="#">Raport3</a></li>
+                </ul>
+            </li>
+            <li class="mainSuperMenuItem">Administracja
+                <ul class="mainSubMenu">
+                    <li class="mainSubMenuItem"><a href="#">Admin1</a></li>
+                    <li class="mainSubMenuItem"><a href="#">Admin2</a></li>
+                    <li class="mainSubMenuItem"><a href="#">Admin3</a></li>
+                </ul>
+            </li>
+        </ul>
     </div>
-    <div style="text-align: right; position: absolute; top: 13px; right: 13px;">Zalogowany jako <span id="user" runat="server"></span> <a href="../Login.aspx">Wyloguj</a></div>
     <div id="waterMark"></div>
     <div>
         <asp:ContentPlaceHolder ID="ContentPlaceHolder" runat="server">
-        
         </asp:ContentPlaceHolder>
     </div>
+    <script>
+        MainInit();
+    </script>
 </body>
 </html>

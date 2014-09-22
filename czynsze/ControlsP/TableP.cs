@@ -13,16 +13,14 @@ namespace czynsze.ControlsP
     {
         public TableP(string cSSClass, List<string[]> rows, string[] headerRow, bool sortable, string prefix)
         {
-            /*float cellPadding = 50;
-            float paddingOfHeaderCell = 3;
-            float[] columnsWidth = new float[headerRow.Length];
+            float[] widthsOfColumns = new float[headerRow.Length];
             Bitmap bitMap = new Bitmap(500, 200);
             Graphics graphics = Graphics.FromImage(bitMap);
             graphics.PageUnit = GraphicsUnit.Pixel;
-            Font font = new Font("Times New Roman", 8);
+            Font font = new Font("Times New Roman", 12);
 
-            for (int i = 0; i < columnsWidth.Length; i++)
-                columnsWidth[i] = 0;*/
+            for (int i = 0; i < widthsOfColumns.Length; i++)
+                widthsOfColumns[i] = 0;
 
             this.CssClass = cSSClass;
 
@@ -40,10 +38,10 @@ namespace czynsze.ControlsP
                 tableRow.Cells.Add(tableCell);
                 this.Rows.Add(tableRow);
 
-                /*float columnWidth = graphics.MeasureString(row[1], font).Width + cellPadding;
+                float columnWidth = graphics.MeasureString(row[1], font).Width;
 
-                if (columnWidth > columnsWidth[0])
-                    columnsWidth[0] = columnWidth;*/
+                if (columnWidth > widthsOfColumns[0])
+                    widthsOfColumns[0] = columnWidth;
             }
 
             for (int i = 0; i < rows.Count; i++)
@@ -56,10 +54,10 @@ namespace czynsze.ControlsP
                     tableCell.Controls.Add(new LabelP("label", rows.ElementAt(i)[0], rows.ElementAt(i)[j], String.Empty));
                     this.Rows[i].Cells.Add(tableCell);
 
-                    /*float columnWidth = graphics.MeasureString(rows.ElementAt(i)[j], font).Width + cellPadding;
+                    float columnWidth = graphics.MeasureString(rows.ElementAt(i)[j], font).Width;
 
-                    if (columnWidth > columnsWidth[j - 1])
-                        columnsWidth[j - 1] = columnWidth;*/
+                    if (columnWidth > widthsOfColumns[j - 1])
+                        widthsOfColumns[j - 1] = columnWidth;
                 }
             }
 
@@ -77,17 +75,20 @@ namespace czynsze.ControlsP
                 else
                     tableHeaderCell.Controls.Add(new LiteralControl(headerRow[i]));
 
-                /*float columnWidth = graphics.MeasureString(headerRow[i], font).Width + paddingOfHeaderCell;
+                float columnWidth = graphics.MeasureString(headerRow[i], font).Width;
 
-                if (columnWidth > columnsWidth[i])
-                    columnsWidth[i] = columnWidth;
+                if (columnWidth > widthsOfColumns[i])
+                    widthsOfColumns[i] = columnWidth;
 
-                tableHeaderCell.Width = new Unit(columnsWidth[i]);*/
+                tableHeaderCell.Width = new Unit(widthsOfColumns[i]);
 
                 tableHeaderRow.Cells.Add(tableHeaderCell);
             }
 
             this.Rows.AddAt(0, tableHeaderRow);
+
+            for (int i = 0; i < headerRow.Length; i++)
+                this.Rows[1].Cells[i].Width = new Unit(widthsOfColumns[i]);
         }
     }
 }

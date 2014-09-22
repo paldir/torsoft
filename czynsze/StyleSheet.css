@@ -3,7 +3,6 @@ body, input, select, button, .superMenu li {
     color: #383838;
     font-size: small;
     font-family: 'Times New Roman';
-    z-index: 1;
 }
 
 a {
@@ -54,7 +53,7 @@ input, select, textarea {
 /*#endregion*/
 
 /*#region menu*/
-.menu {
+/*.menu {
     background-color: aliceblue;
     border: 1px solid dodgerblue;
     margin-top: 5px;
@@ -67,57 +66,85 @@ input, select, textarea {
     font-weight: bold;
     border-right: solid 1px gray;
     padding-right: 3px;
+}*/
+
+.mainMenu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.mainMenu li {
+    margin: 0;
+}
+
+.mainMenu li:hover {
+    cursor: pointer;
+}
+
+.mainSuperMenuItem {
+    display: inline;
+    position: relative;
+    color: white;
+    background-color: steelblue;
+    border-color: mediumblue;
+    border-style: solid;
+    border-width: 2px 1px 2px 1px;
+    padding: 5px;
+}
+
+.mainSuperMenuItem:hover {
+    background-color: mediumblue;
+}
+
+.mainSubMenu {
+    display: none;
+    position: absolute;
+    top: 27px;
+    left: 0px;
+    border: 2px solid gray;
+}
+
+.mainSubMenuItem {
+    background-color: white;
+    border: 1px solid lightgray;
+    position: relative;
+    color: #383838;
+}
+
+    .mainSubMenuItem a {
+        padding: 3px;
+        color: #383838;
+        text-decoration: none;
+        display: block;
+    }
+
+    .mainSubMenuItem:hover {
+        background-color: lightgray;
+    }
+
+.mainSubSubMenu {
+    display: none;
 }
 /*#endregion*/
 
 /*#region główne tabele*/
-.placeOfMainTable {
-    position: relative;
-}
-
-.mainTableOriginal thead {
-    display: none;
-    z-index: 2;
-    position: relative;
-}
-
-.mainTableClone tbody {
-    display: none;
-    z-index: 2;
-    position: relative;
-}
-
-.mainTableClone thead {
-    z-index: 1;
-    position: relative;
-}
-
-.mainTableOriginal tbody {
-    z-index: 1;
-    position: relative;
-}
-
 .mainTable {
-    position: absolute;
     border-collapse: collapse;
     border: 1px solid lightgray;
     display: inline-block;
 }
 
     .mainTable thead, .mainTable .tableHeaderRow {
-        //display: block;
+        display: block;
     }
 
     .mainTable tbody {
-        //overflow-x: hidden;
-        //overflow-y: scroll;
+        overflow-x: hidden;
+        overflow-y: scroll;
         height: 500px;
-        //display: inline-block;
+        display: inline-block;
     }
-
-.mainTableOriginal tbody {
-    //display: inline-block;
-}
 
     .mainTable .sortLink {
         color: #383838;
@@ -131,7 +158,7 @@ input, select, textarea {
     .mainTable th {
         background-color: #E8E8E8;
         font-weight: bold;
-        padding: 3px;
+        //padding: 3px;
     }
 
     .mainTable input[type="radio"] {
@@ -141,8 +168,8 @@ input, select, textarea {
     .mainTable label {
         display: block;
         padding: 3px;
-        padding-left: 25px;
-        padding-right: 25px;
+        //padding-left: 25px;
+        //padding-right: 25px;
         cursor: pointer;
     }
 
@@ -194,7 +221,7 @@ input, select, textarea {
     padding: 0;
     margin: 0;
     border: 2px solid gray;
-    border-collapse:collapse;
+    border-collapse: collapse;
 }
 
     .subMenu li {

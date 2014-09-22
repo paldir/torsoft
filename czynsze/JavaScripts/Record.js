@@ -17,11 +17,11 @@ function tabRadio_onchange(value) {
                 tabs[i].hidden = true;
 }
 
-function InitPlaces(kod_lok_id, nr_lok_id, adres_id, adres_2_id) {
-    var kod_lok = document.getElementById(kod_lok_id);
-    var nr_lok = document.getElementById(nr_lok_id);
-    var adres = document.getElementById(adres_id);
-    var adres_2 = document.getElementById(adres_2_id);
+function InitPlaces() {
+    var kod_lok = document.getElementById("kod_lok");
+    var nr_lok = document.getElementById("nr_lok");
+    var adres = document.getElementById("adres");
+    var adres_2 = document.getElementById("adres_2");
 
     if (kod_lok != null)
         kod_lok.onchange = function () { preview_onchange(this.id, this.value); };
@@ -43,9 +43,9 @@ function preview_onchange(id, value) {
         preview.innerText = value;
 }
 
-function InitRentComponent(s_zaplat_name) {
+function InitRentComponent() {
     var fields = document.getElementsByTagName("input");
-    var s_zaplat = document.getElementById(s_zaplat_name);
+    var s_zaplat = document.getElementById("s_zaplat");
 
     if (s_zaplat.value != "6")
         for (var i = 0; i < fields.length; i++)

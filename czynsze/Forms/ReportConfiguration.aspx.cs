@@ -24,10 +24,21 @@ namespace czynsze.Forms
                 case EnumP.Report.PlacesInEachBuilding:
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                     {
+                        int firstBuildingNumber = db.buildings.Select(b => b.kod_1).Min();
+                        int lastBuildingNumber = db.buildings.Select(b => b.kod_1).Max();
+                        ControlsP.HtmlGenericControlP firstBuilding = new ControlsP.HtmlGenericControlP("div", "control");
+                        ControlsP.HtmlGenericControlP secondBuilding = new ControlsP.HtmlGenericControlP("div", "control");
+                        List<string[]> buildings = db.buildings.ToList().OrderBy(b => b.kod_1).Select(b => b.ImportantFields()).ToList();
+
+                        firstBuilding.Controls.Add(new ControlsP.TextBoxP("field", "kod_1_start", firstBuildingNumber.ToString(), ControlsP.TextBoxP.TextBoxModeP.Number, 5, 1, true));
+                        firstBuilding.Controls.Add(new ControlsP.DropDownListP("field", "kod_1_start_dropdown", buildings, firstBuildingNumber.ToString(), true));
+                        secondBuilding.Controls.Add(new ControlsP.TextBoxP("field", "kod_1_end", lastBuildingNumber.ToString(), ControlsP.TextBoxP.TextBoxModeP.Number, 5, 1, true));
+                        secondBuilding.Controls.Add(new ControlsP.DropDownListP("field", "kod_1_end_dropdown", buildings, lastBuildingNumber.ToString(), true));
+
                         controls = new List<Control>()
                             {
-                                new ControlsP.TextBoxP("field", "kod_1_start", String.Empty, ControlsP.TextBoxP.TextBoxModeP.Number, 5, 1, true),
-                                new ControlsP.TextBoxP("field", "kod_1_end", String.Empty, ControlsP.TextBoxP.TextBoxModeP.Number, 5, 1, true),
+                                firstBuilding,
+                                secondBuilding,
                                 new ControlsP.CheckBoxListP("field", "kod_typ", db.typesOfPlace.Select(t=>t.typ_lok).ToList(), db.typesOfPlace.Select(t=>t.kod_typ.ToString()).ToList(), db.typesOfPlace.Select(t=>t.kod_typ.ToString()).ToList())
                             };
                     }
@@ -40,6 +51,9 @@ namespace czynsze.Forms
                     };
                     break;
             }
+
+            controls.Add(new ControlsP.RadioButtonListP("list", "format", new List<string>() { "PDF", "CSV" }, new List<string>() { EnumP.ReportFormat.Pdf.ToString(), EnumP.ReportFormat.Csv.ToString() }, EnumP.ReportFormat.Pdf.ToString(), true));
+            labels.Add("Format: ");
 
             for (int i = 0; i < controls.Count; i++)
             {
@@ -149,6 +163,7 @@ namespace czynsze.Forms
             Session["headers"] = headers;
             Session["tables"] = tables;
             Session["captions"] = captions;
+            Session["format"] = ((RadioButtonList)placeOfConfigurationFields.FindControl("format")).SelectedValue;
 
             Response.Redirect("Report.aspx");
         }

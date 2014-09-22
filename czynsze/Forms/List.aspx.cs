@@ -55,7 +55,7 @@ namespace czynsze.Forms
             table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))]);
             string postBackUrl = "Record.aspx";
             string heading = null;
-            List<string> printingsSubMenu=null;
+            List<string> printingsSubMenu = null;
 
             placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "addaction", "Dodaj", postBackUrl));
             placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "editaction", "Edytuj", postBackUrl));
@@ -78,7 +78,7 @@ namespace czynsze.Forms
                     };
 
                     //placeOfMainTableButtons.Controls.Add(new LiteralControl("<ul class='superMenu'><li>Wydruki<ul class='subMenu'><li><a href='ReportConfiguration.aspx?report=PlacesInEachBuilding'>Lokale w budynkach</a></li><li><a href='#'>Kolejny wydruk</a></li><li><a href='#'>I jeszcze jeden</a></li></ul></li></ul>"));
-                    
+
                     if (!IsPostBack)
                         using (db = new DataAccess.Czynsze_Entities())
                             rows = db.buildings.OrderBy(b => b.kod_1).ToList().Select(b => b.ImportantFields()).ToList();
@@ -166,14 +166,12 @@ namespace czynsze.Forms
 
         void CreateMainTable()
         {
-            ControlsP.TableP mainTable = new ControlsP.TableP("mainTable mainTableOriginal", rows, headers, true, String.Empty);
-            ControlsP.TableP mainTableClone = new ControlsP.TableP("mainTable mainTableClone", rows, headers, true, "clone");
+            ControlsP.TableP mainTable = new ControlsP.TableP("mainTable", rows, headers, true, String.Empty);
 
             foreach (TableCell cell in mainTable.Rows[0].Cells)
                 ((ControlsP.LinkButtonP)cell.Controls[0]).Click += LinkButtonOfColumn_Click;
 
             placeOfMainTable.Controls.Clear();
-            placeOfMainTable.Controls.Add(mainTableClone);
             placeOfMainTable.Controls.Add(mainTable);
         }
 
@@ -200,5 +198,4 @@ namespace czynsze.Forms
             CreateMainTable();
         }
     }
-
 }
