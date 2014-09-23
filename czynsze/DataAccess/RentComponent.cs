@@ -218,7 +218,7 @@ namespace czynsze.DataAccess
                 
                 using (Czynsze_Entities db = new Czynsze_Entities())
                     if (db.rentComponentsOfPlaces.Count(c => c.nr_skl == id) > 0)
-                        result += "Nie można usunąć składnika czynszu, który jest przypisany do lokali! <br />";
+                        result += "Nie można usunąć składnika opłat, który jest przypisany do lokali! <br />";
             }
 
             return result;

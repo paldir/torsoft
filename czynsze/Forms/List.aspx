@@ -9,6 +9,20 @@
         <div id="placeOfMainTable" class="placeOfMainTable" runat="server"></div>
     </form>
     <script>
-        Init()
+        Init();
+
+        <%
+        string table = Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))];
+
+        switch (table)
+        {
+            case "InactivePlaces":
+            case "InactiveTenants":
+                %>
+                    InitInactive();
+                <%
+                break;
+        }
+        %>
     </script>
 </asp:Content>

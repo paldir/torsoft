@@ -140,6 +140,7 @@
     <Compile Include="DataAccess\Building.cs" />
     <Compile Include="DataAccess\Configuration.cs" />
     <Compile Include="DataAccess\Czynsze_Entities.cs" />
+    <Compile Include="DataAccess\InactivePlace.cs" />
     <Compile Include="DataAccess\Place.cs" />
     <Compile Include="DataAccess\RentComponent.cs" />
     <Compile Include="DataAccess\RentComponentOfPlace.cs" />

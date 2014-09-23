@@ -87,8 +87,9 @@ namespace czynsze.ControlsP
 
             this.Rows.AddAt(0, tableHeaderRow);
 
-            for (int i = 0; i < headerRow.Length; i++)
-                this.Rows[1].Cells[i].Width = new Unit(widthsOfColumns[i]);
+            if (this.Rows.Count > 1)
+                for (int i = 0; i < headerRow.Length; i++)
+                    this.Rows[1].Cells[i].Width = new Unit(widthsOfColumns[i]);
         }
     }
 }

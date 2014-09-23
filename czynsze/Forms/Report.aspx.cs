@@ -117,17 +117,17 @@ namespace czynsze.Forms
 
                     for (int i = 0; i < tables.Count; i++)
                     {
-                        csv += captions[i].Replace(",", String.Empty) + "," + Environment.NewLine;
+                        csv += captions[i].Replace(",", String.Empty) + ";" + Environment.NewLine;
 
                         foreach (string header in headers)
-                            csv += header + ",";
+                            csv += header + ";";
 
                         csv += Environment.NewLine;
                         
                         foreach (string[] row in tables[i])
                         {
                             foreach (string cell in row)
-                                csv += cell.Replace(",", ".") + ",";
+                                csv += cell.Replace(",", ".") + ";";
 
                             csv += Environment.NewLine;
                         }
@@ -136,6 +136,7 @@ namespace czynsze.Forms
                     }
 
                     Response.ContentType = "text/csv";
+                    Response.ContentEncoding = System.Text.Encoding.GetEncoding("Windows-1250");
 
                     Response.AddHeader("content-disposition", "attachment; filename=Report.csv");
                     Response.Write(csv);

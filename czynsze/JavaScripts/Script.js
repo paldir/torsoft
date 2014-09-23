@@ -1,26 +1,35 @@
 ﻿function MainInit() {
     var mainMenuItems = document.getElementsByClassName("mainSuperMenuItem");
 
-    for (var i = 0; i < mainMenuItems.length; i++)
-        mainMenuItems[i].onclick = function () { ShowChildren(this.children); }
+    /*for (var i = 0; i < mainMenuItems.length; i++)
+        mainMenuItems[i].onclick = function () { ShowChildren(this.children); }*/
 
-    var mainSubMenuItems = document.getElementsByClassName("mainSubMenuItem");
+    /*var mainSubMenuItems = document.getElementsByClassName("mainSubMenuItem");
 
     for (var i = 0; i < mainSubMenuItems.length; i++)
         if (mainSubMenuItems[i].children.length > 0 && mainSubMenuItems[i].children[0].className == "mainSubSubMenu")
-            mainSubMenuItems[i].onclick = function () { ShowChildren(this.children); }
+            mainSubMenuItems[i].onclick = function () { ShowChildren(this.children); }*/
 }
 
-function ShowChildren(children) {
-    HideMenu();
-
-    if (children.length > 0)
-        children[0].style.display = "table";
+function ShowMenu(item) {
+    //HideMenu();
+    item.style.display = "table";
 }
 
 function body_onclick(evt) {
-    if (evt.srcElement.className != "mainSuperMenuItem" && evt.srcElement.className != "mainSubMenuItem")
-        HideMenu();
+    //if (evt.srcElement.className != "mainSuperMenuItem" || evt.srcElement.className != "mainSubMenuItem")
+    //HideMenu();
+    HideMenu();
+
+    srcElement = evt.srcElement;
+
+    if (srcElement.className.indexOf("mainSuperMenuItem") != -1)
+        ShowMenu(srcElement.children[0]);
+    else
+        if (srcElement.className.indexOf("mainSubMenuItem") != -1) {
+            ShowMenu(srcElement.parentElement);
+            ShowMenu(srcElement.children[0]);
+        }
 }
 
 function HideMenu() {

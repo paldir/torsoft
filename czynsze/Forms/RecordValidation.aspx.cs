@@ -72,7 +72,7 @@ namespace czynsze.Forms
                                 case EnumP.Action.Edytuj:
                                     try
                                     {
-                                        building = db.buildings.Where(b => b.kod_1 == id).FirstOrDefault();
+                                        building = db.buildings.FirstOrDefault(b => b.kod_1 == id);
 
                                         building.Set(record);
                                         db.SaveChanges();
@@ -84,7 +84,7 @@ namespace czynsze.Forms
                                 case EnumP.Action.Usuń:
                                     try
                                     {
-                                        building = db.buildings.Where(b => b.kod_1 == id).FirstOrDefault();
+                                        building = db.buildings.FirstOrDefault(b => b.kod_1 == id);
 
                                         db.buildings.Remove(building);
                                         db.SaveChanges();
@@ -160,7 +160,7 @@ namespace czynsze.Forms
                                 case EnumP.Action.Edytuj:
                                     try
                                     {
-                                        place = db.places.Where(p => p.nr_system == id).FirstOrDefault();
+                                        place = db.places.FirstOrDefault(p => p.nr_system == id);
 
                                         place.Set(record);
                                         db.SaveChanges();
@@ -183,7 +183,7 @@ namespace czynsze.Forms
                                 case EnumP.Action.Usuń:
                                     try
                                     {
-                                        place = db.places.Where(p => p.nr_system == id).FirstOrDefault();
+                                        place = db.places.FirstOrDefault(p => p.nr_system == id);
 
                                         foreach (DataAccess.RentComponentOfPlace component in db.rentComponentsOfPlaces.Where(c => c.kod_lok == place.kod_lok && c.nr_lok == place.nr_lok))
                                             db.rentComponentsOfPlaces.Remove(component);
@@ -252,7 +252,7 @@ namespace czynsze.Forms
                                 case EnumP.Action.Edytuj:
                                     try
                                     {
-                                        tenant = db.tenants.Where(t => t.nr_kontr == id).FirstOrDefault();
+                                        tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == id);
 
                                         tenant.Set(record);
                                         db.SaveChanges();
@@ -264,7 +264,7 @@ namespace czynsze.Forms
                                 case EnumP.Action.Usuń:
                                     try
                                     {
-                                        tenant = db.tenants.Where(t => t.nr_kontr == id).FirstOrDefault();
+                                        tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == id);
 
                                         db.tenants.Remove(tenant);
                                         db.SaveChanges();
@@ -278,7 +278,7 @@ namespace czynsze.Forms
                     }
                     break;
                 case EnumP.Table.RentComponents:
-                    this.Title = "Edycja składnika czynszu";
+                    this.Title = "Edycja składnika opłat";
                     DataAccess.RentComponent rentComponent;
 
                     record = new string[]
@@ -338,37 +338,202 @@ namespace czynsze.Forms
                                         db.rentComponents.Add(rentComponent);
                                         db.SaveChanges();
 
-                                        dbWriteResult = "Składnik czynszu dodany.";
+                                        dbWriteResult = "Składnik opłat dodany.";
                                     }
-                                    catch { dbWriteResult = "Nie można dodać składnika czynszu!"; }
+                                    catch { dbWriteResult = "Nie można dodać składnika opłat!"; }
                                     break;
                                 case EnumP.Action.Edytuj:
                                     try
                                     {
-                                        rentComponent = db.rentComponents.Where(c => c.nr_skl == id).FirstOrDefault();
+                                        rentComponent = db.rentComponents.FirstOrDefault(c => c.nr_skl == id);
 
                                         rentComponent.Set(record);
                                         db.SaveChanges();
 
-                                        dbWriteResult = "Składnik czynszu wyedytowany.";
+                                        dbWriteResult = "Składnik opłat wyedytowany.";
                                     }
-                                    catch { dbWriteResult = "Nie można edytować składnika czynszu!"; }
+                                    catch { dbWriteResult = "Nie można edytować składnika opłat!"; }
                                     break;
                                 case EnumP.Action.Usuń:
                                     try
                                     {
-                                        rentComponent = db.rentComponents.Where(c => c.nr_skl == id).FirstOrDefault();
+                                        rentComponent = db.rentComponents.FirstOrDefault(c => c.nr_skl == id);
 
                                         db.rentComponents.Remove(rentComponent);
                                         db.SaveChanges();
 
-                                        dbWriteResult = "Składnik czynszu usunięty.";
+                                        dbWriteResult = "Składnik opłat usunięty.";
                                     }
-                                    catch { dbWriteResult = "Nie można usunąć składnika czynszu!"; }
+                                    catch { dbWriteResult = "Nie można usunąć składnika opłat!"; }
                                     break;
                             }
                         }
                     }
+                    break;
+                case EnumP.Table.TypesOfPlace:
+                    this.Title = "Edycja typu lokali";
+                    DataAccess.TypeOfPlace typeOfPlace;
+
+                    record = new string[]
+                    {
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("id"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("typ_lok"))]
+                    };
+
+                    validationResult = DataAccess.TypeOfPlace.Validate(action, record);
+
+                    if (validationResult == String.Empty)
+                        using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                            switch (action)
+                            {
+                                case EnumP.Action.Dodaj:
+                                    try
+                                    {
+                                        typeOfPlace = new DataAccess.TypeOfPlace();
+
+                                        typeOfPlace.Set(record);
+                                        db.typesOfPlace.Add(typeOfPlace);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Typ lokali dodany.";
+                                    }
+                                    catch { dbWriteResult = "Nie można dodać typu lokali!"; }
+                                    break;
+                                case EnumP.Action.Edytuj:
+                                    try
+                                    {
+                                        typeOfPlace = db.typesOfPlace.FirstOrDefault(t => t.kod_typ == id);
+
+                                        typeOfPlace.Set(record);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Typ lokalu wyedytowany.";
+                                    }
+                                    catch { dbWriteResult = "Nie można edytować typu lokalu!"; }
+                                    break;
+                                case EnumP.Action.Usuń:
+                                    try
+                                    {
+                                        typeOfPlace = db.typesOfPlace.FirstOrDefault(t => t.kod_typ == id);
+
+                                        db.typesOfPlace.Remove(typeOfPlace);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Typ lokalu usunięty.";
+                                    }
+                                    catch { dbWriteResult = "Nie można usunąć typu lokalu!"; }
+                                    break;
+                            }
+                    break;
+                case EnumP.Table.TypesOfKitchen:
+                    this.Title = "Edycja rodzaju kuchni";
+                    DataAccess.TypeOfKitchen typeOfKitchen;
+
+                    record = new string[]
+                    {
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("id"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("typ_kuch"))]
+                    };
+
+                    validationResult = DataAccess.TypeOfKitchen.Validate(action, record);
+
+                    if (validationResult == String.Empty)
+                        using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                            switch (action)
+                            {
+                                case EnumP.Action.Dodaj:
+                                    try
+                                    {
+                                        typeOfKitchen = new DataAccess.TypeOfKitchen();
+
+                                        typeOfKitchen.Set(record);
+                                        db.typesOfKitchen.Add(typeOfKitchen);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Rodzaj kuchni dodany.";
+                                    }
+                                    catch { dbWriteResult = "Nie można dodać rodzaju kuchni!"; }
+                                    break;
+                                case EnumP.Action.Edytuj:
+                                    try
+                                    {
+                                        typeOfKitchen = db.typesOfKitchen.FirstOrDefault(t => t.kod_kuch == id);
+
+                                        typeOfKitchen.Set(record);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Rodzaj kuchni wyedytowany.";
+                                    }
+                                    catch { dbWriteResult = "Nie można edytować rodzaju kuchni!"; }
+                                    break;
+                                case EnumP.Action.Usuń:
+                                    try
+                                    {
+                                        typeOfKitchen = db.typesOfKitchen.FirstOrDefault(t => t.kod_kuch == id);
+
+                                        db.typesOfKitchen.Remove(typeOfKitchen);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Rodzaj kuchni usunięty.";
+                                    }
+                                    catch { dbWriteResult = "Nie można usunąć rodzaju kuchni!"; }
+                                    break;
+                            }
+                    break;
+                case EnumP.Table.TypesOfTenant:
+                    this.Title = "Edycja rodzaju najemcy";
+                    DataAccess.TypeOfTenant typeOfTenant;
+
+                    record = new string[]
+                    {
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("id"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("r_najemcy"))]
+                    };
+
+                    validationResult = DataAccess.TypeOfTenant.Validate(action, record);
+
+                    if(validationResult==String.Empty)
+                        using(DataAccess.Czynsze_Entities db=new DataAccess.Czynsze_Entities())
+                            switch (action)
+                            {
+                                case EnumP.Action.Dodaj:
+                                    try
+                                    {
+                                        typeOfTenant = new DataAccess.TypeOfTenant();
+
+                                        typeOfTenant.Set(record);
+                                        db.typesOfTenant.Add(typeOfTenant);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Rodzaj najemcy dodany.";
+                                    }
+                                    catch { dbWriteResult = "Nie można dodać rodzaju najemcy!"; }
+                                    break;
+                                case EnumP.Action.Edytuj:
+                                    try
+                                    {
+                                        typeOfTenant = db.typesOfTenant.FirstOrDefault(t => t.kod_najem == id);
+
+                                        typeOfTenant.Set(record);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Rodzaj najemcy wyedytowany.";
+                                    }
+                                    catch { dbWriteResult = "Nie można edytować rodzaju najemcy!"; }
+                                    break;
+                                case EnumP.Action.Usuń:
+                                    try
+                                    {
+                                        typeOfTenant = db.typesOfTenant.FirstOrDefault(t => t.kod_najem == id);
+
+                                        db.typesOfTenant.Remove(typeOfTenant);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Rodzaj najemcy usunięty.";
+                                    }
+                                    catch { dbWriteResult = "Nie można usunąć rodzaju najemcy!"; }
+                                    break;
+                            }
                     break;
             }
 

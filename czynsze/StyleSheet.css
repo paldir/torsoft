@@ -68,6 +68,13 @@ input, select, textarea {
     padding-right: 3px;
 }*/
 
+.mainMenu {
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+    font-size: medium;
+}
+
 .mainMenu ul {
     list-style-type: none;
     margin: 0;
@@ -86,6 +93,7 @@ input, select, textarea {
     display: inline;
     position: relative;
     color: white;
+    font-weight: bold;
     background-color: steelblue;
     border-color: mediumblue;
     border-style: solid;
@@ -100,31 +108,38 @@ input, select, textarea {
 .mainSubMenu {
     display: none;
     position: absolute;
-    top: 27px;
+    top: 29px;
     left: 0px;
     border: 2px solid gray;
 }
 
-.mainSubMenuItem {
+.mainSubMenuItem, .mainSubSubMenuItem {
+    position: relative;
     background-color: white;
     border: 1px solid lightgray;
     position: relative;
     color: #383838;
+    font-weight: normal;
 }
 
-    .mainSubMenuItem a {
+    .mainSubMenuItem a, .mainSubSubMenuItem a, .pseudoLink {
         padding: 3px;
         color: #383838;
         text-decoration: none;
         display: block;
+        text-align: center;
     }
 
-    .mainSubMenuItem:hover {
+    .mainSubMenuItem:hover, .mainSubSubMenuItem:hover {
         background-color: lightgray;
     }
 
 .mainSubSubMenu {
     display: none;
+    position: absolute;
+    left: 101%;
+    top: -3px;
+    border: 2px solid gray;
 }
 /*#endregion*/
 
@@ -193,6 +208,7 @@ input, select, textarea {
     list-style-type: none;
     padding: 0;
     margin-left: 50px;
+    z-index: 2;
 }
 
 .superMenu li {
@@ -292,7 +308,7 @@ input, select, textarea {
 .tabRadio:checked + label {
     background-color: dodgerblue;
     color: white;
-    border-bottom: 2px solid dodgerblue;
+    border-bottom: solid 2px dodgerblue;
 }
 
 .tabLabel:hover {
@@ -344,6 +360,17 @@ input, select, textarea {
     margin-left: -270px;
     border: solid 3px mediumblue;
     padding: 20px;
+}
+
+.placeOfLogOut {
+    border-width: 1px;
+    border-style: solid;
+    border-bottom-color: dodgerblue;
+    border-left-color: dodgerblue;
+    border-top-color: mediumblue;
+    border-right-color: mediumblue;
+    background-color: aliceblue;
+    padding: 5px;
 }
 /*#endregion*/
 

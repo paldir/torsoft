@@ -87,7 +87,7 @@ namespace czynsze.Forms
                     {
                         if (action != EnumP.Action.Dodaj)
                             using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                                values = db.buildings.Where(b => b.kod_1 == id).FirstOrDefault().AllFields();
+                                values = db.buildings.FirstOrDefault(b => b.kod_1 == id).AllFields();
                         else
                             values = new string[numberOfFields];
                     }
@@ -108,9 +108,18 @@ namespace czynsze.Forms
                     controls.Add(new ControlsP.TextBoxP("field", "uwagi", values[6], ControlsP.TextBoxP.TextBoxModeP.MultiLine, 420, 6, globalEnabled));
                     break;
                 case EnumP.Table.Places:
+                case EnumP.Table.InactivePlaces:
+                    
                     this.Title = "Lokal";
                     numberOfFields = 22;
                     heading += " lokalu";
+
+                    if (table == EnumP.Table.InactivePlaces)
+                    {
+                        this.Title = "Lokal (nieaktywny)";
+                        heading += " (nieaktywnego)";
+                    }
+
                     columnSwitching = new List<int> { 0, 5, 10, 17 };
                     labels = new string[] 
                     { 
@@ -142,7 +151,12 @@ namespace czynsze.Forms
                     {
                         if (action != EnumP.Action.Dodaj)
                             using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                                values = db.places.Where(b => b.nr_system == id).FirstOrDefault().AllFields();
+                            {
+                                if (table == EnumP.Table.Places)
+                                    values = db.places.FirstOrDefault(b => b.nr_system == id).AllFields();
+                                else
+                                    values = db.inactivePlaces.FirstOrDefault(b => b.nr_system == id).AllFields();
+                            }
                         else
                         {
                             values = new string[numberOfFields];
@@ -232,7 +246,7 @@ namespace czynsze.Forms
                     }
 
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                        controls.Add(new ControlsP.DropDownListP("field", "kod_typ", db.typesOfPlace.ToList().Select(t => t.ImportantFields()).ToList(), values[3], globalEnabled));
+                        controls.Add(new ControlsP.DropDownListP("field", "kod_typ", db.typesOfPlace.ToList().Select(t => t.ImportantFieldsForDropDown()).ToList(), values[3], globalEnabled));
 
                     controls.Add(new ControlsP.TextBoxP("field", "adres", values[4], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 30, 1, globalEnabled));
                     controls.Add(new ControlsP.TextBoxP("field", "adres_2", values[5], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 30, 1, globalEnabled));
@@ -250,7 +264,7 @@ namespace czynsze.Forms
 
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                     {
-                        controls.Add(new ControlsP.DropDownListP("field", "kod_kuch", db.typesOfKitchen.ToList().Select(t => t.ImportantFields()).ToList(), values[17], globalEnabled));
+                        controls.Add(new ControlsP.DropDownListP("field", "kod_kuch", db.typesOfKitchen.ToList().Select(t => t.ImportantFieldsForDropDown()).ToList(), values[17], globalEnabled));
                         controls.Add(new ControlsP.DropDownListP("field", "nr_kontr", db.tenants.OrderBy(t => t.nazwisko).ToList().Select(t => t.ImportantFields().ToList().GetRange(1, 4).ToArray()).ToList(), values[18], globalEnabled));
                     }
 
@@ -311,7 +325,7 @@ namespace czynsze.Forms
                     {
                         if (action != EnumP.Action.Dodaj)
                             using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                                values = db.tenants.Where(t => t.nr_kontr == id).FirstOrDefault().AllFields();
+                                values = db.tenants.FirstOrDefault(t => t.nr_kontr == id).AllFields();
                         else
                         {
                             values = new string[numberOfFields];
@@ -325,7 +339,7 @@ namespace czynsze.Forms
                     placeOfButtons.Controls.Add(new ControlsP.HtmlInputHiddenP("id", values[0]));
 
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                        controls.Add(new ControlsP.DropDownListP("field", "kod_najem", db.typesOfTenant.ToList().Select(t => t.ImportantFields()).ToList(), values[1], globalEnabled));
+                        controls.Add(new ControlsP.DropDownListP("field", "kod_najem", db.typesOfTenant.ToList().Select(t => t.ImportantFieldsForDropDown()).ToList(), values[1], globalEnabled));
 
                     controls.Add(new ControlsP.TextBoxP("field", "nazwisko", values[2], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 25, 1, globalEnabled));
                     controls.Add(new ControlsP.TextBoxP("field", "imie", values[3], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 25, 1, globalEnabled));
@@ -339,9 +353,9 @@ namespace czynsze.Forms
                     controls.Add(new ControlsP.TextBoxP("field", "uwagi", values[11], ControlsP.TextBoxP.TextBoxModeP.MultiLine, 120, 2, globalEnabled));
                     break;
                 case EnumP.Table.RentComponents:
-                    this.Title = "Składnik czynszu";
+                    this.Title = "Składnik opłat";
                     numberOfFields = 19;
-                    heading += " składnika czynszu";
+                    heading += " składnika opłat";
                     columnSwitching = new List<int> { 0, 6, 9 };
                     labels = new string[]
                     {
@@ -361,7 +375,7 @@ namespace czynsze.Forms
                     {
                         if (action != EnumP.Action.Dodaj)
                             using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                                values = db.rentComponents.Where(c => c.nr_skl == id).FirstOrDefault().AllFields();
+                                values = db.rentComponents.FirstOrDefault(c => c.nr_skl == id).AllFields();
                         else
                             values = new string[numberOfFields];
                     }
@@ -412,6 +426,96 @@ namespace czynsze.Forms
                     }
 
                     controls.Add(interval);
+                    break;
+                case EnumP.Table.TypesOfPlace:
+                    this.Title = "Typ lokali";
+                    numberOfFields = 2;
+                    heading += " typu lokalu";
+                    columnSwitching = new List<int>() { 0 };
+                    labels = new string[]
+                    {
+                        "Kod: ",
+                        "Typ lokalu: "
+                    };
+
+                    if (values == null)
+                    {
+                        if (action != EnumP.Action.Dodaj)
+                            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                                values = db.typesOfPlace.FirstOrDefault(t => t.kod_typ == id).AllFields();
+                        else
+                            values = new string[numberOfFields];
+                    }
+
+                    if (idEnabled)
+                        controls.Add(new ControlsP.TextBoxP("field", "id", values[0], ControlsP.TextBoxP.TextBoxModeP.Number, 3, 1, idEnabled));
+                    else
+                    {
+                        controls.Add(new ControlsP.TextBoxP("field", "id_disabled", values[0], ControlsP.TextBoxP.TextBoxModeP.Number, 3, 1, idEnabled));
+                        form.Controls.Add(new ControlsP.HtmlInputHiddenP("id", values[0]));
+                    }
+
+                    controls.Add(new ControlsP.TextBoxP("field", "typ_lok", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 6, 1, globalEnabled));
+                    break;
+                case EnumP.Table.TypesOfKitchen:
+                    this.Title = "Rodzaj kuchni";
+                    numberOfFields = 2;
+                    heading += " rodzaju kuchni";
+                    columnSwitching = new List<int>() { 0 };
+                    labels = new string[]
+                    {
+                        "Kod: ",
+                        "Rodzaj kuchni: "
+                    };
+
+                    if (values == null)
+                    {
+                        if (action != EnumP.Action.Dodaj)
+                            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                                values = db.typesOfKitchen.FirstOrDefault(t => t.kod_kuch == id).AllFields();
+                        else
+                            values = new string[numberOfFields];
+                    }
+
+                    if (idEnabled)
+                        controls.Add(new ControlsP.TextBoxP("field", "id", values[0], ControlsP.TextBoxP.TextBoxModeP.Number, 3, 1, idEnabled));
+                    else
+                    {
+                        controls.Add(new ControlsP.TextBoxP("field", "id_disabled", values[0], ControlsP.TextBoxP.TextBoxModeP.Number, 3, 1, idEnabled));
+                        form.Controls.Add(new ControlsP.HtmlInputHiddenP("id", values[0]));
+                    }
+
+                    controls.Add(new ControlsP.TextBoxP("field", "typ_kuch", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 15, 1, globalEnabled));
+                    break;
+                case EnumP.Table.TypesOfTenant:
+                    this.Title = "Rodzaj najemców";
+                    numberOfFields = 2;
+                    heading += " rodzaju najemców";
+                    columnSwitching = new List<int>() { 0 };
+                    labels = new string[]
+                    {
+                        "Kod: ",
+                        "Rodzaj najemcy: "
+                    };
+
+                    if (values == null)
+                    {
+                        if (action != EnumP.Action.Dodaj)
+                            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                                values = db.typesOfTenant.FirstOrDefault(t => t.kod_najem == id).AllFields();
+                        else
+                            values = new string[numberOfFields];
+                    }
+
+                    if (idEnabled)
+                        controls.Add(new ControlsP.TextBoxP("field", "id", values[0], ControlsP.TextBoxP.TextBoxModeP.Number, 3, 1, idEnabled));
+                    else
+                    {
+                        controls.Add(new ControlsP.TextBoxP("field", "id_disabled", values[0], ControlsP.TextBoxP.TextBoxModeP.Number, 3, 1, idEnabled));
+                        form.Controls.Add(new ControlsP.HtmlInputHiddenP("id", values[0]));
+                    }
+
+                    controls.Add(new ControlsP.TextBoxP("field", "r_najemcy", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 15, 1, globalEnabled));
                     break;
             }
 

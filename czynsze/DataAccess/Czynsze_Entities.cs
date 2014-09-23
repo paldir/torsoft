@@ -12,6 +12,7 @@ namespace czynsze.DataAccess
         public Czynsze_Entities() : base(nameOrConnectionString: "czynsze_connectionString") { }
         public DbSet<Building> buildings { get; set; }
         public DbSet<Place> places { get; set; }
+        public DbSet<InactivePlace> inactivePlaces { get; set; }
         public DbSet<TypeOfPlace> typesOfPlace { get; set; }
         public DbSet<TypeOfKitchen> typesOfKitchen { get; set; }
         public DbSet<Tenant> tenants { get; set; }

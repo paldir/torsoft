@@ -11,19 +11,79 @@ namespace czynsze.DataAccess
     [Table("typ_naje", Schema="public")]
     public class TypeOfTenant
     {
-        [Key, Column("kod_najem")]
+        [Key, Column("kod_najem"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int kod_najem { get; set; }
 
         [Column("r_najemcy")]
         public string r_najemcy { get; set; }
 
-        public string[] ImportantFields()
+        public string[] ImportantFieldsForDropDown()
         {
             return new string[] 
             { 
                 kod_najem.ToString(), 
                 r_najemcy 
             };
+        }
+
+        public string[] ImportantFields()
+        {
+            return new string[] 
+            { 
+                kod_najem.ToString(),
+                kod_najem.ToString(), 
+                r_najemcy 
+            };
+        }
+
+        public string[] AllFields()
+        {
+            return new string[] 
+            { 
+                kod_najem.ToString(), 
+                r_najemcy.Trim() 
+            };
+        }
+
+        public void Set(string[] record)
+        {
+            kod_najem = Convert.ToInt16(record[0]);
+            r_najemcy = record[1];
+        }
+
+        public static string Validate(EnumP.Action action, string[] record)
+        {
+            string result = String.Empty;
+            int kod_najem;
+
+            if (action == EnumP.Action.Dodaj)
+            {
+                if (record[0].Length > 0)
+                {
+                    try
+                    {
+                        kod_najem = Convert.ToInt16(record[0]);
+
+                        using (Czynsze_Entities db = new Czynsze_Entities())
+                            if (db.typesOfTenant.Count(t => t.kod_najem == kod_najem) != 0)
+                                result += "Istnieje już rodzaj najemców o podanym kodzie! <br />";
+                    }
+                    catch { result += "Kod rodzaju najemców musi być liczbą całkowitą! <br />"; }
+                }
+                else
+                    result += "Należy podać kod rodzaju najemców! <br />";
+            }
+
+            if (action == EnumP.Action.Usuń)
+            {
+                kod_najem = Convert.ToInt16(record[0]);
+
+                using (Czynsze_Entities db = new Czynsze_Entities())
+                    if (db.tenants.Count(t => t.kod_najem == kod_najem) > 0)
+                        result += "Nie można usunąć rodzaju najemców, jeśli jest on używany! <br />";
+            }
+
+            return result;
         }
     }
 }

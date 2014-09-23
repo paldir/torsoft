@@ -84,12 +84,24 @@ namespace czynsze.Forms
                             rows = db.buildings.OrderBy(b => b.kod_1).ToList().Select(b => b.ImportantFields()).ToList();
                     break;
                 case EnumP.Table.Places:
+                case EnumP.Table.InactivePlaces:
                     heading = "Lokale";
                     headers = new string[] { "Kod budynku", "Numer lokalu", "Typ lokalu", "Powierzchnia użytkowa", "Nazwisko", "Imię" };
 
-                    if (!IsPostBack)
-                        using (db = new DataAccess.Czynsze_Entities())
-                            rows = db.places.OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok).ToList().Select(p => p.ImportantFields()).ToList();
+                    if (table == EnumP.Table.Places)
+                    {
+                        if (!IsPostBack)
+                            using (db = new DataAccess.Czynsze_Entities())
+                                rows = db.places.OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok).ToList().Select(p => p.ImportantFields()).ToList();
+                    }
+                    else
+                    {
+                        heading += " (nieaktywne)";
+
+                        if (!IsPostBack)
+                            using (db = new DataAccess.Czynsze_Entities())
+                                rows = db.inactivePlaces.OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok).ToList().Select(p => p.ImportantFields()).ToList();
+                    }
                     break;
                 case EnumP.Table.Tenants:
                     heading = "Najemcy";
@@ -100,12 +112,36 @@ namespace czynsze.Forms
                             rows = db.tenants.OrderBy(t => t.nazwisko).ThenBy(t => t.imie).ToList().Select(t => t.ImportantFields()).ToList();
                     break;
                 case EnumP.Table.RentComponents:
-                    heading = "Składniki czynszu";
+                    heading = "Składniki opłat";
                     headers = new string[] { "Numer", "Nazwa", "Sposób naliczania", "Typ", "Stawka zł" };
 
                     if (!IsPostBack)
                         using (db = new DataAccess.Czynsze_Entities())
                             rows = db.rentComponents.OrderBy(c => c.nr_skl).ToList().Select(c => c.ImportantFields()).ToList();
+                    break;
+                case EnumP.Table.TypesOfPlace:
+                    heading = "Typy lokali";
+                    headers = new string[] { "Kod", "Typ lokalu" };
+
+                    if (!IsPostBack)
+                        using (db = new DataAccess.Czynsze_Entities())
+                            rows = db.typesOfPlace.OrderBy(t => t.kod_typ).ToList().Select(t => t.ImportantFields()).ToList();
+                    break;
+                case EnumP.Table.TypesOfKitchen:
+                    heading = "Rodzaje kuchni";
+                    headers = new string[] { "Kod", "Rodzaj kuchni" };
+
+                    if (!IsPostBack)
+                        using (db = new DataAccess.Czynsze_Entities())
+                            rows = db.typesOfKitchen.OrderBy(t => t.kod_kuch).ToList().Select(t => t.ImportantFields()).ToList();
+                    break;
+                case EnumP.Table.TypesOfTenant:
+                    heading = "Rodzaje najemców";
+                    headers = new string[] { "Kod", "Rodzaj najemcy" };
+
+                    if (!IsPostBack)
+                        using (db = new DataAccess.Czynsze_Entities())
+                            rows = db.typesOfTenant.OrderBy(t => t.kod_najem).ToList().Select(t => t.ImportantFields()).ToList();
                     break;
             }
 
