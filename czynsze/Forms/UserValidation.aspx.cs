@@ -50,7 +50,7 @@ namespace czynsze.Forms
             if (validated)
             {
                 Session["user"] = user;
-                Response.Redirect("List.aspx?table=" + EnumP.Table.Buildings.ToString());
+                Response.Redirect("Hello.aspx");
             }
             else
                 Response.Redirect("../Login.aspx");

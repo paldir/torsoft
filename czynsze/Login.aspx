@@ -10,7 +10,8 @@
 <body>
     <form id="login" method="post" action="/czynsze1/UserValidation.cxp">
         <div id="placeOfLogin">
-            <span id="companyName" style="position: absolute; left: -3px; top: -20px;" runat="server"></span>
+            <span style="position: absolute; left: -3px; top: -20px;" runat="server">System CZYNSZE</span>
+            <span id="companyName" style="position: absolute; right: -3px; top: -20px;" runat="server"></span>
             <table>
                 <tr>
                     <td style="text-align: right">Użytkownik: </td>

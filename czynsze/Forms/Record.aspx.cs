@@ -109,7 +109,7 @@ namespace czynsze.Forms
                     break;
                 case EnumP.Table.Places:
                 case EnumP.Table.InactivePlaces:
-                    
+
                     this.Title = "Lokal";
                     numberOfFields = 22;
                     heading += " lokalu";
@@ -271,7 +271,7 @@ namespace czynsze.Forms
                     controls.Add(new ControlsP.TextBoxP("field", "il_osob", values[19], ControlsP.TextBoxP.TextBoxModeP.Number, 3, 1, globalEnabled));
 
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                        controls.Add(new ControlsP.DropDownListP("field", "kod_praw", db.titles.ToList().Select(t => t.ImportantFields()).ToList(), values[20], globalEnabled));
+                        controls.Add(new ControlsP.DropDownListP("field", "kod_praw", db.titles.ToList().Select(t => t.ImportantFieldsForDropDown()).ToList(), values[20], globalEnabled));
 
                     controls.Add(new ControlsP.TextBoxP("field", "uwagi", values[21], ControlsP.TextBoxP.TextBoxModeP.MultiLine, 240, 4, globalEnabled));
 
@@ -427,6 +427,56 @@ namespace czynsze.Forms
 
                     controls.Add(interval);
                     break;
+                case EnumP.Table.Communities:
+                    this.Title = "Wspólnota";
+                    numberOfFields = 12;
+                    heading += " wspólnoty";
+                    columnSwitching = new List<int>() { 0, 7 };
+                    labels = new string[]
+                    {
+                        "Kod wspólnoty: ",
+                        "Ilość budynków: ",
+                        "Ilość lokali: ",
+                        "Nazwa pełna wspólnoty: ",
+                        "Nazwa skrócona: ",
+                        "Adres wspólnoty: ",
+                        "Adres cd.: ",
+                        "Nr konta 1: ",
+                        "Nr konta 2: ",
+                        "Nr konta 3: ",
+                        "Ścieżka do F-K: ",
+                        "Uwagi: "
+                    };
+
+                    if (values == null)
+                    {
+                        if (action != EnumP.Action.Dodaj)
+                            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                                values = db.communities.FirstOrDefault(c => c.kod == id).AllFields();
+                        else
+                            values = new string[numberOfFields];
+                    }
+
+                    if (idEnabled)
+                        controls.Add(new ControlsP.TextBoxP("field", "id", values[0], ControlsP.TextBoxP.TextBoxModeP.Number, 5, 1, idEnabled));
+                    else
+                    {
+                        controls.Add(new ControlsP.TextBoxP("field", "id_disabled", values[0], ControlsP.TextBoxP.TextBoxModeP.Number, 5, 1, idEnabled));
+                        form.Controls.Add(new ControlsP.HtmlInputHiddenP("id", values[0]));
+                    }
+
+                    controls.Add(new ControlsP.TextBoxP("field", "il_bud", values[1], ControlsP.TextBoxP.TextBoxModeP.Number, 3, 1, globalEnabled));
+                    controls.Add(new ControlsP.TextBoxP("field", "il_miesz", values[2], ControlsP.TextBoxP.TextBoxModeP.Number, 4, 1, globalEnabled));
+                    controls.Add(new ControlsP.TextBoxP("field", "nazwa_pel", values[3], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 50, 1, globalEnabled));
+                    controls.Add(new ControlsP.TextBoxP("field", "nazwa_skr", values[4], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 30, 1, globalEnabled));
+                    controls.Add(new ControlsP.TextBoxP("field", "adres", values[5], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 30, 1, globalEnabled));
+                    controls.Add(new ControlsP.TextBoxP("field", "adres_2", values[6], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 30, 1, globalEnabled));
+                    controls.Add(new ControlsP.TextBoxP("field", "nr1_konta", values[7], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 32, 1, globalEnabled));
+                    controls.Add(new ControlsP.TextBoxP("field", "nr2_konta", values[8], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 32, 1, globalEnabled));
+                    controls.Add(new ControlsP.TextBoxP("field", "nr3_konta", values[9], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 32, 1, globalEnabled));
+                    controls.Add(new ControlsP.TextBoxP("field", "sciezka_fk", values[10], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 30, 1, globalEnabled));
+                    controls.Add(new ControlsP.TextBoxP("field", "uwagi", values[11], ControlsP.TextBoxP.TextBoxModeP.MultiLine, 420, 6, globalEnabled));
+                    break;
                 case EnumP.Table.TypesOfPlace:
                     this.Title = "Typ lokali";
                     numberOfFields = 2;
@@ -516,6 +566,127 @@ namespace czynsze.Forms
                     }
 
                     controls.Add(new ControlsP.TextBoxP("field", "r_najemcy", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 15, 1, globalEnabled));
+                    break;
+                case EnumP.Table.Titles:
+                    this.Title = "Tytuł prawny do lokali";
+                    numberOfFields = 2;
+                    heading += " tytułu prawnego do lokali";
+                    columnSwitching = new List<int>() { 0 };
+                    labels = new string[]
+                    {
+                        "Kod: ",
+                        "Tytuł prawny: "
+                    };
+
+                    if (values == null)
+                    {
+                        if (action != EnumP.Action.Dodaj)
+                            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                                values = db.titles.FirstOrDefault(t => t.kod_praw == id).AllFields();
+                        else
+                            values = new string[numberOfFields];
+                    }
+
+                    if (idEnabled)
+                        controls.Add(new ControlsP.TextBoxP("field", "id", values[0], ControlsP.TextBoxP.TextBoxModeP.Number, 3, 1, idEnabled));
+                    else
+                    {
+                        controls.Add(new ControlsP.TextBoxP("field", "id_disabled", values[0], ControlsP.TextBoxP.TextBoxModeP.Number, 3, 1, idEnabled));
+                        form.Controls.Add(new ControlsP.HtmlInputHiddenP("id", values[0]));
+                    }
+
+                    controls.Add(new ControlsP.TextBoxP("field", "tyt_prawny", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 15, 1, globalEnabled));
+                    break;
+                case EnumP.Table.TypesOfPayment:
+                    this.Title = "Rodzaj wpłaty lub wypłaty";
+                    numberOfFields = 8;
+                    heading += " rodzaju wpłaty lub wypłaty";
+                    columnSwitching = new List<int>() { 0, 4 };
+                    labels = new string[]
+                    {
+                        "Kod: ",
+                        "Rodzaj wpłaty lub wypłaty: ",
+                        "Rodzaj ewidencji: ",
+                        "Sposób rozliczenia: ",
+                        "Czy naliczać odsetki? ",
+                        "Czy liczyć odsetki na nocie? ",
+                        "VAT: ",
+                        "SWW: "
+                    };
+
+                    if (values == null)
+                    {
+                        if (action != EnumP.Action.Dodaj)
+                            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                                values = db.typesOfPayment.FirstOrDefault(t => t.kod_wplat == id).AllFields();
+                        else
+                            values = new string[numberOfFields];
+                    }
+
+                    if (idEnabled)
+                        controls.Add(new ControlsP.TextBoxP("field", "id", values[0], ControlsP.TextBoxP.TextBoxModeP.Number, 3, 1, globalEnabled));
+                    else
+                    {
+                        controls.Add(new ControlsP.TextBoxP("field", "id_disabled", values[0], ControlsP.TextBoxP.TextBoxModeP.Number, 3, 1, globalEnabled));
+                        form.Controls.Add(new ControlsP.HtmlInputHiddenP("id", values[0]));
+                    }
+
+                    controls.Add(new ControlsP.TextBoxP("field", "typ_wplat", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 15, 1, globalEnabled));
+
+                    controls.Add(new ControlsP.DropDownListP("field", "rodz_e", new List<string[]>()
+                    {
+                        new string[] {"1", "dziennik komornego"},
+                        new string[] {"2", "wpłaty"},
+                        new string[] {"3", "zmniejszenia"},
+                        new string[] {"4", "zwiększenia"}
+                    }, values[2], globalEnabled));
+
+                    controls.Add(new ControlsP.DropDownListP("field", "s_rozli", new List<string[]>()
+                    {
+                        new string[] {"1", "Zmniejszenie"},
+                        new string[] {"2", "Zwiększenie"},
+                        new string[] {"3", "Zwrot"}
+                    }, values[3], globalEnabled));
+
+                    controls.Add(new ControlsP.RadioButtonListP("field", "tn_odset", new List<string>() { "Nie", "Tak" }, new List<string>() { "0", "1" }, values[4], globalEnabled));
+                    controls.Add(new ControlsP.RadioButtonListP("field", "nota_odset", new List<string>() { "Nie", "Tak" }, new List<string>() { "0", "1" }, values[5], globalEnabled));
+
+                    using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                        controls.Add(new ControlsP.DropDownListP("field", "vat", db.vatRates.ToList().Select(r => r.ImportantFieldsForDropDown()).ToList(), values[6], globalEnabled));
+
+                    controls.Add(new ControlsP.TextBoxP("field", "sww", values[7], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 10, 1, globalEnabled));
+                    break;
+                case EnumP.Table.VatRates:
+                    this.Title = "Stawka VAT";
+                    numberOfFields = 3;
+                    heading += " stawki VAT";
+                    columnSwitching = new List<int>() { 0 };
+                    labels = new string[]
+                    {
+                        "Oznaczenie stawki: ",
+                        "Symbol fiskalny: "
+                    };
+
+                    if (values == null)
+                    {
+                        if (action != EnumP.Action.Dodaj)
+                            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                                values = db.vatRates.FirstOrDefault(r => r.__record == id).AllFields();
+                        else
+                            values = new string[numberOfFields];
+                    }
+
+                    form.Controls.Add(new ControlsP.HtmlInputHiddenP("id", values[0]));
+
+                    if (idEnabled)
+                        controls.Add(new ControlsP.TextBoxP("field", "nazwa", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 2, 1, idEnabled));
+                    else
+                    {
+                        controls.Add(new ControlsP.TextBoxP("field", "nazwa_disabled", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 2, 1, idEnabled));
+                        form.Controls.Add(new ControlsP.HtmlInputHiddenP("nazwa", values[1]));
+                    }
+
+                    controls.Add(new ControlsP.TextBoxP("field", "symb_fisk", values[2], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 2, 1, globalEnabled));
                     break;
             }
 

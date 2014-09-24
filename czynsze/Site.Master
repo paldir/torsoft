@@ -29,8 +29,15 @@
                     <li class="mainSubMenuItem">
                         <a href="List.aspx?table=Tenants">Najemcy</a>
                     </li>
-                    <li class="mainSubMenuItem"><a href="List.aspx?table=Buildings">Budynki</a></li>
-                    <li class="mainSubMenuItem"><a href="List.aspx?table=RentComponents">Składniki opłat</a></li>
+                    <li class="mainSubMenuItem">
+                        <a href="List.aspx?table=Buildings">Budynki</a>
+                    </li>
+                    <li class="mainSubMenuItem">
+                        <a href="List.aspx?table=Communities">Wspólnoty</a>
+                    </li>
+                    <li class="mainSubMenuItem">
+                        <a href="List.aspx?table=RentComponents">Składniki opłat</a>
+                    </li>
                 </ul>
             </li>
             <li class="mainSuperMenuItem">Rozliczenia finansowe
@@ -51,10 +58,24 @@
             </li>
             <li class="mainSuperMenuItem">Słowniki
                 <ul class="mainSubMenu">
-                    <li class="mainSubMenuItem"><a href="List.aspx?table=TypesOfPlace">Typy lokali</a></li>
-                    <li class="mainSubMenuItem"><a href="List.aspx?table=TypesOfKitchen">Rodzaje kuchni</a></li>
-                    <li class="mainSubMenuItem"><a href="List.aspx?table=TypesOfTenant">Rodzaje najemców</a></li>
-                    <!--<li class="mainSubMenuItem"><a href="#">Tytuły prawne do lokalu</a></li>-->
+                    <li class="mainSubMenuItem">
+                        <a href="List.aspx?table=TypesOfPlace">Typy lokali</a>
+                    </li>
+                    <li class="mainSubMenuItem">
+                        <a href="List.aspx?table=TypesOfKitchen">Rodzaje kuchni</a>
+                    </li>
+                    <li class="mainSubMenuItem">
+                        <a href="List.aspx?table=TypesOfTenant">Rodzaje najemców</a>
+                    </li>
+                    <li class="mainSubMenuItem">
+                        <a href="List.aspx?table=Titles">Tytuły prawne do lokali</a>
+                    </li>
+                    <li class="mainSubMenuItem">
+                        <a href="List.aspx?table=TypesOfPayment">Rodzaje wpłat i wypłat</a>
+                    </li>
+                    <li class="mainSubMenuItem">
+                        <a href="List.aspx?table=VatRates">Stawki VAT</a>
+                    </li>
                 </ul>
             </li>
             <li class="mainSuperMenuItem">Analizy
@@ -85,8 +106,5 @@
         <asp:ContentPlaceHolder ID="ContentPlaceHolder" runat="server">
         </asp:ContentPlaceHolder>
     </div>
-    <script>
-        MainInit();
-    </script>
 </body>
 </html>

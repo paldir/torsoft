@@ -350,8 +350,8 @@ input, select, textarea {
 }
 /*#endregion*/
 
-/*#region login*/
-#placeOfLogin {
+/*#region login, powitanie*/
+#placeOfLogin, .helloScreen {
     width: 540px;
     position: absolute;
     left: 50%;
@@ -371,6 +371,20 @@ input, select, textarea {
     border-right-color: mediumblue;
     background-color: aliceblue;
     padding: 5px;
+}
+
+.helloScreen {
+    background-color: aliceblue;
+}
+
+.helloScreen div {
+    text-align: center;
+    font-size: medium;
+}
+
+.helloScreen span {
+    color: steelblue;
+    font-weight: bold;
 }
 /*#endregion*/
 

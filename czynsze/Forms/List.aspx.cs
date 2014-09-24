@@ -119,6 +119,14 @@ namespace czynsze.Forms
                         using (db = new DataAccess.Czynsze_Entities())
                             rows = db.rentComponents.OrderBy(c => c.nr_skl).ToList().Select(c => c.ImportantFields()).ToList();
                     break;
+                case EnumP.Table.Communities:
+                    heading = "Wspólnoty";
+                    headers = new string[] { "Kod", "Nazwa wspólnoty", "Il. bud.", "Il. miesz." };
+
+                    if (!IsPostBack)
+                        using (db = new DataAccess.Czynsze_Entities())
+                            rows = db.communities.OrderBy(c => c.kod).ToList().Select(c => c.ImportantFields()).ToList();
+                    break;
                 case EnumP.Table.TypesOfPlace:
                     heading = "Typy lokali";
                     headers = new string[] { "Kod", "Typ lokalu" };
@@ -142,6 +150,30 @@ namespace czynsze.Forms
                     if (!IsPostBack)
                         using (db = new DataAccess.Czynsze_Entities())
                             rows = db.typesOfTenant.OrderBy(t => t.kod_najem).ToList().Select(t => t.ImportantFields()).ToList();
+                    break;
+                case EnumP.Table.Titles:
+                    heading = "Tytuły prawne do lokali";
+                    headers = new string[] { "Kod", "Tytuł prawny" };
+
+                    if (!IsPostBack)
+                        using (db = new DataAccess.Czynsze_Entities())
+                            rows = db.titles.OrderBy(t => t.kod_praw).ToList().Select(t => t.ImportantFields()).ToList();
+                    break;
+                case EnumP.Table.TypesOfPayment:
+                    heading = "Rodzaje wpłat i wypłat";
+                    headers = new string[] { "Kod", "Rodzaj wpłaty lub wypłaty", "Sposób rozliczania", "Odsetki", "NO" };
+
+                    if (!IsPostBack)
+                        using (db = new DataAccess.Czynsze_Entities())
+                            rows = db.typesOfPayment.OrderBy(t => t.kod_wplat).ToList().Select(t => t.ImportantFields()).ToList();
+                    break;
+                case EnumP.Table.VatRates:
+                    heading = "Stawki VAT";
+                    headers = new string[] { "Oznaczenie stawki", "Symbol fiskalny" };
+
+                    if (!IsPostBack)
+                        using (db = new DataAccess.Czynsze_Entities())
+                            rows = db.vatRates.OrderBy(r => r.symb_fisk).ToList().Select(r => r.ImportantFields()).ToList();
                     break;
             }
 

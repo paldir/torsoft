@@ -370,6 +370,71 @@ namespace czynsze.Forms
                         }
                     }
                     break;
+                case EnumP.Table.Communities:
+                    this.Title = "Edycja wspólnoty";
+                    DataAccess.Community community;
+
+                    record = new string[]
+                    {
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("id"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("il_bud"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("il_miesz"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("nazwa_pel"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("nazwa_skr"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("adres"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("adres_2"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("nr1_konta"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("nr2_konta"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("nr3_konta"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("sciezka_fk"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("uwagi"))]
+                    };
+
+                    validationResult = DataAccess.Community.Validate(action, record);
+
+                    if (validationResult == String.Empty)
+                        using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                            switch (action)
+                            {
+                                case EnumP.Action.Dodaj:
+                                    try
+                                    {
+                                        community = new DataAccess.Community();
+
+                                        community.Set(record);
+                                        db.communities.Add(community);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Wspólnota dodana.";
+                                    }
+                                    catch { dbWriteResult = "Nie można dodać wspólnoty!"; }
+                                    break;
+                                case EnumP.Action.Edytuj:
+                                    try
+                                    {
+                                        community = db.communities.FirstOrDefault(c => c.kod == id);
+
+                                        community.Set(record);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Wspólnota wyedytowana.";
+                                    }
+                                    catch { dbWriteResult = "Nie można edytować wspólnoty!"; }
+                                    break;
+                                case EnumP.Action.Usuń:
+                                    try
+                                    {
+                                        community = db.communities.FirstOrDefault(c => c.kod == id);
+
+                                        db.communities.Remove(community);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Wspólnota usunięta.";
+                                    }
+                                    catch { dbWriteResult = "Nie można usunąć wspólnoty!"; }
+                                    break;
+                            }
+                    break;
                 case EnumP.Table.TypesOfPlace:
                     this.Title = "Edycja typu lokali";
                     DataAccess.TypeOfPlace typeOfPlace;
@@ -492,8 +557,8 @@ namespace czynsze.Forms
 
                     validationResult = DataAccess.TypeOfTenant.Validate(action, record);
 
-                    if(validationResult==String.Empty)
-                        using(DataAccess.Czynsze_Entities db=new DataAccess.Czynsze_Entities())
+                    if (validationResult == String.Empty)
+                        using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                             switch (action)
                             {
                                 case EnumP.Action.Dodaj:
@@ -532,6 +597,178 @@ namespace czynsze.Forms
                                         dbWriteResult = "Rodzaj najemcy usunięty.";
                                     }
                                     catch { dbWriteResult = "Nie można usunąć rodzaju najemcy!"; }
+                                    break;
+                            }
+                    break;
+                case EnumP.Table.Titles:
+                    this.Title = "Edycja tytułu prawnego do lokali";
+                    DataAccess.Title title;
+
+                    record = new string[]
+                    {
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("id"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("tyt_prawny"))]
+                    };
+
+                    validationResult = DataAccess.Title.Validate(action, record);
+
+                    if (validationResult == String.Empty)
+                        using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                            switch (action)
+                            {
+                                case EnumP.Action.Dodaj:
+                                    try
+                                    {
+                                        title = new DataAccess.Title();
+
+                                        title.Set(record);
+                                        db.titles.Add(title);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Tytuł prawny do lokali dodany.";
+                                    }
+                                    catch { dbWriteResult = "Nie można dodać tytułu prawnego do lokali!"; }
+                                    break;
+                                case EnumP.Action.Edytuj:
+                                    try
+                                    {
+                                        title = db.titles.FirstOrDefault(t => t.kod_praw == id);
+
+                                        title.Set(record);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Tytuł prawny do lokali wyedytowany.";
+                                    }
+                                    catch { dbWriteResult = "Nie można edytować tytułu prawnego do lokali!"; }
+                                    break;
+                                case EnumP.Action.Usuń:
+                                    try
+                                    {
+                                        title = db.titles.FirstOrDefault(t => t.kod_praw == id);
+
+                                        db.titles.Remove(title);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Tytuł prawny do lokali usunięty.";
+                                    }
+                                    catch { dbWriteResult = "Nie można usunąć tytułu prawnego do lokali!"; }
+                                    break;
+                            }
+                    break;
+                case EnumP.Table.TypesOfPayment:
+                    this.Title = "Edycja rodzaju wpłaty lub wypłaty";
+                    DataAccess.TypeOfPayment typeOfPayment;
+
+                    record = new string[]
+                    {
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("id"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("typ_wplat"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("rodz_e"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("s_rozli"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("tn_odset"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("nota_odset"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("vat"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("sww"))]
+                    };
+
+                    validationResult = DataAccess.TypeOfPayment.Validate(action, record);
+
+                    if (validationResult == String.Empty)
+                        using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                            switch (action)
+                            {
+                                case EnumP.Action.Dodaj:
+                                    try
+                                    {
+                                        typeOfPayment = new DataAccess.TypeOfPayment();
+
+                                        typeOfPayment.Set(record);
+                                        db.typesOfPayment.Add(typeOfPayment);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Rodzaj wpłaty lub wypłaty dodany.";
+                                    }
+                                    catch { dbWriteResult = "Nie można dodać rodzaju wpłaty lub wypłaty!"; }
+                                    break;
+                                case EnumP.Action.Edytuj:
+                                    try
+                                    {
+                                        typeOfPayment = db.typesOfPayment.FirstOrDefault(t => t.kod_wplat == id);
+
+                                        typeOfPayment.Set(record);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Rodzaj wpłaty lub wypłaty wyedytowany.";
+                                    }
+                                    catch { dbWriteResult = "Nie można edytować rodzaju wpłaty lub wypłaty!"; }
+                                    break;
+                                case EnumP.Action.Usuń:
+                                    try
+                                    {
+                                        typeOfPayment = db.typesOfPayment.FirstOrDefault(t => t.kod_wplat == id);
+
+                                        db.typesOfPayment.Remove(typeOfPayment);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Rodzaj wpłaty lub wypłaty usunięty.";
+                                    }
+                                    catch { dbWriteResult = "Nie można usunąć rodzaju wpłaty lub wypłaty!"; }
+                                    break;
+                            }
+                    break;
+                case EnumP.Table.VatRates:
+                    this.Title = "Edycja stawki VAT";
+                    DataAccess.VatRate vatRate;
+
+                    record = new string[]
+                    {
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("id"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("nazwa"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("symb_fisk"))]
+                    };
+
+                    validationResult = DataAccess.VatRate.Validate(action, record);
+
+                    if (validationResult == String.Empty)
+                        using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                            switch (action)
+                            {
+                                case EnumP.Action.Dodaj:
+                                    try
+                                    {
+                                        vatRate = new DataAccess.VatRate();
+
+                                        vatRate.Set(record);
+                                        db.vatRates.Add(vatRate);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Stawka VAT dodana.";
+                                    }
+                                    catch { dbWriteResult = "Nie można dodać stawki VAT!"; }
+                                    break;
+                                case EnumP.Action.Edytuj:
+                                    try
+                                    {
+                                        vatRate = db.vatRates.FirstOrDefault(r => r.__record == id);
+
+                                        vatRate.Set(record);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Stawka VAT wyedytowana.";
+                                    }
+                                    catch { dbWriteResult = "Nie można edytować stawki VAT!"; }
+                                    break;
+                                case EnumP.Action.Usuń:
+                                    try
+                                    {
+                                        vatRate = db.vatRates.FirstOrDefault(r => r.__record == id);
+
+                                        db.vatRates.Remove(vatRate);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Stawka VAT usunięta.";
+                                    }
+                                    catch { dbWriteResult = "Nie można usunąć stawki VAT!"; }
                                     break;
                             }
                     break;
