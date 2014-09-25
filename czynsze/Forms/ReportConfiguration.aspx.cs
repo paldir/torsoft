@@ -39,7 +39,7 @@ namespace czynsze.Forms
                             {
                                 firstBuilding,
                                 secondBuilding,
-                                new ControlsP.CheckBoxListP("field", "kod_typ", db.typesOfPlace.Select(t=>t.typ_lok).ToList(), db.typesOfPlace.Select(t=>t.kod_typ.ToString()).ToList(), db.typesOfPlace.Select(t=>t.kod_typ.ToString()).ToList())
+                                new ControlsP.CheckBoxListP("field", "kod_typ", db.typesOfPlace.Select(t=>t.typ_lok).ToList(), db.typesOfPlace.Select(t=>t.kod_typ.ToString()).ToList(), db.typesOfPlace.Select(t=>t.kod_typ.ToString()).ToList(), true)
                             };
                     }
 

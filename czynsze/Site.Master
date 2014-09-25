@@ -76,6 +76,9 @@
                     <li class="mainSubMenuItem">
                         <a href="List.aspx?table=VatRates">Stawki VAT</a>
                     </li>
+                    <li class="mainSubMenuItem">
+                        <a href="List.aspx?table=Attributes">Cechy obiektów</a>
+                    </li>
                 </ul>
             </li>
             <li class="mainSuperMenuItem">Analizy

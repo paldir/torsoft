@@ -45,7 +45,7 @@ function ChangeRow(rowId, inactive) {
             deletingButton.disabled = false;
     }
 
-    if(browsingButton!=null)
+    if (browsingButton != null)
         browsingButton.disabled = false;
 
     var selectedRow = document.getElementsByClassName("selectedRow")[0];

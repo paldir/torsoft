@@ -31,7 +31,7 @@
         {
             case "Places":
                 %>
-                    InitPlaces();
+                    InitPlace();
                 <%
                 break;
             case "RentComponents":
@@ -39,6 +39,11 @@
                     InitRentComponent();
                 <%
                 break;
+            case "Attributes":
+                %>
+                    InitAttribute();
+                <%
+                break;                
         }
         %>
     </script>

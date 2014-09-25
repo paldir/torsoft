@@ -175,6 +175,14 @@ namespace czynsze.Forms
                         using (db = new DataAccess.Czynsze_Entities())
                             rows = db.vatRates.OrderBy(r => r.symb_fisk).ToList().Select(r => r.ImportantFields()).ToList();
                     break;
+                case EnumP.Table.Attributes:
+                    heading = "Cechy obiektów";
+                    headers = new string[] { "Kod", "Nazwa", "N/C", "L.", "N.", "B.", "Wsp." };
+
+                    if (!IsPostBack)
+                        using (db = new DataAccess.Czynsze_Entities())
+                            rows = db.attributes.OrderBy(a => a.kod).ToList().Select(a => a.ImportantFields()).ToList();
+                    break;
             }
 
             placeOfHeading.Controls.Add(new LiteralControl("<h2>" + heading + "</h2>"));

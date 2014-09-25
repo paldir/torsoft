@@ -17,7 +17,7 @@ function tabRadio_onchange(value) {
                 tabs[i].hidden = true;
 }
 
-function InitPlaces() {
+function InitPlace() {
     var kod_lok = document.getElementById("kod_lok");
     var nr_lok = document.getElementById("nr_lok");
     var adres = document.getElementById("adres");
@@ -53,7 +53,7 @@ function InitRentComponent() {
                 fields[i].disabled = true;
 
     s_zaplat.onchange = function () { s_zaplat_onchange(this.value) };
-    }
+}
 
 function s_zaplat_onchange(value) {
     var fields = document.getElementsByTagName("input");
@@ -67,4 +67,38 @@ function s_zaplat_onchange(value) {
         for (var i = 0; i < fields.length; i++)
             if (fields[i].id.indexOf('stawka_0') != -1)
                 fields[i].disabled = true;
+}
+
+function InitAttribute() {
+    var radios = document.querySelectorAll("input[type='radio']");
+
+    for (var i = 0; i < radios.length; i++) {
+        radios[i].onchange = function () { nr_str_onchange(this.value, true) };
+
+        if (radios[i].checked)
+            nr_str_onchange(radios[i].value, false);
+    }
+}
+
+function nr_str_onchange(value, radioAsSender) {
+    var jedn = document.getElementById("jedn");
+    var wartosc = document.getElementById("wartosc");
+
+    if (jedn != null && wartosc != null) {
+        switch (value) {
+            case "N":
+                if (!wartosc.disabled)
+                    jedn.disabled = false;
+
+                wartosc.maxLength = wartosc.size = 16;
+                break;
+            case "C":
+                jedn.disabled = true;
+                wartosc.maxLength = wartosc.size = 25;
+                break;
+        }
+
+        if (radioAsSender)
+            wartosc.value = "";
+    }
 }

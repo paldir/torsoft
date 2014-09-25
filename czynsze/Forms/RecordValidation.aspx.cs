@@ -772,6 +772,69 @@ namespace czynsze.Forms
                                     break;
                             }
                     break;
+                case EnumP.Table.Attributes:
+                    this.Title = "Edycja cechy obiektów";
+                    DataAccess.Attribute attribute;
+
+                    record = new string[]
+                    {
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("id"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("nazwa"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("nr_str"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("jedn"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("wartosc"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("uwagi"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("zb_0"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("zb_1"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("zb_2"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("zb_3"))],
+                    };
+
+                    validationResult = DataAccess.Attribute.Validate(action, record);
+
+                    if (validationResult == String.Empty)
+                        using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                            switch (action)
+                            {
+                                case EnumP.Action.Dodaj:
+                                    try
+                                    {
+                                        attribute = new DataAccess.Attribute();
+
+                                        attribute.Set(record);
+                                        db.attributes.Add(attribute);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Cecha obiektów dodana.";
+                                    }
+                                    catch { dbWriteResult = "Nie można dodać cechy obiektów!"; }
+                                    break;
+                                case EnumP.Action.Edytuj:
+                                    try
+                                    {
+                                        attribute = db.attributes.FirstOrDefault(a => a.kod == id);
+
+                                        attribute.Set(record);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Cecha obiektów wyedytowana.";
+                                    }
+                                    catch { dbWriteResult = "Nie można edytować cechy obiektów!"; }
+                                    break;
+                                case EnumP.Action.Usuń:
+                                    try
+                                    {
+                                        attribute = db.attributes.FirstOrDefault(a => a.kod == id);
+
+                                        db.attributes.Remove(attribute);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Cecha obiektów usunięta.";
+                                    }
+                                    catch { dbWriteResult = "Nie można usunąć cechy obiektów!"; }
+                                    break;
+                            }
+                    break;
             }
 
             form.Controls.Add(new LiteralControl(validationResult));

@@ -111,6 +111,7 @@ input, select, textarea {
     top: 29px;
     left: 0px;
     border: 2px solid gray;
+    font-size: small;
 }
 
 .mainSubMenuItem, .mainSubSubMenuItem {

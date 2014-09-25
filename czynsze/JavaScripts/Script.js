@@ -4,8 +4,10 @@
 
 function body_onclick(evt) {
     HideMenu();
+    
+    var srcElement;
 
-    srcElement = evt.srcElement;
+    srcElement = evt.target;
 
     if (srcElement.className.indexOf("mainSuperMenuItem") != -1)
         ShowMenu(srcElement.children[0]);

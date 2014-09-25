@@ -83,6 +83,23 @@ namespace czynsze.Forms
                         "Uwagi: " 
                     };
 
+                    tabButtons = new List<ControlsP.HtmlInputRadioButtonP>()
+                    {
+                        new ControlsP.HtmlInputRadioButtonP("tabRadio", "dane", "tabRadios", "dane", true),
+                        new ControlsP.HtmlInputRadioButtonP("tabRadio", "cechy", "tabRadios", "cechy", false),
+                    };
+
+                    labelsOfTabButtons = new List<ControlsP.LabelP>()
+                    {
+                        new ControlsP.LabelP("tabLabel", tabButtons.ElementAt(0).ID, "Dane", String.Empty),
+                        new ControlsP.LabelP("tabLabel", tabButtons.ElementAt(1).ID, "Cechy", String.Empty),
+                    };
+
+                    tabs = new List<ControlsP.HtmlIframeP>()
+                    {
+                        new ControlsP.HtmlIframeP("tab", "cechy_tab", "AttributeOfObject.aspx?attributeOf="+EnumP.AttributeOf.Building.ToString()+"&id="+id.ToString(), "hidden")
+                    };
+
                     if (values == null)
                     {
                         if (action != EnumP.Action.Dodaj)
@@ -687,6 +704,65 @@ namespace czynsze.Forms
                     }
 
                     controls.Add(new ControlsP.TextBoxP("field", "symb_fisk", values[2], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 2, 1, globalEnabled));
+                    break;
+                case EnumP.Table.Attributes:
+                    this.Title = "Cecha obiektów";
+                    numberOfFields = 10;
+                    heading += " cechy obiektów";
+                    columnSwitching = new List<int>() { 0 };
+                    labels = new string[]
+                    {
+                        "Kod: ",
+                        "Nazwa: ",
+                        "Numeryczna/charakter: ",
+                        "Jednostka miary: ",
+                        "Wartość domyślna: ",
+                        "Uwagi: ",
+                        "Dotyczy: "
+                    };
+
+                    if (values == null)
+                    {
+                        if (action != EnumP.Action.Dodaj)
+                            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                                values = db.attributes.FirstOrDefault(a => a.kod == id).AllFields();
+                        else
+                        {
+                            values = new string[numberOfFields];
+                            values[2] = "N";
+                            values[6] = values[7] = values[8] = values[9] = "X";
+                        }
+                    }
+
+                    if (idEnabled)
+                        controls.Add(new ControlsP.TextBoxP("field", "id", values[0], ControlsP.TextBoxP.TextBoxModeP.Number, 3, 1, idEnabled));
+                    else
+                    {
+                        controls.Add(new ControlsP.TextBoxP("field", "id_disabled", values[0], ControlsP.TextBoxP.TextBoxModeP.Number, 3, 1, idEnabled));
+                        form.Controls.Add(new ControlsP.HtmlInputHiddenP("id", values[0]));
+                    }
+
+                    controls.Add(new ControlsP.TextBoxP("field", "nazwa", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 20, 1, globalEnabled));
+                    controls.Add(new ControlsP.RadioButtonListP("field", "nr_str", new List<string>() { "numeryczna", "charakter" }, new List<string>() { "N", "C" }, values[2], globalEnabled));
+                    controls.Add(new ControlsP.TextBoxP("field", "jedn", values[3], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 6, 1, globalEnabled));
+                    controls.Add(new ControlsP.TextBoxP("field", "wartosc", values[4], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 25, 1, globalEnabled));
+                    controls.Add(new ControlsP.TextBoxP("field", "uwagi", values[5], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 30, 1, globalEnabled));
+
+                    List<string> selectedValues = new List<string>();
+
+                    if (values[6] == "X")
+                        selectedValues.Add("l");
+
+                    if (values[7] == "X")
+                        selectedValues.Add("n");
+
+                    if (values[8] == "X")
+                        selectedValues.Add("b");
+
+                    if (values[9] == "X")
+                        selectedValues.Add("s");
+
+                    controls.Add(new ControlsP.CheckBoxListP("field", "zb", new List<string>() { "lokale", "najemcy", "budynki", "wspólnoty" }, new List<string>() { "l", "n", "b", "s" }, selectedValues, globalEnabled));
                     break;
             }
 

@@ -9,10 +9,11 @@ namespace czynsze.ControlsP
 {
     public class CheckBoxListP : CheckBoxList
     {
-        public CheckBoxListP(string cSSClass, string id, List<string> texts, List<string> values, List<string> selectedValues)
+        public CheckBoxListP(string cSSClass, string id, List<string> texts, List<string> values, List<string> selectedValues, bool enabled)
         {
             this.CssClass = cSSClass;
             this.ID = id;
+            this.Enabled = enabled;
 
             for (int i = 0; i < values.Count; i++)
                 this.Items.Add(new ListItem(texts[i], values[i]));
