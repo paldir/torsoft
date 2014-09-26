@@ -142,10 +142,14 @@
     <Compile Include="ControlsP\TextBoxP.cs" />
     <Compile Include="DataAccess\Attribute.cs" />
     <Compile Include="DataAccess\AttributeOfBuilding.cs" />
+    <Compile Include="DataAccess\AttributeOfCommunity.cs" />
+    <Compile Include="DataAccess\AttributeOfPlace.cs" />
+    <Compile Include="DataAccess\AttributeOfTenant.cs" />
     <Compile Include="DataAccess\Building.cs" />
     <Compile Include="DataAccess\Community.cs" />
     <Compile Include="DataAccess\Configuration.cs" />
     <Compile Include="DataAccess\Czynsze_Entities.cs" />
+    <Compile Include="DataAccess\AttributeOfObject.cs" />
     <Compile Include="DataAccess\InactivePlace.cs" />
     <Compile Include="DataAccess\Place.cs" />
     <Compile Include="DataAccess\RentComponent.cs" />

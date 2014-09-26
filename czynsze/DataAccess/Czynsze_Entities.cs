@@ -26,7 +26,10 @@ namespace czynsze.DataAccess
         public DbSet<TypeOfPayment> typesOfPayment { get; set; }
         public DbSet<VatRate> vatRates { get; set; }
         public DbSet<Attribute> attributes { get; set; }
+        public DbSet<AttributeOfPlace> attributesOfPlaces { get; set; }
+        public DbSet<AttributeOfTenant> attributesOfTenants { get; set; }
         public DbSet<AttributeOfBuilding> attributesOfBuildings { get; set; }
+        public DbSet<AttributeOfCommunity> attributesOfCommunities { get; set; }
 
         public static string ValidateInt(string name, ref string integer)
         {

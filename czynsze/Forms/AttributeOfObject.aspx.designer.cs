@@ -22,6 +22,15 @@ namespace czynsze.Forms {
         protected global::System.Web.UI.HtmlControls.HtmlForm form;
         
         /// <summary>
+        /// placeOfDeletingButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl placeOfDeletingButton;
+        
+        /// <summary>
         /// placeOfTable control.
         /// </summary>
         /// <remarks>
@@ -31,21 +40,12 @@ namespace czynsze.Forms {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl placeOfTable;
         
         /// <summary>
-        /// placeOfDropDown control.
+        /// placeOfNewAttribute control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl placeOfDropDown;
-        
-        /// <summary>
-        /// placeOfValue control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl placeOfValue;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl placeOfNewAttribute;
     }
 }

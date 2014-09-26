@@ -13,6 +13,12 @@ namespace czynsze.Forms
         EnumP.Action action;
         EnumP.Table table;
 
+        List<DataAccess.AttributeOfObject> attributesOfObject
+        {
+            get { return (List<DataAccess.AttributeOfObject>)Session["attributesOfObject"]; }
+            set { Session["attributesOfObject"] = value; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             bool globalEnabled = false;
@@ -97,7 +103,7 @@ namespace czynsze.Forms
 
                     tabs = new List<ControlsP.HtmlIframeP>()
                     {
-                        new ControlsP.HtmlIframeP("tab", "cechy_tab", "AttributeOfObject.aspx?attributeOf="+EnumP.AttributeOf.Building.ToString()+"&id="+id.ToString(), "hidden")
+                        new ControlsP.HtmlIframeP("tab", "cechy_tab", "AttributeOfObject.aspx?attributeOf="+EnumP.AttributeOf.Building.ToString()+"&parentId="+id.ToString()+"&action="+action.ToString()+"&childAction=Przeglądaj", "hidden")
                     };
 
                     if (values == null)
@@ -107,6 +113,12 @@ namespace czynsze.Forms
                                 values = db.buildings.FirstOrDefault(b => b.kod_1 == id).AllFields();
                         else
                             values = new string[numberOfFields];
+
+                        attributesOfObject = new List<DataAccess.AttributeOfObject>();
+                        
+                        using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                            foreach (DataAccess.AttributeOfBuilding attributeOfBuilding in db.attributesOfBuildings.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == id))
+                                attributesOfObject.Add(attributeOfBuilding);
                     }
 
                     if (idEnabled)
@@ -183,12 +195,19 @@ namespace czynsze.Forms
 
                             values[1] = values[2] = "0";
                         }
+
+                        attributesOfObject = new List<DataAccess.AttributeOfObject>();
+
+                        using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                            foreach (DataAccess.AttributeOfPlace attributeOfPlace in db.attributesOfPlaces.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == id))
+                                attributesOfObject.Add(attributeOfPlace);
                     }
 
                     tabButtons = new List<ControlsP.HtmlInputRadioButtonP>()
                     {
                         new ControlsP.HtmlInputRadioButtonP("tabRadio", "dane", "tabRadios", "dane", true),
                         new ControlsP.HtmlInputRadioButtonP("tabRadio", "skladnikiCzynszu", "tabRadios", "skladnikiCzynszu", false),
+                        new ControlsP.HtmlInputRadioButtonP("tabRadio", "cechy", "tabRadios", "cechy", false),
                         new ControlsP.HtmlInputRadioButtonP("tabRadio", "dokumenty", "tabRadios", "dokumenty", false)
                     };
 
@@ -196,7 +215,8 @@ namespace czynsze.Forms
                     {
                         new ControlsP.LabelP("tabLabel", tabButtons.ElementAt(0).ID, "Dane", String.Empty),
                         new ControlsP.LabelP("tabLabel", tabButtons.ElementAt(1).ID, "Składniki czynszu", String.Empty),
-                        new ControlsP.LabelP("tabLabel", tabButtons.ElementAt(2).ID, "Dokumenty", String.Empty)
+                        new ControlsP.LabelP("tabLabel", tabButtons.ElementAt(2).ID, "Cechy", String.Empty),
+                        new ControlsP.LabelP("tabLabel", tabButtons.ElementAt(3).ID, "Dokumenty", String.Empty)
                     };
 
                     preview = new List<Control>()
@@ -238,6 +258,7 @@ namespace czynsze.Forms
                     tabs = new List<ControlsP.HtmlIframeP>()
                     {
                         new ControlsP.HtmlIframeP("tab", "skladnikiCzynszu_tab", "/czynsze1/SkladnikiCzynszuLokalu.cxp?parentAction="+parentAction+"&kod_lok="+values[1]+"&nr_lok="+values[2], "hidden"),
+                        new ControlsP.HtmlIframeP("tab", "cechy_tab", "AttributeOfObject.aspx?attributeOf="+EnumP.AttributeOf.Place.ToString()+"&parentId="+id.ToString()+"&action="+action.ToString()+"&childAction=Przeglądaj", "hidden"),
                         new ControlsP.HtmlIframeP("tab", "dokumenty_tab", "/czynsze1/PlikiNajemcy.cxp?parentAction="+parentAction+"&nr_system="+values[0], "hidden")
                     };
 
@@ -350,7 +371,30 @@ namespace czynsze.Forms
                             using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                                 values[0] = (db.tenants.Select(t => t.nr_kontr).ToList().Max() + 1).ToString();
                         }
+
+                        attributesOfObject = new List<DataAccess.AttributeOfObject>();
+
+                        using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                            foreach (DataAccess.AttributeOfTenant attributeOfTenant in db.attributesOfTenants.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == id))
+                                attributesOfObject.Add(attributeOfTenant);
                     }
+
+                    tabButtons = new List<ControlsP.HtmlInputRadioButtonP>()
+                    {
+                        new ControlsP.HtmlInputRadioButtonP("tabRadio", "dane", "tabRadios", "dane", true),
+                        new ControlsP.HtmlInputRadioButtonP("tabRadio", "cechy", "tabRadios", "cechy", false),
+                    };
+
+                    labelsOfTabButtons = new List<ControlsP.LabelP>()
+                    {
+                        new ControlsP.LabelP("tabLabel", tabButtons.ElementAt(0).ID, "Dane", String.Empty),
+                        new ControlsP.LabelP("tabLabel", tabButtons.ElementAt(1).ID, "Cechy", String.Empty),
+                    };
+
+                    tabs = new List<ControlsP.HtmlIframeP>()
+                    {
+                        new ControlsP.HtmlIframeP("tab", "cechy_tab", "AttributeOfObject.aspx?attributeOf="+EnumP.AttributeOf.Tenant.ToString()+"&parentId="+id.ToString()+"&action="+action.ToString()+"&childAction=Przeglądaj", "hidden")
+                    };
 
                     controls.Add(new ControlsP.TextBoxP("field", "nr_kontr_disabled", values[0], ControlsP.TextBoxP.TextBoxModeP.Number, 6, 1, false));
                     placeOfButtons.Controls.Add(new ControlsP.HtmlInputHiddenP("id", values[0]));
@@ -472,7 +516,30 @@ namespace czynsze.Forms
                                 values = db.communities.FirstOrDefault(c => c.kod == id).AllFields();
                         else
                             values = new string[numberOfFields];
+
+                        attributesOfObject = new List<DataAccess.AttributeOfObject>();
+
+                        using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                            foreach (DataAccess.AttributeOfCommunity attributeOfCommunity in db.attributesOfCommunities.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == id))
+                                attributesOfObject.Add(attributeOfCommunity);
                     }
+
+                    tabButtons = new List<ControlsP.HtmlInputRadioButtonP>()
+                    {
+                        new ControlsP.HtmlInputRadioButtonP("tabRadio", "dane", "tabRadios", "dane", true),
+                        new ControlsP.HtmlInputRadioButtonP("tabRadio", "cechy", "tabRadios", "cechy", false),
+                    };
+
+                    labelsOfTabButtons = new List<ControlsP.LabelP>()
+                    {
+                        new ControlsP.LabelP("tabLabel", tabButtons.ElementAt(0).ID, "Dane", String.Empty),
+                        new ControlsP.LabelP("tabLabel", tabButtons.ElementAt(1).ID, "Cechy", String.Empty),
+                    };
+
+                    tabs = new List<ControlsP.HtmlIframeP>()
+                    {
+                        new ControlsP.HtmlIframeP("tab", "cechy_tab", "AttributeOfObject.aspx?attributeOf="+EnumP.AttributeOf.Community.ToString()+"&parentId="+id.ToString()+"&action="+action.ToString()+"&childAction=Przeglądaj", "hidden")
+                    };
 
                     if (idEnabled)
                         controls.Add(new ControlsP.TextBoxP("field", "id", values[0], ControlsP.TextBoxP.TextBoxModeP.Number, 5, 1, idEnabled));

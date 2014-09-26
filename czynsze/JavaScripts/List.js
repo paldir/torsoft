@@ -31,30 +31,3 @@ function InitInactive() {
         if (idRadio[i].type == 'radio')
             idRadio[i].onchange = function () { ChangeRow(this.id, true); }
 }
-
-function ChangeRow(rowId, inactive) {
-    var editingButton = document.getElementById("editaction");
-    var deletingButton = document.getElementById("deleteaction");
-    var browsingButton = document.getElementById("browseaction");
-
-    if (!inactive) {
-        if (editingButton != null)
-            editingButton.disabled = false;
-
-        if (deletingButton != null)
-            deletingButton.disabled = false;
-    }
-
-    if (browsingButton != null)
-        browsingButton.disabled = false;
-
-    var selectedRow = document.getElementsByClassName("selectedRow")[0];
-
-    if (selectedRow != null)
-        selectedRow.className = "tableRow";
-
-    var row = document.getElementById(rowId + "_row");
-
-    if (row != null)
-        row.className = "selectedRow";
-}

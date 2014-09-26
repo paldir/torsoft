@@ -56,3 +56,42 @@ function isDate(evt) {
 
     return true;
 }
+
+function ChangeRow(rowId, inactive) {
+    var editingButton = document.getElementById("editaction");
+    var deletingButton = document.getElementById("deleteaction");
+    var browsingButton = document.getElementById("browseaction");
+    var editingTabButton = document.getElementById("editchildAction");
+    var deletingTabButton = document.getElementById("deletechildAction");
+    var browsingTabButton = document.getElementById("browsechildAction");
+
+    if (!inactive) {
+        if (editingButton != null)
+            editingButton.disabled = false;
+
+        if (deletingButton != null)
+            deletingButton.disabled = false;
+
+        if (editingTabButton != null)
+            editingTabButton.disabled = false;
+
+        if (deletingTabButton != null)
+            deletingTabButton.disabled = false;
+    }
+
+    if (browsingButton != null)
+        browsingButton.disabled = false;
+
+    if (browsingTabButton != null)
+        browsingTabButton.disabled = false;
+
+    var selectedRow = document.getElementsByClassName("selectedRow")[0];
+
+    if (selectedRow != null)
+        selectedRow.className = "tableRow";
+
+    var row = document.getElementById(rowId + "_row");
+
+    if (row != null)
+        row.className = "selectedRow";
+}

@@ -8,8 +8,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace czynsze.DataAccess
 {
-    [Table("cechy_b", Schema = "public")]
-    public class AttributeOfBuilding : AttributeOfObject
+    [Table("cechy_s", Schema = "public")]
+    public class AttributeOfCommunity : AttributeOfObject
     {
         [Key, Column("__record")]
         public override int __record { get; set; }

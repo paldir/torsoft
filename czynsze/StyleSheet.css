@@ -162,6 +162,10 @@ input, select, textarea {
         display: inline-block;
     }
 
+.tabTable tbody {
+    height: 200px;
+}
+
     .mainTable .sortLink {
         color: #383838;
         text-decoration: underline;

@@ -13,6 +13,12 @@ namespace czynsze.Forms
         EnumP.Action action;
         int id;
 
+        List<DataAccess.AttributeOfObject> attributesOfObject
+        {
+            get { return (List<DataAccess.AttributeOfObject>)Session["attributesOfObject"]; }
+            set { Session["attributesOfObject"] = value; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             string[] record = null;
@@ -63,6 +69,14 @@ namespace czynsze.Forms
 
                                         building.Set(record);
                                         db.buildings.Add(building);
+
+                                        foreach (DataAccess.AttributeOfBuilding attributeOfBuilding in attributesOfObject)
+                                        {
+                                            attributeOfBuilding.kod_powiaz = record[0];
+
+                                            db.attributesOfBuildings.Add(attributeOfBuilding);
+                                        }
+
                                         db.SaveChanges();
 
                                         dbWriteResult = "Budynek dodany.";
@@ -75,6 +89,13 @@ namespace czynsze.Forms
                                         building = db.buildings.FirstOrDefault(b => b.kod_1 == id);
 
                                         building.Set(record);
+
+                                        foreach (DataAccess.AttributeOfBuilding attributeOfBuilding in db.attributesOfBuildings.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(record[0])))
+                                            db.attributesOfBuildings.Remove(attributeOfBuilding);
+
+                                        foreach (DataAccess.AttributeOfBuilding attributeOfBuilding in attributesOfObject)
+                                            db.attributesOfBuildings.Add(attributeOfBuilding);
+
                                         db.SaveChanges();
 
                                         dbWriteResult = "Budynek zaktualizowany.";
@@ -87,6 +108,10 @@ namespace czynsze.Forms
                                         building = db.buildings.FirstOrDefault(b => b.kod_1 == id);
 
                                         db.buildings.Remove(building);
+
+                                        foreach (DataAccess.AttributeOfBuilding attributeOfBuilding in db.attributesOfBuildings.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(record[0])))
+                                            db.attributesOfBuildings.Remove(attributeOfBuilding);
+
                                         db.SaveChanges();
 
                                         dbWriteResult = "Budynek usunięty.";
@@ -142,6 +167,14 @@ namespace czynsze.Forms
 
                                         place.Set(record);
                                         db.places.Add(place);
+
+                                        foreach (DataAccess.AttributeOfPlace attributeOfPlace in attributesOfObject)
+                                        {
+                                            attributeOfPlace.kod_powiaz = record[0];
+
+                                            db.attributesOfPlaces.Add(attributeOfPlace);
+                                        }
+
                                         db.SaveChanges();
 
                                         dbWriteResult = "Lokal dodany.";
@@ -163,6 +196,13 @@ namespace czynsze.Forms
                                         place = db.places.FirstOrDefault(p => p.nr_system == id);
 
                                         place.Set(record);
+
+                                        foreach (DataAccess.AttributeOfPlace attributeOfPlace in db.attributesOfPlaces.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(record[0])))
+                                            db.attributesOfPlaces.Remove(attributeOfPlace);
+
+                                        foreach (DataAccess.AttributeOfPlace attributeOfPlace in attributesOfObject)
+                                            db.attributesOfPlaces.Add(attributeOfPlace);
+
                                         db.SaveChanges();
 
                                         dbWriteResult = "Lokal wyedytowany.";
@@ -187,6 +227,9 @@ namespace czynsze.Forms
 
                                         foreach (DataAccess.RentComponentOfPlace component in db.rentComponentsOfPlaces.Where(c => c.kod_lok == place.kod_lok && c.nr_lok == place.nr_lok))
                                             db.rentComponentsOfPlaces.Remove(component);
+
+                                        foreach (DataAccess.AttributeOfPlace attributeOfPlace in db.attributesOfPlaces.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(record[0])))
+                                            db.attributesOfPlaces.Remove(attributeOfPlace);
 
                                         db.places.Remove(place);
                                         db.SaveChanges();
@@ -243,6 +286,14 @@ namespace czynsze.Forms
 
                                         tenant.Set(record);
                                         db.tenants.Add(tenant);
+
+                                        foreach (DataAccess.AttributeOfTenant attributeOfTenant in attributesOfObject)
+                                        {
+                                            attributeOfTenant.kod_powiaz = record[0];
+
+                                            db.attributesOfTenants.Add(attributeOfTenant);
+                                        }
+
                                         db.SaveChanges();
 
                                         dbWriteResult = "Najemca dodany.";
@@ -255,6 +306,13 @@ namespace czynsze.Forms
                                         tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == id);
 
                                         tenant.Set(record);
+
+                                        foreach (DataAccess.AttributeOfTenant attributeOfTenant in db.attributesOfTenants.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(record[0])))
+                                            db.attributesOfTenants.Remove(attributeOfTenant);
+
+                                        foreach (DataAccess.AttributeOfTenant attributeOfTenant in attributesOfObject)
+                                            db.attributesOfTenants.Add(attributeOfTenant);
+
                                         db.SaveChanges();
 
                                         dbWriteResult = "Najemca wyedytowany.";
@@ -267,6 +325,10 @@ namespace czynsze.Forms
                                         tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == id);
 
                                         db.tenants.Remove(tenant);
+
+                                        foreach (DataAccess.AttributeOfTenant attributeOfTenant in db.attributesOfTenants.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(record[0])))
+                                            db.attributesOfTenants.Remove(attributeOfTenant);
+
                                         db.SaveChanges();
 
                                         dbWriteResult = "Najemca usunięty.";
@@ -403,6 +465,14 @@ namespace czynsze.Forms
 
                                         community.Set(record);
                                         db.communities.Add(community);
+
+                                        foreach (DataAccess.AttributeOfCommunity attributeOfCommunity in attributesOfObject)
+                                        {
+                                            attributeOfCommunity.kod_powiaz = record[0];
+
+                                            db.attributesOfCommunities.Add(attributeOfCommunity);
+                                        }
+
                                         db.SaveChanges();
 
                                         dbWriteResult = "Wspólnota dodana.";
@@ -415,6 +485,13 @@ namespace czynsze.Forms
                                         community = db.communities.FirstOrDefault(c => c.kod == id);
 
                                         community.Set(record);
+
+                                        foreach (DataAccess.AttributeOfCommunity attributeOfCommunity in db.attributesOfCommunities.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(record[0])))
+                                            db.attributesOfCommunities.Remove(attributeOfCommunity);
+
+                                        foreach (DataAccess.AttributeOfCommunity attributeOfCommunity in attributesOfObject)
+                                            db.attributesOfCommunities.Add(attributeOfCommunity);
+
                                         db.SaveChanges();
 
                                         dbWriteResult = "Wspólnota wyedytowana.";
@@ -427,6 +504,10 @@ namespace czynsze.Forms
                                         community = db.communities.FirstOrDefault(c => c.kod == id);
 
                                         db.communities.Remove(community);
+
+                                        foreach (DataAccess.AttributeOfCommunity attributeOfCommunity in db.attributesOfCommunities.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(record[0])))
+                                            db.attributesOfCommunities.Remove(attributeOfCommunity);
+
                                         db.SaveChanges();
 
                                         dbWriteResult = "Wspólnota usunięta.";

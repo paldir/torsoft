@@ -6,30 +6,58 @@
 <head runat="server">
     <title></title>
     <script src="../JavaScripts/AttributeOfObject.js"></script>
+    <script src="../JavaScripts/Script.js"></script>
+    <link type="text/css" rel="stylesheet" href="../StyleSheet.css" />
 </head>
 <body>
-    <form id="form" action="AttributeOfObject.aspx" runat="server">
+    <form id="form" method="post" runat="server">
+        <div id="placeOfDeletingButton" runat="server"></div>
         <div id="placeOfTable" runat="server"></div>
-        Nowa cecha: <span id="placeOfDropDown" runat="server"></span>Wartość: <span id="placeOfValue" runat="server"></span>
+        <div id="placeOfNewAttribute" runat="server"></div>
     </form>
     <script>
         <%
-        List<int> numericAttributes;
+        List<czynsze.DataAccess.Attribute> attributes;
         
         using (czynsze.DataAccess.Czynsze_Entities db = new czynsze.DataAccess.Czynsze_Entities())
-            numericAttributes = db.attributes.Where(a => a.nr_str == "N").Select(a => a.kod).ToList();
+            attributes = db.attributes.ToList();
 
-        string jSArray = String.Empty;
+        string ids = String.Empty;
+        string types = String.Empty;
+        string units = String.Empty;
+        string defaults = String.Empty;
 
-        foreach (int numericAttribute in numericAttributes)
-            jSArray += numericAttribute.ToString() + ", ";
+        foreach (czynsze.DataAccess.Attribute attribute in attributes)
+        {
+            ids += "'" + attribute.kod.ToString() + "', ";
+            types += "'" + attribute.nr_str + "', ";
+            units += "'" + attribute.jedn.ToString() + "', ";
 
-        if (numericAttributes.Count > 0)
-            jSArray = jSArray.Remove(jSArray.Length - 2);
+            switch (attribute.nr_str)
+            {
+                case "N":
+                    defaults += "'" + attribute.wartosc_n.ToString() + "', ";
+                    break;
+                case "C":
+                    defaults += "'" + attribute.wartosc_s.Trim() + "', ";
+                    break;
+            }
+        }
+
+        if (ids.Length > 0)
+        {
+            ids = ids.Remove(ids.Length - 2);
+            types = types.Remove(types.Length - 2);
+            units = units.Remove(units.Length - 2);
+            defaults = defaults.Remove(defaults.Length - 2);
+        }
         %>
-        var numericAttributes = [<%=jSArray%>]
+        var ids = [<%=ids%>];
+        var types = [<%=types%>];
+        var units = [<%=units%>];
+        var defaults = [<%=defaults%>];
 
-        Init(numericAttributes);
+        Init(ids, types, units, defaults);
     </script>
 </body>
 </html>
