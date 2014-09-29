@@ -63,10 +63,11 @@ namespace czynsze.DataAccess
             kod_powiaz = record[3];
         }
 
-        public static bool Validate(string[] record, List<DataAccess.AttributeOfObject> attributesOfObject)
+        public static bool Validate(EnumP.Action action, string[] record, List<DataAccess.AttributeOfObject> attributesOfObject)
         {
-            if (attributesOfObject.Count(a => a.kod == Convert.ToInt16(record[1]) && Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(record[3])) > 0)
-                return false;
+            if (action != EnumP.Action.Edytuj)
+                if (attributesOfObject.Count(a => a.kod == Convert.ToInt16(record[1]) && Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(record[3])) > 0)
+                    return false;
 
             using (DataAccess.Czynsze_Entities db = new Czynsze_Entities())
                 if (db.attributes.ToList().FirstOrDefault(a => a.kod == Convert.ToInt16(record[1])).nr_str == "N")

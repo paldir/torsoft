@@ -74,6 +74,12 @@
                         <a href="List.aspx?table=TypesOfPayment">Rodzaje wpłat i wypłat</a>
                     </li>
                     <li class="mainSubMenuItem">
+                        <a href="List.aspx?table=GroupsOfRentComponents">Grupy skł. czynszu</a>
+                    </li>
+                    <li class="mainSubMenuItem">
+                        <a href="List.aspx?table=FinancialGroups">Grupy finansowe</a>
+                    </li>
+                    <li class="mainSubMenuItem">
                         <a href="List.aspx?table=VatRates">Stawki VAT</a>
                     </li>
                     <li class="mainSubMenuItem">

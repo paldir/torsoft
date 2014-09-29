@@ -797,6 +797,117 @@ namespace czynsze.Forms
                                     break;
                             }
                     break;
+                case EnumP.Table.GroupsOfRentComponents:
+                    this.Title = "Edycja grupy składników czynszu";
+                    DataAccess.GroupOfRentComponents groupOfRentComponents;
+
+                    record = new string[]
+                    {
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("id"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("nazwa"))]
+                    };
+
+                    validationResult = DataAccess.GroupOfRentComponents.Validate(action, record);
+
+                    if (validationResult == String.Empty)
+                        using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                            switch (action)
+                            {
+                                case EnumP.Action.Dodaj:
+                                    try
+                                    {
+                                        groupOfRentComponents = new DataAccess.GroupOfRentComponents();
+
+                                        groupOfRentComponents.Set(record);
+                                        db.groupsOfRentComponents.Add(groupOfRentComponents);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Grupa składników czynszu dodana.";
+                                    }
+                                    catch { dbWriteResult = "Nie można dodać grupy składników czynszu!"; }
+                                    break;
+                                case EnumP.Action.Edytuj:
+                                    try
+                                    {
+                                        groupOfRentComponents = db.groupsOfRentComponents.FirstOrDefault(g => g.kod == id);
+
+                                        groupOfRentComponents.Set(record);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Grupa składników czynszu wyedytowana.";
+                                    }
+                                    catch { dbWriteResult = "Nie można edytować grupy składników czynszu!"; }
+                                    break;
+                                case EnumP.Action.Usuń:
+                                    try
+                                    {
+                                        groupOfRentComponents = db.groupsOfRentComponents.FirstOrDefault(g => g.kod == id);
+
+                                        db.groupsOfRentComponents.Remove(groupOfRentComponents);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Grupa składników czynszu usunięta.";
+                                    }
+                                    catch { dbWriteResult = "Nie można usunąć grupy składników czynszu!"; }
+                                    break;
+                            }
+                    break;
+                case EnumP.Table.FinancialGroups:
+                    this.Title = "Edycja grupy finansowej";
+                    DataAccess.FinancialGroup financialGroup;
+
+                    record = new string[]
+                    {
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("id"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("k_syn"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("nazwa"))]
+                    };
+
+                    validationResult = DataAccess.FinancialGroup.Validate(action, record);
+
+                    if (validationResult == String.Empty)
+                        using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                            switch (action)
+                            {
+                                case EnumP.Action.Dodaj:
+                                    try
+                                    {
+                                        financialGroup = new DataAccess.FinancialGroup();
+
+                                        financialGroup.Set(record);
+                                        db.financialGroups.Add(financialGroup);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Grupa finansowa dodana.";
+                                    }
+                                    catch { dbWriteResult = "Nie można dodać grupy finansowej!"; }
+                                    break;
+                                case EnumP.Action.Edytuj:
+                                    try
+                                    {
+                                        financialGroup = db.financialGroups.FirstOrDefault(r => r.kod == id);
+
+                                        financialGroup.Set(record);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Grupa finansowa wyedytowana.";
+                                    }
+                                    catch { dbWriteResult = "Nie można edytować grupy finansowej!"; }
+                                    break;
+                                case EnumP.Action.Usuń:
+                                    try
+                                    {
+                                        financialGroup = db.financialGroups.FirstOrDefault(r => r.kod == id);
+
+                                        db.financialGroups.Remove(financialGroup);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Grupa finansowa usunięta.";
+                                    }
+                                    catch { dbWriteResult = "Nie można usunąć grupy finansowej!"; }
+                                    break;
+                            }
+                    break;
                 case EnumP.Table.VatRates:
                     this.Title = "Edycja stawki VAT";
                     DataAccess.VatRate vatRate;

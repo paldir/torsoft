@@ -25,8 +25,16 @@ namespace czynsze.Forms
         {
             EnumP.AttributeOf attributeOf = (EnumP.AttributeOf)Enum.Parse(typeof(EnumP.AttributeOf), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("attributeOf"))]);
             EnumP.Action action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("action"))]);
-            EnumP.Action childAction = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("childAction"))]);
+            EnumP.Action childAction = EnumP.Action.Przeglądaj;
             int parentId = Convert.ToInt16(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("parentId"))]);
+            int id = -1;
+            string[] record;
+
+            if (Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))] != null)
+                id = Convert.ToInt16(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))]);
+
+            if (Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("childAction"))] != null)
+                childAction = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("childAction"))].Replace("Zapisz", "Edytuj"));
 
             List<string[]> rows = null;
             List<string[]> rowsOfDropDown = null;
@@ -38,7 +46,7 @@ namespace czynsze.Forms
                     int maxIdTmp = 0;
                     int maxId = 0;
 
-                    string[] record = new string[]
+                    record = new string[]
                     {
                         String.Empty,
                         Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("kod"))],
@@ -46,7 +54,7 @@ namespace czynsze.Forms
                         parentId.ToString()
                     };
 
-                    if (DataAccess.AttributeOfObject.Validate(record, attributesOfObject))
+                    if (DataAccess.AttributeOfObject.Validate(childAction, record, attributesOfObject))
                     {
                         if (attributesOfObject.Count > 0)
                             maxIdTmp = attributesOfObject.Max(a => a.__record);
@@ -89,9 +97,23 @@ namespace czynsze.Forms
                         attributesOfObject.Add(attributeOfObject);
                     }
                     break;
-                case EnumP.Action.Usuń:
-                    int id = Convert.ToInt16(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))]);
+                case EnumP.Action.Edytuj:
+                    string wartosc = Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("wartosc_edit"))];
+                    int id_edit = Convert.ToInt16(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id_edit"))]);
+                    DataAccess.AttributeOfObject attribute = attributesOfObject.FirstOrDefault(a => a.__record == id_edit);
 
+                    record = new string[]
+                    {
+                        attribute.__record.ToString(),
+                        attribute.kod.ToString(),
+                        wartosc,
+                        attribute.kod_powiaz
+                    };
+
+                    if (DataAccess.AttributeOfObject.Validate(childAction, record, attributesOfObject))
+                        attribute.Set(record);
+                    break;
+                case EnumP.Action.Usuń:
                     attributesOfObject.Remove(attributesOfObject.FirstOrDefault(a => a.__record == id));
                     break;
             }
@@ -129,13 +151,43 @@ namespace czynsze.Forms
             {
                 case EnumP.Action.Dodaj:
                 case EnumP.Action.Edytuj:
-                    placeOfDeletingButton.Controls.Add(new ControlsP.ButtonP("button", "deletechildAction", "Usuń", postBackUrl));
-                    placeOfNewAttribute.Controls.Add(new LiteralControl("Nowa cecha: "));
-                    placeOfNewAttribute.Controls.Add(new ControlsP.DropDownListP("field", "kod", rowsOfDropDown, String.Empty, true));
-                    placeOfNewAttribute.Controls.Add(new LiteralControl("Wartość: "));
-                    placeOfNewAttribute.Controls.Add(new ControlsP.TextBoxP("field", "wartosc", String.Empty, ControlsP.TextBoxP.TextBoxModeP.SingleLine, 25, 1, true));
-                    placeOfNewAttribute.Controls.Add(new LiteralControl("<span id='unit'></span>"));
-                    placeOfNewAttribute.Controls.Add(new ControlsP.ButtonP("button", "addchildAction", "Dodaj", postBackUrl));
+                    placeOfButtons.Controls.Add(new ControlsP.ButtonP("button", "deletechildAction", "Usuń", postBackUrl));
+                    placeOfButtons.Controls.Add(new ControlsP.ButtonP("button", "showEditingWindow", "Edytuj", postBackUrl));
+
+                    if (Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("showEditingWindow"))] != null)
+                        using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                        {
+                            DataAccess.AttributeOfObject attributeOfObject = attributesOfObject.FirstOrDefault(a => a.__record == id);
+                            DataAccess.Attribute attribute = db.attributes.FirstOrDefault(a => a.kod == attributeOfObject.kod);
+
+                            placeOfEditingWindow.Controls.Add(new ControlsP.HtmlInputHiddenP("id_edit", attributeOfObject.__record.ToString()));
+                            placeOfEditingWindow.Controls.Add(new ControlsP.LabelP("label", "nazwa", "Nazwa: ", String.Empty));
+                            placeOfEditingWindow.Controls.Add(new ControlsP.TextBoxP("field", "nazwa", attribute.nazwa, ControlsP.TextBoxP.TextBoxModeP.SingleLine, 20, 1, false));
+                            placeOfEditingWindow.Controls.Add(new ControlsP.LabelP("label", "wartosc_edit", "<br />Wartość: ", String.Empty));
+
+                            switch (attribute.nr_str)
+                            {
+                                case "N":
+                                    placeOfEditingWindow.Controls.Add(new ControlsP.TextBoxP("field", "wartosc_edit", attributeOfObject.wartosc_n.ToString("F2"), ControlsP.TextBoxP.TextBoxModeP.Number, 16, 1, true));
+                                    break;
+                                case "C":
+                                    placeOfEditingWindow.Controls.Add(new ControlsP.TextBoxP("field", "wartosc_edit", attributeOfObject.wartosc_s.Trim(), ControlsP.TextBoxP.TextBoxModeP.SingleLine, 25, 1, true));
+                                    break;
+                            }
+
+                            placeOfEditingWindow.Controls.Add(new LiteralControl("<br />"));
+                            placeOfEditingWindow.Controls.Add(new ControlsP.ButtonP("button", "editchildAction", "Zapisz", postBackUrl));
+                            placeOfEditingWindow.Controls.Add(new ControlsP.ButtonP("button", String.Empty, "Anuluj", postBackUrl));
+                        }
+                    else
+                    {
+                        placeOfNewAttribute.Controls.Add(new LiteralControl("Nowa cecha: "));
+                        placeOfNewAttribute.Controls.Add(new ControlsP.DropDownListP("field", "kod", rowsOfDropDown, String.Empty, true));
+                        placeOfNewAttribute.Controls.Add(new LiteralControl("Wartość: "));
+                        placeOfNewAttribute.Controls.Add(new ControlsP.TextBoxP("field", "wartosc", String.Empty, ControlsP.TextBoxP.TextBoxModeP.SingleLine, 25, 1, true));
+                        placeOfNewAttribute.Controls.Add(new LiteralControl("<span id='unit'></span>"));
+                        placeOfNewAttribute.Controls.Add(new ControlsP.ButtonP("button", "addchildAction", "Dodaj", postBackUrl));
+                    }
                     break;
             }
         }

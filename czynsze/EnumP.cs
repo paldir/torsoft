@@ -23,7 +23,9 @@ namespace czynsze
             Communities,
             TypesOfPayment,
             VatRates,
-            Attributes
+            Attributes,
+            GroupsOfRentComponents,
+            FinancialGroups
         };
 
         public enum Report { PlacesInEachBuilding };

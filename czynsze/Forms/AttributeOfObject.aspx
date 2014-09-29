@@ -11,9 +11,10 @@
 </head>
 <body>
     <form id="form" method="post" runat="server">
-        <div id="placeOfDeletingButton" runat="server"></div>
+        <div id="placeOfButtons" runat="server"></div>
         <div id="placeOfTable" runat="server"></div>
         <div id="placeOfNewAttribute" runat="server"></div>
+        <div id="placeOfEditingWindow" runat="server"></div>
     </form>
     <script>
         <%

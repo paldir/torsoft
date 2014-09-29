@@ -29,9 +29,24 @@
 
         switch (table)
         {
+            case "Buildings":
+                %>
+                    InitBuilding();
+                <%
+                break;
+            case "Tenants":
+                %>
+                    InitTenant();
+                <%
+                break;
             case "Places":
                 %>
                     InitPlace();
+                <%
+                break;
+            case "Communities":
+                %>
+                    InitCommunity();
                 <%
                 break;
             case "RentComponents":

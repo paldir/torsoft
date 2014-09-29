@@ -150,6 +150,8 @@
     <Compile Include="DataAccess\Configuration.cs" />
     <Compile Include="DataAccess\Czynsze_Entities.cs" />
     <Compile Include="DataAccess\AttributeOfObject.cs" />
+    <Compile Include="DataAccess\FinancialGroup.cs" />
+    <Compile Include="DataAccess\GroupOfRentComponents.cs" />
     <Compile Include="DataAccess\InactivePlace.cs" />
     <Compile Include="DataAccess\Place.cs" />
     <Compile Include="DataAccess\RentComponent.cs" />

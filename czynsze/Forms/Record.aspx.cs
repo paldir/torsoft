@@ -121,6 +121,16 @@ namespace czynsze.Forms
                                 attributesOfObject.Add(attributeOfBuilding);
                     }
 
+                    preview = new List<Control>()
+                    {
+                        new LiteralControl("Kod budynku: "),
+                        new ControlsP.LabelP("previewLabel", String.Empty, values[0], "id_preview"),
+                        new LiteralControl("Adres: "),
+                        new ControlsP.LabelP("previewLabel", String.Empty, values[3], "adres_preview"),
+                        new LiteralControl("Adres cd.: "),
+                        new ControlsP.LabelP("previewLabel", String.Empty, values[4], "adres_2_preview")
+                    };
+
                     if (idEnabled)
                         controls.Add(new ControlsP.TextBoxP("field", "id", values[0], ControlsP.TextBoxP.TextBoxModeP.Number, 5, 1, idEnabled));
                     else
@@ -379,6 +389,20 @@ namespace czynsze.Forms
                                 attributesOfObject.Add(attributeOfTenant);
                     }
 
+                    preview = new List<Control>()
+                    {
+                        new LiteralControl("Numer kontrolny: "),
+                        new ControlsP.LabelP("previewLabel", String.Empty, values[0], "id_preview"),
+                        new LiteralControl("Nazwisko: "),
+                        new ControlsP.LabelP("previewLabel", String.Empty, values[2], "nazwisko_preview"),
+                        new LiteralControl("Imię: "),
+                        new ControlsP.LabelP("previewLabel", String.Empty, values[3], "imie_preview"),
+                        new LiteralControl("Adres: "),
+                        new ControlsP.LabelP("previewLabel", String.Empty, values[4], "adres_1_preview"),
+                        new LiteralControl("Adres cd.: "),
+                        new ControlsP.LabelP("previewLabel", String.Empty, values[5], "adres_2_preview")
+                    };
+
                     tabButtons = new List<ControlsP.HtmlInputRadioButtonP>()
                     {
                         new ControlsP.HtmlInputRadioButtonP("tabRadio", "dane", "tabRadios", "dane", true),
@@ -523,6 +547,18 @@ namespace czynsze.Forms
                             foreach (DataAccess.AttributeOfCommunity attributeOfCommunity in db.attributesOfCommunities.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == id))
                                 attributesOfObject.Add(attributeOfCommunity);
                     }
+
+                    preview = new List<Control>()
+                    {
+                        new LiteralControl("Kod: "),
+                        new ControlsP.LabelP("previewLabel", String.Empty, values[0], "id_preview"),
+                        new LiteralControl("Nazwa: "),
+                        new ControlsP.LabelP("previewLabel", String.Empty, values[4], "nazwa_skr_preview"),
+                        new LiteralControl("Ilość budynków: "),
+                        new ControlsP.LabelP("previewLabel", String.Empty, values[1], "il_bud_preview"),
+                        new LiteralControl("Ilość lokali: "),
+                        new ControlsP.LabelP("previewLabel", String.Empty, values[2], "il_miesz_preview")
+                    };
 
                     tabButtons = new List<ControlsP.HtmlInputRadioButtonP>()
                     {
@@ -739,6 +775,68 @@ namespace czynsze.Forms
                         controls.Add(new ControlsP.DropDownListP("field", "vat", db.vatRates.ToList().Select(r => r.ImportantFieldsForDropDown()).ToList(), values[6], globalEnabled));
 
                     controls.Add(new ControlsP.TextBoxP("field", "sww", values[7], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 10, 1, globalEnabled));
+                    break;
+                case EnumP.Table.GroupsOfRentComponents:
+                    this.Title = "Grupa składników czynszu";
+                    numberOfFields = 2;
+                    heading += " grupy składników czynszu";
+                    columnSwitching = new List<int>() { 0 };
+                    labels = new string[]
+                    {
+                        "Kod: ",
+                        "Nazwa grupy składników czynszu: "
+                    };
+
+                    if (values == null)
+                    {
+                        if (action != EnumP.Action.Dodaj)
+                            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                                values = db.groupsOfRentComponents.FirstOrDefault(g => g.kod == id).AllFields();
+                        else
+                            values = new string[numberOfFields];
+                    }
+
+                    if (idEnabled)
+                        controls.Add(new ControlsP.TextBoxP("field", "id", values[0], ControlsP.TextBoxP.TextBoxModeP.Number, 3, 1, idEnabled));
+                    else
+                    {
+                        controls.Add(new ControlsP.TextBoxP("field", "id_disabled", values[0], ControlsP.TextBoxP.TextBoxModeP.Number, 3, 1, idEnabled));
+                        form.Controls.Add(new ControlsP.HtmlInputHiddenP("id", values[0]));
+                    }
+
+                    controls.Add(new ControlsP.TextBoxP("field", "nazwa", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 15, 1, globalEnabled));
+                    break;
+                case EnumP.Table.FinancialGroups:
+                    this.Title = "Grupa finansowa";
+                    numberOfFields = 3;
+                    heading += " grupy finansowej";
+                    columnSwitching = new List<int>() { 0 };
+                    labels = new string[]
+                    {
+                        "Kod: ",
+                        "Konto FK: ",
+                        "Nazwa grupy finansowej: "
+                    };
+
+                    if (values == null)
+                    {
+                        if (action != EnumP.Action.Dodaj)
+                            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                                values = db.financialGroups.FirstOrDefault(g => g.kod == id).AllFields();
+                        else
+                            values = new string[numberOfFields];
+                    }
+
+                    if (idEnabled)
+                        controls.Add(new ControlsP.TextBoxP("field", "id", values[0], ControlsP.TextBoxP.TextBoxModeP.Number, 3, 1, idEnabled));
+                    else
+                    {
+                        controls.Add(new ControlsP.TextBoxP("field", "id_disabled", values[0], ControlsP.TextBoxP.TextBoxModeP.Number, 3, 1, idEnabled));
+                        form.Controls.Add(new ControlsP.HtmlInputHiddenP("id", values[0]));
+                    }
+
+                    controls.Add(new ControlsP.TextBoxP("field", "k_syn", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 3, 1, globalEnabled));
+                    controls.Add(new ControlsP.TextBoxP("field", "nazwa", values[2], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 30, 1, globalEnabled));
                     break;
                 case EnumP.Table.VatRates:
                     this.Title = "Stawka VAT";

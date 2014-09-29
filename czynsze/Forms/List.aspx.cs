@@ -167,6 +167,22 @@ namespace czynsze.Forms
                         using (db = new DataAccess.Czynsze_Entities())
                             rows = db.typesOfPayment.OrderBy(t => t.kod_wplat).ToList().Select(t => t.ImportantFields()).ToList();
                     break;
+                case EnumP.Table.GroupsOfRentComponents:
+                    heading = "Grupy składników czynszu";
+                    headers = new string[] { "Kod", "Nazwa grupy" };
+
+                    if (!IsPostBack)
+                        using (db = new DataAccess.Czynsze_Entities())
+                            rows = db.groupsOfRentComponents.OrderBy(g => g.kod).ToList().Select(t => t.ImportantFields()).ToList();
+                    break;
+                case EnumP.Table.FinancialGroups:
+                    heading = "Grupy finansowe";
+                    headers = new string[] { "Kod", "Konto", "Nazwa grupy" };
+
+                    if (!IsPostBack)
+                        using (db = new DataAccess.Czynsze_Entities())
+                            rows = db.financialGroups.OrderBy(g => g.kod).ToList().Select(g => g.ImportantFields()).ToList();
+                    break;
                 case EnumP.Table.VatRates:
                     heading = "Stawki VAT";
                     headers = new string[] { "Oznaczenie stawki", "Symbol fiskalny" };

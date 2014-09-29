@@ -61,7 +61,7 @@ function ChangeRow(rowId, inactive) {
     var editingButton = document.getElementById("editaction");
     var deletingButton = document.getElementById("deleteaction");
     var browsingButton = document.getElementById("browseaction");
-    var editingTabButton = document.getElementById("editchildAction");
+    var editingTabButton = document.getElementById("showEditingWindow");
     var deletingTabButton = document.getElementById("deletechildAction");
     var browsingTabButton = document.getElementById("browsechildAction");
 

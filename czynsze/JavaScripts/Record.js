@@ -17,23 +17,46 @@ function tabRadio_onchange(value) {
                 tabs[i].hidden = true;
 }
 
+function InitBuilding() {
+    var kod_1 = document.getElementById("id");
+    var adres = document.getElementById("adres");
+    var adres_2 = document.getElementById("adres_2");
+
+    SetPreview([kod_1, adres, adres_2]);
+}
+
+function InitTenant() {
+    var nr_kontr = document.getElementById("id");
+    var nazwisko = document.getElementById("nazwisko");
+    var imie = document.getElementById("imie");
+    var adres_1 = document.getElementById("adres_1");
+    var adres_2 = document.getElementById("adres_2");
+
+    SetPreview([nr_kontr, nazwisko, imie, adres_1, adres_2]);
+}
+
 function InitPlace() {
     var kod_lok = document.getElementById("kod_lok");
     var nr_lok = document.getElementById("nr_lok");
     var adres = document.getElementById("adres");
     var adres_2 = document.getElementById("adres_2");
 
-    if (kod_lok != null)
-        kod_lok.onchange = function () { preview_onchange(this.id, this.value); };
+    SetPreview([kod_lok, nr_lok, adres, adres_2]);
+}
 
-    if (nr_lok != null)
-        nr_lok.onchange = function () { preview_onchange(this.id, this.value); };
+function InitCommunity() {
+    var kod = document.getElementById("id");
+    var nazwa_skr = document.getElementById("nazwa_skr");
+    var il_bud = document.getElementById("il_bud");
+    var il_miesz = document.getElementById("il_miesz");
 
-    if (adres != null)
-        adres.onchange = function () { preview_onchange(this.id, this.value); };
+    SetPreview([kod, nazwa_skr, il_bud, il_miesz]);
+}
 
-    if (adres_2 != null)
-        adres_2.onchange = function () { preview_onchange(this.id, this.value); };
+function SetPreview(inputs) {
+    for (var i = 0; i < inputs.length; i++)
+        if (inputs[i] != null)
+            inputs[i].onchange = function () { preview_onchange(this.id, this.value); };
 }
 
 function preview_onchange(id, value) {
