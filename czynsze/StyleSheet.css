@@ -1,5 +1,5 @@
 ﻿/*#region ogólne*/
-body, input, select, button, .superMenu li {
+body, input, select, button, textarea, .superMenu li {
     color: #383838;
     font-size: small;
     font-family: 'Times New Roman';
@@ -363,11 +363,16 @@ input, select, textarea {
     top: 50%;
     margin-top: -190px;
     margin-left: -270px;
-    border: solid 3px mediumblue;
+    border-width: 3px;
+    border-style: solid;
+    border-bottom-color: dodgerblue;
+    border-left-color: dodgerblue;
+    border-top-color: mediumblue;
+    border-right-color: mediumblue;
     padding: 20px;
 }
 
-.placeOfLogOut {
+.placeOfLogOut, .siteMapPath {
     border-width: 1px;
     border-style: solid;
     border-bottom-color: dodgerblue;

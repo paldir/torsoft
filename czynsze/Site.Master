@@ -110,6 +110,7 @@
             </li>
         </ul>
     </div>
+    <div class="siteMapPath" id="placeOfSiteMapPath" runat="server"></div>
     <div id="waterMark"></div>
     <div>
         <asp:ContentPlaceHolder ID="ContentPlaceHolder" runat="server">

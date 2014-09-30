@@ -49,6 +49,17 @@ namespace czynsze.Forms
             set { ViewState["sortOrder"] = value; }
         }
 
+        List<string> siteMapPath
+        {
+            get
+            {
+                if (Session["siteMapPath"] == null)
+                    return new List<string>();
+
+                return (List<string>)Session["siteMapPath"];
+            }
+            set { Session["siteMapPath"] = value; }
+        }
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -90,6 +101,8 @@ namespace czynsze.Forms
 
                     if (table == EnumP.Table.Places)
                     {
+                        heading += " (aktywne)";
+                        
                         if (!IsPostBack)
                             using (db = new DataAccess.Czynsze_Entities())
                                 rows = db.places.OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok).ToList().Select(p => p.ImportantFields()).ToList();
@@ -227,6 +240,33 @@ namespace czynsze.Forms
 
             this.Title = heading;
             Session["values"] = null;
+
+            switch (table)
+            {
+                case EnumP.Table.Places:
+                case EnumP.Table.InactivePlaces:
+                    siteMapPath = new List<string>() { "Kartoteki", "Lokale" };
+                    break;
+                case EnumP.Table.Tenants:
+                case EnumP.Table.Buildings:
+                case EnumP.Table.Communities:
+                case EnumP.Table.RentComponents:
+                    siteMapPath = new List<string>() { "Kartoteki" };
+                    break;
+                case EnumP.Table.TypesOfPlace:
+                case EnumP.Table.TypesOfKitchen:
+                case EnumP.Table.TypesOfTenant:
+                case EnumP.Table.Titles:
+                case EnumP.Table.TypesOfPayment:
+                case EnumP.Table.GroupsOfRentComponents:
+                case EnumP.Table.FinancialGroups:
+                case EnumP.Table.VatRates:
+                case EnumP.Table.Attributes:
+                    siteMapPath = new List<string>() { "Słowniki" };
+                    break;
+            }
+
+            siteMapPath.Add(heading);
 
             //
             //CXP PART

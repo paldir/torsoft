@@ -19,6 +19,18 @@ namespace czynsze.Forms
             set { Session["attributesOfObject"] = value; }
         }
 
+        List<string> siteMapPath
+        {
+            get
+            {
+                if (Session["siteMapPath"] == null)
+                    return new List<string>();
+
+                return (List<string>)Session["siteMapPath"];
+            }
+            set { Session["siteMapPath"] = value; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             bool globalEnabled = false;
@@ -981,6 +993,14 @@ namespace czynsze.Forms
 
             foreach (ControlsP.ButtonP button in buttons)
                 placeOfButtons.Controls.Add(button);
+
+            if (siteMapPath.Count > 0)
+            {
+                siteMapPath[siteMapPath.Count - 1] = String.Concat("<a href='List.aspx?table=" + table.ToString() + "'>", siteMapPath[siteMapPath.Count - 1]);
+                siteMapPath[siteMapPath.Count - 1] += "</a>";
+
+                siteMapPath.Add(heading);
+            }
         }
     }
 }
