@@ -38,5 +38,32 @@
             </table>
         </div>
     </form>
+    <script>
+        <%
+            string reason = Request.Params["reason"];
+        
+            if (reason != null)
+            {
+                string message;
+
+                switch (reason)
+                {
+                    case "IncorrectCredentials":
+                        message = "Musisz podać prawidłową nazwę użytkownika i hasło.";
+                        break;
+                    case "NotLoggedInOrSessionExpired":
+                        message = "Nie jesteś zalogowany lub Twoja sesja wygasła.";
+                        break;
+                    default:
+                        message = reason;
+                        break;
+                }
+                
+                %>
+                    alert('<%=message%>');
+                <%
+            }
+        %>
+    </script>
 </body>
 </html>

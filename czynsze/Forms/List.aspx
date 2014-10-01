@@ -3,11 +3,13 @@
     <script src="../JavaScripts/List.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder" runat="server">
-    <form id="form" method="post" runat="server">
-        <div id="placeOfHeading" runat="server"></div>
-        <div id="placeOfMainTableButtons" runat="server"></div>
-        <div id="placeOfMainTable" class="placeOfMainTable" runat="server"></div>
-    </form>
+    <div style="display: table; margin: 0 auto;">
+        <form id="form" method="post" runat="server">
+            <div id="placeOfHeading" runat="server"></div>
+            <div id="placeOfMainTableButtons" runat="server"></div>
+            <div id="placeOfMainTable" class="placeOfMainTable" runat="server"></div>
+        </form>
+    </div>
     <script>
         Init();
 

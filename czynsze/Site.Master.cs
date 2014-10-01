@@ -24,7 +24,7 @@ namespace czynsze
         protected void Page_Init(object sender, EventArgs e)
         {
             if (Session["user"] == null)
-                Response.Redirect("../Login.aspx");
+                Response.Redirect("../Login.aspx?reason=" + EnumP.ReasonOfRedirectToLoginPage.NotLoggedInOrSessionExpired);
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -36,8 +36,8 @@ namespace czynsze
 
             if (siteMapPath.Count > 0)
                 placeOfSiteMapPath.InnerHtml = placeOfSiteMapPath.InnerHtml.Remove(placeOfSiteMapPath.InnerHtml.Length - 3);
-            else
-                placeOfSiteMapPath.Visible = false;
+            /*else
+                placeOfSiteMapPath.Visible = false;*/
         }
     }
 }

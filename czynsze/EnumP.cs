@@ -32,5 +32,6 @@ namespace czynsze
         public enum ReportFormat { Pdf, Csv };
         public enum SortOrder { Asc, Desc };
         public enum AttributeOf { Place, Tenant, Building, Community };
+        public enum ReasonOfRedirectToLoginPage { IncorrectCredentials, NotLoggedInOrSessionExpired };
     }
 }

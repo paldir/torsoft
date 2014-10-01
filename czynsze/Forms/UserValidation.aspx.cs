@@ -53,7 +53,7 @@ namespace czynsze.Forms
                 Response.Redirect("Hello.aspx");
             }
             else
-                Response.Redirect("../Login.aspx");
+                Response.Redirect("../Login.aspx?reason=" + EnumP.ReasonOfRedirectToLoginPage.IncorrectCredentials);
         }
     }
 }

@@ -115,7 +115,7 @@ namespace czynsze.Forms
 
                     tabs = new List<ControlsP.HtmlIframeP>()
                     {
-                        new ControlsP.HtmlIframeP("tab", "cechy_tab", "AttributeOfObject.aspx?attributeOf="+EnumP.AttributeOf.Building.ToString()+"&parentId="+id.ToString()+"&action="+action.ToString()+"&childAction=Przeglądaj", "hidden")
+                        new ControlsP.HtmlIframeP("tab", "cechy_tab", "AttributeOfObject.aspx?attributeOf="+EnumP.AttributeOf.Building+"&parentId="+id.ToString()+"&action="+action.ToString()+"&childAction=Przeglądaj", "hidden")
                     };
 
                     if (values == null)
@@ -280,7 +280,7 @@ namespace czynsze.Forms
                     tabs = new List<ControlsP.HtmlIframeP>()
                     {
                         new ControlsP.HtmlIframeP("tab", "skladnikiCzynszu_tab", "/czynsze1/SkladnikiCzynszuLokalu.cxp?parentAction="+parentAction+"&kod_lok="+values[1]+"&nr_lok="+values[2], "hidden"),
-                        new ControlsP.HtmlIframeP("tab", "cechy_tab", "AttributeOfObject.aspx?attributeOf="+EnumP.AttributeOf.Place.ToString()+"&parentId="+id.ToString()+"&action="+action.ToString()+"&childAction=Przeglądaj", "hidden"),
+                        new ControlsP.HtmlIframeP("tab", "cechy_tab", "AttributeOfObject.aspx?attributeOf="+EnumP.AttributeOf.Place+"&parentId="+id.ToString()+"&action="+action.ToString()+"&childAction=Przeglądaj", "hidden"),
                         new ControlsP.HtmlIframeP("tab", "dokumenty_tab", "/czynsze1/PlikiNajemcy.cxp?parentAction="+parentAction+"&nr_system="+values[0], "hidden")
                     };
 
@@ -429,7 +429,7 @@ namespace czynsze.Forms
 
                     tabs = new List<ControlsP.HtmlIframeP>()
                     {
-                        new ControlsP.HtmlIframeP("tab", "cechy_tab", "AttributeOfObject.aspx?attributeOf="+EnumP.AttributeOf.Tenant.ToString()+"&parentId="+id.ToString()+"&action="+action.ToString()+"&childAction=Przeglądaj", "hidden")
+                        new ControlsP.HtmlIframeP("tab", "cechy_tab", "AttributeOfObject.aspx?attributeOf="+EnumP.AttributeOf.Tenant+"&parentId="+id.ToString()+"&action="+action.ToString()+"&childAction=Przeglądaj", "hidden")
                     };
 
                     controls.Add(new ControlsP.TextBoxP("field", "nr_kontr_disabled", values[0], ControlsP.TextBoxP.TextBoxModeP.Number, 6, 1, false));
@@ -586,7 +586,7 @@ namespace czynsze.Forms
 
                     tabs = new List<ControlsP.HtmlIframeP>()
                     {
-                        new ControlsP.HtmlIframeP("tab", "cechy_tab", "AttributeOfObject.aspx?attributeOf="+EnumP.AttributeOf.Community.ToString()+"&parentId="+id.ToString()+"&action="+action.ToString()+"&childAction=Przeglądaj", "hidden")
+                        new ControlsP.HtmlIframeP("tab", "cechy_tab", "AttributeOfObject.aspx?attributeOf="+EnumP.AttributeOf.Community+"&parentId="+id.ToString()+"&action="+action.ToString()+"&childAction=Przeglądaj", "hidden")
                     };
 
                     if (idEnabled)
@@ -996,10 +996,13 @@ namespace czynsze.Forms
 
             if (siteMapPath.Count > 0)
             {
-                siteMapPath[siteMapPath.Count - 1] = String.Concat("<a href='List.aspx?table=" + table.ToString() + "'>", siteMapPath[siteMapPath.Count - 1]);
-                siteMapPath[siteMapPath.Count - 1] += "</a>";
+                if (siteMapPath.IndexOf(heading) == -1)
+                {
+                    siteMapPath[siteMapPath.Count - 1] = String.Concat("<a href='List.aspx?table=" + table.ToString() + "'>", siteMapPath[siteMapPath.Count - 1]);
+                    siteMapPath[siteMapPath.Count - 1] += "</a>";
 
-                siteMapPath.Add(heading);
+                    siteMapPath.Add(heading);
+                }
             }
         }
     }

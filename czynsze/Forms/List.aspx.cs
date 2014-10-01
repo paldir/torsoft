@@ -83,7 +83,7 @@ namespace czynsze.Forms
                     //placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("superMenuButton", "report", "Wydruk lokali wg budynków", "ReportConfiguration.aspx?report=PlacesInEachBuilding"));
                     printingsSubMenu = new List<string>()
                     {
-                        "<a href='ReportConfiguration.aspx?report="+EnumP.Report.PlacesInEachBuilding.ToString()+"'>Lokale w budynkach</a>",
+                        "<a href='ReportConfiguration.aspx?report="+EnumP.Report.PlacesInEachBuilding+"'>Lokale w budynkach</a>",
                         "<a href='#'>Kolejny wydruk</a>",
                         "<a href='#'>I jeszcze jeden</a>"
                     };
