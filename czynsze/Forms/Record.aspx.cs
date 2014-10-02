@@ -998,7 +998,7 @@ namespace czynsze.Forms
             {
                 if (siteMapPath.IndexOf(heading) == -1)
                 {
-                    siteMapPath[siteMapPath.Count - 1] = String.Concat("<a href='List.aspx?table=" + table.ToString() + "'>", siteMapPath[siteMapPath.Count - 1]);
+                    siteMapPath[siteMapPath.Count - 1] = String.Concat("<a href='List.aspx?table=" + table + "'>", siteMapPath[siteMapPath.Count - 1]);
                     siteMapPath[siteMapPath.Count - 1] += "</a>";
 
                     siteMapPath.Add(heading);

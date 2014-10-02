@@ -30,6 +30,7 @@ namespace czynsze
         protected void Page_Load(object sender, EventArgs e)
         {
             user.InnerText = Session["user"].ToString();
+            placeOfSiteMapPath.InnerHtml = String.Empty;
 
             foreach (string siteMapNode in siteMapPath)
                 placeOfSiteMapPath.InnerHtml += siteMapNode + " > ";
