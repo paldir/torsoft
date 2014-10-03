@@ -2,6 +2,7 @@
     var editingButton = document.getElementById("editaction");
     var deletingButton = document.getElementById("deleteaction");
     var browsingButton = document.getElementById("browseaction");
+    var movingButton = document.getElementById("moveaction");
 
     if (editingButton != null)
         editingButton.disabled = true;
@@ -11,6 +12,9 @@
 
     if (browsingButton != null)
         browsingButton.disabled = true;
+
+    if (movingButton != null)
+        movingButton.disabled = true;
 
     var idRadio = document.querySelectorAll(".mainTable input");
 

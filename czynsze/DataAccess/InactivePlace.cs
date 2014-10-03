@@ -11,7 +11,7 @@ namespace czynsze.DataAccess
     [Table("lokale_a", Schema = "public")]
     public class InactivePlace// : Place
     {
-        [Key, Column("nr_system")]
+        [Key, Column("nr_system"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int nr_system { get; set; }
 
         [Column("kod_lok")]
@@ -154,6 +154,46 @@ namespace czynsze.DataAccess
                 kod_praw.ToString(), 
                 String.Concat(uwagi_1.Trim(), uwagi_2.Trim(), uwagi_3.Trim(), uwagi_4.Trim()) 
             };
+        }
+
+        public void Set(string[] record)
+        {
+            nr_system = Convert.ToInt16(record[0]);
+            kod_lok = Convert.ToInt16(record[1]);
+            nr_lok = Convert.ToInt16(record[2]);
+            kod_typ = Convert.ToInt16(record[3]);
+            adres = record[4];
+            adres_2 = record[5];
+            pow_uzyt = Convert.ToSingle(record[6]);
+            pow_miesz = Convert.ToSingle(record[7]);
+            udzial = Convert.ToSingle(record[8]);
+            dat_od = record[9];
+            dat_do = record[10];
+            p_1 = Convert.ToSingle(record[11]);
+            p_2 = Convert.ToSingle(record[12]);
+            p_3 = Convert.ToSingle(record[13]);
+            p_4 = Convert.ToSingle(record[14]);
+            p_5 = Convert.ToSingle(record[15]);
+            p_6 = Convert.ToSingle(record[16]);
+            kod_kuch = Convert.ToInt16(record[17]);
+            nr_kontr = Convert.ToInt16(record[18]);
+
+            using (Czynsze_Entities db = new Czynsze_Entities())
+            {
+                Tenant tenant = db.tenants.Where(t => t.nr_kontr == nr_kontr).FirstOrDefault();
+                nazwisko = tenant.nazwisko;
+                imie = tenant.imie;
+            }
+
+            il_osob = Convert.ToInt16(record[19]);
+            kod_praw = Convert.ToInt16(record[20]);
+
+            record[21] = record[21].PadRight(240);
+
+            uwagi_1 = record[21].Substring(0, 60).Trim();
+            uwagi_2 = record[21].Substring(60, 60).Trim();
+            uwagi_3 = record[21].Substring(120, 60).Trim();
+            uwagi_4 = record[21].Substring(180, 60).Trim();
         }
     }
 }

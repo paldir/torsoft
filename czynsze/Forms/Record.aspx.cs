@@ -38,7 +38,7 @@ namespace czynsze.Forms
             string[] values = (string[])Session["values"];
             int numberOfFields = 0;
             string[] labels = null;
-            string heading;
+            string heading = null;
             List<ControlsP.ButtonP> buttons = new List<ControlsP.ButtonP>();
             List<Control> controls = new List<Control>();
             List<int> columnSwitching = null;
@@ -75,11 +75,18 @@ namespace czynsze.Forms
                     buttons.Add(new ControlsP.ButtonP("buttons", "Delete", "Usuń", "RecordValidation.aspx"));
                     buttons.Add(new ControlsP.ButtonP("buttons", "Cancel", "Anuluj", "List.aspx"));
                     break;
-                default:
+                case EnumP.Action.Przeglądaj:
                     globalEnabled = idEnabled = false;
                     heading = "Przeglądanie";
 
                     buttons.Add(new ControlsP.ButtonP("buttons", "Back", "Powrót", "List.aspx"));
+                    break;
+                case EnumP.Action.Przenieś:
+                    globalEnabled = idEnabled = false;
+                    heading = "Przenoszenie";
+
+                    buttons.Add(new ControlsP.ButtonP("buttons", "Move", "Przenieś", "RecordValidation.aspx"));
+                    buttons.Add(new ControlsP.ButtonP("buttons", "Cancel", "Anuluj", "List.aspx"));
                     break;
             }
 
@@ -361,6 +368,7 @@ namespace czynsze.Forms
                     //
                     break;
                 case EnumP.Table.Tenants:
+                case EnumP.Table.InactiveTenants:
                     this.Title = "Najemca";
                     numberOfFields = 12;
                     heading += " najemcy";
@@ -381,11 +389,25 @@ namespace czynsze.Forms
                         "Uwagi: " 
                     };
 
+                    if (table == EnumP.Table.InactiveTenants)
+                    {
+                        this.Title = "Najemca (nieaktywny)";
+                        heading += " (nieaktywnego)";
+                    }
+
                     if (values == null)
                     {
                         if (action != EnumP.Action.Dodaj)
                             using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                                values = db.tenants.FirstOrDefault(t => t.nr_kontr == id).AllFields();
+                                switch (table)
+                                {
+                                    case EnumP.Table.Tenants:
+                                        values = db.tenants.FirstOrDefault(t => t.nr_kontr == id).AllFields();
+                                        break;
+                                    case EnumP.Table.InactiveTenants:
+                                        values = db.inactiveTenants.FirstOrDefault(t => t.nr_kontr == id).AllFields();
+                                        break;
+                                }
                         else
                         {
                             values = new string[numberOfFields];

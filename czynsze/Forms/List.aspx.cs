@@ -99,30 +99,43 @@ namespace czynsze.Forms
                     heading = "Lokale";
                     headers = new string[] { "Kod budynku", "Numer lokalu", "Typ lokalu", "Powierzchnia użytkowa", "Nazwisko", "Imię" };
 
-                    if (table == EnumP.Table.Places)
-                    {
-                        heading += " (aktywne)";
-                        
-                        if (!IsPostBack)
-                            using (db = new DataAccess.Czynsze_Entities())
-                                rows = db.places.OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok).ToList().Select(p => p.ImportantFields()).ToList();
-                    }
-                    else
-                    {
-                        heading += " (nieaktywne)";
-
-                        if (!IsPostBack)
-                            using (db = new DataAccess.Czynsze_Entities())
-                                rows = db.inactivePlaces.OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok).ToList().Select(p => p.ImportantFields()).ToList();
-                    }
-                    break;
-                case EnumP.Table.Tenants:
-                    heading = "Najemcy";
-                    headers = new string[] { "Numer kontrolny", "Nazwisko", "Imię", "Adres", "Adres cd." };
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "moveaction", "Przenieś", postBackUrl));
 
                     if (!IsPostBack)
                         using (db = new DataAccess.Czynsze_Entities())
-                            rows = db.tenants.OrderBy(t => t.nazwisko).ThenBy(t => t.imie).ToList().Select(t => t.ImportantFields()).ToList();
+                            switch (table)
+                            {
+                                case EnumP.Table.Places:
+                                    heading += " (aktywne)";
+                                    rows = db.places.OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok).ToList().Select(p => p.ImportantFields()).ToList();
+                                    break;
+                                case EnumP.Table.InactivePlaces:
+                                    heading += " (nieaktywne)";
+                                    rows = db.inactivePlaces.OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok).ToList().Select(p => p.ImportantFields()).ToList();
+                                    break;
+                            }
+
+                    break;
+                case EnumP.Table.Tenants:
+                case EnumP.Table.InactiveTenants:
+                    heading = "Najemcy";
+                    headers = new string[] { "Numer kontrolny", "Nazwisko", "Imię", "Adres", "Adres cd." };
+
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "moveaction", "Przenieś", postBackUrl));
+
+                    if (!IsPostBack)
+                        using (db = new DataAccess.Czynsze_Entities())
+                            switch (table)
+                            {
+                                case EnumP.Table.Tenants:
+                                    heading += " (aktywni)";
+                                    rows = db.tenants.OrderBy(t => t.nazwisko).ThenBy(t => t.imie).ToList().Select(t => t.ImportantFields()).ToList();
+                                    break;
+                                case EnumP.Table.InactiveTenants:
+                                    heading += " (nieaktywni)";
+                                    rows = db.inactiveTenants.OrderBy(t => t.nazwisko).ThenBy(t => t.imie).ToList().Select(t => t.ImportantFields()).ToList();
+                                    break;
+                            }
                     break;
                 case EnumP.Table.RentComponents:
                     heading = "Składniki opłat";
@@ -248,6 +261,9 @@ namespace czynsze.Forms
                     siteMapPath = new List<string>() { "Kartoteki", "Lokale" };
                     break;
                 case EnumP.Table.Tenants:
+                case EnumP.Table.InactiveTenants:
+                    siteMapPath = new List<string>() { "Kartoteki", "Najemcy" };
+                    break;
                 case EnumP.Table.Buildings:
                 case EnumP.Table.Communities:
                 case EnumP.Table.RentComponents:

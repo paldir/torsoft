@@ -247,9 +247,49 @@ namespace czynsze.Forms
                                     }
                                     catch { dbWriteResult = "Nie można usunąć lokalu!"; }
                                     break;
+                                case EnumP.Action.Przenieś:
+                                    try
+                                    {
+                                        DataAccess.InactivePlace inactivePlace = new DataAccess.InactivePlace();
+                                        place = db.places.FirstOrDefault(p => p.nr_system == id);
+
+                                        db.places.Remove(place);
+                                        inactivePlace.Set(place.AllFields());
+                                        db.inactivePlaces.Add(inactivePlace);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Lokal przeniesiony.";
+                                    }
+                                    catch
+                                    { dbWriteResult = "Nie można przenieść lokalu!"; }
+                                    break;
                             }
                         }
                     }
+                    break;
+                case EnumP.Table.InactivePlaces:
+                    validationResult = String.Empty;
+
+                    using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                        switch (action)
+                        {
+                            case EnumP.Action.Przenieś:
+                                try
+                                {
+                                    DataAccess.Place activePlace = new DataAccess.Place();
+                                    DataAccess.InactivePlace inactivePlace = db.inactivePlaces.FirstOrDefault(p => p.nr_system == id);
+
+                                    db.inactivePlaces.Remove(inactivePlace);
+                                    activePlace.Set(inactivePlace.AllFields());
+                                    db.places.Add(activePlace);
+                                    db.SaveChanges();
+
+                                    dbWriteResult = "Lokal przeniesiony.";
+                                }
+                                catch
+                                { dbWriteResult = "Nie można przenieść lokalu!"; }
+                                break;
+                        }
                     break;
                 case EnumP.Table.Tenants:
                     this.Title = "Edycja najemcy";
@@ -335,9 +375,47 @@ namespace czynsze.Forms
                                     }
                                     catch { dbWriteResult = "Nie można usunąć najemcy!"; }
                                     break;
+                                case EnumP.Action.Przenieś:
+                                    try
+                                    {
+                                        DataAccess.InactiveTenant inactiveTenant = new DataAccess.InactiveTenant();
+                                        tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == id);
+
+                                        db.tenants.Remove(tenant);
+                                        inactiveTenant.Set(tenant.AllFields());
+                                        db.inactiveTenants.Add(inactiveTenant);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Najemca przeniesiony.";
+                                    }
+                                    catch { dbWriteResult = "Nie można przenieść najemcy!"; }
+                                    break;
                             }
                         }
                     }
+                    break;
+                case EnumP.Table.InactiveTenants:
+                    validationResult = String.Empty;
+
+                    using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                        switch (action)
+                        {
+                            case EnumP.Action.Przenieś:
+                                try
+                                {
+                                    DataAccess.Tenant activeTenant = new DataAccess.Tenant();
+                                    DataAccess.InactiveTenant inactiveTenant = db.inactiveTenants.FirstOrDefault(t => t.nr_kontr == id);
+
+                                    db.inactiveTenants.Remove(inactiveTenant);
+                                    activeTenant.Set(inactiveTenant.AllFields());
+                                    db.tenants.Add(activeTenant);
+                                    db.SaveChanges();
+
+                                    dbWriteResult = "Najemca przenesiony.";
+                                }
+                                catch { dbWriteResult = "Nie można przenieść najemcy!"; }
+                                break;
+                        }
                     break;
                 case EnumP.Table.RentComponents:
                     this.Title = "Edycja składnika opłat";

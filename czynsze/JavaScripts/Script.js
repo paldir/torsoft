@@ -61,6 +61,7 @@ function ChangeRow(rowId, inactive) {
     var editingButton = document.getElementById("editaction");
     var deletingButton = document.getElementById("deleteaction");
     var browsingButton = document.getElementById("browseaction");
+    var movingButton = document.getElementById("moveaction");
     var editingTabButton = document.getElementById("showEditingWindow");
     var deletingTabButton = document.getElementById("deletechildAction");
     var browsingTabButton = document.getElementById("browsechildAction");
@@ -84,6 +85,9 @@ function ChangeRow(rowId, inactive) {
 
     if (browsingTabButton != null)
         browsingTabButton.disabled = false;
+
+    if (movingButton != null)
+        movingButton.disabled = false;
 
     var selectedRow = document.getElementsByClassName("selectedRow")[0];
 
