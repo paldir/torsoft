@@ -9,7 +9,7 @@ namespace czynsze.ControlsP
 {
     public class TextBoxP : TextBox
     {
-        public enum TextBoxModeP { SingleLine, MultiLine, Date, Number, Float };
+        public enum TextBoxModeP { SingleLine, MultiLine, Date, Number, Float, Password };
         
         public TextBoxP(string cSSClass, string id, string text, TextBoxModeP textMode, int maxLength, int rows, bool enabled)
         {
@@ -32,6 +32,9 @@ namespace czynsze.ControlsP
                     break;
                 case TextBoxModeP.Date:
                     this.Attributes.Add("onkeypress", "return isDate(event)");
+                    break;
+                case TextBoxModeP.Password:
+                    this.TextMode = TextBoxMode.Password;
                     break;
             }
             

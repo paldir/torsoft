@@ -225,6 +225,14 @@ namespace czynsze.Forms
                         using (db = new DataAccess.Czynsze_Entities())
                             rows = db.attributes.OrderBy(a => a.kod).ToList().Select(a => a.ImportantFields()).ToList();
                     break;
+                case EnumP.Table.Users:
+                    heading = "Użytkownicy";
+                    headers = new string[] { "Symbol", "Nazwisko", "Imię" };
+
+                    if (!IsPostBack)
+                        using (db = new DataAccess.Czynsze_Entities())
+                            rows = db.users.OrderBy(u => u.symbol).ToList().Select(u => u.ImportantFields()).ToList();
+                    break;
             }
 
             placeOfHeading.Controls.Add(new LiteralControl("<h2>" + heading + "</h2>"));
@@ -279,6 +287,9 @@ namespace czynsze.Forms
                 case EnumP.Table.VatRates:
                 case EnumP.Table.Attributes:
                     siteMapPath = new List<string>() { "Słowniki" };
+                    break;
+                case EnumP.Table.Users:
+                    siteMapPath = new List<string>() { "Administracja" };
                     break;
             }
 

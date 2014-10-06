@@ -153,9 +153,11 @@
     <Compile Include="DataAccess\GroupOfRentComponents.cs" />
     <Compile Include="DataAccess\InactivePlace.cs" />
     <Compile Include="DataAccess\InactiveTenant.cs" />
+    <Compile Include="DataAccess\ActivePlace.cs" />
     <Compile Include="DataAccess\Place.cs" />
     <Compile Include="DataAccess\RentComponent.cs" />
     <Compile Include="DataAccess\RentComponentOfPlace.cs" />
+    <Compile Include="DataAccess\ActiveTenant.cs" />
     <Compile Include="DataAccess\Tenant.cs" />
     <Compile Include="DataAccess\Title.cs" />
     <Compile Include="DataAccess\TypeOfKitchen.cs" />

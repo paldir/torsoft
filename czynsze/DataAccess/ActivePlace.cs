@@ -8,8 +8,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace czynsze.DataAccess
 {
-    [Table("lokale_a", Schema = "public")]
-    public class InactivePlace : Place
+    [Table("lokale", Schema = "public")]
+    public class ActivePlace : Place
     {
         [Key, Column("nr_system"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public override int nr_system { get; set; }
@@ -194,6 +194,52 @@ namespace czynsze.DataAccess
             uwagi_2 = record[21].Substring(60, 60).Trim();
             uwagi_3 = record[21].Substring(120, 60).Trim();
             uwagi_4 = record[21].Substring(180, 60).Trim();
+        }
+
+        public static string Validate(EnumP.Action action, string[] record)
+        {
+            string result = "";
+            int kod_lok, nr_lok;
+
+            if (action == EnumP.Action.Dodaj)
+            {
+                if (record[2].Length > 0)
+                {
+                    try
+                    {
+                        kod_lok = Convert.ToInt16(record[1]);
+                        nr_lok = Convert.ToInt16(record[2]);
+
+                        using (Czynsze_Entities db = new Czynsze_Entities())
+                            if (db.places.Where(p => p.kod_lok == kod_lok && p.nr_lok == nr_lok).Count() != 0)
+                                result += "W wybranym budynku istnieje już lokal o danym numerze! <br />";
+                    }
+                    catch { result += "Nr lokalu musi być liczbą całkowitą! <br />"; }
+                }
+                else
+                    result += "Należy podać numer lokalu! <br />";
+            }
+
+            switch (action)
+            {
+                case EnumP.Action.Dodaj:
+                case EnumP.Action.Edytuj:
+                    result += Czynsze_Entities.ValidateFloat("Powierzchnia użytkowa", ref record[6]);
+                    result += Czynsze_Entities.ValidateFloat("Powierzchnia mieszkalna", ref record[7]);
+                    result += Czynsze_Entities.ValidateFloat("Udział", ref record[8]);
+                    result += Czynsze_Entities.ValidateDate("Początek zakresu dat", ref record[9]);
+                    result += Czynsze_Entities.ValidateDate("Koniec zakresu dat", ref record[10]);
+                    result += Czynsze_Entities.ValidateFloat("Powierzchnia I pokoju", ref record[11]);
+                    result += Czynsze_Entities.ValidateFloat("Powierzchnia II pokoju", ref record[12]);
+                    result += Czynsze_Entities.ValidateFloat("Powierzchnia III pokoju", ref record[13]);
+                    result += Czynsze_Entities.ValidateFloat("Powierzchnia IV pokoju", ref record[14]);
+                    result += Czynsze_Entities.ValidateFloat("Powierzchnia V pokoju", ref record[15]);
+                    result += Czynsze_Entities.ValidateFloat("Powierzchnia VI pokoju", ref record[16]);
+                    result += Czynsze_Entities.ValidateInt("Ilość osób", ref record[19]);
+                    break;
+            }
+
+            return result;
         }*/
     }
 }

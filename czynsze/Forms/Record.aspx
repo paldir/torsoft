@@ -58,7 +58,12 @@
                 %>
                     InitAttribute();
                 <%
-                break;                
+                break;  
+                case "Users":
+                %>
+                    InitUser();
+                <%
+                break;
         }
         %>
     </script>

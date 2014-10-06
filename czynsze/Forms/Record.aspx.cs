@@ -963,6 +963,54 @@ namespace czynsze.Forms
 
                     controls.Add(new ControlsP.CheckBoxListP("field", "zb", new List<string>() { "lokale", "najemcy", "budynki", "wspólnoty" }, new List<string>() { "l", "n", "b", "s" }, selectedValues, globalEnabled));
                     break;
+                case EnumP.Table.Users:
+                    this.Title = "Użytkownik";
+                    numberOfFields = 6;
+                    heading += " użytkownika";
+                    columnSwitching = new List<int>() { 0 };
+                    labels = new string[]
+                    {
+                        "Symbol: ",
+                        "Nazwisko: ",
+                        "Imię: ",
+                        "Użytkownik: ",
+                        "Hasło: ",
+                        "Potwierdź hasło: "
+                    };
+
+                    if (values == null)
+                    {
+                        if (action != EnumP.Action.Dodaj)
+                        {
+                            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                                values = db.users.FirstOrDefault(u => u.__record == id).AllFields();
+
+                            values[5] = String.Empty;
+                        }
+                        else
+                            values = new string[numberOfFields];
+                    }
+
+                    form.Controls.Add(new ControlsP.HtmlInputHiddenP("id", values[0]));
+                    controls.Add(new ControlsP.TextBoxP("field", "symbol", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 2, 1, false));
+
+                    if (idEnabled)
+                    {
+                        controls.Add(new ControlsP.TextBoxP("field", "nazwisko", values[2], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 25, 1, idEnabled));
+                        controls.Add(new ControlsP.TextBoxP("field", "imie", values[3], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 15, 1, idEnabled));
+                    }
+                    else
+                    {
+                        controls.Add(new ControlsP.TextBoxP("field", "nazwisko_disabled", values[2], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 25, 1, idEnabled));
+                        controls.Add(new ControlsP.TextBoxP("field", "imie_disabled", values[3], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 15, 1, idEnabled));
+                        form.Controls.Add(new ControlsP.HtmlInputHiddenP("nazwisko", values[2]));
+                        form.Controls.Add(new ControlsP.HtmlInputHiddenP("imie", values[3]));
+                    }
+
+                    controls.Add(new ControlsP.TextBoxP("field", "uzytkownik", values[4], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 40, 1, false));
+                    controls.Add(new ControlsP.TextBoxP("field", "haslo", values[5], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 8, 1, globalEnabled));
+                    controls.Add(new ControlsP.TextBoxP("field", "haslo2", String.Empty, ControlsP.TextBoxP.TextBoxModeP.SingleLine, 8, 1, globalEnabled));
+                    break;
             }
 
             placeOfHeading.Controls.Add(new LiteralControl("<h2>" + heading + "</h2>"));

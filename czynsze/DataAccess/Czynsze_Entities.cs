@@ -11,11 +11,11 @@ namespace czynsze.DataAccess
     {
         public Czynsze_Entities() : base(nameOrConnectionString: "czynsze_connectionString") { }
         public DbSet<Building> buildings { get; set; }
-        public DbSet<Place> places { get; set; }
+        public DbSet<ActivePlace> places { get; set; }
         public DbSet<InactivePlace> inactivePlaces { get; set; }
         public DbSet<TypeOfPlace> typesOfPlace { get; set; }
         public DbSet<TypeOfKitchen> typesOfKitchen { get; set; }
-        public DbSet<Tenant> tenants { get; set; }
+        public DbSet<ActiveTenant> tenants { get; set; }
         public DbSet<Title> titles { get; set; }
         public DbSet<TypeOfTenant> typesOfTenant { get; set; }
         public DbSet<RentComponent> rentComponents { get; set; }
@@ -38,7 +38,7 @@ namespace czynsze.DataAccess
         {
             string result = "";
 
-            if (integer.Length > 0)
+            if (integer != null && integer.Length > 0)
                 try { Convert.ToInt16(integer); }
                 catch { result += name + " musi być liczbą całkowitą! <br />"; }
             else
@@ -51,7 +51,7 @@ namespace czynsze.DataAccess
         {
             string result = "";
 
-            if (single.Length > 0)
+            if (single != null && single.Length > 0)
                 try { Convert.ToSingle(single); }
                 catch { result += name + " musi być liczbą! <br />"; }
             else
@@ -64,7 +64,7 @@ namespace czynsze.DataAccess
         {
             string result = "";
 
-            if (date.Length > 0)
+            if (date != null && date.Length > 0)
                 try { Convert.ToDateTime(date); }
                 catch { result += name + " musi mieć format rrrr-mm-dd! <br />"; }
             else

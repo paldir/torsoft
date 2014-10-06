@@ -3,37 +3,54 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
 namespace czynsze.DataAccess
 {
-    public abstract class Tenant
+    [Table("najemcy", Schema="public")]
+    public class ActiveTenant : Tenant
     {
-        public abstract int nr_kontr { get; set; }
+        [Key, Column("nr_kontr"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
+        public override int nr_kontr { get; set; }
 
-        public abstract string nazwisko { get; set; }
+        [Column("nazwisko")]
+        public override string nazwisko { get; set; }
 
-        public abstract string imie { get; set; }
+        [Column("imie")]
+        public override string imie { get; set; }
 
-        public abstract string adres_1 { get; set; }
+        [Column("adres_1")]
+        public override string adres_1 { get; set; }
 
-        public abstract string adres_2 { get; set; }
+        [Column("adres_2")]
+        public override string adres_2 { get; set; }
 
-        public abstract int kod_najem { get; set; }
+        [Column("kod_najem")]
+        public override int kod_najem { get; set; }
 
-        public abstract string nr_dow { get; set; }
+        [Column("nr_dow")]
+        public override string nr_dow { get; set; }
 
-        public abstract string pesel { get; set; }
+        [Column("pesel")]
+        public override string pesel { get; set; }
 
-        public abstract string nazwa_z { get; set; }
+        [Column("nazwa_z")]
+        public override string nazwa_z { get; set; }
 
-        public abstract string e_mail { get; set; }
+        [Column("e_mail")]
+        public override string e_mail { get; set; }
 
-        public abstract string l__has { get; set; }
+        [Column("l__has")]
+        public override string l__has { get; set; }
 
-        public abstract string uwagi_1 { get; set; }
+        [Column("uwagi_1")]
+        public override string uwagi_1 { get; set; }
 
-        public abstract string uwagi_2 { get; set; }
+        [Column("uwagi_2")]
+        public override string uwagi_2 { get; set; }
 
-        public string[] ImportantFields()
+        /*public string[] ImportantFields()
         {
             return new string[] 
             { 
@@ -97,6 +114,6 @@ namespace czynsze.DataAccess
 
             uwagi_1 = record[11].Substring(0, 60).Trim();
             uwagi_2 = record[11].Substring(60, 60).Trim();
-        }
+        }*/
     }
 }

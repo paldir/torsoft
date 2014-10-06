@@ -3,94 +3,63 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-
 namespace czynsze.DataAccess
 {
-    [Table("lokale", Schema = "public")]
-    public class Place
+    public abstract class Place
     {
-        [Key, Column("nr_system"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
-        public int nr_system { get; set; }
+        public abstract int nr_system { get; set; }
 
-        [Column("kod_lok")]
-        public int kod_lok { get; set; }
+        public abstract int kod_lok { get; set; }
 
-        [Column("nr_lok")]
-        public int nr_lok { get; set; }
+        public abstract int nr_lok { get; set; }
 
-        [Column("kod_typ")]
-        public int kod_typ { get; set; }
+        public abstract int kod_typ { get; set; }
 
-        [Column("pow_uzyt")]
-        public float pow_uzyt { get; set; }
+        public abstract float pow_uzyt { get; set; }
 
-        [Column("nazwisko")]
-        public string nazwisko { get; set; }
+        public abstract string nazwisko { get; set; }
 
-        [Column("imie")]
-        public string imie { get; set; }
+        public abstract string imie { get; set; }
 
-        [Column("adres")]
-        public string adres { get; set; }
+        public abstract string adres { get; set; }
 
-        [Column("adres_2")]
-        public string adres_2 { get; set; }
+        public abstract string adres_2 { get; set; }
 
-        [Column("pow_miesz")]
-        public float pow_miesz { get; set; }
+        public abstract float pow_miesz { get; set; }
 
-        [Column("udzial")]
-        public float udzial { get; set; }
+        public abstract float udzial { get; set; }
 
-        [Column("dat_od")]
-        public string dat_od { get; set; }
+        public abstract string dat_od { get; set; }
 
-        [Column("dat_do")]
-        public string dat_do { get; set; }
+        public abstract string dat_do { get; set; }
 
-        [Column("p_1")]
-        public float p_1 { get; set; }
+        public abstract float p_1 { get; set; }
 
-        [Column("p_2")]
-        public float p_2 { get; set; }
+        public abstract float p_2 { get; set; }
 
-        [Column("p_3")]
-        public float p_3 { get; set; }
+        public abstract float p_3 { get; set; }
 
-        [Column("p_4")]
-        public float p_4 { get; set; }
+        public abstract float p_4 { get; set; }
 
-        [Column("p_5")]
-        public float p_5 { get; set; }
+        public abstract float p_5 { get; set; }
 
-        [Column("p_6")]
-        public float p_6 { get; set; }
+        public abstract float p_6 { get; set; }
 
-        [Column("kod_kuch")]
-        public Nullable<int> kod_kuch { get; set; }
+        public abstract Nullable<int> kod_kuch { get; set; }
 
-        [Column("nr_kontr")]
-        public Nullable<int> nr_kontr { get; set; }
+        public abstract Nullable<int> nr_kontr { get; set; }
 
-        [Column("il_osob")]
-        public Nullable<int> il_osob { get; set; }
+        public abstract Nullable<int> il_osob { get; set; }
 
-        [Column("kod_praw")]
-        public Nullable<int> kod_praw { get; set; }
+        public abstract Nullable<int> kod_praw { get; set; }
 
-        [Column("uwagi_1")]
-        public string uwagi_1 { get; set; }
+        public abstract string uwagi_1 { get; set; }
 
-        [Column("uwagi_2")]
-        public string uwagi_2 { get; set; }
+        public abstract string uwagi_2 { get; set; }
 
-        [Column("uwagi_3")]
-        public string uwagi_3 { get; set; }
+        public abstract string uwagi_3 { get; set; }
 
-        [Column("uwagi_4")]
-        public string uwagi_4 { get; set; }
+        public abstract string uwagi_4 { get; set; }
 
         public string[] ImportantFields()
         {
@@ -180,7 +149,7 @@ namespace czynsze.DataAccess
 
             using (Czynsze_Entities db = new Czynsze_Entities())
             {
-                Tenant tenant = db.tenants.Where(t => t.nr_kontr == nr_kontr).FirstOrDefault();
+                ActiveTenant tenant = db.tenants.Where(t => t.nr_kontr == nr_kontr).FirstOrDefault();
                 nazwisko = tenant.nazwisko;
                 imie = tenant.imie;
             }
@@ -220,10 +189,10 @@ namespace czynsze.DataAccess
                     result += "Należy podać numer lokalu! <br />";
             }
 
-            switch (action)
+            /*switch (action)
             {
                 case EnumP.Action.Dodaj:
-                case EnumP.Action.Edytuj:
+                case EnumP.Action.Edytuj:*/
                     result += Czynsze_Entities.ValidateFloat("Powierzchnia użytkowa", ref record[6]);
                     result += Czynsze_Entities.ValidateFloat("Powierzchnia mieszkalna", ref record[7]);
                     result += Czynsze_Entities.ValidateFloat("Udział", ref record[8]);
@@ -236,8 +205,8 @@ namespace czynsze.DataAccess
                     result += Czynsze_Entities.ValidateFloat("Powierzchnia V pokoju", ref record[15]);
                     result += Czynsze_Entities.ValidateFloat("Powierzchnia VI pokoju", ref record[16]);
                     result += Czynsze_Entities.ValidateInt("Ilość osób", ref record[19]);
-                    break;
-            }
+                    /*break;
+            }*/
 
             return result;
         }

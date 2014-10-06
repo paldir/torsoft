@@ -124,7 +124,7 @@ namespace czynsze.Forms
                     break;
                 case EnumP.Table.Places:
                     this.Title = "Edycja lokalu";
-                    DataAccess.Place place;
+                    DataAccess.ActivePlace place;
 
                     record = new string[]
                     {
@@ -152,7 +152,7 @@ namespace czynsze.Forms
                         Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("uwagi"))]
                     };
 
-                    validationResult = DataAccess.Place.Validate(action, record);
+                    validationResult = DataAccess.ActivePlace.Validate(action, record);
 
                     if (validationResult == String.Empty)
                     {
@@ -163,7 +163,7 @@ namespace czynsze.Forms
                                 case EnumP.Action.Dodaj:
                                     try
                                     {
-                                        place = new DataAccess.Place();
+                                        place = new DataAccess.ActivePlace();
 
                                         place.Set(record);
                                         db.places.Add(place);
@@ -254,7 +254,11 @@ namespace czynsze.Forms
                                         place = db.places.FirstOrDefault(p => p.nr_system == id);
 
                                         db.places.Remove(place);
-                                        inactivePlace.Set(place.AllFields());
+
+                                        record = place.AllFields();
+
+                                        DataAccess.Place.Validate(action, record);
+                                        inactivePlace.Set(record);
                                         db.inactivePlaces.Add(inactivePlace);
                                         db.SaveChanges();
 
@@ -276,11 +280,15 @@ namespace czynsze.Forms
                             case EnumP.Action.Przenieś:
                                 try
                                 {
-                                    DataAccess.Place activePlace = new DataAccess.Place();
+                                    DataAccess.ActivePlace activePlace = new DataAccess.ActivePlace();
                                     DataAccess.InactivePlace inactivePlace = db.inactivePlaces.FirstOrDefault(p => p.nr_system == id);
 
                                     db.inactivePlaces.Remove(inactivePlace);
-                                    activePlace.Set(inactivePlace.AllFields());
+
+                                    record = inactivePlace.AllFields();
+
+                                    DataAccess.Place.Validate(action, record);
+                                    activePlace.Set(record);
                                     db.places.Add(activePlace);
                                     db.SaveChanges();
 
@@ -293,7 +301,7 @@ namespace czynsze.Forms
                     break;
                 case EnumP.Table.Tenants:
                     this.Title = "Edycja najemcy";
-                    DataAccess.Tenant tenant;
+                    DataAccess.ActiveTenant tenant;
 
                     record = new string[]
                     {
@@ -322,7 +330,7 @@ namespace czynsze.Forms
                                 case EnumP.Action.Dodaj:
                                     try
                                     {
-                                        tenant = new DataAccess.Tenant();
+                                        tenant = new DataAccess.ActiveTenant();
 
                                         tenant.Set(record);
                                         db.tenants.Add(tenant);
@@ -382,7 +390,10 @@ namespace czynsze.Forms
                                         tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == id);
 
                                         db.tenants.Remove(tenant);
-                                        inactiveTenant.Set(tenant.AllFields());
+
+                                        record = tenant.AllFields();
+
+                                        inactiveTenant.Set(record);
                                         db.inactiveTenants.Add(inactiveTenant);
                                         db.SaveChanges();
 
@@ -403,11 +414,14 @@ namespace czynsze.Forms
                             case EnumP.Action.Przenieś:
                                 try
                                 {
-                                    DataAccess.Tenant activeTenant = new DataAccess.Tenant();
+                                    DataAccess.ActiveTenant activeTenant = new DataAccess.ActiveTenant();
                                     DataAccess.InactiveTenant inactiveTenant = db.inactiveTenants.FirstOrDefault(t => t.nr_kontr == id);
 
                                     db.inactiveTenants.Remove(inactiveTenant);
-                                    activeTenant.Set(inactiveTenant.AllFields());
+
+                                    record = inactiveTenant.AllFields();
+
+                                    activeTenant.Set(record);
                                     db.tenants.Add(activeTenant);
                                     db.SaveChanges();
 
@@ -1104,6 +1118,66 @@ namespace czynsze.Forms
                                     catch { dbWriteResult = "Nie można usunąć cechy obiektów!"; }
                                     break;
                             }
+                    break;
+                case EnumP.Table.Users:
+                    this.Title = "Edycja użytkownika";
+                    DataAccess.User user;
+
+                    record = new string[]
+                    {
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("id"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("nazwisko"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("imie"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("haslo"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("haslo2"))]
+                    };
+
+                    validationResult = DataAccess.User.Validate(action, ref record);
+
+                    if (validationResult == String.Empty)
+                    {                        
+                        using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                            switch (action)
+                            {
+                                case EnumP.Action.Dodaj:
+                                    try
+                                    {
+                                        user = new DataAccess.User();
+
+                                        user.Set(record);
+                                        db.users.Add(user);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Użytkownik dodany.";
+                                    }
+                                    catch { dbWriteResult = "Nie można dodać użytkownika!"; }
+                                    break;
+                                case EnumP.Action.Edytuj:
+                                    try
+                                    {
+                                        user = db.users.FirstOrDefault(u => u.__record == id);
+
+                                        user.Set(record);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Użytkownik wyedytowany.";
+                                    }
+                                    catch { dbWriteResult = "Nie można edytować użytkownika!"; }
+                                    break;
+                                case EnumP.Action.Usuń:
+                                    try
+                                    {
+                                        user = db.users.FirstOrDefault(u => u.__record == id);
+
+                                        db.users.Remove(user);
+                                        db.SaveChanges();
+
+                                        dbWriteResult = "Użytkownik usunięty.";
+                                    }
+                                    catch { dbWriteResult = "Nie można usunąć użytkownika!"; }
+                                    break;
+                            }
+                    }
                     break;
             }
 

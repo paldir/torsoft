@@ -116,9 +116,9 @@
             </li>
             <li class="mainSuperMenuItem">Administracja
                 <ul class="mainSubMenu">
-                    <!--<li class="mainSubMenuItem"><a href="#">Admin1</a></li>
-                    <li class="mainSubMenuItem"><a href="#">Admin2</a></li>
-                    <li class="mainSubMenuItem"><a href="#">Admin3</a></li>-->
+                    <li class="mainSubMenuItem">
+                        <a href="List.aspx?table=Users">Użytkownicy</a>
+                    </li>
                 </ul>
             </li>
         </ul>
