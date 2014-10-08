@@ -87,15 +87,22 @@ namespace czynsze.DataAccess
                         recordList.Insert(4, String.Empty);
                     }
                     break;
+                case EnumP.Action.Edytuj:
+                    recordList.Insert(1, record[1].First().ToString() + record[2].First().ToString());
+                    recordList.Insert(4, record[1] + " " + record[2]);
+                    break;
             }
 
-            if (record[3].Length > 0)
+            if (action != EnumP.Action.Usuń)
             {
-                if (record[3] != record[4])
-                    result += "Podane hasła nie są identyczne! <br />";
+                if (record[3].Length > 0)
+                {
+                    if (record[3] != record[4])
+                        result += "Podane hasła nie są identyczne! <br />";
+                }
+                else
+                    result += "Hasło nie może być puste! <br />";
             }
-            else
-                result += "Hasło nie może być puste! <br />";
 
             record = recordList.ToArray();
 

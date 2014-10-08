@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Forms\AttributeOfObject.aspx" />
+    <Content Include="Forms\CryptPassword.aspx" />
     <Content Include="Forms\Hello.aspx" />
     <Content Include="Forms\List.aspx" />
     <Content Include="Forms\Record.aspx" />
@@ -173,6 +174,13 @@
     </Compile>
     <Compile Include="Forms\AttributeOfObject.aspx.designer.cs">
       <DependentUpon>AttributeOfObject.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CryptPassword.aspx.cs">
+      <DependentUpon>CryptPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Forms\CryptPassword.aspx.designer.cs">
+      <DependentUpon>CryptPassword.aspx</DependentUpon>
     </Compile>
     <Compile Include="Forms\Hello.aspx.cs">
       <DependentUpon>Hello.aspx</DependentUpon>

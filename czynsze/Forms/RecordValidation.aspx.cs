@@ -1135,7 +1135,9 @@ namespace czynsze.Forms
                     validationResult = DataAccess.User.Validate(action, ref record);
 
                     if (validationResult == String.Empty)
-                    {                        
+                    {
+                        ControlsP.HtmlIframeP iFrame = new ControlsP.HtmlIframeP("iframe", "cryptPassword", "/czynsze1/CryptPassword.cxp?uzytkownik=" + record[4], String.Empty);
+                        
                         using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                             switch (action)
                             {
@@ -1149,6 +1151,8 @@ namespace czynsze.Forms
                                         db.SaveChanges();
 
                                         dbWriteResult = "Użytkownik dodany.";
+
+                                        form.Controls.Add(iFrame);
                                     }
                                     catch { dbWriteResult = "Nie można dodać użytkownika!"; }
                                     break;
@@ -1161,6 +1165,8 @@ namespace czynsze.Forms
                                         db.SaveChanges();
 
                                         dbWriteResult = "Użytkownik wyedytowany.";
+
+                                        form.Controls.Add(iFrame);
                                     }
                                     catch { dbWriteResult = "Nie można edytować użytkownika!"; }
                                     break;
@@ -1181,20 +1187,20 @@ namespace czynsze.Forms
                     break;
             }
 
-            form.Controls.Add(new LiteralControl(validationResult));
+            placeOfMessage.Controls.Add(new LiteralControl(validationResult));
 
             if (dbWriteResult != null)
-                form.Controls.Add(new LiteralControl(dbWriteResult + "<br />"));
+                placeOfMessage.Controls.Add(new LiteralControl(dbWriteResult + "<br />"));
 
             if (validationResult != String.Empty || (dbWriteResult != null && dbWriteResult.Last() == '!'))
             {
-                form.Controls.Add(new ControlsP.ButtonP("button", "Repair", "Popraw", "Record.aspx"));
-                form.Controls.Add(new ControlsP.ButtonP("button", "Cancel", "Anuluj", "List.aspx"));
+                placeOfButtons.Controls.Add(new ControlsP.ButtonP("button", "Repair", "Popraw", "Record.aspx"));
+                placeOfButtons.Controls.Add(new ControlsP.ButtonP("button", "Cancel", "Anuluj", "List.aspx"));
 
                 Session["values"] = record;
             }
             else
-                form.Controls.Add(new ControlsP.ButtonP("button", "Back", "Powrót", "List.aspx"));
+                placeOfButtons.Controls.Add(new ControlsP.ButtonP("button", "Back", "Powrót", "List.aspx"));
         }
     }
 }
