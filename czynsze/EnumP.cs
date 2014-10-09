@@ -26,7 +26,8 @@ namespace czynsze
             Attributes,
             GroupsOfRentComponents,
             FinancialGroups,
-            Users
+            Users,
+            ReceivablesByTenants
         };
 
         public enum Report { PlacesInEachBuilding };
@@ -34,5 +35,6 @@ namespace czynsze
         public enum SortOrder { Asc, Desc };
         public enum AttributeOf { Place, Tenant, Building, Community };
         public enum ReasonOfRedirectToLoginPage { IncorrectCredentials, NotLoggedInOrSessionExpired };
+        public enum Settlement { }
     }
 }

@@ -159,7 +159,7 @@ namespace czynsze.Forms
                     }
 
                     controls.Add(new ControlsP.TextBoxP("field", "il_miesz", values[1], ControlsP.TextBoxP.TextBoxModeP.Number, 3, 1, globalEnabled));
-                    controls.Add(new ControlsP.RadioButtonListP("field", "sp_rozl", new List<string>() { "budynek", "lokale" }, new List<string>() { "0", "1" }, values[2], globalEnabled));
+                    controls.Add(new ControlsP.RadioButtonListP("field", "sp_rozl", new List<string>() { "budynek", "lokale" }, new List<string>() { "0", "1" }, values[2], globalEnabled, false));
                     controls.Add(new ControlsP.TextBoxP("field", "adres", values[3], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 30, 1, globalEnabled));
                     controls.Add(new ControlsP.TextBoxP("field", "adres_2", values[4], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 30, 1, globalEnabled));
                     controls.Add(new ControlsP.TextBoxP("field", "udzial_w_k", values[5], ControlsP.TextBoxP.TextBoxModeP.Float, 6, 1, globalEnabled));
@@ -802,8 +802,8 @@ namespace czynsze.Forms
                         new string[] {"3", "Zwrot"}
                     }, values[3], globalEnabled));
 
-                    controls.Add(new ControlsP.RadioButtonListP("field", "tn_odset", new List<string>() { "Nie", "Tak" }, new List<string>() { "0", "1" }, values[4], globalEnabled));
-                    controls.Add(new ControlsP.RadioButtonListP("field", "nota_odset", new List<string>() { "Nie", "Tak" }, new List<string>() { "0", "1" }, values[5], globalEnabled));
+                    controls.Add(new ControlsP.RadioButtonListP("field", "tn_odset", new List<string>() { "Nie", "Tak" }, new List<string>() { "0", "1" }, values[4], globalEnabled, false));
+                    controls.Add(new ControlsP.RadioButtonListP("field", "nota_odset", new List<string>() { "Nie", "Tak" }, new List<string>() { "0", "1" }, values[5], globalEnabled, false));
 
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                         controls.Add(new ControlsP.DropDownListP("field", "vat", db.vatRates.ToList().Select(r => r.ImportantFieldsForDropDown()).ToList(), values[6], globalEnabled));
@@ -942,7 +942,7 @@ namespace czynsze.Forms
                     }
 
                     controls.Add(new ControlsP.TextBoxP("field", "nazwa", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 20, 1, globalEnabled));
-                    controls.Add(new ControlsP.RadioButtonListP("field", "nr_str", new List<string>() { "numeryczna", "charakter" }, new List<string>() { "N", "C" }, values[2], globalEnabled));
+                    controls.Add(new ControlsP.RadioButtonListP("field", "nr_str", new List<string>() { "numeryczna", "charakter" }, new List<string>() { "N", "C" }, values[2], globalEnabled, false));
                     controls.Add(new ControlsP.TextBoxP("field", "jedn", values[3], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 6, 1, globalEnabled));
                     controls.Add(new ControlsP.TextBoxP("field", "wartosc", values[4], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 25, 1, globalEnabled));
                     controls.Add(new ControlsP.TextBoxP("field", "uwagi", values[5], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 30, 1, globalEnabled));

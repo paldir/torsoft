@@ -1,10 +1,23 @@
-﻿function ShowMenu(item) {
+﻿function MainInit() {
+    var buttonOfChangingDate = document.getElementById("buttonOfChangingDate");
+
+    if (buttonOfChangingDate != null) {
+        buttonOfChangingDate.onclick = function () { buttonOfChangingDate_click(); }
+    }
+}
+
+function buttonOfChangingDate_click() {
+    if (confirm("Czy chcesz opuścić obecną stronę, aby zmienić miesiąc? Niezapisane dane nie zostaną zachowane."))
+        window.location.href = "Hello.aspx";
+}
+
+function ShowMenu(item) {
     item.style.display = "table";
 }
 
 function body_onclick(evt) {
     HideMenu();
-    
+
     var srcElement;
 
     srcElement = evt.target;

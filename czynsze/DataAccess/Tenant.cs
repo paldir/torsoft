@@ -98,5 +98,38 @@ namespace czynsze.DataAccess
             uwagi_1 = record[11].Substring(0, 60).Trim();
             uwagi_2 = record[11].Substring(60, 60).Trim();
         }
+
+        public string[] WithPlace()
+        {
+            string kod;
+            string nr;
+            string lokal;
+
+            using (DataAccess.Czynsze_Entities db = new Czynsze_Entities())
+            {
+                DataAccess.Place place = db.places.FirstOrDefault(p => p.nr_kontr == nr_kontr);
+
+                if (place == null)
+                    kod = nr = lokal = "0";
+                else
+                {
+                    kod = place.kod_lok.ToString();
+                    nr = place.nr_lok.ToString();
+                    lokal = place.adres + " " + place.adres_2;
+                }
+            }
+
+
+            return new string[] 
+            { 
+                nr_kontr.ToString(),
+                nazwisko,
+                imie,
+                kod,
+                nr,
+                adres_1+" "+adres_2,
+                lokal
+            };
+        }
     }
 }

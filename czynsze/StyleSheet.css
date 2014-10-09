@@ -371,8 +371,8 @@ input, select, textarea {
     padding: 20px;
 }
 
-.placeOfLogOut {
-    border-width: 1px;
+.placeOfLogOut, .placeOfDate {
+    border-width: 2px 1px 2px 1px;
     border-style: solid;
     border-bottom-color: dodgerblue;
     border-left-color: dodgerblue;
@@ -380,6 +380,23 @@ input, select, textarea {
     border-right-color: mediumblue;
     background-color: aliceblue;
     padding: 5px;
+}
+
+.placeOfChangingDate {
+    width: 200px;
+    position: absolute;
+    background-color: aliceblue;
+    left: 75%;
+    top: 50%;
+    margin-top: -210px;
+    margin-left: -100px;
+    border-width: 1px;
+    border-style: solid;
+    border-bottom-color: dodgerblue;
+    border-left-color: dodgerblue;
+    border-top-color: mediumblue;
+    border-right-color: mediumblue;
+    padding: 10px;
 }
 
 .siteMapPath {

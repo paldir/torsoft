@@ -20,6 +20,17 @@ namespace czynsze
             }
             set { Session["siteMapPath"] = value; }
         }
+
+        DateTime date
+        {
+            get
+            {
+                if (Session["date"] == null)
+                    return DateTime.Today;
+
+                return (DateTime)Session["date"];
+            }
+        }
         
         protected void Page_Init(object sender, EventArgs e)
         {
@@ -39,6 +50,8 @@ namespace czynsze
                 placeOfSiteMapPath.InnerHtml = placeOfSiteMapPath.InnerHtml.Remove(placeOfSiteMapPath.InnerHtml.Length - 3);
             /*else
                 placeOfSiteMapPath.Visible = false;*/
+
+            placeOfSelectedDate.InnerHtml = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[date.Month - 1].ToString() + "." + date.Year.ToString();
         }
     }
 }

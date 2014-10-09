@@ -52,7 +52,7 @@ namespace czynsze.Forms
                     break;
             }
 
-            controls.Add(new ControlsP.RadioButtonListP("list", "format", new List<string>() { "PDF", "CSV" }, new List<string>() { EnumP.ReportFormat.Pdf.ToString(), EnumP.ReportFormat.Csv.ToString() }, EnumP.ReportFormat.Pdf.ToString(), true));
+            controls.Add(new ControlsP.RadioButtonListP("list", "format", new List<string>() { "PDF", "CSV" }, new List<string>() { EnumP.ReportFormat.Pdf.ToString(), EnumP.ReportFormat.Csv.ToString() }, EnumP.ReportFormat.Pdf.ToString(), true, false));
             labels.Add("Format: ");
 
             for (int i = 0; i < controls.Count; i++)

@@ -61,17 +61,37 @@ namespace czynsze.Forms
             set { Session["siteMapPath"] = value; }
         }
 
+        bool sortable
+        {
+            get
+            {
+                if (ViewState["sortable"] == null)
+                    return true;
+
+                return (bool)ViewState["sortable"];
+            }
+            set { ViewState["sortable"] = value; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))]);
             string postBackUrl = "Record.aspx";
             string heading = null;
             List<string> printingsSubMenu = null;
+            sortable = true;
 
-            placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "addaction", "Dodaj", postBackUrl));
-            placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "editaction", "Edytuj", postBackUrl));
-            placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "deleteaction", "Usuń", postBackUrl));
-            placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "browseaction", "Przeglądaj", postBackUrl));
+            switch (table)
+            {
+                case EnumP.Table.ReceivablesByTenants:
+                    break;
+                default:
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "addaction", "Dodaj", postBackUrl));
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "editaction", "Edytuj", postBackUrl));
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "deleteaction", "Usuń", postBackUrl));
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "browseaction", "Przeglądaj", postBackUrl));
+                    break;
+            }
 
             DataAccess.Czynsze_Entities db;
             switch (table)
@@ -233,6 +253,20 @@ namespace czynsze.Forms
                         using (db = new DataAccess.Czynsze_Entities())
                             rows = db.users.OrderBy(u => u.symbol).ToList().Select(u => u.ImportantFields()).ToList();
                     break;
+                case EnumP.Table.ReceivablesByTenants:
+                    heading = "Należności i obroty według najemców";
+                    headers = new string[] { "Nazwisko", "Imię", "Kod", "Nr", "Adres najemcy", "Adres lokalu" };
+                    sortable = false;
+
+                    if (!IsPostBack)
+                        using (db = new DataAccess.Czynsze_Entities())
+                            rows = db.tenants.OrderBy(t => t.nazwisko).ThenBy(t => t.imie).ToList().Select(t => t.WithPlace()).ToList();
+
+                    ControlsP.RadioButtonListP list = new ControlsP.RadioButtonListP("list", "by", new List<string> { "wg nazwiska", "wg kodu lokalu" }, new List<string> { "nazwisko", "kod" }, "nazwisko", true, true);
+                    list.SelectedIndexChanged += list_SelectedIndexChanged;
+
+                    placeOfMainTableButtons.Controls.Add(list);
+                    break;
             }
 
             placeOfHeading.Controls.Add(new LiteralControl("<h2>" + heading + "</h2>"));
@@ -276,6 +310,9 @@ namespace czynsze.Forms
                 case EnumP.Table.Communities:
                 case EnumP.Table.RentComponents:
                     siteMapPath = new List<string>() { "Kartoteki" };
+                    break;
+                case EnumP.Table.ReceivablesByTenants:
+                    siteMapPath = new List<string>() { "Rozliczenia finansowe", "Należności i obroty" };
                     break;
                 case EnumP.Table.TypesOfPlace:
                 case EnumP.Table.TypesOfKitchen:
@@ -325,10 +362,11 @@ namespace czynsze.Forms
 
         void CreateMainTable()
         {
-            ControlsP.TableP mainTable = new ControlsP.TableP("mainTable", rows, headers, true, String.Empty);
+            ControlsP.TableP mainTable = new ControlsP.TableP("mainTable", rows, headers, sortable, String.Empty);
 
-            foreach (TableCell cell in mainTable.Rows[0].Cells)
-                ((ControlsP.LinkButtonP)cell.Controls[0]).Click += LinkButtonOfColumn_Click;
+            if (sortable)
+                foreach (TableCell cell in mainTable.Rows[0].Cells)
+                    ((ControlsP.LinkButtonP)cell.Controls[0]).Click += LinkButtonOfColumn_Click;
 
             placeOfMainTable.Controls.Clear();
             placeOfMainTable.Controls.Add(mainTable);
@@ -351,6 +389,23 @@ namespace czynsze.Forms
                     catch { rows = rows.OrderByDescending(r => r[columnNumber]).ToList(); }
 
                     sortOrder = EnumP.SortOrder.Asc;
+                    break;
+            }
+
+            CreateMainTable();
+        }
+
+        void list_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RadioButtonList list = (RadioButtonList)sender;
+
+            switch (list.SelectedValue)
+            {
+                case "nazwisko":
+                    rows = rows.OrderBy(r => r[1]).ThenBy(r => r[2]).ToList();
+                    break;
+                case "kod":
+                    rows = rows.OrderBy(r => Convert.ToSingle(r[3])).ThenBy(r => Convert.ToSingle(r[4])).ToList();
                     break;
             }
 

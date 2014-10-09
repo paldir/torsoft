@@ -13,6 +13,7 @@ namespace czynsze.Forms
         {
             company.InnerText = Session["nazwa_1"].ToString();
             user.InnerText = Session["user"].ToString();
+            Session["date"] = DateTime.Today;
         }
     }
 }
