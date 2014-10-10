@@ -9,19 +9,7 @@ namespace czynsze
 {
     public partial class Site : System.Web.UI.MasterPage
     {
-        List<string> siteMapPath
-        {
-            get
-            {
-                if (Session["siteMapPath"] == null)
-                    return new List<string>();
-
-                return (List<string>)Session["siteMapPath"];
-            }
-            set { Session["siteMapPath"] = value; }
-        }
-
-        DateTime date
+        /*DateTime date
         {
             get
             {
@@ -30,7 +18,7 @@ namespace czynsze
 
                 return (DateTime)Session["date"];
             }
-        }
+        }*/
         
         protected void Page_Init(object sender, EventArgs e)
         {
@@ -43,15 +31,15 @@ namespace czynsze
             user.InnerText = Session["user"].ToString();
             placeOfSiteMapPath.InnerHtml = String.Empty;
 
-            foreach (string siteMapNode in siteMapPath)
+            foreach (string siteMapNode in Forms.Hello.siteMapPath)
                 placeOfSiteMapPath.InnerHtml += siteMapNode + " > ";
 
-            if (siteMapPath.Count > 0)
+            if (Forms.Hello.siteMapPath.Count > 0)
                 placeOfSiteMapPath.InnerHtml = placeOfSiteMapPath.InnerHtml.Remove(placeOfSiteMapPath.InnerHtml.Length - 3);
             /*else
                 placeOfSiteMapPath.Visible = false;*/
 
-            placeOfSelectedDate.InnerHtml = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[date.Month - 1].ToString() + "." + date.Year.ToString();
+            placeOfSelectedDate.InnerHtml = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[Forms.Hello.date.Month - 1].ToString() + "." + Forms.Hello.date.Year.ToString();
         }
     }
 }

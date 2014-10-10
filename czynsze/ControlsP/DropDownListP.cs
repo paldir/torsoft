@@ -7,16 +7,17 @@ using System.Web.UI.WebControls;
 
 namespace czynsze.ControlsP
 {
-    public class DropDownListP: DropDownList
+    public class DropDownListP : DropDownList
     {
-        public DropDownListP(string cSSClass, string id, List<string[]> rows, string selectedValue, bool enabled)
+        public DropDownListP(string cSSClass, string id, List<string[]> rows, string selectedValue, bool enabled, bool addEmptyItem)
         {
             this.CssClass = cSSClass;
             this.ID = id;
             this.Enabled = enabled;
 
-            //this.Items.Add(new ListItem(String.Empty, "0"));
-            
+            if (addEmptyItem)
+                this.Items.Add(new ListItem(String.Empty, "0"));
+
             foreach (string[] row in rows)
             {
                 string value = row[0];

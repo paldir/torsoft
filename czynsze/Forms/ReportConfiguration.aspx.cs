@@ -31,9 +31,9 @@ namespace czynsze.Forms
                         List<string[]> buildings = db.buildings.ToList().OrderBy(b => b.kod_1).Select(b => b.ImportantFields()).ToList();
 
                         firstBuilding.Controls.Add(new ControlsP.TextBoxP("field", "kod_1_start", firstBuildingNumber.ToString(), ControlsP.TextBoxP.TextBoxModeP.Number, 5, 1, true));
-                        firstBuilding.Controls.Add(new ControlsP.DropDownListP("field", "kod_1_start_dropdown", buildings, firstBuildingNumber.ToString(), true));
+                        firstBuilding.Controls.Add(new ControlsP.DropDownListP("field", "kod_1_start_dropdown", buildings, firstBuildingNumber.ToString(), true, false));
                         secondBuilding.Controls.Add(new ControlsP.TextBoxP("field", "kod_1_end", lastBuildingNumber.ToString(), ControlsP.TextBoxP.TextBoxModeP.Number, 5, 1, true));
-                        secondBuilding.Controls.Add(new ControlsP.DropDownListP("field", "kod_1_end_dropdown", buildings, lastBuildingNumber.ToString(), true));
+                        secondBuilding.Controls.Add(new ControlsP.DropDownListP("field", "kod_1_end_dropdown", buildings, lastBuildingNumber.ToString(), true, false));
 
                         controls = new List<Control>()
                             {

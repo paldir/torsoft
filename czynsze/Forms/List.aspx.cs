@@ -49,18 +49,6 @@ namespace czynsze.Forms
             set { ViewState["sortOrder"] = value; }
         }
 
-        List<string> siteMapPath
-        {
-            get
-            {
-                if (Session["siteMapPath"] == null)
-                    return new List<string>();
-
-                return (List<string>)Session["siteMapPath"];
-            }
-            set { Session["siteMapPath"] = value; }
-        }
-
         bool sortable
         {
             get
@@ -121,19 +109,23 @@ namespace czynsze.Forms
 
                     placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "moveaction", "Przenieś", postBackUrl));
 
-                    if (!IsPostBack)
-                        using (db = new DataAccess.Czynsze_Entities())
-                            switch (table)
-                            {
-                                case EnumP.Table.Places:
-                                    heading += " (aktywne)";
+                    switch (table)
+                    {
+                        case EnumP.Table.Places:
+                            heading += " (aktywne)";
+
+                            if (!IsPostBack)
+                                using (db = new DataAccess.Czynsze_Entities())
                                     rows = db.places.OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok).ToList().Select(p => p.ImportantFields()).ToList();
-                                    break;
-                                case EnumP.Table.InactivePlaces:
-                                    heading += " (nieaktywne)";
+                            break;
+                        case EnumP.Table.InactivePlaces:
+                            heading += " (nieaktywne)";
+
+                            if (!IsPostBack)
+                                using (db = new DataAccess.Czynsze_Entities())
                                     rows = db.inactivePlaces.OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok).ToList().Select(p => p.ImportantFields()).ToList();
-                                    break;
-                            }
+                            break;
+                    }
 
                     break;
                 case EnumP.Table.Tenants:
@@ -143,19 +135,23 @@ namespace czynsze.Forms
 
                     placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "moveaction", "Przenieś", postBackUrl));
 
-                    if (!IsPostBack)
-                        using (db = new DataAccess.Czynsze_Entities())
-                            switch (table)
-                            {
-                                case EnumP.Table.Tenants:
-                                    heading += " (aktywni)";
+                    switch (table)
+                    {
+                        case EnumP.Table.Tenants:
+                            heading += " (aktywni)";
+
+                            if (!IsPostBack)
+                                using (db = new DataAccess.Czynsze_Entities())
                                     rows = db.tenants.OrderBy(t => t.nazwisko).ThenBy(t => t.imie).ToList().Select(t => t.ImportantFields()).ToList();
-                                    break;
-                                case EnumP.Table.InactiveTenants:
-                                    heading += " (nieaktywni)";
+                            break;
+                        case EnumP.Table.InactiveTenants:
+                            heading += " (nieaktywni)";
+
+                            if (!IsPostBack)
+                                using (db = new DataAccess.Czynsze_Entities())
                                     rows = db.inactiveTenants.OrderBy(t => t.nazwisko).ThenBy(t => t.imie).ToList().Select(t => t.ImportantFields()).ToList();
-                                    break;
-                            }
+                            break;
+                    }
                     break;
                 case EnumP.Table.RentComponents:
                     heading = "Składniki opłat";
@@ -300,19 +296,19 @@ namespace czynsze.Forms
             {
                 case EnumP.Table.Places:
                 case EnumP.Table.InactivePlaces:
-                    siteMapPath = new List<string>() { "Kartoteki", "Lokale" };
+                    Forms.Hello.siteMapPath = new List<string>() { "Kartoteki", "Lokale" };
                     break;
                 case EnumP.Table.Tenants:
                 case EnumP.Table.InactiveTenants:
-                    siteMapPath = new List<string>() { "Kartoteki", "Najemcy" };
+                    Forms.Hello.siteMapPath = new List<string>() { "Kartoteki", "Najemcy" };
                     break;
                 case EnumP.Table.Buildings:
                 case EnumP.Table.Communities:
                 case EnumP.Table.RentComponents:
-                    siteMapPath = new List<string>() { "Kartoteki" };
+                    Forms.Hello.siteMapPath = new List<string>() { "Kartoteki" };
                     break;
                 case EnumP.Table.ReceivablesByTenants:
-                    siteMapPath = new List<string>() { "Rozliczenia finansowe", "Należności i obroty" };
+                    Forms.Hello.siteMapPath = new List<string>() { "Rozliczenia finansowe", "Należności i obroty" };
                     break;
                 case EnumP.Table.TypesOfPlace:
                 case EnumP.Table.TypesOfKitchen:
@@ -323,14 +319,14 @@ namespace czynsze.Forms
                 case EnumP.Table.FinancialGroups:
                 case EnumP.Table.VatRates:
                 case EnumP.Table.Attributes:
-                    siteMapPath = new List<string>() { "Słowniki" };
+                    Forms.Hello.siteMapPath = new List<string>() { "Słowniki" };
                     break;
                 case EnumP.Table.Users:
-                    siteMapPath = new List<string>() { "Administracja" };
+                    Forms.Hello.siteMapPath = new List<string>() { "Administracja" };
                     break;
             }
 
-            siteMapPath.Add(heading);
+            Forms.Hello.siteMapPath.Add(heading);
 
             //
             //CXP PART

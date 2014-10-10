@@ -8,7 +8,7 @@
 
 function buttonOfChangingDate_click() {
     if (confirm("Czy chcesz opuścić obecną stronę, aby zmienić miesiąc? Niezapisane dane nie zostaną zachowane."))
-        window.location.href = "Hello.aspx";
+        window.location.href = "ChangeDate.aspx";
 }
 
 function ShowMenu(item) {

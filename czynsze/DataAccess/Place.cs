@@ -150,8 +150,14 @@ namespace czynsze.DataAccess
             using (Czynsze_Entities db = new Czynsze_Entities())
             {
                 ActiveTenant tenant = db.tenants.Where(t => t.nr_kontr == nr_kontr).FirstOrDefault();
-                nazwisko = tenant.nazwisko;
-                imie = tenant.imie;
+
+                if (tenant == null)
+                    nazwisko = imie = String.Empty;
+                else
+                {
+                    nazwisko = tenant.nazwisko;
+                    imie = tenant.imie;
+                }
             }
 
             il_osob = Convert.ToInt16(record[19]);

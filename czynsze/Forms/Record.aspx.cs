@@ -19,18 +19,6 @@ namespace czynsze.Forms
             set { Session["attributesOfObject"] = value; }
         }
 
-        List<string> siteMapPath
-        {
-            get
-            {
-                if (Session["siteMapPath"] == null)
-                    return new List<string>();
-
-                return (List<string>)Session["siteMapPath"];
-            }
-            set { Session["siteMapPath"] = value; }
-        }
-
         protected void Page_Load(object sender, EventArgs e)
         {
             bool globalEnabled = false;
@@ -297,14 +285,14 @@ namespace czynsze.Forms
                     if (idEnabled)
                     {
                         using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                            controls.Add(new ControlsP.DropDownListP("field", "kod_lok", db.buildings.ToList().OrderBy(b => b.kod_1).Select(b => b.ImportantFields()).ToList(), values[1], idEnabled));
+                            controls.Add(new ControlsP.DropDownListP("field", "kod_lok", db.buildings.ToList().OrderBy(b => b.kod_1).Select(b => b.ImportantFields()).ToList(), values[1], idEnabled, false));
 
                         controls.Add(new ControlsP.TextBoxP("field", "nr_lok", values[2], ControlsP.TextBoxP.TextBoxModeP.Number, 3, 1, idEnabled));
                     }
                     else
                     {
                         using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                            controls.Add(new ControlsP.DropDownListP("field", "kod_lok_disabled", db.buildings.ToList().OrderBy(b => b.kod_1).Select(b => b.ImportantFields()).ToList(), values[1], idEnabled));
+                            controls.Add(new ControlsP.DropDownListP("field", "kod_lok_disabled", db.buildings.ToList().OrderBy(b => b.kod_1).Select(b => b.ImportantFields()).ToList(), values[1], idEnabled, false));
 
                         controls.Add(new ControlsP.TextBoxP("field", "nr_lok_disabled", values[2], ControlsP.TextBoxP.TextBoxModeP.Number, 3, 1, idEnabled));
 
@@ -313,7 +301,7 @@ namespace czynsze.Forms
                     }
 
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                        controls.Add(new ControlsP.DropDownListP("field", "kod_typ", db.typesOfPlace.ToList().Select(t => t.ImportantFieldsForDropDown()).ToList(), values[3], globalEnabled));
+                        controls.Add(new ControlsP.DropDownListP("field", "kod_typ", db.typesOfPlace.ToList().Select(t => t.ImportantFieldsForDropDown()).ToList(), values[3], globalEnabled, false));
 
                     controls.Add(new ControlsP.TextBoxP("field", "adres", values[4], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 30, 1, globalEnabled));
                     controls.Add(new ControlsP.TextBoxP("field", "adres_2", values[5], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 30, 1, globalEnabled));
@@ -331,14 +319,14 @@ namespace czynsze.Forms
 
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                     {
-                        controls.Add(new ControlsP.DropDownListP("field", "kod_kuch", db.typesOfKitchen.ToList().Select(t => t.ImportantFieldsForDropDown()).ToList(), values[17], globalEnabled));
-                        controls.Add(new ControlsP.DropDownListP("field", "nr_kontr", db.tenants.OrderBy(t => t.nazwisko).ToList().Select(t => t.ImportantFields().ToList().GetRange(1, 4).ToArray()).ToList(), values[18], globalEnabled));
+                        controls.Add(new ControlsP.DropDownListP("field", "kod_kuch", db.typesOfKitchen.ToList().Select(t => t.ImportantFieldsForDropDown()).ToList(), values[17], globalEnabled, false));
+                        controls.Add(new ControlsP.DropDownListP("field", "nr_kontr", db.tenants.OrderBy(t => t.nazwisko).ToList().Select(t => t.ImportantFields().ToList().GetRange(1, 4).ToArray()).ToList(), values[18], globalEnabled, true));
                     }
 
                     controls.Add(new ControlsP.TextBoxP("field", "il_osob", values[19], ControlsP.TextBoxP.TextBoxModeP.Number, 3, 1, globalEnabled));
 
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                        controls.Add(new ControlsP.DropDownListP("field", "kod_praw", db.titles.ToList().Select(t => t.ImportantFieldsForDropDown()).ToList(), values[20], globalEnabled));
+                        controls.Add(new ControlsP.DropDownListP("field", "kod_praw", db.titles.ToList().Select(t => t.ImportantFieldsForDropDown()).ToList(), values[20], globalEnabled, false));
 
                     controls.Add(new ControlsP.TextBoxP("field", "uwagi", values[21], ControlsP.TextBoxP.TextBoxModeP.MultiLine, 240, 4, globalEnabled));
 
@@ -458,7 +446,7 @@ namespace czynsze.Forms
                     placeOfButtons.Controls.Add(new ControlsP.HtmlInputHiddenP("id", values[0]));
 
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                        controls.Add(new ControlsP.DropDownListP("field", "kod_najem", db.typesOfTenant.ToList().Select(t => t.ImportantFieldsForDropDown()).ToList(), values[1], globalEnabled));
+                        controls.Add(new ControlsP.DropDownListP("field", "kod_najem", db.typesOfTenant.ToList().Select(t => t.ImportantFieldsForDropDown()).ToList(), values[1], globalEnabled, false));
 
                     controls.Add(new ControlsP.TextBoxP("field", "nazwisko", values[2], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 25, 1, globalEnabled));
                     controls.Add(new ControlsP.TextBoxP("field", "imie", values[3], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 25, 1, globalEnabled));
@@ -508,11 +496,11 @@ namespace czynsze.Forms
                     }
 
                     controls.Add(new ControlsP.TextBoxP("field", "nazwa", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 30, 1, globalEnabled));
-                    controls.Add(new ControlsP.DropDownListP("field", "rodz_e", new List<string[]> { new string[] { "1", "dziennik komornego" }, new string[] { "2", "wpłaty" }, new string[] { "3", "zmniejszenia" }, new string[] { "4", "zwiększenia" } }, values[2], globalEnabled));
-                    controls.Add(new ControlsP.DropDownListP("field", "s_zaplat", new List<string[]> { new string[] { "1", "za m2 pow. użytkowej" }, new string[] { "2", "za określoną ilość" }, new string[] { "3", "za osobę" }, new string[] { "4", "za lokal" }, new string[] { "5", "za ilość dni w miesiącu" }, new string[] { "6", "za osobę - przedziały" } }, values[3], globalEnabled));
+                    controls.Add(new ControlsP.DropDownListP("field", "rodz_e", new List<string[]> { new string[] { "1", "dziennik komornego" }, new string[] { "2", "wpłaty" }, new string[] { "3", "zmniejszenia" }, new string[] { "4", "zwiększenia" } }, values[2], globalEnabled, false));
+                    controls.Add(new ControlsP.DropDownListP("field", "s_zaplat", new List<string[]> { new string[] { "1", "za m2 pow. użytkowej" }, new string[] { "2", "za określoną ilość" }, new string[] { "3", "za osobę" }, new string[] { "4", "za lokal" }, new string[] { "5", "za ilość dni w miesiącu" }, new string[] { "6", "za osobę - przedziały" } }, values[3], globalEnabled, false));
                     controls.Add(new ControlsP.TextBoxP("field", "stawka", values[4], ControlsP.TextBoxP.TextBoxModeP.Float, 10, 1, globalEnabled));
                     controls.Add(new ControlsP.TextBoxP("field", "stawka_inf", values[5], ControlsP.TextBoxP.TextBoxModeP.Float, 10, 1, globalEnabled));
-                    controls.Add(new ControlsP.DropDownListP("field", "typ_skl", new List<string[]> { new string[] { "0", "stały" }, new string[] { "1", "zmienny" } }, values[6], globalEnabled));
+                    controls.Add(new ControlsP.DropDownListP("field", "typ_skl", new List<string[]> { new string[] { "0", "stały" }, new string[] { "1", "zmienny" } }, values[6], globalEnabled, false));
                     controls.Add(new ControlsP.TextBoxP("field", "data_1", values[7], ControlsP.TextBoxP.TextBoxModeP.Date, 10, 1, globalEnabled));
                     controls.Add(new ControlsP.TextBoxP("field", "data_2", values[8], ControlsP.TextBoxP.TextBoxModeP.Date, 10, 1, globalEnabled));
 
@@ -793,20 +781,20 @@ namespace czynsze.Forms
                         new string[] {"2", "wpłaty"},
                         new string[] {"3", "zmniejszenia"},
                         new string[] {"4", "zwiększenia"}
-                    }, values[2], globalEnabled));
+                    }, values[2], globalEnabled, false));
 
                     controls.Add(new ControlsP.DropDownListP("field", "s_rozli", new List<string[]>()
                     {
                         new string[] {"1", "Zmniejszenie"},
                         new string[] {"2", "Zwiększenie"},
                         new string[] {"3", "Zwrot"}
-                    }, values[3], globalEnabled));
+                    }, values[3], globalEnabled, false));
 
                     controls.Add(new ControlsP.RadioButtonListP("field", "tn_odset", new List<string>() { "Nie", "Tak" }, new List<string>() { "0", "1" }, values[4], globalEnabled, false));
                     controls.Add(new ControlsP.RadioButtonListP("field", "nota_odset", new List<string>() { "Nie", "Tak" }, new List<string>() { "0", "1" }, values[5], globalEnabled, false));
 
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                        controls.Add(new ControlsP.DropDownListP("field", "vat", db.vatRates.ToList().Select(r => r.ImportantFieldsForDropDown()).ToList(), values[6], globalEnabled));
+                        controls.Add(new ControlsP.DropDownListP("field", "vat", db.vatRates.ToList().Select(r => r.ImportantFieldsForDropDown()).ToList(), values[6], globalEnabled, false));
 
                     controls.Add(new ControlsP.TextBoxP("field", "sww", values[7], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 10, 1, globalEnabled));
                     break;
@@ -1064,14 +1052,14 @@ namespace czynsze.Forms
             foreach (ControlsP.ButtonP button in buttons)
                 placeOfButtons.Controls.Add(button);
 
-            if (siteMapPath.Count > 0)
+            if (Forms.Hello.siteMapPath.Count > 0)
             {
-                if (siteMapPath.IndexOf(heading) == -1)
+                if (Forms.Hello.siteMapPath.IndexOf(heading) == -1)
                 {
-                    siteMapPath[siteMapPath.Count - 1] = String.Concat("<a href='List.aspx?table=" + table + "'>", siteMapPath[siteMapPath.Count - 1]);
-                    siteMapPath[siteMapPath.Count - 1] += "</a>";
+                    Forms.Hello.siteMapPath[Forms.Hello.siteMapPath.Count - 1] = String.Concat("<a href='List.aspx?table=" + table + "'>", Forms.Hello.siteMapPath[Forms.Hello.siteMapPath.Count - 1]);
+                    Forms.Hello.siteMapPath[Forms.Hello.siteMapPath.Count - 1] += "</a>";
 
-                    siteMapPath.Add(heading);
+                    Forms.Hello.siteMapPath.Add(heading);
                 }
             }
         }
