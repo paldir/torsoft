@@ -70,34 +70,31 @@ namespace czynsze.DataAccess
             switch (action)
             {
                 case EnumP.Action.Dodaj:
-                    if (record[1].Length > 0 && record[2].Length > 0)
+                    if (record[2].Length > 0 && record[3].Length > 0)
                     {
                         using (DataAccess.Czynsze_Entities db = new Czynsze_Entities())
                             if (db.users.ToList().Count(u => u.nazwisko.Trim() == recordList.ElementAt(1) && u.imie.Trim() == recordList.ElementAt(2)) > 0)
                                 result += "Użytkownik o podanym nazwisku i imieniu już istnieje! <br />";
 
-                        recordList.Insert(1, record[1].First().ToString() + record[2].First().ToString());
-                        recordList.Insert(4, record[1] + " " + record[2]);
+                        recordList.Insert(4, record[2] + " " + record[3]);
                     }
                     else
                     {
                         result += "Należy podać nazwisko i imię! <br />";
 
-                        recordList.Insert(1, String.Empty);
                         recordList.Insert(4, String.Empty);
                     }
                     break;
                 case EnumP.Action.Edytuj:
-                    recordList.Insert(1, record[1].First().ToString() + record[2].First().ToString());
-                    recordList.Insert(4, record[1] + " " + record[2]);
+                    recordList.Insert(4, record[2] + " " + record[3]);
                     break;
             }
 
             if (action != EnumP.Action.Usuń)
             {
-                if (record[3].Length > 0)
+                if (record[4].Length > 0)
                 {
-                    if (record[3] != record[4])
+                    if (record[4] != record[5])
                         result += "Podane hasła nie są identyczne! <br />";
                 }
                 else

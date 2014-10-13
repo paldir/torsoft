@@ -16,6 +16,12 @@ namespace czynsze.Forms
         {
             company.InnerText = Session["nazwa_1"].ToString();
             user.InnerText = Session["user"].ToString();
+            month.InnerText = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[Forms.Hello.date.Month - 1].ToString() + " " + Forms.Hello.date.Year.ToString();
+
+            byte[] tablica = new byte[10];
+            Random rand = new Random();
+
+            rand.NextBytes(tablica);
         }
     }
 }

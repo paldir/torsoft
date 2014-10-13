@@ -19,7 +19,7 @@ namespace czynsze
             Forms.Hello.date = DateTime.Today;
             Forms.Hello.siteMapPath = new List<string>();
 
-            //Response.Redirect("Forms/UserValidation.aspx?uzytkownik=Zaw Pat&haslo=148,34,6,255");
+            Response.Redirect("Forms/UserValidation.aspx?uzytkownik=Zaw Pat&haslo=148,34,6,255");
         }
     }
 }

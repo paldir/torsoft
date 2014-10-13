@@ -99,6 +99,7 @@
     <Content Include="Forms\Report.aspx" />
     <Content Include="Forms\ReportConfiguration.aspx" />
     <Content Include="Forms\UserValidation.aspx" />
+    <Content Include="Images\icon.ico" />
     <Content Include="Images\waterMark.bmp" />
     <Content Include="Images\logo.png" />
     <Content Include="JavaScripts\AttributeOfObject.js" />

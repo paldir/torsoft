@@ -6,6 +6,7 @@
 <head runat="server">
     <title></title>
     <link type="text/css" rel="stylesheet" href="StyleSheet.css" />
+    <link rel="icon" type="image/png" href="Images/icon.ico" />
     <script src="../JavaScripts/Script.js"></script>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>

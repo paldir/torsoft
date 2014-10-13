@@ -1126,6 +1126,7 @@ namespace czynsze.Forms
                     record = new string[]
                     {
                         Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("id"))],
+                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("symbol"))],
                         Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("nazwisko"))],
                         Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("imie"))],
                         Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("haslo"))],

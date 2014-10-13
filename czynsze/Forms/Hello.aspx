@@ -10,5 +10,6 @@
         <br />
         Jesteś zalogowany jako: <span id="user" runat="server"></span><br />
         <br />
+        Przeglądasz zbiory danych dla miesiąca: <span id="month" runat="server"></span>
     </div>
 </asp:Content>

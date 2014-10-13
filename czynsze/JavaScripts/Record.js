@@ -141,16 +141,6 @@ function nazwiskoImie_onchange() {
     var imie = document.getElementById("imie");
 
     if (nazwisko != null && imie != null) {
-        var symbol = document.getElementById("symbol");
-
-        if (symbol != null) {
-            if (nazwisko.value.length > 0)
-                symbol.value = nazwisko.value[0];
-
-            if (imie.value.length > 0)
-                symbol.value += imie.value[0];
-        }
-
         var uzytkownik = document.getElementById("uzytkownik");
 
         if (uzytkownik != null) {

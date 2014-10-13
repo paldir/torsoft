@@ -39,7 +39,7 @@ namespace czynsze
             /*else
                 placeOfSiteMapPath.Visible = false;*/
 
-            placeOfSelectedDate.InnerHtml = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[Forms.Hello.date.Month - 1].ToString() + "." + Forms.Hello.date.Year.ToString();
+            placeOfSelectedDate.InnerHtml = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[Forms.Hello.date.Month - 1].ToString() + " " + Forms.Hello.date.Year.ToString();
         }
     }
 }

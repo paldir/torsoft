@@ -980,7 +980,7 @@ namespace czynsze.Forms
                     }
 
                     form.Controls.Add(new ControlsP.HtmlInputHiddenP("id", values[0]));
-                    controls.Add(new ControlsP.TextBoxP("field", "symbol", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 2, 1, false));
+                    controls.Add(new ControlsP.TextBoxP("field", "symbol", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 2, 1, globalEnabled));
 
                     if (idEnabled)
                     {

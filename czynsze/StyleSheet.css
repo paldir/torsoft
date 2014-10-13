@@ -108,7 +108,7 @@ input, select, textarea {
 .mainSubMenu {
     display: none;
     position: absolute;
-    top: 29px;
+    top: 31px;
     left: 0px;
     border: 2px solid gray;
     font-size: small;
@@ -138,7 +138,7 @@ input, select, textarea {
 .mainSubSubMenu {
     display: none;
     position: absolute;
-    left: 101%;
+    left: 102%;
     top: -3px;
     border: 2px solid gray;
 }
@@ -360,7 +360,7 @@ input, select, textarea {
     position: absolute;
     left: 50%;
     top: 50%;
-    margin-top: -210px;
+    margin-top: -225px;
     margin-left: -270px;
     border-width: 3px;
     border-style: solid;
