@@ -12,7 +12,7 @@
     </asp:ContentPlaceHolder>
 </head>
 <body onclick="body_onclick(event)">
-    <div style="text-align: right;"><span class="placeOfDate"><span id="placeOfSelectedDate" runat="server"></span> <a id="buttonOfChangingDate" href="#">Zmień</a></span><span class="placeOfLogOut">Zalogowany jako: <span id="user" runat="server"></span> <a href="../Login.aspx">Wyloguj</a></span></div>
+    <div style="text-align: right;"><span class="placeOfTimeOut">Sesja wygaśnie za <span id="placeOfMinutes"></span>:<span id="placeOfSeconds"></span></span><span class="placeOfDate"><span id="placeOfSelectedDate" runat="server"></span> <a id="buttonOfChangingDate" href="#">Zmień</a></span><span class="placeOfLogOut">Zalogowany jako: <span id="user" runat="server"></span> <a href="../Login.aspx">Wyloguj</a></span></div>
     <div class="mainMenu">
         <ul class="mainSuperMenu">
             <li class="mainSuperMenuItem">Kartoteki
