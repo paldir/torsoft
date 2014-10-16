@@ -36,8 +36,6 @@ namespace czynsze
 
             if (Forms.Hello.siteMapPath.Count > 0)
                 placeOfSiteMapPath.InnerHtml = placeOfSiteMapPath.InnerHtml.Remove(placeOfSiteMapPath.InnerHtml.Length - 3);
-            /*else
-                placeOfSiteMapPath.Visible = false;*/
 
             placeOfSelectedDate.InnerHtml = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[Forms.Hello.date.Month - 1].ToString() + " " + Forms.Hello.date.Year.ToString();
         }

@@ -334,6 +334,7 @@ namespace czynsze.Forms
             switch (table)
             {
                 case EnumP.Table.Places:
+                case EnumP.Table.InactivePlaces:
                     using (db = new DataAccess.Czynsze_Entities())
                     {
                         try
