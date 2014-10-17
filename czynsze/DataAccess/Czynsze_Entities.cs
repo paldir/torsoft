@@ -33,6 +33,7 @@ namespace czynsze.DataAccess
         public DbSet<GroupOfRentComponents> groupsOfRentComponents { get; set; }
         public DbSet<FinancialGroup> financialGroups { get; set; }
         public DbSet<InactiveTenant> inactiveTenants { get; set; }
+        public DbSet<ReceivablesFor14> receivablesFor14 { get; set; }
 
         public static string ValidateInt(string name, ref string integer)
         {

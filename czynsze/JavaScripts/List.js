@@ -3,6 +3,7 @@
     var deletingButton = document.getElementById("deleteaction");
     var browsingButton = document.getElementById("browseaction");
     var movingButton = document.getElementById("moveaction");
+    var saldoButton = document.getElementById("saldo");
 
     if (editingButton != null)
         editingButton.disabled = true;
@@ -15,6 +16,15 @@
 
     if (movingButton != null)
         movingButton.disabled = true;
+
+    if (saldoButton != null) {
+        saldoButton.disabled = true;
+
+        var subMenu = document.getElementsByClassName("superMenu");
+
+        if (subMenu.length > 0)
+            subMenu[0].className = "superMenu superMenuDisabled";
+    }
 
     var idRadio = document.querySelectorAll(".mainTable input");
 
@@ -34,4 +44,25 @@ function InitInactive() {
     for (var i = 0; i < idRadio.length; i++)
         if (idRadio[i].type == 'radio')
             idRadio[i].onchange = function () { ChangeRow(this.id, true); }
+}
+
+function Redirect(pageId) {
+    var href;
+
+    var selectedRow = document.getElementsByClassName("selectedRow");
+
+    if (selectedRow.length > 0) {
+        var id = selectedRow[0].id.replace("_row", "");
+
+        switch (pageId) {
+            case 1:
+                href = "List.aspx?table=AllReceivablesOfTenant&id=" + id;
+                break;
+            case 2:
+                href = "List.aspx?table=NotPastReceivablesOfTenant&id=" + id;
+                break;
+        }
+
+        window.location.href = href;
+    }
 }

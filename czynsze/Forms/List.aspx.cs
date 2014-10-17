@@ -66,12 +66,14 @@ namespace czynsze.Forms
             table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))]);
             string postBackUrl = "Record.aspx";
             string heading = null;
-            List<string> printingsSubMenu = null;
+            List<string[]> subMenu = null;
             sortable = true;
 
             switch (table)
             {
                 case EnumP.Table.ReceivablesByTenants:
+                case EnumP.Table.AllReceivablesOfTenant:
+                case EnumP.Table.NotPastReceivablesOfTenant:
                     break;
                 default:
                     placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "addaction", "Dodaj", postBackUrl));
@@ -88,16 +90,6 @@ namespace czynsze.Forms
                     heading = "Budynki";
                     headers = new string[] { "Kod", "Adres", "Adres cd." };
 
-                    //placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("superMenuButton", "report", "Wydruk lokali wg budynków", "ReportConfiguration.aspx?report=PlacesInEachBuilding"));
-                    printingsSubMenu = new List<string>()
-                    {
-                        "<a href='ReportConfiguration.aspx?report="+EnumP.Report.PlacesInEachBuilding+"'>Lokale w budynkach</a>",
-                        "<a href='#'>Kolejny wydruk</a>",
-                        "<a href='#'>I jeszcze jeden</a>"
-                    };
-
-                    //placeOfMainTableButtons.Controls.Add(new LiteralControl("<ul class='superMenu'><li>Wydruki<ul class='subMenu'><li><a href='ReportConfiguration.aspx?report=PlacesInEachBuilding'>Lokale w budynkach</a></li><li><a href='#'>Kolejny wydruk</a></li><li><a href='#'>I jeszcze jeden</a></li></ul></li></ul>"));
-
                     if (!IsPostBack)
                         using (db = new DataAccess.Czynsze_Entities())
                             rows = db.buildings.OrderBy(b => b.kod_1).ToList().Select(b => b.ImportantFields()).ToList();
@@ -113,6 +105,16 @@ namespace czynsze.Forms
                     {
                         case EnumP.Table.Places:
                             heading += " (aktywne)";
+                            subMenu = new List<string[]>()
+                            {
+                                new string[]
+                                {
+                                    "Wydruki",
+                                    "<a href='ReportConfiguration.aspx?report="+EnumP.Report.PlacesInEachBuilding+"'>Lokale w budynkach</a>",
+                                    "<a href='#'>Kolejny wydruk</a>",
+                                    "<a href='#'>I jeszcze jeden</a>"
+                                }
+                            };
 
                             if (!IsPostBack)
                                 using (db = new DataAccess.Czynsze_Entities())
@@ -253,6 +255,21 @@ namespace czynsze.Forms
                     heading = "Należności i obroty według najemców";
                     headers = new string[] { "Nazwisko", "Imię", "Kod", "Nr", "Adres najemcy", "Adres lokalu" };
                     sortable = false;
+                    subMenu = new List<string[]>()
+                    {
+                        new string[]
+                        {
+                            "Należności",
+                            "<a href='#' onclick='Redirect(1)'>Wszystkie</a>",
+                            "<a href='#' onclick='Redirect(2)'>Nieprzeterminowane</a>"
+                        },
+                        new string[]
+                        {
+                            "Rozliczenia",
+                            "<a href='#'>Należności i obroty</a>",
+                            "<a href='#'>Zaległości płatnicze</a>",
+                        }
+                    };
 
                     if (!IsPostBack)
                         using (db = new DataAccess.Czynsze_Entities())
@@ -262,30 +279,59 @@ namespace czynsze.Forms
                     list.SelectedIndexChanged += list_SelectedIndexChanged;
 
                     placeOfMainTableButtons.Controls.Add(list);
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("button", "saldo", "Saldo", "#"));
+                    break;
+                case EnumP.Table.AllReceivablesOfTenant:
+                case EnumP.Table.NotPastReceivablesOfTenant:
+                    int id = Convert.ToInt16(Request.Params["id"]);
+                    headers = new string[] { "Kwota należności", "Termin zapłaty", "Uwagi", "Kod lokalu", "Nr lokalu" };
+                    sortable = false;
+
+                    using (db = new DataAccess.Czynsze_Entities())
+                    {
+                        DataAccess.Tenant tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == id);
+                        heading = "Należności najemcy " + tenant.nazwisko + " " + tenant.imie;
+
+                        switch (table)
+                        {
+                            case EnumP.Table.AllReceivablesOfTenant:
+                                rows = db.receivablesFor14.Where(r => r.nr_kontr == id).OrderBy(r => r.data_nal).ToList().Select(r => r.ImportantFields()).ToList();
+                                break;
+                            case EnumP.Table.NotPastReceivablesOfTenant:
+                                heading += " (nieprzeterminowane)";
+                                rows = db.receivablesFor14.Where(r => r.nr_kontr == id).ToList().Where(r => Convert.ToDateTime(r.data_nal) >= Hello.date).Select(r => r.ImportantFields()).ToList();
+                                break;
+                        }
+                    }
                     break;
             }
 
             placeOfHeading.Controls.Add(new LiteralControl("<h2>" + heading + "</h2>"));
             placeOfMainTableButtons.Controls.Add(new ControlsP.HtmlInputHiddenP("table", table.ToString()));
 
-            if (printingsSubMenu != null)
+            if (subMenu != null)
             {
                 ControlsP.HtmlGenericControlP superUl = new ControlsP.HtmlGenericControlP("ul", "superMenu");
-                ControlsP.HtmlGenericControlP superLi = new ControlsP.HtmlGenericControlP("li", String.Empty);
-                ControlsP.HtmlGenericControlP subUl = new ControlsP.HtmlGenericControlP("ul", "subMenu");
 
-                superLi.Controls.Add(new LiteralControl("Wydruki"));
-
-                foreach (string item in printingsSubMenu)
+                foreach (string[] items in subMenu)
                 {
-                    ControlsP.HtmlGenericControlP subLi = new ControlsP.HtmlGenericControlP("li", String.Empty);
+                    ControlsP.HtmlGenericControlP superLi = new ControlsP.HtmlGenericControlP("li", String.Empty);
+                    ControlsP.HtmlGenericControlP subUl = new ControlsP.HtmlGenericControlP("ul", "subMenu");
 
-                    subLi.Controls.Add(new LiteralControl(item));
-                    subUl.Controls.Add(subLi);
+                    superLi.Controls.Add(new LiteralControl(items[0]));
+
+                    for (int i = 1; i < items.Length; i++)
+                    {
+                        ControlsP.HtmlGenericControlP subLi = new ControlsP.HtmlGenericControlP("li", String.Empty);
+
+                        subLi.Controls.Add(new LiteralControl(items[i]));
+                        subUl.Controls.Add(subLi);
+                    }
+
+                    superLi.Controls.Add(subUl);
+                    superUl.Controls.Add(superLi);
                 }
 
-                superLi.Controls.Add(subUl);
-                superUl.Controls.Add(superLi);
                 placeOfMainTableButtons.Controls.Add(superUl);
             }
 
@@ -296,19 +342,29 @@ namespace czynsze.Forms
             {
                 case EnumP.Table.Places:
                 case EnumP.Table.InactivePlaces:
-                    Forms.Hello.siteMapPath = new List<string>() { "Kartoteki", "Lokale" };
+                    Hello.siteMapPath = new List<string>() { "Kartoteki", "Lokale" };
                     break;
                 case EnumP.Table.Tenants:
                 case EnumP.Table.InactiveTenants:
-                    Forms.Hello.siteMapPath = new List<string>() { "Kartoteki", "Najemcy" };
+                    Hello.siteMapPath = new List<string>() { "Kartoteki", "Najemcy" };
                     break;
                 case EnumP.Table.Buildings:
                 case EnumP.Table.Communities:
                 case EnumP.Table.RentComponents:
-                    Forms.Hello.siteMapPath = new List<string>() { "Kartoteki" };
+                    Hello.siteMapPath = new List<string>() { "Kartoteki" };
                     break;
                 case EnumP.Table.ReceivablesByTenants:
-                    Forms.Hello.siteMapPath = new List<string>() { "Rozliczenia finansowe", "Należności i obroty" };
+                    Hello.siteMapPath = new List<string>() { "Rozliczenia finansowe", "Należności i obroty" };
+                    break;
+                case EnumP.Table.AllReceivablesOfTenant:
+                case EnumP.Table.NotPastReceivablesOfTenant:
+                    if (Hello.siteMapPath.Count > 2)
+                    {
+                        string node = Hello.siteMapPath[2].Insert(0, "<a href='List.aspx?table=" + EnumP.Table.ReceivablesByTenants + "'>") + "</a>";
+
+                        if (Hello.siteMapPath.IndexOf(node) == -1)
+                            Hello.siteMapPath[2] = node;
+                    }
                     break;
                 case EnumP.Table.TypesOfPlace:
                 case EnumP.Table.TypesOfKitchen:
@@ -319,14 +375,15 @@ namespace czynsze.Forms
                 case EnumP.Table.FinancialGroups:
                 case EnumP.Table.VatRates:
                 case EnumP.Table.Attributes:
-                    Forms.Hello.siteMapPath = new List<string>() { "Słowniki" };
+                    Hello.siteMapPath = new List<string>() { "Słowniki" };
                     break;
                 case EnumP.Table.Users:
-                    Forms.Hello.siteMapPath = new List<string>() { "Administracja" };
+                    Hello.siteMapPath = new List<string>() { "Administracja" };
                     break;
             }
 
-            Forms.Hello.siteMapPath.Add(heading);
+            if (Hello.siteMapPath.IndexOf(heading) == -1)
+                Hello.siteMapPath.Add(heading);
 
             //
             //CXP PART

@@ -115,6 +115,7 @@ function ChangeRow(rowId, inactive) {
     var editingTabButton = document.getElementById("showEditingWindow");
     var deletingTabButton = document.getElementById("deletechildAction");
     var browsingTabButton = document.getElementById("browsechildAction");
+    var saldoButton = document.getElementById("saldo");
 
     if (!inactive) {
         if (editingButton != null)
@@ -138,6 +139,16 @@ function ChangeRow(rowId, inactive) {
 
     if (movingButton != null)
         movingButton.disabled = false;
+
+    if (saldoButton != null)
+    {
+        saldoButton.disabled = false;
+
+        var subMenu = document.getElementsByClassName("superMenu");
+
+        if (subMenu.length > 0)
+            subMenu[0].className = "superMenu";
+    }
 
     var selectedRow = document.getElementsByClassName("selectedRow")[0];
 

@@ -27,6 +27,7 @@ namespace czynsze.Forms
             Control yearTextBox = placeOfYear.FindControl("year");
             int month;
             int year;
+            int day;
 
             try { month = Convert.ToInt16(((TextBox)monthTextBox).Text); }
             catch { month = DateTime.Today.Month; }
@@ -34,7 +35,12 @@ namespace czynsze.Forms
             try { year = Convert.ToInt16(((TextBox)yearTextBox).Text); }
             catch { year = DateTime.Today.Year; }
 
-            try { Forms.Hello.date = new DateTime(year, month, DateTime.Today.Day); }
+            if (month == DateTime.Today.Month)
+                day = DateTime.Today.Day;
+            else
+                day = DateTime.DaysInMonth(year, month);
+
+            try { Forms.Hello.date = new DateTime(year, month, day); }
             catch { Forms.Hello.date = DateTime.Today; }
 
             Response.Redirect("Hello.aspx");

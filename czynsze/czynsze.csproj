@@ -158,6 +158,7 @@
     <Compile Include="DataAccess\InactiveTenant.cs" />
     <Compile Include="DataAccess\ActivePlace.cs" />
     <Compile Include="DataAccess\Place.cs" />
+    <Compile Include="DataAccess\ReceivablesFor14.cs" />
     <Compile Include="DataAccess\RentComponent.cs" />
     <Compile Include="DataAccess\RentComponentOfPlace.cs" />
     <Compile Include="DataAccess\ActiveTenant.cs" />

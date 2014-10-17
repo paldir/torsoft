@@ -27,7 +27,9 @@ namespace czynsze
             GroupsOfRentComponents,
             FinancialGroups,
             Users,
-            ReceivablesByTenants
+            ReceivablesByTenants,
+            AllReceivablesOfTenant,
+            NotPastReceivablesOfTenant
         };
 
         public enum Report { PlacesInEachBuilding };

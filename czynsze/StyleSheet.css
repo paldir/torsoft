@@ -24,6 +24,7 @@ input[type="submit"], .superMenu li {
     padding-left: 4px;
     padding-right: 4px;
     margin: 5px;
+    pointer-events: all;
 }
 
     input[type="submit"]:hover, .superMenu li:hover {
@@ -33,13 +34,14 @@ input[type="submit"], .superMenu li {
         cursor: pointer;
     }
 
-    input[type="submit"]:disabled {
+    input[type="submit"]:disabled, .superMenuDisabled li {
         background-color: lightgray;
         background: linear-gradient(lightgray, lightgray);
         color: gray;
         border-color: gray;
         cursor: auto;
         box-shadow: none;
+        pointer-events: none;
     }
 
 input, select, textarea {
@@ -212,7 +214,7 @@ input, select, textarea {
     display: inline;
     list-style-type: none;
     padding: 0;
-    margin-left: 50px;
+    //margin-left: 50px;
     z-index: 2;
 }
 
