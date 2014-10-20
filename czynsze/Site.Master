@@ -20,31 +20,31 @@
                     <li class="mainSubMenuItem pseudoLink">Lokale
                         <ul class="mainSubSubMenu">
                             <li class="mainSubSubMenuItem">
-                                <a href="List.aspx?table=Places">Aktywne</a>
+                                <a href="javascript: Load('List.aspx?table=Places')">Aktywne</a>
                             </li>
                             <li class="mainSubSubMenuItem">
-                                <a href="List.aspx?table=InactivePlaces">Nieaktywne</a>
+                                <a href="javascript: Load('List.aspx?table=InactivePlaces')">Nieaktywne</a>
                             </li>
                         </ul>
                     </li>
                     <li class="mainSubMenuItem pseudoLink">Najemcy
                         <ul class="mainSubSubMenu">
                             <li class="mainSubSubMenuItem">
-                                <a href="List.aspx?table=Tenants">Aktywni</a>
+                                <a href="javascript: Load('List.aspx?table=Tenants')">Aktywni</a>
                             </li>
                             <li class="mainSubSubMenuItem">
-                                <a href="List.aspx?table=InactiveTenants">Nieaktywni</a>
+                                <a href="javascript: Load('List.aspx?table=InactiveTenants')">Nieaktywni</a>
                             </li>
                         </ul>
                     </li>
                     <li class="mainSubMenuItem">
-                        <a href="List.aspx?table=Buildings">Budynki</a>
+                        <a href="javascript: Load('List.aspx?table=Buildings')">Budynki</a>
                     </li>
                     <li class="mainSubMenuItem">
-                        <a href="List.aspx?table=Communities">Wspólnoty</a>
+                        <a href="javascript: Load('List.aspx?table=Communities')">Wspólnoty</a>
                     </li>
                     <li class="mainSubMenuItem">
-                        <a href="List.aspx?table=RentComponents">Składniki opłat</a>
+                        <a href="javascript: Load('List.aspx?table=RentComponents')">Składniki opłat</a>
                     </li>
                 </ul>
             </li>
@@ -53,7 +53,7 @@
                     <li class="mainSubMenuItem pseudoLink">Należności i obroty
                         <ul class="mainSubSubMenu">
                             <li class="mainSubSubMenuItem">
-                                <a href="List.aspx?table=ReceivablesByTenants">Wg najemców</a>
+                                <a href="javascript: Load('List.aspx?table=ReceivablesByTenants')">Wg najemców</a>
                             </li>
                         </ul>
                     </li>
@@ -65,31 +65,31 @@
             <li class="mainSuperMenuItem">Słowniki
                 <ul class="mainSubMenu">
                     <li class="mainSubMenuItem">
-                        <a href="List.aspx?table=TypesOfPlace">Typy lokali</a>
+                        <a href="javascript: Load('List.aspx?table=TypesOfPlace')">Typy lokali</a>
                     </li>
                     <li class="mainSubMenuItem">
-                        <a href="List.aspx?table=TypesOfKitchen">Rodzaje kuchni</a>
+                        <a href="javascript: Load('List.aspx?table=TypesOfKitchen')">Rodzaje kuchni</a>
                     </li>
                     <li class="mainSubMenuItem">
-                        <a href="List.aspx?table=TypesOfTenant">Rodzaje najemców</a>
+                        <a href="javascript: Load('List.aspx?table=TypesOfTenant')">Rodzaje najemców</a>
                     </li>
                     <li class="mainSubMenuItem">
-                        <a href="List.aspx?table=Titles">Tytuły prawne do lokali</a>
+                        <a href="javascript: Load('List.aspx?table=Titles')">Tytuły prawne do lokali</a>
                     </li>
                     <li class="mainSubMenuItem">
-                        <a href="List.aspx?table=TypesOfPayment">Rodzaje wpłat i wypłat</a>
+                        <a href="javascript: Load('List.aspx?table=TypesOfPayment')">Rodzaje wpłat i wypłat</a>
                     </li>
                     <li class="mainSubMenuItem">
-                        <a href="List.aspx?table=GroupsOfRentComponents">Grupy skł. czynszu</a>
+                        <a href="javascript: Load('List.aspx?table=GroupsOfRentComponents')">Grupy skł. czynszu</a>
                     </li>
                     <li class="mainSubMenuItem">
-                        <a href="List.aspx?table=FinancialGroups">Grupy finansowe</a>
+                        <a href="javascript: Load('List.aspx?table=FinancialGroups')">Grupy finansowe</a>
                     </li>
                     <li class="mainSubMenuItem">
-                        <a href="List.aspx?table=VatRates">Stawki VAT</a>
+                        <a href="javascript: Load('List.aspx?table=VatRates')">Stawki VAT</a>
                     </li>
                     <li class="mainSubMenuItem">
-                        <a href="List.aspx?table=Attributes">Cechy obiektów</a>
+                        <a href="javascript: Load('List.aspx?table=Attributes')">Cechy obiektów</a>
                     </li>
                 </ul>
             </li>
@@ -104,7 +104,7 @@
                 <ul class="mainSubMenu">
                     <!--<li class="mainSubMenuItem"><a href="#">Raport1</a></li>
                     <li class="mainSubMenuItem"><a href="#">Raport2</a></li>
-                    <li class="mainSubMenuItem"><a href="#">Raport3</a></li>-->
+                    <li class="mainSubMenuItem"><a href="javascript: Load('#">Raport3</a></li>-->
                 </ul>
             </li>
             <li class="mainSuperMenuItem">Operacje pomocnicze
@@ -113,7 +113,7 @@
             <li class="mainSuperMenuItem">Administracja
                 <ul class="mainSubMenu">
                     <li class="mainSubMenuItem">
-                        <a href="List.aspx?table=Users">Użytkownicy</a>
+                        <a href="javascript: Load('List.aspx?table=Users')">Użytkownicy</a>
                     </li>
                 </ul>
             </li>

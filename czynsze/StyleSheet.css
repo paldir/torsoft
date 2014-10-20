@@ -354,6 +354,51 @@ input, select, textarea {
     opacity: 0.1;
     pointer-events: none;
 }
+
+.animatedWaterMark {
+    -webkit-animation: waterMarkAnimation 2s;
+    -webkit-animation-iteration-count: infinite;
+    animation: waterMarkAnimation 2s;
+    animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes waterMarkAnimation {
+    0% {
+        opacity: 0.1;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.1;
+    }
+}
+
+@keyframes waterMarkAnimation {
+    0% {
+        opacity: 0.1;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.1;
+    }
+}
+
+#loading {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -15px;
+    margin-left: -15px;
+    pointer-events: none;
+}
 /*#endregion*/
 
 /*#region login, powitanie*/

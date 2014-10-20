@@ -360,7 +360,7 @@ namespace czynsze.Forms
                 case EnumP.Table.NotPastReceivablesOfTenant:
                     if (Hello.siteMapPath.Count > 2)
                     {
-                        string node = Hello.siteMapPath[2].Insert(0, "<a href='List.aspx?table=" + EnumP.Table.ReceivablesByTenants + "'>") + "</a>";
+                        string node = Hello.siteMapPath[2].Insert(0, "<a href=\"javascript: Load('List.aspx?table=" + EnumP.Table.ReceivablesByTenants + "')\">") + "</a>";
 
                         if (Hello.siteMapPath.IndexOf(node) == -1)
                             Hello.siteMapPath[2] = node;

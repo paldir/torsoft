@@ -34,10 +34,10 @@ namespace czynsze.Forms
             List<ControlsP.HtmlInputRadioButtonP> tabButtons = null;
             List<ControlsP.LabelP> labelsOfTabButtons = null;
             List<Control> preview = null;
-
             id = Convert.ToInt16(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))]);
             action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("action"))]);
             table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))]);
+            string backUrl = "javascript: Load('List.aspx?table=" + table + "')";
 
             switch (action)
             {
@@ -46,7 +46,7 @@ namespace czynsze.Forms
                     heading = "Dodawanie";
 
                     buttons.Add(new ControlsP.ButtonP("buttons", "Save", "Zapisz", "RecordValidation.aspx"));
-                    buttons.Add(new ControlsP.ButtonP("buttons", "Cancel", "Anuluj", "List.aspx"));
+                    buttons.Add(new ControlsP.ButtonP("buttons", "Cancel", "Anuluj", backUrl));
                     break;
                 case EnumP.Action.Edytuj:
                     globalEnabled = true;
@@ -54,27 +54,27 @@ namespace czynsze.Forms
                     heading = "Edycja";
 
                     buttons.Add(new ControlsP.ButtonP("buttons", "Save", "Zapisz", "RecordValidation.aspx"));
-                    buttons.Add(new ControlsP.ButtonP("buttons", "Cancel", "Anuluj", "List.aspx"));
+                    buttons.Add(new ControlsP.ButtonP("buttons", "Cancel", "Anuluj", backUrl));
                     break;
                 case EnumP.Action.Usuń:
                     globalEnabled = idEnabled = false;
                     heading = "Usuwanie";
 
                     buttons.Add(new ControlsP.ButtonP("buttons", "Delete", "Usuń", "RecordValidation.aspx"));
-                    buttons.Add(new ControlsP.ButtonP("buttons", "Cancel", "Anuluj", "List.aspx"));
+                    buttons.Add(new ControlsP.ButtonP("buttons", "Cancel", "Anuluj", backUrl));
                     break;
                 case EnumP.Action.Przeglądaj:
                     globalEnabled = idEnabled = false;
                     heading = "Przeglądanie";
 
-                    buttons.Add(new ControlsP.ButtonP("buttons", "Back", "Powrót", "List.aspx"));
+                    buttons.Add(new ControlsP.ButtonP("buttons", "Back", "Powrót", backUrl));
                     break;
                 case EnumP.Action.Przenieś:
                     globalEnabled = idEnabled = false;
                     heading = "Przenoszenie";
 
                     buttons.Add(new ControlsP.ButtonP("buttons", "Move", "Przenieś", "RecordValidation.aspx"));
-                    buttons.Add(new ControlsP.ButtonP("buttons", "Cancel", "Anuluj", "List.aspx"));
+                    buttons.Add(new ControlsP.ButtonP("buttons", "Cancel", "Anuluj", backUrl));
                     break;
             }
 
@@ -1056,7 +1056,7 @@ namespace czynsze.Forms
             {
                 if (Forms.Hello.siteMapPath.IndexOf(heading) == -1)
                 {
-                    Forms.Hello.siteMapPath[Forms.Hello.siteMapPath.Count - 1] = String.Concat("<a href='List.aspx?table=" + table + "'>", Forms.Hello.siteMapPath[Forms.Hello.siteMapPath.Count - 1]);
+                    Forms.Hello.siteMapPath[Forms.Hello.siteMapPath.Count - 1] = String.Concat("<a href=\"" + backUrl + "\">", Forms.Hello.siteMapPath[Forms.Hello.siteMapPath.Count - 1]);
                     Forms.Hello.siteMapPath[Forms.Hello.siteMapPath.Count - 1] += "</a>";
 
                     Forms.Hello.siteMapPath.Add(heading);

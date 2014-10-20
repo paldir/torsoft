@@ -94,12 +94,14 @@
     <Content Include="Forms\CryptPassword.aspx" />
     <Content Include="Forms\Hello.aspx" />
     <Content Include="Forms\List.aspx" />
+    <Content Include="Forms\Loading.aspx" />
     <Content Include="Forms\Record.aspx" />
     <Content Include="Forms\RecordValidation.aspx" />
     <Content Include="Forms\Report.aspx" />
     <Content Include="Forms\ReportConfiguration.aspx" />
     <Content Include="Forms\UserValidation.aspx" />
     <Content Include="Images\icon.ico" />
+    <Content Include="Images\loading.gif" />
     <Content Include="Images\waterMark.bmp" />
     <Content Include="Images\logo.png" />
     <Content Include="JavaScripts\AttributeOfObject.js" />
@@ -205,6 +207,13 @@
     </Compile>
     <Compile Include="Forms\List.aspx.designer.cs">
       <DependentUpon>List.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Loading.aspx.cs">
+      <DependentUpon>Loading.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Forms\Loading.aspx.designer.cs">
+      <DependentUpon>Loading.aspx</DependentUpon>
     </Compile>
     <Compile Include="Forms\Record.aspx.cs">
       <DependentUpon>Record.aspx</DependentUpon>

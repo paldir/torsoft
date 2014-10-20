@@ -26,6 +26,7 @@ namespace czynsze.Forms
             string dbWriteResult = null;
             table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(t => t.EndsWith("table"))]);
             action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(t => t.EndsWith("action"))]);
+            string backUrl = "javascript: Load('List.aspx?table=" + table + "')";
 
             if (action != EnumP.Action.Dodaj)
             {
@@ -1196,12 +1197,12 @@ namespace czynsze.Forms
             if (validationResult != String.Empty || (dbWriteResult != null && dbWriteResult.Last() == '!'))
             {
                 placeOfButtons.Controls.Add(new ControlsP.ButtonP("button", "Repair", "Popraw", "Record.aspx"));
-                placeOfButtons.Controls.Add(new ControlsP.ButtonP("button", "Cancel", "Anuluj", "List.aspx"));
+                placeOfButtons.Controls.Add(new ControlsP.ButtonP("button", "Cancel", "Anuluj", backUrl));
 
                 Session["values"] = record;
             }
             else
-                placeOfButtons.Controls.Add(new ControlsP.ButtonP("button", "Back", "Powrót", "List.aspx"));
+                placeOfButtons.Controls.Add(new ControlsP.ButtonP("button", "Back", "Powrót", backUrl));
         }
     }
 }

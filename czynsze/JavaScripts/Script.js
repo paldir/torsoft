@@ -160,3 +160,40 @@ function ChangeRow(rowId, inactive) {
     if (row != null)
         row.className = "selectedRow";
 }
+
+function Load(href) {
+    window.location.href = "Loading.aspx?href=*" + href + "*";
+}
+
+function FinishLoading() {
+    var waterMark = document.getElementById("waterMark");
+
+    if (waterMark != null) {
+        var animationSupported = false;
+        var prefixesOfBrowsers = 'Webkit Moz O ms Khtml'.split(' ');
+
+        if (waterMark.style.animationName != undefined)
+            animationSupported = true;
+
+        if (!animationSupported)
+            for (var i = 0; i < prefixesOfBrowsers.length; i++)
+                if (waterMark.style[prefixesOfBrowsers[i] + 'AnimationName'] != undefined) {
+                    animationSupported = true;
+                    break;
+                }
+
+        if (animationSupported)
+            waterMark.className = "animatedWaterMark";
+        else {
+            var loading = document.getElementById("loading");
+
+            if (loading != null)
+                loading.style.display = "block";
+        }
+    }
+
+    var href = window.location.search;
+
+    if (href.length > 7)
+        window.location.href = href.substring(7, href.length - 1);
+}
