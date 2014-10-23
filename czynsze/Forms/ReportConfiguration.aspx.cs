@@ -18,12 +18,14 @@ namespace czynsze.Forms
             report = (EnumP.Report)Enum.Parse(typeof(EnumP.Report), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("report"))]);
             List<Control> controls = null;
             List<string> labels = null;
+            string heading = "Konfiguracja wydruku ";
 
             switch (report)
             {
                 case EnumP.Report.PlacesInEachBuilding:
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                     {
+                        heading += "(Lokale w budynkach)";
                         int firstBuildingNumber = db.buildings.Select(b => b.kod_1).Min();
                         int lastBuildingNumber = db.buildings.Select(b => b.kod_1).Max();
                         ControlsP.HtmlGenericControlP firstBuilding = new ControlsP.HtmlGenericControlP("div", "control");
@@ -52,6 +54,7 @@ namespace czynsze.Forms
                     break;
             }
 
+            placeOfConfigurationFields.Controls.Add(new LiteralControl("<h2>" + heading + "</h2>"));
             controls.Add(new ControlsP.RadioButtonListP("list", "format", new List<string>() { "PDF", "CSV" }, new List<string>() { EnumP.ReportFormat.Pdf.ToString(), EnumP.ReportFormat.Csv.ToString() }, EnumP.ReportFormat.Pdf.ToString(), true, false));
             labels.Add("Format: ");
 
@@ -65,31 +68,18 @@ namespace czynsze.Forms
             }
 
             generationButton.Click += generationButton_Click;
+            this.Title = heading;
 
-            /*font = new Font("Arial", 10);
-
-            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                rows = db.places.Where(p => p.kod_lok != 1).OrderBy(p => p.nr_lok).ToList().Select(p => p.ImportantFields()).ToList();
-
-            namesOfHierarchies = new List<string>();
-            namesOfMeasures = new List<string>()
+           if (Forms.Hello.siteMapPath.Count > 0)
             {
-                "ąćęłńóśźż",
-                "Kod budynku",
-                "Numer lokalu",
-                "Typ lokalu",
-                "Powierzchnia użytkowa",
-                "Nazwisko",
-                "Imię"
-            };
+                if (Forms.Hello.siteMapPath.IndexOf(heading) == -1)
+                {
+                    Forms.Hello.siteMapPath[Forms.Hello.siteMapPath.Count - 1] = String.Concat("<a href=\"javascript: Load('" + Request.UrlReferrer.PathAndQuery + "')\">", Forms.Hello.siteMapPath[Forms.Hello.siteMapPath.Count - 1]);
+                    Forms.Hello.siteMapPath[Forms.Hello.siteMapPath.Count - 1] += "</a>";
 
-            RdlGenerator generator = new RdlGenerator("Wydruk", CalculateColumnsWidths(), new SizeF(21, 29.7f), 1, font, "black", new string[] { "lightgray", "lightgray" }, "black", "white");
-
-            //string tmp = generator.WriteReport(namesOfHierarchies, namesOfMeasures, rows);
-            
-            Session["reportDefinition"] = generator.WriteReport(namesOfHierarchies, namesOfMeasures, rows);
-
-            Response.Redirect("Report.aspx");*/
+                    Forms.Hello.siteMapPath.Add(heading);
+                }
+            }
         }
 
         float[] CalculateColumnsWidths(List<string> headers, List<string[]> rows, Font font)

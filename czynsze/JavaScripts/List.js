@@ -46,23 +46,12 @@ function InitInactive() {
             idRadio[i].onchange = function () { ChangeRow(this.id, true); }
 }
 
-function Redirect(pageId) {
-    var href;
-
+function Redirect(href) {
     var selectedRow = document.getElementsByClassName("selectedRow");
 
     if (selectedRow.length > 0) {
         var id = selectedRow[0].id.replace("_row", "");
 
-        switch (pageId) {
-            case 1:
-                href = "List.aspx?table=AllReceivablesOfTenant&id=" + id;
-                break;
-            case 2:
-                href = "List.aspx?table=NotPastReceivablesOfTenant&id=" + id;
-                break;
-        }
-
-        window.location.href = href;
+        window.location.href = href + "&id=" + id;
     }
 }

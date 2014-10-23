@@ -260,8 +260,8 @@ namespace czynsze.Forms
                         new string[]
                         {
                             "Należności",
-                            "<a href='#' onclick='Redirect(1)'>Wszystkie</a>",
-                            "<a href='#' onclick='Redirect(2)'>Nieprzeterminowane</a>"
+                            "<a href=\"javascript: Redirect('List.aspx?table=AllReceivablesOfTenant')\">Wszystkie</a>",
+                            "<a href=\"javascript: Redirect('List.aspx?table=NotPastReceivablesOfTenant')\">Nieprzeterminowane</a>"
                         },
                         new string[]
                         {

@@ -182,6 +182,8 @@ function FinishLoading() {
                     break;
                 }
 
+        //animationSupported = false;
+
         if (animationSupported)
             waterMark.className = "animatedWaterMark";
         else {

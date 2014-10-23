@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Konfiguracja wydruku" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ReportConfiguration.aspx.cs" Inherits="czynsze.Forms.ReportConfiguration" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ReportConfiguration.aspx.cs" Inherits="czynsze.Forms.ReportConfiguration" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="../JavaScripts/ReportConfiguration.js"></script>
 </asp:Content>

@@ -180,7 +180,6 @@ input, select, textarea {
     .mainTable th {
         background-color: #E8E8E8;
         font-weight: bold;
-        //padding: 3px;
     }
 
     .mainTable input[type="radio"] {
@@ -190,8 +189,6 @@ input, select, textarea {
     .mainTable label {
         display: block;
         padding: 3px;
-        //padding-left: 25px;
-        //padding-right: 25px;
         cursor: pointer;
     }
 
@@ -214,7 +211,6 @@ input, select, textarea {
     display: inline;
     list-style-type: none;
     padding: 0;
-    //margin-left: 50px;
     z-index: 2;
 }
 
@@ -395,8 +391,7 @@ input, select, textarea {
     position: absolute;
     left: 50%;
     top: 50%;
-    margin-top: -15px;
-    margin-left: -15px;
+    margin-left: -64px;
     pointer-events: none;
 }
 /*#endregion*/
