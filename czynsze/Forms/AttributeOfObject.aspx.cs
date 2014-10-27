@@ -9,12 +9,6 @@ namespace czynsze.Forms
 {
     public partial class AttributeOfObject : System.Web.UI.Page
     {
-        /*List<DataAccess.AttributeOfBuilding> attributesOfObject
-        {
-            get { return (List<DataAccess.AttributeOfBuilding>)Session["attributesOfObject"]; }
-            set { Session["attributesOfObject"] = value; }
-        }*/
-
         List<DataAccess.AttributeOfObject> attributesOfObject
         {
             get { return (List<DataAccess.AttributeOfObject>)Session["attributesOfObject"]; }
