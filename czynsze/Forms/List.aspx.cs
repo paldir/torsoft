@@ -61,6 +61,18 @@ namespace czynsze.Forms
             set { ViewState["sortable"] = value; }
         }
 
+        List<int> indexesOfNumericColumns
+        {
+            get
+            {
+                if (ViewState["indexesOfNumericColumns"] == null)
+                    return new List<int>();
+
+                return (List<int>)ViewState["indexesOfNumericColumns"];
+            }
+            set { ViewState["indexesOfNumericColumns"] = value; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))]);
@@ -89,6 +101,7 @@ namespace czynsze.Forms
                 case EnumP.Table.Buildings:
                     heading = "Budynki";
                     headers = new string[] { "Kod", "Adres", "Adres cd." };
+                    indexesOfNumericColumns = new List<int>() { 1 };
 
                     if (!IsPostBack)
                         using (db = new DataAccess.Czynsze_Entities())
@@ -98,6 +111,7 @@ namespace czynsze.Forms
                 case EnumP.Table.InactivePlaces:
                     heading = "Lokale";
                     headers = new string[] { "Kod budynku", "Numer lokalu", "Typ lokalu", "Powierzchnia użytkowa", "Nazwisko", "Imię" };
+                    indexesOfNumericColumns = new List<int>() { 1, 2, 4 };
 
                     placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "moveaction", "Przenieś", postBackUrl));
 
@@ -134,6 +148,7 @@ namespace czynsze.Forms
                 case EnumP.Table.InactiveTenants:
                     heading = "Najemcy";
                     headers = new string[] { "Numer kontrolny", "Nazwisko", "Imię", "Adres", "Adres cd." };
+                    indexesOfNumericColumns = new List<int>() { 1 };
 
                     placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "moveaction", "Przenieś", postBackUrl));
 
@@ -158,6 +173,7 @@ namespace czynsze.Forms
                 case EnumP.Table.RentComponents:
                     heading = "Składniki opłat";
                     headers = new string[] { "Numer", "Nazwa", "Sposób naliczania", "Typ", "Stawka zł" };
+                    indexesOfNumericColumns = new List<int>() { 1, 5 };
 
                     if (!IsPostBack)
                         using (db = new DataAccess.Czynsze_Entities())
@@ -166,6 +182,7 @@ namespace czynsze.Forms
                 case EnumP.Table.Communities:
                     heading = "Wspólnoty";
                     headers = new string[] { "Kod", "Nazwa wspólnoty", "Il. bud.", "Il. miesz." };
+                    indexesOfNumericColumns = new List<int>() { 1, 3, 4 };
 
                     if (!IsPostBack)
                         using (db = new DataAccess.Czynsze_Entities())
@@ -174,6 +191,7 @@ namespace czynsze.Forms
                 case EnumP.Table.TypesOfPlace:
                     heading = "Typy lokali";
                     headers = new string[] { "Kod", "Typ lokalu" };
+                    indexesOfNumericColumns = new List<int>() { 1 };
 
                     if (!IsPostBack)
                         using (db = new DataAccess.Czynsze_Entities())
@@ -182,6 +200,7 @@ namespace czynsze.Forms
                 case EnumP.Table.TypesOfKitchen:
                     heading = "Rodzaje kuchni";
                     headers = new string[] { "Kod", "Rodzaj kuchni" };
+                    indexesOfNumericColumns = new List<int>() { 1 };
 
                     if (!IsPostBack)
                         using (db = new DataAccess.Czynsze_Entities())
@@ -190,6 +209,7 @@ namespace czynsze.Forms
                 case EnumP.Table.TypesOfTenant:
                     heading = "Rodzaje najemców";
                     headers = new string[] { "Kod", "Rodzaj najemcy" };
+                    indexesOfNumericColumns = new List<int>() { 1 };
 
                     if (!IsPostBack)
                         using (db = new DataAccess.Czynsze_Entities())
@@ -198,6 +218,7 @@ namespace czynsze.Forms
                 case EnumP.Table.Titles:
                     heading = "Tytuły prawne do lokali";
                     headers = new string[] { "Kod", "Tytuł prawny" };
+                    indexesOfNumericColumns = new List<int>() { 1 };
 
                     if (!IsPostBack)
                         using (db = new DataAccess.Czynsze_Entities())
@@ -206,6 +227,7 @@ namespace czynsze.Forms
                 case EnumP.Table.TypesOfPayment:
                     heading = "Rodzaje wpłat i wypłat";
                     headers = new string[] { "Kod", "Rodzaj wpłaty lub wypłaty", "Sposób rozliczania", "Odsetki", "NO" };
+                    indexesOfNumericColumns = new List<int>() { 1 };
 
                     if (!IsPostBack)
                         using (db = new DataAccess.Czynsze_Entities())
@@ -214,6 +236,7 @@ namespace czynsze.Forms
                 case EnumP.Table.GroupsOfRentComponents:
                     heading = "Grupy składników czynszu";
                     headers = new string[] { "Kod", "Nazwa grupy" };
+                    indexesOfNumericColumns = new List<int>() { 1 };
 
                     if (!IsPostBack)
                         using (db = new DataAccess.Czynsze_Entities())
@@ -222,6 +245,7 @@ namespace czynsze.Forms
                 case EnumP.Table.FinancialGroups:
                     heading = "Grupy finansowe";
                     headers = new string[] { "Kod", "Konto", "Nazwa grupy" };
+                    indexesOfNumericColumns = new List<int>() { 1 };
 
                     if (!IsPostBack)
                         using (db = new DataAccess.Czynsze_Entities())
@@ -230,6 +254,7 @@ namespace czynsze.Forms
                 case EnumP.Table.VatRates:
                     heading = "Stawki VAT";
                     headers = new string[] { "Oznaczenie stawki", "Symbol fiskalny" };
+                    indexesOfNumericColumns = new List<int>() { 1 };
 
                     if (!IsPostBack)
                         using (db = new DataAccess.Czynsze_Entities())
@@ -238,6 +263,7 @@ namespace czynsze.Forms
                 case EnumP.Table.Attributes:
                     heading = "Cechy obiektów";
                     headers = new string[] { "Kod", "Nazwa", "N/C", "L.", "N.", "B.", "Wsp." };
+                    indexesOfNumericColumns = new List<int>() { 1 };
 
                     if (!IsPostBack)
                         using (db = new DataAccess.Czynsze_Entities())
@@ -255,6 +281,7 @@ namespace czynsze.Forms
                     heading = "Należności i obroty według najemców";
                     headers = new string[] { "Nazwisko", "Imię", "Kod", "Nr", "Adres najemcy", "Adres lokalu" };
                     sortable = false;
+                    indexesOfNumericColumns = new List<int>() { 3, 4 };
                     subMenu = new List<string[]>()
                     {
                         new string[]
@@ -286,6 +313,7 @@ namespace czynsze.Forms
                     int id = Convert.ToInt16(Request.Params["id"]);
                     headers = new string[] { "Kwota należności", "Termin zapłaty", "Uwagi", "Kod lokalu", "Nr lokalu" };
                     sortable = false;
+                    indexesOfNumericColumns = new List<int>() { 1, 4, 5 };
 
                     using (db = new DataAccess.Czynsze_Entities())
                     {
@@ -416,7 +444,7 @@ namespace czynsze.Forms
 
         void CreateMainTable()
         {
-            ControlsP.TableP mainTable = new ControlsP.TableP("mainTable", rows, headers, sortable, String.Empty);
+            ControlsP.TableP mainTable = new ControlsP.TableP("mainTable", rows, headers, sortable, String.Empty, indexesOfNumericColumns);
 
             if (sortable)
                 foreach (TableCell cell in mainTable.Rows[0].Cells)

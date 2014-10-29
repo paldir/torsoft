@@ -11,7 +11,7 @@ namespace czynsze.ControlsP
 {
     public class TableP : Table
     {
-        public TableP(string cSSClass, List<string[]> rows, string[] headerRow, bool sortable, string prefix)
+        public TableP(string cSSClass, List<string[]> rows, string[] headerRow, bool sortable, string prefix, List<int> indexesOfNumericColumns)
         {
             float[] widthsOfColumns = new float[headerRow.Length];
             Bitmap bitMap = new Bitmap(500, 200);
@@ -29,9 +29,16 @@ namespace czynsze.ControlsP
                 TableRow tableRow = new TableRow();
                 tableRow.CssClass = "tableRow";
                 tableRow.ID = prefix + row[0] + "_row";
-
                 TableCell tableCell = new TableCell();
                 tableCell.CssClass = "tableCell";
+                string cellText = row[1];
+
+                if (indexesOfNumericColumns.IndexOf(1) != -1)
+                {
+                    cellText = HandleNumericCell(cellText);
+
+                    tableCell.CssClass += " numericTableCell";
+                }
 
                 tableCell.Controls.Add(new RadioButtonP("radioButton", prefix + row[0], "id"));
                 tableCell.Controls.Add(new LabelP("label", row[0], row[1], String.Empty));
@@ -50,8 +57,16 @@ namespace czynsze.ControlsP
                 {
                     TableCell tableCell = new TableCell();
                     tableCell.CssClass = "tableCell";
+                    string cellText = rows.ElementAt(i)[j];
 
-                    tableCell.Controls.Add(new LabelP("label", rows.ElementAt(i)[0], rows.ElementAt(i)[j], String.Empty));
+                    if (indexesOfNumericColumns.IndexOf(j) != -1)
+                    {
+                        cellText = HandleNumericCell(cellText);
+
+                        tableCell.CssClass += " numericTableCell";
+                    }
+
+                    tableCell.Controls.Add(new LabelP("label", rows.ElementAt(i)[0], cellText, String.Empty));
                     this.Rows[i].Cells.Add(tableCell);
 
                     float columnWidth = graphics.MeasureString(rows.ElementAt(i)[j], font).Width;
@@ -90,6 +105,18 @@ namespace czynsze.ControlsP
             if (this.Rows.Count > 1)
                 for (int i = 0; i < headerRow.Length; i++)
                     this.Rows[1].Cells[i].Width = new Unit(widthsOfColumns[i]);
+        }
+
+        string HandleNumericCell(string cellText)
+        {
+            string format;
+
+            if (cellText.IndexOf(',') == -1)
+                format = "{0:N0}";
+            else
+                format = "{0:N2}";
+
+            return String.Format(format, Convert.ToSingle(cellText));
         }
     }
 }

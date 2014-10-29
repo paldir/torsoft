@@ -204,6 +204,10 @@ input, select, textarea {
         background-color: gray;
         color: white;
     }
+
+    .mainTable .numericTableCell{
+        text-align: right;
+    }
 /*#endregion*/
 
 /*#region rozwijane menu*/
@@ -391,7 +395,8 @@ input, select, textarea {
     position: absolute;
     left: 50%;
     top: 50%;
-    margin-left: -64px;
+    margin-left: -33px;
+    margin-top: -33px;
     pointer-events: none;
 }
 /*#endregion*/
