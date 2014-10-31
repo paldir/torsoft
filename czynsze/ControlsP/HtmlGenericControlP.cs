@@ -9,9 +9,9 @@ namespace czynsze.ControlsP
     {
         public HtmlGenericControlP(string tagName, string className)
         {
-            this.TagName = tagName;
+            TagName = tagName;
 
-            this.Attributes.Add("class", className);
+            Attributes.Add("class", className);
         }
     }
 }

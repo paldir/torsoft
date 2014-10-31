@@ -13,34 +13,34 @@ namespace czynsze.ControlsP
         
         public TextBoxP(string cSSClass, string id, string text, TextBoxModeP textMode, int maxLength, int rows, bool enabled)
         {
-            this.CssClass = cSSClass;
-            this.ID = id;
-            this.Text = text;
+            CssClass = cSSClass;
+            ID = id;
+            Text = text;
 
             switch (textMode)
             {
                 case TextBoxModeP.MultiLine:
-                    this.TextMode = TextBoxMode.MultiLine;
+                    TextMode = TextBoxMode.MultiLine;
 
-                    this.Attributes.Add("maxlength", maxLength.ToString());
+                    Attributes.Add("maxlength", maxLength.ToString());
                     break;
                 case TextBoxModeP.Number:
-                    this.Attributes.Add("onkeypress", "return isInteger(event)");
+                    Attributes.Add("onkeypress", "return isInteger(event)");
                     break;
                 case TextBoxModeP.Float:
-                    this.Attributes.Add("onkeypress", "return isFloat(event)");
+                    Attributes.Add("onkeypress", "return isFloat(event)");
                     break;
                 case TextBoxModeP.Date:
-                    this.Attributes.Add("onkeypress", "return isDate(event)");
+                    Attributes.Add("onkeypress", "return isDate(event)");
                     break;
                 case TextBoxModeP.Password:
-                    this.TextMode = TextBoxMode.Password;
+                    TextMode = TextBoxMode.Password;
                     break;
             }
             
-            this.MaxLength = maxLength; this.Columns = maxLength / rows;
-            this.Rows = rows;
-            this.Enabled = enabled;
+            MaxLength = maxLength; Columns = maxLength / rows;
+            Rows = rows;
+            Enabled = enabled;
         }
     }
 }

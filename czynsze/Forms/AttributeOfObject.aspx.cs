@@ -148,7 +148,7 @@ namespace czynsze.Forms
             form.Controls.Add(new ControlsP.HtmlInputHiddenP("parentId", parentId.ToString()));
             form.Controls.Add(new ControlsP.HtmlInputHiddenP("attributeOf", attributeOf.ToString()));
             form.Controls.Add(new ControlsP.HtmlInputHiddenP("action", action.ToString()));
-            placeOfTable.Controls.Add(new ControlsP.TableP("mainTable tabTable", rows, new string[] { "Cecha", "Wartość" }, false, String.Empty, new List<int>()));
+            placeOfTable.Controls.Add(new ControlsP.TableP("mainTable tabTable", rows, new string[] { "Cecha", "Wartość" }, false, String.Empty, new List<int>(), new List<int>()));
 
             switch (action)
             {

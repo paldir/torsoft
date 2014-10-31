@@ -9,8 +9,8 @@ namespace czynsze.ControlsP
     {
         public HtmlInputHiddenP(string id, string value)
         {
-            this.ID = id;
-            this.Value = value;
+            ID = id;
+            Value = value;
         }
     }
 }

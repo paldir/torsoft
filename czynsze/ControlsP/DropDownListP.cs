@@ -11,12 +11,12 @@ namespace czynsze.ControlsP
     {
         public DropDownListP(string cSSClass, string id, List<string[]> rows, string selectedValue, bool enabled, bool addEmptyItem)
         {
-            this.CssClass = cSSClass;
-            this.ID = id;
-            this.Enabled = enabled;
+            CssClass = cSSClass;
+            ID = id;
+            Enabled = enabled;
 
             if (addEmptyItem)
-                this.Items.Add(new ListItem(String.Empty, "0"));
+                Items.Add(new ListItem(String.Empty, "0"));
 
             foreach (string[] row in rows)
             {
@@ -28,10 +28,10 @@ namespace czynsze.ControlsP
 
                 text = text.Remove(text.Length - 2, 2);
 
-                this.Items.Add(new ListItem(text, value));
+                Items.Add(new ListItem(text, value));
             }
 
-            this.SelectedValue = selectedValue;
+            SelectedValue = selectedValue;
         }
     }
 }

@@ -8,6 +8,7 @@
             <div id="placeOfHeading" runat="server"></div>
             <div id="placeOfMainTableButtons" runat="server"></div>
             <div id="placeOfMainTable" class="placeOfMainTable" runat="server"></div>
+            <div id="placeUnderMainTable" class="placeUnderMainTable" runat="server"></div>
         </form>
     </div>
     <script>
@@ -24,6 +25,11 @@
                     InitInactive();
                 <%
                 break;
+            //case "ReceivablesAndTurnoversOfTenant":
+                %>
+                    //InitReceivablesAndTurnoversOfTenant();
+                <%
+                //break;
         }
         %>
     </script>

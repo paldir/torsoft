@@ -73,6 +73,18 @@ namespace czynsze.Forms
             set { ViewState["indexesOfNumericColumns"] = value; }
         }
 
+        List<int> indexesOfColumnsWithSummary
+        {
+            get
+            {
+                if (ViewState["indexesOfColumnsWithSummary"] == null)
+                    return new List<int>();
+
+                return (List<int>)ViewState["indexesOfColumnsWithSummary"];
+            }
+            set { ViewState["indexesOfColumnsWithSummary"] = value; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))]);
@@ -80,12 +92,17 @@ namespace czynsze.Forms
             string heading = null;
             List<string[]> subMenu = null;
             sortable = true;
+            int id = -1;
+
+            if (Request.Params["id"] != null)
+                id = Convert.ToInt16(Request.Params["id"]);
 
             switch (table)
             {
                 case EnumP.Table.ReceivablesByTenants:
                 case EnumP.Table.AllReceivablesOfTenant:
                 case EnumP.Table.NotPastReceivablesOfTenant:
+                case EnumP.Table.ReceivablesAndTurnoversOfTenant:
                     break;
                 default:
                     placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "addaction", "Dodaj", postBackUrl));
@@ -96,6 +113,7 @@ namespace czynsze.Forms
             }
 
             DataAccess.Czynsze_Entities db;
+
             switch (table)
             {
                 case EnumP.Table.Buildings:
@@ -293,7 +311,7 @@ namespace czynsze.Forms
                         new string[]
                         {
                             "Rozliczenia",
-                            "<a href='#'>Należności i obroty</a>",
+                            "<a href=\"javascript: Redirect('List.aspx?table=ReceivablesAndTurnoversOfTenant')\">Należności i obroty</a>",
                             "<a href='#'>Zaległości płatnicze</a>",
                         }
                     };
@@ -310,10 +328,10 @@ namespace czynsze.Forms
                     break;
                 case EnumP.Table.AllReceivablesOfTenant:
                 case EnumP.Table.NotPastReceivablesOfTenant:
-                    int id = Convert.ToInt16(Request.Params["id"]);
                     headers = new string[] { "Kwota należności", "Termin zapłaty", "Uwagi", "Kod lokalu", "Nr lokalu" };
                     sortable = false;
                     indexesOfNumericColumns = new List<int>() { 1, 4, 5 };
+                    indexesOfColumnsWithSummary = new List<int>() { 1 };
 
                     using (db = new DataAccess.Czynsze_Entities())
                     {
@@ -331,6 +349,68 @@ namespace czynsze.Forms
                                 break;
                         }
                     }
+                    break;
+                case EnumP.Table.ReceivablesAndTurnoversOfTenant:
+                    headers = new string[] { "Kwota Wn", "Kwota Ma", "Data", "Operacja" };
+                    sortable = false;
+                    indexesOfNumericColumns = new List<int>() { 1, 2 };
+                    //indexesOfColumnsWithSummary = new List<int>() { 1, 2 };
+                    float wnAmount, maAmount, pastReceivables;
+
+                    using (db = new DataAccess.Czynsze_Entities())
+                    {
+                        DataAccess.Tenant tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == id);
+                        heading = "Należności  i obroty najemcy " + tenant.nazwisko + " " + tenant.imie;
+                        rows = db.receivablesFor14.Where(r => r.nr_kontr == id).ToList().Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).ToList();
+
+                        rows.AddRange(db.turnoversFor14.Where(t => t.nr_kontr == id).ToList().Select(t => t.ImportantFields()).ToList());
+
+                        rows = rows.OrderBy(r => DateTime.Parse(r[3])).ToList();
+
+                        wnAmount = rows.Sum(r => (r[1] == String.Empty) ? 0 : Convert.ToSingle(r[1]));
+                        maAmount = rows.Sum(r => (r[2] == String.Empty) ? 0 : Convert.ToSingle(r[2]));
+                        pastReceivables = db.receivablesFor14.ToList().Where(r => r.nr_kontr == id && Convert.ToDateTime(r.data_nal) <= Hello.date).Sum(r => r.kwota_nal);
+                    }
+
+                    string summary = @"
+                        <table class='additionalTable'>
+                            <tr>
+                                <td>Suma Wn: </td>
+                                <td class='numericTableCell'>" + wnAmount.ToString("F2") + @"</td>                                                                        
+                            </tr>
+                            <tr>
+                                <td>Suma Ma: </td>
+                                <td class='numericTableCell'>" + maAmount.ToString("F2") + @"</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><hr /></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class='numericTableCell'>" + (maAmount - wnAmount).ToString("F2") + @"</td>
+                            </tr>
+                        </table>
+                        <table class='additionalTable'>
+                            <tr>
+                                <td>Należności przeterminowane: </td>
+                                <td class='numericTableCell'>" + pastReceivables.ToString("F2") + @"</td>                                                                        
+                            </tr>
+                            <tr>
+                                <td>Suma Ma: </td>
+                                <td class='numericTableCell'>" + maAmount.ToString("F2") + @"</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><hr /></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class='numericTableCell'>" + (maAmount - pastReceivables).ToString("F2") + @"</td>
+                            </tr>
+                        </table>";
+
+                    placeUnderMainTable.Controls.Add(new LiteralControl(summary));
                     break;
             }
 
@@ -363,7 +443,7 @@ namespace czynsze.Forms
                 placeOfMainTableButtons.Controls.Add(superUl);
             }
 
-            this.Title = heading;
+            Title = heading;
             Session["values"] = null;
 
             switch (table)
@@ -386,8 +466,11 @@ namespace czynsze.Forms
                     break;
                 case EnumP.Table.AllReceivablesOfTenant:
                 case EnumP.Table.NotPastReceivablesOfTenant:
+                case EnumP.Table.ReceivablesAndTurnoversOfTenant:
                     if (Hello.siteMapPath.Count > 2)
                     {
+                        Hello.siteMapPath.RemoveRange(3, Hello.siteMapPath.Count - 3);
+                        
                         string node = Hello.siteMapPath[2].Insert(0, "<a href=\"javascript: Load('List.aspx?table=" + EnumP.Table.ReceivablesByTenants + "')\">") + "</a>";
 
                         if (Hello.siteMapPath.IndexOf(node) == -1)
@@ -444,7 +527,7 @@ namespace czynsze.Forms
 
         void CreateMainTable()
         {
-            ControlsP.TableP mainTable = new ControlsP.TableP("mainTable", rows, headers, sortable, String.Empty, indexesOfNumericColumns);
+            ControlsP.TableP mainTable = new ControlsP.TableP("mainTable", rows, headers, sortable, String.Empty, indexesOfNumericColumns, indexesOfColumnsWithSummary);
 
             if (sortable)
                 foreach (TableCell cell in mainTable.Rows[0].Cells)

@@ -145,7 +145,7 @@ input, select, textarea {
     .mainTable tbody {
         overflow-x: hidden;
         overflow-y: scroll;
-        height: 430px;
+        height: 410px;
         display: inline-block;
     }
 
@@ -190,8 +190,24 @@ input, select, textarea {
         color: white;
     }
 
-    .mainTable .numericTableCell{
+    .numericTableCell{
         text-align: right;
+    }
+
+.mainTable .tableFooterRow {
+    font-weight: bold;
+}
+
+.placeUnderMainTable {
+    padding: 5px;
+    font-weight: bold;
+    border: 1px solid lightgray;
+}
+
+    .placeUnderMainTable .additionalTable {
+        display: inline-block;
+        padding: 10px;
+        //font-weight: bold;
     }
 /*#endregion*/
 

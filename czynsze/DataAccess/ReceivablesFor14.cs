@@ -16,7 +16,7 @@ namespace czynsze.DataAccess
 
         [Column("kwota_nal")]
         public float kwota_nal { get; set; }
-        
+
         [Column("data_nal")]
         public string data_nal { get; set; }
 
@@ -42,6 +42,18 @@ namespace czynsze.DataAccess
                 opis,
                 kod_lok.ToString(),
                 nr_lok.ToString()
+            };
+        }
+
+        public string[] ImportantFieldsForReceivablesAndTurnoversOfTenant()
+        {
+            return new string[]
+            {
+                (-1*__record).ToString(),
+                kwota_nal.ToString("F2"),
+                String.Empty,
+                data_nal,
+                opis
             };
         }
     }

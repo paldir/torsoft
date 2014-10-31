@@ -41,7 +41,7 @@ namespace czynsze.Forms
             switch (table)
             {
                 case EnumP.Table.Buildings:
-                    this.Title = "Edycja budynku";
+                    Title = "Edycja budynku";
                     DataAccess.Building building;
 
                     record = new string[]
@@ -124,7 +124,7 @@ namespace czynsze.Forms
                     }
                     break;
                 case EnumP.Table.Places:
-                    this.Title = "Edycja lokalu";
+                    Title = "Edycja lokalu";
                     DataAccess.ActivePlace place;
 
                     record = new string[]
@@ -301,7 +301,7 @@ namespace czynsze.Forms
                         }
                     break;
                 case EnumP.Table.Tenants:
-                    this.Title = "Edycja najemcy";
+                    Title = "Edycja najemcy";
                     DataAccess.ActiveTenant tenant;
 
                     record = new string[]
@@ -433,7 +433,7 @@ namespace czynsze.Forms
                         }
                     break;
                 case EnumP.Table.RentComponents:
-                    this.Title = "Edycja składnika opłat";
+                    Title = "Edycja składnika opłat";
                     DataAccess.RentComponent rentComponent;
 
                     record = new string[]
@@ -526,7 +526,7 @@ namespace czynsze.Forms
                     }
                     break;
                 case EnumP.Table.Communities:
-                    this.Title = "Edycja wspólnoty";
+                    Title = "Edycja wspólnoty";
                     DataAccess.Community community;
 
                     record = new string[]
@@ -610,7 +610,7 @@ namespace czynsze.Forms
                             }
                     break;
                 case EnumP.Table.TypesOfPlace:
-                    this.Title = "Edycja typu lokali";
+                    Title = "Edycja typu lokali";
                     DataAccess.TypeOfPlace typeOfPlace;
 
                     record = new string[]
@@ -665,7 +665,7 @@ namespace czynsze.Forms
                             }
                     break;
                 case EnumP.Table.TypesOfKitchen:
-                    this.Title = "Edycja rodzaju kuchni";
+                    Title = "Edycja rodzaju kuchni";
                     DataAccess.TypeOfKitchen typeOfKitchen;
 
                     record = new string[]
@@ -720,7 +720,7 @@ namespace czynsze.Forms
                             }
                     break;
                 case EnumP.Table.TypesOfTenant:
-                    this.Title = "Edycja rodzaju najemcy";
+                    Title = "Edycja rodzaju najemcy";
                     DataAccess.TypeOfTenant typeOfTenant;
 
                     record = new string[]
@@ -775,7 +775,7 @@ namespace czynsze.Forms
                             }
                     break;
                 case EnumP.Table.Titles:
-                    this.Title = "Edycja tytułu prawnego do lokali";
+                    Title = "Edycja tytułu prawnego do lokali";
                     DataAccess.Title title;
 
                     record = new string[]
@@ -830,7 +830,7 @@ namespace czynsze.Forms
                             }
                     break;
                 case EnumP.Table.TypesOfPayment:
-                    this.Title = "Edycja rodzaju wpłaty lub wypłaty";
+                    Title = "Edycja rodzaju wpłaty lub wypłaty";
                     DataAccess.TypeOfPayment typeOfPayment;
 
                     record = new string[]
@@ -891,7 +891,7 @@ namespace czynsze.Forms
                             }
                     break;
                 case EnumP.Table.GroupsOfRentComponents:
-                    this.Title = "Edycja grupy składników czynszu";
+                    Title = "Edycja grupy składników czynszu";
                     DataAccess.GroupOfRentComponents groupOfRentComponents;
 
                     record = new string[]
@@ -946,7 +946,7 @@ namespace czynsze.Forms
                             }
                     break;
                 case EnumP.Table.FinancialGroups:
-                    this.Title = "Edycja grupy finansowej";
+                    Title = "Edycja grupy finansowej";
                     DataAccess.FinancialGroup financialGroup;
 
                     record = new string[]
@@ -1002,7 +1002,7 @@ namespace czynsze.Forms
                             }
                     break;
                 case EnumP.Table.VatRates:
-                    this.Title = "Edycja stawki VAT";
+                    Title = "Edycja stawki VAT";
                     DataAccess.VatRate vatRate;
 
                     record = new string[]
@@ -1058,7 +1058,7 @@ namespace czynsze.Forms
                             }
                     break;
                 case EnumP.Table.Attributes:
-                    this.Title = "Edycja cechy obiektów";
+                    Title = "Edycja cechy obiektów";
                     DataAccess.Attribute attribute;
 
                     record = new string[]
@@ -1121,7 +1121,7 @@ namespace czynsze.Forms
                             }
                     break;
                 case EnumP.Table.Users:
-                    this.Title = "Edycja użytkownika";
+                    Title = "Edycja użytkownika";
                     DataAccess.User user;
 
                     record = new string[]

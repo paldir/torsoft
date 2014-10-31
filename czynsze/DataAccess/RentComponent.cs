@@ -70,7 +70,7 @@ namespace czynsze.DataAccess
 
         string Recognize_s_zaplat()
         {
-            switch (this.s_zaplat)
+            switch (s_zaplat)
             {
                 case 1:
                     return "za m<sup>2</sup> pow. użytkowej";
@@ -91,7 +91,7 @@ namespace czynsze.DataAccess
 
         string Recognize_typ_skl()
         {
-            switch (this.typ_skl)
+            switch (typ_skl)
             {
                 case 0:
                     return "stały";

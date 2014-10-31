@@ -11,9 +11,9 @@ namespace czynsze.ControlsP
     {
         public RadioButtonP(string cSSClass, string id, string groupName)
         {
-            this.CssClass = cSSClass;
-            this.ID = id;
-            this.GroupName = groupName;
+            CssClass = cSSClass;
+            ID = id;
+            GroupName = groupName;
         }
     }
 }

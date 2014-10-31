@@ -81,7 +81,7 @@ namespace czynsze.Forms
             switch (table)
             {
                 case EnumP.Table.Buildings:
-                    this.Title = "Budynek";
+                    Title = "Budynek";
                     numberOfFields = 7;
                     heading += " budynku";
                     columnSwitching = new List<int>() { 0, 6 };
@@ -156,13 +156,13 @@ namespace czynsze.Forms
                 case EnumP.Table.Places:
                 case EnumP.Table.InactivePlaces:
 
-                    this.Title = "Lokal";
+                    Title = "Lokal";
                     numberOfFields = 22;
                     heading += " lokalu";
 
                     if (table == EnumP.Table.InactivePlaces)
                     {
-                        this.Title = "Lokal (nieaktywny)";
+                        Title = "Lokal (nieaktywny)";
                         heading += " (nieaktywnego)";
                     }
 
@@ -357,7 +357,7 @@ namespace czynsze.Forms
                     break;
                 case EnumP.Table.Tenants:
                 case EnumP.Table.InactiveTenants:
-                    this.Title = "Najemca";
+                    Title = "Najemca";
                     numberOfFields = 12;
                     heading += " najemcy";
                     columnSwitching = new List<int> { 0, 6 };
@@ -379,7 +379,7 @@ namespace czynsze.Forms
 
                     if (table == EnumP.Table.InactiveTenants)
                     {
-                        this.Title = "Najemca (nieaktywny)";
+                        Title = "Najemca (nieaktywny)";
                         heading += " (nieaktywnego)";
                     }
 
@@ -460,7 +460,7 @@ namespace czynsze.Forms
                     controls.Add(new ControlsP.TextBoxP("field", "uwagi", values[11], ControlsP.TextBoxP.TextBoxModeP.MultiLine, 120, 2, globalEnabled));
                     break;
                 case EnumP.Table.RentComponents:
-                    this.Title = "Składnik opłat";
+                    Title = "Składnik opłat";
                     numberOfFields = 19;
                     heading += " składnika opłat";
                     columnSwitching = new List<int> { 0, 6, 9 };
@@ -535,7 +535,7 @@ namespace czynsze.Forms
                     controls.Add(interval);
                     break;
                 case EnumP.Table.Communities:
-                    this.Title = "Wspólnota";
+                    Title = "Wspólnota";
                     numberOfFields = 12;
                     heading += " wspólnoty";
                     columnSwitching = new List<int>() { 0, 7 };
@@ -620,7 +620,7 @@ namespace czynsze.Forms
                     controls.Add(new ControlsP.TextBoxP("field", "uwagi", values[11], ControlsP.TextBoxP.TextBoxModeP.MultiLine, 420, 6, globalEnabled));
                     break;
                 case EnumP.Table.TypesOfPlace:
-                    this.Title = "Typ lokali";
+                    Title = "Typ lokali";
                     numberOfFields = 2;
                     heading += " typu lokalu";
                     columnSwitching = new List<int>() { 0 };
@@ -650,7 +650,7 @@ namespace czynsze.Forms
                     controls.Add(new ControlsP.TextBoxP("field", "typ_lok", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 6, 1, globalEnabled));
                     break;
                 case EnumP.Table.TypesOfKitchen:
-                    this.Title = "Rodzaj kuchni";
+                    Title = "Rodzaj kuchni";
                     numberOfFields = 2;
                     heading += " rodzaju kuchni";
                     columnSwitching = new List<int>() { 0 };
@@ -680,7 +680,7 @@ namespace czynsze.Forms
                     controls.Add(new ControlsP.TextBoxP("field", "typ_kuch", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 15, 1, globalEnabled));
                     break;
                 case EnumP.Table.TypesOfTenant:
-                    this.Title = "Rodzaj najemców";
+                    Title = "Rodzaj najemców";
                     numberOfFields = 2;
                     heading += " rodzaju najemców";
                     columnSwitching = new List<int>() { 0 };
@@ -710,7 +710,7 @@ namespace czynsze.Forms
                     controls.Add(new ControlsP.TextBoxP("field", "r_najemcy", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 15, 1, globalEnabled));
                     break;
                 case EnumP.Table.Titles:
-                    this.Title = "Tytuł prawny do lokali";
+                    Title = "Tytuł prawny do lokali";
                     numberOfFields = 2;
                     heading += " tytułu prawnego do lokali";
                     columnSwitching = new List<int>() { 0 };
@@ -740,7 +740,7 @@ namespace czynsze.Forms
                     controls.Add(new ControlsP.TextBoxP("field", "tyt_prawny", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 15, 1, globalEnabled));
                     break;
                 case EnumP.Table.TypesOfPayment:
-                    this.Title = "Rodzaj wpłaty lub wypłaty";
+                    Title = "Rodzaj wpłaty lub wypłaty";
                     numberOfFields = 8;
                     heading += " rodzaju wpłaty lub wypłaty";
                     columnSwitching = new List<int>() { 0, 4 };
@@ -799,7 +799,7 @@ namespace czynsze.Forms
                     controls.Add(new ControlsP.TextBoxP("field", "sww", values[7], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 10, 1, globalEnabled));
                     break;
                 case EnumP.Table.GroupsOfRentComponents:
-                    this.Title = "Grupa składników czynszu";
+                    Title = "Grupa składników czynszu";
                     numberOfFields = 2;
                     heading += " grupy składników czynszu";
                     columnSwitching = new List<int>() { 0 };
@@ -829,7 +829,7 @@ namespace czynsze.Forms
                     controls.Add(new ControlsP.TextBoxP("field", "nazwa", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 15, 1, globalEnabled));
                     break;
                 case EnumP.Table.FinancialGroups:
-                    this.Title = "Grupa finansowa";
+                    Title = "Grupa finansowa";
                     numberOfFields = 3;
                     heading += " grupy finansowej";
                     columnSwitching = new List<int>() { 0 };
@@ -861,7 +861,7 @@ namespace czynsze.Forms
                     controls.Add(new ControlsP.TextBoxP("field", "nazwa", values[2], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 30, 1, globalEnabled));
                     break;
                 case EnumP.Table.VatRates:
-                    this.Title = "Stawka VAT";
+                    Title = "Stawka VAT";
                     numberOfFields = 3;
                     heading += " stawki VAT";
                     columnSwitching = new List<int>() { 0 };
@@ -893,7 +893,7 @@ namespace czynsze.Forms
                     controls.Add(new ControlsP.TextBoxP("field", "symb_fisk", values[2], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 2, 1, globalEnabled));
                     break;
                 case EnumP.Table.Attributes:
-                    this.Title = "Cecha obiektów";
+                    Title = "Cecha obiektów";
                     numberOfFields = 10;
                     heading += " cechy obiektów";
                     columnSwitching = new List<int>() { 0 };
@@ -952,7 +952,7 @@ namespace czynsze.Forms
                     controls.Add(new ControlsP.CheckBoxListP("field", "zb", new List<string>() { "lokale", "najemcy", "budynki", "wspólnoty" }, new List<string>() { "l", "n", "b", "s" }, selectedValues, globalEnabled));
                     break;
                 case EnumP.Table.Users:
-                    this.Title = "Użytkownik";
+                    Title = "Użytkownik";
                     numberOfFields = 6;
                     heading += " użytkownika";
                     columnSwitching = new List<int>() { 0 };
@@ -1056,8 +1056,7 @@ namespace czynsze.Forms
             {
                 if (Forms.Hello.siteMapPath.IndexOf(heading) == -1)
                 {
-                    Forms.Hello.siteMapPath[Forms.Hello.siteMapPath.Count - 1] = String.Concat("<a href=\"" + backUrl + "\">", Forms.Hello.siteMapPath[Forms.Hello.siteMapPath.Count - 1]);
-                    Forms.Hello.siteMapPath[Forms.Hello.siteMapPath.Count - 1] += "</a>";
+                    Forms.Hello.siteMapPath[Forms.Hello.siteMapPath.Count - 1] = String.Concat("<a href=\"" + backUrl + "\">", Forms.Hello.siteMapPath[Forms.Hello.siteMapPath.Count - 1]) + "</a>";
 
                     Forms.Hello.siteMapPath.Add(heading);
                 }

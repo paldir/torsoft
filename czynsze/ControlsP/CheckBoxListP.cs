@@ -11,16 +11,16 @@ namespace czynsze.ControlsP
     {
         public CheckBoxListP(string cSSClass, string id, List<string> texts, List<string> values, List<string> selectedValues, bool enabled)
         {
-            this.CssClass = cSSClass;
-            this.ID = id;
-            this.Enabled = enabled;
+            CssClass = cSSClass;
+            ID = id;
+            Enabled = enabled;
 
             for (int i = 0; i < values.Count; i++)
-                this.Items.Add(new ListItem(texts[i], values[i]));
+                Items.Add(new ListItem(texts[i], values[i]));
 
             foreach (string selectedValue in selectedValues)
             {
-                ListItem item = this.Items.FindByValue(selectedValue);
+                ListItem item = Items.FindByValue(selectedValue);
 
                 if (item != null)
                     item.Selected = true;

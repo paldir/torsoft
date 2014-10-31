@@ -11,18 +11,24 @@ namespace czynsze.ControlsP
 {
     public class TableP : Table
     {
-        public TableP(string cSSClass, List<string[]> rows, string[] headerRow, bool sortable, string prefix, List<int> indexesOfNumericColumns)
+        public TableP(string cSSClass, List<string[]> rows, string[] headerRow, bool sortable, string prefix, List<int> indexesOfNumericColumns, List<int> indexesOfColumnsWithSummary)
         {
             float[] widthsOfColumns = new float[headerRow.Length];
             Bitmap bitMap = new Bitmap(500, 200);
             Graphics graphics = Graphics.FromImage(bitMap);
             graphics.PageUnit = GraphicsUnit.Pixel;
             Font font = new Font("Times New Roman", 12);
+            float[] summary = new float[headerRow.Length];
+            float columnWidth;
+            string cellText;
 
             for (int i = 0; i < widthsOfColumns.Length; i++)
+            {
                 widthsOfColumns[i] = 0;
+                summary[i] = 0;
+            }
 
-            this.CssClass = cSSClass;
+            CssClass = cSSClass;
 
             foreach (string[] row in rows)
             {
@@ -31,21 +37,23 @@ namespace czynsze.ControlsP
                 tableRow.ID = prefix + row[0] + "_row";
                 TableCell tableCell = new TableCell();
                 tableCell.CssClass = "tableCell";
-                string cellText = row[1];
+                cellText = row[1];
 
                 if (indexesOfNumericColumns.IndexOf(1) != -1)
                 {
                     cellText = HandleNumericCell(cellText);
-
                     tableCell.CssClass += " numericTableCell";
                 }
+
+                if (indexesOfColumnsWithSummary.IndexOf(1) != -1 && cellText != String.Empty)
+                    summary[0] += Convert.ToSingle(cellText);
 
                 tableCell.Controls.Add(new RadioButtonP("radioButton", prefix + row[0], "id"));
                 tableCell.Controls.Add(new LabelP("label", row[0], row[1], String.Empty));
                 tableRow.Cells.Add(tableCell);
-                this.Rows.Add(tableRow);
+                Rows.Add(tableRow);
 
-                float columnWidth = graphics.MeasureString(row[1], font).Width;
+                columnWidth = graphics.MeasureString(row[1], font).Width;
 
                 if (columnWidth > widthsOfColumns[0])
                     widthsOfColumns[0] = columnWidth;
@@ -57,19 +65,21 @@ namespace czynsze.ControlsP
                 {
                     TableCell tableCell = new TableCell();
                     tableCell.CssClass = "tableCell";
-                    string cellText = rows.ElementAt(i)[j];
+                    cellText = rows.ElementAt(i)[j];
 
                     if (indexesOfNumericColumns.IndexOf(j) != -1)
                     {
                         cellText = HandleNumericCell(cellText);
-
                         tableCell.CssClass += " numericTableCell";
                     }
 
-                    tableCell.Controls.Add(new LabelP("label", rows.ElementAt(i)[0], cellText, String.Empty));
-                    this.Rows[i].Cells.Add(tableCell);
+                    if (indexesOfColumnsWithSummary.IndexOf(j) != -1 && cellText != String.Empty)
+                        summary[j - 1] += Convert.ToSingle(cellText);
 
-                    float columnWidth = graphics.MeasureString(rows.ElementAt(i)[j], font).Width;
+                    tableCell.Controls.Add(new LabelP("label", rows.ElementAt(i)[0], cellText, String.Empty));
+                    Rows[i].Cells.Add(tableCell);
+
+                    columnWidth = graphics.MeasureString(rows.ElementAt(i)[j], font).Width;
 
                     if (columnWidth > widthsOfColumns[j - 1])
                         widthsOfColumns[j - 1] = columnWidth;
@@ -90,33 +100,60 @@ namespace czynsze.ControlsP
                 else
                     tableHeaderCell.Controls.Add(new LiteralControl(headerRow[i]));
 
-                float columnWidth = graphics.MeasureString(headerRow[i], font).Width;
+                columnWidth = graphics.MeasureString(headerRow[i], font).Width;
 
                 if (columnWidth > widthsOfColumns[i])
                     widthsOfColumns[i] = columnWidth;
 
-                tableHeaderCell.Width = new Unit(widthsOfColumns[i]);
-
                 tableHeaderRow.Cells.Add(tableHeaderCell);
             }
 
-            this.Rows.AddAt(0, tableHeaderRow);
+            Rows.AddAt(0, tableHeaderRow);
 
-            if (this.Rows.Count > 1)
+            TableFooterRow tableFooterRow = new TableFooterRow();
+            tableFooterRow.CssClass = "tableFooterRow";
+            tableFooterRow.TableSection = TableRowSection.TableFooter;
+
+            for (int i = 0; i < headerRow.Length; i++)
+            {
+                TableCell tableFooterCell = new TableCell();
+                tableFooterCell.CssClass = "tableFooterCell numericTableCell";
+
+                if (indexesOfColumnsWithSummary.IndexOf(i + 1) == -1)
+                    tableFooterCell.Text = String.Empty;
+                else
+                    tableFooterCell.Text = HandleNumericCell(summary[i].ToString());
+
+                columnWidth = graphics.MeasureString(tableFooterCell.Text, font).Width;
+
+                if (columnWidth > widthsOfColumns[i])
+                    widthsOfColumns[i] = columnWidth;
+
+                tableFooterRow.Cells.Add(tableFooterCell);
+            }
+
+            Rows.Add(tableFooterRow);
+
+            if (Rows.Count > 1)
                 for (int i = 0; i < headerRow.Length; i++)
-                    this.Rows[1].Cells[i].Width = new Unit(widthsOfColumns[i]);
+                    Rows[0].Cells[i].Width = Rows[1].Cells[i].Width = Rows[Rows.Count - 1].Cells[i].Width = new Unit(widthsOfColumns[i]);
         }
 
         string HandleNumericCell(string cellText)
         {
-            string format;
-
-            if (cellText.IndexOf(',') == -1)
-                format = "{0:N0}";
+            if (cellText == String.Empty)
+                return cellText;
             else
-                format = "{0:N2}";
+            {
+                string format;
 
-            return String.Format(format, Convert.ToSingle(cellText));
+                if (cellText.IndexOf(',') == -1)
+                    format = "{0:N0}";
+                else
+                    format = "{0:N2}";
+
+                return String.Format(format, Convert.ToSingle(cellText));
+            }
         }
     }
 }

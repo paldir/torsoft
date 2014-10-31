@@ -11,15 +11,15 @@ namespace czynsze.ControlsP
     {
         public RadioButtonListP(string cSSClass, string id, List<string> texts, List<string> values, string selectedValue, bool enabled, bool autoPostBack)
         {
-            this.CssClass = cSSClass;
-            this.ID = id;
-            this.Enabled = enabled;
-            this.AutoPostBack = autoPostBack;
+            CssClass = cSSClass;
+            ID = id;
+            Enabled = enabled;
+            AutoPostBack = autoPostBack;
 
             for (int i = 0; i < texts.Count; i++)
-                this.Items.Add(new ListItem(texts[i], values[i]));
+                Items.Add(new ListItem(texts[i], values[i]));
 
-            this.SelectedValue = selectedValue;
+            SelectedValue = selectedValue;
         }
     }
 }

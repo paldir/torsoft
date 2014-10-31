@@ -9,12 +9,12 @@ namespace czynsze.ControlsP
     {
         public HtmlIframeP(string className, string id, string src, string hidden)
         {
-            this.ID = id;
-            this.Src = src;
+            ID = id;
+            Src = src;
 
-            this.Attributes.Add("class", className);
-            this.Attributes.Add("hidden", hidden);
-            //this.Attributes.Add("onload", "this.src=this.src");
+            Attributes.Add("class", className);
+            Attributes.Add("hidden", hidden);
+            //Attributes.Add("onload", "src=src");
         }
     }
 }

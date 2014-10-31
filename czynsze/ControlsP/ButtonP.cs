@@ -11,10 +11,10 @@ namespace czynsze.ControlsP
     {
         public ButtonP(string cSSClass, string id, string text, string postBackUrl)
         {
-            this.CssClass = cSSClass;
-            this.ID = id;
-            this.Text = text;
-            this.PostBackUrl = postBackUrl;
+            CssClass = cSSClass;
+            ID = id;
+            Text = text;
+            PostBackUrl = postBackUrl;
         }
     }
 }

@@ -166,6 +166,7 @@
     <Compile Include="DataAccess\ActiveTenant.cs" />
     <Compile Include="DataAccess\Tenant.cs" />
     <Compile Include="DataAccess\Title.cs" />
+    <Compile Include="DataAccess\TurnoversFor14.cs" />
     <Compile Include="DataAccess\TypeOfKitchen.cs" />
     <Compile Include="DataAccess\TypeOfPayment.cs" />
     <Compile Include="DataAccess\TypeOfPlace.cs" />

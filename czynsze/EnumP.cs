@@ -29,7 +29,8 @@ namespace czynsze
             Users,
             ReceivablesByTenants,
             AllReceivablesOfTenant,
-            NotPastReceivablesOfTenant
+            NotPastReceivablesOfTenant,
+            ReceivablesAndTurnoversOfTenant
         };
 
         public enum Report { PlacesInEachBuilding };

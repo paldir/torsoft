@@ -9,12 +9,12 @@ namespace czynsze.ControlsP
     {
         public HtmlInputRadioButtonP(string className, string id, string name, string value, bool checkedValue)
         {
-            this.ID = id;
-            this.Name = name;
-            this.Value = value;
-            this.Checked = checkedValue;
+            ID = id;
+            Name = name;
+            Value = value;
+            Checked = checkedValue;
 
-            this.Attributes.Add("class", className);
+            Attributes.Add("class", className);
         }
     }
 }

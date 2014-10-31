@@ -68,7 +68,7 @@ namespace czynsze.Forms
             }
 
             generationButton.Click += generationButton_Click;
-            this.Title = heading;
+            Title = heading;
 
            if (Forms.Hello.siteMapPath.Count > 0)
             {

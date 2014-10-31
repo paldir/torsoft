@@ -11,9 +11,9 @@ namespace czynsze.ControlsP
     {
         public LinkButtonP(string cSSClass, string id, string text)
         {
-            this.CssClass = cSSClass;
-            this.ID = id;
-            this.Text = text;
+            CssClass = cSSClass;
+            ID = id;
+            Text = text;
         }
     }
 }
