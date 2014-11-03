@@ -99,6 +99,10 @@ namespace czynsze.Forms
 
             switch (table)
             {
+                case EnumP.Table.InactivePlaces:
+                case EnumP.Table.InactiveTenants:
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "browseaction", "Przeglądaj", postBackUrl));
+                    break;
                 case EnumP.Table.ReceivablesByTenants:
                 case EnumP.Table.AllReceivablesOfTenant:
                 case EnumP.Table.NotPastReceivablesOfTenant:
@@ -142,7 +146,7 @@ namespace czynsze.Forms
                                 new string[]
                                 {
                                     "Wydruki",
-                                    "<a href='ReportConfiguration.aspx?report="+EnumP.Report.PlacesInEachBuilding+"'>Lokale w budynkach</a>",
+                                    "<a href='ReportConfiguration.aspx?"+EnumP.Report.PlacesInEachBuilding+"report=#'>Lokale w budynkach</a>",
                                     "<a href='#'>Kolejny wydruk</a>",
                                     "<a href='#'>I jeszcze jeden</a>"
                                 }
@@ -369,18 +373,18 @@ namespace czynsze.Forms
 
                         wnAmount = rows.Sum(r => (r[1] == String.Empty) ? 0 : Convert.ToSingle(r[1]));
                         maAmount = rows.Sum(r => (r[2] == String.Empty) ? 0 : Convert.ToSingle(r[2]));
-                        pastReceivables = db.receivablesFor14.ToList().Where(r => r.nr_kontr == id && Convert.ToDateTime(r.data_nal) <= Hello.date).Sum(r => r.kwota_nal);
+                        pastReceivables = db.receivablesFor14.ToList().Where(r => r.nr_kontr == id && Convert.ToDateTime(r.data_nal) < Hello.date).Sum(r => r.kwota_nal);
                     }
 
                     string summary = @"
                         <table class='additionalTable'>
                             <tr>
                                 <td>Suma Wn: </td>
-                                <td class='numericTableCell'>" + wnAmount.ToString("F2") + @"</td>                                                                        
+                                <td class='numericTableCell'>" + String.Format("{0:N2}", wnAmount) + @"</td>                                                                        
                             </tr>
                             <tr>
                                 <td>Suma Ma: </td>
-                                <td class='numericTableCell'>" + maAmount.ToString("F2") + @"</td>
+                                <td class='numericTableCell'>" + String.Format("{0:N2}", maAmount) + @"</td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -388,17 +392,17 @@ namespace czynsze.Forms
                             </tr>
                             <tr>
                                 <td></td>
-                                <td class='numericTableCell'>" + (maAmount - wnAmount).ToString("F2") + @"</td>
+                                <td class='numericTableCell'>" + String.Format("{0:N2}", maAmount - wnAmount) + @"</td>
                             </tr>
                         </table>
                         <table class='additionalTable'>
                             <tr>
                                 <td>Należności przeterminowane: </td>
-                                <td class='numericTableCell'>" + pastReceivables.ToString("F2") + @"</td>                                                                        
+                                <td class='numericTableCell'>" + String.Format("{0:N2}", pastReceivables) + @"</td>                                                                        
                             </tr>
                             <tr>
                                 <td>Suma Ma: </td>
-                                <td class='numericTableCell'>" + maAmount.ToString("F2") + @"</td>
+                                <td class='numericTableCell'>" + String.Format("{0:N2}", maAmount) + @"</td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -406,11 +410,13 @@ namespace czynsze.Forms
                             </tr>
                             <tr>
                                 <td></td>
-                                <td class='numericTableCell'>" + (maAmount - pastReceivables).ToString("F2") + @"</td>
+                                <td class='numericTableCell'>" + String.Format("{0:N2}", maAmount - pastReceivables) + @"</td>
                             </tr>
                         </table>";
 
                     placeUnderMainTable.Controls.Add(new LiteralControl(summary));
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("button", EnumP.Report.MonthlySumOfComponent + "report", "Sumy miesięczne składnika", "ReportConfiguration.aspx"));
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("button", /*EnumP.Report.SumOfTurnoversOn + "report"*/"#", "Suma obrotów w dniu", "ReportConfiguration.aspx"));
                     break;
             }
 

@@ -1,41 +1,43 @@
-﻿function Init() {
-    var editingButton = document.getElementById("editaction");
-    var deletingButton = document.getElementById("deleteaction");
-    var browsingButton = document.getElementById("browseaction");
-    var movingButton = document.getElementById("moveaction");
-    var saldoButton = document.getElementById("saldo");
+﻿function Init(table) {
+    var inactive = false;
+    var buttons =
+    [
+        document.getElementById("editaction"),
+        document.getElementById("deleteaction"),
+        document.getElementById("browseaction"),
+        document.getElementById("moveaction"),
+        document.getElementById("saldo"),
+        document.getElementById("MonthlySumOfComponentreport"),
+        document.getElementById("SumOfTurnoversOnreport")
+    ];
 
-    if (editingButton != null)
-        editingButton.disabled = true;
-
-    if (deletingButton != null)
-        deletingButton.disabled = true;
-
-    if (browsingButton != null)
-        browsingButton.disabled = true;
-
-    if (movingButton != null)
-        movingButton.disabled = true;
-
-    if (saldoButton != null) {
-        saldoButton.disabled = true;
-
-        var subMenu = document.getElementsByClassName("superMenu");
-
-        if (subMenu.length > 0)
-            subMenu[0].className = "superMenu superMenuDisabled";
+    switch (table) {
+        case "InactivePlaces":
+        case "InactiveTenants":
+            inactive = true;
+            buttons[buttons.length] = getElementById("addaction");
+            break;
     }
+
+    for (var i = 0; i < buttons.length; i++)
+        if (buttons[i] != null)
+            buttons[i].disabled = true;
+
+    var subMenu = document.getElementsByClassName("superMenu");
+
+    for (var i = 0; i < subMenu.length; i++)
+        subMenu[i].className = "superMenu superMenuDisabled";
 
     var idRadio = document.querySelectorAll(".mainTable input");
 
     for (var i = 0; i < idRadio.length; i++)
         if (idRadio[i].type == 'radio') {
             idRadio[i].checked = false;
-            idRadio[i].onchange = function () { ChangeRow(this.id, false); }
+            idRadio[i].onchange = function () { ChangeRow(this.id, inactive, buttons, subMenu); }
         }
 }
 
-function InitInactive() {
+/*function InitInactive() {
     var addingButton = document.getElementById("addaction");
 
     if (addingButton != null)
@@ -46,7 +48,7 @@ function InitInactive() {
     for (var i = 0; i < idRadio.length; i++)
         if (idRadio[i].type == 'radio')
             idRadio[i].onchange = function () { ChangeRow(this.id, true); }
-}
+}*/
 
 /*function InitReceivablesAndTurnoversOfTenant() {
     var footer = document.getElementByClassName("tableFooterRow");

@@ -32,6 +32,9 @@ namespace czynsze.DataAccess
         [Column("nr_kontr")]
         public int nr_kontr { get; set; }
 
+        [Column("nr_skl")]
+        public int nr_skl { get; set; }
+
         public string[] ImportantFields()
         {
             return new string[]

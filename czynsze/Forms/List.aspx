@@ -12,25 +12,10 @@
         </form>
     </div>
     <script>
-        Init();
-
         <%
-        string table = Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))];
-
-        switch (table)
-        {
-            case "InactivePlaces":
-            case "InactiveTenants":
-                %>
-                    InitInactive();
-                <%
-                break;
-            //case "ReceivablesAndTurnoversOfTenant":
-                %>
-                    //InitReceivablesAndTurnoversOfTenant();
-                <%
-                //break;
-        }
+            string table = Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))];
         %>
+
+        Init(table);
     </script>
 </asp:Content>

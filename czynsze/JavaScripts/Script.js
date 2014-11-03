@@ -107,17 +107,17 @@ function isDate(evt) {
     return true;
 }
 
-function ChangeRow(rowId, inactive) {
-    var editingButton = document.getElementById("editaction");
+function ChangeRow(rowId, inactive, buttons, subMenu) {
+    /*var editingButton = document.getElementById("editaction");
     var deletingButton = document.getElementById("deleteaction");
     var browsingButton = document.getElementById("browseaction");
     var movingButton = document.getElementById("moveaction");
     var editingTabButton = document.getElementById("showEditingWindow");
     var deletingTabButton = document.getElementById("deletechildAction");
     var browsingTabButton = document.getElementById("browsechildAction");
-    var saldoButton = document.getElementById("saldo");
+    var saldoButton = document.getElementById("saldo");*/
 
-    if (!inactive) {
+    /*if (!inactive) {
         if (editingButton != null)
             editingButton.disabled = false;
 
@@ -138,17 +138,14 @@ function ChangeRow(rowId, inactive) {
         browsingTabButton.disabled = false;
 
     if (movingButton != null)
-        movingButton.disabled = false;
+        movingButton.disabled = false;*/
 
-    if (saldoButton != null)
-    {
-        saldoButton.disabled = false;
+    for (var i = 0; i < buttons.length; i++)
+        if (buttons[i] != null)
+            buttons[i].disabled = false;
 
-        var subMenu = document.getElementsByClassName("superMenu");
-
-        if (subMenu.length > 0)
-            subMenu[0].className = "superMenu";
-    }
+    for (var i = 0; i < subMenu.length; i++)
+        subMenu[i].className = "superMenu";
 
     var selectedRow = document.getElementsByClassName("selectedRow")[0];
 

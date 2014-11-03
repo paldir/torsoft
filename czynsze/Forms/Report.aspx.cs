@@ -13,10 +13,10 @@ namespace czynsze.Forms
     public partial class Report : System.Web.UI.Page
     {
         string html;
-
         List<string> headers;
         List<List<string[]>> tables;
         List<string> captions;
+        string title;
         HtmlTextWriter writer;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -25,6 +25,7 @@ namespace czynsze.Forms
             headers = (List<string>)Session["headers"];
             tables = (List<List<string[]>>)Session["tables"];
             captions = (List<string>)Session["captions"];
+            title = Session["title"].ToString();
 
             switch (format)
             {
@@ -92,7 +93,7 @@ namespace czynsze.Forms
 
                     config.SetPrintBackground(true);
                     config.SetAllowLocalContent(true);
-                    config.Header.SetTexts("System CZYNSZE\n\n" + Session["nazwa_1"].ToString(), "LOKALE W BUDYNKACH", "Data: " + DateTime.Today.ToShortDateString() + "\n\nCzas: " + DateTime.Now.ToShortTimeString());
+                    config.Header.SetTexts("System CZYNSZE\n\n" + Session["nazwa_1"].ToString(), title, "Data: " + DateTime.Today.ToShortDateString() + "\n\nCzas: " + DateTime.Now.ToShortTimeString());
                     config.Header.SetFontName("Arial");
                     config.Header.SetFontSize(8);
                     config.Footer.SetTexts("Torsoft Torun", String.Empty, "Strona [page] z [topage]");
