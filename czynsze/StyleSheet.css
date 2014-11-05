@@ -419,7 +419,7 @@ input, select, textarea {
     padding: 20px;
 }
 
-.placeOfLogOut, .placeOfDate, .placeOfTimeOut {
+.panelItem {
     border-width: 2px 1px 2px 1px;
     border-style: solid;
     border-bottom-color: dodgerblue;

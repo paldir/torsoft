@@ -3,7 +3,7 @@
     <script src="../JavaScripts/ReportConfiguration.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder" runat="server">
-    <form method="post" target="_blank" runat="server">
+    <form method="get" target="_blank" runat="server">
         <table>
             <tr>
                 <td id="placeOfConfigurationFields" runat="server"></td>

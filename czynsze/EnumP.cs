@@ -38,6 +38,6 @@ namespace czynsze
         public enum SortOrder { Asc, Desc };
         public enum AttributeOf { Place, Tenant, Building, Community };
         public enum ReasonOfRedirectToLoginPage { IncorrectCredentials, NotLoggedInOrSessionExpired };
-        public enum Settlement { }
+        public enum SettlementTable { Czynsze, SecondSet, ThirdSet };
     }
 }

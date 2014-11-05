@@ -4,7 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder" runat="server">
     <div style="display: table; margin: 0 auto;">
-        <form id="form" method="post" runat="server">
+        <form id="form" method="get" runat="server">
             <div id="placeOfHeading" runat="server"></div>
             <div id="placeOfMainTableButtons" runat="server"></div>
             <div id="placeOfMainTable" class="placeOfMainTable" runat="server"></div>

@@ -364,16 +364,35 @@ namespace czynsze.Forms
                     using (db = new DataAccess.Czynsze_Entities())
                     {
                         DataAccess.Tenant tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == id);
+                        List<DataAccess.Receivable> receivables = null;
+                        List<DataAccess.Turnover> turnovers = null;
                         heading = "Należności  i obroty najemcy " + tenant.nazwisko + " " + tenant.imie;
-                        rows = db.receivablesFor14.Where(r => r.nr_kontr == id).ToList().Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).ToList();
 
-                        rows.AddRange(db.turnoversFor14.Where(t => t.nr_kontr == id).ToList().Select(t => t.ImportantFields()).ToList());
+                        switch (Hello.currentSettlementTable)
+                        {
+                            case EnumP.SettlementTable.Czynsze:
+                                receivables = db.receivablesFor14.ToList().Cast<DataAccess.Receivable>().ToList();
+                                turnovers = db.turnoversFor14.ToList().Cast<DataAccess.Turnover>().ToList();
+                                break;
+                            case EnumP.SettlementTable.SecondSet:
+                                receivables = db.receivablesFor14From2ndSet.ToList().Cast<DataAccess.Receivable>().ToList();
+                                turnovers = db.turnoversFor14From2ndSet.ToList().Cast<DataAccess.Turnover>().ToList();
+                                break;
+                            case EnumP.SettlementTable.ThirdSet:
+                                receivables = db.receivablesFor14From3rdSet.ToList().Cast<DataAccess.Receivable>().ToList();
+                                turnovers = db.turnoversFor14From3rdSet.ToList().Cast<DataAccess.Turnover>().ToList();
+                                break;
+                        }
+
+                        rows = receivables.Where(r => r.nr_kontr == id).ToList().Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).ToList();
+
+                        rows.AddRange(turnovers.Where(t => t.nr_kontr == id).ToList().Select(t => t.ImportantFields()).ToList());
 
                         rows = rows.OrderBy(r => DateTime.Parse(r[3])).ToList();
 
                         wnAmount = rows.Sum(r => (r[1] == String.Empty) ? 0 : Convert.ToSingle(r[1]));
                         maAmount = rows.Sum(r => (r[2] == String.Empty) ? 0 : Convert.ToSingle(r[2]));
-                        pastReceivables = db.receivablesFor14.ToList().Where(r => r.nr_kontr == id && Convert.ToDateTime(r.data_nal) < Hello.date).Sum(r => r.kwota_nal);
+                        pastReceivables = receivables.Where(r => r.nr_kontr == id && Convert.ToDateTime(r.data_nal) < Hello.date).Sum(r => r.kwota_nal);
                     }
 
                     string summary = @"

@@ -12,7 +12,7 @@ namespace czynsze.Forms
         protected void Page_Load(object sender, EventArgs e)
         {
             Forms.Hello.siteMapPath.Clear();
-            
+
             ControlsP.ButtonP button = new ControlsP.ButtonP("button", "Change", "Zmień", "#");
             button.Click += button_Click;
 

@@ -9,19 +9,18 @@ namespace czynsze.Forms
 {
     public partial class Hello : System.Web.UI.Page
     {
+        public static string companyName;
         public static DateTime date;
         public static List<string> siteMapPath;
+        public static int settlementTables;
+        public static EnumP.SettlementTable currentSettlementTable;
+        public static string[] namesOfSets;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            company.InnerText = Session["nazwa_1"].ToString();
+            company.InnerText = companyName;
             user.InnerText = Session["user"].ToString();
-            month.InnerText = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[Forms.Hello.date.Month - 1].ToString() + " " + Forms.Hello.date.Year.ToString();
-
-            byte[] tablica = new byte[10];
-            Random rand = new Random();
-
-            rand.NextBytes(tablica);
+            month.InnerText = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[date.Month - 1].ToString() + " " + date.Year.ToString();
         }
     }
 }

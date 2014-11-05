@@ -15,7 +15,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/15/2014 12:18:54</publishTime>
     </File>
     <File Include="bin/czynsze.dll">
-      <publishTime>11/03/2014 14:30:08</publishTime>
+      <publishTime>11/05/2014 14:52:42</publishTime>
     </File>
     <File Include="bin/de/Npgsql.resources.dll">
       <publishTime>09/04/2014 13:22:05</publishTime>
@@ -80,6 +80,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Forms/ChangeDate.aspx">
       <publishTime>10/22/2014 11:48:57</publishTime>
     </File>
+    <File Include="Forms/ChangeSettlementTable.aspx">
+      <publishTime>11/05/2014 13:56:37</publishTime>
+    </File>
     <File Include="Forms/CryptPassword.aspx">
       <publishTime>10/08/2014 13:56:43</publishTime>
     </File>
@@ -87,7 +90,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/13/2014 13:59:49</publishTime>
     </File>
     <File Include="Forms/List.aspx">
-      <publishTime>11/03/2014 11:22:50</publishTime>
+      <publishTime>11/05/2014 14:42:20</publishTime>
     </File>
     <File Include="Forms/Loading.aspx">
       <publishTime>10/20/2014 13:41:18</publishTime>
@@ -96,7 +99,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/09/2014 09:35:46</publishTime>
     </File>
     <File Include="Forms/Record.aspx">
-      <publishTime>10/20/2014 11:39:22</publishTime>
+      <publishTime>11/05/2014 14:29:13</publishTime>
     </File>
     <File Include="Forms/RecordValidation.aspx">
       <publishTime>10/20/2014 11:17:59</publishTime>
@@ -105,7 +108,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/16/2014 11:22:15</publishTime>
     </File>
     <File Include="Forms/ReportConfiguration.aspx">
-      <publishTime>10/23/2014 08:31:16</publishTime>
+      <publishTime>11/05/2014 14:29:13</publishTime>
     </File>
     <File Include="Forms/UserValidation.aspx">
       <publishTime>09/30/2014 08:54:43</publishTime>
@@ -138,7 +141,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/22/2014 10:18:25</publishTime>
     </File>
     <File Include="JavaScripts/Script.js">
-      <publishTime>11/03/2014 11:58:50</publishTime>
+      <publishTime>11/05/2014 13:53:25</publishTime>
     </File>
     <File Include="libeay32.dll">
       <publishTime>09/15/2014 12:49:55</publishTime>
@@ -171,19 +174,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/16/2014 09:50:06</publishTime>
     </File>
     <File Include="Site.Master">
-      <publishTime>10/20/2014 12:15:05</publishTime>
+      <publishTime>11/05/2014 13:57:57</publishTime>
     </File>
     <File Include="ssleay32.dll">
       <publishTime>09/15/2014 12:49:54</publishTime>
     </File>
     <File Include="StyleSheet.css">
-      <publishTime>11/03/2014 11:57:33</publishTime>
+      <publishTime>11/05/2014 13:38:35</publishTime>
     </File>
     <File Include="UserValidation.aspx">
       <publishTime>09/15/2014 14:26:03</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>11/03/2014 14:11:45</publishTime>
+      <publishTime>11/05/2014 14:04:21</publishTime>
     </File>
     <File Include="wkhtmltox0.dll">
       <publishTime>09/15/2014 12:49:53</publishTime>

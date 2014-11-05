@@ -3,31 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-
 namespace czynsze.DataAccess
 {
-    [Table("obr_14__", Schema = "public")]
-    public class TurnoversFor14
+    public abstract class Turnover
     {
-        [Key, Column("__record")]
-        public int __record { get; set; }
+        public abstract int __record { get; set; }
 
-        [Column("suma")]
-        public float suma { get; set; }
+        public abstract float suma { get; set; }
 
-        [Column("data_obr")]
-        public string data_obr { get; set; }
+        public abstract string data_obr { get; set; }
 
-        [Column("opis")]
-        public string opis { get; set; }
+        public abstract string opis { get; set; }
 
-        [Column("nr_kontr")]
-        public int nr_kontr { get; set; }
+        public abstract int nr_kontr { get; set; }
 
-        [Column("kod_wplat")]
-        public int kod_wplat { get; set; }
+        public abstract int kod_wplat { get; set; }
 
         enum Account { Wn, Ma };
 
@@ -42,7 +32,7 @@ namespace czynsze.DataAccess
             using (Czynsze_Entities db = new Czynsze_Entities())
                 type = db.typesOfPayment.FirstOrDefault(t => t.kod_wplat == kod_wplat);
 
-            switch(type.s_rozli)
+            switch (type.s_rozli)
             {
                 case 1:
                     switch (type.tn_odset)

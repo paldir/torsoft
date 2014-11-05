@@ -91,6 +91,7 @@
   <ItemGroup>
     <Content Include="Forms\AttributeOfObject.aspx" />
     <Content Include="Forms\ChangeDate.aspx" />
+    <Content Include="Forms\ChangeSettlementTable.aspx" />
     <Content Include="Forms\CryptPassword.aspx" />
     <Content Include="Forms\Hello.aspx" />
     <Content Include="Forms\List.aspx" />
@@ -160,13 +161,19 @@
     <Compile Include="DataAccess\InactiveTenant.cs" />
     <Compile Include="DataAccess\ActivePlace.cs" />
     <Compile Include="DataAccess\Place.cs" />
-    <Compile Include="DataAccess\ReceivablesFor14.cs" />
+    <Compile Include="DataAccess\Receivable.cs" />
+    <Compile Include="DataAccess\ReceivableFor14.cs" />
+    <Compile Include="DataAccess\ReceivableFor14From2ndSet.cs" />
+    <Compile Include="DataAccess\ReceivableFor14From3rdSet.cs" />
     <Compile Include="DataAccess\RentComponent.cs" />
     <Compile Include="DataAccess\RentComponentOfPlace.cs" />
     <Compile Include="DataAccess\ActiveTenant.cs" />
     <Compile Include="DataAccess\Tenant.cs" />
     <Compile Include="DataAccess\Title.cs" />
-    <Compile Include="DataAccess\TurnoversFor14.cs" />
+    <Compile Include="DataAccess\Turnover.cs" />
+    <Compile Include="DataAccess\TurnoverFor14.cs" />
+    <Compile Include="DataAccess\TurnoverFor14From2ndSet.cs" />
+    <Compile Include="DataAccess\TurnoverFor14From3rdSet.cs" />
     <Compile Include="DataAccess\TypeOfKitchen.cs" />
     <Compile Include="DataAccess\TypeOfPayment.cs" />
     <Compile Include="DataAccess\TypeOfPlace.cs" />
@@ -187,6 +194,13 @@
     </Compile>
     <Compile Include="Forms\ChangeDate.aspx.designer.cs">
       <DependentUpon>ChangeDate.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ChangeSettlementTable.aspx.cs">
+      <DependentUpon>ChangeSettlementTable.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Forms\ChangeSettlementTable.aspx.designer.cs">
+      <DependentUpon>ChangeSettlementTable.aspx</DependentUpon>
     </Compile>
     <Compile Include="Forms\CryptPassword.aspx.cs">
       <DependentUpon>CryptPassword.aspx</DependentUpon>

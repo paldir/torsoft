@@ -2,7 +2,7 @@
     var buttonOfChangingDate = document.getElementById("buttonOfChangingDate");
 
     if (buttonOfChangingDate != null) {
-        buttonOfChangingDate.onclick = function () { buttonOfChangingDate_click(); }
+        buttonOfChangingDate.onclick = function () { buttonOfPanelItem_click("ChangeDate.aspx"); }
     }
 
     var placeOfMinutes = document.getElementById("placeOfMinutes");
@@ -14,11 +14,16 @@
 
         setInterval(function () { UpdateCounter(placeOfMinutes, placeOfSeconds); }, 1001);
     }
+
+    var buttonOfChangingSettlementTable = document.getElementById("buttonOfChangingSettlementTable");
+
+    if (buttonOfChangingSettlementTable != null)
+        buttonOfChangingSettlementTable.onclick = function () { buttonOfPanelItem_click("ChangeSettlementTable.aspx"); }
 }
 
-function buttonOfChangingDate_click() {
-    if (confirm("Czy chcesz opuścić obecną stronę, aby zmienić miesiąc? Niezapisane dane nie zostaną zachowane."))
-        window.location.href = "ChangeDate.aspx";
+function buttonOfPanelItem_click(href) {
+    if (confirm("Czy chcesz opuścić obecną stronę? Niezapisane dane nie zostaną zachowane."))
+        window.location.href = href;
 }
 
 function UpdateCounter(placeOfMinutes, placeOfSeconds) {

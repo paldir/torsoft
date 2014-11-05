@@ -16,5 +16,14 @@ namespace czynsze.DataAccess
         
         [Column("nazwa_1")]
         public string nazwa_1 { get; set; }
+
+        [Column("nazwa_2zb")]
+        public string nazwa_2zb { get; set; }
+
+        [Column("nazwa_3zb")]
+        public string nazwa_3zb { get; set; }
+
+        [Column("p_32")]
+        public int p_32 { get; set; }
     }
 }
