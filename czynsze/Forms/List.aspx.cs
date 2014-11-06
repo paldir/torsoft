@@ -368,7 +368,7 @@ namespace czynsze.Forms
                         List<DataAccess.Turnover> turnovers = null;
                         heading = "Należności  i obroty najemcy " + tenant.nazwisko + " " + tenant.imie;
 
-                        switch (Hello.currentSettlementTable)
+                        switch (Hello.currentSet)
                         {
                             case EnumP.SettlementTable.Czynsze:
                                 receivables = db.receivablesFor14.ToList().Cast<DataAccess.Receivable>().ToList();
@@ -435,7 +435,7 @@ namespace czynsze.Forms
 
                     placeUnderMainTable.Controls.Add(new LiteralControl(summary));
                     placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("button", EnumP.Report.MonthlySumOfComponent + "report", "Sumy miesięczne składnika", "ReportConfiguration.aspx"));
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("button", /*EnumP.Report.SumOfTurnoversOn + "report"*/"#", "Suma obrotów w dniu", "ReportConfiguration.aspx"));
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("button", EnumP.Report.ReceivablesAndTurnoversOfTenant + "report", "Wydruk", "ReportConfiguration.aspx"));
                     break;
             }
 

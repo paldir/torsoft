@@ -3,7 +3,7 @@
     <script src="../JavaScripts/ReportConfiguration.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder" runat="server">
-    <form method="get" target="_blank" runat="server">
+    <form method="post" target="_blank" runat="server">
         <table>
             <tr>
                 <td id="placeOfConfigurationFields" runat="server"></td>
@@ -13,7 +13,8 @@
     </form>
     <script>
         <%
-            string report = Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("report"))];
+        string key = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("report"));
+        string report = key.Replace("report", String.Empty).Substring(key.LastIndexOf('$') + 1);
 
             switch (report)
             {

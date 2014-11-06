@@ -15,10 +15,10 @@
         setInterval(function () { UpdateCounter(placeOfMinutes, placeOfSeconds); }, 1001);
     }
 
-    var buttonOfChangingSettlementTable = document.getElementById("buttonOfChangingSettlementTable");
+    var buttonOfSetChanging = document.getElementById("buttonOfSetChanging");
 
-    if (buttonOfChangingSettlementTable != null)
-        buttonOfChangingSettlementTable.onclick = function () { buttonOfPanelItem_click("ChangeSettlementTable.aspx"); }
+    if (buttonOfSetChanging != null)
+        buttonOfSetChanging.onclick = function () { buttonOfPanelItem_click("ChangeSettlementTable.aspx"); }
 }
 
 function buttonOfPanelItem_click(href) {

@@ -31,6 +31,7 @@ namespace czynsze.Forms
             {
                 case EnumP.ReportFormat.Pdf:
                     StringWriter stringWriter = new StringWriter();
+                    float single;
 
                     using (writer = new HtmlTextWriter(stringWriter))
                     {
@@ -48,6 +49,9 @@ namespace czynsze.Forms
 
                                 foreach (string cell in row)
                                 {
+                                    if (Single.TryParse(cell, out single))
+                                        writer.AddAttribute(HtmlTextWriterAttribute.Class, "numericCell");
+
                                     writer.RenderBeginTag(HtmlTextWriterTag.Td);
                                     writer.Write(cell);
                                     writer.RenderEndTag();
@@ -82,7 +86,7 @@ namespace czynsze.Forms
                     reader.Close();
 
                     html = html.Insert(0, "<!DOCTYPE html><html><head><title></title><style type='text/css'>" + css + "</style></head><body>");
-                    html = String.Concat(html, "</body></html>");
+                    html = String.Concat(html, "<br /><br /><div class='printingEnd'>KONIEC WYDRUKU</div></body></html>");
 
                     GlobalConfig globalConfig = new GlobalConfig();
 
@@ -93,7 +97,7 @@ namespace czynsze.Forms
 
                     config.SetPrintBackground(true);
                     config.SetAllowLocalContent(true);
-                    config.Header.SetTexts("System CZYNSZE\n\n" + Session["nazwa_1"].ToString(), title, "Data: " + DateTime.Today.ToShortDateString() + "\n\nCzas: " + DateTime.Now.ToShortTimeString());
+                    config.Header.SetTexts("System CZYNSZE\n\n" + Hello.companyName, title + "\n\n" + Hello.namesOfSets[(int)Hello.currentSet], "Data: " + DateTime.Today.ToShortDateString() + "\n\nCzas: " + DateTime.Now.ToShortTimeString());
                     config.Header.SetFontName("Arial");
                     config.Header.SetFontSize(8);
                     config.Footer.SetTexts("Torsoft Torun", String.Empty, "Strona [page] z [topage]");
@@ -151,8 +155,13 @@ namespace czynsze.Forms
         {
             writer.AddAttribute(HtmlTextWriterAttribute.Class, "reportTable");
             writer.RenderBeginTag(HtmlTextWriterTag.Table);
-            writer.RenderBeginTag(HtmlTextWriterTag.Caption);
+            //writer.RenderBeginTag(HtmlTextWriterTag.Caption);
+            writer.AddAttribute(HtmlTextWriterAttribute.Class, "caption");
+            writer.RenderBeginTag(HtmlTextWriterTag.Tr);
+            writer.AddAttribute(HtmlTextWriterAttribute.Colspan, headers.Count.ToString());
+            writer.RenderBeginTag(HtmlTextWriterTag.Td);
             writer.Write(captions[tableNumber]);
+            writer.RenderEndTag();
             writer.RenderEndTag();
             writer.RenderBeginTag(HtmlTextWriterTag.Tr);
 

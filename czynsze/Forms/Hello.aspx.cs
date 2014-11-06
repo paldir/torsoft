@@ -12,8 +12,8 @@ namespace czynsze.Forms
         public static string companyName;
         public static DateTime date;
         public static List<string> siteMapPath;
-        public static int settlementTables;
-        public static EnumP.SettlementTable currentSettlementTable;
+        public static int numberOfSets;
+        public static EnumP.SettlementTable currentSet;
         public static string[] namesOfSets;
 
         protected void Page_Load(object sender, EventArgs e)

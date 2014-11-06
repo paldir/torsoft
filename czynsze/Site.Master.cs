@@ -21,7 +21,7 @@ namespace czynsze
         }*/
         
         protected void Page_Init(object sender, EventArgs e)
-        {
+        {   
             if (Session["user"] == null)
                 Response.Redirect("../Login.aspx?reason=" + EnumP.ReasonOfRedirectToLoginPage.NotLoggedInOrSessionExpired);
         }
@@ -38,7 +38,7 @@ namespace czynsze
                 placeOfSiteMapPath.InnerHtml = placeOfSiteMapPath.InnerHtml.Remove(placeOfSiteMapPath.InnerHtml.Length - 3);
 
             placeOfSelectedDate.InnerHtml = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[Forms.Hello.date.Month - 1].ToString() + " " + Forms.Hello.date.Year.ToString();
-            placeOfCurrentSettlementTable.InnerHtml = Forms.Hello.namesOfSets[(int)Forms.Hello.currentSettlementTable];
+            placeOfCurrentSet.InnerHtml = Forms.Hello.namesOfSets[(int)Forms.Hello.currentSet];
         }
     }
 }

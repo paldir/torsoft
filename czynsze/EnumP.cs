@@ -33,7 +33,13 @@ namespace czynsze
             ReceivablesAndTurnoversOfTenant
         };
 
-        public enum Report { PlacesInEachBuilding, MonthlySumOfComponent, SumOfTurnoversOn };
+        public enum Report
+        {
+            PlacesInEachBuilding,
+            MonthlySumOfComponent,
+            ReceivablesAndTurnoversOfTenant
+        };
+
         public enum ReportFormat { Pdf, Csv };
         public enum SortOrder { Asc, Desc };
         public enum AttributeOf { Place, Tenant, Building, Community };

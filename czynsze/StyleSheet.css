@@ -477,10 +477,26 @@ input, select, textarea {
     border-collapse: collapse;
 }
 
+    .reportTable .caption {
+        text-align: center;
+    }
+
     .reportTable th {
         border: 1px solid black;
         padding: 5px;
     }
+
+    .reportTable td {
+        padding: 0px 5px 0px 5px;
+    }
+
+    .reportTable .numericCell {
+        text-align: right;
+    }
+
+.printingEnd {
+    text-align: center;
+}
 
 .newPage {
     page-break-after: always;

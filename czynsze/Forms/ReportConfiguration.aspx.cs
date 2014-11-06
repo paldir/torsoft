@@ -90,8 +90,8 @@ namespace czynsze.Forms
                 case EnumP.Report.MonthlySumOfComponent:
                     heading += "(Sumy miesięczne składnika)";
                     break;
-                case EnumP.Report.SumOfTurnoversOn:
-                    heading += "(Suma obrotów w dniu)";
+                case EnumP.Report.ReceivablesAndTurnoversOfTenant:
+                    heading += "(Należności i obroty najemcy)";
                     break;
             }
 
@@ -189,7 +189,7 @@ namespace czynsze.Forms
 
                     break;
                 case EnumP.Report.MonthlySumOfComponent:
-                    title = "ZESTAWIENIE ROZLICZEN MIESIECZNYCH ZA ROK " + Hello.date.Year.ToString();
+                    title = "ZESTAWIENIE ROZLICZEN MIESIECZNYCH ZA ROK 2014";
 
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                     {
@@ -197,24 +197,48 @@ namespace czynsze.Forms
                         headers = new List<string>() { "m-c", "Wartość" };
                         captions = new List<string>() { tenant.nazwisko + " " + tenant.imie + "<br />" + tenant.adres_1 + " " + tenant.adres_2 + "<br />" };
                         tables = new List<List<string[]>> { new List<string[]>() };
+                        List<DataAccess.Receivable> receivables = null;
+                        List<DataAccess.Turnover> turnovers = null;
+
+                        switch (Hello.currentSet)
+                        {
+                            case EnumP.SettlementTable.Czynsze:
+                                receivables = db.receivablesFor14.ToList().Cast<DataAccess.Receivable>().ToList();
+                                turnovers = db.turnoversFor14.ToList().Cast<DataAccess.Turnover>().ToList();
+                                break;
+                            case EnumP.SettlementTable.SecondSet:
+                                receivables = db.receivablesFor14From2ndSet.ToList().Cast<DataAccess.Receivable>().ToList();
+                                turnovers = db.turnoversFor14From2ndSet.ToList().Cast<DataAccess.Turnover>().ToList();
+                                break;
+                            case EnumP.SettlementTable.ThirdSet:
+                                receivables = db.receivablesFor14From3rdSet.ToList().Cast<DataAccess.Receivable>().ToList();
+                                turnovers = db.turnoversFor14From3rdSet.ToList().Cast<DataAccess.Turnover>().ToList();
+                                break;
+                        }
 
                         if (id < 0)
                         {
-                            int nr_skl = db.receivablesFor14.FirstOrDefault(r => r.__record == -1 * id).nr_skl;
+
+                            int nr_skl = receivables.FirstOrDefault(r => r.__record == -1 * id).nr_skl;
                             captions[0] += db.rentComponents.FirstOrDefault(c => c.nr_skl == nr_skl).nazwa;
 
                             for (int i = 1; i <= 12; i++)
-                                tables[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", db.receivablesFor14.Where(r => r.nr_kontr == additionalId && r.nr_skl == nr_skl).ToList().Where(r => Convert.ToDateTime(r.data_nal).Year == Hello.date.Year && Convert.ToDateTime(r.data_nal).Month == i).Sum(r => r.kwota_nal)) });
+                                tables[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", receivables.Where(r => r.nr_kontr == additionalId && r.nr_skl == nr_skl).ToList().Where(r => Convert.ToDateTime(r.data_nal).Year == Hello.date.Year && Convert.ToDateTime(r.data_nal).Month == i).Sum(r => r.kwota_nal)) });
                         }
                         else
                         {
-                            int kod_wplat = db.turnoversFor14.FirstOrDefault(t => t.__record == id).kod_wplat;
+                            int kod_wplat = turnovers.FirstOrDefault(t => t.__record == id).kod_wplat;
                             captions[0] += db.typesOfPayment.FirstOrDefault(t => t.kod_wplat == kod_wplat).typ_wplat;
 
                             for (int i = 1; i <= 12; i++)
-                                tables[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", db.turnoversFor14.Where(t => t.nr_kontr == additionalId && t.kod_wplat == kod_wplat).ToList().Where(t => Convert.ToDateTime(t.data_obr).Year == Hello.date.Year && Convert.ToDateTime(t.data_obr).Month == i).Sum(t => t.suma)) });
+                                tables[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", turnovers.Where(t => t.nr_kontr == additionalId && t.kod_wplat == kod_wplat).ToList().Where(t => Convert.ToDateTime(t.data_obr).Year == Hello.date.Year && Convert.ToDateTime(t.data_obr).Month == i).Sum(t => t.suma)) });
                         }
+
+                        tables[0].Add(new string[] { String.Empty, String.Format("{0:N2}", tables[0].Sum(r => Convert.ToSingle(r[1]))) });
                     }
+                    break;
+                case EnumP.Report.ReceivablesAndTurnoversOfTenant:
+                    title = "ZESTAWIENIE ROZLICZEN MIESIECZNYCH ZA ROK 2014";
                     break;
             }
 
