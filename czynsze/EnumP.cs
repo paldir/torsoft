@@ -37,7 +37,9 @@ namespace czynsze
         {
             PlacesInEachBuilding,
             MonthlySumOfComponent,
-            ReceivablesAndTurnoversOfTenant
+            ReceivablesAndTurnoversOfTenant,
+            MonthlyAnalysisOfReceivablesAndTurnovers,
+            DetailedAnalysisOfReceivablesAndTurnovers
         };
 
         public enum ReportFormat { Pdf, Csv };

@@ -353,6 +353,7 @@ namespace czynsze.Forms
                                 break;
                         }
                     }
+
                     break;
                 case EnumP.Table.ReceivablesAndTurnoversOfTenant:
                     headers = new string[] { "Kwota Wn", "Kwota Ma", "Data", "Operacja" };
@@ -436,6 +437,8 @@ namespace czynsze.Forms
                     placeUnderMainTable.Controls.Add(new LiteralControl(summary));
                     placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("button", EnumP.Report.MonthlySumOfComponent + "report", "Sumy miesięczne składnika", "ReportConfiguration.aspx"));
                     placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("button", EnumP.Report.ReceivablesAndTurnoversOfTenant + "report", "Wydruk", "ReportConfiguration.aspx"));
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("button", EnumP.Report.MonthlyAnalysisOfReceivablesAndTurnovers + "report", "Analiza miesięczna", "ReportConfiguration.aspx"));
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("button", EnumP.Report.DetailedAnalysisOfReceivablesAndTurnovers + "report", "Analiza szczegółowa", "ReportConfiguration.aspx"));
                     break;
             }
 

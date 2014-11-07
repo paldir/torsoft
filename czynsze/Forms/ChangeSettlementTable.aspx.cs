@@ -12,7 +12,7 @@ namespace czynsze.Forms
         protected void Page_Load(object sender, EventArgs e)
         {
             Forms.Hello.siteMapPath.Clear();
-            
+
             List<string> texts = new List<string>() { "CZYNSZE" };
             List<string> values = new List<string>() { EnumP.SettlementTable.Czynsze.ToString() };
 

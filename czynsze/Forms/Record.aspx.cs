@@ -122,7 +122,7 @@ namespace czynsze.Forms
                             values = new string[numberOfFields];
 
                         attributesOfObject = new List<DataAccess.AttributeOfObject>();
-                        
+
                         using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                             foreach (DataAccess.AttributeOfBuilding attributeOfBuilding in db.attributesOfBuildings.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == id))
                                 attributesOfObject.Add(attributeOfBuilding);
@@ -777,6 +777,7 @@ namespace czynsze.Forms
 
                     controls.Add(new ControlsP.DropDownListP("field", "rodz_e", new List<string[]>()
                     {
+                        new string[] {"0", String.Empty},
                         new string[] {"1", "dziennik komornego"},
                         new string[] {"2", "wpłaty"},
                         new string[] {"3", "zmniejszenia"},
