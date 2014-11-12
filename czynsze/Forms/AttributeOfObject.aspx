@@ -38,9 +38,12 @@
             {
                 case "N":
                     defaults += "'" + attribute.wartosc_n.ToString() + "', ";
+                    
                     break;
+
                 case "C":
                     defaults += "'" + attribute.wartosc_s.Trim() + "', ";
+                    
                     break;
             }
         }

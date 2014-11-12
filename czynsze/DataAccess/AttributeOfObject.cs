@@ -30,9 +30,12 @@ namespace czynsze.DataAccess
             {
                 case "N":
                     wartosc = wartosc_n.ToString("F2");
+
                     break;
+
                 case "C":
                     wartosc = wartosc_s;
+
                     break;
             }
 
@@ -54,9 +57,12 @@ namespace czynsze.DataAccess
                 {
                     case "N":
                         wartosc_n = Convert.ToSingle(record[2]);
+
                         break;
+
                     case "C":
                         wartosc_s = record[2];
+
                         break;
                 }
 

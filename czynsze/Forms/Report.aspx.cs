@@ -97,7 +97,7 @@ namespace czynsze.Forms
 
                     config.SetPrintBackground(true);
                     config.SetAllowLocalContent(true);
-                    config.Header.SetTexts("System CZYNSZE\n\n" + Hello.companyName, title + "\n\n" + Hello.namesOfSets[(int)Hello.currentSet], "Data: " + DateTime.Today.ToShortDateString() + "\n\nCzas: " + DateTime.Now.ToShortTimeString());
+                    config.Header.SetTexts("System CZYNSZE\n\n" + Hello.CompanyName, title + "\n\n" + Hello.NamesOfSets[(int)Hello.CurrentSet], "Data: " + DateTime.Today.ToShortDateString() + "\n\nCzas: " + DateTime.Now.ToShortTimeString());
                     config.Header.SetFontName("Arial");
                     config.Header.SetFontSize(8);
                     config.Footer.SetTexts("Torsoft Torun", String.Empty, "Strona [page] z [topage]");
@@ -116,7 +116,9 @@ namespace czynsze.Forms
                     Response.End();
                     //HttpContext.Current.Response.Flush();
                     //HttpContext.Current.Response.End();
+
                     break;
+
                 case EnumP.ReportFormat.Csv:
                     string csv = String.Empty;
 

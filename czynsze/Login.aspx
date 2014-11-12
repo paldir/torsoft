@@ -50,12 +50,17 @@
                 {
                     case "IncorrectCredentials":
                         message = "Musisz podać prawidłową nazwę użytkownika i hasło.";
+                        
                         break;
+
                     case "NotLoggedInOrSessionExpired":
                         message = "Nie jesteś zalogowany lub Twoja sesja wygasła.";
+                        
                         break;
+
                     default:
                         message = reason;
+                        
                         break;
                 }
                 

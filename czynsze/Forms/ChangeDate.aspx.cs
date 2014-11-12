@@ -11,13 +11,13 @@ namespace czynsze.Forms
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Forms.Hello.siteMapPath.Clear();
+            Hello.SiteMapPath.Clear();
 
             ControlsP.ButtonP button = new ControlsP.ButtonP("button", "Change", "Zmień", "#");
             button.Click += button_Click;
 
-            placeOfMonth.Controls.Add(new ControlsP.TextBoxP("field", "month", Forms.Hello.date.Month.ToString(), ControlsP.TextBoxP.TextBoxModeP.Number, 2, 1, true));
-            placeOfYear.Controls.Add(new ControlsP.TextBoxP("field", "year", Forms.Hello.date.Year.ToString(), ControlsP.TextBoxP.TextBoxModeP.Number, 4, 1, true));
+            placeOfMonth.Controls.Add(new ControlsP.TextBoxP("field", "month", Hello.Date.Month.ToString(), ControlsP.TextBoxP.TextBoxModeP.Number, 2, 1, true));
+            placeOfYear.Controls.Add(new ControlsP.TextBoxP("field", "year", Hello.Date.Year.ToString(), ControlsP.TextBoxP.TextBoxModeP.Number, 4, 1, true));
             placeOfButton.Controls.Add(button);
         }
 
@@ -38,10 +38,11 @@ namespace czynsze.Forms
             if (month == DateTime.Today.Month)
                 day = DateTime.Today.Day;
             else
-                day = DateTime.DaysInMonth(year, month);
+                try { day = DateTime.DaysInMonth(year, month); }
+                catch { day = DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month); }
 
-            try { Forms.Hello.date = new DateTime(year, month, day); }
-            catch { Forms.Hello.date = DateTime.Today; }
+            try { Hello.Date = new DateTime(year, month, day); }
+            catch { Hello.Date = DateTime.Today; }
 
             Response.Redirect("Hello.aspx");
         }

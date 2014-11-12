@@ -47,7 +47,9 @@ namespace czynsze.Forms
 
                     buttons.Add(new ControlsP.ButtonP("buttons", "Save", "Zapisz", "RecordValidation.aspx"));
                     buttons.Add(new ControlsP.ButtonP("buttons", "Cancel", "Anuluj", backUrl));
+
                     break;
+
                 case EnumP.Action.Edytuj:
                     globalEnabled = true;
                     idEnabled = false;
@@ -55,26 +57,33 @@ namespace czynsze.Forms
 
                     buttons.Add(new ControlsP.ButtonP("buttons", "Save", "Zapisz", "RecordValidation.aspx"));
                     buttons.Add(new ControlsP.ButtonP("buttons", "Cancel", "Anuluj", backUrl));
+
                     break;
+
                 case EnumP.Action.Usuń:
                     globalEnabled = idEnabled = false;
                     heading = "Usuwanie";
 
                     buttons.Add(new ControlsP.ButtonP("buttons", "Delete", "Usuń", "RecordValidation.aspx"));
                     buttons.Add(new ControlsP.ButtonP("buttons", "Cancel", "Anuluj", backUrl));
+
                     break;
+
                 case EnumP.Action.Przeglądaj:
                     globalEnabled = idEnabled = false;
                     heading = "Przeglądanie";
 
                     buttons.Add(new ControlsP.ButtonP("buttons", "Back", "Powrót", backUrl));
+
                     break;
+
                 case EnumP.Action.Przenieś:
                     globalEnabled = idEnabled = false;
                     heading = "Przenoszenie";
 
                     buttons.Add(new ControlsP.ButtonP("buttons", "Move", "Przenieś", "RecordValidation.aspx"));
                     buttons.Add(new ControlsP.ButtonP("buttons", "Cancel", "Anuluj", backUrl));
+
                     break;
             }
 
@@ -152,7 +161,9 @@ namespace czynsze.Forms
                     controls.Add(new ControlsP.TextBoxP("field", "adres_2", values[4], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 30, 1, globalEnabled));
                     controls.Add(new ControlsP.TextBoxP("field", "udzial_w_k", values[5], ControlsP.TextBoxP.TextBoxModeP.Float, 6, 1, globalEnabled));
                     controls.Add(new ControlsP.TextBoxP("field", "uwagi", values[6], ControlsP.TextBoxP.TextBoxModeP.MultiLine, 420, 6, globalEnabled));
+
                     break;
+
                 case EnumP.Table.Places:
                 case EnumP.Table.InactivePlaces:
 
@@ -257,15 +268,22 @@ namespace czynsze.Forms
                     {
                         case EnumP.Action.Dodaj:
                             parentAction = "add";
+
                             break;
+
                         case EnumP.Action.Edytuj:
                             parentAction = "edit";
+
                             break;
+
                         case EnumP.Action.Usuń:
                             parentAction = "delete";
+
                             break;
+
                         default:
                             parentAction = "browse";
+
                             break;
                     }
                     //
@@ -342,10 +360,13 @@ namespace czynsze.Forms
                                 case EnumP.Action.Dodaj:
                                     db.Database.ExecuteSqlCommand("CREATE TABLE skl_cz_tmp AS SELECT * FROM skl_cz WHERE 1=2");
                                     db.Database.ExecuteSqlCommand("CREATE TABLE pliki_tmp AS SELECT * FROM pliki WHERE 1=2");
+
                                     break;
+
                                 default:
                                     db.Database.ExecuteSqlCommand("CREATE TABLE skl_cz_tmp AS SELECT * FROM skl_cz WHERE kod_lok=" + values[1] + " AND nr_lok=" + values[2]);
                                     db.Database.ExecuteSqlCommand("CREATE TABLE pliki_tmp AS SELECT * FROM pliki WHERE nr_system=" + values[0]);
+
                                     break;
                             }
                         }
@@ -354,7 +375,9 @@ namespace czynsze.Forms
                     //
                     //TO DUMP BEHIND THE WALL
                     //
+
                     break;
+
                 case EnumP.Table.Tenants:
                 case EnumP.Table.InactiveTenants:
                     Title = "Najemca";
@@ -391,9 +414,12 @@ namespace czynsze.Forms
                                 {
                                     case EnumP.Table.Tenants:
                                         values = db.tenants.FirstOrDefault(t => t.nr_kontr == id).AllFields();
+
                                         break;
+
                                     case EnumP.Table.InactiveTenants:
                                         values = db.inactiveTenants.FirstOrDefault(t => t.nr_kontr == id).AllFields();
+
                                         break;
                                 }
                         else
@@ -458,7 +484,9 @@ namespace czynsze.Forms
                     controls.Add(new ControlsP.TextBoxP("field", "e_mail", values[9], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 40, 1, globalEnabled));
                     controls.Add(new ControlsP.TextBoxP("field", "l__has", values[10], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 15, 1, globalEnabled));
                     controls.Add(new ControlsP.TextBoxP("field", "uwagi", values[11], ControlsP.TextBoxP.TextBoxModeP.MultiLine, 120, 2, globalEnabled));
+
                     break;
+
                 case EnumP.Table.RentComponents:
                     Title = "Składnik opłat";
                     numberOfFields = 19;
@@ -533,7 +561,9 @@ namespace czynsze.Forms
                     }
 
                     controls.Add(interval);
+
                     break;
+
                 case EnumP.Table.Communities:
                     Title = "Wspólnota";
                     numberOfFields = 12;
@@ -618,7 +648,9 @@ namespace czynsze.Forms
                     controls.Add(new ControlsP.TextBoxP("field", "nr3_konta", values[9], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 32, 1, globalEnabled));
                     controls.Add(new ControlsP.TextBoxP("field", "sciezka_fk", values[10], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 30, 1, globalEnabled));
                     controls.Add(new ControlsP.TextBoxP("field", "uwagi", values[11], ControlsP.TextBoxP.TextBoxModeP.MultiLine, 420, 6, globalEnabled));
+
                     break;
+
                 case EnumP.Table.TypesOfPlace:
                     Title = "Typ lokali";
                     numberOfFields = 2;
@@ -648,7 +680,9 @@ namespace czynsze.Forms
                     }
 
                     controls.Add(new ControlsP.TextBoxP("field", "typ_lok", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 6, 1, globalEnabled));
+
                     break;
+
                 case EnumP.Table.TypesOfKitchen:
                     Title = "Rodzaj kuchni";
                     numberOfFields = 2;
@@ -678,7 +712,9 @@ namespace czynsze.Forms
                     }
 
                     controls.Add(new ControlsP.TextBoxP("field", "typ_kuch", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 15, 1, globalEnabled));
+
                     break;
+
                 case EnumP.Table.TypesOfTenant:
                     Title = "Rodzaj najemców";
                     numberOfFields = 2;
@@ -708,7 +744,9 @@ namespace czynsze.Forms
                     }
 
                     controls.Add(new ControlsP.TextBoxP("field", "r_najemcy", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 15, 1, globalEnabled));
+
                     break;
+
                 case EnumP.Table.Titles:
                     Title = "Tytuł prawny do lokali";
                     numberOfFields = 2;
@@ -738,7 +776,9 @@ namespace czynsze.Forms
                     }
 
                     controls.Add(new ControlsP.TextBoxP("field", "tyt_prawny", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 15, 1, globalEnabled));
+
                     break;
+
                 case EnumP.Table.TypesOfPayment:
                     Title = "Rodzaj wpłaty lub wypłaty";
                     numberOfFields = 8;
@@ -798,7 +838,9 @@ namespace czynsze.Forms
                         controls.Add(new ControlsP.DropDownListP("field", "vat", db.vatRates.ToList().Select(r => r.ImportantFieldsForDropDown()).ToList(), values[6], globalEnabled, false));
 
                     controls.Add(new ControlsP.TextBoxP("field", "sww", values[7], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 10, 1, globalEnabled));
+
                     break;
+
                 case EnumP.Table.GroupsOfRentComponents:
                     Title = "Grupa składników czynszu";
                     numberOfFields = 2;
@@ -828,7 +870,9 @@ namespace czynsze.Forms
                     }
 
                     controls.Add(new ControlsP.TextBoxP("field", "nazwa", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 15, 1, globalEnabled));
+
                     break;
+
                 case EnumP.Table.FinancialGroups:
                     Title = "Grupa finansowa";
                     numberOfFields = 3;
@@ -860,7 +904,9 @@ namespace czynsze.Forms
 
                     controls.Add(new ControlsP.TextBoxP("field", "k_syn", values[1], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 3, 1, globalEnabled));
                     controls.Add(new ControlsP.TextBoxP("field", "nazwa", values[2], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 30, 1, globalEnabled));
+
                     break;
+
                 case EnumP.Table.VatRates:
                     Title = "Stawka VAT";
                     numberOfFields = 3;
@@ -892,7 +938,9 @@ namespace czynsze.Forms
                     }
 
                     controls.Add(new ControlsP.TextBoxP("field", "symb_fisk", values[2], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 2, 1, globalEnabled));
+
                     break;
+
                 case EnumP.Table.Attributes:
                     Title = "Cecha obiektów";
                     numberOfFields = 10;
@@ -951,7 +999,9 @@ namespace czynsze.Forms
                         selectedValues.Add("s");
 
                     controls.Add(new ControlsP.CheckBoxListP("field", "zb", new List<string>() { "lokale", "najemcy", "budynki", "wspólnoty" }, new List<string>() { "l", "n", "b", "s" }, selectedValues, globalEnabled));
+
                     break;
+
                 case EnumP.Table.Users:
                     Title = "Użytkownik";
                     numberOfFields = 6;
@@ -999,6 +1049,7 @@ namespace czynsze.Forms
                     controls.Add(new ControlsP.TextBoxP("field", "uzytkownik", values[4], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 40, 1, false));
                     controls.Add(new ControlsP.TextBoxP("field", "haslo", values[5], ControlsP.TextBoxP.TextBoxModeP.SingleLine, 8, 1, globalEnabled));
                     controls.Add(new ControlsP.TextBoxP("field", "haslo2", String.Empty, ControlsP.TextBoxP.TextBoxModeP.SingleLine, 8, 1, globalEnabled));
+
                     break;
             }
 
@@ -1053,13 +1104,13 @@ namespace czynsze.Forms
             foreach (ControlsP.ButtonP button in buttons)
                 placeOfButtons.Controls.Add(button);
 
-            if (Forms.Hello.siteMapPath.Count > 0)
+            if (Hello.SiteMapPath.Count > 0)
             {
-                if (Forms.Hello.siteMapPath.IndexOf(heading) == -1)
+                if (Hello.SiteMapPath.IndexOf(heading) == -1)
                 {
-                    Forms.Hello.siteMapPath[Forms.Hello.siteMapPath.Count - 1] = String.Concat("<a href=\"" + backUrl + "\">", Forms.Hello.siteMapPath[Forms.Hello.siteMapPath.Count - 1]) + "</a>";
+                    Hello.SiteMapPath[Hello.SiteMapPath.Count - 1] = String.Concat("<a href=\"" + backUrl + "\">", Hello.SiteMapPath[Hello.SiteMapPath.Count - 1]) + "</a>";
 
-                    Forms.Hello.siteMapPath.Add(heading);
+                    Hello.SiteMapPath.Add(heading);
                 }
             }
         }

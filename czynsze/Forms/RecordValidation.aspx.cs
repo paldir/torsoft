@@ -83,7 +83,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Budynek dodany.";
                                     }
                                     catch { dbWriteResult = "Nie można dodać budynku!"; }
+
                                     break;
+
                                 case EnumP.Action.Edytuj:
                                     try
                                     {
@@ -102,7 +104,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Budynek zaktualizowany.";
                                     }
                                     catch { dbWriteResult = "Nie można edytować budynku!"; }
+
                                     break;
+
                                 case EnumP.Action.Usuń:
                                     try
                                     {
@@ -118,11 +122,14 @@ namespace czynsze.Forms
                                         dbWriteResult = "Budynek usunięty.";
                                     }
                                     catch { dbWriteResult = "Nie można usunąć budynku!"; }
+
                                     break;
                             }
                         }
                     }
+
                     break;
+
                 case EnumP.Table.Places:
                     Title = "Edycja lokalu";
                     DataAccess.ActivePlace place;
@@ -190,7 +197,9 @@ namespace czynsze.Forms
                                         //
                                     }
                                     catch { dbWriteResult = "Nie można dodać lokalu!"; }
+
                                     break;
+
                                 case EnumP.Action.Edytuj:
                                     try
                                     {
@@ -220,7 +229,9 @@ namespace czynsze.Forms
                                         //
                                     }
                                     catch { dbWriteResult = "Nie można edytować lokalu!"; }
+
                                     break;
+
                                 case EnumP.Action.Usuń:
                                     try
                                     {
@@ -247,7 +258,9 @@ namespace czynsze.Forms
                                         //
                                     }
                                     catch { dbWriteResult = "Nie można usunąć lokalu!"; }
+
                                     break;
+
                                 case EnumP.Action.Przenieś:
                                     try
                                     {
@@ -267,11 +280,14 @@ namespace czynsze.Forms
                                     }
                                     catch
                                     { dbWriteResult = "Nie można przenieść lokalu!"; }
+
                                     break;
                             }
                         }
                     }
+
                     break;
+
                 case EnumP.Table.InactivePlaces:
                     validationResult = String.Empty;
 
@@ -297,9 +313,12 @@ namespace czynsze.Forms
                                 }
                                 catch
                                 { dbWriteResult = "Nie można przenieść lokalu!"; }
+
                                 break;
                         }
+
                     break;
+
                 case EnumP.Table.Tenants:
                     Title = "Edycja najemcy";
                     DataAccess.ActiveTenant tenant;
@@ -348,7 +367,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Najemca dodany.";
                                     }
                                     catch { dbWriteResult = "Nie można dodać najemcy!"; }
+
                                     break;
+
                                 case EnumP.Action.Edytuj:
                                     try
                                     {
@@ -367,7 +388,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Najemca wyedytowany.";
                                     }
                                     catch { dbWriteResult = "Nie można edytować najemcy!"; }
+
                                     break;
+
                                 case EnumP.Action.Usuń:
                                     try
                                     {
@@ -383,7 +406,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Najemca usunięty.";
                                     }
                                     catch { dbWriteResult = "Nie można usunąć najemcy!"; }
+
                                     break;
+
                                 case EnumP.Action.Przenieś:
                                     try
                                     {
@@ -401,11 +426,14 @@ namespace czynsze.Forms
                                         dbWriteResult = "Najemca przeniesiony.";
                                     }
                                     catch { dbWriteResult = "Nie można przenieść najemcy!"; }
+
                                     break;
                             }
                         }
                     }
+
                     break;
+
                 case EnumP.Table.InactiveTenants:
                     validationResult = String.Empty;
 
@@ -429,9 +457,12 @@ namespace czynsze.Forms
                                     dbWriteResult = "Najemca przenesiony.";
                                 }
                                 catch { dbWriteResult = "Nie można przenieść najemcy!"; }
+
                                 break;
                         }
+
                     break;
+
                 case EnumP.Table.RentComponents:
                     Title = "Edycja składnika opłat";
                     DataAccess.RentComponent rentComponent;
@@ -496,7 +527,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Składnik opłat dodany.";
                                     }
                                     catch { dbWriteResult = "Nie można dodać składnika opłat!"; }
+
                                     break;
+
                                 case EnumP.Action.Edytuj:
                                     try
                                     {
@@ -508,7 +541,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Składnik opłat wyedytowany.";
                                     }
                                     catch { dbWriteResult = "Nie można edytować składnika opłat!"; }
+
                                     break;
+
                                 case EnumP.Action.Usuń:
                                     try
                                     {
@@ -520,11 +555,14 @@ namespace czynsze.Forms
                                         dbWriteResult = "Składnik opłat usunięty.";
                                     }
                                     catch { dbWriteResult = "Nie można usunąć składnika opłat!"; }
+
                                     break;
                             }
                         }
                     }
+
                     break;
+
                 case EnumP.Table.Communities:
                     Title = "Edycja wspólnoty";
                     DataAccess.Community community;
@@ -571,7 +609,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Wspólnota dodana.";
                                     }
                                     catch { dbWriteResult = "Nie można dodać wspólnoty!"; }
+
                                     break;
+
                                 case EnumP.Action.Edytuj:
                                     try
                                     {
@@ -590,7 +630,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Wspólnota wyedytowana.";
                                     }
                                     catch { dbWriteResult = "Nie można edytować wspólnoty!"; }
+
                                     break;
+
                                 case EnumP.Action.Usuń:
                                     try
                                     {
@@ -606,9 +648,12 @@ namespace czynsze.Forms
                                         dbWriteResult = "Wspólnota usunięta.";
                                     }
                                     catch { dbWriteResult = "Nie można usunąć wspólnoty!"; }
+
                                     break;
                             }
+
                     break;
+
                 case EnumP.Table.TypesOfPlace:
                     Title = "Edycja typu lokali";
                     DataAccess.TypeOfPlace typeOfPlace;
@@ -637,7 +682,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Typ lokali dodany.";
                                     }
                                     catch { dbWriteResult = "Nie można dodać typu lokali!"; }
+
                                     break;
+
                                 case EnumP.Action.Edytuj:
                                     try
                                     {
@@ -649,7 +696,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Typ lokalu wyedytowany.";
                                     }
                                     catch { dbWriteResult = "Nie można edytować typu lokalu!"; }
+
                                     break;
+
                                 case EnumP.Action.Usuń:
                                     try
                                     {
@@ -661,9 +710,12 @@ namespace czynsze.Forms
                                         dbWriteResult = "Typ lokalu usunięty.";
                                     }
                                     catch { dbWriteResult = "Nie można usunąć typu lokalu!"; }
+
                                     break;
                             }
+
                     break;
+
                 case EnumP.Table.TypesOfKitchen:
                     Title = "Edycja rodzaju kuchni";
                     DataAccess.TypeOfKitchen typeOfKitchen;
@@ -692,7 +744,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Rodzaj kuchni dodany.";
                                     }
                                     catch { dbWriteResult = "Nie można dodać rodzaju kuchni!"; }
+
                                     break;
+
                                 case EnumP.Action.Edytuj:
                                     try
                                     {
@@ -704,7 +758,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Rodzaj kuchni wyedytowany.";
                                     }
                                     catch { dbWriteResult = "Nie można edytować rodzaju kuchni!"; }
+
                                     break;
+
                                 case EnumP.Action.Usuń:
                                     try
                                     {
@@ -716,9 +772,12 @@ namespace czynsze.Forms
                                         dbWriteResult = "Rodzaj kuchni usunięty.";
                                     }
                                     catch { dbWriteResult = "Nie można usunąć rodzaju kuchni!"; }
+
                                     break;
                             }
+
                     break;
+
                 case EnumP.Table.TypesOfTenant:
                     Title = "Edycja rodzaju najemcy";
                     DataAccess.TypeOfTenant typeOfTenant;
@@ -747,7 +806,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Rodzaj najemcy dodany.";
                                     }
                                     catch { dbWriteResult = "Nie można dodać rodzaju najemcy!"; }
+
                                     break;
+
                                 case EnumP.Action.Edytuj:
                                     try
                                     {
@@ -759,7 +820,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Rodzaj najemcy wyedytowany.";
                                     }
                                     catch { dbWriteResult = "Nie można edytować rodzaju najemcy!"; }
+
                                     break;
+
                                 case EnumP.Action.Usuń:
                                     try
                                     {
@@ -771,9 +834,13 @@ namespace czynsze.Forms
                                         dbWriteResult = "Rodzaj najemcy usunięty.";
                                     }
                                     catch { dbWriteResult = "Nie można usunąć rodzaju najemcy!"; }
+
                                     break;
+
                             }
+
                     break;
+
                 case EnumP.Table.Titles:
                     Title = "Edycja tytułu prawnego do lokali";
                     DataAccess.Title title;
@@ -802,7 +869,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Tytuł prawny do lokali dodany.";
                                     }
                                     catch { dbWriteResult = "Nie można dodać tytułu prawnego do lokali!"; }
+
                                     break;
+
                                 case EnumP.Action.Edytuj:
                                     try
                                     {
@@ -814,7 +883,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Tytuł prawny do lokali wyedytowany.";
                                     }
                                     catch { dbWriteResult = "Nie można edytować tytułu prawnego do lokali!"; }
+
                                     break;
+
                                 case EnumP.Action.Usuń:
                                     try
                                     {
@@ -826,9 +897,12 @@ namespace czynsze.Forms
                                         dbWriteResult = "Tytuł prawny do lokali usunięty.";
                                     }
                                     catch { dbWriteResult = "Nie można usunąć tytułu prawnego do lokali!"; }
+
                                     break;
                             }
+
                     break;
+
                 case EnumP.Table.TypesOfPayment:
                     Title = "Edycja rodzaju wpłaty lub wypłaty";
                     DataAccess.TypeOfPayment typeOfPayment;
@@ -863,7 +937,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Rodzaj wpłaty lub wypłaty dodany.";
                                     }
                                     catch { dbWriteResult = "Nie można dodać rodzaju wpłaty lub wypłaty!"; }
+
                                     break;
+
                                 case EnumP.Action.Edytuj:
                                     try
                                     {
@@ -875,7 +951,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Rodzaj wpłaty lub wypłaty wyedytowany.";
                                     }
                                     catch { dbWriteResult = "Nie można edytować rodzaju wpłaty lub wypłaty!"; }
+
                                     break;
+
                                 case EnumP.Action.Usuń:
                                     try
                                     {
@@ -887,9 +965,12 @@ namespace czynsze.Forms
                                         dbWriteResult = "Rodzaj wpłaty lub wypłaty usunięty.";
                                     }
                                     catch { dbWriteResult = "Nie można usunąć rodzaju wpłaty lub wypłaty!"; }
+
                                     break;
                             }
+
                     break;
+
                 case EnumP.Table.GroupsOfRentComponents:
                     Title = "Edycja grupy składników czynszu";
                     DataAccess.GroupOfRentComponents groupOfRentComponents;
@@ -918,7 +999,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Grupa składników czynszu dodana.";
                                     }
                                     catch { dbWriteResult = "Nie można dodać grupy składników czynszu!"; }
+
                                     break;
+
                                 case EnumP.Action.Edytuj:
                                     try
                                     {
@@ -930,7 +1013,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Grupa składników czynszu wyedytowana.";
                                     }
                                     catch { dbWriteResult = "Nie można edytować grupy składników czynszu!"; }
+
                                     break;
+
                                 case EnumP.Action.Usuń:
                                     try
                                     {
@@ -942,9 +1027,12 @@ namespace czynsze.Forms
                                         dbWriteResult = "Grupa składników czynszu usunięta.";
                                     }
                                     catch { dbWriteResult = "Nie można usunąć grupy składników czynszu!"; }
+
                                     break;
                             }
+
                     break;
+
                 case EnumP.Table.FinancialGroups:
                     Title = "Edycja grupy finansowej";
                     DataAccess.FinancialGroup financialGroup;
@@ -974,7 +1062,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Grupa finansowa dodana.";
                                     }
                                     catch { dbWriteResult = "Nie można dodać grupy finansowej!"; }
+
                                     break;
+
                                 case EnumP.Action.Edytuj:
                                     try
                                     {
@@ -986,7 +1076,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Grupa finansowa wyedytowana.";
                                     }
                                     catch { dbWriteResult = "Nie można edytować grupy finansowej!"; }
+
                                     break;
+
                                 case EnumP.Action.Usuń:
                                     try
                                     {
@@ -998,9 +1090,12 @@ namespace czynsze.Forms
                                         dbWriteResult = "Grupa finansowa usunięta.";
                                     }
                                     catch { dbWriteResult = "Nie można usunąć grupy finansowej!"; }
+
                                     break;
                             }
+
                     break;
+
                 case EnumP.Table.VatRates:
                     Title = "Edycja stawki VAT";
                     DataAccess.VatRate vatRate;
@@ -1030,7 +1125,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Stawka VAT dodana.";
                                     }
                                     catch { dbWriteResult = "Nie można dodać stawki VAT!"; }
+
                                     break;
+
                                 case EnumP.Action.Edytuj:
                                     try
                                     {
@@ -1042,7 +1139,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Stawka VAT wyedytowana.";
                                     }
                                     catch { dbWriteResult = "Nie można edytować stawki VAT!"; }
+
                                     break;
+
                                 case EnumP.Action.Usuń:
                                     try
                                     {
@@ -1054,9 +1153,12 @@ namespace czynsze.Forms
                                         dbWriteResult = "Stawka VAT usunięta.";
                                     }
                                     catch { dbWriteResult = "Nie można usunąć stawki VAT!"; }
+
                                     break;
                             }
+
                     break;
+
                 case EnumP.Table.Attributes:
                     Title = "Edycja cechy obiektów";
                     DataAccess.Attribute attribute;
@@ -1093,7 +1195,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Cecha obiektów dodana.";
                                     }
                                     catch { dbWriteResult = "Nie można dodać cechy obiektów!"; }
+
                                     break;
+
                                 case EnumP.Action.Edytuj:
                                     try
                                     {
@@ -1105,7 +1209,9 @@ namespace czynsze.Forms
                                         dbWriteResult = "Cecha obiektów wyedytowana.";
                                     }
                                     catch { dbWriteResult = "Nie można edytować cechy obiektów!"; }
+
                                     break;
+
                                 case EnumP.Action.Usuń:
                                     try
                                     {
@@ -1117,9 +1223,12 @@ namespace czynsze.Forms
                                         dbWriteResult = "Cecha obiektów usunięta.";
                                     }
                                     catch { dbWriteResult = "Nie można usunąć cechy obiektów!"; }
+
                                     break;
                             }
+
                     break;
+
                 case EnumP.Table.Users:
                     Title = "Edycja użytkownika";
                     DataAccess.User user;
@@ -1157,7 +1266,9 @@ namespace czynsze.Forms
                                         form.Controls.Add(iFrame);
                                     }
                                     catch { dbWriteResult = "Nie można dodać użytkownika!"; }
+
                                     break;
+
                                 case EnumP.Action.Edytuj:
                                     try
                                     {
@@ -1171,7 +1282,9 @@ namespace czynsze.Forms
                                         form.Controls.Add(iFrame);
                                     }
                                     catch { dbWriteResult = "Nie można edytować użytkownika!"; }
+
                                     break;
+
                                 case EnumP.Action.Usuń:
                                     try
                                     {
@@ -1183,9 +1296,11 @@ namespace czynsze.Forms
                                         dbWriteResult = "Użytkownik usunięty.";
                                     }
                                     catch { dbWriteResult = "Nie można usunąć użytkownika!"; }
+
                                     break;
                             }
                     }
+
                     break;
             }
 

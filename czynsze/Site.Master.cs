@@ -31,14 +31,14 @@ namespace czynsze
             user.InnerText = Session["user"].ToString();
             placeOfSiteMapPath.InnerHtml = String.Empty;
 
-            foreach (string siteMapNode in Forms.Hello.siteMapPath)
+            foreach (string siteMapNode in Forms.Hello.SiteMapPath)
                 placeOfSiteMapPath.InnerHtml += siteMapNode + " > ";
 
-            if (Forms.Hello.siteMapPath.Count > 0)
+            if (Forms.Hello.SiteMapPath.Count > 0)
                 placeOfSiteMapPath.InnerHtml = placeOfSiteMapPath.InnerHtml.Remove(placeOfSiteMapPath.InnerHtml.Length - 3);
 
-            placeOfSelectedDate.InnerHtml = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[Forms.Hello.date.Month - 1].ToString() + " " + Forms.Hello.date.Year.ToString();
-            placeOfCurrentSet.InnerHtml = Forms.Hello.namesOfSets[(int)Forms.Hello.currentSet];
+            placeOfSelectedDate.InnerHtml = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[Forms.Hello.Date.Month - 1].ToString() + " " + Forms.Hello.Date.Year.ToString();
+            placeOfCurrentSet.InnerHtml = Forms.Hello.NamesOfSets[(int)Forms.Hello.CurrentSet];
         }
     }
 }

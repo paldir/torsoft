@@ -40,10 +40,13 @@ function kod_onchange(value, ids, types, units, defaults) {
                 case "C":
                     wartosc.maxLength = wartosc.size = 25;
                     unit.innerHTML = "";
+
                     break;
+
                 case "N":
                     wartosc.maxLength = wartosc.size = 16;
                     unit.innerHTML = units[ids.indexOf(value)];
+
                     break;
             }
         }

@@ -114,10 +114,13 @@ function nr_str_onchange(value, radioAsSender) {
                     jedn.disabled = false;
 
                 wartosc.maxLength = wartosc.size = 16;
+
                 break;
+
             case "C":
                 jedn.disabled = true;
                 wartosc.maxLength = wartosc.size = 25;
+
                 break;
         }
 

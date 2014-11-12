@@ -33,36 +33,49 @@
                 %>
                     InitBuilding();
                 <%
+    
                 break;
+
             case "Tenants":
                 %>
                     InitTenant();
                 <%
+    
                 break;
+
             case "Places":
                 %>
                     InitPlace();
                 <%
+    
                 break;
+
             case "Communities":
                 %>
                     InitCommunity();
                 <%
+    
                 break;
+
             case "RentComponents":
                 %>
                     InitRentComponent();
                 <%
+    
                 break;
+
             case "Attributes":
                 %>
                     InitAttribute();
                 <%
-                break;  
+    
+                break;
+  
                 case "Users":
                 %>
                     InitUser();
                 <%
+    
                 break;
         }
         %>

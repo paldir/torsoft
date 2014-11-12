@@ -84,9 +84,12 @@ namespace czynsze.DataAccess
 
                         recordList.Insert(4, String.Empty);
                     }
+
                     break;
+
                 case EnumP.Action.Edytuj:
                     recordList.Insert(4, record[2] + " " + record[3]);
+
                     break;
             }
 

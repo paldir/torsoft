@@ -87,15 +87,22 @@ namespace czynsze.Forms
                         "Numer ostatniego budynku:",
                         "Typy lokali: "
                     };
+
                     break;
+
                 case EnumP.Report.MonthlySumOfComponent:
                     heading += "(Sumy miesięczne składnika)";
+
                     break;
+
                 case EnumP.Report.ReceivablesAndTurnoversOfTenant:
                     heading += "(Należności i obroty najemcy)";
+
                     break;
+
                 case EnumP.Report.MonthlyAnalysisOfReceivablesAndTurnovers:
                     heading += "(Analiza miesięczna)";
+
                     break;
             }
 
@@ -115,12 +122,12 @@ namespace czynsze.Forms
             generationButton.Click += generationButton_Click;
             Title = heading;
 
-            if (Forms.Hello.siteMapPath.Count > 0)
-                if (Forms.Hello.siteMapPath.IndexOf(heading) == -1)
+            if (Hello.SiteMapPath.Count > 0)
+                if (Hello.SiteMapPath.IndexOf(heading) == -1)
                 {
-                    Forms.Hello.siteMapPath[Forms.Hello.siteMapPath.Count - 1] = String.Concat("<a href=\"javascript: Load('" + Request.UrlReferrer.PathAndQuery + "')\">", Forms.Hello.siteMapPath[Forms.Hello.siteMapPath.Count - 1], "</a>");
+                    Hello.SiteMapPath[Hello.SiteMapPath.Count - 1] = String.Concat("<a href=\"javascript: Load('" + Request.UrlReferrer.PathAndQuery + "')\">", Hello.SiteMapPath[Hello.SiteMapPath.Count - 1], "</a>");
 
-                    Forms.Hello.siteMapPath.Add(heading);
+                    Hello.SiteMapPath.Add(heading);
                 }
         }
 
@@ -192,6 +199,7 @@ namespace czynsze.Forms
                         }
 
                     break;
+
                 case EnumP.Report.MonthlySumOfComponent:
                 case EnumP.Report.ReceivablesAndTurnoversOfTenant:
                 case EnumP.Report.MonthlyAnalysisOfReceivablesAndTurnovers:
@@ -200,8 +208,6 @@ namespace czynsze.Forms
                     List<DataAccess.Receivable> receivables = null;
                     List<DataAccess.Turnover> turnovers = null;
                     float wnSum, maSum;
-                    List<string[]> monthReceivables;
-                    List<string[]> monthTurnovers;
                     List<float> balances = new List<float>();
 
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
@@ -209,19 +215,24 @@ namespace czynsze.Forms
                         DataAccess.Tenant tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == additionalId);
                         captions = new List<string>() { tenant.nazwisko + " " + tenant.imie + "<br />" + tenant.adres_1 + " " + tenant.adres_2 + "<br />" };
 
-                        switch (Hello.currentSet)
+                        switch (Hello.CurrentSet)
                         {
                             case EnumP.SettlementTable.Czynsze:
                                 receivables = db.receivablesFor14.Where(r => r.nr_kontr == additionalId).ToList().Cast<DataAccess.Receivable>().ToList();
                                 turnovers = db.turnoversFor14.Where(t => t.nr_kontr == additionalId).ToList().Cast<DataAccess.Turnover>().ToList();
+
                                 break;
+
                             case EnumP.SettlementTable.SecondSet:
                                 receivables = db.receivablesFor14From2ndSet.Where(r => r.nr_kontr == additionalId).ToList().Cast<DataAccess.Receivable>().ToList();
                                 turnovers = db.turnoversFor14From2ndSet.Where(t => t.nr_kontr == additionalId).ToList().Cast<DataAccess.Turnover>().ToList();
+
                                 break;
+
                             case EnumP.SettlementTable.ThirdSet:
                                 receivables = db.receivablesFor14From3rdSet.Where(r => r.nr_kontr == additionalId).ToList().Cast<DataAccess.Receivable>().ToList();
                                 turnovers = db.turnoversFor14From3rdSet.Where(t => t.nr_kontr == additionalId).ToList().Cast<DataAccess.Turnover>().ToList();
+
                                 break;
                         }
 
@@ -238,7 +249,7 @@ namespace czynsze.Forms
                                     captions[0] += db.rentComponents.FirstOrDefault(c => c.nr_skl == nr_skl).nazwa;
 
                                     for (int i = 1; i <= 12; i++)
-                                        tables[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", receivables.Where(r => r.nr_skl == nr_skl).ToList().Where(r => Convert.ToDateTime(r.data_nal).Year == Hello.date.Year && Convert.ToDateTime(r.data_nal).Month == i).Sum(r => r.kwota_nal)) });
+                                        tables[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", receivables.Where(r => r.nr_skl == nr_skl).ToList().Where(r => Convert.ToDateTime(r.data_nal).Year == Hello.Date.Year && Convert.ToDateTime(r.data_nal).Month == i).Sum(r => r.kwota_nal)) });
                                 }
                                 else
                                 {
@@ -246,20 +257,20 @@ namespace czynsze.Forms
                                     captions[0] += db.typesOfPayment.FirstOrDefault(t => t.kod_wplat == kod_wplat).typ_wplat;
 
                                     for (int i = 1; i <= 12; i++)
-                                        tables[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", turnovers.Where(t => t.kod_wplat == kod_wplat).ToList().Where(t => Convert.ToDateTime(t.data_obr).Year == Hello.date.Year && Convert.ToDateTime(t.data_obr).Month == i).Sum(t => t.suma)) });
+                                        tables[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", turnovers.Where(t => t.kod_wplat == kod_wplat).ToList().Where(t => Convert.ToDateTime(t.data_obr).Year == Hello.Date.Year && Convert.ToDateTime(t.data_obr).Month == i).Sum(t => t.suma)) });
                                 }
 
                                 tables[0].Add(new string[] { String.Empty, String.Format("{0:N2}", tables[0].Sum(r => Convert.ToSingle(r[1]))) });
 
                                 break;
+
                             case EnumP.Report.ReceivablesAndTurnoversOfTenant:
                                 title = "ZESTAWIENIE NALEZNOSCI I WPLAT";
                                 headers = new List<string> { "Kwota Wn", "Kwota Ma", "Data", "Operacja" };
-                                List<string> fields;
 
                                 foreach (DataAccess.Receivable receivable in receivables)
                                 {
-                                    fields = receivable.ImportantFieldsForReceivablesAndTurnoversOfTenant().ToList();
+                                    List<string> fields = receivable.ImportantFieldsForReceivablesAndTurnoversOfTenant().ToList();
 
                                     fields.RemoveAt(0);
 
@@ -268,7 +279,7 @@ namespace czynsze.Forms
 
                                 foreach (DataAccess.Turnover turnover in turnovers)
                                 {
-                                    fields = turnover.ImportantFields().ToList();
+                                    List<string> fields = turnover.ImportantFields().ToList();
 
                                     fields.RemoveAt(0);
 
@@ -281,7 +292,9 @@ namespace czynsze.Forms
 
                                 tables[0].Add(new string[] { String.Format("{0:N2}", wnSum), String.Format("{0:N2}", maSum), String.Empty, String.Empty });
                                 tables[0].Add(new string[] { "SALDO", String.Format("{0:N2}", maSum - wnSum), String.Empty, String.Empty });
+
                                 break;
+
                             case EnumP.Report.MonthlyAnalysisOfReceivablesAndTurnovers:
                                 title = "ZESTAWIENIE ROZLICZEN MIESIECZNYCH";
                                 headers = new List<string>() { "m-c", "suma WN w miesiącu", "suma MA w miesiącu", "saldo w miesiącu", "suma WN narastająco", "suma MA narastająco", "saldo narastająco" };
@@ -290,8 +303,8 @@ namespace czynsze.Forms
 
                                 for (int i = 1; i <= 12; i++)
                                 {
-                                    monthReceivables = receivables.Where(r => DateTime.Parse(r.data_nal).Month == i).Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).ToList();
-                                    monthTurnovers = turnovers.Where(t => DateTime.Parse(t.data_obr).Month == i).Select(t => t.ImportantFields()).ToList();
+                                    List<string[]> monthReceivables = receivables.Where(r => DateTime.Parse(r.data_nal).Month == i).Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).ToList();
+                                    List<string[]> monthTurnovers = turnovers.Where(t => DateTime.Parse(t.data_obr).Month == i).Select(t => t.ImportantFields()).ToList();
                                     wnSum = monthReceivables.Sum(r => (r[1] == String.Empty) ? 0 : Convert.ToSingle(r[1])) + monthTurnovers.Sum(t => (t[1] == String.Empty) ? 0 : Convert.ToSingle(t[1]));
                                     maSum = monthTurnovers.Sum(t => (t[2] == String.Empty) ? 0 : Convert.ToSingle(t[2]));
 
@@ -302,28 +315,25 @@ namespace czynsze.Forms
                                 }
 
                                 break;
+
                             case EnumP.Report.DetailedAnalysisOfReceivablesAndTurnovers:
                                 title = "ZESTAWIENIE ROZLICZEN MIESIECZNYCH";
                                 headers = new List<string>() { "m-c", "Dziennik komornego", "Wpłaty", "Zmniejszenia", "Zwiększenia", "Saldo miesiąca", "Saldo narastająco" };
-                                float[] sum;
-                                string[] row;
                                 string[] newRow;
-                                int index;
-                                float single;
 
                                 for (int i = 1; i <= 12; i++)
                                 {
-                                    sum = new float[] { 0, 0, 0, 0 };
+                                    float[] sum = new float[] { 0, 0, 0, 0 };
                                     wnSum = maSum = 0;
 
                                     foreach (DataAccess.Receivable receivable in receivables.Where(r => DateTime.Parse(r.data_nal).Month == i))
                                     {
-                                        row = receivable.ImportantFieldsForReceivablesAndTurnoversOfTenant();
-                                        index = db.rentComponents.FirstOrDefault(c => c.nr_skl == receivable.nr_skl).rodz_e - 1;
+                                        string[] row = receivable.ImportantFieldsForReceivablesAndTurnoversOfTenant();
+                                        int index = db.rentComponents.FirstOrDefault(c => c.nr_skl == receivable.nr_skl).rodz_e - 1;
 
                                         if (row[1] != String.Empty)
                                         {
-                                            single = Convert.ToSingle(row[1]);
+                                            float single = Convert.ToSingle(row[1]);
                                             sum[index] += single;
                                             wnSum += single;
                                         }
@@ -331,11 +341,13 @@ namespace czynsze.Forms
 
                                     foreach (DataAccess.Turnover turnover in turnovers.Where(t => DateTime.Parse(t.data_obr).Month == i))
                                     {
-                                        row = turnover.ImportantFields();
-                                        index = db.typesOfPayment.FirstOrDefault(t => t.kod_wplat == turnover.kod_wplat).rodz_e - 1;
+                                        string[] row = turnover.ImportantFields();
+                                        int index = db.typesOfPayment.FirstOrDefault(t => t.kod_wplat == turnover.kod_wplat).rodz_e - 1;
 
                                         if (index >= 0)
                                         {
+                                            float single;
+                                            
                                             if (row[1] != String.Empty)
                                             {
                                                 single = Convert.ToSingle(row[1]);

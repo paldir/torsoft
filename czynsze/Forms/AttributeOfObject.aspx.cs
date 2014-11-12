@@ -70,27 +70,34 @@ namespace czynsze.Forms
                                 using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                                     if (db.attributesOfBuildings.Count() > 0)
                                         maxId = db.attributesOfBuildings.Max(a => a.__record);
+
                                 break;
+
                             case EnumP.AttributeOf.Community:
                                 attributeOfObject = new DataAccess.AttributeOfCommunity();
 
                                 using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                                     if (db.attributesOfCommunities.Count() > 0)
                                         maxId = db.attributesOfCommunities.Max(a => a.__record);
+
                                 break;
+
                             case EnumP.AttributeOf.Place:
                                 attributeOfObject = new DataAccess.AttributeOfPlace();
 
                                 using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                                     if (db.attributesOfPlaces.Count() > 0)
                                         maxId = db.attributesOfPlaces.Max(a => a.__record);
+
                                 break;
+
                             case EnumP.AttributeOf.Tenant:
                                 attributeOfObject = new DataAccess.AttributeOfTenant();
 
                                 using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                                     if (db.attributesOfTenants.Count() > 0)
                                         maxId = db.attributesOfTenants.Max(a => a.__record);
+
                                 break;
                         }
 
@@ -99,7 +106,9 @@ namespace czynsze.Forms
                         attributeOfObject.Set(record);
                         attributesOfObject.Add(attributeOfObject);
                     }
+
                     break;
+
                 case EnumP.Action.Edytuj:
                     string wartosc = Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("wartosc_edit"))];
                     int id_edit = Convert.ToInt16(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id_edit"))]);
@@ -115,9 +124,12 @@ namespace czynsze.Forms
 
                     if (DataAccess.AttributeOfObject.Validate(childAction, record, attributesOfObject))
                         attribute.Set(record);
+
                     break;
+
                 case EnumP.Action.Usuń:
                     attributesOfObject.Remove(attributesOfObject.FirstOrDefault(a => a.__record == id));
+
                     break;
             }
 
@@ -128,18 +140,25 @@ namespace czynsze.Forms
                 case EnumP.AttributeOf.Building:
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                         rowsOfDropDown = db.attributes.Where(a => a.zb_b == "X").ToList().Select(a => a.ImportantFieldsForDropDown()).ToList();
+
                     break;
+
                 case EnumP.AttributeOf.Community:
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                         rowsOfDropDown = db.attributes.Where(a => a.zb_s == "X").ToList().Select(a => a.ImportantFieldsForDropDown()).ToList();
+
                     break;
+
                 case EnumP.AttributeOf.Place:
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                         rowsOfDropDown = db.attributes.Where(a => a.zb_l == "X").ToList().Select(a => a.ImportantFieldsForDropDown()).ToList();
+
                     break;
+
                 case EnumP.AttributeOf.Tenant:
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                         rowsOfDropDown = db.attributes.Where(a => a.zb_n == "X").ToList().Select(a => a.ImportantFieldsForDropDown()).ToList();
+
                     break;
             }
 
@@ -169,9 +188,12 @@ namespace czynsze.Forms
                             {
                                 case "N":
                                     placeOfEditingWindow.Controls.Add(new ControlsP.TextBoxP("field", "wartosc_edit", attributeOfObject.wartosc_n.ToString("F2"), ControlsP.TextBoxP.TextBoxModeP.Number, 16, 1, true));
+
                                     break;
+
                                 case "C":
                                     placeOfEditingWindow.Controls.Add(new ControlsP.TextBoxP("field", "wartosc_edit", attributeOfObject.wartosc_s.Trim(), ControlsP.TextBoxP.TextBoxModeP.SingleLine, 25, 1, true));
+
                                     break;
                             }
 
@@ -196,6 +218,7 @@ namespace czynsze.Forms
                             placeOfButtons.Controls.Add(new ControlsP.ButtonP("button", "deletechildAction", "Usuń", postBackUrl));
                             placeOfButtons.Controls.Add(new ControlsP.ButtonP("button", "showEditingWindow", "Edytuj", postBackUrl));
                         }
+
                     break;
             }
         }

@@ -212,6 +212,7 @@ namespace czynsze.DataAccess
                     result += Czynsze_Entities.ValidateFloat("Powierzchnia VI pokoju", ref record[16]);
                     result += Czynsze_Entities.ValidateInt("Ilość osób", ref record[19]);
                     /*break;
+
             }*/
 
             return result;

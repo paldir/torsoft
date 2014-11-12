@@ -23,18 +23,27 @@ namespace czynsze.ControlsP
                     TextMode = TextBoxMode.MultiLine;
 
                     Attributes.Add("maxlength", maxLength.ToString());
+
                     break;
+
                 case TextBoxModeP.Number:
                     Attributes.Add("onkeypress", "return isInteger(event)");
+
                     break;
+
                 case TextBoxModeP.Float:
                     Attributes.Add("onkeypress", "return isFloat(event)");
+
                     break;
+
                 case TextBoxModeP.Date:
                     Attributes.Add("onkeypress", "return isDate(event)");
+
                     break;
+
                 case TextBoxModeP.Password:
                     TextMode = TextBoxMode.Password;
+
                     break;
             }
             

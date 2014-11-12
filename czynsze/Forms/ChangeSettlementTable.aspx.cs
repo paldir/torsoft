@@ -11,20 +11,20 @@ namespace czynsze.Forms
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Forms.Hello.siteMapPath.Clear();
+            Hello.SiteMapPath.Clear();
 
             List<string> texts = new List<string>() { "CZYNSZE" };
             List<string> values = new List<string>() { EnumP.SettlementTable.Czynsze.ToString() };
 
-            if (Hello.numberOfSets >= 1)
+            if (Hello.NumberOfSets >= 1)
             {
-                texts.Add(Hello.namesOfSets[1]);
+                texts.Add(Hello.NamesOfSets[1]);
                 values.Add(EnumP.SettlementTable.SecondSet.ToString());
             }
 
-            if (Hello.numberOfSets == 3)
+            if (Hello.NumberOfSets == 3)
             {
-                texts.Add(Hello.namesOfSets[2]);
+                texts.Add(Hello.NamesOfSets[2]);
                 values.Add(EnumP.SettlementTable.ThirdSet.ToString());
             }
 
@@ -32,13 +32,13 @@ namespace czynsze.Forms
             button.Text = "Zmień";
             button.Click += button_Click;
 
-            placeOfRadioButtons.Controls.Add(new ControlsP.RadioButtonListP("list", "numberOfSets", texts, values, Hello.currentSet.ToString(), true, false));
+            placeOfRadioButtons.Controls.Add(new ControlsP.RadioButtonListP("list", "numberOfSets", texts, values, Hello.CurrentSet.ToString(), true, false));
             placeOfButton.Controls.Add(button);
         }
 
         void button_Click(object sender, EventArgs e)
         {
-            Hello.currentSet = (EnumP.SettlementTable)Enum.Parse(typeof(EnumP.SettlementTable), ((RadioButtonList)placeOfRadioButtons.FindControl("numberOfSets")).SelectedValue);
+            Hello.CurrentSet = (EnumP.SettlementTable)Enum.Parse(typeof(EnumP.SettlementTable), ((RadioButtonList)placeOfRadioButtons.FindControl("numberOfSets")).SelectedValue);
 
             Response.Redirect("Hello.aspx");
         }

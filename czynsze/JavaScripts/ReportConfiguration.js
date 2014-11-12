@@ -21,6 +21,7 @@ function kod_1_onchange(value, kod_1_dropdown) {
     for (var i = kod_1_dropdown.options.length - 1; i >= 0; i--)
         if (Number(kod_1_dropdown.options.item(i).value) <= value) {
             kod_1_dropdown.selectedIndex = i;
+
             break;
         }
 }

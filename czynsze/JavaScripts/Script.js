@@ -181,6 +181,7 @@ function FinishLoading() {
             for (var i = 0; i < prefixesOfBrowsers.length; i++)
                 if (waterMark.style[prefixesOfBrowsers[i] + 'AnimationName'] != undefined) {
                     animationSupported = true;
+
                     break;
                 }
 

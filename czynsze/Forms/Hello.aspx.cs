@@ -9,18 +9,18 @@ namespace czynsze.Forms
 {
     public partial class Hello : System.Web.UI.Page
     {
-        public static string companyName;
-        public static DateTime date;
-        public static List<string> siteMapPath;
-        public static int numberOfSets;
-        public static EnumP.SettlementTable currentSet;
-        public static string[] namesOfSets;
+        public static string CompanyName { get; set; }
+        public static DateTime Date { get; set; }
+        public static List<string> SiteMapPath { get; set; }
+        public static int NumberOfSets { get; set; }
+        public static EnumP.SettlementTable CurrentSet { get; set; }
+        public static string[] NamesOfSets { get; set; }
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            company.InnerText = companyName;
+            company.InnerText = CompanyName;
             user.InnerText = Session["user"].ToString();
-            month.InnerText = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[date.Month - 1].ToString() + " " + date.Year.ToString();
+            month.InnerText = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[Date.Month - 1].ToString() + " " + Date.Year.ToString();
         }
     }
 }

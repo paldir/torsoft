@@ -40,19 +40,26 @@ namespace czynsze.DataAccess
                         case 0:
                             account = Account.Wn;
                             factor = -1;
+
                             break;
+
                         case 1:
                             account = Account.Ma;
+
                             break;
                     }
 
                     break;
+
                 case 2:
                     account = Account.Wn;
+
                     break;
+
                 case 3:
                     account = Account.Ma;
                     factor = -1;
+
                     break;
             }
 
@@ -62,9 +69,12 @@ namespace czynsze.DataAccess
             {
                 case Account.Wn:
                     wn = suma;
+
                     break;
+
                 case Account.Ma:
                     ma = suma;
+
                     break;
             }
 
