@@ -7,7 +7,15 @@ namespace czynsze
 {
     public static class EnumP
     {
-        public enum Action { Dodaj, Edytuj, Usuń, Przeglądaj, Przenieś };
+        public enum Action
+        {
+            Dodaj,
+            Edytuj,
+            Usuń,
+            Przeglądaj,
+            Przenieś
+        };
+
         public enum Table
         {
             Buildings,
@@ -42,10 +50,37 @@ namespace czynsze
             DetailedAnalysisOfReceivablesAndTurnovers
         };
 
-        public enum ReportFormat { Pdf, Csv };
-        public enum SortOrder { Asc, Desc };
-        public enum AttributeOf { Place, Tenant, Building, Community };
-        public enum ReasonOfRedirectToLoginPage { IncorrectCredentials, NotLoggedInOrSessionExpired };
-        public enum SettlementTable { Czynsze, SecondSet, ThirdSet };
+        public enum ReportFormat
+        {
+            Pdf,
+            Csv
+        };
+
+        public enum SortOrder
+        {
+            Asc,
+            Desc
+        };
+
+        public enum AttributeOf
+        {
+            Place,
+            Tenant,
+            Building,
+            Community
+        };
+
+        public enum ReasonOfRedirectToLoginPage
+        {
+            IncorrectCredentials,
+            NotLoggedInOrSessionExpired
+        };
+
+        public enum SettlementTable
+        {
+            Czynsze,
+            SecondSet,
+            ThirdSet
+        };
     }
 }

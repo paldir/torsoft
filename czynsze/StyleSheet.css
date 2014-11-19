@@ -60,6 +60,7 @@ input, select, textarea {
     position: relative;
     z-index: 1;
     font-size: medium;
+    text-align: center;
 }
 
 .mainMenu ul {
@@ -74,6 +75,10 @@ input, select, textarea {
 
 .mainMenu li:hover {
     cursor: pointer;
+}
+
+.mainSuperMenu {
+    display: inline;
 }
 
 .mainSuperMenuItem {
@@ -115,7 +120,6 @@ input, select, textarea {
         color: #383838;
         text-decoration: none;
         display: block;
-        text-align: center;
     }
 
     .mainSubMenuItem:hover, .mainSubSubMenuItem:hover {
@@ -419,15 +423,18 @@ input, select, textarea {
     padding: 20px;
 }
 
-.panelItem {
-    border-width: 2px 1px 2px 1px;
-    border-style: solid;
-    border-bottom-color: dodgerblue;
-    border-left-color: dodgerblue;
-    border-top-color: mediumblue;
-    border-right-color: mediumblue;
+.panel {
+    text-align: right;
     background-color: aliceblue;
+    border-width: 2px 0px 2px 0px;
+    border-style: solid;
+    border-color: dodgerblue;
     padding: 5px;
+}
+
+.panelItem {
+    border-left: 1px solid dodgerblue;
+    padding: 0px 10px 0px 10px;
 }
 
 .placeOfChangingDate {

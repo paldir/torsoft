@@ -443,7 +443,6 @@ namespace czynsze.Forms
                                 turnovers = db.turnoversFor14From3rdSet.ToList().Cast<DataAccess.Turnover>().ToList();
 
                                 break;
-
                         }
 
                         rows = receivables.Where(r => r.nr_kontr == id).ToList().Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).ToList();
@@ -676,7 +675,6 @@ namespace czynsze.Forms
                     rows = rows.OrderBy(r => r[1]).ThenBy(r => r[2]).ToList();
 
                     break;
-
 
                 case "kod":
                     rows = rows.OrderBy(r => Convert.ToSingle(r[3])).ThenBy(r => Convert.ToSingle(r[4])).ToList();
