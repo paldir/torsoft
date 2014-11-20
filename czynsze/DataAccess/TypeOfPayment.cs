@@ -121,22 +121,34 @@ namespace czynsze.DataAccess
             string result = String.Empty;
             int kod_wplat;
 
-            if (action == EnumP.Action.Dodaj)
+            switch (action)
             {
-                if (record[0].Length > 0)
-                {
-                    try
+                case EnumP.Action.Dodaj:
+                    if (record[0].Length > 0)
                     {
-                        kod_wplat = Convert.ToInt16(record[0]);
+                        try
+                        {
+                            kod_wplat = Convert.ToInt16(record[0]);
 
-                        using (Czynsze_Entities db = new Czynsze_Entities())
-                            if (db.typesOfPayment.Count(t => t.kod_wplat == kod_wplat) != 0)
-                                result += "Istnieje już rodzaj wpłaty lub wypłaty o podanym kodzie! <br />";
+                            using (Czynsze_Entities db = new Czynsze_Entities())
+                                if (db.typesOfPayment.Count(t => t.kod_wplat == kod_wplat) != 0)
+                                    result += "Istnieje już rodzaj wpłaty lub wypłaty o podanym kodzie! <br />";
+                        }
+                        catch { result += "Kod rodzaju wpłaty lub wypłaty musi być liczbą całkowitą! <br />"; }
                     }
-                    catch { result += "Kod rodzaju wpłaty lub wypłaty musi być liczbą całkowitą! <br />"; }
-                }
-                else
-                    result += "Należy podać kod rodzaju wpłaty lub wypłaty! <br />";
+                    else
+                        result += "Należy podać kod rodzaju wpłaty lub wypłaty! <br />";
+
+                    break;
+
+                case EnumP.Action.Usuń:
+                    kod_wplat = Convert.ToInt16(record[0]);
+
+                    using (Czynsze_Entities db = new Czynsze_Entities())
+                        if (db.turnoversFor14.Count(t => t.kod_wplat == kod_wplat) + db.turnoversFor14From2ndSet.Count(t => t.kod_wplat == kod_wplat) + db.turnoversFor14From3rdSet.Count(t => t.kod_wplat == kod_wplat) > 0)
+                            result += "Nie można usunąć typu wpłaty lub wypłaty, jeśli jest on używany! <br />";
+
+                    break;
             }
 
             return result;
