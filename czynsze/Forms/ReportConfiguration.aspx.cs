@@ -104,6 +104,11 @@ namespace czynsze.Forms
                     heading += "(Analiza miesięczna)";
 
                     break;
+
+                case EnumP.Report.DetailedAnalysisOfReceivablesAndTurnovers:
+                    heading += "(Analiza szczegółowa)";
+
+                    break;
             }
 
             placeOfConfigurationFields.Controls.Add(new LiteralControl("<h2>" + heading + "</h2>"));
@@ -260,7 +265,7 @@ namespace czynsze.Forms
                                         tables[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", turnovers.Where(t => t.kod_wplat == kod_wplat).ToList().Where(t => Convert.ToDateTime(t.data_obr).Year == Hello.Date.Year && Convert.ToDateTime(t.data_obr).Month == i).Sum(t => t.suma)) });
                                 }
 
-                                tables[0].Add(new string[] { String.Empty, String.Format("{0:N2}", tables[0].Sum(r => Convert.ToSingle(r[1]))) });
+                                tables[0].Add(new string[] { "Razem", String.Format("{0:N2}", tables[0].Sum(r => Convert.ToSingle(r[1]))) });
 
                                 break;
 
@@ -379,7 +384,7 @@ namespace czynsze.Forms
                                 }
 
                                 newRow = new string[7];
-                                newRow[0] = String.Empty;
+                                newRow[0] = "Razem";
 
                                 for (int i = 1; i < newRow.Length - 1; i++)
                                     newRow[i] = String.Format("{0:N2}", tables[0].Sum(r => Convert.ToSingle(r[i])));

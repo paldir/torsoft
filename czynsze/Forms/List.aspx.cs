@@ -93,6 +93,7 @@ namespace czynsze.Forms
             List<string[]> subMenu = null;
             sortable = true;
             int id = -1;
+            float wnAmount, maAmount;
 
             if (Request.Params["id"] != null)
                 id = Convert.ToInt16(Request.Params["id"]);
@@ -109,6 +110,7 @@ namespace czynsze.Forms
                 case EnumP.Table.AllReceivablesOfTenant:
                 case EnumP.Table.NotPastReceivablesOfTenant:
                 case EnumP.Table.ReceivablesAndTurnoversOfTenant:
+                case EnumP.Table.TenantSaldo:
 
                     break;
 
@@ -376,7 +378,7 @@ namespace czynsze.Forms
                     list.SelectedIndexChanged += list_SelectedIndexChanged;
 
                     placeOfMainTableButtons.Controls.Add(list);
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("button", "saldo", "Saldo", "#"));
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("button", "saldo", "Saldo", "javascript: Redirect('List.aspx?table=TenantSaldo')"));
 
                     break;
 
@@ -415,7 +417,7 @@ namespace czynsze.Forms
                     sortable = false;
                     indexesOfNumericColumns = new List<int>() { 1, 2 };
                     //indexesOfColumnsWithSummary = new List<int>() { 1, 2 };
-                    float wnAmount, maAmount, pastReceivables;
+                    float pastReceivables;
 
                     using (db = new DataAccess.Czynsze_Entities())
                     {
@@ -500,6 +502,52 @@ namespace czynsze.Forms
                     placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("button", EnumP.Report.DetailedAnalysisOfReceivablesAndTurnovers + "report", "Analiza szczegółowa", "ReportConfiguration.aspx"));
 
                     break;
+
+                case EnumP.Table.TenantSaldo:
+                    headers = new string[] { "Saldo", "Saldo w dniu", "W tym noty odsetkowe" };
+                    sortable = false;
+                    indexesOfNumericColumns = new List<int>() { 1, 2, 3 };
+
+                    using (db = new DataAccess.Czynsze_Entities())
+                    {
+                        List<DataAccess.Receivable> receivables = null;
+                        List<DataAccess.Turnover> turnovers = null;
+                        DataAccess.Tenant tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == id);
+                        heading = "Saldo najemcy " + tenant.nazwisko + " " + tenant.imie;
+
+                        switch (Hello.CurrentSet)
+                        {
+                            case EnumP.SettlementTable.Czynsze:
+                                receivables = db.receivablesFor14.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>().ToList();
+                                turnovers = db.turnoversFor14.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Turnover>().ToList();
+
+                                break;
+
+                            case EnumP.SettlementTable.SecondSet:
+                                receivables = db.receivablesFor14From2ndSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>().ToList();
+                                turnovers = db.turnoversFor14From2ndSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Turnover>().ToList();
+
+                                break;
+
+                            case EnumP.SettlementTable.ThirdSet:
+                                receivables = db.receivablesFor14From3rdSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>().ToList();
+                                turnovers = db.turnoversFor14From3rdSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Turnover>().ToList();
+
+                                break;
+                        }
+
+                        List<string[]> rowsOfReceivablesAndTurnovers = receivables.Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).Concat(turnovers.Select(t => t.ImportantFields())).ToList();
+                        wnAmount = rowsOfReceivablesAndTurnovers.Sum(r => r[1] == String.Empty ? 0 : Convert.ToSingle(r[1]));
+                        maAmount = rowsOfReceivablesAndTurnovers.Sum(r => r[2] == String.Empty ? 0 : Convert.ToSingle(r[2]));
+                        DataAccess.Configuration configuration = db.configurations.FirstOrDefault();
+                        List<string[]> rowsOfInterestNotes = turnovers.Where(t => t.kod_wplat == configuration.p_20 || t.kod_wplat == configuration.p_37).Select(t => t.ImportantFields()).ToList();
+                        float wnOfInterestNotes = rowsOfInterestNotes.Sum(r => r[1] == String.Empty ? 0 : Convert.ToSingle(r[1]));
+                        float maOfInterestNotes = rowsOfInterestNotes.Sum(r => r[2] == String.Empty ? 0 : Convert.ToSingle(r[2]));
+
+                        rows = new List<string[]>() { new string[] { String.Empty, String.Format("{0:N2}", maAmount - wnAmount), "-1", String.Format("{0:N2}", maOfInterestNotes - wnOfInterestNotes) } };
+                    }
+
+                    break;
             }
 
             placeOfHeading.Controls.Add(new LiteralControl("<h2>" + heading + "</h2>"));
@@ -563,6 +611,7 @@ namespace czynsze.Forms
                 case EnumP.Table.AllReceivablesOfTenant:
                 case EnumP.Table.NotPastReceivablesOfTenant:
                 case EnumP.Table.ReceivablesAndTurnoversOfTenant:
+                case EnumP.Table.TenantSaldo:
                     if (Hello.SiteMapPath.Count > 2)
                     {
                         Hello.SiteMapPath.RemoveRange(3, Hello.SiteMapPath.Count - 3);

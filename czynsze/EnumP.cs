@@ -38,7 +38,8 @@ namespace czynsze
             ReceivablesByTenants,
             AllReceivablesOfTenant,
             NotPastReceivablesOfTenant,
-            ReceivablesAndTurnoversOfTenant
+            ReceivablesAndTurnoversOfTenant,
+            TenantSaldo
         };
 
         public enum Report
