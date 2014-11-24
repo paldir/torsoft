@@ -28,5 +28,14 @@ namespace czynsze.DataAccess
 
         [Column("kod_wplat")]
         public override int kod_wplat { get; set; }
+
+        [Column("nr_dowodu")]
+        public override string nr_dowodu { get; set; }
+
+        [Column("pozycja_d")]
+        public override int pozycja_d { get; set; }
+
+        [Column("uwagi")]
+        public override string uwagi { get; set; }
     }
 }

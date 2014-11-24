@@ -19,9 +19,30 @@ namespace czynsze.DataAccess
 
         public abstract int kod_wplat { get; set; }
 
+        public abstract string nr_dowodu { get; set; }
+
+        public abstract int pozycja_d { get; set; }
+
+        public abstract string uwagi { get; set; }
+
         enum Account { Wn, Ma };
 
         public string[] ImportantFields()
+        {
+            return new string[] 
+            {
+                __record.ToString(),
+                String.Format("{0:N2}", suma),
+                data_obr,
+                "?",
+                opis,
+                nr_dowodu,
+                pozycja_d.ToString(),
+                uwagi
+            };
+        }
+
+        public string[] ImportantFieldsForReceivablesAndTurnoversOfTenant()
         {
             TypeOfPayment type;
             Account account = Account.Wn;
@@ -85,6 +106,21 @@ namespace czynsze.DataAccess
                 ma,
                 data_obr,
                 opis
+            };
+        }
+
+        public string[] AllFields()
+        {
+            return new string[]
+            {
+                __record.ToString(),
+                suma.ToString(),
+                data_obr.Trim(),
+                "?",
+                kod_wplat.ToString(),
+                nr_dowodu.Trim(),
+                pozycja_d.ToString(),
+                uwagi.Trim()
             };
         }
     }

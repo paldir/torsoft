@@ -64,13 +64,14 @@ namespace czynsze.DataAccess
         public string[] ImportantFields()
         {
             string kod_typ = String.Empty;
-            TypeOfPlace typeOfPlace;
 
             using (Czynsze_Entities db = new Czynsze_Entities())
-                typeOfPlace = db.typesOfPlace.Where(t => t.kod_typ == this.kod_typ).FirstOrDefault();
+            {
+                TypeOfPlace typeOfPlace = db.typesOfPlace.Where(t => t.kod_typ == this.kod_typ).FirstOrDefault();
 
-            if (typeOfPlace != null)
-                kod_typ = typeOfPlace.typ_lok;
+                if (typeOfPlace != null)
+                    kod_typ = typeOfPlace.typ_lok;
+            }
 
             return new string[] 
             { 

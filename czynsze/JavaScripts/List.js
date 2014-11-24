@@ -8,7 +8,8 @@
         document.getElementById("moveaction"),
         document.getElementById("saldo"),
         document.getElementById("MonthlySumOfComponentreport"),
-        document.getElementById("SumOfTurnoversOnreport")
+        document.getElementById("SumOfTurnoversOnreport"),
+        document.getElementById("turnoversEditing")
     ];
 
     switch (table) {

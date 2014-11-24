@@ -1051,6 +1051,26 @@ namespace czynsze.Forms
                     controls.Add(new ControlsP.TextBoxP("field", "haslo2", String.Empty, ControlsP.TextBoxP.TextBoxModeP.SingleLine, 8, 1, globalEnabled));
 
                     break;
+
+                case EnumP.Table.TenantTurnovers:
+                    Title = "Obrót najemcy";
+                    numberOfFields = 7;
+                    heading += " obrotu najemcy";
+                    columnSwitching = new List<int>() { 0 };
+                    labels = new string[]
+                    {
+                        "Kwota: ",
+                        "Data: ",
+                        "Data NO: ",
+                        "Rodzaj obrotu: ",
+                        "Nr dowodu: ",
+                        "Pozycja",
+                        "Uwagi"
+                    };
+
+                    throw new NotImplementedException();
+                    
+                    break;
             }
 
             placeOfHeading.Controls.Add(new LiteralControl("<h2>" + heading + "</h2>"));
