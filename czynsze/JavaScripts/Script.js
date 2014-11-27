@@ -113,38 +113,6 @@ function isDate(evt) {
 }
 
 function ChangeRow(rowId, inactive, buttons, subMenu) {
-    /*var editingButton = document.getElementById("editaction");
-    var deletingButton = document.getElementById("deleteaction");
-    var browsingButton = document.getElementById("browseaction");
-    var movingButton = document.getElementById("moveaction");
-    var editingTabButton = document.getElementById("showEditingWindow");
-    var deletingTabButton = document.getElementById("deletechildAction");
-    var browsingTabButton = document.getElementById("browsechildAction");
-    var saldoButton = document.getElementById("saldo");*/
-
-    /*if (!inactive) {
-        if (editingButton != null)
-            editingButton.disabled = false;
-
-        if (deletingButton != null)
-            deletingButton.disabled = false;
-
-        if (editingTabButton != null)
-            editingTabButton.disabled = false;
-
-        if (deletingTabButton != null)
-            deletingTabButton.disabled = false;
-    }
-
-    if (browsingButton != null)
-        browsingButton.disabled = false;
-
-    if (browsingTabButton != null)
-        browsingTabButton.disabled = false;
-
-    if (movingButton != null)
-        movingButton.disabled = false;*/
-
     for (var i = 0; i < buttons.length; i++)
         if (buttons[i] != null)
             buttons[i].disabled = false;

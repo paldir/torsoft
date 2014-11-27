@@ -17,16 +17,14 @@ namespace czynsze.Forms
             int[] passwordAscii = Request.Params["haslo"].ToString().Split(',').ToList().Select(a => Convert.ToInt32(a)).ToArray();
             string correctPassword;
             bool validated = false;
-            byte[] asciiOfCorrectPassword;
-            bool validationFailed;
 
             using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                 correctPassword = db.users.Where(u => u.uzytkownik == user).FirstOrDefault().haslo.Trim();
 
             foreach (EncodingInfo encoding in Encoding.GetEncodings())
             {
-                asciiOfCorrectPassword = Encoding.GetEncoding(encoding.CodePage).GetBytes(correctPassword);
-                validationFailed = false;
+                byte[] asciiOfCorrectPassword = Encoding.GetEncoding(encoding.CodePage).GetBytes(correctPassword);
+                bool validationFailed = false;
 
                 if (passwordAscii.Length == asciiOfCorrectPassword.Length)
                 {
