@@ -132,19 +132,19 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ControlsP\ButtonP.cs" />
-    <Compile Include="ControlsP\CheckBoxListP.cs" />
+    <Compile Include="ControlsP\Button.cs" />
+    <Compile Include="ControlsP\CheckBoxList.cs" />
     <Compile Include="ControlsP\DropDownListP.cs" />
-    <Compile Include="ControlsP\HtmlGenericControlP.cs" />
-    <Compile Include="ControlsP\HtmlIframeP.cs" />
-    <Compile Include="ControlsP\HtmlInputHiddenP.cs" />
-    <Compile Include="ControlsP\HtmlInputRadioButtonP.cs" />
-    <Compile Include="ControlsP\LabelP.cs" />
-    <Compile Include="ControlsP\LinkButtonP.cs" />
-    <Compile Include="ControlsP\RadioButtonListP.cs" />
-    <Compile Include="ControlsP\RadioButtonP.cs" />
-    <Compile Include="ControlsP\TableP.cs" />
-    <Compile Include="ControlsP\TextBoxP.cs" />
+    <Compile Include="ControlsP\HtmlGenericControl.cs" />
+    <Compile Include="ControlsP\HtmlIframe.cs" />
+    <Compile Include="ControlsP\HtmlInputHidden.cs" />
+    <Compile Include="ControlsP\HtmlInputRadioButton.cs" />
+    <Compile Include="ControlsP\Label.cs" />
+    <Compile Include="ControlsP\LinkButton.cs" />
+    <Compile Include="ControlsP\RadioButtonList.cs" />
+    <Compile Include="ControlsP\RadioButton.cs" />
+    <Compile Include="ControlsP\Table.cs" />
+    <Compile Include="ControlsP\TextBox.cs" />
     <Compile Include="DataAccess\Attribute.cs" />
     <Compile Include="DataAccess\AttributeOfBuilding.cs" />
     <Compile Include="DataAccess\AttributeOfCommunity.cs" />

@@ -7,9 +7,9 @@ using System.Web.UI.WebControls;
 
 namespace czynsze.ControlsP
 {
-    public class CheckBoxListP : CheckBoxList
+    public class CheckBoxList : System.Web.UI.WebControls.CheckBoxList
     {
-        public CheckBoxListP(string cSSClass, string id, List<string> texts, List<string> values, List<string> selectedValues, bool enabled)
+        public CheckBoxList(string cSSClass, string id, List<string> texts, List<string> values, List<string> selectedValues, bool enabled)
         {
             CssClass = cSSClass;
             ID = id;

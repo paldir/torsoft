@@ -54,7 +54,7 @@ namespace czynsze.Forms
             if (index != -1)
                 additionalId = Convert.ToInt16(Request.UrlReferrer.Query.Substring(index + 3));
 
-            placeOfConfigurationFields.Controls.Add(new ControlsP.HtmlInputHiddenP(report + "report", "#"));
+            placeOfConfigurationFields.Controls.Add(new ControlsP.HtmlInputHidden(report + "report", "#"));
 
             switch (report)
             {
@@ -64,20 +64,20 @@ namespace czynsze.Forms
                         heading += "(Lokale w budynkach)";
                         int firstBuildingNumber = db.buildings.Select(b => b.kod_1).Min();
                         int lastBuildingNumber = db.buildings.Select(b => b.kod_1).Max();
-                        ControlsP.HtmlGenericControlP firstBuilding = new ControlsP.HtmlGenericControlP("div", "control");
-                        ControlsP.HtmlGenericControlP secondBuilding = new ControlsP.HtmlGenericControlP("div", "control");
+                        ControlsP.HtmlGenericControl firstBuilding = new ControlsP.HtmlGenericControl("div", "control");
+                        ControlsP.HtmlGenericControl secondBuilding = new ControlsP.HtmlGenericControl("div", "control");
                         List<string[]> buildings = db.buildings.ToList().OrderBy(b => b.kod_1).Select(b => b.ImportantFields()).ToList();
 
-                        firstBuilding.Controls.Add(new ControlsP.TextBoxP("field", "kod_1_start", firstBuildingNumber.ToString(), ControlsP.TextBoxP.TextBoxModeP.Number, 5, 1, true));
+                        firstBuilding.Controls.Add(new ControlsP.TextBox("field", "kod_1_start", firstBuildingNumber.ToString(), ControlsP.TextBox.TextBoxModeP.Number, 5, 1, true));
                         firstBuilding.Controls.Add(new ControlsP.DropDownListP("field", "kod_1_start_dropdown", buildings, firstBuildingNumber.ToString(), true, false));
-                        secondBuilding.Controls.Add(new ControlsP.TextBoxP("field", "kod_1_end", lastBuildingNumber.ToString(), ControlsP.TextBoxP.TextBoxModeP.Number, 5, 1, true));
+                        secondBuilding.Controls.Add(new ControlsP.TextBox("field", "kod_1_end", lastBuildingNumber.ToString(), ControlsP.TextBox.TextBoxModeP.Number, 5, 1, true));
                         secondBuilding.Controls.Add(new ControlsP.DropDownListP("field", "kod_1_end_dropdown", buildings, lastBuildingNumber.ToString(), true, false));
 
                         controls = new List<Control>()
                             {
                                 firstBuilding,
                                 secondBuilding,
-                                new ControlsP.CheckBoxListP("field", "kod_typ", db.typesOfPlace.Select(t=>t.typ_lok).ToList(), db.typesOfPlace.Select(t=>t.kod_typ.ToString()).ToList(), db.typesOfPlace.Select(t=>t.kod_typ.ToString()).ToList(), true)
+                                new ControlsP.CheckBoxList("field", "kod_typ", db.typesOfPlace.Select(t=>t.typ_lok).ToList(), db.typesOfPlace.Select(t=>t.kod_typ.ToString()).ToList(), db.typesOfPlace.Select(t=>t.kod_typ.ToString()).ToList(), true)
                             };
                     }
 
@@ -112,13 +112,13 @@ namespace czynsze.Forms
             }
 
             placeOfConfigurationFields.Controls.Add(new LiteralControl("<h2>" + heading + "</h2>"));
-            controls.Add(new ControlsP.RadioButtonListP("list", "format", new List<string>() { "PDF", "CSV" }, new List<string>() { EnumP.ReportFormat.Pdf.ToString(), EnumP.ReportFormat.Csv.ToString() }, EnumP.ReportFormat.Pdf.ToString(), true, false));
+            controls.Add(new ControlsP.RadioButtonList("list", "format", new List<string>() { "PDF", "CSV" }, new List<string>() { EnumP.ReportFormat.Pdf.ToString(), EnumP.ReportFormat.Csv.ToString() }, EnumP.ReportFormat.Pdf.ToString(), true, false));
             labels.Add("Format: ");
 
             for (int i = 0; i < controls.Count; i++)
             {
                 placeOfConfigurationFields.Controls.Add(new LiteralControl("<div class='fieldWithLabel'>"));
-                placeOfConfigurationFields.Controls.Add(new ControlsP.LabelP("label", controls[i].ID, labels[i], String.Empty));
+                placeOfConfigurationFields.Controls.Add(new ControlsP.Label("label", controls[i].ID, labels[i], String.Empty));
                 placeOfConfigurationFields.Controls.Add(new LiteralControl("<br />"));
                 placeOfConfigurationFields.Controls.Add(controls[i]);
                 placeOfConfigurationFields.Controls.Add(new LiteralControl("</div>"));

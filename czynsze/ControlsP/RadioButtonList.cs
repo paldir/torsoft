@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-using System.Web.UI.WebControls;
-
 namespace czynsze.ControlsP
 {
-    public class RadioButtonListP : RadioButtonList
+    public class RadioButtonList : System.Web.UI.WebControls.RadioButtonList
     {
-        public RadioButtonListP(string cSSClass, string id, List<string> texts, List<string> values, string selectedValue, bool enabled, bool autoPostBack)
+        public RadioButtonList(string cSSClass, string id, List<string> texts, List<string> values, string selectedValue, bool enabled, bool autoPostBack)
         {
             CssClass = cSSClass;
             ID = id;
@@ -17,7 +15,7 @@ namespace czynsze.ControlsP
             AutoPostBack = autoPostBack;
 
             for (int i = 0; i < texts.Count; i++)
-                Items.Add(new ListItem(texts[i], values[i]));
+                Items.Add(new System.Web.UI.WebControls.ListItem(texts[i], values[i]));
 
             SelectedValue = selectedValue;
         }

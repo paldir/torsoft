@@ -5,9 +5,9 @@ using System.Web;
 
 namespace czynsze.ControlsP
 {
-    public class HtmlInputRadioButtonP : System.Web.UI.HtmlControls.HtmlInputRadioButton
+    public class HtmlInputRadioButton : System.Web.UI.HtmlControls.HtmlInputRadioButton
     {
-        public HtmlInputRadioButtonP(string className, string id, string name, string value, bool checkedValue)
+        public HtmlInputRadioButton(string className, string id, string name, string value, bool checkedValue)
         {
             ID = id;
             Name = name;

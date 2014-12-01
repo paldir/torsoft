@@ -32,11 +32,11 @@ namespace czynsze.Forms
             {
                 id = Convert.ToInt16(Request.Params[Request.Params.AllKeys.FirstOrDefault(t => t.EndsWith("id"))]);
 
-                form.Controls.Add(new ControlsP.HtmlInputHiddenP("id", id.ToString()));
+                form.Controls.Add(new ControlsP.HtmlInputHidden("id", id.ToString()));
             }
 
-            form.Controls.Add(new ControlsP.HtmlInputHiddenP("table", table.ToString()));
-            form.Controls.Add(new ControlsP.HtmlInputHiddenP("action", action.ToString()));
+            form.Controls.Add(new ControlsP.HtmlInputHidden("table", table.ToString()));
+            form.Controls.Add(new ControlsP.HtmlInputHidden("action", action.ToString()));
 
             switch (table)
             {
@@ -1247,7 +1247,7 @@ namespace czynsze.Forms
 
                     if (validationResult == String.Empty)
                     {
-                        ControlsP.HtmlIframeP iFrame = new ControlsP.HtmlIframeP("iframe", "cryptPassword", "/czynsze1/CryptPassword.cxp?uzytkownik=" + record[4], String.Empty);
+                        ControlsP.HtmlIframe iFrame = new ControlsP.HtmlIframe("iframe", "cryptPassword", "/czynsze1/CryptPassword.cxp?uzytkownik=" + record[4], String.Empty);
                         
                         using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                             switch (action)
@@ -1311,13 +1311,13 @@ namespace czynsze.Forms
 
             if (validationResult != String.Empty || (dbWriteResult != null && dbWriteResult.Last() == '!'))
             {
-                placeOfButtons.Controls.Add(new ControlsP.ButtonP("button", "Repair", "Popraw", "Record.aspx"));
-                placeOfButtons.Controls.Add(new ControlsP.ButtonP("button", "Cancel", "Anuluj", backUrl));
+                placeOfButtons.Controls.Add(new ControlsP.Button("button", "Repair", "Popraw", "Record.aspx"));
+                placeOfButtons.Controls.Add(new ControlsP.Button("button", "Cancel", "Anuluj", backUrl));
 
                 Session["values"] = record;
             }
             else
-                placeOfButtons.Controls.Add(new ControlsP.ButtonP("button", "Back", "Powrót", backUrl));
+                placeOfButtons.Controls.Add(new ControlsP.Button("button", "Back", "Powrót", backUrl));
         }
     }
 }

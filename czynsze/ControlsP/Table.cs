@@ -9,9 +9,9 @@ using System.Drawing;
 
 namespace czynsze.ControlsP
 {
-    public class TableP : Table
+    public class Table : System.Web.UI.WebControls.Table
     {
-        public TableP(string cSSClass, List<string[]> rows, string[] headerRow, bool sortable, string prefix, List<int> indexesOfNumericColumns, List<int> indexesOfColumnsWithSummary)
+        public Table(string cSSClass, List<string[]> rows, string[] headerRow, bool sortable, string prefix, List<int> indexesOfNumericColumns, List<int> indexesOfColumnsWithSummary)
         {
             float[] widthsOfColumns = new float[headerRow.Length];
             Bitmap bitMap = new Bitmap(500, 200);
@@ -48,8 +48,8 @@ namespace czynsze.ControlsP
                 if (indexesOfColumnsWithSummary.IndexOf(1) != -1 && cellText != String.Empty)
                     summary[0] += Convert.ToSingle(cellText);
 
-                tableCell.Controls.Add(new RadioButtonP("radioButton", prefix + row[0], "id"));
-                tableCell.Controls.Add(new LabelP("label", row[0], row[1], String.Empty));
+                tableCell.Controls.Add(new RadioButton("radioButton", prefix + row[0], "id"));
+                tableCell.Controls.Add(new Label("label", row[0], row[1], String.Empty));
                 tableRow.Cells.Add(tableCell);
                 Rows.Add(tableRow);
 
@@ -76,7 +76,7 @@ namespace czynsze.ControlsP
                     if (indexesOfColumnsWithSummary.IndexOf(j) != -1 && cellText != String.Empty)
                         summary[j - 1] += Convert.ToSingle(cellText);
 
-                    tableCell.Controls.Add(new LabelP("label", rows.ElementAt(i)[0], cellText, String.Empty));
+                    tableCell.Controls.Add(new Label("label", rows.ElementAt(i)[0], cellText, String.Empty));
                     Rows[i].Cells.Add(tableCell);
 
                     columnWidth = graphics.MeasureString(rows.ElementAt(i)[j], font).Width;
@@ -96,7 +96,7 @@ namespace czynsze.ControlsP
                 tableHeaderCell.CssClass = "tableHeaderCell";
 
                 if (sortable)
-                    tableHeaderCell.Controls.Add(new LinkButtonP("sortLink", prefix + "column" + i.ToString(), headerRow[i]));
+                    tableHeaderCell.Controls.Add(new LinkButton("sortLink", prefix + "column" + i.ToString(), headerRow[i]));
                 else
                     tableHeaderCell.Controls.Add(new LiteralControl(headerRow[i]));
 
@@ -139,7 +139,7 @@ namespace czynsze.ControlsP
                     Rows[0].Cells[i].Width = Rows[1].Cells[i].Width = Rows[Rows.Count - 1].Cells[i].Width = new Unit(widthsOfColumns[i]);
         }
 
-        string HandleNumericCell(string cellText)
+        static string HandleNumericCell(string cellText)
         {
             if (cellText == String.Empty)
                 return cellText;

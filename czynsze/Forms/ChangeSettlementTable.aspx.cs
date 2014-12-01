@@ -32,7 +32,7 @@ namespace czynsze.Forms
             button.Text = "Zmień";
             button.Click += button_Click;
 
-            placeOfRadioButtons.Controls.Add(new ControlsP.RadioButtonListP("list", "numberOfSets", texts, values, Hello.CurrentSet.ToString(), true, false));
+            placeOfRadioButtons.Controls.Add(new ControlsP.RadioButtonList("list", "numberOfSets", texts, values, Hello.CurrentSet.ToString(), true, false));
             placeOfButton.Controls.Add(button);
         }
 

@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-using System.Web.UI.WebControls;
-
 namespace czynsze.ControlsP
 {
-    public class RadioButtonP : RadioButton
+    public class RadioButton : System.Web.UI.WebControls.RadioButton
     {
-        public RadioButtonP(string cSSClass, string id, string groupName)
+        public RadioButton(string cSSClass, string id, string groupName)
         {
             CssClass = cSSClass;
             ID = id;

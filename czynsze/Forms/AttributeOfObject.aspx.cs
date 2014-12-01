@@ -164,10 +164,10 @@ namespace czynsze.Forms
 
             string postBackUrl = "AttributeOfObject.aspx";
 
-            form.Controls.Add(new ControlsP.HtmlInputHiddenP("parentId", parentId.ToString()));
-            form.Controls.Add(new ControlsP.HtmlInputHiddenP("attributeOf", attributeOf.ToString()));
-            form.Controls.Add(new ControlsP.HtmlInputHiddenP("action", action.ToString()));
-            placeOfTable.Controls.Add(new ControlsP.TableP("mainTable tabTable", rows, new string[] { "Cecha", "Wartość" }, false, String.Empty, new List<int>(), new List<int>()));
+            form.Controls.Add(new ControlsP.HtmlInputHidden("parentId", parentId.ToString()));
+            form.Controls.Add(new ControlsP.HtmlInputHidden("attributeOf", attributeOf.ToString()));
+            form.Controls.Add(new ControlsP.HtmlInputHidden("action", action.ToString()));
+            placeOfTable.Controls.Add(new ControlsP.Table("mainTable tabTable", rows, new string[] { "Cecha", "Wartość" }, false, String.Empty, new List<int>(), new List<int>()));
 
             switch (action)
             {
@@ -179,44 +179,44 @@ namespace czynsze.Forms
                             DataAccess.AttributeOfObject attributeOfObject = attributesOfObject.FirstOrDefault(a => a.__record == id);
                             DataAccess.Attribute attribute = db.attributes.FirstOrDefault(a => a.kod == attributeOfObject.kod);
 
-                            placeOfEditingWindow.Controls.Add(new ControlsP.HtmlInputHiddenP("id_edit", attributeOfObject.__record.ToString()));
-                            placeOfEditingWindow.Controls.Add(new ControlsP.LabelP("label", "nazwa", "Nazwa: ", String.Empty));
-                            placeOfEditingWindow.Controls.Add(new ControlsP.TextBoxP("field", "nazwa", attribute.nazwa, ControlsP.TextBoxP.TextBoxModeP.SingleLine, 20, 1, false));
-                            placeOfEditingWindow.Controls.Add(new ControlsP.LabelP("label", "wartosc_edit", "<br />Wartość: ", String.Empty));
+                            placeOfEditingWindow.Controls.Add(new ControlsP.HtmlInputHidden("id_edit", attributeOfObject.__record.ToString()));
+                            placeOfEditingWindow.Controls.Add(new ControlsP.Label("label", "nazwa", "Nazwa: ", String.Empty));
+                            placeOfEditingWindow.Controls.Add(new ControlsP.TextBox("field", "nazwa", attribute.nazwa, ControlsP.TextBox.TextBoxModeP.SingleLine, 20, 1, false));
+                            placeOfEditingWindow.Controls.Add(new ControlsP.Label("label", "wartosc_edit", "<br />Wartość: ", String.Empty));
 
                             switch (attribute.nr_str)
                             {
                                 case "N":
-                                    placeOfEditingWindow.Controls.Add(new ControlsP.TextBoxP("field", "wartosc_edit", attributeOfObject.wartosc_n.ToString("F2"), ControlsP.TextBoxP.TextBoxModeP.Number, 16, 1, true));
+                                    placeOfEditingWindow.Controls.Add(new ControlsP.TextBox("field", "wartosc_edit", attributeOfObject.wartosc_n.ToString("F2"), ControlsP.TextBox.TextBoxModeP.Number, 16, 1, true));
 
                                     break;
 
                                 case "C":
-                                    placeOfEditingWindow.Controls.Add(new ControlsP.TextBoxP("field", "wartosc_edit", attributeOfObject.wartosc_s.Trim(), ControlsP.TextBoxP.TextBoxModeP.SingleLine, 25, 1, true));
+                                    placeOfEditingWindow.Controls.Add(new ControlsP.TextBox("field", "wartosc_edit", attributeOfObject.wartosc_s.Trim(), ControlsP.TextBox.TextBoxModeP.SingleLine, 25, 1, true));
 
                                     break;
                             }
 
                             placeOfEditingWindow.Controls.Add(new LiteralControl("<br />"));
-                            placeOfEditingWindow.Controls.Add(new ControlsP.ButtonP("button", "editchildAction", "Zapisz", postBackUrl));
-                            placeOfEditingWindow.Controls.Add(new ControlsP.ButtonP("button", String.Empty, "Anuluj", postBackUrl));
+                            placeOfEditingWindow.Controls.Add(new ControlsP.Button("button", "editchildAction", "Zapisz", postBackUrl));
+                            placeOfEditingWindow.Controls.Add(new ControlsP.Button("button", String.Empty, "Anuluj", postBackUrl));
                         }
                     else
                         if (Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("showAddingWindow"))] != null)
                         {
-                            placeOfNewAttribute.Controls.Add(new ControlsP.LabelP("label", "kod", "Nowa cecha: ", String.Empty));
+                            placeOfNewAttribute.Controls.Add(new ControlsP.Label("label", "kod", "Nowa cecha: ", String.Empty));
                             placeOfNewAttribute.Controls.Add(new ControlsP.DropDownListP("field", "kod", rowsOfDropDown, String.Empty, true, false));
-                            placeOfNewAttribute.Controls.Add(new ControlsP.LabelP("label", "wartosc", "<br />Wartość: ", String.Empty));
-                            placeOfNewAttribute.Controls.Add(new ControlsP.TextBoxP("field", "wartosc", String.Empty, ControlsP.TextBoxP.TextBoxModeP.SingleLine, 25, 1, true));
+                            placeOfNewAttribute.Controls.Add(new ControlsP.Label("label", "wartosc", "<br />Wartość: ", String.Empty));
+                            placeOfNewAttribute.Controls.Add(new ControlsP.TextBox("field", "wartosc", String.Empty, ControlsP.TextBox.TextBoxModeP.SingleLine, 25, 1, true));
                             placeOfNewAttribute.Controls.Add(new LiteralControl("<span id='unit'></span>"));
-                            placeOfEditingWindow.Controls.Add(new ControlsP.ButtonP("button", "addchildAction", "Zapisz", postBackUrl));
-                            placeOfEditingWindow.Controls.Add(new ControlsP.ButtonP("button", String.Empty, "Anuluj", postBackUrl));
+                            placeOfEditingWindow.Controls.Add(new ControlsP.Button("button", "addchildAction", "Zapisz", postBackUrl));
+                            placeOfEditingWindow.Controls.Add(new ControlsP.Button("button", String.Empty, "Anuluj", postBackUrl));
                         }
                         else
                         {
-                            placeOfButtons.Controls.Add(new ControlsP.ButtonP("button", "showAddingWindow", "Dodaj", postBackUrl));
-                            placeOfButtons.Controls.Add(new ControlsP.ButtonP("button", "deletechildAction", "Usuń", postBackUrl));
-                            placeOfButtons.Controls.Add(new ControlsP.ButtonP("button", "showEditingWindow", "Edytuj", postBackUrl));
+                            placeOfButtons.Controls.Add(new ControlsP.Button("button", "showAddingWindow", "Dodaj", postBackUrl));
+                            placeOfButtons.Controls.Add(new ControlsP.Button("button", "deletechildAction", "Usuń", postBackUrl));
+                            placeOfButtons.Controls.Add(new ControlsP.Button("button", "showEditingWindow", "Edytuj", postBackUrl));
                         }
 
                     break;

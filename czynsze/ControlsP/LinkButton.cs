@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-using System.Web.UI.WebControls;
-
 namespace czynsze.ControlsP
 {
-    public class LinkButtonP : LinkButton
+    public class LinkButton : System.Web.UI.WebControls.LinkButton
     {
-        public LinkButtonP(string cSSClass, string id, string text)
+        public LinkButton(string cSSClass, string id, string text)
         {
             CssClass = cSSClass;
             ID = id;

@@ -7,11 +7,11 @@ using System.Web.UI.WebControls;
 
 namespace czynsze.ControlsP
 {
-    public class TextBoxP : TextBox
+    public class TextBox : System.Web.UI.WebControls.TextBox
     {
         public enum TextBoxModeP { SingleLine, MultiLine, Date, Number, Float, Password };
         
-        public TextBoxP(string cSSClass, string id, string text, TextBoxModeP textMode, int maxLength, int rows, bool enabled)
+        public TextBox(string cSSClass, string id, string text, TextBoxModeP textMode, int maxLength, int rows, bool enabled)
         {
             CssClass = cSSClass;
             ID = id;

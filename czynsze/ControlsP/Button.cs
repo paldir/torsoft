@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-using System.Web.UI.WebControls;
-
 namespace czynsze.ControlsP
 {
-    public class ButtonP : Button
+    public class Button : System.Web.UI.WebControls.Button
     {
-        public ButtonP(string cSSClass, string id, string text, string postBackUrl)
+        public Button(string cSSClass, string id, string text, string postBackUrl)
         {
             CssClass = cSSClass;
             ID = id;

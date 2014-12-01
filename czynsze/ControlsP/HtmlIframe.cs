@@ -5,9 +5,9 @@ using System.Web;
 
 namespace czynsze.ControlsP
 {
-    public class HtmlIframeP : System.Web.UI.HtmlControls.HtmlIframe
+    public class HtmlIframe : System.Web.UI.HtmlControls.HtmlIframe
     {
-        public HtmlIframeP(string className, string id, string src, string hidden)
+        public HtmlIframe(string className, string id, string src, string hidden)
         {
             ID = id;
             Src = src;

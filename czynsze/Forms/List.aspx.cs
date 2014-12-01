@@ -108,7 +108,7 @@ namespace czynsze.Forms
             {
                 case EnumP.Table.InactivePlaces:
                 case EnumP.Table.InactiveTenants:
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "browseaction", "Przeglądaj", postBackUrl));
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("mainTableButton", "browseaction", "Przeglądaj", postBackUrl));
 
                     break;
 
@@ -121,10 +121,10 @@ namespace czynsze.Forms
                     break;
 
                 default:
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "addaction", "Dodaj", postBackUrl));
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "editaction", "Edytuj", postBackUrl));
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "deleteaction", "Usuń", postBackUrl));
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "browseaction", "Przeglądaj", postBackUrl));
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("mainTableButton", "addaction", "Dodaj", postBackUrl));
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("mainTableButton", "editaction", "Edytuj", postBackUrl));
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("mainTableButton", "deleteaction", "Usuń", postBackUrl));
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("mainTableButton", "browseaction", "Przeglądaj", postBackUrl));
 
                     break;
             }
@@ -149,7 +149,7 @@ namespace czynsze.Forms
                     indexesOfNumericColumns = new List<int>() { 1, 2, 4 };
                     List<DataAccess.Place> places = null;
 
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "moveaction", "Przenieś", postBackUrl));
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("mainTableButton", "moveaction", "Przenieś", postBackUrl));
 
                     switch (table)
                     {
@@ -194,7 +194,7 @@ namespace czynsze.Forms
                     indexesOfNumericColumns = new List<int>() { 1 };
                     List<DataAccess.Tenant> tenants = null;
 
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("mainTableButton", "moveaction", "Przenieś", postBackUrl));
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("mainTableButton", "moveaction", "Przenieś", postBackUrl));
 
                     switch (table)
                     {
@@ -378,11 +378,11 @@ namespace czynsze.Forms
                         using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                             rows = db.tenants.OrderBy(t => t.nazwisko).ThenBy(t => t.imie).ToList().Select(t => t.WithPlace()).ToList();
 
-                    ControlsP.RadioButtonListP list = new ControlsP.RadioButtonListP("list", "by", new List<string> { "wg nazwiska", "wg kodu lokalu" }, new List<string> { "nazwisko", "kod" }, "nazwisko", true, true);
+                    ControlsP.RadioButtonList list = new ControlsP.RadioButtonList("list", "by", new List<string> { "wg nazwiska", "wg kodu lokalu" }, new List<string> { "nazwisko", "kod" }, "nazwisko", true, true);
                     list.SelectedIndexChanged += list_SelectedIndexChanged;
 
                     placeOfMainTableButtons.Controls.Add(list);
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("button", "saldo", "Saldo", "javascript: Redirect('List.aspx?table=TenantSaldo')"));
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("button", "saldo", "Saldo", "javascript: Redirect('List.aspx?table=TenantSaldo')"));
 
                     break;
 
@@ -496,10 +496,10 @@ namespace czynsze.Forms
                     }
 
                     placeUnderMainTable.Controls.Add(new LiteralControl(summary));
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("button", EnumP.Report.MonthlySumOfComponent + "report", "Sumy miesięczne składnika", "ReportConfiguration.aspx"));
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("button", EnumP.Report.ReceivablesAndTurnoversOfTenant + "report", "Wydruk", "ReportConfiguration.aspx"));
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("button", EnumP.Report.MonthlyAnalysisOfReceivablesAndTurnovers + "report", "Analiza miesięczna", "ReportConfiguration.aspx"));
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("button", EnumP.Report.DetailedAnalysisOfReceivablesAndTurnovers + "report", "Analiza szczegółowa", "ReportConfiguration.aspx"));
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("button", EnumP.Report.MonthlySumOfComponent + "report", "Sumy miesięczne składnika", "ReportConfiguration.aspx"));
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("button", EnumP.Report.ReceivablesAndTurnoversOfTenant + "report", "Wydruk", "ReportConfiguration.aspx"));
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("button", EnumP.Report.MonthlyAnalysisOfReceivablesAndTurnovers + "report", "Analiza miesięczna", "ReportConfiguration.aspx"));
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("button", EnumP.Report.DetailedAnalysisOfReceivablesAndTurnovers + "report", "Analiza szczegółowa", "ReportConfiguration.aspx"));
 
                     break;
 
@@ -588,22 +588,22 @@ namespace czynsze.Forms
             }
 
             placeOfHeading.Controls.Add(new LiteralControl("<h2>" + heading + "</h2>"));
-            placeOfMainTableButtons.Controls.Add(new ControlsP.HtmlInputHiddenP("table", table.ToString()));
+            placeOfMainTableButtons.Controls.Add(new ControlsP.HtmlInputHidden("table", table.ToString()));
 
             if (subMenu != null)
             {
-                ControlsP.HtmlGenericControlP superUl = new ControlsP.HtmlGenericControlP("ul", "superMenu");
+                ControlsP.HtmlGenericControl superUl = new ControlsP.HtmlGenericControl("ul", "superMenu");
 
                 foreach (string[] items in subMenu)
                 {
-                    ControlsP.HtmlGenericControlP superLi = new ControlsP.HtmlGenericControlP("li", String.Empty);
-                    ControlsP.HtmlGenericControlP subUl = new ControlsP.HtmlGenericControlP("ul", "subMenu");
+                    ControlsP.HtmlGenericControl superLi = new ControlsP.HtmlGenericControl("li", String.Empty);
+                    ControlsP.HtmlGenericControl subUl = new ControlsP.HtmlGenericControl("ul", "subMenu");
 
                     superLi.Controls.Add(new LiteralControl(items[0]));
 
                     for (int i = 1; i < items.Length; i++)
                     {
-                        ControlsP.HtmlGenericControlP subLi = new ControlsP.HtmlGenericControlP("li", String.Empty);
+                        ControlsP.HtmlGenericControl subLi = new ControlsP.HtmlGenericControl("li", String.Empty);
 
                         subLi.Controls.Add(new LiteralControl(items[i]));
                         subUl.Controls.Add(subLi);
@@ -643,7 +643,7 @@ namespace czynsze.Forms
                 case EnumP.Table.ReceivablesByTenants:
                     Hello.SiteMapPath = new List<string>() { "Rozliczenia finansowe", "Należności i obroty" };
 
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.ButtonP("button", "turnoversEditing", "Dodaj/usuń obroty", "javascript: Redirect('List.aspx?table=" + EnumP.Table.TenantTurnovers + "')"));
+                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("button", "turnoversEditing", "Dodaj/usuń obroty", "javascript: Redirect('List.aspx?table=" + EnumP.Table.TenantTurnovers + "')"));
 
                     break;
 
@@ -718,11 +718,11 @@ namespace czynsze.Forms
 
         void CreateMainTable()
         {
-            ControlsP.TableP mainTable = new ControlsP.TableP("mainTable", rows, headers, sortable, String.Empty, indexesOfNumericColumns, indexesOfColumnsWithSummary);
+            ControlsP.Table mainTable = new ControlsP.Table("mainTable", rows, headers, sortable, String.Empty, indexesOfNumericColumns, indexesOfColumnsWithSummary);
 
             if (sortable)
                 foreach (TableCell cell in mainTable.Rows[0].Cells)
-                    ((ControlsP.LinkButtonP)cell.Controls[0]).Click += LinkButtonOfColumn_Click;
+                    ((ControlsP.LinkButton)cell.Controls[0]).Click += LinkButtonOfColumn_Click;
 
             placeOfMainTable.Controls.Clear();
             placeOfMainTable.Controls.Add(mainTable);
@@ -730,7 +730,7 @@ namespace czynsze.Forms
 
         void LinkButtonOfColumn_Click(object sender, EventArgs e)
         {
-            int columnNumber = Convert.ToInt16(((ControlsP.LinkButtonP)sender).ID.Replace("column", String.Empty)) + 1;
+            int columnNumber = Convert.ToInt16(((ControlsP.LinkButton)sender).ID.Replace("column", String.Empty)) + 1;
 
             switch (sortOrder)
             {
