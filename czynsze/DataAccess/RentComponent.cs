@@ -117,32 +117,6 @@ namespace czynsze.DataAccess
 
         public string[] AllFields()
         {
-            /*string rodz_e;
-
-            switch(this.rodz_e)
-            {
-                case 1:
-                    rodz_e="dziennik komornego";
-                    break;
-
-                case 2:
-                    rodz_e="wpłaty";
-                    break;
-
-                case 3:
-                    rodz_e="zmniejszenia";
-                    break;
-
-                case 4:
-                    rodz_e="zwiększenia";
-                    break;
-
-                default:
-                    rodz_e=String.Empty;
-                    break;
-
-            }*/
-
             string data_1, data_2;
 
             if (this.data_1 == null)
