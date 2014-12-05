@@ -136,23 +136,6 @@ namespace czynsze.Forms
                 }
         }
 
-        /*float[] CalculateColumnsWidths(List<string> headers, List<string[]> rows, Font font)
-        {
-            float[] result = new float[rows.First().Length];
-            Bitmap bitMap = new Bitmap(500, 200);
-            Graphics graphics = Graphics.FromImage(bitMap);
-
-            for (int i = 0; i < headers.Count; i++)
-                result[i] = graphics.MeasureString(headers.ElementAt(i), font).Width;
-
-            foreach (string[] row in rows)
-                for (int i = 0; i < row.Length; i++)
-                    if (graphics.MeasureString(row[i], font).Width > result[i])
-                        result[i] = graphics.MeasureString(row[i], font).Width;
-
-            return result;
-        }*/
-
         void generationButton_Click(object sender, EventArgs e)
         {
             List<List<string[]>> tables = new List<List<string[]>>();
