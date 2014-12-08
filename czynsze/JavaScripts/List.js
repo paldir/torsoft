@@ -39,19 +39,6 @@
         }
 }
 
-/*function InitInactive() {
-    var addingButton = document.getElementById("addaction");
-
-    if (addingButton != null)
-        addingButton.disabled = true;
-
-    var idRadio = document.querySelectorAll(".mainTable input");
-
-    for (var i = 0; i < idRadio.length; i++)
-        if (idRadio[i].type == 'radio')
-            idRadio[i].onchange = function () { ChangeRow(this.id, true); }
-}*/
-
 /*function InitReceivablesAndTurnoversOfTenant() {
     var footer = document.getElementByClassName("tableFooterRow");
 
