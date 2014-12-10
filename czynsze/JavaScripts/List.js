@@ -39,14 +39,6 @@
         }
 }
 
-/*function InitReceivablesAndTurnoversOfTenant() {
-    var footer = document.getElementByClassName("tableFooterRow");
-
-    if (footer.length > 0) {
-        alert('mam dziada');
-    }
-}*/
-
 function Redirect(href) {
     var selectedRow = document.getElementsByClassName("selectedRow");
 
