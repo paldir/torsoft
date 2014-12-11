@@ -8,18 +8,7 @@ using System.Web.UI.WebControls;
 namespace czynsze
 {
     public partial class Site : System.Web.UI.MasterPage
-    {
-        /*DateTime date
-        {
-            get
-            {
-                if (Session["date"] == null)
-                    return DateTime.Today;
-
-                return (DateTime)Session["date"];
-            }
-        }*/
-        
+    {        
         protected void Page_Init(object sender, EventArgs e)
         {   
             if (Session["user"] == null)
