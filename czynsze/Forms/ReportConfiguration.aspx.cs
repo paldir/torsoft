@@ -39,7 +39,6 @@ namespace czynsze.Forms
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            //report = (EnumP.Report)Enum.Parse(typeof(EnumP.Report), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("report"))]);
             List<Control> controls = new List<Control>();
             List<string> labels = new List<string>();
             string heading = "Konfiguracja wydruku ";
