@@ -141,7 +141,6 @@ namespace czynsze.Forms
             List<string> headers = null;
             List<string> captions = new List<string>();
             string title = null;
-            //Font font = new Font("Arial", 8);
 
             switch (report)
             {
