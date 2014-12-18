@@ -14,7 +14,6 @@ namespace czynsze.ControlsP
 
             Attributes.Add("class", className);
             Attributes.Add("hidden", hidden);
-            //Attributes.Add("onload", "src=src");
         }
     }
 }
