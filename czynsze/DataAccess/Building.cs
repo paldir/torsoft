@@ -46,7 +46,7 @@ namespace czynsze.DataAccess
 
         [Column("uwagi_6")]
         public string uwagi_6 { get; set; }
-        
+
         public void Set(string[] record)
         {
             kod_1 = Convert.ToInt16(record[0]);
@@ -112,7 +112,7 @@ namespace czynsze.DataAccess
 
             return result;
         }
-        
+
         public string[] ImportantFields()
         {
             return new string[] 
