@@ -9,7 +9,7 @@ using System.Web.UI.HtmlControls;
 
 namespace czynsze.Forms
 {
-    public partial class List : System.Web.UI.Page
+    public partial class List : Page
     {
         EnumP.Table table;
 
@@ -93,16 +93,17 @@ namespace czynsze.Forms
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))]);
+            //table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))]);
+            table = GetParamValue<EnumP.Table>("table");
             string postBackUrl = "Record.aspx";
             string heading = null;
             string nodeOfSiteMapPath = null;
             List<string[]> subMenu = null;
             sortable = true;
-            int id = -1;
+            int id = GetParamValue<int>("id");//-1;
 
-            if (Request.Params["id"] != null)
-                id = Convert.ToInt16(Request.Params["id"]);
+            //if (Request.Params["id"] != null)
+              //  id = (int)Enum.Parse(typeof(int), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("dfsdf"))]);
 
             switch (table)
             {

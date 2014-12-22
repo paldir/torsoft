@@ -1,20 +1,20 @@
 ﻿function Init(ids, types, units, defaults) {
-    var deletingButton = document.getElementById("deletechildAction");
+    var buttons =
+        [
+            document.getElementById("deletechildAction"),
+            document.getElementById("showEditingWindow")
+        ];
 
-    if (deletingButton != null)
-        deletingButton.disabled = true;
-
-    var editingButton = document.getElementById("showEditingWindow");
-
-    if (editingButton != null)
-        editingButton.disabled = true;
+    for (var i = 0; i < buttons.length; i++)
+        if (buttons[i] != null)
+            buttons[i].disabled = true;
 
     var idRadio = document.querySelectorAll(".mainTable input");
 
     for (var i = 0; i < idRadio.length; i++)
         if (idRadio[i].type == 'radio') {
             idRadio[i].checked = false;
-            idRadio[i].onchange = function () { ChangeRow(this.id, false); }
+            idRadio[i].onchange = function () { ChangeRow(this.id, false, buttons); }
         }
 
     var kod = document.getElementById("kod");

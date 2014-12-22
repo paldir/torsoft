@@ -113,12 +113,14 @@ function isDate(evt) {
 }
 
 function ChangeRow(rowId, inactive, buttons, subMenu) {
-    for (var i = 0; i < buttons.length; i++)
-        if (buttons[i] != null)
-            buttons[i].disabled = false;
+    if (buttons != undefined)
+        for (var i = 0; i < buttons.length; i++)
+            if (buttons[i] != null)
+                buttons[i].disabled = false;
 
-    for (var i = 0; i < subMenu.length; i++)
-        subMenu[i].className = "superMenu";
+    if (subMenu != undefined)
+        for (var i = 0; i < subMenu.length; i++)
+            subMenu[i].className = "superMenu";
 
     var selectedRow = document.getElementsByClassName("selectedRow")[0];
 

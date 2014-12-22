@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace czynsze.Forms
 {
-    public partial class RecordValidation : System.Web.UI.Page
+    public partial class RecordValidation : Page
     {
         EnumP.Table table;
         EnumP.Action action;
@@ -24,13 +24,16 @@ namespace czynsze.Forms
             string[] record = null;
             string validationResult = null;
             string dbWriteResult = null;
-            table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(t => t.EndsWith("table"))]);
-            action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(t => t.EndsWith("action"))]);
+            //table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(t => t.EndsWith("table"))]);
+            table = GetParamValue<EnumP.Table>("table");
+            //action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(t => t.EndsWith("action"))]);
+            action = GetParamValue<EnumP.Action>("action");
             string backUrl = "javascript: Load('List.aspx?table=" + table + "')";
 
             if (action != EnumP.Action.Dodaj)
             {
-                id = Convert.ToInt16(Request.Params[Request.Params.AllKeys.FirstOrDefault(t => t.EndsWith("id"))]);
+                //id = Convert.ToInt16(Request.Params[Request.Params.AllKeys.FirstOrDefault(t => t.EndsWith("id"))]);
+                id = GetParamValue<int>("id");
 
                 form.Controls.Add(new ControlsP.HtmlInputHidden("id", id.ToString()));
             }

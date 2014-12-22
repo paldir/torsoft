@@ -9,7 +9,7 @@ using System.Drawing;
 
 namespace czynsze.Forms
 {
-    public partial class ReportConfiguration : System.Web.UI.Page
+    public partial class ReportConfiguration : Page
     {
         EnumP.Report report;
 
@@ -47,8 +47,9 @@ namespace czynsze.Forms
             key = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"));
             int index = Request.UrlReferrer.Query.IndexOf("id");
 
-            if (key != null)
-                id = Convert.ToInt16(Request.Params[key]);
+            if (!String.IsNullOrEmpty(key))
+                id = GetParamValue<int>(key);
+                //id = Convert.ToInt16(Request.Params[key]);
 
             if (index != -1)
                 additionalId = Convert.ToInt16(Request.UrlReferrer.Query.Substring(index + 3));

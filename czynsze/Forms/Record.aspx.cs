@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace czynsze.Forms
 {
-    public partial class Record : System.Web.UI.Page
+    public partial class Record : Page
     {
         int id;
         EnumP.Action action;
@@ -34,9 +34,12 @@ namespace czynsze.Forms
             List<ControlsP.HtmlInputRadioButton> tabButtons = null;
             List<ControlsP.Label> labelsOfTabButtons = null;
             List<Control> preview = null;
-            id = Convert.ToInt16(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))]);
-            action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("action"))]);
-            table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))]);
+            //id = Convert.ToInt16(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))]);
+            id = GetParamValue<int>("id");
+            //action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("action"))]);
+            action = GetParamValue<EnumP.Action>("action");
+            //table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))]);
+            table = GetParamValue<EnumP.Table>("table");
             string backUrl = "javascript: Load('" + Request.UrlReferrer + "')";
 
             switch (action)

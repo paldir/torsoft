@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace czynsze.Forms
 {
-    public partial class AttributeOfObject : System.Web.UI.Page
+    public partial class AttributeOfObject : Page
     {
         List<DataAccess.AttributeOfObject> attributesOfObject
         {
@@ -17,16 +17,19 @@ namespace czynsze.Forms
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            EnumP.AttributeOf attributeOf = (EnumP.AttributeOf)Enum.Parse(typeof(EnumP.AttributeOf), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("attributeOf"))]);
-            EnumP.Action action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("action"))]);
+            //EnumP.AttributeOf attributeOf = (EnumP.AttributeOf)Enum.Parse(typeof(EnumP.AttributeOf), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("attributeOf"))]);
+            EnumP.AttributeOf attributeOf = GetParamValue<EnumP.AttributeOf>("attributeOf");
+            //EnumP.Action action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("action"))]);
+            EnumP.Action action = GetParamValue<EnumP.Action>("action");
             EnumP.Action childAction = EnumP.Action.Przeglądaj;
-            int parentId = Convert.ToInt16(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("parentId"))]);
-            int id = -1;
+            //int parentId = Convert.ToInt16(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("parentId"))]);
+            int parentId = GetParamValue<int>("parentId");
+            int id = GetParamValue<int>("id");
             string[] record;
             string childActionKey = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("childAction"));
 
-            if (Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))] != null)
-                id = Convert.ToInt16(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))]);
+            /*if (Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))] != null)
+                id = Convert.ToInt16(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))]);*/
 
             if (childActionKey != null)
             {
