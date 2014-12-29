@@ -157,6 +157,7 @@
     <Compile Include="DataAccess\AttributeOfObject.cs" />
     <Compile Include="DataAccess\FinancialGroup.cs" />
     <Compile Include="DataAccess\GroupOfRentComponents.cs" />
+    <Compile Include="DataAccess\IItem.cs" />
     <Compile Include="DataAccess\InactivePlace.cs" />
     <Compile Include="DataAccess\InactiveTenant.cs" />
     <Compile Include="DataAccess\ActivePlace.cs" />
