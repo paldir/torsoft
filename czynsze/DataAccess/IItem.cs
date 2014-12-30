@@ -8,9 +8,9 @@ namespace czynsze.DataAccess
 {
     interface IItem
     {
-        void Add(string[] record);
-        void Edit(string[] record);
-        void Remove(string[] record);
+        void Add();
+        void Edit();
+        void Remove();
         void Set(string[] record);
         string Validate(string[] record);
     }
