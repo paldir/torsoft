@@ -12,6 +12,7 @@ namespace czynsze.DataAccess
         void Edit();
         void Remove();
         void Set(string[] record);
-        string Validate(string[] record);
+        string[] ImportantFields();
+        string[] AllFields();
     }
 }
