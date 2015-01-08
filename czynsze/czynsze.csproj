@@ -92,7 +92,6 @@
     <Content Include="Forms\AttributeOfObject.aspx" />
     <Content Include="Forms\ChangeDate.aspx" />
     <Content Include="Forms\ChangeSettlementTable.aspx" />
-    <Content Include="Forms\CryptPassword.aspx" />
     <Content Include="Forms\Hello.aspx" />
     <Content Include="Forms\List.aspx" />
     <Content Include="Forms\Loading.aspx" />
@@ -202,13 +201,6 @@
     </Compile>
     <Compile Include="Forms\ChangeSettlementTable.aspx.designer.cs">
       <DependentUpon>ChangeSettlementTable.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\CryptPassword.aspx.cs">
-      <DependentUpon>CryptPassword.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Forms\CryptPassword.aspx.designer.cs">
-      <DependentUpon>CryptPassword.aspx</DependentUpon>
     </Compile>
     <Compile Include="Forms\Hello.aspx.cs">
       <DependentUpon>Hello.aspx</DependentUpon>

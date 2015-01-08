@@ -14,36 +14,16 @@ namespace czynsze.Forms
         protected void Page_Load(object sender, EventArgs e)
         {
             string user = Request.Params["uzytkownik"];
-            int[] passwordAscii = Request.Params["haslo"].ToString().Split(',').ToList().Select(a => Convert.ToInt32(a)).ToArray();
-            string correctPassword;
+            string password = Request.Params["haslo"];
             bool validated = false;
+            DataAccess.User typedUser;
 
             using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                correctPassword = db.users.Where(u => u.uzytkownik == user).FirstOrDefault().haslo.Trim();
+                typedUser = db.users.FirstOrDefault(u => u.uzytkownik == user);
 
-            foreach (EncodingInfo encoding in Encoding.GetEncodings())
-            {
-                byte[] asciiOfCorrectPassword = Encoding.GetEncoding(encoding.CodePage).GetBytes(correctPassword);
-                bool validationFailed = false;
-
-                if (passwordAscii.Length == asciiOfCorrectPassword.Length)
-                {
-                    for (int i = 0; i < passwordAscii.Length; i++)
-                        if (passwordAscii[i] != Convert.ToInt16(asciiOfCorrectPassword[i]))
-                        {
-                            validationFailed = true;
-
-                            break;
-                        }
-
-                    if (!validationFailed)
-                    {
-                        validated = true;
-
-                        break;
-                    }
-                }
-            }
+            if (typedUser != null)
+                if (Enumerable.SequenceEqual(Encoding.UTF8.GetBytes(password), Encoding.UTF8.GetBytes(typedUser.haslo.Trim()).Select(b => (byte)(b - 10)).ToArray()))
+                    validated = true;
 
             if (validated)
             {

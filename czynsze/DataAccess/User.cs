@@ -5,6 +5,7 @@ using System.Web;
 
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 
 namespace czynsze.DataAccess
 {
@@ -59,7 +60,7 @@ namespace czynsze.DataAccess
             nazwisko = record[2];
             imie = record[3];
             uzytkownik = record[4];
-            haslo = record[5];
+            haslo = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(record[5]).Select(b => (byte)(b + 10)).ToArray());
         }
 
         public static string Validate(EnumP.Action action, ref string[] record)
