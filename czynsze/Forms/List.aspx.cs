@@ -11,7 +11,7 @@ namespace czynsze.Forms
 {
     public partial class List : Page
     {
-        EnumP.Table table;
+        Enums.Table table;
 
         List<string[]> rows
         {
@@ -39,14 +39,14 @@ namespace czynsze.Forms
             set { ViewState["headers"] = value; }
         }
 
-        EnumP.SortOrder sortOrder
+        Enums.SortOrder sortOrder
         {
             get
             {
                 if (ViewState["sortOrder"] == null)
-                    return EnumP.SortOrder.Asc;
+                    return Enums.SortOrder.Asc;
                 else
-                    return (EnumP.SortOrder)Enum.Parse(typeof(EnumP.SortOrder), ViewState["sortOrder"].ToString());
+                    return (Enums.SortOrder)Enum.Parse(typeof(Enums.SortOrder), ViewState["sortOrder"].ToString());
             }
 
             set { ViewState["sortOrder"] = value; }
@@ -94,7 +94,7 @@ namespace czynsze.Forms
         protected void Page_Load(object sender, EventArgs e)
         {
             //table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))]);
-            table = GetParamValue<EnumP.Table>("table");
+            table = GetParamValue<Enums.Table>("table");
             string postBackUrl = "Record.aspx";
             string heading = null;
             string nodeOfSiteMapPath = null;
@@ -107,32 +107,32 @@ namespace czynsze.Forms
 
             switch (table)
             {
-                case EnumP.Table.InactivePlaces:
-                case EnumP.Table.InactiveTenants:
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("mainTableButton", "browseaction", "Przeglądaj", postBackUrl));
+                case Enums.Table.InactivePlaces:
+                case Enums.Table.InactiveTenants:
+                    placeOfMainTableButtons.Controls.Add(new MyControls.Button("mainTableButton", "browseaction", "Przeglądaj", postBackUrl));
 
                     break;
 
-                case EnumP.Table.ReceivablesByTenants:
-                case EnumP.Table.AllReceivablesOfTenant:
-                case EnumP.Table.NotPastReceivablesOfTenant:
-                case EnumP.Table.ReceivablesAndTurnoversOfTenant:
-                case EnumP.Table.TenantSaldo:
+                case Enums.Table.ReceivablesByTenants:
+                case Enums.Table.AllReceivablesOfTenant:
+                case Enums.Table.NotPastReceivablesOfTenant:
+                case Enums.Table.ReceivablesAndTurnoversOfTenant:
+                case Enums.Table.TenantSaldo:
 
                     break;
 
                 default:
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("mainTableButton", "addaction", "Dodaj", postBackUrl));
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("mainTableButton", "editaction", "Edytuj", postBackUrl));
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("mainTableButton", "deleteaction", "Usuń", postBackUrl));
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("mainTableButton", "browseaction", "Przeglądaj", postBackUrl));
+                    placeOfMainTableButtons.Controls.Add(new MyControls.Button("mainTableButton", "addaction", "Dodaj", postBackUrl));
+                    placeOfMainTableButtons.Controls.Add(new MyControls.Button("mainTableButton", "editaction", "Edytuj", postBackUrl));
+                    placeOfMainTableButtons.Controls.Add(new MyControls.Button("mainTableButton", "deleteaction", "Usuń", postBackUrl));
+                    placeOfMainTableButtons.Controls.Add(new MyControls.Button("mainTableButton", "browseaction", "Przeglądaj", postBackUrl));
 
                     break;
             }
 
             switch (table)
             {
-                case EnumP.Table.Buildings:
+                case Enums.Table.Buildings:
                     heading = nodeOfSiteMapPath = "Budynki";
                     headers = new string[] { "Kod", "Adres", "Adres cd." };
                     indexesOfNumericColumns = new List<int>() { 1 };
@@ -143,25 +143,25 @@ namespace czynsze.Forms
 
                     break;
 
-                case EnumP.Table.Places:
-                case EnumP.Table.InactivePlaces:
+                case Enums.Table.Places:
+                case Enums.Table.InactivePlaces:
                     heading = nodeOfSiteMapPath = "Lokale";
                     headers = new string[] { "Kod budynku", "Numer lokalu", "Typ lokalu", "Powierzchnia użytkowa", "Nazwisko", "Imię" };
                     indexesOfNumericColumns = new List<int>() { 1, 2, 4 };
                     List<DataAccess.Place> places = null;
 
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("mainTableButton", "moveaction", "Przenieś", postBackUrl));
+                    placeOfMainTableButtons.Controls.Add(new MyControls.Button("mainTableButton", "moveaction", "Przenieś", postBackUrl));
 
                     switch (table)
                     {
-                        case EnumP.Table.Places:
+                        case Enums.Table.Places:
                             heading += " (aktywne)";
                             subMenu = new List<string[]>()
                             {
                                 new string[]
                                 {
                                     "Wydruki",
-                                    "<a href='ReportConfiguration.aspx?"+EnumP.Report.PlacesInEachBuilding+"report=#'>Lokale w budynkach</a>",
+                                    "<a href='ReportConfiguration.aspx?"+Enums.Report.PlacesInEachBuilding+"report=#'>Lokale w budynkach</a>",
                                     "<a href='#'>Kolejny wydruk</a>",
                                     "<a href='#'>I jeszcze jeden</a>"
                                 }
@@ -173,7 +173,7 @@ namespace czynsze.Forms
 
                             break;
 
-                        case EnumP.Table.InactivePlaces:
+                        case Enums.Table.InactivePlaces:
                             heading += " (nieaktywne)";
 
                             if (!IsPostBack)
@@ -188,18 +188,18 @@ namespace czynsze.Forms
 
                     break;
 
-                case EnumP.Table.Tenants:
-                case EnumP.Table.InactiveTenants:
+                case Enums.Table.Tenants:
+                case Enums.Table.InactiveTenants:
                     heading = nodeOfSiteMapPath = "Najemcy";
                     headers = new string[] { "Numer kontrolny", "Nazwisko", "Imię", "Adres", "Adres cd." };
                     indexesOfNumericColumns = new List<int>() { 1 };
                     List<DataAccess.Tenant> tenants = null;
 
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("mainTableButton", "moveaction", "Przenieś", postBackUrl));
+                    placeOfMainTableButtons.Controls.Add(new MyControls.Button("mainTableButton", "moveaction", "Przenieś", postBackUrl));
 
                     switch (table)
                     {
-                        case EnumP.Table.Tenants:
+                        case Enums.Table.Tenants:
                             heading += " (aktywni)";
 
                             if (!IsPostBack)
@@ -208,7 +208,7 @@ namespace czynsze.Forms
 
                             break;
 
-                        case EnumP.Table.InactiveTenants:
+                        case Enums.Table.InactiveTenants:
                             heading += " (nieaktywni)";
 
                             if (!IsPostBack)
@@ -223,7 +223,7 @@ namespace czynsze.Forms
 
                     break;
 
-                case EnumP.Table.RentComponents:
+                case Enums.Table.RentComponents:
                     heading = nodeOfSiteMapPath = "Składniki opłat";
                     headers = new string[] { "Numer", "Nazwa", "Sposób naliczania", "Typ", "Stawka zł" };
                     indexesOfNumericColumns = new List<int>() { 1, 5 };
@@ -234,7 +234,7 @@ namespace czynsze.Forms
 
                     break;
 
-                case EnumP.Table.Communities:
+                case Enums.Table.Communities:
                     heading = nodeOfSiteMapPath = "Wspólnoty";
                     headers = new string[] { "Kod", "Nazwa wspólnoty", "Il. bud.", "Il. miesz." };
                     indexesOfNumericColumns = new List<int>() { 1, 3, 4 };
@@ -245,7 +245,7 @@ namespace czynsze.Forms
 
                     break;
 
-                case EnumP.Table.TypesOfPlace:
+                case Enums.Table.TypesOfPlace:
                     heading = nodeOfSiteMapPath = "Typy lokali";
                     headers = new string[] { "Kod", "Typ lokalu" };
                     indexesOfNumericColumns = new List<int>() { 1 };
@@ -256,7 +256,7 @@ namespace czynsze.Forms
 
                     break;
 
-                case EnumP.Table.TypesOfKitchen:
+                case Enums.Table.TypesOfKitchen:
                     heading = nodeOfSiteMapPath = "Rodzaje kuchni";
                     headers = new string[] { "Kod", "Rodzaj kuchni" };
                     indexesOfNumericColumns = new List<int>() { 1 };
@@ -267,7 +267,7 @@ namespace czynsze.Forms
 
                     break;
 
-                case EnumP.Table.TypesOfTenant:
+                case Enums.Table.TypesOfTenant:
                     heading = nodeOfSiteMapPath = "Rodzaje najemców";
                     headers = new string[] { "Kod", "Rodzaj najemcy" };
                     indexesOfNumericColumns = new List<int>() { 1 };
@@ -278,7 +278,7 @@ namespace czynsze.Forms
 
                     break;
 
-                case EnumP.Table.Titles:
+                case Enums.Table.Titles:
                     heading = nodeOfSiteMapPath = "Tytuły prawne do lokali";
                     headers = new string[] { "Kod", "Tytuł prawny" };
                     indexesOfNumericColumns = new List<int>() { 1 };
@@ -289,7 +289,7 @@ namespace czynsze.Forms
 
                     break;
 
-                case EnumP.Table.TypesOfPayment:
+                case Enums.Table.TypesOfPayment:
                     heading = nodeOfSiteMapPath = "Rodzaje wpłat i wypłat";
                     headers = new string[] { "Kod", "Rodzaj wpłaty lub wypłaty", "Sposób rozliczania", "Odsetki", "NO" };
                     indexesOfNumericColumns = new List<int>() { 1 };
@@ -300,7 +300,7 @@ namespace czynsze.Forms
 
                     break;
 
-                case EnumP.Table.GroupsOfRentComponents:
+                case Enums.Table.GroupsOfRentComponents:
                     heading = nodeOfSiteMapPath = "Grupy składników czynszu";
                     headers = new string[] { "Kod", "Nazwa grupy" };
                     indexesOfNumericColumns = new List<int>() { 1 };
@@ -311,7 +311,7 @@ namespace czynsze.Forms
 
                     break;
 
-                case EnumP.Table.FinancialGroups:
+                case Enums.Table.FinancialGroups:
                     heading = nodeOfSiteMapPath = "Grupy finansowe";
                     headers = new string[] { "Kod", "Konto", "Nazwa grupy" };
                     indexesOfNumericColumns = new List<int>() { 1 };
@@ -322,7 +322,7 @@ namespace czynsze.Forms
 
                     break;
 
-                case EnumP.Table.VatRates:
+                case Enums.Table.VatRates:
                     heading = nodeOfSiteMapPath = "Stawki VAT";
                     headers = new string[] { "Oznaczenie stawki", "Symbol fiskalny" };
                     indexesOfNumericColumns = new List<int>() { 1 };
@@ -333,7 +333,7 @@ namespace czynsze.Forms
 
                     break;
 
-                case EnumP.Table.Attributes:
+                case Enums.Table.Attributes:
                     heading = nodeOfSiteMapPath = "Cechy obiektów";
                     headers = new string[] { "Kod", "Nazwa", "N/C", "L.", "N.", "B.", "Wsp." };
                     indexesOfNumericColumns = new List<int>() { 1 };
@@ -344,7 +344,7 @@ namespace czynsze.Forms
 
                     break;
 
-                case EnumP.Table.Users:
+                case Enums.Table.Users:
                     heading = nodeOfSiteMapPath = "Użytkownicy";
                     headers = new string[] { "Symbol", "Nazwisko", "Imię" };
 
@@ -354,7 +354,7 @@ namespace czynsze.Forms
 
                     break;
 
-                case EnumP.Table.ReceivablesByTenants:
+                case Enums.Table.ReceivablesByTenants:
                     heading = nodeOfSiteMapPath = "Należności i obroty według najemców";
                     headers = new string[] { "Nazwisko", "Imię", "Kod", "Nr", "Adres najemcy", "Adres lokalu" };
                     sortable = false;
@@ -379,16 +379,16 @@ namespace czynsze.Forms
                         using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                             rows = db.tenants.OrderBy(t => t.nazwisko).ThenBy(t => t.imie).ToList().Select(t => t.WithPlace()).ToList();
 
-                    ControlsP.RadioButtonList list = new ControlsP.RadioButtonList("list", "by", new List<string> { "wg nazwiska", "wg kodu lokalu" }, new List<string> { "nazwisko", "kod" }, "nazwisko", true, true);
+                    MyControls.RadioButtonList list = new MyControls.RadioButtonList("list", "by", new List<string> { "wg nazwiska", "wg kodu lokalu" }, new List<string> { "nazwisko", "kod" }, "nazwisko", true, true);
                     list.SelectedIndexChanged += list_SelectedIndexChanged;
 
                     placeOfMainTableButtons.Controls.Add(list);
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("button", "saldo", "Saldo", "javascript: Redirect('List.aspx?table=TenantSaldo')"));
+                    placeOfMainTableButtons.Controls.Add(new MyControls.Button("button", "saldo", "Saldo", "javascript: Redirect('List.aspx?table=TenantSaldo')"));
 
                     break;
 
-                case EnumP.Table.AllReceivablesOfTenant:
-                case EnumP.Table.NotPastReceivablesOfTenant:
+                case Enums.Table.AllReceivablesOfTenant:
+                case Enums.Table.NotPastReceivablesOfTenant:
                     headers = new string[] { "Kwota należności", "Termin zapłaty", "Uwagi", "Kod lokalu", "Nr lokalu" };
                     sortable = false;
                     indexesOfNumericColumns = new List<int>() { 1, 4, 5 };
@@ -402,12 +402,12 @@ namespace czynsze.Forms
 
                         switch (table)
                         {
-                            case EnumP.Table.AllReceivablesOfTenant:
+                            case Enums.Table.AllReceivablesOfTenant:
                                 rows = receivables.Select(r => r.ImportantFields()).ToList();
 
                                 break;
 
-                            case EnumP.Table.NotPastReceivablesOfTenant:
+                            case Enums.Table.NotPastReceivablesOfTenant:
                                 heading += " (nieprzeterminowane)";
                                 rows = receivables.Where(r => Convert.ToDateTime(r.data_nal) >= Hello.Date).Select(r => r.ImportantFields()).ToList();
 
@@ -417,7 +417,7 @@ namespace czynsze.Forms
 
                     break;
 
-                case EnumP.Table.ReceivablesAndTurnoversOfTenant:
+                case Enums.Table.ReceivablesAndTurnoversOfTenant:
                     headers = new string[] { "Kwota Wn", "Kwota Ma", "Data", "Operacja" };
                     sortable = false;
                     indexesOfNumericColumns = new List<int>() { 1, 2 };
@@ -433,19 +433,19 @@ namespace czynsze.Forms
 
                         switch (Hello.CurrentSet)
                         {
-                            case EnumP.SettlementTable.Czynsze:
+                            case Enums.SettlementTable.Czynsze:
                                 receivables = db.receivablesFor14.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>().ToList();
                                 turnovers = db.turnoversFor14.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>().ToList();
 
                                 break;
 
-                            case EnumP.SettlementTable.SecondSet:
+                            case Enums.SettlementTable.SecondSet:
                                 receivables = db.receivablesFor14From2ndSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>().ToList();
                                 turnovers = db.turnoversFor14From2ndSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>().ToList();
 
                                 break;
 
-                            case EnumP.SettlementTable.ThirdSet:
+                            case Enums.SettlementTable.ThirdSet:
                                 receivables = db.receivablesFor14From3rdSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>().ToList();
                                 turnovers = db.turnoversFor14From3rdSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>().ToList();
 
@@ -497,14 +497,14 @@ namespace czynsze.Forms
                     }
 
                     placeUnderMainTable.Controls.Add(new LiteralControl(summary));
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("button", EnumP.Report.MonthlySumOfComponent + "report", "Sumy miesięczne składnika", "ReportConfiguration.aspx"));
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("button", EnumP.Report.ReceivablesAndTurnoversOfTenant + "report", "Wydruk", "ReportConfiguration.aspx"));
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("button", EnumP.Report.MonthlyAnalysisOfReceivablesAndTurnovers + "report", "Analiza miesięczna", "ReportConfiguration.aspx"));
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("button", EnumP.Report.DetailedAnalysisOfReceivablesAndTurnovers + "report", "Analiza szczegółowa", "ReportConfiguration.aspx"));
+                    placeOfMainTableButtons.Controls.Add(new MyControls.Button("button", Enums.Report.MonthlySumOfComponent + "report", "Sumy miesięczne składnika", "ReportConfiguration.aspx"));
+                    placeOfMainTableButtons.Controls.Add(new MyControls.Button("button", Enums.Report.ReceivablesAndTurnoversOfTenant + "report", "Wydruk", "ReportConfiguration.aspx"));
+                    placeOfMainTableButtons.Controls.Add(new MyControls.Button("button", Enums.Report.MonthlyAnalysisOfReceivablesAndTurnovers + "report", "Analiza miesięczna", "ReportConfiguration.aspx"));
+                    placeOfMainTableButtons.Controls.Add(new MyControls.Button("button", Enums.Report.DetailedAnalysisOfReceivablesAndTurnovers + "report", "Analiza szczegółowa", "ReportConfiguration.aspx"));
 
                     break;
 
-                case EnumP.Table.TenantSaldo:
+                case Enums.Table.TenantSaldo:
                     headers = new string[] { "Saldo", "Saldo na dzień " + Hello.Date.ToShortDateString(), "W tym noty odsetkowe" };
                     sortable = false;
                     indexesOfNumericColumns = new List<int>() { 1, 2, 3 };
@@ -519,19 +519,19 @@ namespace czynsze.Forms
 
                         switch (Hello.CurrentSet)
                         {
-                            case EnumP.SettlementTable.Czynsze:
+                            case Enums.SettlementTable.Czynsze:
                                 receivables = db.receivablesFor14.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>().ToList();
                                 turnovers = db.turnoversFor14.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Turnover>().ToList();
 
                                 break;
 
-                            case EnumP.SettlementTable.SecondSet:
+                            case Enums.SettlementTable.SecondSet:
                                 receivables = db.receivablesFor14From2ndSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>().ToList();
                                 turnovers = db.turnoversFor14From2ndSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Turnover>().ToList();
 
                                 break;
 
-                            case EnumP.SettlementTable.ThirdSet:
+                            case Enums.SettlementTable.ThirdSet:
                                 receivables = db.receivablesFor14From3rdSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>().ToList();
                                 turnovers = db.turnoversFor14From3rdSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Turnover>().ToList();
 
@@ -553,7 +553,7 @@ namespace czynsze.Forms
 
                     break;
 
-                case EnumP.Table.TenantTurnovers:
+                case Enums.Table.TenantTurnovers:
                     headers = new string[] { "Kwota", "Data", "Data NO", "Operacja", "Nr dowodu", "Pozycja", "Uwagi" };
                     sortable = false;
                     indexesOfNumericColumns = new List<int>() { 1, 6 };
@@ -566,17 +566,17 @@ namespace czynsze.Forms
 
                         switch (Hello.CurrentSet)
                         {
-                            case EnumP.SettlementTable.Czynsze:
+                            case Enums.SettlementTable.Czynsze:
                                 turnovers = db.turnoversFor14.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>().ToList();
 
                                 break;
 
-                            case EnumP.SettlementTable.SecondSet:
+                            case Enums.SettlementTable.SecondSet:
                                 turnovers = db.turnoversFor14From2ndSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>().ToList();
 
                                 break;
 
-                            case EnumP.SettlementTable.ThirdSet:
+                            case Enums.SettlementTable.ThirdSet:
                                 turnovers = db.turnoversFor14From3rdSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>().ToList();
 
                                 break;
@@ -589,22 +589,22 @@ namespace czynsze.Forms
             }
 
             placeOfHeading.Controls.Add(new LiteralControl("<h2>" + heading + "</h2>"));
-            placeOfMainTableButtons.Controls.Add(new ControlsP.HtmlInputHidden("table", table.ToString()));
+            placeOfMainTableButtons.Controls.Add(new MyControls.HtmlInputHidden("table", table.ToString()));
 
             if (subMenu != null)
             {
-                ControlsP.HtmlGenericControl superUl = new ControlsP.HtmlGenericControl("ul", "superMenu");
+                MyControls.HtmlGenericControl superUl = new MyControls.HtmlGenericControl("ul", "superMenu");
 
                 foreach (string[] items in subMenu)
                 {
-                    ControlsP.HtmlGenericControl superLi = new ControlsP.HtmlGenericControl("li", String.Empty);
-                    ControlsP.HtmlGenericControl subUl = new ControlsP.HtmlGenericControl("ul", "subMenu");
+                    MyControls.HtmlGenericControl superLi = new MyControls.HtmlGenericControl("li", String.Empty);
+                    MyControls.HtmlGenericControl subUl = new MyControls.HtmlGenericControl("ul", "subMenu");
 
                     superLi.Controls.Add(new LiteralControl(items[0]));
 
                     for (int i = 1; i < items.Length; i++)
                     {
-                        ControlsP.HtmlGenericControl subLi = new ControlsP.HtmlGenericControl("li", String.Empty);
+                        MyControls.HtmlGenericControl subLi = new MyControls.HtmlGenericControl("li", String.Empty);
 
                         subLi.Controls.Add(new LiteralControl(items[i]));
                         subUl.Controls.Add(subLi);
@@ -622,42 +622,42 @@ namespace czynsze.Forms
 
             switch (table)
             {
-                case EnumP.Table.Places:
-                case EnumP.Table.InactivePlaces:
+                case Enums.Table.Places:
+                case Enums.Table.InactivePlaces:
                     Hello.SiteMapPath = new List<string>() { "Kartoteki", "Lokale" };
 
                     break;
 
-                case EnumP.Table.Tenants:
-                case EnumP.Table.InactiveTenants:
+                case Enums.Table.Tenants:
+                case Enums.Table.InactiveTenants:
                     Hello.SiteMapPath = new List<string>() { "Kartoteki", "Najemcy" };
 
                     break;
 
-                case EnumP.Table.Buildings:
-                case EnumP.Table.Communities:
-                case EnumP.Table.RentComponents:
+                case Enums.Table.Buildings:
+                case Enums.Table.Communities:
+                case Enums.Table.RentComponents:
                     Hello.SiteMapPath = new List<string>() { "Kartoteki" };
 
                     break;
 
-                case EnumP.Table.ReceivablesByTenants:
+                case Enums.Table.ReceivablesByTenants:
                     Hello.SiteMapPath = new List<string>() { "Rozliczenia finansowe", "Należności i obroty" };
 
-                    placeOfMainTableButtons.Controls.Add(new ControlsP.Button("button", "turnoversEditing", "Dodaj/usuń obroty", "javascript: Redirect('List.aspx?table=" + EnumP.Table.TenantTurnovers + "')"));
+                    placeOfMainTableButtons.Controls.Add(new MyControls.Button("button", "turnoversEditing", "Dodaj/usuń obroty", "javascript: Redirect('List.aspx?table=" + Enums.Table.TenantTurnovers + "')"));
 
                     break;
 
-                case EnumP.Table.AllReceivablesOfTenant:
-                case EnumP.Table.NotPastReceivablesOfTenant:
-                case EnumP.Table.ReceivablesAndTurnoversOfTenant:
-                case EnumP.Table.TenantSaldo:
-                case EnumP.Table.TenantTurnovers:
+                case Enums.Table.AllReceivablesOfTenant:
+                case Enums.Table.NotPastReceivablesOfTenant:
+                case Enums.Table.ReceivablesAndTurnoversOfTenant:
+                case Enums.Table.TenantSaldo:
+                case Enums.Table.TenantTurnovers:
                     if (Hello.SiteMapPath.Count > 2)
                     {
                         Hello.SiteMapPath.RemoveRange(3, Hello.SiteMapPath.Count - 3);
 
-                        string node = Hello.SiteMapPath[2].Insert(0, "<a href=\"javascript: Load('List.aspx?table=" + EnumP.Table.ReceivablesByTenants + "')\">") + "</a>";
+                        string node = Hello.SiteMapPath[2].Insert(0, "<a href=\"javascript: Load('List.aspx?table=" + Enums.Table.ReceivablesByTenants + "')\">") + "</a>";
 
                         if (Hello.SiteMapPath.IndexOf(node) == -1)
                             Hello.SiteMapPath[2] = node;
@@ -665,20 +665,20 @@ namespace czynsze.Forms
 
                     break;
 
-                case EnumP.Table.TypesOfPlace:
-                case EnumP.Table.TypesOfKitchen:
-                case EnumP.Table.TypesOfTenant:
-                case EnumP.Table.Titles:
-                case EnumP.Table.TypesOfPayment:
-                case EnumP.Table.GroupsOfRentComponents:
-                case EnumP.Table.FinancialGroups:
-                case EnumP.Table.VatRates:
-                case EnumP.Table.Attributes:
+                case Enums.Table.TypesOfPlace:
+                case Enums.Table.TypesOfKitchen:
+                case Enums.Table.TypesOfTenant:
+                case Enums.Table.Titles:
+                case Enums.Table.TypesOfPayment:
+                case Enums.Table.GroupsOfRentComponents:
+                case Enums.Table.FinancialGroups:
+                case Enums.Table.VatRates:
+                case Enums.Table.Attributes:
                     Hello.SiteMapPath = new List<string>() { "Słowniki" };
 
                     break;
 
-                case EnumP.Table.Users:
+                case Enums.Table.Users:
                     Hello.SiteMapPath = new List<string>() { "Administracja" };
 
                     break;
@@ -692,8 +692,8 @@ namespace czynsze.Forms
             //
             switch (table)
             {
-                case EnumP.Table.Places:
-                case EnumP.Table.InactivePlaces:
+                case Enums.Table.Places:
+                case Enums.Table.InactivePlaces:
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                     {
                         try
@@ -719,11 +719,11 @@ namespace czynsze.Forms
 
         void CreateMainTable()
         {
-            ControlsP.Table mainTable = new ControlsP.Table("mainTable", rows, headers, sortable, String.Empty, indexesOfNumericColumns, indexesOfColumnsWithSummary);
+            MyControls.Table mainTable = new MyControls.Table("mainTable", rows, headers, sortable, String.Empty, indexesOfNumericColumns, indexesOfColumnsWithSummary);
 
             if (sortable)
                 foreach (TableCell cell in mainTable.Rows[0].Cells)
-                    ((ControlsP.LinkButton)cell.Controls[0]).Click += LinkButtonOfColumn_Click;
+                    ((MyControls.LinkButton)cell.Controls[0]).Click += LinkButtonOfColumn_Click;
 
             placeOfMainTable.Controls.Clear();
             placeOfMainTable.Controls.Add(mainTable);
@@ -731,23 +731,23 @@ namespace czynsze.Forms
 
         void LinkButtonOfColumn_Click(object sender, EventArgs e)
         {
-            int columnNumber = Convert.ToInt16(((ControlsP.LinkButton)sender).ID.Replace("column", String.Empty)) + 1;
+            int columnNumber = Convert.ToInt16(((MyControls.LinkButton)sender).ID.Replace("column", String.Empty)) + 1;
 
             switch (sortOrder)
             {
-                case EnumP.SortOrder.Asc:
+                case Enums.SortOrder.Asc:
                     try { rows = rows.OrderBy(r => Convert.ToSingle(r[columnNumber])).ToList(); }
                     catch { rows = rows.OrderBy(r => r[columnNumber]).ToList(); }
 
-                    sortOrder = EnumP.SortOrder.Desc;
+                    sortOrder = Enums.SortOrder.Desc;
 
                     break;
 
-                case EnumP.SortOrder.Desc:
+                case Enums.SortOrder.Desc:
                     try { rows = rows.OrderByDescending(r => Convert.ToSingle(r[columnNumber])).ToList(); }
                     catch { rows = rows.OrderByDescending(r => r[columnNumber]).ToList(); }
 
-                    sortOrder = EnumP.SortOrder.Asc;
+                    sortOrder = Enums.SortOrder.Asc;
 
                     break;
             }

@@ -21,7 +21,7 @@ namespace czynsze.Forms
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            EnumP.ReportFormat format = (EnumP.ReportFormat)Enum.Parse(typeof(EnumP.ReportFormat), Session["format"].ToString());
+            Enums.ReportFormat format = (Enums.ReportFormat)Enum.Parse(typeof(Enums.ReportFormat), Session["format"].ToString());
             headers = (List<string>)Session["headers"];
             tables = (List<List<string[]>>)Session["tables"];
             captions = (List<string>)Session["captions"];
@@ -29,7 +29,7 @@ namespace czynsze.Forms
 
             switch (format)
             {
-                case EnumP.ReportFormat.Pdf:
+                case Enums.ReportFormat.Pdf:
                     StringWriter stringWriter = new StringWriter();
                     float single;
 
@@ -119,7 +119,7 @@ namespace czynsze.Forms
 
                     break;
 
-                case EnumP.ReportFormat.Csv:
+                case Enums.ReportFormat.Csv:
                     string csv = String.Empty;
 
                     for (int i = 0; i < tables.Count; i++)

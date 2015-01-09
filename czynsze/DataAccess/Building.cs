@@ -66,12 +66,12 @@ namespace czynsze.DataAccess
             uwagi_6 = record[6].Substring(350).Trim();
         }
 
-        public static string Validate(EnumP.Action action, string[] record)
+        public static string Validate(Enums.Action action, string[] record)
         {
             string result = "";
             int id;
 
-            if (action == EnumP.Action.Dodaj)
+            if (action == Enums.Action.Dodaj)
                 if (record[0].Length > 0)
                 {
                     try
@@ -87,7 +87,7 @@ namespace czynsze.DataAccess
                 else
                     result += "Należy podać kod budynku! <br />";
 
-            if (action != EnumP.Action.Usuń)
+            if (action != Enums.Action.Usuń)
             {
                 if (record[1].Length > 0)
                     try { Convert.ToInt16(record[1]); }

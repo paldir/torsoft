@@ -55,12 +55,12 @@ namespace czynsze.DataAccess
             symb_fisk = record[2];
         }
 
-        public static string Validate(EnumP.Action action, string[] record)
+        public static string Validate(Enums.Action action, string[] record)
         {
             string result = String.Empty;
             string nazwa = record[1];
 
-            if (action == EnumP.Action.Usuń)
+            if (action == Enums.Action.Usuń)
                 using (Czynsze_Entities db = new Czynsze_Entities())
                     if (db.typesOfPayment.Count(t => t.vat == nazwa) > 0)
                         result += "Nie można usunąć stawki VAT, ponieważ jest ona wykorzystywana w innych tabelach! <br />";

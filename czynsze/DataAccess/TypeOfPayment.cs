@@ -116,14 +116,14 @@ namespace czynsze.DataAccess
             sww = record[7];
         }
 
-        public static string Validate(EnumP.Action action, string[] record)
+        public static string Validate(Enums.Action action, string[] record)
         {
             string result = String.Empty;
             int kod_wplat;
 
             switch (action)
             {
-                case EnumP.Action.Dodaj:
+                case Enums.Action.Dodaj:
                     if (record[0].Length > 0)
                     {
                         try
@@ -141,7 +141,7 @@ namespace czynsze.DataAccess
 
                     break;
 
-                case EnumP.Action.Usuń:
+                case Enums.Action.Usuń:
                     kod_wplat = Convert.ToInt16(record[0]);
 
                     using (Czynsze_Entities db = new Czynsze_Entities())

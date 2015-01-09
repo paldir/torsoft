@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-using System.Web.UI.WebControls;
-
-namespace czynsze.ControlsP
+namespace czynsze.MyControls
 {
     public class TextBox : System.Web.UI.WebControls.TextBox
     {
-        public enum TextBoxModeP { SingleLine, MultiLine, Date, Number, Float, Password };
+        public enum TextBoxMode { SingleLine, MultiLine, Date, Number, Float, Password };
         
-        public TextBox(string cSSClass, string id, string text, TextBoxModeP textMode, int maxLength, int rows, bool enabled)
+        public TextBox(string cSSClass, string id, string text, TextBoxMode textMode, int maxLength, int rows, bool enabled)
         {
             CssClass = cSSClass;
             ID = id;
@@ -19,30 +17,30 @@ namespace czynsze.ControlsP
 
             switch (textMode)
             {
-                case TextBoxModeP.MultiLine:
-                    TextMode = TextBoxMode.MultiLine;
+                case TextBoxMode.MultiLine:
+                    TextMode = System.Web.UI.WebControls.TextBoxMode.MultiLine;
 
                     Attributes.Add("maxlength", maxLength.ToString());
 
                     break;
 
-                case TextBoxModeP.Number:
+                case TextBoxMode.Number:
                     Attributes.Add("onkeypress", "return isInteger(event)");
 
                     break;
 
-                case TextBoxModeP.Float:
+                case TextBoxMode.Float:
                     Attributes.Add("onkeypress", "return isFloat(event)");
 
                     break;
 
-                case TextBoxModeP.Date:
+                case TextBoxMode.Date:
                     Attributes.Add("onkeypress", "return isDate(event)");
 
                     break;
 
-                case TextBoxModeP.Password:
-                    TextMode = TextBoxMode.Password;
+                case TextBoxMode.Password:
+                    TextMode = System.Web.UI.WebControls.TextBoxMode.Password;
 
                     break;
             }

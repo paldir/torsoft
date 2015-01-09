@@ -117,12 +117,12 @@ namespace czynsze.DataAccess
             uwagi_6 = record[11].Substring(350).Trim();
         }
 
-        public static string Validate(EnumP.Action action, string[] record)
+        public static string Validate(Enums.Action action, string[] record)
         {
             string result = "";
             int kod;
 
-            if (action == EnumP.Action.Dodaj)
+            if (action == Enums.Action.Dodaj)
                 if (record[0].Length > 0)
                 {
                     try
@@ -138,7 +138,7 @@ namespace czynsze.DataAccess
                 else
                     result += "Należy podać kod wspólnoty! <br />";
 
-            if (action != EnumP.Action.Usuń)
+            if (action != Enums.Action.Usuń)
             {
                 result += Czynsze_Entities.ValidateInt("Ilość budynków", ref record[1]);
                 result += Czynsze_Entities.ValidateInt("Ilość lokali", ref record[2]);

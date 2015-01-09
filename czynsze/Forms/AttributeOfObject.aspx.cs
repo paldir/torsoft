@@ -18,10 +18,10 @@ namespace czynsze.Forms
         protected void Page_Load(object sender, EventArgs e)
         {
             //EnumP.AttributeOf attributeOf = (EnumP.AttributeOf)Enum.Parse(typeof(EnumP.AttributeOf), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("attributeOf"))]);
-            EnumP.AttributeOf attributeOf = GetParamValue<EnumP.AttributeOf>("attributeOf");
+            Enums.AttributeOf attributeOf = GetParamValue<Enums.AttributeOf>("attributeOf");
             //EnumP.Action action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("action"))]);
-            EnumP.Action action = GetParamValue<EnumP.Action>("action");
-            EnumP.Action childAction = EnumP.Action.Przeglądaj;
+            Enums.Action action = GetParamValue<Enums.Action>("action");
+            Enums.Action childAction = Enums.Action.Przeglądaj;
             //int parentId = Convert.ToInt16(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("parentId"))]);
             int parentId = GetParamValue<int>("parentId");
             int id = GetParamValue<int>("id");
@@ -34,12 +34,12 @@ namespace czynsze.Forms
             if (childActionKey != null)
             {
                 if (childActionKey.IndexOf("add") != -1)
-                    childAction = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[childActionKey].Replace("Zapisz", "Dodaj"));
+                    childAction = (Enums.Action)Enum.Parse(typeof(Enums.Action), Request.Params[childActionKey].Replace("Zapisz", "Dodaj"));
                 else
                     if (childActionKey.IndexOf("edit") != -1)
-                        childAction = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[childActionKey].Replace("Zapisz", "Edytuj"));
+                        childAction = (Enums.Action)Enum.Parse(typeof(Enums.Action), Request.Params[childActionKey].Replace("Zapisz", "Edytuj"));
                     else
-                        childAction = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[childActionKey]);
+                        childAction = (Enums.Action)Enum.Parse(typeof(Enums.Action), Request.Params[childActionKey]);
             }
 
             List<string[]> rows = null;
@@ -47,7 +47,7 @@ namespace czynsze.Forms
 
             switch (childAction)
             {
-                case EnumP.Action.Dodaj:
+                case Enums.Action.Dodaj:
                     DataAccess.AttributeOfObject attributeOfObject = null;
                     int maxIdTmp = 0;
                     int maxId = 0;
@@ -67,7 +67,7 @@ namespace czynsze.Forms
 
                         switch (attributeOf)
                         {
-                            case EnumP.AttributeOf.Building:
+                            case Enums.AttributeOf.Building:
                                 attributeOfObject = new DataAccess.AttributeOfBuilding();
 
                                 using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
@@ -76,7 +76,7 @@ namespace czynsze.Forms
 
                                 break;
 
-                            case EnumP.AttributeOf.Community:
+                            case Enums.AttributeOf.Community:
                                 attributeOfObject = new DataAccess.AttributeOfCommunity();
 
                                 using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
@@ -85,7 +85,7 @@ namespace czynsze.Forms
 
                                 break;
 
-                            case EnumP.AttributeOf.Place:
+                            case Enums.AttributeOf.Place:
                                 attributeOfObject = new DataAccess.AttributeOfPlace();
 
                                 using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
@@ -94,7 +94,7 @@ namespace czynsze.Forms
 
                                 break;
 
-                            case EnumP.AttributeOf.Tenant:
+                            case Enums.AttributeOf.Tenant:
                                 attributeOfObject = new DataAccess.AttributeOfTenant();
 
                                 using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
@@ -112,7 +112,7 @@ namespace czynsze.Forms
 
                     break;
 
-                case EnumP.Action.Edytuj:
+                case Enums.Action.Edytuj:
                     string wartosc = Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("wartosc_edit"))];
                     int id_edit = Convert.ToInt16(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id_edit"))]);
                     DataAccess.AttributeOfObject attribute = attributesOfObject.FirstOrDefault(a => a.__record == id_edit);
@@ -130,7 +130,7 @@ namespace czynsze.Forms
 
                     break;
 
-                case EnumP.Action.Usuń:
+                case Enums.Action.Usuń:
                     attributesOfObject.Remove(attributesOfObject.FirstOrDefault(a => a.__record == id));
 
                     break;
@@ -140,25 +140,25 @@ namespace czynsze.Forms
 
             switch (attributeOf)
             {
-                case EnumP.AttributeOf.Building:
+                case Enums.AttributeOf.Building:
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                         rowsOfDropDown = db.attributes.Where(a => a.zb_b == "X").ToList().Select(a => a.ImportantFieldsForDropDown()).ToList();
 
                     break;
 
-                case EnumP.AttributeOf.Community:
+                case Enums.AttributeOf.Community:
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                         rowsOfDropDown = db.attributes.Where(a => a.zb_s == "X").ToList().Select(a => a.ImportantFieldsForDropDown()).ToList();
 
                     break;
 
-                case EnumP.AttributeOf.Place:
+                case Enums.AttributeOf.Place:
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                         rowsOfDropDown = db.attributes.Where(a => a.zb_l == "X").ToList().Select(a => a.ImportantFieldsForDropDown()).ToList();
 
                     break;
 
-                case EnumP.AttributeOf.Tenant:
+                case Enums.AttributeOf.Tenant:
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                         rowsOfDropDown = db.attributes.Where(a => a.zb_n == "X").ToList().Select(a => a.ImportantFieldsForDropDown()).ToList();
 
@@ -167,59 +167,59 @@ namespace czynsze.Forms
 
             string postBackUrl = "AttributeOfObject.aspx";
 
-            form.Controls.Add(new ControlsP.HtmlInputHidden("parentId", parentId.ToString()));
-            form.Controls.Add(new ControlsP.HtmlInputHidden("attributeOf", attributeOf.ToString()));
-            form.Controls.Add(new ControlsP.HtmlInputHidden("action", action.ToString()));
-            placeOfTable.Controls.Add(new ControlsP.Table("mainTable tabTable", rows, new string[] { "Cecha", "Wartość" }, false, String.Empty, new List<int>(), new List<int>()));
+            form.Controls.Add(new MyControls.HtmlInputHidden("parentId", parentId.ToString()));
+            form.Controls.Add(new MyControls.HtmlInputHidden("attributeOf", attributeOf.ToString()));
+            form.Controls.Add(new MyControls.HtmlInputHidden("action", action.ToString()));
+            placeOfTable.Controls.Add(new MyControls.Table("mainTable tabTable", rows, new string[] { "Cecha", "Wartość" }, false, String.Empty, new List<int>(), new List<int>()));
 
             switch (action)
             {
-                case EnumP.Action.Dodaj:
-                case EnumP.Action.Edytuj:
+                case Enums.Action.Dodaj:
+                case Enums.Action.Edytuj:
                     if (Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("showEditingWindow"))] != null)
                         using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                         {
                             DataAccess.AttributeOfObject attributeOfObject = attributesOfObject.FirstOrDefault(a => a.__record == id);
                             DataAccess.Attribute attribute = db.attributes.FirstOrDefault(a => a.kod == attributeOfObject.kod);
 
-                            placeOfEditingWindow.Controls.Add(new ControlsP.HtmlInputHidden("id_edit", attributeOfObject.__record.ToString()));
-                            placeOfEditingWindow.Controls.Add(new ControlsP.Label("label", "nazwa", "Nazwa: ", String.Empty));
-                            placeOfEditingWindow.Controls.Add(new ControlsP.TextBox("field", "nazwa", attribute.nazwa, ControlsP.TextBox.TextBoxModeP.SingleLine, 20, 1, false));
-                            placeOfEditingWindow.Controls.Add(new ControlsP.Label("label", "wartosc_edit", "<br />Wartość: ", String.Empty));
+                            placeOfEditingWindow.Controls.Add(new MyControls.HtmlInputHidden("id_edit", attributeOfObject.__record.ToString()));
+                            placeOfEditingWindow.Controls.Add(new MyControls.Label("label", "nazwa", "Nazwa: ", String.Empty));
+                            placeOfEditingWindow.Controls.Add(new MyControls.TextBox("field", "nazwa", attribute.nazwa, MyControls.TextBox.TextBoxMode.SingleLine, 20, 1, false));
+                            placeOfEditingWindow.Controls.Add(new MyControls.Label("label", "wartosc_edit", "<br />Wartość: ", String.Empty));
 
                             switch (attribute.nr_str)
                             {
                                 case "N":
-                                    placeOfEditingWindow.Controls.Add(new ControlsP.TextBox("field", "wartosc_edit", attributeOfObject.wartosc_n.ToString("F2"), ControlsP.TextBox.TextBoxModeP.Number, 16, 1, true));
+                                    placeOfEditingWindow.Controls.Add(new MyControls.TextBox("field", "wartosc_edit", attributeOfObject.wartosc_n.ToString("F2"), MyControls.TextBox.TextBoxMode.Number, 16, 1, true));
 
                                     break;
 
                                 case "C":
-                                    placeOfEditingWindow.Controls.Add(new ControlsP.TextBox("field", "wartosc_edit", attributeOfObject.wartosc_s.Trim(), ControlsP.TextBox.TextBoxModeP.SingleLine, 25, 1, true));
+                                    placeOfEditingWindow.Controls.Add(new MyControls.TextBox("field", "wartosc_edit", attributeOfObject.wartosc_s.Trim(), MyControls.TextBox.TextBoxMode.SingleLine, 25, 1, true));
 
                                     break;
                             }
 
                             placeOfEditingWindow.Controls.Add(new LiteralControl("<br />"));
-                            placeOfEditingWindow.Controls.Add(new ControlsP.Button("button", "editchildAction", "Zapisz", postBackUrl));
-                            placeOfEditingWindow.Controls.Add(new ControlsP.Button("button", String.Empty, "Anuluj", postBackUrl));
+                            placeOfEditingWindow.Controls.Add(new MyControls.Button("button", "editchildAction", "Zapisz", postBackUrl));
+                            placeOfEditingWindow.Controls.Add(new MyControls.Button("button", String.Empty, "Anuluj", postBackUrl));
                         }
                     else
                         if (Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("showAddingWindow"))] != null)
                         {
-                            placeOfNewAttribute.Controls.Add(new ControlsP.Label("label", "kod", "Nowa cecha: ", String.Empty));
-                            placeOfNewAttribute.Controls.Add(new ControlsP.DropDownListP("field", "kod", rowsOfDropDown, String.Empty, true, false));
-                            placeOfNewAttribute.Controls.Add(new ControlsP.Label("label", "wartosc", "<br />Wartość: ", String.Empty));
-                            placeOfNewAttribute.Controls.Add(new ControlsP.TextBox("field", "wartosc", String.Empty, ControlsP.TextBox.TextBoxModeP.SingleLine, 25, 1, true));
+                            placeOfNewAttribute.Controls.Add(new MyControls.Label("label", "kod", "Nowa cecha: ", String.Empty));
+                            placeOfNewAttribute.Controls.Add(new MyControls.DropDownListP("field", "kod", rowsOfDropDown, String.Empty, true, false));
+                            placeOfNewAttribute.Controls.Add(new MyControls.Label("label", "wartosc", "<br />Wartość: ", String.Empty));
+                            placeOfNewAttribute.Controls.Add(new MyControls.TextBox("field", "wartosc", String.Empty, MyControls.TextBox.TextBoxMode.SingleLine, 25, 1, true));
                             placeOfNewAttribute.Controls.Add(new LiteralControl("<span id='unit'></span>"));
-                            placeOfEditingWindow.Controls.Add(new ControlsP.Button("button", "addchildAction", "Zapisz", postBackUrl));
-                            placeOfEditingWindow.Controls.Add(new ControlsP.Button("button", String.Empty, "Anuluj", postBackUrl));
+                            placeOfEditingWindow.Controls.Add(new MyControls.Button("button", "addchildAction", "Zapisz", postBackUrl));
+                            placeOfEditingWindow.Controls.Add(new MyControls.Button("button", String.Empty, "Anuluj", postBackUrl));
                         }
                         else
                         {
-                            placeOfButtons.Controls.Add(new ControlsP.Button("button", "showAddingWindow", "Dodaj", postBackUrl));
-                            placeOfButtons.Controls.Add(new ControlsP.Button("button", "deletechildAction", "Usuń", postBackUrl));
-                            placeOfButtons.Controls.Add(new ControlsP.Button("button", "showEditingWindow", "Edytuj", postBackUrl));
+                            placeOfButtons.Controls.Add(new MyControls.Button("button", "showAddingWindow", "Dodaj", postBackUrl));
+                            placeOfButtons.Controls.Add(new MyControls.Button("button", "deletechildAction", "Usuń", postBackUrl));
+                            placeOfButtons.Controls.Add(new MyControls.Button("button", "showEditingWindow", "Edytuj", postBackUrl));
                         }
 
                     break;

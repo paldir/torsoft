@@ -13,7 +13,7 @@ namespace czynsze.Forms
         public static DateTime Date { get; set; }
         public static List<string> SiteMapPath { get; set; }
         public static int NumberOfSets { get; set; }
-        public static EnumP.SettlementTable CurrentSet { get; set; }
+        public static Enums.SettlementTable CurrentSet { get; set; }
         public static string[] NamesOfSets { get; set; }
 
         protected void Page_Load(object sender, EventArgs e)

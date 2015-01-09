@@ -172,12 +172,12 @@ namespace czynsze.DataAccess
             uwagi_4 = record[21].Substring(180, 60).Trim();
         }
 
-        public static string Validate(EnumP.Action action, string[] record)
+        public static string Validate(Enums.Action action, string[] record)
         {
             string result = "";
             int kod_lok, nr_lok;
 
-            if (action == EnumP.Action.Dodaj)
+            if (action == Enums.Action.Dodaj)
             {
                 if (record[2].Length > 0)
                 {

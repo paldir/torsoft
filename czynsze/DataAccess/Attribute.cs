@@ -127,12 +127,12 @@ namespace czynsze.DataAccess
             zb_s = record[9];
         }
 
-        public static string Validate(EnumP.Action action, string[] record)
+        public static string Validate(Enums.Action action, string[] record)
         {
             string result = String.Empty;
             int kod;
 
-            if (action == EnumP.Action.Dodaj)
+            if (action == Enums.Action.Dodaj)
             {
                 if (record[0].Length > 0)
                 {
@@ -150,7 +150,7 @@ namespace czynsze.DataAccess
                     result += "Należy podać kod cechy obiektów! <br />";
             }
 
-            if (action != EnumP.Action.Usuń)
+            if (action != Enums.Action.Usuń)
             {
                 if (record[2] == "N")
                     result += Czynsze_Entities.ValidateFloat("Wartość domyślna", ref record[4]);

@@ -153,12 +153,12 @@ namespace czynsze.DataAccess
             };
         }
 
-        public static string Validate(EnumP.Action action, string[] record)
+        public static string Validate(Enums.Action action, string[] record)
         {
             string result = "";
             int id;
 
-            if (action == EnumP.Action.Dodaj)
+            if (action == Enums.Action.Dodaj)
                 if (record[0].Length > 0)
                 {
                     try
@@ -174,7 +174,7 @@ namespace czynsze.DataAccess
                 else
                     result += "Należy podać numer składnika! <br />";
 
-            if (action != EnumP.Action.Usuń)
+            if (action != Enums.Action.Usuń)
             {
                 result += Czynsze_Entities.ValidateFloat("Stawka", ref record[4]);
                 result += Czynsze_Entities.ValidateFloat("Stawka do korespondencji", ref record[5]);

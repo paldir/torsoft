@@ -5,7 +5,7 @@ using System.Web;
 
 using System.Web.UI.WebControls;
 
-namespace czynsze.ControlsP
+namespace czynsze.MyControls
 {
     public class CheckBoxList : System.Web.UI.WebControls.CheckBoxList
     {

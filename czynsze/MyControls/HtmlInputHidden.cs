@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace czynsze.ControlsP
+namespace czynsze.MyControls
 {
     public class HtmlInputHidden : System.Web.UI.HtmlControls.HtmlInputHidden
     {

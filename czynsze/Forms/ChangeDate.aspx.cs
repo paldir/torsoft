@@ -13,11 +13,11 @@ namespace czynsze.Forms
         {
             Hello.SiteMapPath.Clear();
 
-            ControlsP.Button button = new ControlsP.Button("button", "Change", "Zmień", "#");
+            MyControls.Button button = new MyControls.Button("button", "Change", "Zmień", "#");
             button.Click += button_Click;
 
-            placeOfMonth.Controls.Add(new ControlsP.TextBox("field", "month", Hello.Date.Month.ToString(), ControlsP.TextBox.TextBoxModeP.Number, 2, 1, true));
-            placeOfYear.Controls.Add(new ControlsP.TextBox("field", "year", Hello.Date.Year.ToString(), ControlsP.TextBox.TextBoxModeP.Number, 4, 1, true));
+            placeOfMonth.Controls.Add(new MyControls.TextBox("field", "month", Hello.Date.Month.ToString(), MyControls.TextBox.TextBoxMode.Number, 2, 1, true));
+            placeOfYear.Controls.Add(new MyControls.TextBox("field", "year", Hello.Date.Year.ToString(), MyControls.TextBox.TextBoxMode.Number, 4, 1, true));
             placeOfButton.Controls.Add(button);
         }
 

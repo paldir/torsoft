@@ -63,14 +63,14 @@ namespace czynsze.DataAccess
             haslo = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(record[5]).Select(b => (byte)(b + 10)).ToArray());
         }
 
-        public static string Validate(EnumP.Action action, ref string[] record)
+        public static string Validate(Enums.Action action, ref string[] record)
         {
             string result = String.Empty;
             List<string> recordList = record.ToList();
 
             switch (action)
             {
-                case EnumP.Action.Dodaj:
+                case Enums.Action.Dodaj:
                     if (record[2].Length > 0 && record[3].Length > 0)
                     {
                         using (DataAccess.Czynsze_Entities db = new Czynsze_Entities())
@@ -88,13 +88,13 @@ namespace czynsze.DataAccess
 
                     break;
 
-                case EnumP.Action.Edytuj:
+                case Enums.Action.Edytuj:
                     recordList.Insert(4, record[2] + " " + record[3]);
 
                     break;
             }
 
-            if (action != EnumP.Action.Usuń)
+            if (action != Enums.Action.Usuń)
             {
                 if (record[4].Length > 0)
                 {

@@ -51,12 +51,12 @@ namespace czynsze.DataAccess
             typ_lok = record[1];
         }
 
-        public static string Validate(EnumP.Action action, string[] record)
+        public static string Validate(Enums.Action action, string[] record)
         {
             string result = String.Empty;
             int kod_typ;
 
-            if (action == EnumP.Action.Dodaj)
+            if (action == Enums.Action.Dodaj)
             {
                 if (record[0].Length > 0)
                 {
@@ -74,7 +74,7 @@ namespace czynsze.DataAccess
                     result += "Należy podać kod typu lokali! <br />";
             }
 
-            if (action == EnumP.Action.Usuń)
+            if (action == Enums.Action.Usuń)
             {
                 kod_typ = Convert.ToInt16(record[0]);
 

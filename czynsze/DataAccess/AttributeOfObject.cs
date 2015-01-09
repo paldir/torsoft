@@ -69,9 +69,9 @@ namespace czynsze.DataAccess
             kod_powiaz = record[3];
         }
 
-        public static bool Validate(EnumP.Action action, string[] record, List<DataAccess.AttributeOfObject> attributesOfObject)
+        public static bool Validate(Enums.Action action, string[] record, List<DataAccess.AttributeOfObject> attributesOfObject)
         {
-            if (action != EnumP.Action.Edytuj)
+            if (action != Enums.Action.Edytuj)
                 if (attributesOfObject.Count(a => a.kod == Convert.ToInt16(record[1]) && Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(record[3])) > 0)
                     return false;
 

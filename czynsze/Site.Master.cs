@@ -12,7 +12,7 @@ namespace czynsze
         protected void Page_Init(object sender, EventArgs e)
         {   
             if (Session["user"] == null)
-                Response.Redirect("../Login.aspx?reason=" + EnumP.ReasonOfRedirectToLoginPage.NotLoggedInOrSessionExpired);
+                Response.Redirect("../Login.aspx?reason=" + Enums.ReasonOfRedirectToLoginPage.NotLoggedInOrSessionExpired);
         }
 
         protected void Page_Load(object sender, EventArgs e)

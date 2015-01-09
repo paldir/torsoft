@@ -31,7 +31,7 @@ namespace czynsze.Forms
                 Response.Redirect("Hello.aspx");
             }
             else
-                Response.Redirect("../Login.aspx?reason=" + EnumP.ReasonOfRedirectToLoginPage.IncorrectCredentials);
+                Response.Redirect("../Login.aspx?reason=" + Enums.ReasonOfRedirectToLoginPage.IncorrectCredentials);
         }
     }
 }

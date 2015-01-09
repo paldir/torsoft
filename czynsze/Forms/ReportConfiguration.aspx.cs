@@ -11,7 +11,7 @@ namespace czynsze.Forms
 {
     public partial class ReportConfiguration : Page
     {
-        EnumP.Report report;
+        Enums.Report report;
 
         int id
         {
@@ -43,7 +43,7 @@ namespace czynsze.Forms
             List<string> labels = new List<string>();
             string heading = "Konfiguracja wydruku ";
             string key = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("report"));
-            report = (EnumP.Report)Enum.Parse(typeof(EnumP.Report), key.Replace("report", String.Empty).Substring(key.LastIndexOf('$') + 1));
+            report = (Enums.Report)Enum.Parse(typeof(Enums.Report), key.Replace("report", String.Empty).Substring(key.LastIndexOf('$') + 1));
             key = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"));
             int index = Request.UrlReferrer.Query.IndexOf("id");
 
@@ -54,30 +54,30 @@ namespace czynsze.Forms
             if (index != -1)
                 additionalId = Convert.ToInt16(Request.UrlReferrer.Query.Substring(index + 3));
 
-            placeOfConfigurationFields.Controls.Add(new ControlsP.HtmlInputHidden(report + "report", "#"));
+            placeOfConfigurationFields.Controls.Add(new MyControls.HtmlInputHidden(report + "report", "#"));
 
             switch (report)
             {
-                case EnumP.Report.PlacesInEachBuilding:
+                case Enums.Report.PlacesInEachBuilding:
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                     {
                         heading += "(Lokale w budynkach)";
                         int firstBuildingNumber = db.buildings.Select(b => b.kod_1).Min();
                         int lastBuildingNumber = db.buildings.Select(b => b.kod_1).Max();
-                        ControlsP.HtmlGenericControl firstBuilding = new ControlsP.HtmlGenericControl("div", "control");
-                        ControlsP.HtmlGenericControl secondBuilding = new ControlsP.HtmlGenericControl("div", "control");
+                        MyControls.HtmlGenericControl firstBuilding = new MyControls.HtmlGenericControl("div", "control");
+                        MyControls.HtmlGenericControl secondBuilding = new MyControls.HtmlGenericControl("div", "control");
                         List<string[]> buildings = db.buildings.ToList().OrderBy(b => b.kod_1).Select(b => b.ImportantFields()).ToList();
 
-                        firstBuilding.Controls.Add(new ControlsP.TextBox("field", "kod_1_start", firstBuildingNumber.ToString(), ControlsP.TextBox.TextBoxModeP.Number, 5, 1, true));
-                        firstBuilding.Controls.Add(new ControlsP.DropDownListP("field", "kod_1_start_dropdown", buildings, firstBuildingNumber.ToString(), true, false));
-                        secondBuilding.Controls.Add(new ControlsP.TextBox("field", "kod_1_end", lastBuildingNumber.ToString(), ControlsP.TextBox.TextBoxModeP.Number, 5, 1, true));
-                        secondBuilding.Controls.Add(new ControlsP.DropDownListP("field", "kod_1_end_dropdown", buildings, lastBuildingNumber.ToString(), true, false));
+                        firstBuilding.Controls.Add(new MyControls.TextBox("field", "kod_1_start", firstBuildingNumber.ToString(), MyControls.TextBox.TextBoxMode.Number, 5, 1, true));
+                        firstBuilding.Controls.Add(new MyControls.DropDownListP("field", "kod_1_start_dropdown", buildings, firstBuildingNumber.ToString(), true, false));
+                        secondBuilding.Controls.Add(new MyControls.TextBox("field", "kod_1_end", lastBuildingNumber.ToString(), MyControls.TextBox.TextBoxMode.Number, 5, 1, true));
+                        secondBuilding.Controls.Add(new MyControls.DropDownListP("field", "kod_1_end_dropdown", buildings, lastBuildingNumber.ToString(), true, false));
 
                         controls = new List<Control>()
                             {
                                 firstBuilding,
                                 secondBuilding,
-                                new ControlsP.CheckBoxList("field", "kod_typ", db.typesOfPlace.Select(t=>t.typ_lok).ToList(), db.typesOfPlace.Select(t=>t.kod_typ.ToString()).ToList(), db.typesOfPlace.Select(t=>t.kod_typ.ToString()).ToList(), true)
+                                new MyControls.CheckBoxList("field", "kod_typ", db.typesOfPlace.Select(t=>t.typ_lok).ToList(), db.typesOfPlace.Select(t=>t.kod_typ.ToString()).ToList(), db.typesOfPlace.Select(t=>t.kod_typ.ToString()).ToList(), true)
                             };
                     }
 
@@ -90,35 +90,35 @@ namespace czynsze.Forms
 
                     break;
 
-                case EnumP.Report.MonthlySumOfComponent:
+                case Enums.Report.MonthlySumOfComponent:
                     heading += "(Sumy miesięczne składnika)";
 
                     break;
 
-                case EnumP.Report.ReceivablesAndTurnoversOfTenant:
+                case Enums.Report.ReceivablesAndTurnoversOfTenant:
                     heading += "(Należności i obroty najemcy)";
 
                     break;
 
-                case EnumP.Report.MonthlyAnalysisOfReceivablesAndTurnovers:
+                case Enums.Report.MonthlyAnalysisOfReceivablesAndTurnovers:
                     heading += "(Analiza miesięczna)";
 
                     break;
 
-                case EnumP.Report.DetailedAnalysisOfReceivablesAndTurnovers:
+                case Enums.Report.DetailedAnalysisOfReceivablesAndTurnovers:
                     heading += "(Analiza szczegółowa)";
 
                     break;
             }
 
             placeOfConfigurationFields.Controls.Add(new LiteralControl("<h2>" + heading + "</h2>"));
-            controls.Add(new ControlsP.RadioButtonList("list", "format", new List<string>() { "PDF", "CSV" }, new List<string>() { EnumP.ReportFormat.Pdf.ToString(), EnumP.ReportFormat.Csv.ToString() }, EnumP.ReportFormat.Pdf.ToString(), true, false));
+            controls.Add(new MyControls.RadioButtonList("list", "format", new List<string>() { "PDF", "CSV" }, new List<string>() { Enums.ReportFormat.Pdf.ToString(), Enums.ReportFormat.Csv.ToString() }, Enums.ReportFormat.Pdf.ToString(), true, false));
             labels.Add("Format: ");
 
             for (int i = 0; i < controls.Count; i++)
             {
                 placeOfConfigurationFields.Controls.Add(new LiteralControl("<div class='fieldWithLabel'>"));
-                placeOfConfigurationFields.Controls.Add(new ControlsP.Label("label", controls[i].ID, labels[i], String.Empty));
+                placeOfConfigurationFields.Controls.Add(new MyControls.Label("label", controls[i].ID, labels[i], String.Empty));
                 placeOfConfigurationFields.Controls.Add(new LiteralControl("<br />"));
                 placeOfConfigurationFields.Controls.Add(controls[i]);
                 placeOfConfigurationFields.Controls.Add(new LiteralControl("</div>"));
@@ -145,7 +145,7 @@ namespace czynsze.Forms
 
             switch (report)
             {
-                case EnumP.Report.PlacesInEachBuilding:
+                case Enums.Report.PlacesInEachBuilding:
                     int kod_1_start;
                     int kod_1_end;
                     List<int> selectedTypesOfPlace = new List<int>();
@@ -187,10 +187,10 @@ namespace czynsze.Forms
 
                     break;
 
-                case EnumP.Report.MonthlySumOfComponent:
-                case EnumP.Report.ReceivablesAndTurnoversOfTenant:
-                case EnumP.Report.MonthlyAnalysisOfReceivablesAndTurnovers:
-                case EnumP.Report.DetailedAnalysisOfReceivablesAndTurnovers:
+                case Enums.Report.MonthlySumOfComponent:
+                case Enums.Report.ReceivablesAndTurnoversOfTenant:
+                case Enums.Report.MonthlyAnalysisOfReceivablesAndTurnovers:
+                case Enums.Report.DetailedAnalysisOfReceivablesAndTurnovers:
                     tables = new List<List<string[]>> { new List<string[]>() };
                     List<DataAccess.Receivable> receivables = null;
                     List<DataAccess.Turnover> turnovers = null;
@@ -204,19 +204,19 @@ namespace czynsze.Forms
 
                         switch (Hello.CurrentSet)
                         {
-                            case EnumP.SettlementTable.Czynsze:
+                            case Enums.SettlementTable.Czynsze:
                                 receivables = db.receivablesFor14.Where(r => r.nr_kontr == additionalId).ToList().Cast<DataAccess.Receivable>().ToList();
                                 turnovers = db.turnoversFor14.Where(t => t.nr_kontr == additionalId).ToList().Cast<DataAccess.Turnover>().ToList();
 
                                 break;
 
-                            case EnumP.SettlementTable.SecondSet:
+                            case Enums.SettlementTable.SecondSet:
                                 receivables = db.receivablesFor14From2ndSet.Where(r => r.nr_kontr == additionalId).ToList().Cast<DataAccess.Receivable>().ToList();
                                 turnovers = db.turnoversFor14From2ndSet.Where(t => t.nr_kontr == additionalId).ToList().Cast<DataAccess.Turnover>().ToList();
 
                                 break;
 
-                            case EnumP.SettlementTable.ThirdSet:
+                            case Enums.SettlementTable.ThirdSet:
                                 receivables = db.receivablesFor14From3rdSet.Where(r => r.nr_kontr == additionalId).ToList().Cast<DataAccess.Receivable>().ToList();
                                 turnovers = db.turnoversFor14From3rdSet.Where(t => t.nr_kontr == additionalId).ToList().Cast<DataAccess.Turnover>().ToList();
 
@@ -225,7 +225,7 @@ namespace czynsze.Forms
 
                         switch (report)
                         {
-                            case EnumP.Report.MonthlySumOfComponent:
+                            case Enums.Report.MonthlySumOfComponent:
                                 title = "ZESTAWIENIE ROZLICZEN MIESIECZNYCH ZA ROK 2014";
                                 headers = new List<string>() { "m-c", "Wartość" };
 
@@ -251,7 +251,7 @@ namespace czynsze.Forms
 
                                 break;
 
-                            case EnumP.Report.ReceivablesAndTurnoversOfTenant:
+                            case Enums.Report.ReceivablesAndTurnoversOfTenant:
                                 title = "ZESTAWIENIE NALEZNOSCI I WPLAT";
                                 headers = new List<string> { "Kwota Wn", "Kwota Ma", "Data", "Operacja" };
 
@@ -282,7 +282,7 @@ namespace czynsze.Forms
 
                                 break;
 
-                            case EnumP.Report.MonthlyAnalysisOfReceivablesAndTurnovers:
+                            case Enums.Report.MonthlyAnalysisOfReceivablesAndTurnovers:
                                 title = "ZESTAWIENIE ROZLICZEN MIESIECZNYCH";
                                 headers = new List<string>() { "m-c", "suma WN w miesiącu", "suma MA w miesiącu", "saldo w miesiącu", "suma WN narastająco", "suma MA narastająco", "saldo narastająco" };
                                 List<float> wnAmounts = new List<float>();
@@ -303,7 +303,7 @@ namespace czynsze.Forms
 
                                 break;
 
-                            case EnumP.Report.DetailedAnalysisOfReceivablesAndTurnovers:
+                            case Enums.Report.DetailedAnalysisOfReceivablesAndTurnovers:
                                 title = "ZESTAWIENIE ROZLICZEN MIESIECZNYCH";
                                 headers = new List<string>() { "m-c", "Dziennik komornego", "Wpłaty", "Zmniejszenia", "Zwiększenia", "Saldo miesiąca", "Saldo narastająco" };
                                 string[] newRow;

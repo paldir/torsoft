@@ -131,19 +131,19 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ControlsP\Button.cs" />
-    <Compile Include="ControlsP\CheckBoxList.cs" />
-    <Compile Include="ControlsP\DropDownListP.cs" />
-    <Compile Include="ControlsP\HtmlGenericControl.cs" />
-    <Compile Include="ControlsP\HtmlIframe.cs" />
-    <Compile Include="ControlsP\HtmlInputHidden.cs" />
-    <Compile Include="ControlsP\HtmlInputRadioButton.cs" />
-    <Compile Include="ControlsP\Label.cs" />
-    <Compile Include="ControlsP\LinkButton.cs" />
-    <Compile Include="ControlsP\RadioButtonList.cs" />
-    <Compile Include="ControlsP\RadioButton.cs" />
-    <Compile Include="ControlsP\Table.cs" />
-    <Compile Include="ControlsP\TextBox.cs" />
+    <Compile Include="MyControls\Button.cs" />
+    <Compile Include="MyControls\CheckBoxList.cs" />
+    <Compile Include="MyControls\DropDownListP.cs" />
+    <Compile Include="MyControls\HtmlGenericControl.cs" />
+    <Compile Include="MyControls\HtmlIframe.cs" />
+    <Compile Include="MyControls\HtmlInputHidden.cs" />
+    <Compile Include="MyControls\HtmlInputRadioButton.cs" />
+    <Compile Include="MyControls\Label.cs" />
+    <Compile Include="MyControls\LinkButton.cs" />
+    <Compile Include="MyControls\RadioButtonList.cs" />
+    <Compile Include="MyControls\RadioButton.cs" />
+    <Compile Include="MyControls\Table.cs" />
+    <Compile Include="MyControls\TextBox.cs" />
     <Compile Include="DataAccess\Attribute.cs" />
     <Compile Include="DataAccess\AttributeOfBuilding.cs" />
     <Compile Include="DataAccess\AttributeOfCommunity.cs" />
@@ -180,7 +180,7 @@
     <Compile Include="DataAccess\TypeOfTenant.cs" />
     <Compile Include="DataAccess\User.cs" />
     <Compile Include="DataAccess\VatRate.cs" />
-    <Compile Include="EnumP.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="Forms\AttributeOfObject.aspx.cs">
       <DependentUpon>AttributeOfObject.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

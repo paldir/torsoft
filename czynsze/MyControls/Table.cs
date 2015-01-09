@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI;
 using System.Drawing;
 
-namespace czynsze.ControlsP
+namespace czynsze.MyControls
 {
     public class Table : System.Web.UI.WebControls.Table
     {

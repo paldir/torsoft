@@ -5,7 +5,7 @@ using System.Web;
 
 namespace czynsze
 {
-    public static class EnumP
+    public static class Enums
     {
         public enum Action
         {
