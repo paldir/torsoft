@@ -222,7 +222,14 @@ namespace czynsze.Forms
                             values = new string[numberOfFields];
 
                             using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                                values[0] = (db.places.Select(p => p.nr_system).ToList().Max() + 1).ToString();
+                            {
+                                List<DataAccess.Place> places = db.places.ToList().Cast<DataAccess.Place>().ToList().Concat(db.inactivePlaces.ToList().Cast<DataAccess.InactivePlace>().ToList()).ToList();
+
+                                if (places.Count > 0)
+                                    values[0] = (places.Max(p => p.nr_system) + 1).ToString();
+                                else
+                                    values[0] = "0";
+                            }
 
                             values[1] = values[2] = "0";
                         }
@@ -306,14 +313,14 @@ namespace czynsze.Forms
                     if (idEnabled)
                     {
                         using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                            controls.Add(new MyControls.DropDownListP("field", "kod_lok", db.buildings.ToList().OrderBy(b => b.kod_1).Select(b => b.ImportantFields()).ToList(), values[1], idEnabled, false));
+                            controls.Add(new MyControls.DropDownList("field", "kod_lok", db.buildings.ToList().OrderBy(b => b.kod_1).Select(b => b.ImportantFields()).ToList(), values[1], idEnabled, false));
 
                         controls.Add(new MyControls.TextBox("field", "nr_lok", values[2], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
                     }
                     else
                     {
                         using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                            controls.Add(new MyControls.DropDownListP("field", "kod_lok_disabled", db.buildings.ToList().OrderBy(b => b.kod_1).Select(b => b.ImportantFields()).ToList(), values[1], idEnabled, false));
+                            controls.Add(new MyControls.DropDownList("field", "kod_lok_disabled", db.buildings.ToList().OrderBy(b => b.kod_1).Select(b => b.ImportantFields()).ToList(), values[1], idEnabled, false));
 
                         controls.Add(new MyControls.TextBox("field", "nr_lok_disabled", values[2], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
 
@@ -322,7 +329,7 @@ namespace czynsze.Forms
                     }
 
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                        controls.Add(new MyControls.DropDownListP("field", "kod_typ", db.typesOfPlace.ToList().Select(t => t.ImportantFieldsForDropDown()).ToList(), values[3], globalEnabled, false));
+                        controls.Add(new MyControls.DropDownList("field", "kod_typ", db.typesOfPlace.ToList().Select(t => t.ImportantFieldsForDropDown()).ToList(), values[3], globalEnabled, false));
 
                     controls.Add(new MyControls.TextBox("field", "adres", values[4], MyControls.TextBox.TextBoxMode.SingleLine, 30, 1, globalEnabled));
                     controls.Add(new MyControls.TextBox("field", "adres_2", values[5], MyControls.TextBox.TextBoxMode.SingleLine, 30, 1, globalEnabled));
@@ -340,14 +347,14 @@ namespace czynsze.Forms
 
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                     {
-                        controls.Add(new MyControls.DropDownListP("field", "kod_kuch", db.typesOfKitchen.ToList().Select(t => t.ImportantFieldsForDropDown()).ToList(), values[17], globalEnabled, false));
-                        controls.Add(new MyControls.DropDownListP("field", "nr_kontr", db.tenants.OrderBy(t => t.nazwisko).ToList().Select(t => t.ImportantFields().ToList().GetRange(1, 4).ToArray()).ToList(), values[18], globalEnabled, true));
+                        controls.Add(new MyControls.DropDownList("field", "kod_kuch", db.typesOfKitchen.ToList().Select(t => t.ImportantFieldsForDropDown()).ToList(), values[17], globalEnabled, false));
+                        controls.Add(new MyControls.DropDownList("field", "nr_kontr", db.tenants.OrderBy(t => t.nazwisko).ToList().Select(t => t.ImportantFields().ToList().GetRange(1, 4).ToArray()).ToList(), values[18], globalEnabled, true));
                     }
 
                     controls.Add(new MyControls.TextBox("field", "il_osob", values[19], MyControls.TextBox.TextBoxMode.Number, 3, 1, globalEnabled));
 
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                        controls.Add(new MyControls.DropDownListP("field", "kod_praw", db.titles.ToList().Select(t => t.ImportantFieldsForDropDown()).ToList(), values[20], globalEnabled, false));
+                        controls.Add(new MyControls.DropDownList("field", "kod_praw", db.titles.ToList().Select(t => t.ImportantFieldsForDropDown()).ToList(), values[20], globalEnabled, false));
 
                     controls.Add(new MyControls.TextBox("field", "uwagi", values[21], MyControls.TextBox.TextBoxMode.MultiLine, 240, 4, globalEnabled));
 
@@ -357,7 +364,6 @@ namespace czynsze.Forms
                     try
                     {
                         using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                        {
                             switch (action)
                             {
                                 case Enums.Action.Dodaj:
@@ -372,7 +378,6 @@ namespace czynsze.Forms
 
                                     break;
                             }
-                        }
                     }
                     catch { }
                     //
@@ -430,7 +435,14 @@ namespace czynsze.Forms
                             values = new string[numberOfFields];
 
                             using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                                values[0] = (db.tenants.Select(t => t.nr_kontr).ToList().Max() + 1).ToString();
+                            {
+                                List<DataAccess.Tenant> tenants = db.tenants.ToList().Cast<DataAccess.Tenant>().ToList().Concat(db.inactiveTenants.ToList().Cast<DataAccess.Tenant>().ToList()).ToList();
+
+                                if (tenants.Count > 0)
+                                    values[0] = (tenants.Max(t => t.nr_kontr) + 1).ToString();
+                                else
+                                    values[0] = "1";
+                            }
                         }
 
                         attributesOfObject = new List<DataAccess.AttributeOfObject>();
@@ -475,7 +487,7 @@ namespace czynsze.Forms
                     placeOfButtons.Controls.Add(new MyControls.HtmlInputHidden("id", values[0]));
 
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                        controls.Add(new MyControls.DropDownListP("field", "kod_najem", db.typesOfTenant.ToList().Select(t => t.ImportantFieldsForDropDown()).ToList(), values[1], globalEnabled, false));
+                        controls.Add(new MyControls.DropDownList("field", "kod_najem", db.typesOfTenant.ToList().Select(t => t.ImportantFieldsForDropDown()).ToList(), values[1], globalEnabled, false));
 
                     controls.Add(new MyControls.TextBox("field", "nazwisko", values[2], MyControls.TextBox.TextBoxMode.SingleLine, 25, 1, globalEnabled));
                     controls.Add(new MyControls.TextBox("field", "imie", values[3], MyControls.TextBox.TextBoxMode.SingleLine, 25, 1, globalEnabled));
@@ -527,11 +539,11 @@ namespace czynsze.Forms
                     }
 
                     controls.Add(new MyControls.TextBox("field", "nazwa", values[1], MyControls.TextBox.TextBoxMode.SingleLine, 30, 1, globalEnabled));
-                    controls.Add(new MyControls.DropDownListP("field", "rodz_e", new List<string[]> { new string[] { "1", "dziennik komornego" }, new string[] { "2", "wpłaty" }, new string[] { "3", "zmniejszenia" }, new string[] { "4", "zwiększenia" } }, values[2], globalEnabled, false));
-                    controls.Add(new MyControls.DropDownListP("field", "s_zaplat", new List<string[]> { new string[] { "1", "za m2 pow. użytkowej" }, new string[] { "2", "za określoną ilość" }, new string[] { "3", "za osobę" }, new string[] { "4", "za lokal" }, new string[] { "5", "za ilość dni w miesiącu" }, new string[] { "6", "za osobę - przedziały" } }, values[3], globalEnabled, false));
+                    controls.Add(new MyControls.DropDownList("field", "rodz_e", new List<string[]> { new string[] { "1", "dziennik komornego" }, new string[] { "2", "wpłaty" }, new string[] { "3", "zmniejszenia" }, new string[] { "4", "zwiększenia" } }, values[2], globalEnabled, false));
+                    controls.Add(new MyControls.DropDownList("field", "s_zaplat", new List<string[]> { new string[] { "1", "za m2 pow. użytkowej" }, new string[] { "2", "za określoną ilość" }, new string[] { "3", "za osobę" }, new string[] { "4", "za lokal" }, new string[] { "5", "za ilość dni w miesiącu" }, new string[] { "6", "za osobę - przedziały" } }, values[3], globalEnabled, false));
                     controls.Add(new MyControls.TextBox("field", "stawka", values[4], MyControls.TextBox.TextBoxMode.Float, 10, 1, globalEnabled));
                     controls.Add(new MyControls.TextBox("field", "stawka_inf", values[5], MyControls.TextBox.TextBoxMode.Float, 10, 1, globalEnabled));
-                    controls.Add(new MyControls.DropDownListP("field", "typ_skl", new List<string[]> { new string[] { "0", "stały" }, new string[] { "1", "zmienny" } }, values[6], globalEnabled, false));
+                    controls.Add(new MyControls.DropDownList("field", "typ_skl", new List<string[]> { new string[] { "0", "stały" }, new string[] { "1", "zmienny" } }, values[6], globalEnabled, false));
                     controls.Add(new MyControls.TextBox("field", "data_1", values[7], MyControls.TextBox.TextBoxMode.Date, 10, 1, globalEnabled));
                     controls.Add(new MyControls.TextBox("field", "data_2", values[8], MyControls.TextBox.TextBoxMode.Date, 10, 1, globalEnabled));
 
@@ -818,7 +830,7 @@ namespace czynsze.Forms
 
                     controls.Add(new MyControls.TextBox("field", "typ_wplat", values[1], MyControls.TextBox.TextBoxMode.SingleLine, 15, 1, globalEnabled));
 
-                    controls.Add(new MyControls.DropDownListP("field", "rodz_e", new List<string[]>()
+                    controls.Add(new MyControls.DropDownList("field", "rodz_e", new List<string[]>()
                     {
                         new string[] {"0", String.Empty},
                         new string[] {"1", "dziennik komornego"},
@@ -827,7 +839,7 @@ namespace czynsze.Forms
                         new string[] {"4", "zwiększenia"}
                     }, values[2], globalEnabled, false));
 
-                    controls.Add(new MyControls.DropDownListP("field", "s_rozli", new List<string[]>()
+                    controls.Add(new MyControls.DropDownList("field", "s_rozli", new List<string[]>()
                     {
                         new string[] {"1", "Zmniejszenie"},
                         new string[] {"2", "Zwiększenie"},
@@ -838,7 +850,7 @@ namespace czynsze.Forms
                     controls.Add(new MyControls.RadioButtonList("field", "nota_odset", new List<string>() { "Nie", "Tak" }, new List<string>() { "0", "1" }, values[5], globalEnabled, false));
 
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                        controls.Add(new MyControls.DropDownListP("field", "vat", db.vatRates.ToList().Select(r => r.ImportantFieldsForDropDown()).ToList(), values[6], globalEnabled, false));
+                        controls.Add(new MyControls.DropDownList("field", "vat", db.vatRates.ToList().Select(r => r.ImportantFieldsForDropDown()).ToList(), values[6], globalEnabled, false));
 
                     controls.Add(new MyControls.TextBox("field", "sww", values[7], MyControls.TextBox.TextBoxMode.SingleLine, 10, 1, globalEnabled));
 
@@ -1073,47 +1085,19 @@ namespace czynsze.Forms
 
                     if (values == null)
                     {
-                        using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                            if (action != Enums.Action.Dodaj)
-                                switch (Hello.CurrentSet)
-                                {
-                                    case Enums.SettlementTable.Czynsze:
-                                        values = db.turnoversFor14.FirstOrDefault(t => t.__record == id).AllFields();
+                        List<DataAccess.Turnover> turnOvers = DataAccess.Turnover.SettlementTableToListOfTurnovers[Hello.CurrentSet];
 
-                                        break;
+                        if (action != Enums.Action.Dodaj)
+                            values = turnOvers.FirstOrDefault(t => t.__record == id).AllFields();
+                        else
+                        {
+                            values = new string[numberOfFields];
 
-                                    case Enums.SettlementTable.SecondSet:
-                                        values = db.turnoversFor14From2ndSet.FirstOrDefault(t => t.__record == id).AllFields();
-
-                                        break;
-
-                                    case Enums.SettlementTable.ThirdSet:
-                                        values = db.turnoversFor14From3rdSet.FirstOrDefault(t => t.__record == id).AllFields();
-
-                                        break;
-                                }
+                            if (turnOvers.Count == 0)
+                                values[0] = "1";
                             else
-                            {
-                                values = new string[numberOfFields];
-
-                                switch (Hello.CurrentSet)
-                                {
-                                    case Enums.SettlementTable.Czynsze:
-                                        values[0] = (db.turnoversFor14.Max(t => t.__record) + 1).ToString();
-
-                                        break;
-
-                                    case Enums.SettlementTable.SecondSet:
-                                        values[0] = (db.turnoversFor14From2ndSet.Max(t => t.__record) + 1).ToString();
-
-                                        break;
-
-                                    case Enums.SettlementTable.ThirdSet:
-                                        values[0] = (db.turnoversFor14From3rdSet.Max(t => t.__record) + 1).ToString();
-
-                                        break;
-                                }
-                            }
+                                values[0] = (turnOvers.Max(t => t.__record) + 1).ToString();
+                        }
                     }
 
                     form.Controls.Add(new MyControls.HtmlInputHidden("id", values[0]));

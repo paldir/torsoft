@@ -133,7 +133,7 @@
   <ItemGroup>
     <Compile Include="MyControls\Button.cs" />
     <Compile Include="MyControls\CheckBoxList.cs" />
-    <Compile Include="MyControls\DropDownListP.cs" />
+    <Compile Include="MyControls\DropDownList.cs" />
     <Compile Include="MyControls\HtmlGenericControl.cs" />
     <Compile Include="MyControls\HtmlIframe.cs" />
     <Compile Include="MyControls\HtmlInputHidden.cs" />

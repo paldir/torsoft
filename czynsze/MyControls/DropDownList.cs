@@ -7,9 +7,9 @@ using System.Web.UI.WebControls;
 
 namespace czynsze.MyControls
 {
-    public class DropDownListP : DropDownList
+    public class DropDownList : System.Web.UI.WebControls.DropDownList
     {
-        public DropDownListP(string cSSClass, string id, List<string[]> rows, string selectedValue, bool enabled, bool addEmptyItem)
+        public DropDownList(string cSSClass, string id, List<string[]> rows, string selectedValue, bool enabled, bool addEmptyItem)
         {
             CssClass = cSSClass;
             ID = id;
@@ -21,7 +21,7 @@ namespace czynsze.MyControls
             foreach (string[] row in rows)
             {
                 string value = row[0];
-                string text = "";
+                string text = String.Empty;
 
                 for (int i = 1; i < row.Length; i++)
                     text += row[i] + ", ";

@@ -208,7 +208,7 @@ namespace czynsze.Forms
                         if (Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("showAddingWindow"))] != null)
                         {
                             placeOfNewAttribute.Controls.Add(new MyControls.Label("label", "kod", "Nowa cecha: ", String.Empty));
-                            placeOfNewAttribute.Controls.Add(new MyControls.DropDownListP("field", "kod", rowsOfDropDown, String.Empty, true, false));
+                            placeOfNewAttribute.Controls.Add(new MyControls.DropDownList("field", "kod", rowsOfDropDown, String.Empty, true, false));
                             placeOfNewAttribute.Controls.Add(new MyControls.Label("label", "wartosc", "<br />Wartość: ", String.Empty));
                             placeOfNewAttribute.Controls.Add(new MyControls.TextBox("field", "wartosc", String.Empty, MyControls.TextBox.TextBoxMode.SingleLine, 25, 1, true));
                             placeOfNewAttribute.Controls.Add(new LiteralControl("<span id='unit'></span>"));

@@ -25,7 +25,21 @@ namespace czynsze.DataAccess
 
         public abstract string uwagi { get; set; }
 
+        public static Dictionary<Enums.SettlementTable, List<Turnover>> SettlementTableToListOfTurnovers { get; private set; }
+
         enum Account { Wn, Ma };
+
+        static Turnover()
+        {
+            SettlementTableToListOfTurnovers = new Dictionary<Enums.SettlementTable, List<Turnover>>();
+
+            using (Czynsze_Entities db = new Czynsze_Entities())
+            {
+                SettlementTableToListOfTurnovers.Add(Enums.SettlementTable.Czynsze, new Czynsze_Entities().turnoversFor14.ToList().Cast<DataAccess.Turnover>().ToList());
+                SettlementTableToListOfTurnovers.Add(Enums.SettlementTable.SecondSet, new Czynsze_Entities().turnoversFor14From2ndSet.ToList().Cast<DataAccess.Turnover>().ToList());
+                SettlementTableToListOfTurnovers.Add(Enums.SettlementTable.ThirdSet, new Czynsze_Entities().turnoversFor14From3rdSet.ToList().Cast<DataAccess.Turnover>().ToList());
+            }
+        }
 
         public string[] ImportantFields()
         {

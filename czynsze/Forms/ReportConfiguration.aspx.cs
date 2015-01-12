@@ -62,16 +62,23 @@ namespace czynsze.Forms
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                     {
                         heading += "(Lokale w budynkach)";
-                        int firstBuildingNumber = db.buildings.Select(b => b.kod_1).Min();
-                        int lastBuildingNumber = db.buildings.Select(b => b.kod_1).Max();
+                        int firstBuildingNumber, lastBuildingNumber;
                         MyControls.HtmlGenericControl firstBuilding = new MyControls.HtmlGenericControl("div", "control");
                         MyControls.HtmlGenericControl secondBuilding = new MyControls.HtmlGenericControl("div", "control");
                         List<string[]> buildings = db.buildings.ToList().OrderBy(b => b.kod_1).Select(b => b.ImportantFields()).ToList();
 
+                        if (db.buildings.Count() > 0)
+                        {
+                            firstBuildingNumber = db.buildings.Min(b => b.kod_1);
+                            lastBuildingNumber = db.buildings.Max(b => b.kod_1);
+                        }
+                        else
+                            firstBuildingNumber = lastBuildingNumber = 0;
+
                         firstBuilding.Controls.Add(new MyControls.TextBox("field", "kod_1_start", firstBuildingNumber.ToString(), MyControls.TextBox.TextBoxMode.Number, 5, 1, true));
-                        firstBuilding.Controls.Add(new MyControls.DropDownListP("field", "kod_1_start_dropdown", buildings, firstBuildingNumber.ToString(), true, false));
+                        firstBuilding.Controls.Add(new MyControls.DropDownList("field", "kod_1_start_dropdown", buildings, firstBuildingNumber.ToString(), true, false));
                         secondBuilding.Controls.Add(new MyControls.TextBox("field", "kod_1_end", lastBuildingNumber.ToString(), MyControls.TextBox.TextBoxMode.Number, 5, 1, true));
-                        secondBuilding.Controls.Add(new MyControls.DropDownListP("field", "kod_1_end_dropdown", buildings, lastBuildingNumber.ToString(), true, false));
+                        secondBuilding.Controls.Add(new MyControls.DropDownList("field", "kod_1_end_dropdown", buildings, lastBuildingNumber.ToString(), true, false));
 
                         controls = new List<Control>()
                             {
