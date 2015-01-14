@@ -956,6 +956,8 @@ namespace czynsze.Forms
                                 GetParamValue<string>("uwagi")
                             };
 
+                            validationResult = DataAccess.Turnover.Validate(record);
+
                             break;
                     }
 

@@ -137,5 +137,14 @@ namespace czynsze.DataAccess
                 uwagi.Trim()
             };
         }
+
+        public static string Validate(string[] record)
+        {
+            string validationResult = String.Empty;
+
+            throw new NotImplementedException();
+
+            return validationResult;
+        }
     }
 }
