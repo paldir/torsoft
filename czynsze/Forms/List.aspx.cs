@@ -583,6 +583,8 @@ namespace czynsze.Forms
                         }
 
                         rows = turnovers.OrderBy(t => Convert.ToDateTime(t.data_obr)).Select(t => t.ImportantFields()).ToList();
+
+                        placeOfMainTableButtons.Controls.Add(new MyControls.HtmlInputHidden("additionalId", id.ToString()));
                     }
 
                     break;

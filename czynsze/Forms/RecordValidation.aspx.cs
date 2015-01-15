@@ -941,7 +941,7 @@ namespace czynsze.Forms
                             break;
 
                         case Enums.Table.TenantTurnovers:
-                            DataAccess.Turnover turnOver;
+                            DataAccess.Turnover turnOver = null;
                             nominativeCase = "obrót najemcy";
                             genitiveCase = "obrotu najemcy";
 
@@ -950,13 +950,114 @@ namespace czynsze.Forms
                                 GetParamValue<string>("id"),
                                 GetParamValue<string>("suma"),
                                 GetParamValue<string>("data_obr"),
+                                GetParamValue<string>("?"),
                                 GetParamValue<string>("kod_wplat"),
                                 GetParamValue<string>("nr_dowodu"),
                                 GetParamValue<string>("pozycja_d"),
-                                GetParamValue<string>("uwagi")
+                                GetParamValue<string>("uwagi"),
+                                GetParamValue<string>("nr_kontr")
                             };
 
-                            validationResult = DataAccess.Turnover.Validate(record);
+                            validationResult = DataAccess.Turnover.Validate(record, action);
+
+                            if (validationResult == String.Empty)
+                            {
+                                switch (action)
+                                {
+                                    case Enums.Action.Dodaj:
+                                        switch (Hello.CurrentSet)
+                                        {
+                                            case Enums.SettlementTable.Czynsze:
+                                                turnOver = new DataAccess.TurnoverFor14();
+
+                                                break;
+
+                                            case Enums.SettlementTable.SecondSet:
+                                                turnOver = new DataAccess.TurnoverFor14From2ndSet();
+
+                                                break;
+
+                                            case Enums.SettlementTable.ThirdSet:
+                                                turnOver = new DataAccess.TurnoverFor14From3rdSet();
+
+                                                break;
+                                        }
+
+                                        turnOver.Set(record);
+
+                                        switch (Hello.CurrentSet)
+                                        {
+                                            case Enums.SettlementTable.Czynsze:
+                                                db.turnoversFor14.Add((DataAccess.TurnoverFor14)turnOver);
+
+                                                break;
+
+                                            case Enums.SettlementTable.SecondSet:
+                                                db.turnoversFor14From2ndSet.Add((DataAccess.TurnoverFor14From2ndSet)turnOver);
+
+                                                break;
+
+                                            case Enums.SettlementTable.ThirdSet:
+                                                db.turnoversFor14From3rdSet.Add((DataAccess.TurnoverFor14From3rdSet)turnOver);
+
+                                                break;
+                                        }
+
+                                        break;
+
+                                    case Enums.Action.Edytuj:
+                                        switch (Hello.CurrentSet)
+                                        {
+                                            case Enums.SettlementTable.Czynsze:
+                                                turnOver = db.turnoversFor14.FirstOrDefault(t => t.__record == id);
+
+                                                break;
+
+                                            case Enums.SettlementTable.SecondSet:
+                                                turnOver = db.turnoversFor14From2ndSet.FirstOrDefault(t => t.__record == id);
+
+                                                break;
+
+                                            case Enums.SettlementTable.ThirdSet:
+                                                turnOver = db.turnoversFor14From3rdSet.FirstOrDefault(t => t.__record == id);
+
+                                                break;
+                                        }
+
+                                        turnOver.Set(record);
+
+                                        break;
+
+                                    case Enums.Action.Usuń:
+                                        switch (Hello.CurrentSet)
+                                        {
+                                            case Enums.SettlementTable.Czynsze:
+                                                turnOver = db.turnoversFor14.FirstOrDefault(t => t.__record == id);
+
+                                                db.turnoversFor14.Remove((DataAccess.TurnoverFor14)turnOver);
+
+                                                break;
+
+                                            case Enums.SettlementTable.SecondSet:
+                                                turnOver = db.turnoversFor14From2ndSet.FirstOrDefault(t => t.__record == id);
+
+                                                db.turnoversFor14From2ndSet.Remove((DataAccess.TurnoverFor14From2ndSet)turnOver);
+
+                                                break;
+
+                                            case Enums.SettlementTable.ThirdSet:
+                                                turnOver = db.turnoversFor14From3rdSet.FirstOrDefault(t => t.__record == id);
+
+                                                db.turnoversFor14From3rdSet.Remove((DataAccess.TurnoverFor14From3rdSet)turnOver);
+
+                                                break;
+                                        }
+
+                                        break;
+                                }
+                            }
+
+                            backUrl = backUrl.Insert(backUrl.LastIndexOf('\''), "&id=" + record[8]);
 
                             break;
                     }

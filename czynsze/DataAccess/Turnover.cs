@@ -25,11 +25,11 @@ namespace czynsze.DataAccess
 
         public abstract string uwagi { get; set; }
 
-        public static Dictionary<Enums.SettlementTable, List<Turnover>> SettlementTableToListOfTurnovers { get; private set; }
+        //public static Dictionary<Enums.SettlementTable, List<Turnover>> SettlementTableToListOfTurnovers { get; private set; }
 
         enum Account { Wn, Ma };
 
-        static Turnover()
+        /*static Turnover()
         {
             SettlementTableToListOfTurnovers = new Dictionary<Enums.SettlementTable, List<Turnover>>();
 
@@ -39,7 +39,7 @@ namespace czynsze.DataAccess
                 SettlementTableToListOfTurnovers.Add(Enums.SettlementTable.SecondSet, new Czynsze_Entities().turnoversFor14From2ndSet.ToList().Cast<DataAccess.Turnover>().ToList());
                 SettlementTableToListOfTurnovers.Add(Enums.SettlementTable.ThirdSet, new Czynsze_Entities().turnoversFor14From3rdSet.ToList().Cast<DataAccess.Turnover>().ToList());
             }
-        }
+        }*/
 
         public string[] ImportantFields()
         {
@@ -48,7 +48,7 @@ namespace czynsze.DataAccess
                 __record.ToString(),
                 String.Format("{0:N2}", suma),
                 data_obr,
-                "?",
+                DateTime.Today.ToShortDateString(),
                 opis,
                 nr_dowodu,
                 pozycja_d.ToString(),
@@ -130,19 +130,42 @@ namespace czynsze.DataAccess
                 __record.ToString(),
                 suma.ToString(),
                 data_obr.Trim(),
-                "?",
+                DateTime.Today.ToShortDateString(),
                 kod_wplat.ToString(),
                 nr_dowodu.Trim(),
                 pozycja_d.ToString(),
-                uwagi.Trim()
+                uwagi.Trim(),
+                nr_kontr.ToString()
             };
         }
 
-        public static string Validate(string[] record)
+        public void Set(string[] record)
+        {
+            __record = Convert.ToInt16(record[0]);
+            suma = Convert.ToSingle(record[1]);
+            data_obr = record[2];
+            //data_NO = record[3];
+            kod_wplat = Convert.ToInt16(record[4]);
+            nr_dowodu = record[5];
+            pozycja_d = Convert.ToInt16(record[6]);
+            uwagi = record[7];
+            nr_kontr = Convert.ToInt16(record[8]);
+
+            using (Czynsze_Entities db = new Czynsze_Entities())
+                opis = db.typesOfPayment.FirstOrDefault(t => t.kod_wplat == kod_wplat).typ_wplat;
+        }
+
+        public static string Validate(string[] record, Enums.Action action)
         {
             string validationResult = String.Empty;
 
-            throw new NotImplementedException();
+            if (action != Enums.Action.Usuń)
+            {
+                validationResult += Czynsze_Entities.ValidateFloat("Kwota", ref record[1]);
+                validationResult += Czynsze_Entities.ValidateDate("Data", ref record[2]);
+                validationResult += Czynsze_Entities.ValidateDate("Data NO", ref record[3]);
+                validationResult += Czynsze_Entities.ValidateInt("Pozycja", ref record[6]);
+            }
 
             return validationResult;
         }

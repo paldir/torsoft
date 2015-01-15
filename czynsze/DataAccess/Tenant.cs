@@ -119,7 +119,6 @@ namespace czynsze.DataAccess
                 }
             }
 
-
             return new string[] 
             { 
                 nr_kontr.ToString(),

@@ -1069,7 +1069,7 @@ namespace czynsze.Forms
 
                 case Enums.Table.TenantTurnovers:
                     Title = "Obrót najemcy";
-                    numberOfFields = 8;
+                    numberOfFields = 9;
                     heading += " obrotu najemcy";
                     columnSwitching = new List<int>() { 0, 3, 4 };
                     labels = new string[]
@@ -1085,13 +1085,17 @@ namespace czynsze.Forms
 
                     if (values == null)
                     {
-                        List<DataAccess.Turnover> turnOvers = DataAccess.Turnover.SettlementTableToListOfTurnovers[Hello.CurrentSet];
+                        List<DataAccess.Turnover> turnOvers;
+
+                        using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                            turnOvers = db.turnoversFor14.ToList().Cast<DataAccess.Turnover>().ToList();
 
                         if (action != Enums.Action.Dodaj)
                             values = turnOvers.FirstOrDefault(t => t.__record == id).AllFields();
                         else
                         {
                             values = new string[numberOfFields];
+                            values[8] = GetParamValue<string>("additionalId");
 
                             if (turnOvers.Count == 0)
                                 values[0] = "1";
@@ -1115,6 +1119,7 @@ namespace czynsze.Forms
                     controls.Add(new MyControls.TextBox("field", "nr_dowodu", values[5], MyControls.TextBox.TextBoxMode.SingleLine, 11, 1, globalEnabled));
                     controls.Add(new MyControls.TextBox("field", "pozycja_d", values[6], MyControls.TextBox.TextBoxMode.Number, 2, 1, globalEnabled));
                     controls.Add(new MyControls.TextBox("field", "uwagi", values[7], MyControls.TextBox.TextBoxMode.SingleLine, 40, 1, globalEnabled));
+                    form.Controls.Add(new MyControls.HtmlInputHidden("nr_kontr", values[8]));
 
                     break;
             }
