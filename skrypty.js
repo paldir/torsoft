@@ -1,11 +1,13 @@
-<?php
-
-/*
+/* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-$content = "index_content.html";
+function wyczyscFiltr_click()
+{
+    var filters = document.getElementsByName("filtr[]");
 
-include 'master.php';
+    for (var i = 0; i < filters.length; i++)
+        filters[i].checked = false;
+}

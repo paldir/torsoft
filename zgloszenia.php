@@ -6,6 +6,6 @@
  * and open the template in the editor.
  */
 
-$content = "index_content.html";
+$content = "zgloszenia_content.php";
 
 include 'master.php';
