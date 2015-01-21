@@ -8,7 +8,15 @@ and open the template in the editor.
     <head>
         <meta charset="UTF-8">
         <title></title>
+        <link href="style.css" rel="stylesheet" type="text/css"/>
         <script src="skrypty.js"></script>
+
+        <?php
+        if (isset($head)) {
+            include $head;
+        }
+        ?>
+
     </head>
     <body>
         <div class="menu">
@@ -17,9 +25,11 @@ and open the template in the editor.
             <a href="pobierz.php">Pobierz</a>
         </div>
         <div class="content">
+
             <?php
             include $content;
             ?>
+
         </div>
     </body>
 </html>

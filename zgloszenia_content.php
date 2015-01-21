@@ -1,5 +1,4 @@
 <?php
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -36,69 +35,94 @@ if ($connection->errno) {
 
     if ($queryResult->num_rows > 0) {
         $headers = array("Identyfikator", "Data", "Kategoria", "Opis");
+        ?>
 
-        echo "<form method='get' action='zgloszenie.php'>";
-        echo "<input type='submit' id='przegladajZgloszenie' name='przegladajZgloszenie' value='Przeglądaj zgłoszenie' />";
-        echo "<table>";
-        echo "<tr>";
+        <form method='get' action='zgloszenie.php'>
+            <input type='submit' id='przegladajZgloszenie' name='przegladajZgloszenie' value='Przeglądaj zgłoszenie' />
+            <table>
+                <tr>
 
-        foreach ($headers as $header) {
-            echo "<th>" . $header . "</th>";
-        }
+                    <?php
+                    foreach ($headers as $header) {
+                        echo "<th>" . $header . "</th>";
+                    }
+                    ?>
 
-        echo "</tr>";
+                </tr>                
 
-        $fieldCount = $queryResult->field_count;
+                <?php
+                $fieldCount = $queryResult->field_count;
 
-        for ($i = 0; $i < $queryResult->num_rows; $i++) {
-            $queryResult->data_seek($i);
+                for ($i = 0; $i < $queryResult->num_rows; $i++) {
+                    $queryResult->data_seek($i);
 
-            $row = $queryResult->fetch_row();
+                    $row = $queryResult->fetch_row();
+                    ?>
 
-            echo "<tr>";
+                    <tr>
+                        <td>
 
-            echo "<td>";
-            echo "<input type='radio' name='id' id='" . $row[0] . "' value='" . $row[0] . "' /><label for='" . $row[0] . "'>" . $row[0] . "</label>";
-            echo "</td>";
+                            <?php
+                            echo "<input type='radio' name='id' id='" . $row[0] . "' value='" . $row[0] . "' /><label for='" . $row[0] . "'>" . $row[0] . "</label>";
+                            ?>
 
-            for ($j = 1; $j < $fieldCount; $j++) {
-                echo "<td><label for='" . $row[0] . "'>" . $row[$j] . "</label></td>";
-            }
+                        </td>
 
-            echo "</tr>";
-        }
+                        <?php
+                        for ($j = 1; $j < $fieldCount; $j++) {
+                            ?>
+                            <td>
 
-        echo "</table>";
-        echo "</form>";
+                                <?php
+                                echo "<label for='" . $row[0] . "'>" . $row[$j] . "</label>";
+                                ?>
 
-        echo "<form method='get' action='zgloszenia.php'>";
-        echo "<fieldset>";
-        echo "<legend>Filtr</legend>";
+                            </td>
+                            <?php
+                        }
+                        ?>
 
-        $queryResult = $connection->query("SELECT id, opis FROM kategoria");
+                    </tr>
 
-        for ($i = 0; $i < $queryResult->num_rows; $i++) {
-            $queryResult->data_seek($i);
-
-            $row = $queryResult->fetch_assoc();
-            $id = "filter" . $row["id"];
-            $checked = "";
-
-            if (isset($filterOptions)) {
-                if (in_array($row["id"], $filterOptions)) {
-                    $checked = "checked";
+                    <?php
                 }
-            } else {
-                $checked = "checked";
-            }
+                ?>
 
-            echo "<input type='checkbox' id='" . $id . "' name='filtr[]' value='" . $row["id"] . "' " . $checked . " /><label for='" . $id . "'>" . $row["opis"] . "</label><br />";
-        }
+            </table>
+        </form>
 
-        echo "<input type='button' id='wyczyscFiltr' Value='Wyczyść' onclick='wyczyscFiltr_click()' />";
-        echo "<input type='submit' id='filtruj' name='filtruj' value='Filtruj' />";
-        echo "</fieldset>";
-        echo "</form>";
+        <form method='get' action='zgloszenia.php'>
+            <fieldset>
+                <legend>Filtr</legend>
+
+                <?php
+                $queryResult = $connection->query("SELECT id, opis FROM kategoria");
+
+                for ($i = 0; $i < $queryResult->num_rows; $i++) {
+                    $queryResult->data_seek($i);
+
+                    $row = $queryResult->fetch_assoc();
+                    $id = "filter" . $row["id"];
+                    $checked = "";
+
+                    if (isset($filterOptions)) {
+                        if (in_array($row["id"], $filterOptions)) {
+                            $checked = "checked";
+                        }
+                    } else {
+                        $checked = "checked";
+                    }
+
+                    echo "<input type='checkbox' id='" . $id . "' name='filtr[]' value='" . $row["id"] . "' " . $checked . " /><label for='" . $id . "'>" . $row["opis"] . "</label><br />";
+                }
+                ?>
+
+                <input type='button' id='wyczyscFiltr' Value='Wyczyść' onclick='wyczyscFiltr_click()' />
+                <input type='submit' id='filtruj' name='filtruj' value='Filtruj' />
+            </fieldset>
+        </form>
+
+        <?php
     } else {
         echo "<p>Brak zgłoszeń.</p>";
     }

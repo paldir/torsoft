@@ -4,10 +4,47 @@
  * and open the template in the editor.
  */
 
+function initializeMapWithOneMarker(lat, lng, title) {
+    var myLatlng = new google.maps.LatLng(lat, lng);
+    var mapOptions = {
+        zoom: 10,
+        center: myLatlng
+    };
+    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+    var marker = new google.maps.Marker({
+        position: myLatlng,
+        map: map,
+        title: title
+    });
+}
+
+function initializeMapWithFewMarkers(positions, descriptions) {
+    var bounds = new google.maps.LatLngBounds();
+
+    for (var i = 0; i < positions.length; i++)
+        bounds.extend(positions[i]);
+
+    var mapOptions = {
+        zoom: 10,
+        center: positions[0]
+    };
+    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    var markers = [];
+    
+    map.fitBounds(bounds);
+
+    for (var i = 0; i < positions.length; i++)
+        markers[markers.length] = new google.maps.Marker({
+            position: positions[i],
+            map: map,
+            title: descriptions[i]
+        });
+}
+
 function wyczyscFiltr_click()
 {
     var filters = document.getElementsByName("filtr[]");
-
     for (var i = 0; i < filters.length; i++)
         filters[i].checked = false;
 }

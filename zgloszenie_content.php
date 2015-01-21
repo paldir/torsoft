@@ -1,5 +1,4 @@
 <?php
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -17,23 +16,44 @@ if (!$connection->errno) {
     if ($queryResult->num_rows == 1) {
         $row = $queryResult->fetch_row();
         $labels = array("Identyfikator: ", "Data: ", "Kategoria: ");
+        ?>
 
-        echo "<table>";
+        <table>
 
-        for ($i = 0; $i < 3; $i++) {
-            echo "<tr>";
-            echo "<td>" . $labels[$i] . "</td>";
-            echo "<td><input type='text' value='" . $row[$i] . "' disabled></td>";
-            echo "</tr>";
-        }
+            <?php
+            for ($i = 0; $i < 3; $i++) {
+                ?>
 
-        echo "<tr>";
-        echo "<td>Opis:</td>";
-        echo "<td><textarea rows='4' cols='50' disabled>" . $row[3] . "</textarea></td>";
-        echo "</tr>";
-        echo "</table>";
+                <tr>
+
+                    <?php
+                    echo "<td>" . $labels[$i] . "</td>";
+                    echo "<td><input type='text' value='" . $row[$i] . "' disabled></td>";
+                    ?>
+
+                </tr>
+
+                <?php
+            }
+            ?>
+
+            <tr>
+                <td>Opis:</td>
+                <td>
+
+                    <?php
+                    echo "<textarea rows='4' cols='50' disabled>" . $row[3] . "</textarea>";
+                    ?>
+
+                </td>
+            </tr>
+        </table>
+
+        <div id='map-canvas'></div>
+
+        <?php
     }
-    
+
     $queryResult->free();
 }
 

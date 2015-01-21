@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-$head = "zgloszenie_head.php";
-$content = "zgloszenie_content.php";
+$head = "mapa_head.php";
+$content = "mapa_content.php";
 
 include 'master.php';
