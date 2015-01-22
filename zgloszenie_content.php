@@ -5,46 +5,35 @@
  * and open the template in the editor.
  */
 
-$config = simplexml_load_file("config.xml");
-$connection = new mysqli($config->host, $config->user, $config->password, $config->database);
-
-$connection->set_charset("utf8");
-
 if (!$connection->errno) {
-    $queryResult = $connection->query("SELECT z.id, data, k.opis, z.opis FROM zgloszenie z JOIN kategoria k ON z.idKategorii=k.id WHERE z.id=" . filter_input(INPUT_GET, "id"));
-
     if ($queryResult->num_rows == 1) {
-        $row = $queryResult->fetch_row();
-        $labels = array("Identyfikator: ", "Data: ", "Kategoria: ");
         ?>
 
         <table>
-
-            <?php
-            for ($i = 0; $i < 3; $i++) {
-                ?>
-
-                <tr>
-
-                    <?php
-                    echo "<td>" . $labels[$i] . "</td>";
-                    echo "<td><input type='text' value='" . $row[$i] . "' disabled></td>";
-                    ?>
-
-                </tr>
-
-                <?php
-            }
-            ?>
-
+            <tr>
+                <td>Identyfikator: </td>
+                <td><input type="text" class="numericalInput" size="10" value="<?php echo $row["id"]; ?>" disabled /></td>
+            </tr>
+            <tr>
+                <td>Data: </td>
+                <td><input type="text" size="19" value="<?php echo $row["data"]; ?>" disabled /></td>
+            </tr>
+            <tr>
+                <td>Typ: </td>
+                <td><input type="text" value="<?php echo $row["opisKategorii"]; ?>" disabled /></td>
+            </tr>
+            <tr>
+                <td>Szerokość geograficzna: </td>
+                <td><input type="text" value="<?php echo $row["szerokosc"]; ?>" disabled /></td>
+            </tr>
+            <tr>
+                <td>Długość geograficzna: </td>
+                <td><input type="text" value="<?php echo $row["dlugosc"]; ?>" disabled /></td>
+            </tr>
             <tr>
                 <td>Opis:</td>
                 <td>
-
-                    <?php
-                    echo "<textarea rows='4' cols='50' disabled>" . $row[3] . "</textarea>";
-                    ?>
-
+                    <textarea rows='4' cols='50' disabled><?php echo $row["opis"]; ?></textarea>;
                 </td>
             </tr>
         </table>

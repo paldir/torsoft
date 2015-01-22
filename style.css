@@ -8,6 +8,25 @@ and open the template in the editor.
     Author     : Zawaś
 */
 
+.menu
+{
+    text-align: center;
+}
+
+.content {
+    display: table; 
+    margin: 0 auto;
+}
+
+.column {
+    float: left;
+}
+
+.numericalInput
+{
+    text-align: right;
+}
+
 #map-canvas {
     height: 500px;
     width: 500px;

@@ -31,7 +31,7 @@ function initializeMapWithFewMarkers(positions, descriptions) {
     };
     var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     var markers = [];
-    
+
     map.fitBounds(bounds);
 
     for (var i = 0; i < positions.length; i++)
@@ -42,9 +42,35 @@ function initializeMapWithFewMarkers(positions, descriptions) {
         });
 }
 
-function wyczyscFiltr_click()
+function id_change()
+{
+    var button = document.getElementById("browseNotification");
+
+    if (button !== null)
+        button.disabled = false;
+}
+
+function clearFilter_click()
 {
     var filters = document.getElementsByName("filtr[]");
+
     for (var i = 0; i < filters.length; i++)
         filters[i].checked = false;
+}
+
+function checkProperLimit(id)
+{
+    var limit = document.getElementById(id);
+
+    if (limit === null)
+    {
+        limit = document.getElementById("other");
+        var other = document.getElementById("otherLimit");
+
+        if (other !== null)
+            other.value = id;
+    }
+
+    if (limit !== null)
+        limit.checked = true;
 }

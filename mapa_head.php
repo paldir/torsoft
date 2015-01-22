@@ -7,10 +7,19 @@
 
 $config = simplexml_load_file("config.xml");
 $connection = new mysqli($config->host, $config->user, $config->password, $config->database);
+$limit = filter_input(INPUT_GET, "limit");
+
+if (isset($limit)) {
+    if (!is_numeric($limit)) {
+        $limit = filter_input(INPUT_GET, "otherLimit");
+    }
+} else {
+    $limit = 10;
+}
 
 $connection->set_charset("utf8");
 
-$queryResult = $connection->query("SELECT z.id, data, k.opis, szerokosc, dlugosc FROM zgloszenie z JOIN kategoria k ON z.idKategorii=k.id ORDER BY data DESC LIMIT 10");
+$queryResult = $connection->query(mysql_escape_string("SELECT z.id, data, k.opis, szerokosc, dlugosc FROM zgloszenie z JOIN kategoria k ON z.idKategorii=k.id ORDER BY data DESC LIMIT " . $limit));
 ?>
 
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
