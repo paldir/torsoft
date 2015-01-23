@@ -19,7 +19,7 @@ function initializeMapWithOneMarker(lat, lng, title) {
     });
 }
 
-function initializeMapWithFewMarkers(positions, descriptions) {
+function initializeMapWithFewMarkers(positions, shortDescriptions, fullHtmlDescriptions) {
     var bounds = new google.maps.LatLngBounds();
 
     for (var i = 0; i < positions.length; i++)
@@ -31,15 +31,30 @@ function initializeMapWithFewMarkers(positions, descriptions) {
     };
     var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     var markers = [];
+    var infoWindows = [];
 
     map.fitBounds(bounds);
 
     for (var i = 0; i < positions.length; i++)
-        markers[markers.length] = new google.maps.Marker({
+    {
+        var infoWindow = new google.maps.InfoWindow({content: "dummy"});
+        var marker = new google.maps.Marker({
             position: positions[i],
             map: map,
-            title: descriptions[i]
+            title: shortDescriptions[i],
+            description: fullHtmlDescriptions[i]
         });
+
+        google.maps.event.addListener(marker, 'click', function () {
+            infoWindow.setContent(this.description);
+            infoWindow.open(map, this);
+        });
+
+        markers.push(marker);
+        infoWindows.push(infoWindow);
+    }
+
+    var markerCluster = new MarkerClusterer(map, markers);
 }
 
 function id_change()
@@ -52,7 +67,7 @@ function id_change()
 
 function clearFilter_click()
 {
-    var filters = document.getElementsByName("filtr[]");
+    var filters = document.getElementsByName("filter[]");
 
     for (var i = 0; i < filters.length; i++)
         filters[i].checked = false;

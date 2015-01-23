@@ -14,7 +14,7 @@ if ($connection->errno) {
     echo 'Nie można połączyć się z serwerem bazy danych.';
 } else {
     $whereStatement = "";
-    $filterOptions = filter_input(INPUT_GET, "filtr", FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
+    $filterOptions = filter_input(INPUT_GET, "filter", FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
 
     if (isset($filterOptions)) {
         $whereStatement = "WHERE idKategorii IN(";
@@ -113,14 +113,14 @@ if ($connection->errno) {
                         }
                         ?>
 
-                        <input type='checkbox' id='<?php echo $id; ?>' name='filtr[]' value='<?php echo $row["id"]; ?>' <?php echo $checked; ?> /><label for='<?php echo $id; ?>'><?php echo $row["opis"] ?></label><br />
+                        <input type='checkbox' id='<?php echo $id; ?>' name='filter[]' value='<?php echo $row["id"]; ?>' <?php echo $checked; ?> /><label for='<?php echo $id; ?>'><?php echo $row["opis"] ?></label><br />
 
                         <?php
                     }
                     ?>
 
                     <input type='button' id='clearFilter' Value='Wyczyść' onclick='clearFilter_click()' />
-                    <input type='submit' id='filter' name='filter' value='Filtruj' />
+                    <input type='submit' id='filterButton' name='filterButton' value='Filtruj' />
                 </fieldset>
             </form>
         </div>

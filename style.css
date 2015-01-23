@@ -27,6 +27,18 @@ and open the template in the editor.
     text-align: right;
 }
 
+.imageContainer
+{
+    width: 100px;
+    height: 75px;
+}
+
+.miniature
+{
+    width: 100%;
+    height: auto;
+}
+
 #map-canvas {
     height: 500px;
     width: 500px;
