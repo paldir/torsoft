@@ -8,14 +8,120 @@ and open the template in the editor.
     Author     : Zawaś
 */
 
+body
+{
+    font-family: Arial;
+    font-size: 12px;
+    background-color: azure;
+}
+
 .menu
 {
     text-align: center;
+    margin: 10px 10px 10px 10px;
+    padding: 10px 10px 10px 10px;
+    background-color: cadetblue;
+}
+
+.menu a
+{
+    color: white;
+    text-decoration: none;
+    padding: 5px;
+    margin: 5px;
+    background-color: cadetblue;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.menu a:hover
+{
+    background: azure;
+    color: black;
 }
 
 .content {
     display: table; 
     margin: 0 auto;
+    background: white;
+    padding: 10px;
+    border: 2px solid cadetblue;
+}
+
+input[type="submit"], input[type="button"]
+{
+    background: cadetblue;
+    color: white;
+    border: 1px solid;
+    border-color: cadetblue;
+    padding: 5px;
+    margin: 5px;
+    font-weight: bold;
+}
+
+input[type="submit"][disabled]
+{
+    background: gray;
+    border-color: gray;
+    color: white;
+}
+
+input[type="submit"][disabled]:hover
+{
+    background: gray;
+    border-color: gray;
+    color: white;
+    cursor: default;
+}
+
+input[type="submit"]:hover, input[type="button"]:hover
+{
+    background: teal;
+    cursor: pointer;
+}
+
+fieldset
+{
+    margin: 10px;
+    border: 1px solid cadetblue;
+}
+
+.tableOfReports
+{
+    border-collapse: collapse;
+}
+
+.rowOfTableOfReports, .tableOfReports tr
+{
+    border: 1px solid teal;
+}
+
+.tableOfReports th, .tableOfReports label
+{
+    padding: 5px 10px 5px 10px;
+}
+
+.tableOfReports input
+{
+    display: none;
+}
+
+.tableOfReports label
+{
+    cursor: pointer;
+    display: block;
+}
+
+.rowOfTableOfReports:hover
+{
+    color: white;
+    background-color: cadetblue;
+}
+
+.tableOfReports .selectedRow
+{
+    background-color: teal;
+    color: white;
 }
 
 .column {

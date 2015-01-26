@@ -15,6 +15,7 @@ $row = $queryResult->fetch_assoc();
 ?>
 
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+<title>Zgłoszenie</title>
 
 <script>
     google.maps.event.addDomListener(window, 'load', function () {

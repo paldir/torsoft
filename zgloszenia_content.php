@@ -15,6 +15,8 @@ if ($connection->errno) {
 } else {
     $whereStatement = "";
     $filterOptions = filter_input(INPUT_GET, "filter", FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
+    $limitStatement = "";
+    $perPageOptions = filter_input(INPUT_GET, "perPage");
 
     if (isset($filterOptions)) {
         $whereStatement = "WHERE idKategorii IN(";
@@ -31,7 +33,15 @@ if ($connection->errno) {
         $whereStatement.=")";
     }
 
-    $queryResult = $connection->query(mysql_escape_string("SELECT z.id, data, k.opis, z.opis FROM zgloszenie z JOIN kategoria k ON z.idKategorii=k.id " . $whereStatement . " ORDER BY data DESC"));
+    if (!isset($perPageOptions)) {
+        $perPageOptions = 10;
+    }
+
+    if (is_numeric($perPageOptions)) {
+        $limitStatement = "LIMIT " . $perPageOptions;
+    }
+
+    $queryResult = $connection->query(mysql_escape_string("SELECT z.id, data, k.opis, z.opis FROM zgloszenie z JOIN kategoria k ON z.idKategorii=k.id " . $whereStatement . " ORDER BY data DESC " . $limitStatement));
 
     if ($queryResult->num_rows > 0) {
         $headers = array("Identyfikator", "Data", "Kategoria", "Opis");
@@ -39,8 +49,8 @@ if ($connection->errno) {
 
         <div class="column">
             <form method='get' action='zgloszenie.php'>
-                <input type='submit' id='browseNotification' name='browseNotification' value='Przeglądaj zgłoszenie' disabled />
-                <table>
+                <input type='submit' id='browseNotification' class="browseNotification" name='browseNotification' value='Przeglądaj zgłoszenie' disabled />
+                <table class="tableOfReports">
                     <tr>
 
                         <?php
@@ -64,9 +74,9 @@ if ($connection->errno) {
                         $row = $queryResult->fetch_row();
                         ?>
 
-                        <tr>
-                            <td>
-                                <input type='radio' name='id' id='<?php echo $row[0]; ?>' value='<?php echo $row[0]; ?>' onchange='id_change();' /><label for='<?php echo $row[0]; ?>'><?php echo $row[0]; ?></label>
+                        <tr id="row<?php echo $row[0]; ?>" class="rowOfTableOfReports">
+                            <td class="numericalInput">
+                                <input type='radio' name='id' id='<?php echo $row[0]; ?>' value='<?php echo $row[0]; ?>' onchange='id_change(this);' /><label for='<?php echo $row[0]; ?>'><?php echo $row[0]; ?></label>
                             </td>
 
                             <?php
@@ -88,6 +98,7 @@ if ($connection->errno) {
 
                 </table>
             </form>
+            <input type="button" value="Poprzednia" /><input type="button" value="Następna" />
         </div>
         <div class="column">
             <form method='get' action='zgloszenia.php'>
@@ -122,6 +133,19 @@ if ($connection->errno) {
                     <input type='button' id='clearFilter' Value='Wyczyść' onclick='clearFilter_click()' />
                     <input type='submit' id='filterButton' name='filterButton' value='Filtruj' />
                 </fieldset>
+                <fieldset>
+                    <legend>Zgłoszeń na stronę</legend>
+                    <input type="radio" id="perPage10" name="perPage" value="10" /><label for="perPage10">10</label><br />
+                    <input type="radio" id="perPage50" name="perPage" value="50" /><label for="perPage50">50</label><br />
+                    <input type="radio" id="perPage100" name="perPage" value="100" /><label for="perPage100">100</label><br />
+                    <input type="radio" id="perPageAll" name="perPage" value="All" /><label for="perPageAll">wszystkie</label><br />
+                    <input type="submit" name="split" value="Zatwierdź" />
+                </fieldset>
+
+                <script>
+                    checkProperPerPage("<?php echo $perPageOptions ?>");
+                </script>
+
             </form>
         </div>
 

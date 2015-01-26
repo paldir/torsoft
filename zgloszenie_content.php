@@ -24,16 +24,16 @@ if (!$connection->errno) {
             </tr>
             <tr>
                 <td>Szerokość geograficzna: </td>
-                <td><input type="text" value="<?php echo $row["szerokosc"]; ?>" disabled /></td>
+                <td><input type="text" class="numericalInput" size="9" value="<?php echo $row["szerokosc"]; ?>" disabled /></td>
             </tr>
             <tr>
                 <td>Długość geograficzna: </td>
-                <td><input type="text" value="<?php echo $row["dlugosc"]; ?>" disabled /></td>
+                <td><input type="text" class="numericalInput" size="9" value="<?php echo $row["dlugosc"]; ?>" disabled /></td>
             </tr>
             <tr>
                 <td>Opis:</td>
                 <td>
-                    <textarea rows='4' cols='50' disabled><?php echo $row["opis"]; ?></textarea>
+                    <textarea rows='3' cols='50' disabled><?php echo $row["opis"]; ?></textarea>
                 </td>
             </tr>
         </table>

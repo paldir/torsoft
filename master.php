@@ -7,7 +7,6 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
         <link href="style.css" rel="stylesheet" type="text/css"/>
         <script src="skrypty.js"></script>
 
@@ -20,9 +19,9 @@ and open the template in the editor.
     </head>
     <body>
         <div class="menu">
-            <a href="zgloszenia.php">Zgłoszenia</a>
-            <a href="mapa.php">Mapa</a>
-            <a href="pobierz.php">Pobierz</a>
+            <a href="zgloszenia.php">ZGŁOSZENIA</a>
+            <a href="mapa.php">MAPA</a>
+            <a href="pobierz.php">POBIERZ</a>
         </div>
         <div class="content">
 

@@ -57,12 +57,22 @@ function initializeMapWithFewMarkers(positions, shortDescriptions, fullHtmlDescr
     var markerCluster = new MarkerClusterer(map, markers);
 }
 
-function id_change()
+function id_change(row)
 {
     var button = document.getElementById("browseNotification");
 
     if (button !== null)
         button.disabled = false;
+
+    var selectedRows = document.getElementsByClassName("selectedRow");
+
+    for (var i = 0; i < selectedRows.length; i++)
+        selectedRows[i].className = "rowOfTableOfReports";
+
+    var newSelectedRow = document.getElementById("row" + row.id);
+
+    if (newSelectedRow !== null)
+        newSelectedRow.className = "selectedRow";
 }
 
 function clearFilter_click()
@@ -88,4 +98,12 @@ function checkProperLimit(id)
 
     if (limit !== null)
         limit.checked = true;
+}
+
+function checkProperPerPage(id)
+{
+    var perPage = document.getElementById("perPage"+id);
+
+    if (perPage !== null)
+        perPage.checked = true;
 }

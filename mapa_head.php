@@ -24,6 +24,7 @@ $queryResult = $connection->query(mysql_escape_string("SELECT z.id, data, k.opis
 
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 <script src="markerclusterer_compiled.js"></script>
+<title>Mapa</title>
 
 <script>
     var positions = [];
