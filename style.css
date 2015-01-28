@@ -59,14 +59,14 @@ input[type="submit"], input[type="button"]
     font-weight: bold;
 }
 
-input[type="submit"][disabled]
+input[type="submit"][disabled], input[type="button"][disabled]
 {
     background: gray;
     border-color: gray;
     color: white;
 }
 
-input[type="submit"][disabled]:hover
+input[type="submit"][disabled]:hover, input[type="button"][disabled]:hover
 {
     background: gray;
     border-color: gray;
@@ -137,12 +137,18 @@ fieldset
 {
     width: 100px;
     height: 75px;
+    margin: 5px;
 }
 
 .miniature
 {
     width: 100%;
     height: auto;
+}
+
+.pageSelectors
+{
+    text-align: center;
 }
 
 #map-canvas {

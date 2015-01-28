@@ -70,5 +70,3 @@ if (!$connection->errno) {
 
     $queryResult->free();
 }
-
-$connection->close();

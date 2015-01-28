@@ -5,11 +5,6 @@
  * and open the template in the editor.
  */
 
-$config = simplexml_load_file("config.xml");
-$connection = new mysqli($config->host, $config->user, $config->password, $config->database);
-
-$connection->set_charset("utf8");
-
 if ($connection->errno) {
     echo 'Nie można połączyć się z serwerem bazy danych.';
 } else {
@@ -17,6 +12,11 @@ if ($connection->errno) {
     $filterOptions = filter_input(INPUT_GET, "filter", FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
     $limitStatement = "";
     $perPageOptions = filter_input(INPUT_GET, "perPage");
+    $page = filter_input(INPUT_GET, "page");
+
+    $resultOfCountOfRows = $connection->query(mysqli_real_escape_string($connection, "SELECT COUNT(*) FROM zgloszenie"));
+    $rowOfCountOfRows = $resultOfCountOfRows->fetch_row();
+    $countOfRows = $rowOfCountOfRows[0];
 
     if (isset($filterOptions)) {
         $whereStatement = "WHERE idKategorii IN(";
@@ -37,11 +37,25 @@ if ($connection->errno) {
         $perPageOptions = 10;
     }
 
-    if (is_numeric($perPageOptions)) {
-        $limitStatement = "LIMIT " . $perPageOptions;
+    if (!isset($page)) {
+        $page = 1;
     }
 
-    $queryResult = $connection->query(mysql_escape_string("SELECT z.id, data, k.opis, z.opis FROM zgloszenie z JOIN kategoria k ON z.idKategorii=k.id " . $whereStatement . " ORDER BY data DESC " . $limitStatement));
+    if (is_numeric($perPageOptions)) {
+        $countOfPages = ceil($countOfRows / $perPageOptions);
+    } else {
+        $countOfPages = 1;
+    }
+
+    if ($countOfPages > 0 && $page > $countOfPages) {
+        $page = $countOfPages;
+    }
+
+    if (is_numeric($perPageOptions)) {
+        $limitStatement = "LIMIT " . ($perPageOptions * ($page - 1)) . ", " . $perPageOptions;
+    }
+
+    $queryResult = $connection->query(mysqli_real_escape_string($connection, "SELECT z.id, data, k.opis, z.opis FROM zgloszenie z JOIN kategoria k ON z.idKategorii=k.id " . $whereStatement . " ORDER BY data DESC " . $limitStatement));
 
     if ($queryResult->num_rows > 0) {
         $headers = array("Identyfikator", "Data", "Kategoria", "Opis");
@@ -98,7 +112,22 @@ if ($connection->errno) {
 
                 </table>
             </form>
-            <input type="button" value="Poprzednia" /><input type="button" value="Następna" />
+
+            <?php
+            $previous = "";
+            $next = "";
+
+            if ($page == 1) {
+                $previous = "disabled";
+            }
+
+            if (!is_numeric($perPageOptions) || $queryResult->num_rows < $perPageOptions || $page * $perPageOptions == $countOfRows) {
+                $next = "disabled";
+            }
+            ?>
+
+            <input type="hidden" id="countOfPages" value="<?php echo $countOfPages; ?>" />
+            <div class="pageSelectors"><input type="button" value="<<<" <?php echo $previous; ?> onclick="changePage_click(-2);" /><input type="button" value="<" <?php echo $previous; ?> onclick="changePage_click(-1);" /><span>Strona <?php echo $page; ?> z <?php echo $countOfPages; ?></span><input type="button" value=">" <?php echo $next; ?> onclick="changePage_click(1);" /><input type="button" value=">>>" <?php echo $next; ?> onclick="changePage_click(2);" /></div>
         </div>
         <div class="column">
             <form method='get' action='zgloszenia.php'>
@@ -143,9 +172,10 @@ if ($connection->errno) {
                 </fieldset>
 
                 <script>
-                    checkProperPerPage("<?php echo $perPageOptions ?>");
+                    checkProperPerPage("<?php echo $perPageOptions; ?>");
                 </script>
 
+                <input type="hidden" id="page" name="page" value="<?php echo $page; ?>" />
             </form>
         </div>
 
@@ -156,5 +186,3 @@ if ($connection->errno) {
 
     $queryResult->free();
 }
-
-$connection->close();

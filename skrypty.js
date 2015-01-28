@@ -83,6 +83,31 @@ function clearFilter_click()
         filters[i].checked = false;
 }
 
+function changePage_click(direction)
+{
+    var page = document.getElementById("page");
+
+    if (page !== null)
+    {
+        if (Math.abs(direction) <= 1)
+            page.value = parseInt(page.value) + direction;
+        else
+        {
+            if (direction < 0)
+                page.value = 1;
+            else
+            {
+                var countOfPages = document.getElementById("countOfPages");
+
+                if (countOfPages !== null)
+                    page.value = countOfPages.value;
+            }
+        }
+
+        page.form.submit();
+    }
+}
+
 function checkProperLimit(id)
 {
     var limit = document.getElementById(id);
@@ -102,7 +127,7 @@ function checkProperLimit(id)
 
 function checkProperPerPage(id)
 {
-    var perPage = document.getElementById("perPage"+id);
+    var perPage = document.getElementById("perPage" + id);
 
     if (perPage !== null)
         perPage.checked = true;

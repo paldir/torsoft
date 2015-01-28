@@ -5,12 +5,7 @@
  * and open the template in the editor.
  */
 
-$config = simplexml_load_file("config.xml");
-$connection = new mysqli($config->host, $config->user, $config->password, $config->database);
-
-$connection->set_charset("utf8");
-
-$queryResult = $connection->query(mysql_escape_string("SELECT z.id, data, k.opis AS opisKategorii, z.opis, szerokosc, dlugosc FROM zgloszenie z JOIN kategoria k ON z.idKategorii=k.id WHERE z.id=" . filter_input(INPUT_GET, "id")));
+$queryResult = $connection->query(mysqli_real_escape_string($connection, "SELECT z.id, data, k.opis AS opisKategorii, z.opis, szerokosc, dlugosc FROM zgloszenie z JOIN kategoria k ON z.idKategorii=k.id WHERE z.id=" . filter_input(INPUT_GET, "id")));
 $row = $queryResult->fetch_assoc();
 ?>
 
