@@ -14,10 +14,6 @@ if ($connection->errno) {
     $perPageOptions = filter_input(INPUT_GET, "perPage");
     $page = filter_input(INPUT_GET, "page");
 
-    $resultOfCountOfRows = $connection->query(mysqli_real_escape_string($connection, "SELECT COUNT(*) FROM zgloszenie"));
-    $rowOfCountOfRows = $resultOfCountOfRows->fetch_row();
-    $countOfRows = $rowOfCountOfRows[0];
-
     if (isset($filterOptions)) {
         $whereStatement = "WHERE idKategorii IN(";
         $count = count($filterOptions);
@@ -32,6 +28,10 @@ if ($connection->errno) {
 
         $whereStatement.=")";
     }
+
+    $resultOfCountOfRows = $connection->query(mysqli_real_escape_string($connection, "SELECT COUNT(*) FROM zgloszenie " . $whereStatement));
+    $rowOfCountOfRows = $resultOfCountOfRows->fetch_row();
+    $countOfRows = $rowOfCountOfRows[0];
 
     if (!isset($perPageOptions)) {
         $perPageOptions = 10;
