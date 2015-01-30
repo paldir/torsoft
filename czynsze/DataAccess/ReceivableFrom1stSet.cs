@@ -8,8 +8,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace czynsze.DataAccess
 {
-    [Table("nal_14__", Schema = "public")]
-    public class ReceivableFor14 : Receivable
+    [Table("nal_" + Receivable.ReceivableYear + "__", Schema = "public")]
+    public class ReceivableFrom1stSet : Receivable
     {
         [Key, Column("__record")]
         public override int __record { get; set; }

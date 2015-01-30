@@ -8,8 +8,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace czynsze.DataAccess
 {
-    [Table("obm_14__", Schema = "public")]
-    public class TurnoverFor14From3rdSet : Turnover
+    [Table("obm_" + Turnover.TurnoverYear + "__", Schema = "public")]
+    public class TurnoverFrom3rdSet : Turnover
     {
         [Key, Column("__record")]
         public override int __record { get; set; }

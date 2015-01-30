@@ -398,7 +398,7 @@ namespace czynsze.Forms
                     {
                         DataAccess.Tenant tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == id);
                         heading = nodeOfSiteMapPath = "Należności najemcy " + tenant.nazwisko + " " + tenant.imie;
-                        List<DataAccess.ReceivableFor14> receivables = db.receivablesFor14.Where(r => r.nr_kontr == id).OrderBy(r => r.data_nal).ToList();
+                        List<DataAccess.ReceivableFrom1stSet> receivables = db.receivablesFor14.Where(r => r.nr_kontr == id).OrderBy(r => r.data_nal).ToList();
 
                         switch (table)
                         {

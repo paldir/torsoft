@@ -33,12 +33,12 @@ namespace czynsze.DataAccess
         public DbSet<GroupOfRentComponents> groupsOfRentComponents { get; set; }
         public DbSet<FinancialGroup> financialGroups { get; set; }
         public DbSet<InactiveTenant> inactiveTenants { get; set; }
-        public DbSet<ReceivableFor14> receivablesFor14 { get; set; }
-        public DbSet<TurnoverFor14> turnoversFor14 { get; set; }
-        public DbSet<ReceivableFor14From2ndSet> receivablesFor14From2ndSet { get; set; }
-        public DbSet<TurnoverFor14From2ndSet> turnoversFor14From2ndSet { get; set; }
-        public DbSet<ReceivableFor14From3rdSet> receivablesFor14From3rdSet { get; set; }
-        public DbSet<TurnoverFor14From3rdSet> turnoversFor14From3rdSet { get; set; }
+        public DbSet<ReceivableFrom1stSet> receivablesFor14 { get; set; }
+        public DbSet<TurnoverFrom1stSet> turnoversFor14 { get; set; }
+        public DbSet<ReceivableFrom2ndSet> receivablesFor14From2ndSet { get; set; }
+        public DbSet<TurnoverFrom2ndSet> turnoversFor14From2ndSet { get; set; }
+        public DbSet<ReceivableFrom3rdSet> receivablesFor14From3rdSet { get; set; }
+        public DbSet<TurnoverFrom3rdSet> turnoversFor14From3rdSet { get; set; }
 
         public static string ValidateInt(string name, ref string integer)
         {

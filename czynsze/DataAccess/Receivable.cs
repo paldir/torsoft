@@ -7,6 +7,8 @@ namespace czynsze.DataAccess
 {
     public abstract class Receivable
     {
+        public const string ReceivableYear = "14";
+        
         public abstract int __record { get; set; }
 
         public abstract float kwota_nal { get; set; }

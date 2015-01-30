@@ -7,6 +7,8 @@ namespace czynsze.DataAccess
 {
     public abstract class Turnover
     {
+        public const string TurnoverYear = "14";
+        
         public abstract int __record { get; set; }
 
         public abstract float suma { get; set; }

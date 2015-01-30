@@ -968,17 +968,17 @@ namespace czynsze.Forms
                                         switch (Hello.CurrentSet)
                                         {
                                             case Enums.SettlementTable.Czynsze:
-                                                turnOver = new DataAccess.TurnoverFor14();
+                                                turnOver = new DataAccess.TurnoverFrom1stSet();
 
                                                 break;
 
                                             case Enums.SettlementTable.SecondSet:
-                                                turnOver = new DataAccess.TurnoverFor14From2ndSet();
+                                                turnOver = new DataAccess.TurnoverFrom2ndSet();
 
                                                 break;
 
                                             case Enums.SettlementTable.ThirdSet:
-                                                turnOver = new DataAccess.TurnoverFor14From3rdSet();
+                                                turnOver = new DataAccess.TurnoverFrom3rdSet();
 
                                                 break;
                                         }
@@ -988,17 +988,17 @@ namespace czynsze.Forms
                                         switch (Hello.CurrentSet)
                                         {
                                             case Enums.SettlementTable.Czynsze:
-                                                db.turnoversFor14.Add((DataAccess.TurnoverFor14)turnOver);
+                                                db.turnoversFor14.Add((DataAccess.TurnoverFrom1stSet)turnOver);
 
                                                 break;
 
                                             case Enums.SettlementTable.SecondSet:
-                                                db.turnoversFor14From2ndSet.Add((DataAccess.TurnoverFor14From2ndSet)turnOver);
+                                                db.turnoversFor14From2ndSet.Add((DataAccess.TurnoverFrom2ndSet)turnOver);
 
                                                 break;
 
                                             case Enums.SettlementTable.ThirdSet:
-                                                db.turnoversFor14From3rdSet.Add((DataAccess.TurnoverFor14From3rdSet)turnOver);
+                                                db.turnoversFor14From3rdSet.Add((DataAccess.TurnoverFrom3rdSet)turnOver);
 
                                                 break;
                                         }
@@ -1034,21 +1034,21 @@ namespace czynsze.Forms
                                             case Enums.SettlementTable.Czynsze:
                                                 turnOver = db.turnoversFor14.FirstOrDefault(t => t.__record == id);
 
-                                                db.turnoversFor14.Remove((DataAccess.TurnoverFor14)turnOver);
+                                                db.turnoversFor14.Remove((DataAccess.TurnoverFrom1stSet)turnOver);
 
                                                 break;
 
                                             case Enums.SettlementTable.SecondSet:
                                                 turnOver = db.turnoversFor14From2ndSet.FirstOrDefault(t => t.__record == id);
 
-                                                db.turnoversFor14From2ndSet.Remove((DataAccess.TurnoverFor14From2ndSet)turnOver);
+                                                db.turnoversFor14From2ndSet.Remove((DataAccess.TurnoverFrom2ndSet)turnOver);
 
                                                 break;
 
                                             case Enums.SettlementTable.ThirdSet:
                                                 turnOver = db.turnoversFor14From3rdSet.FirstOrDefault(t => t.__record == id);
 
-                                                db.turnoversFor14From3rdSet.Remove((DataAccess.TurnoverFor14From3rdSet)turnOver);
+                                                db.turnoversFor14From3rdSet.Remove((DataAccess.TurnoverFrom3rdSet)turnOver);
 
                                                 break;
                                         }
