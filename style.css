@@ -151,6 +151,16 @@ fieldset
     text-align: center;
 }
 
+.gallery
+{
+    margin: auto;
+}
+
+br
+{
+    clear: left;
+}
+
 #map-canvas {
     height: 500px;
     width: 500px;

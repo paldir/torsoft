@@ -41,16 +41,18 @@ if (!$connection->errno) {
         <div class="column">
 
             <?php
-            $queryResult = $connection->query("SELECT id, dane FROM zdjecie WHERE idZgloszenia=" . $row["id"]);
+            $queryResult = $connection->query("SELECT id, dane, idZgloszenia FROM zdjecie WHERE idZgloszenia=" . $row["id"]);
 
             for ($i = 0; $i < $queryResult->num_rows; $i++) {
                 $queryResult->data_seek($i);
 
                 $row = $queryResult->fetch_assoc();
-                $src = "image.php?id=" . $row["id"];
+                $miniatureSrc = "image.php?id=" . $row["id"];
+                $src = $miniatureSrc . "&parentId=" . $row["idZgloszenia"];
+                $src = str_replace("image", "gallery", $src);
                 ?>
 
-                <div class="imageContainer column"><a href="<?php echo $src; ?>" target="_blank"><img class="miniature" src="<?php echo $src; ?>" /></a></div>
+                <div class="imageContainer column"><a href="<?php echo $src; ?>" target="_blank"><img class="miniature" src="<?php echo $miniatureSrc; ?>" /></a></div>
 
                 <?php
                 if ($i % 2 != 0) {
