@@ -135,7 +135,7 @@ namespace czynsze.Forms
             Title = heading;
 
             if (Hello.SiteMapPath.Count > 0)
-                if (Hello.SiteMapPath.IndexOf(heading) == -1)
+                if (!Hello.SiteMapPath.Contains(heading))
                 {
                     Hello.SiteMapPath[Hello.SiteMapPath.Count - 1] = String.Concat("<a href=\"javascript: Load('" + Request.UrlReferrer.PathAndQuery + "')\">", Hello.SiteMapPath[Hello.SiteMapPath.Count - 1], "</a>");
 

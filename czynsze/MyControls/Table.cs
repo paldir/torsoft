@@ -39,13 +39,13 @@ namespace czynsze.MyControls
                 tableCell.CssClass = "tableCell";
                 cellText = row[1];
 
-                if (indexesOfNumericColumns.IndexOf(1) != -1)
+                if (indexesOfNumericColumns.Contains(1))
                 {
                     cellText = HandleNumericCell(cellText);
                     tableCell.CssClass += " numericTableCell";
                 }
 
-                if (indexesOfColumnsWithSummary.IndexOf(1) != -1 && cellText != String.Empty)
+                if (indexesOfColumnsWithSummary.Contains(1) && cellText != String.Empty)
                     summary[0] += Convert.ToSingle(cellText);
 
                 tableCell.Controls.Add(new RadioButton("radioButton", prefix + row[0], "id"));
@@ -67,13 +67,13 @@ namespace czynsze.MyControls
                     tableCell.CssClass = "tableCell";
                     cellText = rows.ElementAt(i)[j];
 
-                    if (indexesOfNumericColumns.IndexOf(j) != -1)
+                    if (indexesOfNumericColumns.Contains(j))
                     {
                         cellText = HandleNumericCell(cellText);
                         tableCell.CssClass += " numericTableCell";
                     }
 
-                    if (indexesOfColumnsWithSummary.IndexOf(j) != -1 && cellText != String.Empty)
+                    if (indexesOfColumnsWithSummary.Contains(j) && cellText != String.Empty)
                         summary[j - 1] += Convert.ToSingle(cellText);
 
                     tableCell.Controls.Add(new Label("label", rows.ElementAt(i)[0], cellText, String.Empty));
@@ -119,7 +119,7 @@ namespace czynsze.MyControls
                 TableCell tableFooterCell = new TableCell();
                 tableFooterCell.CssClass = "tableFooterCell numericTableCell";
 
-                if (indexesOfColumnsWithSummary.IndexOf(i + 1) == -1)
+                if (!indexesOfColumnsWithSummary.Contains(i + 1))
                     tableFooterCell.Text = String.Empty;
                 else
                     tableFooterCell.Text = HandleNumericCell(summary[i].ToString());
@@ -147,7 +147,7 @@ namespace czynsze.MyControls
             {
                 string format;
 
-                if (cellText.IndexOf(',') == -1)
+                if (!cellText.Contains(','))
                     format = "{0:N0}";
                 else
                     format = "{0:N2}";

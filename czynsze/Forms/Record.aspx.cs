@@ -75,7 +75,7 @@ namespace czynsze.Forms
                 case Enums.Action.Przeglądaj:
                     globalEnabled = idEnabled = false;
                     heading = "Przeglądanie ";
-                     
+
                     buttons.Add(new MyControls.Button("buttons", "Back", "Powrót", backUrl));
 
                     break;
@@ -1079,7 +1079,7 @@ namespace czynsze.Forms
 
             for (int i = 0; i < controls.Count; i++)
             {
-                if (columnSwitching.IndexOf(i) != -1)
+                if (columnSwitching.Contains(i))
                 {
                     columnIndex++;
                     cell = formRow.FindControl("column" + columnIndex.ToString());
@@ -1122,14 +1122,12 @@ namespace czynsze.Forms
                 placeOfButtons.Controls.Add(button);
 
             if (Hello.SiteMapPath.Count > 0)
-            {
-                if (Hello.SiteMapPath.IndexOf(heading) == -1)
+                if (!Hello.SiteMapPath.Contains(heading))
                 {
                     Hello.SiteMapPath[Hello.SiteMapPath.Count - 1] = String.Concat("<a href=\"" + backUrl + "\">", Hello.SiteMapPath[Hello.SiteMapPath.Count - 1]) + "</a>";
 
                     Hello.SiteMapPath.Add(heading);
                 }
-            }
         }
     }
 }

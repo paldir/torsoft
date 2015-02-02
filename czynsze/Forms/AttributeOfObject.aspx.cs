@@ -33,10 +33,10 @@ namespace czynsze.Forms
 
             if (childActionKey != null)
             {
-                if (childActionKey.IndexOf("add") != -1)
+                if (childActionKey.Contains("add"))
                     childAction = (Enums.Action)Enum.Parse(typeof(Enums.Action), Request.Params[childActionKey].Replace("Zapisz", "Dodaj"));
                 else
-                    if (childActionKey.IndexOf("edit") != -1)
+                    if (childActionKey.Contains("edit"))
                         childAction = (Enums.Action)Enum.Parse(typeof(Enums.Action), Request.Params[childActionKey].Replace("Zapisz", "Edytuj"));
                     else
                         childAction = (Enums.Action)Enum.Parse(typeof(Enums.Action), Request.Params[childActionKey]);

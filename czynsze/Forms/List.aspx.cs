@@ -325,7 +325,6 @@ namespace czynsze.Forms
                 case Enums.Table.VatRates:
                     heading = nodeOfSiteMapPath = "Stawki VAT";
                     headers = new string[] { "Oznaczenie stawki", "Symbol fiskalny" };
-                    indexesOfNumericColumns = new List<int>() { 1 };
 
                     if (!IsPostBack)
                         using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
@@ -661,7 +660,7 @@ namespace czynsze.Forms
 
                         string node = Hello.SiteMapPath[2].Insert(0, "<a href=\"javascript: Load('List.aspx?table=" + Enums.Table.ReceivablesByTenants + "')\">") + "</a>";
 
-                        if (Hello.SiteMapPath.IndexOf(node) == -1)
+                        if (!Hello.SiteMapPath.Contains(node))
                             Hello.SiteMapPath[2] = node;
                     }
 
@@ -686,7 +685,7 @@ namespace czynsze.Forms
                     break;
             }
 
-            if (Hello.SiteMapPath.IndexOf(nodeOfSiteMapPath) == -1)
+            if (!Hello.SiteMapPath.Contains(nodeOfSiteMapPath))
                 Hello.SiteMapPath.Add(nodeOfSiteMapPath);
 
             //
