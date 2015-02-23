@@ -225,9 +225,9 @@ namespace czynsze.Forms
                                     values[0] = (places.Max(p => p.nr_system) + 1).ToString();
                                 else
                                     values[0] = "0";
-                            }
 
-                            values[1] = values[2] = "0";
+                                values[1] = values[2] = "0";
+                            }
 
                             attributesOfObject = new List<DataAccess.AttributeOfObject>();
 

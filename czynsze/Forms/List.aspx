@@ -16,6 +16,6 @@
             string table = Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))];
         %>
 
-        Init(table);
+        Init("<%=table%>");
     </script>
 </asp:Content>

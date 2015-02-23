@@ -24,7 +24,7 @@ namespace czynsze
             Forms.Hello.SiteMapPath = new List<string>();
             Forms.Hello.CurrentSet = Enums.SettlementTable.Czynsze;
 
-            Response.Redirect("Forms/UserValidation.aspx?uzytkownik=Zaw Pat&haslo=test");
+            //Response.Redirect("Forms/UserValidation.aspx?uzytkownik=Zaw Pat&haslo=a");
         }
     }
 }
