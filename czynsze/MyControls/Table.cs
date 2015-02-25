@@ -45,7 +45,7 @@ namespace czynsze.MyControls
                     tableCell.CssClass += " numericTableCell";
                 }
 
-                if (indexesOfColumnsWithSummary.Contains(1) && cellText != String.Empty)
+                if (indexesOfColumnsWithSummary.Contains(1) && !String.IsNullOrEmpty(cellText))
                     summary[0] += Convert.ToSingle(cellText);
 
                 tableCell.Controls.Add(new RadioButton("radioButton", prefix + row[0], "id"));
@@ -73,7 +73,7 @@ namespace czynsze.MyControls
                         tableCell.CssClass += " numericTableCell";
                     }
 
-                    if (indexesOfColumnsWithSummary.Contains(j) && cellText != String.Empty)
+                    if (indexesOfColumnsWithSummary.Contains(j) && !String.IsNullOrEmpty(cellText))
                         summary[j - 1] += Convert.ToSingle(cellText);
 
                     tableCell.Controls.Add(new Label("label", rows.ElementAt(i)[0], cellText, String.Empty));
@@ -141,7 +141,7 @@ namespace czynsze.MyControls
 
         static string HandleNumericCell(string cellText)
         {
-            if (cellText == String.Empty)
+            if (String.IsNullOrEmpty(cellText))
                 return cellText;
             else
             {

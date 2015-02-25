@@ -148,7 +148,7 @@ namespace czynsze.Forms
                     heading = nodeOfSiteMapPath = "Lokale";
                     headers = new string[] { "Kod budynku", "Numer lokalu", "Typ lokalu", "Powierzchnia użytkowa", "Nazwisko", "Imię" };
                     indexesOfNumericColumns = new List<int>() { 1, 2, 4 };
-                    List<DataAccess.Place> places = null;
+                    IEnumerable<DataAccess.Place> places = null;
 
                     placeOfMainTableButtons.Controls.Add(new MyControls.Button("mainTableButton", "moveaction", "Przenieś", postBackUrl));
 
@@ -169,7 +169,7 @@ namespace czynsze.Forms
 
                             if (!IsPostBack)
                                 using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                                    places = db.places.ToList().Cast<DataAccess.Place>().ToList();
+                                    places = db.places.ToList().Cast<DataAccess.Place>();
 
                             break;
 
@@ -178,7 +178,7 @@ namespace czynsze.Forms
 
                             if (!IsPostBack)
                                 using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                                    places = db.inactivePlaces.ToList().Cast<DataAccess.Place>().ToList();
+                                    places = db.inactivePlaces.ToList().Cast<DataAccess.Place>();
 
                             break;
                     }
@@ -193,7 +193,7 @@ namespace czynsze.Forms
                     heading = nodeOfSiteMapPath = "Najemcy";
                     headers = new string[] { "Numer kontrolny", "Nazwisko", "Imię", "Adres", "Adres cd." };
                     indexesOfNumericColumns = new List<int>() { 1 };
-                    List<DataAccess.Tenant> tenants = null;
+                    IEnumerable<DataAccess.Tenant> tenants = null;
 
                     placeOfMainTableButtons.Controls.Add(new MyControls.Button("mainTableButton", "moveaction", "Przenieś", postBackUrl));
 
@@ -204,7 +204,7 @@ namespace czynsze.Forms
 
                             if (!IsPostBack)
                                 using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                                    tenants = db.tenants.ToList().Cast<DataAccess.Tenant>().ToList();
+                                    tenants = db.tenants.ToList().Cast<DataAccess.Tenant>();
 
                             break;
 
@@ -213,7 +213,7 @@ namespace czynsze.Forms
 
                             if (!IsPostBack)
                                 using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                                    tenants = db.inactiveTenants.ToList().Cast<DataAccess.Tenant>().ToList();
+                                    tenants = db.inactiveTenants.ToList().Cast<DataAccess.Tenant>();
 
                             break;
                     }
@@ -426,36 +426,36 @@ namespace czynsze.Forms
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                     {
                         DataAccess.Tenant tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == id);
-                        List<DataAccess.Receivable> receivables = null;
-                        List<DataAccess.Turnover> turnovers = null;
+                        IEnumerable<DataAccess.Receivable> receivables = null;
+                        IEnumerable<DataAccess.Turnover> turnovers = null;
                         heading = nodeOfSiteMapPath = "Należności  i obroty najemcy " + tenant.nazwisko + " " + tenant.imie;
 
                         switch (Hello.CurrentSet)
                         {
                             case Enums.SettlementTable.Czynsze:
-                                receivables = db.receivablesFor14.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>().ToList();
-                                turnovers = db.turnoversFor14.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>().ToList();
+                                receivables = db.receivablesFor14.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>();
+                                turnovers = db.turnoversFor14.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
 
                             case Enums.SettlementTable.SecondSet:
-                                receivables = db.receivablesFor14From2ndSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>().ToList();
-                                turnovers = db.turnoversFor14From2ndSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>().ToList();
+                                receivables = db.receivablesFor14From2ndSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>();
+                                turnovers = db.turnoversFor14From2ndSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
 
                             case Enums.SettlementTable.ThirdSet:
-                                receivables = db.receivablesFor14From3rdSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>().ToList();
-                                turnovers = db.turnoversFor14From3rdSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>().ToList();
+                                receivables = db.receivablesFor14From3rdSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>();
+                                turnovers = db.turnoversFor14From3rdSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
                         }
 
                         rows = receivables.Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).Concat(turnovers.Select(t => t.ImportantFieldsForReceivablesAndTurnoversOfTenant())).OrderBy(r => DateTime.Parse(r[3])).ToList();
-                        float wnAmount = rows.Sum(r => (r[1] == String.Empty) ? 0 : Convert.ToSingle(r[1]));
-                        float maAmount = rows.Sum(r => (r[2] == String.Empty) ? 0 : Convert.ToSingle(r[2]));
+                        float wnAmount = rows.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToSingle(r[1]));
+                        float maAmount = rows.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Convert.ToSingle(r[2]));
                         List<string[]> rowsOfPastReceivables = receivables.Where(r => Convert.ToDateTime(r.data_nal) < Hello.Date).Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).Concat(turnovers.Where(t => Convert.ToDateTime(t.data_obr) < Hello.Date).Select(t => t.ImportantFieldsForReceivablesAndTurnoversOfTenant())).ToList();
-                        float wnAmountOfPastReceivables = rowsOfPastReceivables.Sum(r => (r[1] == String.Empty) ? 0 : Convert.ToSingle(r[1]));
+                        float wnAmountOfPastReceivables = rowsOfPastReceivables.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToSingle(r[1]));
                         summary = @"
                             <table class='additionalTable'>
                                 <tr>
@@ -510,8 +510,8 @@ namespace czynsze.Forms
 
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                     {
-                        List<DataAccess.Receivable> receivables = null;
-                        List<DataAccess.Turnover> turnovers = null;
+                        IEnumerable<DataAccess.Receivable> receivables = null;
+                        IEnumerable<DataAccess.Turnover> turnovers = null;
                         DataAccess.Tenant tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == id);
                         heading = tenant.nazwisko + " " + tenant.imie + "<br />" + tenant.adres_1 + " " + tenant.adres_2;
                         nodeOfSiteMapPath = "Saldo najemcy " + tenant.nazwisko + " " + tenant.imie;
@@ -519,34 +519,34 @@ namespace czynsze.Forms
                         switch (Hello.CurrentSet)
                         {
                             case Enums.SettlementTable.Czynsze:
-                                receivables = db.receivablesFor14.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>().ToList();
-                                turnovers = db.turnoversFor14.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Turnover>().ToList();
+                                receivables = db.receivablesFor14.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>();
+                                turnovers = db.turnoversFor14.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
 
                             case Enums.SettlementTable.SecondSet:
-                                receivables = db.receivablesFor14From2ndSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>().ToList();
-                                turnovers = db.turnoversFor14From2ndSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Turnover>().ToList();
+                                receivables = db.receivablesFor14From2ndSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>();
+                                turnovers = db.turnoversFor14From2ndSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
 
                             case Enums.SettlementTable.ThirdSet:
-                                receivables = db.receivablesFor14From3rdSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>().ToList();
-                                turnovers = db.turnoversFor14From3rdSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Turnover>().ToList();
+                                receivables = db.receivablesFor14From3rdSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>();
+                                turnovers = db.turnoversFor14From3rdSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
                         }
 
                         List<string[]> rowsOfReceivablesAndTurnovers = receivables.Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).Concat(turnovers.Select(t => t.ImportantFieldsForReceivablesAndTurnoversOfTenant())).ToList();
-                        float wnAmount = rowsOfReceivablesAndTurnovers.Sum(r => r[1] == String.Empty ? 0 : Convert.ToSingle(r[1]));
-                        float maAmount = rowsOfReceivablesAndTurnovers.Sum(r => r[2] == String.Empty ? 0 : Convert.ToSingle(r[2]));
+                        float wnAmount = rowsOfReceivablesAndTurnovers.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToSingle(r[1]));
+                        float maAmount = rowsOfReceivablesAndTurnovers.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Convert.ToSingle(r[2]));
                         List<string[]> rowsOfReceivablesAndTurnoversToDate = receivables.Where(r => Convert.ToDateTime(r.data_nal) <= Hello.Date).Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).Concat(turnovers.Where(t => Convert.ToDateTime(t.data_obr) <= Hello.Date).Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant())).ToList();
-                        float wnAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => r[1] == String.Empty ? 0 : Convert.ToSingle(r[1]));
-                        float maAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => r[2] == String.Empty ? 0 : Convert.ToSingle(r[2]));
+                        float wnAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToSingle(r[1]));
+                        float maAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Convert.ToSingle(r[2]));
                         DataAccess.Configuration configuration = db.configurations.FirstOrDefault();
                         List<string[]> rowsOfInterestNotes = turnovers.Where(t => t.kod_wplat == configuration.p_20 || t.kod_wplat == configuration.p_37).Select(t => t.ImportantFieldsForReceivablesAndTurnoversOfTenant()).ToList();
-                        float wnOfInterestNotes = rowsOfInterestNotes.Sum(r => r[1] == String.Empty ? 0 : Convert.ToSingle(r[1]));
-                        float maOfInterestNotes = rowsOfInterestNotes.Sum(r => r[2] == String.Empty ? 0 : Convert.ToSingle(r[2]));
+                        float wnOfInterestNotes = rowsOfInterestNotes.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToSingle(r[1]));
+                        float maOfInterestNotes = rowsOfInterestNotes.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Convert.ToSingle(r[2]));
                         rows = new List<string[]>() { new string[] { String.Empty, String.Format("{0:N2}", maAmount - wnAmount), String.Format("{0:N2}", maAmountToDay - wnAmountToDay), String.Format("{0:N2}", maOfInterestNotes - wnOfInterestNotes) } };
                     }
 
@@ -559,24 +559,24 @@ namespace czynsze.Forms
 
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                     {
-                        List<DataAccess.Turnover> turnovers = null;
+                        IEnumerable<DataAccess.Turnover> turnovers = null;
                         DataAccess.Tenant tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == id);
                         heading = nodeOfSiteMapPath = "Obroty najemcy " + tenant.nazwisko + " " + tenant.imie;
 
                         switch (Hello.CurrentSet)
                         {
                             case Enums.SettlementTable.Czynsze:
-                                turnovers = db.turnoversFor14.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>().ToList();
+                                turnovers = db.turnoversFor14.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
 
                             case Enums.SettlementTable.SecondSet:
-                                turnovers = db.turnoversFor14From2ndSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>().ToList();
+                                turnovers = db.turnoversFor14From2ndSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
 
                             case Enums.SettlementTable.ThirdSet:
-                                turnovers = db.turnoversFor14From3rdSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>().ToList();
+                                turnovers = db.turnoversFor14From3rdSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
                         }

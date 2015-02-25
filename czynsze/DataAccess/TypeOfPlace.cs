@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DataAccess
 {
     [Table("typ_lok", Schema = "public")]
-    public class TypeOfPlace
+    public class TypeOfPlace : IRecord
     {
         [Key, Column("kod_typ"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int kod_typ { get; set; }
@@ -51,7 +51,22 @@ namespace czynsze.DataAccess
             typ_lok = record[1];
         }
 
-        public static string Validate(Enums.Action action, string[] record)
+        public void Add(Czynsze_Entities dataBase)
+        {
+            dataBase.typesOfPlace.Add(this);
+        }
+
+        public IRecord Find(Czynsze_Entities dataBase, int id)
+        {
+            return dataBase.typesOfPlace.FirstOrDefault(t => t.kod_typ == id);
+        }
+
+        public void Remove(Czynsze_Entities dataBase)
+        {
+            dataBase.typesOfPlace.Remove(this);
+        }
+
+        public string Validate(Enums.Action action, string[] record)
         {
             string result = String.Empty;
             int kod_typ;

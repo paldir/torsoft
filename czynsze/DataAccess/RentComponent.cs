@@ -128,7 +128,7 @@ namespace czynsze.DataAccess
                 data_2 = String.Empty;
             else
                 data_2 = this.data_2.ToString();
-            
+
             return new string[]
             {
                 nr_skl.ToString(),
@@ -194,7 +194,7 @@ namespace czynsze.DataAccess
             else
             {
                 id = Convert.ToInt16(record[0]);
-                
+
                 using (Czynsze_Entities db = new Czynsze_Entities())
                     if (db.rentComponentsOfPlaces.Count(c => c.nr_skl == id) > 0)
                         result += "Nie można usunąć składnika opłat, który jest przypisany do lokali! <br />";

@@ -199,8 +199,8 @@ namespace czynsze.Forms
                 case Enums.Report.MonthlyAnalysisOfReceivablesAndTurnovers:
                 case Enums.Report.DetailedAnalysisOfReceivablesAndTurnovers:
                     tables = new List<List<string[]>> { new List<string[]>() };
-                    List<DataAccess.Receivable> receivables = null;
-                    List<DataAccess.Turnover> turnovers = null;
+                    IEnumerable<DataAccess.Receivable> receivables = null;
+                    IEnumerable<DataAccess.Turnover> turnovers = null;
                     float wnSum, maSum;
                     List<float> balances = new List<float>();
 
@@ -212,20 +212,20 @@ namespace czynsze.Forms
                         switch (Hello.CurrentSet)
                         {
                             case Enums.SettlementTable.Czynsze:
-                                receivables = db.receivablesFor14.Where(r => r.nr_kontr == additionalId).ToList().Cast<DataAccess.Receivable>().ToList();
-                                turnovers = db.turnoversFor14.Where(t => t.nr_kontr == additionalId).ToList().Cast<DataAccess.Turnover>().ToList();
+                                receivables = db.receivablesFor14.Where(r => r.nr_kontr == additionalId).ToList().Cast<DataAccess.Receivable>();
+                                turnovers = db.turnoversFor14.Where(t => t.nr_kontr == additionalId).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
 
                             case Enums.SettlementTable.SecondSet:
-                                receivables = db.receivablesFor14From2ndSet.Where(r => r.nr_kontr == additionalId).ToList().Cast<DataAccess.Receivable>().ToList();
-                                turnovers = db.turnoversFor14From2ndSet.Where(t => t.nr_kontr == additionalId).ToList().Cast<DataAccess.Turnover>().ToList();
+                                receivables = db.receivablesFor14From2ndSet.Where(r => r.nr_kontr == additionalId).ToList().Cast<DataAccess.Receivable>();
+                                turnovers = db.turnoversFor14From2ndSet.Where(t => t.nr_kontr == additionalId).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
 
                             case Enums.SettlementTable.ThirdSet:
-                                receivables = db.receivablesFor14From3rdSet.Where(r => r.nr_kontr == additionalId).ToList().Cast<DataAccess.Receivable>().ToList();
-                                turnovers = db.turnoversFor14From3rdSet.Where(t => t.nr_kontr == additionalId).ToList().Cast<DataAccess.Turnover>().ToList();
+                                receivables = db.receivablesFor14From3rdSet.Where(r => r.nr_kontr == additionalId).ToList().Cast<DataAccess.Receivable>();
+                                turnovers = db.turnoversFor14From3rdSet.Where(t => t.nr_kontr == additionalId).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
                         }
@@ -281,8 +281,8 @@ namespace czynsze.Forms
                                 }
 
                                 tables[0] = tables[0].OrderBy(r => DateTime.Parse(r[2])).ToList();
-                                wnSum = tables[0].Sum(r => (r[0] == String.Empty) ? 0 : Convert.ToSingle(r[0]));
-                                maSum = tables[0].Sum(r => (r[1] == String.Empty) ? 0 : Convert.ToSingle(r[1]));
+                                wnSum = tables[0].Sum(r => String.IsNullOrEmpty(r[0]) ? 0 : Convert.ToSingle(r[0]));
+                                maSum = tables[0].Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToSingle(r[1]));
 
                                 tables[0].Add(new string[] { String.Format("{0:N2}", wnSum), String.Format("{0:N2}", maSum), String.Empty, String.Empty });
                                 tables[0].Add(new string[] { "SALDO", String.Format("{0:N2}", maSum - wnSum), String.Empty, String.Empty });
@@ -299,8 +299,8 @@ namespace czynsze.Forms
                                 {
                                     List<string[]> monthReceivables = receivables.Where(r => DateTime.Parse(r.data_nal).Month == i).Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).ToList();
                                     List<string[]> monthTurnovers = turnovers.Where(t => DateTime.Parse(t.data_obr).Month == i).Select(t => t.ImportantFieldsForReceivablesAndTurnoversOfTenant()).ToList();
-                                    wnSum = monthReceivables.Sum(r => (r[1] == String.Empty) ? 0 : Convert.ToSingle(r[1])) + monthTurnovers.Sum(t => (t[1] == String.Empty) ? 0 : Convert.ToSingle(t[1]));
-                                    maSum = monthTurnovers.Sum(t => (t[2] == String.Empty) ? 0 : Convert.ToSingle(t[2]));
+                                    wnSum = monthReceivables.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToSingle(r[1])) + monthTurnovers.Sum(t => String.IsNullOrEmpty(t[1]) ? 0 : Convert.ToSingle(t[1]));
+                                    maSum = monthTurnovers.Sum(t => String.IsNullOrEmpty(t[2]) ? 0 : Convert.ToSingle(t[2]));
 
                                     wnAmounts.Add(wnSum);
                                     maAmounts.Add(maSum);
@@ -325,7 +325,7 @@ namespace czynsze.Forms
                                         string[] row = receivable.ImportantFieldsForReceivablesAndTurnoversOfTenant();
                                         int index = db.rentComponents.FirstOrDefault(c => c.nr_skl == receivable.nr_skl).rodz_e - 1;
 
-                                        if (row[1] != String.Empty)
+                                        if (!String.IsNullOrEmpty(row[1]))
                                         {
                                             float single = Convert.ToSingle(row[1]);
                                             sum[index] += single;
@@ -341,15 +341,15 @@ namespace czynsze.Forms
                                         if (index >= 0)
                                         {
                                             float single;
-                                            
-                                            if (row[1] != String.Empty)
+
+                                            if (!String.IsNullOrEmpty(row[1]))
                                             {
                                                 single = Convert.ToSingle(row[1]);
                                                 sum[index] += single;
                                                 wnSum += single;
                                             }
 
-                                            if (row[2] != String.Empty)
+                                            if (!String.IsNullOrEmpty(row[2]))
                                             {
                                                 single = Convert.ToSingle(row[2]);
                                                 sum[index] += single;

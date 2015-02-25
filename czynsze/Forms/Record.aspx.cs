@@ -219,9 +219,9 @@ namespace czynsze.Forms
                             {
                                 values = new string[numberOfFields];
 
-                                List<DataAccess.Place> places = db.places.ToList().Cast<DataAccess.Place>().ToList().Concat(db.inactivePlaces.ToList().Cast<DataAccess.InactivePlace>().ToList()).ToList();
+                                IEnumerable<DataAccess.Place> places = db.places.ToList().Cast<DataAccess.Place>().Concat(db.inactivePlaces.ToList().Cast<DataAccess.InactivePlace>());
 
-                                if (places.Count > 0)
+                                if (places.Count() > 0)
                                     values[0] = (places.Max(p => p.nr_system) + 1).ToString();
                                 else
                                     values[0] = "0";
@@ -410,9 +410,9 @@ namespace czynsze.Forms
                             else
                             {
                                 values = new string[numberOfFields];
-                                List<DataAccess.Tenant> tenants = db.tenants.ToList().Cast<DataAccess.Tenant>().ToList().Concat(db.inactiveTenants.ToList().Cast<DataAccess.Tenant>().ToList()).ToList();
+                                IEnumerable<DataAccess.Tenant> tenants = db.tenants.ToList().Cast<DataAccess.Tenant>().Concat(db.inactiveTenants.Cast<DataAccess.Tenant>());
 
-                                if (tenants.Count > 0)
+                                if (tenants.Count() > 0)
                                     values[0] = (tenants.Max(t => t.nr_kontr) + 1).ToString();
                                 else
                                     values[0] = "1";
@@ -1038,7 +1038,7 @@ namespace czynsze.Forms
 
                         if (values == null)
                         {
-                            List<DataAccess.Turnover> turnOvers = db.turnoversFor14.ToList().Cast<DataAccess.Turnover>().ToList();
+                            IEnumerable<DataAccess.Turnover> turnOvers = db.turnoversFor14.ToList().Cast<DataAccess.Turnover>();
 
                             if (action != Enums.Action.Dodaj)
                                 values = turnOvers.FirstOrDefault(t => t.__record == id).AllFields();
@@ -1047,7 +1047,7 @@ namespace czynsze.Forms
                                 values = new string[numberOfFields];
                                 values[8] = GetParamValue<string>("additionalId");
 
-                                if (turnOvers.Count == 0)
+                                if (turnOvers.Count() == 0)
                                     values[0] = "1";
                                 else
                                     values[0] = (turnOvers.Max(t => t.__record) + 1).ToString();
