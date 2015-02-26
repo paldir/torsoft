@@ -8,12 +8,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace czynsze.DataAccess
 {
-    [Table("vat", Schema="public")]
-    public class VatRate
+    [Table("vat", Schema = "public")]
+    public class VatRate : IRecord
     {
         [Key, Column("__record")]
         public int __record { get; set; }
-        
+
         [Column("nazwa")]
         public string nazwa { get; set; }
 
@@ -55,7 +55,12 @@ namespace czynsze.DataAccess
             symb_fisk = record[2];
         }
 
-        public static string Validate(Enums.Action action, string[] record)
+        public IRecord Find(Czynsze_Entities dataBase, int id)
+        {
+            return dataBase.vatRates.FirstOrDefault(r => r.__record == id);
+        }
+
+        public string Validate(Enums.Action action, string[] record)
         {
             string result = String.Empty;
             string nazwa = record[1];

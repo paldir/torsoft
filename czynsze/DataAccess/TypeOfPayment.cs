@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DataAccess
 {
     [Table("t_wplat", Schema = "public")]
-    public class TypeOfPayment
+    public class TypeOfPayment : IRecord
     {
         [Key, Column("kod_wplat"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int kod_wplat { get; set; }
@@ -116,7 +116,12 @@ namespace czynsze.DataAccess
             sww = record[7];
         }
 
-        public static string Validate(Enums.Action action, string[] record)
+        public IRecord Find(Czynsze_Entities dataBase, int id)
+        {
+            return dataBase.typesOfPayment.FirstOrDefault(t => t.kod_wplat == id);
+        }
+
+        public string Validate(Enums.Action action, string[] record)
         {
             string result = String.Empty;
             int kod_wplat;

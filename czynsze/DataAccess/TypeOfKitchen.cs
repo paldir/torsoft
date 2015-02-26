@@ -8,8 +8,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace czynsze.DataAccess
 {
-    [Table("typ_kuch", Schema="public")]
-    public class TypeOfKitchen
+    [Table("typ_kuch", Schema = "public")]
+    public class TypeOfKitchen : IRecord
     {
         [Key, Column("kod_kuch"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int kod_kuch { get; set; }
@@ -51,7 +51,12 @@ namespace czynsze.DataAccess
             typ_kuch = record[1];
         }
 
-        public static string Validate(Enums.Action action, string[] record)
+        public IRecord Find(Czynsze_Entities dataBase, int id)
+        {
+            return dataBase.typesOfKitchen.FirstOrDefault(t => t.kod_kuch == id);
+        }
+
+        public string Validate(Enums.Action action, string[] record)
         {
             string result = String.Empty;
             int kod_kuch;

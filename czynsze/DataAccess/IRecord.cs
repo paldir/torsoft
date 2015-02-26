@@ -9,9 +9,7 @@ namespace czynsze.DataAccess
     public interface IRecord
     {
         void Set(string[] record);
-        void Add(Czynsze_Entities dataBase);
         IRecord Find(Czynsze_Entities dataBase, int id);
-        void Remove(Czynsze_Entities dataBase);
         string Validate(Enums.Action action, string[] record);
     }
 }

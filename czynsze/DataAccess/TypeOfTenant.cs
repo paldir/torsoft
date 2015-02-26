@@ -8,8 +8,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace czynsze.DataAccess
 {
-    [Table("typ_naje", Schema="public")]
-    public class TypeOfTenant
+    [Table("typ_naje", Schema = "public")]
+    public class TypeOfTenant : IRecord
     {
         [Key, Column("kod_najem"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int kod_najem { get; set; }
@@ -51,7 +51,12 @@ namespace czynsze.DataAccess
             r_najemcy = record[1];
         }
 
-        public static string Validate(Enums.Action action, string[] record)
+        public IRecord Find(Czynsze_Entities dataBase, int id)
+        {
+            return dataBase.typesOfTenant.FirstOrDefault(t => t.kod_najem == id);
+        }
+
+        public string Validate(Enums.Action action, string[] record)
         {
             string result = String.Empty;
             int kod_najem;

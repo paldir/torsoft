@@ -782,10 +782,10 @@ namespace czynsze.Forms
                         }
 
                         if (idEnabled)
-                            controls.Add(new MyControls.TextBox("field", "id", values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, globalEnabled));
+                            controls.Add(new MyControls.TextBox("field", "id", values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
                         else
                         {
-                            controls.Add(new MyControls.TextBox("field", "id_disabled", values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, globalEnabled));
+                            controls.Add(new MyControls.TextBox("field", "id_disabled", values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
                             form.Controls.Add(new MyControls.HtmlInputHidden("id", values[0]));
                         }
 

@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DataAccess
 {
     [Table("tyt_praw", Schema = "public")]
-    public class Title
+    public class Title : IRecord
     {
         [Key, Column("kod_praw"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int kod_praw { get; set; }
@@ -51,7 +51,12 @@ namespace czynsze.DataAccess
             tyt_prawny = record[1];
         }
 
-        public static string Validate(Enums.Action action, string[] record)
+        public IRecord Find(Czynsze_Entities dataBase, int id)
+        {
+            return dataBase.titles.FirstOrDefault(t => t.kod_praw == id);
+        }
+
+        public string Validate(Enums.Action action, string[] record)
         {
             string result = String.Empty;
             int kod_praw;

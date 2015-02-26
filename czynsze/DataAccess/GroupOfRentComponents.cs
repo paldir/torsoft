@@ -8,8 +8,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace czynsze.DataAccess
 {
-    [Table("grup_cz", Schema="public")]
-    public class GroupOfRentComponents
+    [Table("grup_cz", Schema = "public")]
+    public class GroupOfRentComponents : IRecord
     {
         [Key, Column("kod"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int kod { get; set; }
@@ -36,7 +36,12 @@ namespace czynsze.DataAccess
             };
         }
 
-        public static string Validate(Enums.Action action, string[] record)
+        public IRecord Find(Czynsze_Entities dataBase, int id)
+        {
+            return dataBase.groupsOfRentComponents.FirstOrDefault(g => g.kod == id);
+        }
+
+        public string Validate(Enums.Action action, string[] record)
         {
             string result = String.Empty;
             int kod;

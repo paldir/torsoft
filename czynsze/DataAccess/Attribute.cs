@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DataAccess
 {
     [Table("cechy", Schema = "public")]
-    public class Attribute
+    public class Attribute : IRecord
     {
         [Key, Column("kod"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int kod { get; set; }
@@ -84,7 +84,7 @@ namespace czynsze.DataAccess
 
                     break;
             }
-            
+
             return new string[]
             {
                 kod.ToString(),
@@ -127,7 +127,12 @@ namespace czynsze.DataAccess
             zb_s = record[9];
         }
 
-        public static string Validate(Enums.Action action, string[] record)
+        public IRecord Find(Czynsze_Entities dataBase, int id)
+        {
+            return dataBase.attributes.FirstOrDefault(a => a.kod == id);
+        }
+
+        public string Validate(Enums.Action action, string[] record)
         {
             string result = String.Empty;
             int kod;

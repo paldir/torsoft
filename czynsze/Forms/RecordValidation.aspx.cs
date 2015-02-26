@@ -31,6 +31,8 @@ namespace czynsze.Forms
             string backUrl = "javascript: Load('List.aspx?table=" + table + "')";
             string nominativeCase = String.Empty;
             string genitiveCase = String.Empty;
+            DataAccess.IRecord record = null;
+            System.Data.Entity.DbSet dbSet = null;
 
             Dictionary<Enums.Action, string> dictionaryOfActionInfinitives = new Dictionary<Enums.Action, string>()
             {
@@ -65,12 +67,215 @@ namespace czynsze.Forms
                 {
                     switch (table)
                     {
-                        case Enums.Table.Buildings:
-                            DataAccess.Building building;
-                            nominativeCase = "budynek";
-                            genitiveCase = "budynku";
+                        case Enums.Table.TypesOfPlace:
+                        case Enums.Table.TypesOfKitchen:
+                        case Enums.Table.TypesOfTenant:
+                        case Enums.Table.Titles:
+                        case Enums.Table.TypesOfPayment:
+                        case Enums.Table.GroupsOfRentComponents:
+                        case Enums.Table.FinancialGroups:
+                        case Enums.Table.VatRates:
+                        case Enums.Table.Attributes:
+                            switch (table)
+                            {
+                                case Enums.Table.TypesOfPlace:
+                                    record = new DataAccess.TypeOfPlace();
+                                    dbSet = db.Set(typeof(DataAccess.TypeOfPlace));
+                                    nominativeCase = "typ lokali";
+                                    genitiveCase = "typu lokali";
 
-                            recordFields = new string[]
+                                    recordFields = new string[]
+                                    {
+                                        GetParamValue<string>("id"),
+                                        GetParamValue<string>("typ_lok")
+                                    };
+
+                                    validationResult = record.Validate(action, recordFields);
+
+                                    break;
+
+                                case Enums.Table.TypesOfKitchen:
+                                    record = new DataAccess.TypeOfKitchen();
+                                    dbSet = db.Set(typeof(DataAccess.TypeOfKitchen));
+                                    nominativeCase = "typ kuchni";
+                                    genitiveCase = "typu kuchni";
+
+                                    recordFields = new string[]
+                                    {
+                                        GetParamValue<string>("id"),
+                                        GetParamValue<string>("typ_kuch")
+                                    };
+
+                                    validationResult = record.Validate(action, recordFields);
+
+                                    break;
+
+                                case Enums.Table.TypesOfTenant:
+                                    record = new DataAccess.TypeOfTenant();
+                                    dbSet = db.Set(typeof(DataAccess.TypeOfTenant));
+                                    nominativeCase = "rodzaj najemcy";
+                                    genitiveCase = "rodzaju najemcy";
+
+                                    recordFields = new string[]
+                                    {
+                                        GetParamValue<string>("id"),
+                                        GetParamValue<string>("r_najemcy")
+                                    };
+
+                                    validationResult = record.Validate(action, recordFields);
+
+                                    break;
+
+                                case Enums.Table.Titles:
+                                    record = new DataAccess.Title();
+                                    dbSet = db.Set(typeof(DataAccess.Title));
+                                    nominativeCase = "tytuł prawny do lokali";
+                                    genitiveCase = "tytułu prawnego do lokali";
+
+                                    recordFields = new string[]
+                                    {
+                                        GetParamValue<string>("id"),
+                                        GetParamValue<string>("tyt_prawny")
+                                    };
+
+                                    validationResult = record.Validate(action, recordFields);
+
+                                    break;
+
+                                case Enums.Table.TypesOfPayment:
+                                    record = new DataAccess.TypeOfPayment();
+                                    dbSet = db.Set(typeof(DataAccess.TypeOfPayment));
+                                    nominativeCase = "rodzaj wpłaty lub wypłaty";
+                                    genitiveCase = "rodzaju wpłaty lub wypłaty";
+
+                                    recordFields = new string[]
+                                    {
+                                        GetParamValue<string>("id"),
+                                        GetParamValue<string>("typ_wplat"),
+                                        GetParamValue<string>("rodz_e"),
+                                        GetParamValue<string>("s_rozli"),
+                                        GetParamValue<string>("tn_odset"),
+                                        GetParamValue<string>("nota_odset"),
+                                        GetParamValue<string>("vat"),
+                                        GetParamValue<string>("sww")
+                                    };
+
+                                    validationResult = record.Validate(action, recordFields);
+
+                                    break;
+
+                                case Enums.Table.GroupsOfRentComponents:
+                                    record = new DataAccess.GroupOfRentComponents();
+                                    dbSet = db.Set(typeof(DataAccess.GroupOfRentComponents));
+                                    nominativeCase = "grupa składników czynszu";
+                                    genitiveCase = "grupy składników czynszu";
+
+                                    recordFields = new string[]
+                                    {
+                                        GetParamValue<string>("id"),
+                                        GetParamValue<string>("nazwa")
+                                    };
+
+                                    validationResult = record.Validate(action, recordFields);
+
+                                    break;
+
+                                case Enums.Table.FinancialGroups:
+                                    record = new DataAccess.FinancialGroup();
+                                    dbSet = db.Set(typeof(DataAccess.FinancialGroup));
+                                    nominativeCase = "grupa finansowa";
+                                    genitiveCase = "grupy finansowej";
+
+                                    recordFields = new string[]
+                                    {
+                                        GetParamValue<string>("id"),
+                                        GetParamValue<string>("k_syn"),
+                                        GetParamValue<string>("nazwa")
+                                    };
+
+                                    validationResult = record.Validate(action, recordFields);
+
+                                    break;
+
+                                case Enums.Table.VatRates:
+                                    record = new DataAccess.VatRate();
+                                    dbSet = db.Set(typeof(DataAccess.VatRate));
+                                    nominativeCase = "stawka VAT";
+                                    genitiveCase = "stawki VAt";
+
+                                    recordFields = new string[]
+                                    {
+                                        GetParamValue<string>("id"),
+                                        GetParamValue<string>("nazwa"),
+                                        GetParamValue<string>("symb_fisk")
+                                    };
+
+                                    validationResult = record.Validate(action, recordFields);
+
+                                    break;
+
+                                case Enums.Table.Attributes:
+                                    record = new DataAccess.Attribute();
+                                    dbSet = db.Set(typeof(DataAccess.Attribute));
+                                    nominativeCase = "cecha obiektów";
+                                    genitiveCase = "cechy obiektów";
+
+                                    recordFields = new string[]
+                                    {
+                                        GetParamValue<string>("id"),
+                                        GetParamValue<string>("nazwa"),
+                                        GetParamValue<string>("nr_str"),
+                                        GetParamValue<string>("jedn"),
+                                        GetParamValue<string>("wartosc"),
+                                        GetParamValue<string>("uwagi"),
+                                        GetParamValue<string>("zb_0"),
+                                        GetParamValue<string>("zb_1"),
+                                        GetParamValue<string>("zb_2"),
+                                        GetParamValue<string>("zb_3"),
+                                    };
+
+                                    validationResult = record.Validate(action, recordFields);
+
+                                    break;
+                            }
+
+                            if(String.IsNullOrEmpty(validationResult))
+                            {
+                                switch(action)
+                                {
+                                    case Enums.Action.Dodaj:
+                                        record.Set(recordFields);
+                                        dbSet.Add(record);
+
+                                        break;
+
+                                    case Enums.Action.Edytuj:
+                                        record = record.Find(db, id);
+
+                                        record.Set(recordFields);
+
+                                        break;
+
+                                    case Enums.Action.Usuń:
+                                        record = record.Find(db, id);
+
+                                        dbSet.Remove(record);
+
+                                        break;
+                                }
+                            }
+
+                            break;
+
+                        default:
+                            switch (table)
+                            {
+                                case Enums.Table.Buildings:
+                                    DataAccess.Building building;
+                                    nominativeCase = "budynek";
+                                    genitiveCase = "budynku";
+
+                                    recordFields = new string[]
                             {
                                 GetParamValue<string>("id"),
                                 GetParamValue<string>("il_miesz"),
@@ -81,58 +286,58 @@ namespace czynsze.Forms
                                 GetParamValue<string>("uwagi")
                             };
 
-                            validationResult = DataAccess.Building.Validate(action, recordFields);
+                                    validationResult = DataAccess.Building.Validate(action, recordFields);
 
-                            if (String.IsNullOrEmpty(validationResult))
-                                switch (action)
-                                {
-                                    case Enums.Action.Dodaj:
-                                        building = new DataAccess.Building();
-
-                                        building.Set(recordFields);
-                                        db.buildings.Add(building);
-
-                                        foreach (DataAccess.AttributeOfBuilding attributeOfBuilding in attributesOfObject)
+                                    if (String.IsNullOrEmpty(validationResult))
+                                        switch (action)
                                         {
-                                            attributeOfBuilding.kod_powiaz = recordFields[0];
+                                            case Enums.Action.Dodaj:
+                                                building = new DataAccess.Building();
 
-                                            db.attributesOfBuildings.Add(attributeOfBuilding);
+                                                building.Set(recordFields);
+                                                db.buildings.Add(building);
+
+                                                foreach (DataAccess.AttributeOfBuilding attributeOfBuilding in attributesOfObject)
+                                                {
+                                                    attributeOfBuilding.kod_powiaz = recordFields[0];
+
+                                                    db.attributesOfBuildings.Add(attributeOfBuilding);
+                                                }
+
+                                                break;
+
+                                            case Enums.Action.Edytuj:
+                                                building = db.buildings.FirstOrDefault(b => b.kod_1 == id);
+
+                                                building.Set(recordFields);
+
+                                                foreach (DataAccess.AttributeOfBuilding attributeOfBuilding in db.attributesOfBuildings.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(recordFields[0])))
+                                                    db.attributesOfBuildings.Remove(attributeOfBuilding);
+
+                                                foreach (DataAccess.AttributeOfBuilding attributeOfBuilding in attributesOfObject)
+                                                    db.attributesOfBuildings.Add(attributeOfBuilding);
+
+                                                break;
+
+                                            case Enums.Action.Usuń:
+                                                building = db.buildings.FirstOrDefault(b => b.kod_1 == id);
+
+                                                db.buildings.Remove(building);
+
+                                                foreach (DataAccess.AttributeOfBuilding attributeOfBuilding in db.attributesOfBuildings.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(recordFields[0])))
+                                                    db.attributesOfBuildings.Remove(attributeOfBuilding);
+
+                                                break;
                                         }
 
-                                        break;
+                                    break;
 
-                                    case Enums.Action.Edytuj:
-                                        building = db.buildings.FirstOrDefault(b => b.kod_1 == id);
+                                case Enums.Table.Places:
+                                    DataAccess.ActivePlace place;
+                                    nominativeCase = "lokal";
+                                    genitiveCase = "lokalu";
 
-                                        building.Set(recordFields);
-
-                                        foreach (DataAccess.AttributeOfBuilding attributeOfBuilding in db.attributesOfBuildings.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(recordFields[0])))
-                                            db.attributesOfBuildings.Remove(attributeOfBuilding);
-
-                                        foreach (DataAccess.AttributeOfBuilding attributeOfBuilding in attributesOfObject)
-                                            db.attributesOfBuildings.Add(attributeOfBuilding);
-
-                                        break;
-
-                                    case Enums.Action.Usuń:
-                                        building = db.buildings.FirstOrDefault(b => b.kod_1 == id);
-
-                                        db.buildings.Remove(building);
-
-                                        foreach (DataAccess.AttributeOfBuilding attributeOfBuilding in db.attributesOfBuildings.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(recordFields[0])))
-                                            db.attributesOfBuildings.Remove(attributeOfBuilding);
-
-                                        break;
-                                }
-
-                            break;
-
-                        case Enums.Table.Places:
-                            DataAccess.ActivePlace place;
-                            nominativeCase = "lokal";
-                            genitiveCase = "lokalu";
-
-                            recordFields = new string[]
+                                    recordFields = new string[]
                             {
                                 GetParamValue<string>("id"),
                                 GetParamValue<string>("kod_lok"),
@@ -158,128 +363,128 @@ namespace czynsze.Forms
                                 GetParamValue<string>("uwagi")
                             };
 
-                            validationResult = DataAccess.ActivePlace.Validate(action, recordFields);
+                                    validationResult = DataAccess.ActivePlace.Validate(action, recordFields);
 
-                            if (String.IsNullOrEmpty(validationResult))
-                                switch (action)
-                                {
-                                    case Enums.Action.Dodaj:
-                                        place = new DataAccess.ActivePlace();
-
-                                        place.Set(recordFields);
-                                        db.places.Add(place);
-
-                                        foreach (DataAccess.AttributeOfPlace attributeOfPlace in attributesOfObject)
+                                    if (String.IsNullOrEmpty(validationResult))
+                                        switch (action)
                                         {
-                                            attributeOfPlace.kod_powiaz = recordFields[0];
+                                            case Enums.Action.Dodaj:
+                                                place = new DataAccess.ActivePlace();
 
-                                            db.attributesOfPlaces.Add(attributeOfPlace);
+                                                place.Set(recordFields);
+                                                db.places.Add(place);
+
+                                                foreach (DataAccess.AttributeOfPlace attributeOfPlace in attributesOfObject)
+                                                {
+                                                    attributeOfPlace.kod_powiaz = recordFields[0];
+
+                                                    db.attributesOfPlaces.Add(attributeOfPlace);
+                                                }
+
+                                                //
+                                                //CXP PART
+                                                //
+                                                db.Database.ExecuteSqlCommand("INSERT INTO skl_cz(kod_lok, nr_lok, nr_skl, dan_p) SELECT " + recordFields[1] + ", " + recordFields[2] + ", nr_skl, dan_p FROM skl_cz_tmp");
+                                                db.Database.ExecuteSqlCommand("INSERT INTO pliki(id, plik, nazwa_pliku, opis, nr_system) SELECT id, plik, nazwa_pliku, opis, nr_system FROM pliki_tmp");
+                                                //
+                                                //TO DUMP BEHIND THE WALL
+                                                //
+
+                                                break;
+
+                                            case Enums.Action.Edytuj:
+                                                place = db.places.FirstOrDefault(p => p.nr_system == id);
+
+                                                place.Set(recordFields);
+
+                                                foreach (DataAccess.AttributeOfPlace attributeOfPlace in db.attributesOfPlaces.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(recordFields[0])))
+                                                    db.attributesOfPlaces.Remove(attributeOfPlace);
+
+                                                foreach (DataAccess.AttributeOfPlace attributeOfPlace in attributesOfObject)
+                                                    db.attributesOfPlaces.Add(attributeOfPlace);
+
+                                                //
+                                                //CXP PART
+                                                //
+                                                db.Database.ExecuteSqlCommand("DELETE FROM skl_cz WHERE kod_lok=" + recordFields[1] + " AND nr_lok=" + recordFields[2]);
+                                                db.Database.ExecuteSqlCommand("INSERT INTO skl_cz(kod_lok, nr_lok, nr_skl, dan_p) SELECT kod_lok, nr_lok, nr_skl, dan_p FROM skl_cz_tmp");
+                                                db.Database.ExecuteSqlCommand("DELETE FROM pliki WHERE nr_system=" + recordFields[0]);
+                                                db.Database.ExecuteSqlCommand("INSERT INTO pliki(id, plik, nazwa_pliku, opis, nr_system) SELECT id, plik, nazwa_pliku, opis, nr_system FROM pliki_tmp");
+                                                //
+                                                //TO DUMP BEHIND THE WALL
+                                                //
+
+                                                break;
+
+                                            case Enums.Action.Usuń:
+                                                place = db.places.FirstOrDefault(p => p.nr_system == id);
+
+                                                foreach (DataAccess.RentComponentOfPlace component in db.rentComponentsOfPlaces.Where(c => c.kod_lok == place.kod_lok && c.nr_lok == place.nr_lok))
+                                                    db.rentComponentsOfPlaces.Remove(component);
+
+                                                foreach (DataAccess.AttributeOfPlace attributeOfPlace in db.attributesOfPlaces.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(recordFields[0])))
+                                                    db.attributesOfPlaces.Remove(attributeOfPlace);
+
+                                                db.places.Remove(place);
+
+                                                //
+                                                //CXP PART
+                                                //
+                                                db.Database.ExecuteSqlCommand("DELETE FROM skl_cz WHERE kod_lok=" + recordFields[1] + " AND nr_lok=" + recordFields[2]);
+                                                db.Database.ExecuteSqlCommand("DELETE FROM pliki WHERE nr_system=" + recordFields[0]);
+                                                //
+                                                //TO DUMP BEHIND THE WALL
+                                                //
+
+                                                break;
+
+                                            case Enums.Action.Przenieś:
+                                                DataAccess.InactivePlace inactivePlace = new DataAccess.InactivePlace();
+                                                place = db.places.FirstOrDefault(p => p.nr_system == id);
+
+                                                db.places.Remove(place);
+
+                                                recordFields = place.AllFields();
+
+                                                DataAccess.Place.Validate(action, recordFields);
+                                                inactivePlace.Set(recordFields);
+                                                db.inactivePlaces.Add(inactivePlace);
+
+                                                break;
                                         }
 
-                                        //
-                                        //CXP PART
-                                        //
-                                        db.Database.ExecuteSqlCommand("INSERT INTO skl_cz(kod_lok, nr_lok, nr_skl, dan_p) SELECT " + recordFields[1] + ", " + recordFields[2] + ", nr_skl, dan_p FROM skl_cz_tmp");
-                                        db.Database.ExecuteSqlCommand("INSERT INTO pliki(id, plik, nazwa_pliku, opis, nr_system) SELECT id, plik, nazwa_pliku, opis, nr_system FROM pliki_tmp");
-                                        //
-                                        //TO DUMP BEHIND THE WALL
-                                        //
+                                    break;
 
-                                        break;
+                                case Enums.Table.InactivePlaces:
+                                    validationResult = String.Empty;
+                                    nominativeCase = "lokal (nieaktywny)";
+                                    genitiveCase = "lokalu (nieaktywnego)";
 
-                                    case Enums.Action.Edytuj:
-                                        place = db.places.FirstOrDefault(p => p.nr_system == id);
+                                    switch (action)
+                                    {
+                                        case Enums.Action.Przenieś:
+                                            DataAccess.ActivePlace activePlace = new DataAccess.ActivePlace();
+                                            DataAccess.InactivePlace inactivePlace = db.inactivePlaces.FirstOrDefault(p => p.nr_system == id);
 
-                                        place.Set(recordFields);
+                                            db.inactivePlaces.Remove(inactivePlace);
 
-                                        foreach (DataAccess.AttributeOfPlace attributeOfPlace in db.attributesOfPlaces.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(recordFields[0])))
-                                            db.attributesOfPlaces.Remove(attributeOfPlace);
+                                            recordFields = inactivePlace.AllFields();
 
-                                        foreach (DataAccess.AttributeOfPlace attributeOfPlace in attributesOfObject)
-                                            db.attributesOfPlaces.Add(attributeOfPlace);
+                                            DataAccess.Place.Validate(action, recordFields);
+                                            activePlace.Set(recordFields);
+                                            db.places.Add(activePlace);
 
-                                        //
-                                        //CXP PART
-                                        //
-                                        db.Database.ExecuteSqlCommand("DELETE FROM skl_cz WHERE kod_lok=" + recordFields[1] + " AND nr_lok=" + recordFields[2]);
-                                        db.Database.ExecuteSqlCommand("INSERT INTO skl_cz(kod_lok, nr_lok, nr_skl, dan_p) SELECT kod_lok, nr_lok, nr_skl, dan_p FROM skl_cz_tmp");
-                                        db.Database.ExecuteSqlCommand("DELETE FROM pliki WHERE nr_system=" + recordFields[0]);
-                                        db.Database.ExecuteSqlCommand("INSERT INTO pliki(id, plik, nazwa_pliku, opis, nr_system) SELECT id, plik, nazwa_pliku, opis, nr_system FROM pliki_tmp");
-                                        //
-                                        //TO DUMP BEHIND THE WALL
-                                        //
-
-                                        break;
-
-                                    case Enums.Action.Usuń:
-                                        place = db.places.FirstOrDefault(p => p.nr_system == id);
-
-                                        foreach (DataAccess.RentComponentOfPlace component in db.rentComponentsOfPlaces.Where(c => c.kod_lok == place.kod_lok && c.nr_lok == place.nr_lok))
-                                            db.rentComponentsOfPlaces.Remove(component);
-
-                                        foreach (DataAccess.AttributeOfPlace attributeOfPlace in db.attributesOfPlaces.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(recordFields[0])))
-                                            db.attributesOfPlaces.Remove(attributeOfPlace);
-
-                                        db.places.Remove(place);
-
-                                        //
-                                        //CXP PART
-                                        //
-                                        db.Database.ExecuteSqlCommand("DELETE FROM skl_cz WHERE kod_lok=" + recordFields[1] + " AND nr_lok=" + recordFields[2]);
-                                        db.Database.ExecuteSqlCommand("DELETE FROM pliki WHERE nr_system=" + recordFields[0]);
-                                        //
-                                        //TO DUMP BEHIND THE WALL
-                                        //
-
-                                        break;
-
-                                    case Enums.Action.Przenieś:
-                                        DataAccess.InactivePlace inactivePlace = new DataAccess.InactivePlace();
-                                        place = db.places.FirstOrDefault(p => p.nr_system == id);
-
-                                        db.places.Remove(place);
-
-                                        recordFields = place.AllFields();
-
-                                        DataAccess.Place.Validate(action, recordFields);
-                                        inactivePlace.Set(recordFields);
-                                        db.inactivePlaces.Add(inactivePlace);
-
-                                        break;
-                                }
-
-                            break;
-
-                        case Enums.Table.InactivePlaces:
-                            validationResult = String.Empty;
-                            nominativeCase = "lokal (nieaktywny)";
-                            genitiveCase = "lokalu (nieaktywnego)";
-
-                            switch (action)
-                            {
-                                case Enums.Action.Przenieś:
-                                    DataAccess.ActivePlace activePlace = new DataAccess.ActivePlace();
-                                    DataAccess.InactivePlace inactivePlace = db.inactivePlaces.FirstOrDefault(p => p.nr_system == id);
-
-                                    db.inactivePlaces.Remove(inactivePlace);
-
-                                    recordFields = inactivePlace.AllFields();
-
-                                    DataAccess.Place.Validate(action, recordFields);
-                                    activePlace.Set(recordFields);
-                                    db.places.Add(activePlace);
+                                            break;
+                                    }
 
                                     break;
-                            }
 
-                            break;
+                                case Enums.Table.Tenants:
+                                    DataAccess.ActiveTenant tenant;
+                                    nominativeCase = "najemca";
+                                    genitiveCase = "najemcy";
 
-                        case Enums.Table.Tenants:
-                            DataAccess.ActiveTenant tenant;
-                            nominativeCase = "najemca";
-                            genitiveCase = "najemcy";
-
-                            recordFields = new string[]
+                                    recordFields = new string[]
                             {
                                 GetParamValue<string>("id"),
                                 GetParamValue<string>("kod_najem"),
@@ -295,94 +500,94 @@ namespace czynsze.Forms
                                 GetParamValue<string>("uwagi")
                             };
 
-                            validationResult = "";
+                                    validationResult = "";
 
-                            if (String.IsNullOrEmpty(validationResult))
-                                switch (action)
-                                {
-                                    case Enums.Action.Dodaj:
-                                        tenant = new DataAccess.ActiveTenant();
-
-                                        tenant.Set(recordFields);
-                                        db.tenants.Add(tenant);
-
-                                        foreach (DataAccess.AttributeOfTenant attributeOfTenant in attributesOfObject)
+                                    if (String.IsNullOrEmpty(validationResult))
+                                        switch (action)
                                         {
-                                            attributeOfTenant.kod_powiaz = recordFields[0];
+                                            case Enums.Action.Dodaj:
+                                                tenant = new DataAccess.ActiveTenant();
 
-                                            db.attributesOfTenants.Add(attributeOfTenant);
+                                                tenant.Set(recordFields);
+                                                db.tenants.Add(tenant);
+
+                                                foreach (DataAccess.AttributeOfTenant attributeOfTenant in attributesOfObject)
+                                                {
+                                                    attributeOfTenant.kod_powiaz = recordFields[0];
+
+                                                    db.attributesOfTenants.Add(attributeOfTenant);
+                                                }
+
+                                                break;
+
+                                            case Enums.Action.Edytuj:
+                                                tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == id);
+
+                                                tenant.Set(recordFields);
+
+                                                foreach (DataAccess.AttributeOfTenant attributeOfTenant in db.attributesOfTenants.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(recordFields[0])))
+                                                    db.attributesOfTenants.Remove(attributeOfTenant);
+
+                                                foreach (DataAccess.AttributeOfTenant attributeOfTenant in attributesOfObject)
+                                                    db.attributesOfTenants.Add(attributeOfTenant);
+
+                                                break;
+
+                                            case Enums.Action.Usuń:
+                                                tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == id);
+
+                                                db.tenants.Remove(tenant);
+
+                                                foreach (DataAccess.AttributeOfTenant attributeOfTenant in db.attributesOfTenants.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(recordFields[0])))
+                                                    db.attributesOfTenants.Remove(attributeOfTenant);
+
+                                                break;
+
+                                            case Enums.Action.Przenieś:
+                                                DataAccess.InactiveTenant inactiveTenant = new DataAccess.InactiveTenant();
+                                                tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == id);
+
+                                                db.tenants.Remove(tenant);
+
+                                                recordFields = tenant.AllFields();
+
+                                                inactiveTenant.Set(recordFields);
+                                                db.inactiveTenants.Add(inactiveTenant);
+
+                                                break;
                                         }
 
-                                        break;
+                                    break;
 
-                                    case Enums.Action.Edytuj:
-                                        tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == id);
+                                case Enums.Table.InactiveTenants:
+                                    validationResult = String.Empty;
+                                    nominativeCase = "najemca (nieaktywny)";
+                                    genitiveCase = "najemcy (nieaktywnego)";
 
-                                        tenant.Set(recordFields);
+                                    switch (action)
+                                    {
+                                        case Enums.Action.Przenieś:
+                                            DataAccess.ActiveTenant activeTenant = new DataAccess.ActiveTenant();
+                                            DataAccess.InactiveTenant inactiveTenant = db.inactiveTenants.FirstOrDefault(t => t.nr_kontr == id);
 
-                                        foreach (DataAccess.AttributeOfTenant attributeOfTenant in db.attributesOfTenants.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(recordFields[0])))
-                                            db.attributesOfTenants.Remove(attributeOfTenant);
+                                            db.inactiveTenants.Remove(inactiveTenant);
 
-                                        foreach (DataAccess.AttributeOfTenant attributeOfTenant in attributesOfObject)
-                                            db.attributesOfTenants.Add(attributeOfTenant);
+                                            recordFields = inactiveTenant.AllFields();
 
-                                        break;
+                                            activeTenant.Set(recordFields);
+                                            db.tenants.Add(activeTenant);
 
-                                    case Enums.Action.Usuń:
-                                        tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == id);
-
-                                        db.tenants.Remove(tenant);
-
-                                        foreach (DataAccess.AttributeOfTenant attributeOfTenant in db.attributesOfTenants.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(recordFields[0])))
-                                            db.attributesOfTenants.Remove(attributeOfTenant);
-
-                                        break;
-
-                                    case Enums.Action.Przenieś:
-                                        DataAccess.InactiveTenant inactiveTenant = new DataAccess.InactiveTenant();
-                                        tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == id);
-
-                                        db.tenants.Remove(tenant);
-
-                                        recordFields = tenant.AllFields();
-
-                                        inactiveTenant.Set(recordFields);
-                                        db.inactiveTenants.Add(inactiveTenant);
-
-                                        break;
-                                }
-
-                            break;
-
-                        case Enums.Table.InactiveTenants:
-                            validationResult = String.Empty;
-                            nominativeCase = "najemca (nieaktywny)";
-                            genitiveCase = "najemcy (nieaktywnego)";
-
-                            switch (action)
-                            {
-                                case Enums.Action.Przenieś:
-                                    DataAccess.ActiveTenant activeTenant = new DataAccess.ActiveTenant();
-                                    DataAccess.InactiveTenant inactiveTenant = db.inactiveTenants.FirstOrDefault(t => t.nr_kontr == id);
-
-                                    db.inactiveTenants.Remove(inactiveTenant);
-
-                                    recordFields = inactiveTenant.AllFields();
-
-                                    activeTenant.Set(recordFields);
-                                    db.tenants.Add(activeTenant);
+                                            break;
+                                    }
 
                                     break;
-                            }
 
-                            break;
+                                case Enums.Table.RentComponents:
+                                    DataAccess.RentComponent rentComponent;
+                                    nominativeCase = "składnik opłat";
+                                    genitiveCase = "składnika opłat";
 
-                        case Enums.Table.RentComponents:
-                            DataAccess.RentComponent rentComponent;
-                            nominativeCase = "składnik opłat";
-                            genitiveCase = "składnika opłat";
-
-                            recordFields = new string[]
+                                    recordFields = new string[]
                             {
                                 GetParamValue<string>("id"),
                                 GetParamValue<string>("nazwa"),
@@ -395,8 +600,8 @@ namespace czynsze.Forms
                                 GetParamValue<string>("data_2")
                             };
 
-                            if (recordFields[3] == "6")
-                                recordFields = recordFields.ToList().Concat(new string[] 
+                                    if (recordFields[3] == "6")
+                                        recordFields = recordFields.ToList().Concat(new string[] 
                             {
                                 GetParamValue<string>("stawka_00"),
                                 GetParamValue<string>("stawka_01"),
@@ -409,45 +614,45 @@ namespace czynsze.Forms
                                 GetParamValue<string>("stawka_08"),
                                 GetParamValue<string>("stawka_09")
                             }).ToArray();
-                            else
-                                recordFields = recordFields.ToList().Concat(new string[] { "", "", "", "", "", "", "", "", "", "" }).ToArray();
+                                    else
+                                        recordFields = recordFields.ToList().Concat(new string[] { "", "", "", "", "", "", "", "", "", "" }).ToArray();
 
-                            validationResult = DataAccess.RentComponent.Validate(action, recordFields);
+                                    validationResult = DataAccess.RentComponent.Validate(action, recordFields);
 
-                            if (String.IsNullOrEmpty(validationResult))
-                                switch (action)
-                                {
-                                    case Enums.Action.Dodaj:
-                                        rentComponent = new DataAccess.RentComponent();
+                                    if (String.IsNullOrEmpty(validationResult))
+                                        switch (action)
+                                        {
+                                            case Enums.Action.Dodaj:
+                                                rentComponent = new DataAccess.RentComponent();
 
-                                        rentComponent.Set(recordFields);
-                                        db.rentComponents.Add(rentComponent);
+                                                rentComponent.Set(recordFields);
+                                                db.rentComponents.Add(rentComponent);
 
-                                        break;
+                                                break;
 
-                                    case Enums.Action.Edytuj:
-                                        rentComponent = db.rentComponents.FirstOrDefault(c => c.nr_skl == id);
+                                            case Enums.Action.Edytuj:
+                                                rentComponent = db.rentComponents.FirstOrDefault(c => c.nr_skl == id);
 
-                                        rentComponent.Set(recordFields);
+                                                rentComponent.Set(recordFields);
 
-                                        break;
+                                                break;
 
-                                    case Enums.Action.Usuń:
-                                        rentComponent = db.rentComponents.FirstOrDefault(c => c.nr_skl == id);
+                                            case Enums.Action.Usuń:
+                                                rentComponent = db.rentComponents.FirstOrDefault(c => c.nr_skl == id);
 
-                                        db.rentComponents.Remove(rentComponent);
+                                                db.rentComponents.Remove(rentComponent);
 
-                                        break;
-                                }
+                                                break;
+                                        }
 
-                            break;
+                                    break;
 
-                        case Enums.Table.Communities:
-                            DataAccess.Community community;
-                            nominativeCase = "wspólnota";
-                            genitiveCase = "wspólnoty";
+                                case Enums.Table.Communities:
+                                    DataAccess.Community community;
+                                    nominativeCase = "wspólnota";
+                                    genitiveCase = "wspólnoty";
 
-                            recordFields = new string[]
+                                    recordFields = new string[]
                             {
                                 GetParamValue<string>("id"),
                                 GetParamValue<string>("il_bud"),
@@ -463,456 +668,58 @@ namespace czynsze.Forms
                                 GetParamValue<string>("uwagi")
                             };
 
-                            validationResult = DataAccess.Community.Validate(action, recordFields);
+                                    validationResult = DataAccess.Community.Validate(action, recordFields);
 
-                            if (String.IsNullOrEmpty(validationResult))
-                                switch (action)
-                                {
-                                    case Enums.Action.Dodaj:
-                                        community = new DataAccess.Community();
-
-                                        community.Set(recordFields);
-                                        db.communities.Add(community);
-
-                                        foreach (DataAccess.AttributeOfCommunity attributeOfCommunity in attributesOfObject)
+                                    if (String.IsNullOrEmpty(validationResult))
+                                        switch (action)
                                         {
-                                            attributeOfCommunity.kod_powiaz = recordFields[0];
+                                            case Enums.Action.Dodaj:
+                                                community = new DataAccess.Community();
 
-                                            db.attributesOfCommunities.Add(attributeOfCommunity);
+                                                community.Set(recordFields);
+                                                db.communities.Add(community);
+
+                                                foreach (DataAccess.AttributeOfCommunity attributeOfCommunity in attributesOfObject)
+                                                {
+                                                    attributeOfCommunity.kod_powiaz = recordFields[0];
+
+                                                    db.attributesOfCommunities.Add(attributeOfCommunity);
+                                                }
+
+                                                break;
+
+                                            case Enums.Action.Edytuj:
+                                                community = db.communities.FirstOrDefault(c => c.kod == id);
+
+                                                community.Set(recordFields);
+
+                                                foreach (DataAccess.AttributeOfCommunity attributeOfCommunity in db.attributesOfCommunities.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(recordFields[0])))
+                                                    db.attributesOfCommunities.Remove(attributeOfCommunity);
+
+                                                foreach (DataAccess.AttributeOfCommunity attributeOfCommunity in attributesOfObject)
+                                                    db.attributesOfCommunities.Add(attributeOfCommunity);
+
+                                                break;
+
+                                            case Enums.Action.Usuń:
+                                                community = db.communities.FirstOrDefault(c => c.kod == id);
+
+                                                db.communities.Remove(community);
+
+                                                foreach (DataAccess.AttributeOfCommunity attributeOfCommunity in db.attributesOfCommunities.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(recordFields[0])))
+                                                    db.attributesOfCommunities.Remove(attributeOfCommunity);
+
+                                                break;
                                         }
 
-                                        break;
+                                    break;
 
-                                    case Enums.Action.Edytuj:
-                                        community = db.communities.FirstOrDefault(c => c.kod == id);
+                                case Enums.Table.Users:
+                                    DataAccess.User user;
+                                    nominativeCase = "użytkownik";
+                                    genitiveCase = "użytkownika";
 
-                                        community.Set(recordFields);
-
-                                        foreach (DataAccess.AttributeOfCommunity attributeOfCommunity in db.attributesOfCommunities.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(recordFields[0])))
-                                            db.attributesOfCommunities.Remove(attributeOfCommunity);
-
-                                        foreach (DataAccess.AttributeOfCommunity attributeOfCommunity in attributesOfObject)
-                                            db.attributesOfCommunities.Add(attributeOfCommunity);
-
-                                        break;
-
-                                    case Enums.Action.Usuń:
-                                        community = db.communities.FirstOrDefault(c => c.kod == id);
-
-                                        db.communities.Remove(community);
-
-                                        foreach (DataAccess.AttributeOfCommunity attributeOfCommunity in db.attributesOfCommunities.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(recordFields[0])))
-                                            db.attributesOfCommunities.Remove(attributeOfCommunity);
-
-                                        break;
-                                }
-
-                            break;
-
-                        case Enums.Table.TypesOfPlace:
-                            //DataAccess.TypeOfPlace typeOfPlace;
-                            DataAccess.IRecord record = new DataAccess.TypeOfPlace();
-                            nominativeCase = "typ lokali";
-                            genitiveCase = "typu lokali";
-
-                            recordFields = new string[]
-                            {
-                                GetParamValue<string>("id"),
-                                GetParamValue<string>("typ_lok")
-                            };
-
-                            validationResult = record.Validate(action, recordFields);
-
-                            if (String.IsNullOrEmpty(validationResult))
-                                switch (action)
-                                {
-                                    case Enums.Action.Dodaj:
-                                        /*typeOfPlace = new DataAccess.TypeOfPlace();
-
-                                        typeOfPlace.Set(record);
-                                        db.typesOfPlace.Add(typeOfPlace);*/
-
-                                        record.Set(recordFields);
-                                        record.Add(db);
-
-                                        break;
-
-                                    case Enums.Action.Edytuj:
-                                        /*typeOfPlace = db.typesOfPlace.FirstOrDefault(t => t.kod_typ == id);
-
-                                        typeOfPlace.Set(record);*/
-
-                                        record = record.Find(db, id);
-
-                                        record.Set(recordFields);
-
-                                        break;
-
-                                    case Enums.Action.Usuń:
-                                        /*typeOfPlace = db.typesOfPlace.FirstOrDefault(t => t.kod_typ == id);
-
-                                        db.typesOfPlace.Remove(typeOfPlace);*/
-
-                                        record = record.Find(db, id);
-
-                                        record.Remove(db);
-
-                                        break;
-                                }
-
-                            break;
-
-                        case Enums.Table.TypesOfKitchen:
-                            DataAccess.TypeOfKitchen typeOfKitchen;
-                            nominativeCase = "typ kuchni";
-                            genitiveCase = "typu kuchni";
-
-                            recordFields = new string[]
-                            {
-                                GetParamValue<string>("id"),
-                                GetParamValue<string>("typ_kuch")
-                            };
-
-                            validationResult = DataAccess.TypeOfKitchen.Validate(action, recordFields);
-
-                            if (String.IsNullOrEmpty(validationResult))
-                                switch (action)
-                                {
-                                    case Enums.Action.Dodaj:
-                                        typeOfKitchen = new DataAccess.TypeOfKitchen();
-
-                                        typeOfKitchen.Set(recordFields);
-                                        db.typesOfKitchen.Add(typeOfKitchen);
-
-                                        break;
-
-                                    case Enums.Action.Edytuj:
-                                        typeOfKitchen = db.typesOfKitchen.FirstOrDefault(t => t.kod_kuch == id);
-
-                                        typeOfKitchen.Set(recordFields);
-
-                                        break;
-
-                                    case Enums.Action.Usuń:
-                                        typeOfKitchen = db.typesOfKitchen.FirstOrDefault(t => t.kod_kuch == id);
-
-                                        db.typesOfKitchen.Remove(typeOfKitchen);
-
-                                        break;
-                                }
-
-                            break;
-
-                        case Enums.Table.TypesOfTenant:
-                            DataAccess.TypeOfTenant typeOfTenant;
-                            nominativeCase = "rodzaj najemcy";
-                            genitiveCase = "rodzaju najemcy";
-
-                            recordFields = new string[]
-                            {
-                                GetParamValue<string>("id"),
-                                GetParamValue<string>("r_najemcy")
-                            };
-
-                            validationResult = DataAccess.TypeOfTenant.Validate(action, recordFields);
-
-                            if (String.IsNullOrEmpty(validationResult))
-                                switch (action)
-                                {
-                                    case Enums.Action.Dodaj:
-                                        typeOfTenant = new DataAccess.TypeOfTenant();
-
-                                        typeOfTenant.Set(recordFields);
-                                        db.typesOfTenant.Add(typeOfTenant);
-
-                                        break;
-
-                                    case Enums.Action.Edytuj:
-                                        typeOfTenant = db.typesOfTenant.FirstOrDefault(t => t.kod_najem == id);
-
-                                        typeOfTenant.Set(recordFields);
-
-                                        break;
-
-                                    case Enums.Action.Usuń:
-                                        typeOfTenant = db.typesOfTenant.FirstOrDefault(t => t.kod_najem == id);
-
-                                        db.typesOfTenant.Remove(typeOfTenant);
-
-                                        break;
-
-                                }
-
-                            break;
-
-                        case Enums.Table.Titles:
-                            DataAccess.Title title;
-                            nominativeCase = "tytuł prawny do lokali";
-                            genitiveCase = "tytułu prawnego do lokali";
-
-                            recordFields = new string[]
-                            {
-                                GetParamValue<string>("id"),
-                                GetParamValue<string>("tyt_prawny")
-                            };
-
-                            validationResult = DataAccess.Title.Validate(action, recordFields);
-
-                            if (String.IsNullOrEmpty(validationResult))
-                                switch (action)
-                                {
-                                    case Enums.Action.Dodaj:
-                                        title = new DataAccess.Title();
-
-                                        title.Set(recordFields);
-                                        db.titles.Add(title);
-
-                                        break;
-
-                                    case Enums.Action.Edytuj:
-                                        title = db.titles.FirstOrDefault(t => t.kod_praw == id);
-
-                                        title.Set(recordFields);
-
-                                        break;
-
-                                    case Enums.Action.Usuń:
-                                        title = db.titles.FirstOrDefault(t => t.kod_praw == id);
-
-                                        db.titles.Remove(title);
-
-                                        break;
-                                }
-
-                            break;
-
-                        case Enums.Table.TypesOfPayment:
-                            DataAccess.TypeOfPayment typeOfPayment;
-                            nominativeCase = "rodzaj wpłaty lub wypłaty";
-                            genitiveCase = "rodzaju wpłaty lub wypłaty";
-
-                            recordFields = new string[]
-                            {
-                                GetParamValue<string>("id"),
-                                GetParamValue<string>("typ_wplat"),
-                                GetParamValue<string>("rodz_e"),
-                                GetParamValue<string>("s_rozli"),
-                                GetParamValue<string>("tn_odset"),
-                                GetParamValue<string>("nota_odset"),
-                                GetParamValue<string>("vat"),
-                                GetParamValue<string>("sww")
-                            };
-
-                            validationResult = DataAccess.TypeOfPayment.Validate(action, recordFields);
-
-                            if (String.IsNullOrEmpty(validationResult))
-                                switch (action)
-                                {
-                                    case Enums.Action.Dodaj:
-                                        typeOfPayment = new DataAccess.TypeOfPayment();
-
-                                        typeOfPayment.Set(recordFields);
-                                        db.typesOfPayment.Add(typeOfPayment);
-
-                                        break;
-
-                                    case Enums.Action.Edytuj:
-                                        typeOfPayment = db.typesOfPayment.FirstOrDefault(t => t.kod_wplat == id);
-
-                                        typeOfPayment.Set(recordFields);
-
-                                        break;
-
-                                    case Enums.Action.Usuń:
-                                        typeOfPayment = db.typesOfPayment.FirstOrDefault(t => t.kod_wplat == id);
-
-                                        db.typesOfPayment.Remove(typeOfPayment);
-
-                                        break;
-                                }
-
-                            break;
-
-                        case Enums.Table.GroupsOfRentComponents:
-                            DataAccess.GroupOfRentComponents groupOfRentComponents;
-                            nominativeCase = "grupa składników czynszu";
-                            genitiveCase = "grupy składników czynszu";
-
-                            recordFields = new string[]
-                            {
-                                GetParamValue<string>("id"),
-                                GetParamValue<string>("nazwa")
-                            };
-
-                            validationResult = DataAccess.GroupOfRentComponents.Validate(action, recordFields);
-
-                            if (String.IsNullOrEmpty(validationResult))
-                                switch (action)
-                                {
-                                    case Enums.Action.Dodaj:
-                                        groupOfRentComponents = new DataAccess.GroupOfRentComponents();
-
-                                        groupOfRentComponents.Set(recordFields);
-                                        db.groupsOfRentComponents.Add(groupOfRentComponents);
-
-                                        break;
-
-                                    case Enums.Action.Edytuj:
-                                        groupOfRentComponents = db.groupsOfRentComponents.FirstOrDefault(g => g.kod == id);
-
-                                        groupOfRentComponents.Set(recordFields);
-
-                                        break;
-
-                                    case Enums.Action.Usuń:
-                                        groupOfRentComponents = db.groupsOfRentComponents.FirstOrDefault(g => g.kod == id);
-
-                                        db.groupsOfRentComponents.Remove(groupOfRentComponents);
-
-                                        break;
-                                }
-
-                            break;
-
-                        case Enums.Table.FinancialGroups:
-                            DataAccess.FinancialGroup financialGroup;
-                            nominativeCase = "grupa finansowa";
-                            genitiveCase = "grupy finansowej";
-
-                            recordFields = new string[]
-                            {
-                                GetParamValue<string>("id"),
-                                GetParamValue<string>("k_syn"),
-                                GetParamValue<string>("nazwa")
-                            };
-
-                            validationResult = DataAccess.FinancialGroup.Validate(action, recordFields);
-
-                            if (String.IsNullOrEmpty(validationResult))
-                                switch (action)
-                                {
-                                    case Enums.Action.Dodaj:
-                                        financialGroup = new DataAccess.FinancialGroup();
-
-                                        financialGroup.Set(recordFields);
-                                        db.financialGroups.Add(financialGroup);
-
-                                        break;
-
-                                    case Enums.Action.Edytuj:
-                                        financialGroup = db.financialGroups.FirstOrDefault(r => r.kod == id);
-
-                                        financialGroup.Set(recordFields);
-
-                                        break;
-
-                                    case Enums.Action.Usuń:
-                                        financialGroup = db.financialGroups.FirstOrDefault(r => r.kod == id);
-
-                                        db.financialGroups.Remove(financialGroup);
-
-                                        break;
-                                }
-
-                            break;
-
-                        case Enums.Table.VatRates:
-                            DataAccess.VatRate vatRate;
-                            nominativeCase = "stawka VAT";
-                            genitiveCase = "stawki VAt";
-
-                            recordFields = new string[]
-                            {
-                                GetParamValue<string>("id"),
-                                GetParamValue<string>("nazwa"),
-                                GetParamValue<string>("symb_fisk")
-                            };
-
-                            validationResult = DataAccess.VatRate.Validate(action, recordFields);
-
-                            if (String.IsNullOrEmpty(validationResult))
-                                switch (action)
-                                {
-                                    case Enums.Action.Dodaj:
-                                        vatRate = new DataAccess.VatRate();
-
-                                        vatRate.Set(recordFields);
-                                        db.vatRates.Add(vatRate);
-
-                                        break;
-
-                                    case Enums.Action.Edytuj:
-                                        vatRate = db.vatRates.FirstOrDefault(r => r.__record == id);
-
-                                        vatRate.Set(recordFields);
-
-                                        break;
-
-                                    case Enums.Action.Usuń:
-                                        vatRate = db.vatRates.FirstOrDefault(r => r.__record == id);
-
-                                        db.vatRates.Remove(vatRate);
-
-                                        break;
-                                }
-
-                            break;
-
-                        case Enums.Table.Attributes:
-                            DataAccess.Attribute attribute;
-                            nominativeCase = "cecha obiektów";
-                            genitiveCase = "cechy obiektów";
-
-                            recordFields = new string[]
-                            {
-                                GetParamValue<string>("id"),
-                                GetParamValue<string>("nazwa"),
-                                GetParamValue<string>("nr_str"),
-                                GetParamValue<string>("jedn"),
-                                GetParamValue<string>("wartosc"),
-                                GetParamValue<string>("uwagi"),
-                                GetParamValue<string>("zb_0"),
-                                GetParamValue<string>("zb_1"),
-                                GetParamValue<string>("zb_2"),
-                                GetParamValue<string>("zb_3"),
-                            };
-
-                            validationResult = DataAccess.Attribute.Validate(action, recordFields);
-
-                            if (String.IsNullOrEmpty(validationResult))
-                                switch (action)
-                                {
-                                    case Enums.Action.Dodaj:
-                                        attribute = new DataAccess.Attribute();
-
-                                        attribute.Set(recordFields);
-                                        db.attributes.Add(attribute);
-
-                                        break;
-
-                                    case Enums.Action.Edytuj:
-                                        attribute = db.attributes.FirstOrDefault(a => a.kod == id);
-
-                                        attribute.Set(recordFields);
-
-                                        break;
-
-                                    case Enums.Action.Usuń:
-                                        attribute = db.attributes.FirstOrDefault(a => a.kod == id);
-
-                                        db.attributes.Remove(attribute);
-
-                                        break;
-                                }
-
-                            break;
-
-                        case Enums.Table.Users:
-                            DataAccess.User user;
-                            nominativeCase = "użytkownik";
-                            genitiveCase = "użytkownika";
-
-                            recordFields = new string[]
+                                    recordFields = new string[]
                             {
                                 GetParamValue<string>("id"),
                                 GetParamValue<string>("symbol"),
@@ -922,42 +729,42 @@ namespace czynsze.Forms
                                 GetParamValue<string>("haslo2")
                             };
 
-                            validationResult = DataAccess.User.Validate(action, ref recordFields);
+                                    validationResult = DataAccess.User.Validate(action, ref recordFields);
 
-                            if (String.IsNullOrEmpty(validationResult))
-                                switch (action)
-                                {
-                                    case Enums.Action.Dodaj:
-                                        user = new DataAccess.User();
+                                    if (String.IsNullOrEmpty(validationResult))
+                                        switch (action)
+                                        {
+                                            case Enums.Action.Dodaj:
+                                                user = new DataAccess.User();
 
-                                        user.Set(recordFields);
-                                        db.users.Add(user);
+                                                user.Set(recordFields);
+                                                db.users.Add(user);
 
-                                        break;
+                                                break;
 
-                                    case Enums.Action.Edytuj:
-                                        user = db.users.FirstOrDefault(u => u.__record == id);
+                                            case Enums.Action.Edytuj:
+                                                user = db.users.FirstOrDefault(u => u.__record == id);
 
-                                        user.Set(recordFields);
+                                                user.Set(recordFields);
 
-                                        break;
+                                                break;
 
-                                    case Enums.Action.Usuń:
-                                        user = db.users.FirstOrDefault(u => u.__record == id);
+                                            case Enums.Action.Usuń:
+                                                user = db.users.FirstOrDefault(u => u.__record == id);
 
-                                        db.users.Remove(user);
+                                                db.users.Remove(user);
 
-                                        break;
-                                }
+                                                break;
+                                        }
 
-                            break;
+                                    break;
 
-                        case Enums.Table.TenantTurnovers:
-                            DataAccess.Turnover turnOver = null;
-                            nominativeCase = "obrót najemcy";
-                            genitiveCase = "obrotu najemcy";
+                                case Enums.Table.TenantTurnovers:
+                                    DataAccess.Turnover turnOver = null;
+                                    nominativeCase = "obrót najemcy";
+                                    genitiveCase = "obrotu najemcy";
 
-                            recordFields = new string[]
+                                    recordFields = new string[]
                             {
                                 GetParamValue<string>("id"),
                                 GetParamValue<string>("suma"),
@@ -970,106 +777,109 @@ namespace czynsze.Forms
                                 GetParamValue<string>("nr_kontr")
                             };
 
-                            validationResult = DataAccess.Turnover.Validate(recordFields, action);
+                                    validationResult = DataAccess.Turnover.Validate(recordFields, action);
 
-                            if (String.IsNullOrEmpty(validationResult))
-                            {
-                                switch (action)
-                                {
-                                    case Enums.Action.Dodaj:
-                                        switch (Hello.CurrentSet)
+                                    if (String.IsNullOrEmpty(validationResult))
+                                    {
+                                        switch (action)
                                         {
-                                            case Enums.SettlementTable.Czynsze:
-                                                turnOver = new DataAccess.TurnoverFrom1stSet();
+                                            case Enums.Action.Dodaj:
+                                                switch (Hello.CurrentSet)
+                                                {
+                                                    case Enums.SettlementTable.Czynsze:
+                                                        turnOver = new DataAccess.TurnoverFrom1stSet();
+
+                                                        break;
+
+                                                    case Enums.SettlementTable.SecondSet:
+                                                        turnOver = new DataAccess.TurnoverFrom2ndSet();
+
+                                                        break;
+
+                                                    case Enums.SettlementTable.ThirdSet:
+                                                        turnOver = new DataAccess.TurnoverFrom3rdSet();
+
+                                                        break;
+                                                }
+
+                                                turnOver.Set(recordFields);
+
+                                                switch (Hello.CurrentSet)
+                                                {
+                                                    case Enums.SettlementTable.Czynsze:
+                                                        db.turnoversFor14.Add((DataAccess.TurnoverFrom1stSet)turnOver);
+
+                                                        break;
+
+                                                    case Enums.SettlementTable.SecondSet:
+                                                        db.turnoversFor14From2ndSet.Add((DataAccess.TurnoverFrom2ndSet)turnOver);
+
+                                                        break;
+
+                                                    case Enums.SettlementTable.ThirdSet:
+                                                        db.turnoversFor14From3rdSet.Add((DataAccess.TurnoverFrom3rdSet)turnOver);
+
+                                                        break;
+                                                }
 
                                                 break;
 
-                                            case Enums.SettlementTable.SecondSet:
-                                                turnOver = new DataAccess.TurnoverFrom2ndSet();
+                                            case Enums.Action.Edytuj:
+                                                switch (Hello.CurrentSet)
+                                                {
+                                                    case Enums.SettlementTable.Czynsze:
+                                                        turnOver = db.turnoversFor14.FirstOrDefault(t => t.__record == id);
+
+                                                        break;
+
+                                                    case Enums.SettlementTable.SecondSet:
+                                                        turnOver = db.turnoversFor14From2ndSet.FirstOrDefault(t => t.__record == id);
+
+                                                        break;
+
+                                                    case Enums.SettlementTable.ThirdSet:
+                                                        turnOver = db.turnoversFor14From3rdSet.FirstOrDefault(t => t.__record == id);
+
+                                                        break;
+                                                }
+
+                                                turnOver.Set(recordFields);
 
                                                 break;
 
-                                            case Enums.SettlementTable.ThirdSet:
-                                                turnOver = new DataAccess.TurnoverFrom3rdSet();
+                                            case Enums.Action.Usuń:
+                                                switch (Hello.CurrentSet)
+                                                {
+                                                    case Enums.SettlementTable.Czynsze:
+                                                        turnOver = db.turnoversFor14.FirstOrDefault(t => t.__record == id);
+
+                                                        db.turnoversFor14.Remove((DataAccess.TurnoverFrom1stSet)turnOver);
+
+                                                        break;
+
+                                                    case Enums.SettlementTable.SecondSet:
+                                                        turnOver = db.turnoversFor14From2ndSet.FirstOrDefault(t => t.__record == id);
+
+                                                        db.turnoversFor14From2ndSet.Remove((DataAccess.TurnoverFrom2ndSet)turnOver);
+
+                                                        break;
+
+                                                    case Enums.SettlementTable.ThirdSet:
+                                                        turnOver = db.turnoversFor14From3rdSet.FirstOrDefault(t => t.__record == id);
+
+                                                        db.turnoversFor14From3rdSet.Remove((DataAccess.TurnoverFrom3rdSet)turnOver);
+
+                                                        break;
+                                                }
 
                                                 break;
                                         }
+                                    }
 
-                                        turnOver.Set(recordFields);
+                                    backUrl = backUrl.Insert(backUrl.LastIndexOf('\''), "&id=" + recordFields[8]);
 
-                                        switch (Hello.CurrentSet)
-                                        {
-                                            case Enums.SettlementTable.Czynsze:
-                                                db.turnoversFor14.Add((DataAccess.TurnoverFrom1stSet)turnOver);
-
-                                                break;
-
-                                            case Enums.SettlementTable.SecondSet:
-                                                db.turnoversFor14From2ndSet.Add((DataAccess.TurnoverFrom2ndSet)turnOver);
-
-                                                break;
-
-                                            case Enums.SettlementTable.ThirdSet:
-                                                db.turnoversFor14From3rdSet.Add((DataAccess.TurnoverFrom3rdSet)turnOver);
-
-                                                break;
-                                        }
-
-                                        break;
-
-                                    case Enums.Action.Edytuj:
-                                        switch (Hello.CurrentSet)
-                                        {
-                                            case Enums.SettlementTable.Czynsze:
-                                                turnOver = db.turnoversFor14.FirstOrDefault(t => t.__record == id);
-
-                                                break;
-
-                                            case Enums.SettlementTable.SecondSet:
-                                                turnOver = db.turnoversFor14From2ndSet.FirstOrDefault(t => t.__record == id);
-
-                                                break;
-
-                                            case Enums.SettlementTable.ThirdSet:
-                                                turnOver = db.turnoversFor14From3rdSet.FirstOrDefault(t => t.__record == id);
-
-                                                break;
-                                        }
-
-                                        turnOver.Set(recordFields);
-
-                                        break;
-
-                                    case Enums.Action.Usuń:
-                                        switch (Hello.CurrentSet)
-                                        {
-                                            case Enums.SettlementTable.Czynsze:
-                                                turnOver = db.turnoversFor14.FirstOrDefault(t => t.__record == id);
-
-                                                db.turnoversFor14.Remove((DataAccess.TurnoverFrom1stSet)turnOver);
-
-                                                break;
-
-                                            case Enums.SettlementTable.SecondSet:
-                                                turnOver = db.turnoversFor14From2ndSet.FirstOrDefault(t => t.__record == id);
-
-                                                db.turnoversFor14From2ndSet.Remove((DataAccess.TurnoverFrom2ndSet)turnOver);
-
-                                                break;
-
-                                            case Enums.SettlementTable.ThirdSet:
-                                                turnOver = db.turnoversFor14From3rdSet.FirstOrDefault(t => t.__record == id);
-
-                                                db.turnoversFor14From3rdSet.Remove((DataAccess.TurnoverFrom3rdSet)turnOver);
-
-                                                break;
-                                        }
-
-                                        break;
-                                }
+                                    break;
                             }
-
-                            backUrl = backUrl.Insert(backUrl.LastIndexOf('\''), "&id=" + recordFields[8]);
 
                             break;
                     }
