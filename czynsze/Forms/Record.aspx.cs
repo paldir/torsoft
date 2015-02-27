@@ -41,6 +41,11 @@ namespace czynsze.Forms
             //table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))]);
             table = GetParamValue<Enums.Table>("table");
             string backUrl = "javascript: Load('" + Request.UrlReferrer + "')";
+            Dictionary<bool, string> fromIdEnabledToIdSuffix = new Dictionary<bool, string>()
+            {
+                {true, String.Empty},
+                {false, "_disabled"}
+            };
 
             switch (action)
             {
@@ -148,15 +153,11 @@ namespace czynsze.Forms
                             new LiteralControl("Adres cd.: "),
                             new MyControls.Label("previewLabel", String.Empty, values[4], "adres_2_preview")
                         };
-
-                        if (idEnabled)
-                            controls.Add(new MyControls.TextBox("field", "id", values[0], MyControls.TextBox.TextBoxMode.Number, 5, 1, idEnabled));
-                        else
-                        {
-                            controls.Add(new MyControls.TextBox("field", "idDisabled", values[0], MyControls.TextBox.TextBoxMode.Number, 5, 1, idEnabled));
+                        
+                        if (!idEnabled)
                             form.Controls.Add(new MyControls.HtmlInputHidden("id", id.ToString()));
-                        }
 
+                        controls.Add(new MyControls.TextBox("field", "id" + fromIdEnabledToIdSuffix[idEnabled], values[0], MyControls.TextBox.TextBoxMode.Number, 5, 1, idEnabled));
                         controls.Add(new MyControls.TextBox("field", "il_miesz", values[1], MyControls.TextBox.TextBoxMode.Number, 3, 1, globalEnabled));
                         controls.Add(new MyControls.RadioButtonList("field", "sp_rozl", new List<string>() { "budynek", "lokale" }, new List<string>() { "0", "1" }, values[2], globalEnabled, false));
                         controls.Add(new MyControls.TextBox("field", "adres", values[3], MyControls.TextBox.TextBoxMode.SingleLine, 30, 1, globalEnabled));
@@ -304,19 +305,14 @@ namespace czynsze.Forms
                         //controls.Add(new MyControls.TextBoxP("field", "Nr_system_disabled", values[0], MyControls.TextBoxP.TextBoxMode.Number, 14, 1, false));
                         form.Controls.Add(new MyControls.HtmlInputHidden("id", values[0]));
 
-                        if (idEnabled)
+                        if (!idEnabled)
                         {
-                            controls.Add(new MyControls.DropDownList("field", "kod_lok", db.buildings.ToList().OrderBy(b => b.kod_1).Select(b => b.ImportantFields()).ToList(), values[1], idEnabled, false));
-                            controls.Add(new MyControls.TextBox("field", "nr_lok", values[2], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
-                        }
-                        else
-                        {
-                            controls.Add(new MyControls.DropDownList("field", "kod_lok_disabled", db.buildings.ToList().OrderBy(b => b.kod_1).Select(b => b.ImportantFields()).ToList(), values[1], idEnabled, false));
-                            controls.Add(new MyControls.TextBox("field", "nr_lok_disabled", values[2], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
                             form.Controls.Add(new MyControls.HtmlInputHidden("kod_lok", values[1]));
                             form.Controls.Add(new MyControls.HtmlInputHidden("nr_lok", values[2]));
                         }
 
+                        controls.Add(new MyControls.DropDownList("field", "kod_lok"+fromIdEnabledToIdSuffix[idEnabled], db.buildings.ToList().OrderBy(b => b.kod_1).Select(b => b.ImportantFields()).ToList(), values[1], idEnabled, false));
+                        controls.Add(new MyControls.TextBox("field", "nr_lok" + fromIdEnabledToIdSuffix[idEnabled], values[2], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
                         controls.Add(new MyControls.DropDownList("field", "kod_typ", db.typesOfPlace.ToList().Select(t => t.ImportantFieldsForDropDown()).ToList(), values[3], globalEnabled, false));
                         controls.Add(new MyControls.TextBox("field", "adres", values[4], MyControls.TextBox.TextBoxMode.SingleLine, 30, 1, globalEnabled));
                         controls.Add(new MyControls.TextBox("field", "adres_2", values[5], MyControls.TextBox.TextBoxMode.SingleLine, 30, 1, globalEnabled));
@@ -498,14 +494,10 @@ namespace czynsze.Forms
                                 values = new string[numberOfFields];
                         }
 
-                        if (idEnabled)
-                            controls.Add(new MyControls.TextBox("field", "id", values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
-                        else
-                        {
-                            controls.Add(new MyControls.TextBox("field", "id_disabled", values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
+                        if (!idEnabled)
                             form.Controls.Add(new MyControls.HtmlInputHidden("id", values[0]));
-                        }
 
+                        controls.Add(new MyControls.TextBox("field", "id" + fromIdEnabledToIdSuffix[idEnabled], values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
                         controls.Add(new MyControls.TextBox("field", "nazwa", values[1], MyControls.TextBox.TextBoxMode.SingleLine, 30, 1, globalEnabled));
                         controls.Add(new MyControls.DropDownList("field", "rodz_e", new List<string[]> { new string[] { "1", "dziennik komornego" }, new string[] { "2", "wpłaty" }, new string[] { "3", "zmniejszenia" }, new string[] { "4", "zwiększenia" } }, values[2], globalEnabled, false));
                         controls.Add(new MyControls.DropDownList("field", "s_zaplat", new List<string[]> { new string[] { "1", "za m2 pow. użytkowej" }, new string[] { "2", "za określoną ilość" }, new string[] { "3", "za osobę" }, new string[] { "4", "za lokal" }, new string[] { "5", "za ilość dni w miesiącu" }, new string[] { "6", "za osobę - przedziały" } }, values[3], globalEnabled, false));
@@ -610,14 +602,10 @@ namespace czynsze.Forms
                             new MyControls.HtmlIframe("tab", "cechy_tab", "AttributeOfObject.aspx?attributeOf="+Enums.AttributeOf.Community+"&parentId="+id.ToString()+"&action="+action.ToString()+"&childAction=Przeglądaj", "hidden")
                         };
 
-                        if (idEnabled)
-                            controls.Add(new MyControls.TextBox("field", "id", values[0], MyControls.TextBox.TextBoxMode.Number, 5, 1, idEnabled));
-                        else
-                        {
-                            controls.Add(new MyControls.TextBox("field", "id_disabled", values[0], MyControls.TextBox.TextBoxMode.Number, 5, 1, idEnabled));
+                        if (!idEnabled)
                             form.Controls.Add(new MyControls.HtmlInputHidden("id", values[0]));
-                        }
 
+                        controls.Add(new MyControls.TextBox("field", "id" + fromIdEnabledToIdSuffix[idEnabled], values[0], MyControls.TextBox.TextBoxMode.Number, 5, 1, idEnabled));
                         controls.Add(new MyControls.TextBox("field", "il_bud", values[1], MyControls.TextBox.TextBoxMode.Number, 3, 1, globalEnabled));
                         controls.Add(new MyControls.TextBox("field", "il_miesz", values[2], MyControls.TextBox.TextBoxMode.Number, 4, 1, globalEnabled));
                         controls.Add(new MyControls.TextBox("field", "nazwa_pel", values[3], MyControls.TextBox.TextBoxMode.SingleLine, 50, 1, globalEnabled));
@@ -651,14 +639,10 @@ namespace czynsze.Forms
                                 values = new string[numberOfFields];
                         }
 
-                        if (idEnabled)
-                            controls.Add(new MyControls.TextBox("field", "id", values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
-                        else
-                        {
-                            controls.Add(new MyControls.TextBox("field", "id_disabled", values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
+                        if (!idEnabled)
                             form.Controls.Add(new MyControls.HtmlInputHidden("id", values[0]));
-                        }
 
+                        controls.Add(new MyControls.TextBox("field", "id" + fromIdEnabledToIdSuffix[idEnabled], values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
                         controls.Add(new MyControls.TextBox("field", "typ_lok", values[1], MyControls.TextBox.TextBoxMode.SingleLine, 6, 1, globalEnabled));
 
                         break;
@@ -682,14 +666,10 @@ namespace czynsze.Forms
                                 values = new string[numberOfFields];
                         }
 
-                        if (idEnabled)
-                            controls.Add(new MyControls.TextBox("field", "id", values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
-                        else
-                        {
-                            controls.Add(new MyControls.TextBox("field", "id_disabled", values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
+                        if (!idEnabled)
                             form.Controls.Add(new MyControls.HtmlInputHidden("id", values[0]));
-                        }
 
+                        controls.Add(new MyControls.TextBox("field", "id" + fromIdEnabledToIdSuffix[idEnabled], values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
                         controls.Add(new MyControls.TextBox("field", "typ_kuch", values[1], MyControls.TextBox.TextBoxMode.SingleLine, 15, 1, globalEnabled));
 
                         break;
@@ -713,14 +693,10 @@ namespace czynsze.Forms
                                 values = new string[numberOfFields];
                         }
 
-                        if (idEnabled)
-                            controls.Add(new MyControls.TextBox("field", "id", values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
-                        else
-                        {
-                            controls.Add(new MyControls.TextBox("field", "id_disabled", values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
+                        if (!idEnabled)
                             form.Controls.Add(new MyControls.HtmlInputHidden("id", values[0]));
-                        }
 
+                        controls.Add(new MyControls.TextBox("field", "id" + fromIdEnabledToIdSuffix[idEnabled], values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
                         controls.Add(new MyControls.TextBox("field", "r_najemcy", values[1], MyControls.TextBox.TextBoxMode.SingleLine, 15, 1, globalEnabled));
 
                         break;
@@ -744,14 +720,10 @@ namespace czynsze.Forms
                                 values = new string[numberOfFields];
                         }
 
-                        if (idEnabled)
-                            controls.Add(new MyControls.TextBox("field", "id", values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
-                        else
-                        {
-                            controls.Add(new MyControls.TextBox("field", "id_disabled", values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
+                        if (!idEnabled)
                             form.Controls.Add(new MyControls.HtmlInputHidden("id", values[0]));
-                        }
 
+                        controls.Add(new MyControls.TextBox("field", "id" + fromIdEnabledToIdSuffix[idEnabled], values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
                         controls.Add(new MyControls.TextBox("field", "tyt_prawny", values[1], MyControls.TextBox.TextBoxMode.SingleLine, 15, 1, globalEnabled));
 
                         break;
@@ -781,14 +753,10 @@ namespace czynsze.Forms
                                 values = new string[numberOfFields];
                         }
 
-                        if (idEnabled)
-                            controls.Add(new MyControls.TextBox("field", "id", values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
-                        else
-                        {
-                            controls.Add(new MyControls.TextBox("field", "id_disabled", values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
+                        if (!idEnabled)
                             form.Controls.Add(new MyControls.HtmlInputHidden("id", values[0]));
-                        }
 
+                        controls.Add(new MyControls.TextBox("field", "id" + fromIdEnabledToIdSuffix[idEnabled], values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
                         controls.Add(new MyControls.TextBox("field", "typ_wplat", values[1], MyControls.TextBox.TextBoxMode.SingleLine, 15, 1, globalEnabled));
 
                         controls.Add(new MyControls.DropDownList("field", "rodz_e", new List<string[]>()
@@ -833,14 +801,10 @@ namespace czynsze.Forms
                                 values = new string[numberOfFields];
                         }
 
-                        if (idEnabled)
-                            controls.Add(new MyControls.TextBox("field", "id", values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
-                        else
-                        {
-                            controls.Add(new MyControls.TextBox("field", "id_disabled", values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
+                        if (!idEnabled)
                             form.Controls.Add(new MyControls.HtmlInputHidden("id", values[0]));
-                        }
 
+                        controls.Add(new MyControls.TextBox("field", "id" + fromIdEnabledToIdSuffix[idEnabled], values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
                         controls.Add(new MyControls.TextBox("field", "nazwa", values[1], MyControls.TextBox.TextBoxMode.SingleLine, 15, 1, globalEnabled));
 
                         break;
@@ -865,14 +829,10 @@ namespace czynsze.Forms
                                 values = new string[numberOfFields];
                         }
 
-                        if (idEnabled)
-                            controls.Add(new MyControls.TextBox("field", "id", values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
-                        else
-                        {
-                            controls.Add(new MyControls.TextBox("field", "id_disabled", values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
+                        if (!idEnabled)
                             form.Controls.Add(new MyControls.HtmlInputHidden("id", values[0]));
-                        }
 
+                        controls.Add(new MyControls.TextBox("field", "id" + fromIdEnabledToIdSuffix[idEnabled], values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
                         controls.Add(new MyControls.TextBox("field", "k_syn", values[1], MyControls.TextBox.TextBoxMode.SingleLine, 3, 1, globalEnabled));
                         controls.Add(new MyControls.TextBox("field", "nazwa", values[2], MyControls.TextBox.TextBoxMode.SingleLine, 30, 1, globalEnabled));
 
@@ -899,14 +859,10 @@ namespace czynsze.Forms
 
                         form.Controls.Add(new MyControls.HtmlInputHidden("id", values[0]));
 
-                        if (idEnabled)
-                            controls.Add(new MyControls.TextBox("field", "nazwa", values[1], MyControls.TextBox.TextBoxMode.SingleLine, 2, 1, idEnabled));
-                        else
-                        {
-                            controls.Add(new MyControls.TextBox("field", "nazwa_disabled", values[1], MyControls.TextBox.TextBoxMode.SingleLine, 2, 1, idEnabled));
+                        if (!idEnabled)
                             form.Controls.Add(new MyControls.HtmlInputHidden("nazwa", values[1]));
-                        }
 
+                        controls.Add(new MyControls.TextBox("field", "nazwa" + fromIdEnabledToIdSuffix[idEnabled], values[1], MyControls.TextBox.TextBoxMode.SingleLine, 2, 1, idEnabled));
                         controls.Add(new MyControls.TextBox("field", "symb_fisk", values[2], MyControls.TextBox.TextBoxMode.SingleLine, 2, 1, globalEnabled));
 
                         break;
@@ -939,14 +895,10 @@ namespace czynsze.Forms
                             }
                         }
 
-                        if (idEnabled)
-                            controls.Add(new MyControls.TextBox("field", "id", values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
-                        else
-                        {
-                            controls.Add(new MyControls.TextBox("field", "id_disabled", values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
+                        if (!idEnabled)
                             form.Controls.Add(new MyControls.HtmlInputHidden("id", values[0]));
-                        }
 
+                        controls.Add(new MyControls.TextBox("field", "id" + fromIdEnabledToIdSuffix[idEnabled], values[0], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
                         controls.Add(new MyControls.TextBox("field", "nazwa", values[1], MyControls.TextBox.TextBoxMode.SingleLine, 20, 1, globalEnabled));
                         controls.Add(new MyControls.RadioButtonList("field", "nr_str", new List<string>() { "numeryczna", "charakter" }, new List<string>() { "N", "C" }, values[2], globalEnabled, false));
                         controls.Add(new MyControls.TextBox("field", "jedn", values[3], MyControls.TextBox.TextBoxMode.SingleLine, 6, 1, globalEnabled));
@@ -1001,19 +953,14 @@ namespace czynsze.Forms
                         form.Controls.Add(new MyControls.HtmlInputHidden("id", values[0]));
                         controls.Add(new MyControls.TextBox("field", "symbol", values[1], MyControls.TextBox.TextBoxMode.SingleLine, 2, 1, globalEnabled));
 
-                        if (idEnabled)
+                        if (!idEnabled)
                         {
-                            controls.Add(new MyControls.TextBox("field", "nazwisko", values[2], MyControls.TextBox.TextBoxMode.SingleLine, 25, 1, idEnabled));
-                            controls.Add(new MyControls.TextBox("field", "imie", values[3], MyControls.TextBox.TextBoxMode.SingleLine, 15, 1, idEnabled));
-                        }
-                        else
-                        {
-                            controls.Add(new MyControls.TextBox("field", "nazwisko_disabled", values[2], MyControls.TextBox.TextBoxMode.SingleLine, 25, 1, idEnabled));
-                            controls.Add(new MyControls.TextBox("field", "imie_disabled", values[3], MyControls.TextBox.TextBoxMode.SingleLine, 15, 1, idEnabled));
                             form.Controls.Add(new MyControls.HtmlInputHidden("nazwisko", values[2]));
                             form.Controls.Add(new MyControls.HtmlInputHidden("imie", values[3]));
                         }
 
+                        controls.Add(new MyControls.TextBox("field", "nazwisko" + fromIdEnabledToIdSuffix[idEnabled], values[2], MyControls.TextBox.TextBoxMode.SingleLine, 25, 1, idEnabled));
+                        controls.Add(new MyControls.TextBox("field", "imie" + fromIdEnabledToIdSuffix[idEnabled], values[3], MyControls.TextBox.TextBoxMode.SingleLine, 15, 1, idEnabled));
                         controls.Add(new MyControls.TextBox("field", "uzytkownik", values[4], MyControls.TextBox.TextBoxMode.SingleLine, 40, 1, false));
                         controls.Add(new MyControls.TextBox("field", "haslo", values[5], MyControls.TextBox.TextBoxMode.SingleLine, 8, 1, globalEnabled));
                         controls.Add(new MyControls.TextBox("field", "haslo2", String.Empty, MyControls.TextBox.TextBoxMode.SingleLine, 8, 1, globalEnabled));
@@ -1038,7 +985,25 @@ namespace czynsze.Forms
 
                         if (values == null)
                         {
-                            IEnumerable<DataAccess.Turnover> turnOvers = db.turnoversFor14.ToList().Cast<DataAccess.Turnover>();
+                            IEnumerable<DataAccess.Turnover> turnOvers = null;
+
+                            switch (Hello.CurrentSet)
+                            {
+                                case Enums.SettlementTable.Czynsze:
+                                    turnOvers = db.turnoversFor14.ToList().Cast<DataAccess.Turnover>();
+
+                                    break;
+
+                                case Enums.SettlementTable.SecondSet:
+                                    turnOvers = db.turnoversFor14From2ndSet.ToList().Cast<DataAccess.Turnover>();
+
+                                    break;
+
+                                case Enums.SettlementTable.ThirdSet:
+                                    turnOvers = db.turnoversFor14From3rdSet.ToList().Cast<DataAccess.Turnover>();
+
+                                    break;
+                            }
 
                             if (action != Enums.Action.Dodaj)
                                 values = turnOvers.FirstOrDefault(t => t.__record == id).AllFields();

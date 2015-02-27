@@ -500,10 +500,6 @@ input, select, textarea {
         text-align: right;
     }
 
-.printingEnd {
-    text-align: center;
-}
-
 .newPage {
     page-break-after: always;
 }

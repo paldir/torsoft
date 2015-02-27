@@ -5,10 +5,10 @@ using System.Web;
 
 namespace czynsze.DataAccess
 {
-    public abstract class Turnover
+    public abstract class Turnover : IRecord
     {
         public const string TurnoverYear = "14";
-        
+
         public abstract int __record { get; set; }
 
         public abstract float suma { get; set; }
@@ -157,7 +157,9 @@ namespace czynsze.DataAccess
                 opis = db.typesOfPayment.FirstOrDefault(t => t.kod_wplat == kod_wplat).typ_wplat;
         }
 
-        public static string Validate(string[] record, Enums.Action action)
+        public abstract IRecord Find(Czynsze_Entities dataBase, int id);
+
+        public string Validate(Enums.Action action, string[] record)
         {
             string validationResult = String.Empty;
 

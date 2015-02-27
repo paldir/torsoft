@@ -37,5 +37,10 @@ namespace czynsze.DataAccess
 
         [Column("uwagi")]
         public override string uwagi { get; set; }
+
+        public override IRecord Find(Czynsze_Entities dataBase, int id)
+        {
+            return dataBase.turnoversFor14From2ndSet.FirstOrDefault(t => t.__record == id);
+        }
     }
 }

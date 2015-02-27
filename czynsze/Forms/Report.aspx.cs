@@ -97,7 +97,7 @@ namespace czynsze.Forms
 
                     config.SetPrintBackground(true);
                     config.SetAllowLocalContent(true);
-                    config.Header.SetTexts("System CZYNSZE\n\n" + Hello.CompanyName, title + "\n\n" + Hello.NamesOfSets[(int)Hello.CurrentSet], "Data: " + DateTime.Today.ToShortDateString() + "\n\nCzas: " + DateTime.Now.ToShortTimeString());
+                    config.Header.SetTexts("System CZYNSZE " + ((int)Hello.CurrentSet == 0 ? String.Empty : "(" + Hello.NamesOfSets[(int)Hello.CurrentSet].Trim() + ")") + "\n\n" + Hello.CompanyName, "\n" + title + "\n", "Data: " + DateTime.Today.ToShortDateString() + "\n\nCzas: " + DateTime.Now.ToShortTimeString());
                     config.Header.SetFontName("Arial");
                     config.Header.SetFontSize(8);
                     config.Footer.SetTexts("Torsoft Torun", String.Empty, "Strona [page] z [topage]");
@@ -105,17 +105,13 @@ namespace czynsze.Forms
                     config.Footer.SetFontSize(8);
 
                     byte[] bytes = pechkin.Convert(config, html);
-                    //HttpContext.Current.Response.Buffer = true;
-
-                    //HttpContext.Current.Response.Clear();
-
                     Response.ContentType = "application/pdf";
 
-                    //HttpContext.Current.Response.AddHeader("content-disposition", "attachment; filename=Wydruk." + "pdf");
+                    Response.AddHeader("content-disposition", "attachment; filename=Wydruk.pdf");
+                    Response.AddHeader("content-length", bytes.Length.ToString());
                     Response.BinaryWrite(bytes);
-                    Response.End();
-                    //HttpContext.Current.Response.Flush();
-                    //HttpContext.Current.Response.End();
+                    //Response.Flush();
+                    //Response.End();
 
                     break;
 

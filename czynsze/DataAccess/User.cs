@@ -10,7 +10,7 @@ using System.Text;
 namespace czynsze.DataAccess
 {
     [Table("fk_tuz", Schema = "public")]
-    public class User
+    public class User : IRecord
     {
         [Key, Column("__record")]
         public int __record { get; set; }
@@ -59,11 +59,16 @@ namespace czynsze.DataAccess
             symbol = record[1];
             nazwisko = record[2];
             imie = record[3];
-            uzytkownik = record[4];
-            haslo = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(record[5]).Select(b => (byte)(b + 10)).ToArray());
+            uzytkownik = record[2] + " " + record[3];
+            haslo = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(record[4]).Select(b => (byte)(b + 10)).ToArray());
         }
 
-        public static string Validate(Enums.Action action, ref string[] record)
+        public IRecord Find(Czynsze_Entities dataBase, int id)
+        {
+            return dataBase.users.FirstOrDefault(u => u.__record == id);
+        }
+
+        public string Validate(Enums.Action action, string[] record)
         {
             string result = String.Empty;
             List<string> recordList = record.ToList();
@@ -76,20 +81,9 @@ namespace czynsze.DataAccess
                         using (DataAccess.Czynsze_Entities db = new Czynsze_Entities())
                             if (db.users.ToList().Count(u => u.nazwisko.Trim() == recordList.ElementAt(1) && u.imie.Trim() == recordList.ElementAt(2)) > 0)
                                 result += "Użytkownik o podanym nazwisku i imieniu już istnieje! <br />";
-
-                        recordList.Insert(4, record[2] + " " + record[3]);
                     }
                     else
-                    {
                         result += "Należy podać nazwisko i imię! <br />";
-
-                        recordList.Insert(4, String.Empty);
-                    }
-
-                    break;
-
-                case Enums.Action.Edytuj:
-                    recordList.Insert(4, record[2] + " " + record[3]);
 
                     break;
             }
@@ -104,8 +98,6 @@ namespace czynsze.DataAccess
                 else
                     result += "Hasło nie może być puste! <br />";
             }
-
-            record = recordList.ToArray();
 
             return result;
         }

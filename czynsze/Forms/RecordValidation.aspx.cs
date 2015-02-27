@@ -76,6 +76,8 @@ namespace czynsze.Forms
                         case Enums.Table.FinancialGroups:
                         case Enums.Table.VatRates:
                         case Enums.Table.Attributes:
+                        case Enums.Table.Users:
+                        case Enums.Table.TenantTurnovers:
                             switch (table)
                             {
                                 case Enums.Table.TypesOfPlace:
@@ -89,8 +91,6 @@ namespace czynsze.Forms
                                         GetParamValue<string>("id"),
                                         GetParamValue<string>("typ_lok")
                                     };
-
-                                    validationResult = record.Validate(action, recordFields);
 
                                     break;
 
@@ -106,8 +106,6 @@ namespace czynsze.Forms
                                         GetParamValue<string>("typ_kuch")
                                     };
 
-                                    validationResult = record.Validate(action, recordFields);
-
                                     break;
 
                                 case Enums.Table.TypesOfTenant:
@@ -122,8 +120,6 @@ namespace czynsze.Forms
                                         GetParamValue<string>("r_najemcy")
                                     };
 
-                                    validationResult = record.Validate(action, recordFields);
-
                                     break;
 
                                 case Enums.Table.Titles:
@@ -137,8 +133,6 @@ namespace czynsze.Forms
                                         GetParamValue<string>("id"),
                                         GetParamValue<string>("tyt_prawny")
                                     };
-
-                                    validationResult = record.Validate(action, recordFields);
 
                                     break;
 
@@ -160,8 +154,6 @@ namespace czynsze.Forms
                                         GetParamValue<string>("sww")
                                     };
 
-                                    validationResult = record.Validate(action, recordFields);
-
                                     break;
 
                                 case Enums.Table.GroupsOfRentComponents:
@@ -175,8 +167,6 @@ namespace czynsze.Forms
                                         GetParamValue<string>("id"),
                                         GetParamValue<string>("nazwa")
                                     };
-
-                                    validationResult = record.Validate(action, recordFields);
 
                                     break;
 
@@ -193,8 +183,6 @@ namespace czynsze.Forms
                                         GetParamValue<string>("nazwa")
                                     };
 
-                                    validationResult = record.Validate(action, recordFields);
-
                                     break;
 
                                 case Enums.Table.VatRates:
@@ -209,8 +197,6 @@ namespace czynsze.Forms
                                         GetParamValue<string>("nazwa"),
                                         GetParamValue<string>("symb_fisk")
                                     };
-
-                                    validationResult = record.Validate(action, recordFields);
 
                                     break;
 
@@ -234,14 +220,74 @@ namespace czynsze.Forms
                                         GetParamValue<string>("zb_3"),
                                     };
 
-                                    validationResult = record.Validate(action, recordFields);
+                                    break;
+
+                                case Enums.Table.Users:
+                                    record = new DataAccess.User();
+                                    dbSet = db.Set(typeof(DataAccess.User));
+                                    nominativeCase = "użytkownik";
+                                    genitiveCase = "użytkownika";
+
+                                    recordFields = new string[]
+                                    {
+                                        GetParamValue<string>("id"),
+                                        GetParamValue<string>("symbol"),
+                                        GetParamValue<string>("nazwisko"),
+                                        GetParamValue<string>("imie"),
+                                        GetParamValue<string>("haslo"),
+                                        GetParamValue<string>("haslo2")
+                                    };
+
+                                    break;
+
+                                case Enums.Table.TenantTurnovers:
+                                    nominativeCase = "obrót najemcy";
+                                    genitiveCase = "obrotu najemcy";
+
+                                    recordFields = new string[]
+                                    {
+                                        GetParamValue<string>("id"),
+                                        GetParamValue<string>("suma"),
+                                        GetParamValue<string>("data_obr"),
+                                        GetParamValue<string>("?"),
+                                        GetParamValue<string>("kod_wplat"),
+                                        GetParamValue<string>("nr_dowodu"),
+                                        GetParamValue<string>("pozycja_d"),
+                                        GetParamValue<string>("uwagi"),
+                                        GetParamValue<string>("nr_kontr")
+                                    };
+
+                                    switch (Hello.CurrentSet)
+                                    {
+                                        case Enums.SettlementTable.Czynsze:
+                                            record = new DataAccess.TurnoverFrom1stSet();
+                                            dbSet = db.Set(typeof(DataAccess.TurnoverFrom1stSet));
+
+                                            break;
+
+                                        case Enums.SettlementTable.SecondSet:
+                                            record = new DataAccess.TurnoverFrom2ndSet();
+                                            dbSet = db.Set(typeof(DataAccess.TurnoverFrom2ndSet));
+
+                                            break;
+
+                                        case Enums.SettlementTable.ThirdSet:
+                                            record = new DataAccess.TurnoverFrom3rdSet();
+                                            dbSet = db.Set(typeof(DataAccess.TurnoverFrom3rdSet));
+
+                                            break;
+                                    }
+
+                                    backUrl = backUrl.Insert(backUrl.LastIndexOf('\''), "&id=" + recordFields[8]);
 
                                     break;
                             }
 
-                            if(String.IsNullOrEmpty(validationResult))
+                            validationResult = record.Validate(action, recordFields);
+
+                            if (String.IsNullOrEmpty(validationResult))
                             {
-                                switch(action)
+                                switch (action)
                                 {
                                     case Enums.Action.Dodaj:
                                         record.Set(recordFields);
@@ -711,172 +757,6 @@ namespace czynsze.Forms
 
                                                 break;
                                         }
-
-                                    break;
-
-                                case Enums.Table.Users:
-                                    DataAccess.User user;
-                                    nominativeCase = "użytkownik";
-                                    genitiveCase = "użytkownika";
-
-                                    recordFields = new string[]
-                            {
-                                GetParamValue<string>("id"),
-                                GetParamValue<string>("symbol"),
-                                GetParamValue<string>("nazwisko"),
-                                GetParamValue<string>("imie"),
-                                GetParamValue<string>("haslo"),
-                                GetParamValue<string>("haslo2")
-                            };
-
-                                    validationResult = DataAccess.User.Validate(action, ref recordFields);
-
-                                    if (String.IsNullOrEmpty(validationResult))
-                                        switch (action)
-                                        {
-                                            case Enums.Action.Dodaj:
-                                                user = new DataAccess.User();
-
-                                                user.Set(recordFields);
-                                                db.users.Add(user);
-
-                                                break;
-
-                                            case Enums.Action.Edytuj:
-                                                user = db.users.FirstOrDefault(u => u.__record == id);
-
-                                                user.Set(recordFields);
-
-                                                break;
-
-                                            case Enums.Action.Usuń:
-                                                user = db.users.FirstOrDefault(u => u.__record == id);
-
-                                                db.users.Remove(user);
-
-                                                break;
-                                        }
-
-                                    break;
-
-                                case Enums.Table.TenantTurnovers:
-                                    DataAccess.Turnover turnOver = null;
-                                    nominativeCase = "obrót najemcy";
-                                    genitiveCase = "obrotu najemcy";
-
-                                    recordFields = new string[]
-                            {
-                                GetParamValue<string>("id"),
-                                GetParamValue<string>("suma"),
-                                GetParamValue<string>("data_obr"),
-                                GetParamValue<string>("?"),
-                                GetParamValue<string>("kod_wplat"),
-                                GetParamValue<string>("nr_dowodu"),
-                                GetParamValue<string>("pozycja_d"),
-                                GetParamValue<string>("uwagi"),
-                                GetParamValue<string>("nr_kontr")
-                            };
-
-                                    validationResult = DataAccess.Turnover.Validate(recordFields, action);
-
-                                    if (String.IsNullOrEmpty(validationResult))
-                                    {
-                                        switch (action)
-                                        {
-                                            case Enums.Action.Dodaj:
-                                                switch (Hello.CurrentSet)
-                                                {
-                                                    case Enums.SettlementTable.Czynsze:
-                                                        turnOver = new DataAccess.TurnoverFrom1stSet();
-
-                                                        break;
-
-                                                    case Enums.SettlementTable.SecondSet:
-                                                        turnOver = new DataAccess.TurnoverFrom2ndSet();
-
-                                                        break;
-
-                                                    case Enums.SettlementTable.ThirdSet:
-                                                        turnOver = new DataAccess.TurnoverFrom3rdSet();
-
-                                                        break;
-                                                }
-
-                                                turnOver.Set(recordFields);
-
-                                                switch (Hello.CurrentSet)
-                                                {
-                                                    case Enums.SettlementTable.Czynsze:
-                                                        db.turnoversFor14.Add((DataAccess.TurnoverFrom1stSet)turnOver);
-
-                                                        break;
-
-                                                    case Enums.SettlementTable.SecondSet:
-                                                        db.turnoversFor14From2ndSet.Add((DataAccess.TurnoverFrom2ndSet)turnOver);
-
-                                                        break;
-
-                                                    case Enums.SettlementTable.ThirdSet:
-                                                        db.turnoversFor14From3rdSet.Add((DataAccess.TurnoverFrom3rdSet)turnOver);
-
-                                                        break;
-                                                }
-
-                                                break;
-
-                                            case Enums.Action.Edytuj:
-                                                switch (Hello.CurrentSet)
-                                                {
-                                                    case Enums.SettlementTable.Czynsze:
-                                                        turnOver = db.turnoversFor14.FirstOrDefault(t => t.__record == id);
-
-                                                        break;
-
-                                                    case Enums.SettlementTable.SecondSet:
-                                                        turnOver = db.turnoversFor14From2ndSet.FirstOrDefault(t => t.__record == id);
-
-                                                        break;
-
-                                                    case Enums.SettlementTable.ThirdSet:
-                                                        turnOver = db.turnoversFor14From3rdSet.FirstOrDefault(t => t.__record == id);
-
-                                                        break;
-                                                }
-
-                                                turnOver.Set(recordFields);
-
-                                                break;
-
-                                            case Enums.Action.Usuń:
-                                                switch (Hello.CurrentSet)
-                                                {
-                                                    case Enums.SettlementTable.Czynsze:
-                                                        turnOver = db.turnoversFor14.FirstOrDefault(t => t.__record == id);
-
-                                                        db.turnoversFor14.Remove((DataAccess.TurnoverFrom1stSet)turnOver);
-
-                                                        break;
-
-                                                    case Enums.SettlementTable.SecondSet:
-                                                        turnOver = db.turnoversFor14From2ndSet.FirstOrDefault(t => t.__record == id);
-
-                                                        db.turnoversFor14From2ndSet.Remove((DataAccess.TurnoverFrom2ndSet)turnOver);
-
-                                                        break;
-
-                                                    case Enums.SettlementTable.ThirdSet:
-                                                        turnOver = db.turnoversFor14From3rdSet.FirstOrDefault(t => t.__record == id);
-
-                                                        db.turnoversFor14From3rdSet.Remove((DataAccess.TurnoverFrom3rdSet)turnOver);
-
-                                                        break;
-                                                }
-
-                                                break;
-                                        }
-                                    }
-
-                                    backUrl = backUrl.Insert(backUrl.LastIndexOf('\''), "&id=" + recordFields[8]);
 
                                     break;
                             }
