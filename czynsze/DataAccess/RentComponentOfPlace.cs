@@ -22,5 +22,11 @@ namespace czynsze.DataAccess
 
         [Column("dan_p")]
         public float dan_p { get; set; }
+
+        [Column("dat_od")]
+        public string dat_od { get; set; }
+
+        [Column("dat_do")]
+        public string dat_do { get; set; }
     }
 }

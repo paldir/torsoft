@@ -97,6 +97,7 @@
     <Content Include="Forms\Loading.aspx" />
     <Content Include="Forms\Record.aspx" />
     <Content Include="Forms\RecordValidation.aspx" />
+    <Content Include="Forms\RentComponentsOfPlace.aspx" />
     <Content Include="Forms\Report.aspx" />
     <Content Include="Forms\ReportConfiguration.aspx" />
     <Content Include="Forms\UserValidation.aspx" />
@@ -131,6 +132,14 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\Completed.cs" />
+    <Compile Include="Forms\RentComponentsOfPlace.aspx.cs">
+      <DependentUpon>RentComponentsOfPlace.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Forms\RentComponentsOfPlace.aspx.designer.cs">
+      <DependentUpon>RentComponentsOfPlace.aspx</DependentUpon>
+    </Compile>
     <Compile Include="MyControls\Button.cs" />
     <Compile Include="MyControls\CheckBoxList.cs" />
     <Compile Include="MyControls\DropDownList.cs" />

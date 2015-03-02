@@ -39,6 +39,7 @@ namespace czynsze.DataAccess
         public DbSet<TurnoverFrom2ndSet> turnoversFor14From2ndSet { get; set; }
         public DbSet<ReceivableFrom3rdSet> receivablesFor14From3rdSet { get; set; }
         public DbSet<TurnoverFrom3rdSet> turnoversFor14From3rdSet { get; set; }
+        public DbSet<Completed> completed { get; set; }
 
         public static string ValidateInt(string name, ref string integer)
         {
