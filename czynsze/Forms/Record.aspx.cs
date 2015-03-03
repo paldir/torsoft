@@ -19,6 +19,12 @@ namespace czynsze.Forms
             set { Session["attributesOfObject"] = value; }
         }
 
+        List<DataAccess.RentComponentOfPlace> rentComponentsOfPlace
+        {
+            get { return (List<DataAccess.RentComponentOfPlace>)Session["rentComponentsOfPlace"]; }
+            set { Session["rentComponentsOfPlace"] = value; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             bool globalEnabled = false;
@@ -231,9 +237,10 @@ namespace czynsze.Forms
                             }
 
                             attributesOfObject = new List<DataAccess.AttributeOfObject>();
+                            rentComponentsOfPlace = new List<DataAccess.RentComponentOfPlace>();
 
-                            foreach (DataAccess.AttributeOfPlace attributeOfPlace in db.attributesOfPlaces.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == id))
-                                attributesOfObject.Add(attributeOfPlace);
+                            attributesOfObject.AddRange(db.attributesOfPlaces.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == id));
+                            rentComponentsOfPlace.AddRange(db.rentComponentsOfPlaces.ToList().Where(c => c.kod_lok == Convert.ToInt16(values[1]) && c.nr_lok == Convert.ToInt16(values[2])));
                         }
 
                         tabButtons = new List<MyControls.HtmlInputRadioButton>()
@@ -297,7 +304,8 @@ namespace czynsze.Forms
 
                         tabs = new List<MyControls.HtmlIframe>()
                         {
-                            new MyControls.HtmlIframe("tab", "skladnikiCzynszu_tab", "/czynsze1/SkladnikiCzynszuLokalu.cxp?parentAction="+parentAction+"&kod_lok="+values[1]+"&nr_lok="+values[2], "hidden"),
+                            //new MyControls.HtmlIframe("tab", "skladnikiCzynszu_tab", "/czynsze1/SkladnikiCzynszuLokalu.cxp?parentAction="+parentAction+"&kod_lok="+values[1]+"&nr_lok="+values[2], "hidden"),
+                            new MyControls.HtmlIframe("tab", "skladnikiCzynszu_tab", "RentComponentsOfPlace.aspx?parentAction="+action.ToString()+"&kod_lok="+values[1]+"&nr_lok="+values[2], "hidden"),
                             new MyControls.HtmlIframe("tab", "cechy_tab", "AttributeOfObject.aspx?attributeOf="+Enums.AttributeOf.Place+"&parentId="+id.ToString()+"&action="+action.ToString()+"&childAction=Przeglądaj", "hidden"),
                             new MyControls.HtmlIframe("tab", "dokumenty_tab", "/czynsze1/PlikiNajemcy.cxp?parentAction="+parentAction+"&nr_system="+values[0], "hidden")
                         };
