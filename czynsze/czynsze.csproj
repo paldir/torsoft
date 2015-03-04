@@ -108,6 +108,7 @@
     <Content Include="JavaScripts\AttributeOfObject.js" />
     <Content Include="JavaScripts\List.js" />
     <Content Include="JavaScripts\Record.js" />
+    <Content Include="JavaScripts\RentComponentsOfPlace.js" />
     <Content Include="JavaScripts\ReportConfiguration.js" />
     <Content Include="JavaScripts\Script.js" />
     <Content Include="libeay32.dll">

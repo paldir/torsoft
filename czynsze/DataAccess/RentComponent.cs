@@ -115,6 +115,16 @@ namespace czynsze.DataAccess
             };
         }
 
+        public string[] ImportantFieldsForDropdown()
+        {
+            return new string[]
+            {
+                nr_skl.ToString(),
+                nr_skl.ToString(),
+                nazwa
+            };
+        }
+
         public string[] AllFields()
         {
             string data_1, data_2;
