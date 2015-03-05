@@ -1,4 +1,4 @@
-﻿function Init(componentsWithAmount) {
+﻿function Init(id, componentsWithAmount) {
     var buttons =
         [
             document.getElementById("removeChildAction"),
@@ -22,7 +22,7 @@
     if (nr_skl != null)
         nr_skl.onchange = function () { nr_skl_onchange(this.value, componentsWithAmount); }
 
-    nr_skl_onchange(-1, componentsWithAmount);
+    nr_skl_onchange(id, componentsWithAmount);
 }
 
 function nr_skl_onchange(id, componentsWithAmount)

@@ -55,11 +55,6 @@ namespace czynsze.DataAccess
             symb_fisk = record[2];
         }
 
-        public IRecord Find(Czynsze_Entities dataBase, int id)
-        {
-            return dataBase.vatRates.FirstOrDefault(r => r.__record == id);
-        }
-
         public string Validate(Enums.Action action, string[] record)
         {
             string result = String.Empty;

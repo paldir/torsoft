@@ -63,11 +63,6 @@ namespace czynsze.DataAccess
             haslo = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(record[4]).Select(b => (byte)(b + 10)).ToArray());
         }
 
-        public IRecord Find(Czynsze_Entities dataBase, int id)
-        {
-            return dataBase.users.FirstOrDefault(u => u.__record == id);
-        }
-
         public string Validate(Enums.Action action, string[] record)
         {
             string result = String.Empty;

@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DataAccess
 {
     [Table("czynsz", Schema = "public")]
-    public class RentComponent
+    public class RentComponent : IRecord
     {
         [Key, Column("nr_skl"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int nr_skl { get; set; }
@@ -163,7 +163,7 @@ namespace czynsze.DataAccess
             };
         }
 
-        public static string Validate(Enums.Action action, string[] record)
+        public string Validate(Enums.Action action, string[] record)
         {
             string result = "";
             int id;

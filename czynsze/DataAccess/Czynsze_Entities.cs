@@ -75,7 +75,7 @@ namespace czynsze.DataAccess
                 try { Convert.ToDateTime(date); }
                 catch { result += name + " musi mieć format rrrr-mm-dd! <br />"; }
             else
-                date = DateTime.Today.ToShortDateString();
+                date = null;
 
             return result;
         }

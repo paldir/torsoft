@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DataAccess
 {
     [Table("budynki", Schema = "public")]
-    public class Building
+    public class Building : IRecord
     {
         [Key, Column("kod_1"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int kod_1 { get; set; }
@@ -66,7 +66,7 @@ namespace czynsze.DataAccess
             uwagi_6 = record[6].Substring(350).Trim();
         }
 
-        public static string Validate(Enums.Action action, string[] record)
+        public string Validate(Enums.Action action, string[] record)
         {
             string result = "";
             int id;

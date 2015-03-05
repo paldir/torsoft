@@ -127,11 +127,6 @@ namespace czynsze.DataAccess
             zb_s = record[9];
         }
 
-        public IRecord Find(Czynsze_Entities dataBase, int id)
-        {
-            return dataBase.attributes.FirstOrDefault(a => a.kod == id);
-        }
-
         public string Validate(Enums.Action action, string[] record)
         {
             string result = String.Empty;

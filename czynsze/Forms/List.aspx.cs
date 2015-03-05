@@ -699,7 +699,7 @@ namespace czynsze.Forms
                     {
                         try
                         {
-                            db.Database.ExecuteSqlCommand("DROP TABLE skl_cz_tmp");
+                            //db.Database.ExecuteSqlCommand("DROP TABLE skl_cz_tmp");
                             db.Database.ExecuteSqlCommand("DROP TABLE pliki_tmp");
                         }
                         catch { }

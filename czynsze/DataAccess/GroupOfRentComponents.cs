@@ -36,11 +36,6 @@ namespace czynsze.DataAccess
             };
         }
 
-        public IRecord Find(Czynsze_Entities dataBase, int id)
-        {
-            return dataBase.groupsOfRentComponents.FirstOrDefault(g => g.kod == id);
-        }
-
         public string Validate(Enums.Action action, string[] record)
         {
             string result = String.Empty;

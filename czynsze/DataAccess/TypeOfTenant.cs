@@ -51,11 +51,6 @@ namespace czynsze.DataAccess
             r_najemcy = record[1];
         }
 
-        public IRecord Find(Czynsze_Entities dataBase, int id)
-        {
-            return dataBase.typesOfTenant.FirstOrDefault(t => t.kod_najem == id);
-        }
-
         public string Validate(Enums.Action action, string[] record)
         {
             string result = String.Empty;

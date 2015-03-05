@@ -15,7 +15,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/23/2015 13:12:26</publishTime>
     </File>
     <File Include="bin/czynsze.dll">
-      <publishTime>02/27/2015 12:21:52</publishTime>
+      <publishTime>03/05/2015 12:35:35</publishTime>
     </File>
     <File Include="bin/de/Npgsql.resources.dll">
       <publishTime>02/23/2015 13:12:40</publishTime>
@@ -104,6 +104,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Forms/RecordValidation.aspx">
       <publishTime>02/23/2015 13:08:28</publishTime>
     </File>
+    <File Include="Forms/RentComponentsOfPlace.aspx">
+      <publishTime>03/05/2015 09:39:37</publishTime>
+    </File>
     <File Include="Forms/Report.aspx">
       <publishTime>02/23/2015 13:08:28</publishTime>
     </File>
@@ -136,6 +139,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="JavaScripts/RecordValidation.js">
       <publishTime>10/08/2014 12:43:52</publishTime>
+    </File>
+    <File Include="JavaScripts/RentComponentsOfPlace.js">
+      <publishTime>03/05/2015 08:54:16</publishTime>
     </File>
     <File Include="JavaScripts/ReportConfiguration.js">
       <publishTime>02/23/2015 13:08:29</publishTime>
@@ -180,13 +186,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/23/2015 13:08:29</publishTime>
     </File>
     <File Include="StyleSheet.css">
-      <publishTime>02/27/2015 09:01:27</publishTime>
+      <publishTime>03/04/2015 10:55:35</publishTime>
     </File>
     <File Include="UserValidation.aspx">
       <publishTime>09/15/2014 14:26:03</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>02/27/2015 08:45:42</publishTime>
+      <publishTime>03/05/2015 08:12:51</publishTime>
     </File>
     <File Include="wkhtmltox0.dll">
       <publishTime>02/23/2015 13:08:31</publishTime>

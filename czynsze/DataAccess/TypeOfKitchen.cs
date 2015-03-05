@@ -51,11 +51,6 @@ namespace czynsze.DataAccess
             typ_kuch = record[1];
         }
 
-        public IRecord Find(Czynsze_Entities dataBase, int id)
-        {
-            return dataBase.typesOfKitchen.FirstOrDefault(t => t.kod_kuch == id);
-        }
-
         public string Validate(Enums.Action action, string[] record)
         {
             string result = String.Empty;

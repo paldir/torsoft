@@ -17,6 +17,8 @@
         <div id="placeOfWindow">
             <div id="placeOfNewComponent" runat="server"></div>
             <div id="placeOfAmount" runat="server"></div>
+            <div id="placeOfDate" runat="server"></div>
+            <div id="placeOfButtonsOfWindow" runat="server"></div>
         </div>
     </div>
     </form>
@@ -24,12 +26,13 @@
     <script>
         <%
         List<int> componentsWithAmount = (List<int>)ViewState["componentsWithAmount"];
+        int id = (int)ViewState["id"];
         string arrayOfComponentsWithAmount = String.Empty;
 
-        foreach (int id in componentsWithAmount)
-            arrayOfComponentsWithAmount += id.ToString() + ", ";
+        foreach (int componentWithAmount in componentsWithAmount)
+            arrayOfComponentsWithAmount += componentWithAmount.ToString() + ", ";
         %>
-        Init([<%=arrayOfComponentsWithAmount%>]);
+        Init(<%=id%>,[<%=arrayOfComponentsWithAmount%>]);
     </script>
 </body>
 </html>

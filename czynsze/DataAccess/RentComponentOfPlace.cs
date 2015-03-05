@@ -141,5 +141,39 @@ namespace czynsze.DataAccess
                 (ilosc*stawka).ToString("F2")
             };
         }
+
+        public void Set(string[] record)
+        {
+            kod_lok = Convert.ToInt16(record[0]);
+            nr_lok = Convert.ToInt16(record[1]);
+            nr_skl = Convert.ToInt16(record[2]);
+            dan_p = Convert.ToSingle(record[3]);
+            dat_od = record[4];
+            dat_do = record[5];
+        }
+
+        public static bool Validate(string[] record, Enums.Action action)
+        {
+            if (!String.IsNullOrEmpty(Czynsze_Entities.ValidateFloat("dan_p", ref record[3])))
+                return false;
+
+            if (!String.IsNullOrEmpty(Czynsze_Entities.ValidateDate("dat_od", ref record[4])))
+                return false;
+
+            if (!String.IsNullOrEmpty(Czynsze_Entities.ValidateDate("dat_do", ref record[5])))
+                return false;
+
+            switch (action)
+            {
+                case Enums.Action.Dodaj:
+                    using (Czynsze_Entities db = new Czynsze_Entities())
+                        if (db.rentComponentsOfPlaces.ToList().Count(c => c.kod_lok == Convert.ToInt16(record[0]) && c.nr_lok == Convert.ToInt16(record[1]) && c.nr_skl == Convert.ToInt16(record[2])) > 0)
+                            return false;
+
+                    break;
+            }
+
+            return true;
+        }
     }
 }

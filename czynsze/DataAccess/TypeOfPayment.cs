@@ -116,11 +116,6 @@ namespace czynsze.DataAccess
             sww = record[7];
         }
 
-        public IRecord Find(Czynsze_Entities dataBase, int id)
-        {
-            return dataBase.typesOfPayment.FirstOrDefault(t => t.kod_wplat == id);
-        }
-
         public string Validate(Enums.Action action, string[] record)
         {
             string result = String.Empty;

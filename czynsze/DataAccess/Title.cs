@@ -51,11 +51,6 @@ namespace czynsze.DataAccess
             tyt_prawny = record[1];
         }
 
-        public IRecord Find(Czynsze_Entities dataBase, int id)
-        {
-            return dataBase.titles.FirstOrDefault(t => t.kod_praw == id);
-        }
-
         public string Validate(Enums.Action action, string[] record)
         {
             string result = String.Empty;

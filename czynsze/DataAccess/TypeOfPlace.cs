@@ -51,11 +51,6 @@ namespace czynsze.DataAccess
             typ_lok = record[1];
         }
 
-        public IRecord Find(Czynsze_Entities dataBase, int id)
-        {
-            return dataBase.typesOfPlace.FirstOrDefault(t => t.kod_typ == id);
-        }
-
         public string Validate(Enums.Action action, string[] record)
         {
             string result = String.Empty;
