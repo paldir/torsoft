@@ -10,5 +10,6 @@ namespace czynsze.DataAccess
     {
         void Set(string[] record);
         string Validate(Enums.Action action, string[] record);
+        string[] AllFields();
     }
 }

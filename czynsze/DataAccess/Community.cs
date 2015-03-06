@@ -8,8 +8,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace czynsze.DataAccess
 {
-    [Table("wspol", Schema="public")]
-    public class Community
+    [Table("wspol", Schema = "public")]
+    public class Community : IRecord
     {
         [Key, Column("kod"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int kod { get; set; }
@@ -117,7 +117,7 @@ namespace czynsze.DataAccess
             uwagi_6 = record[11].Substring(350).Trim();
         }
 
-        public static string Validate(Enums.Action action, string[] record)
+        public string Validate(Enums.Action action, string[] record)
         {
             string result = "";
             int kod;

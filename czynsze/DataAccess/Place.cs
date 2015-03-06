@@ -5,7 +5,7 @@ using System.Web;
 
 namespace czynsze.DataAccess
 {
-    public abstract class Place
+    public abstract class Place : IRecord
     {
         public abstract int nr_system { get; set; }
 
@@ -172,7 +172,7 @@ namespace czynsze.DataAccess
             uwagi_4 = record[21].Substring(180, 60).Trim();
         }
 
-        public static string Validate(Enums.Action action, string[] record)
+        public string Validate(Enums.Action action, string[] record)
         {
             string result = "";
             int kod_lok, nr_lok;

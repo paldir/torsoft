@@ -5,7 +5,7 @@ using System.Web;
 
 namespace czynsze.DataAccess
 {
-    public abstract class Tenant
+    public abstract class Tenant : IRecord
     {
         public abstract int nr_kontr { get; set; }
 
@@ -63,6 +63,11 @@ namespace czynsze.DataAccess
                 l__has.Trim(), 
                 String.Concat(uwagi_1.Trim(), uwagi_2.Trim()) 
             };
+        }
+
+        public string Validate(Enums.Action action, string[] record)
+        {
+            return String.Empty;
         }
 
         public void Set(string[] record)

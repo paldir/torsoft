@@ -16,7 +16,7 @@
         case "InactivePlaces":
         case "InactiveTenants":
             inactive = true;
-            buttons[buttons.length] = getElementById("addaction");
+            //buttons[buttons.length] = getElementById("addaction");
 
             break;
     }
