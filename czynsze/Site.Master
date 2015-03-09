@@ -57,6 +57,9 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="mainSubMenuItem">
+                        <a href="javascript: Load('GenerationOfReceivables.aspx')">Generacja należności</a>
+                    </li>
                 </ul>
             </li>
             <li class="mainSuperMenuItem">Rozliczenia WODY

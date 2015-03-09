@@ -24,10 +24,10 @@ namespace czynsze.DataAccess
         public float dan_p { get; set; }
 
         [Column("dat_od")]
-        public string dat_od { get; set; }
+        public Nullable<DateTime> dat_od { get; set; }
 
         [Column("dat_do")]
-        public string dat_do { get; set; }
+        public Nullable<DateTime> dat_do { get; set; }
 
         public string[] ImportantFields()
         {
@@ -148,8 +148,12 @@ namespace czynsze.DataAccess
             nr_lok = Convert.ToInt16(record[1]);
             nr_skl = Convert.ToInt16(record[2]);
             dan_p = Convert.ToSingle(record[3]);
-            dat_od = record[4];
-            dat_do = record[5];
+
+            if (record[4] != null)
+                dat_od = Convert.ToDateTime(record[4]);
+
+            if (record[5] != null)
+                dat_do = Convert.ToDateTime(record[5]);
         }
 
         public static bool Validate(string[] record, Enums.Action action)

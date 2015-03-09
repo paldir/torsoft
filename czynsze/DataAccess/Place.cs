@@ -29,9 +29,9 @@ namespace czynsze.DataAccess
 
         public abstract float udzial { get; set; }
 
-        public abstract string dat_od { get; set; }
+        public abstract Nullable<DateTime> dat_od { get; set; }
 
-        public abstract string dat_do { get; set; }
+        public abstract Nullable<DateTime> dat_do { get; set; }
 
         public abstract float p_1 { get; set; }
 
@@ -90,14 +90,14 @@ namespace czynsze.DataAccess
             string dat_od, dat_do;
 
             if (this.dat_od == null)
-                dat_od = String.Empty;
+                dat_od = null;
             else
-                dat_od = this.dat_od.ToString();
+                dat_od = String.Format(DataAccess.Czynsze_Entities.DateFormat, this.dat_od);
 
             if (this.dat_do == null)
-                dat_do = String.Empty;
+                dat_do = null;
             else
-                dat_do = this.dat_do.ToString();
+                dat_do = String.Format(DataAccess.Czynsze_Entities.DateFormat, this.dat_do);
 
             return new string[] 
             { 
@@ -110,7 +110,7 @@ namespace czynsze.DataAccess
                 pow_uzyt.ToString("F2"),
                 pow_miesz.ToString("F2"), 
                 udzial.ToString("F2"), 
-                dat_od, 
+                dat_od,
                 dat_do,
                 p_1.ToString("F2"),
                 p_2.ToString("F2"),
@@ -137,8 +137,13 @@ namespace czynsze.DataAccess
             pow_uzyt = Convert.ToSingle(record[6]);
             pow_miesz = Convert.ToSingle(record[7]);
             udzial = Convert.ToSingle(record[8]);
-            dat_od = record[9];
-            dat_do = record[10];
+
+            if (record[9] != null)
+                dat_od = Convert.ToDateTime(record[9]);
+
+            if (record[10] != null)
+                dat_do = Convert.ToDateTime(record[10]);
+
             p_1 = Convert.ToSingle(record[11]);
             p_2 = Convert.ToSingle(record[12]);
             p_3 = Convert.ToSingle(record[13]);
@@ -196,18 +201,21 @@ namespace czynsze.DataAccess
                     result += "Należy podać numer lokalu! <br />";
             }
 
-            result += Czynsze_Entities.ValidateFloat("Powierzchnia użytkowa", ref record[6]);
-            result += Czynsze_Entities.ValidateFloat("Powierzchnia mieszkalna", ref record[7]);
-            result += Czynsze_Entities.ValidateFloat("Udział", ref record[8]);
-            result += Czynsze_Entities.ValidateDate("Początek zakresu dat", ref record[9]);
-            result += Czynsze_Entities.ValidateDate("Koniec zakresu dat", ref record[10]);
-            result += Czynsze_Entities.ValidateFloat("Powierzchnia I pokoju", ref record[11]);
-            result += Czynsze_Entities.ValidateFloat("Powierzchnia II pokoju", ref record[12]);
-            result += Czynsze_Entities.ValidateFloat("Powierzchnia III pokoju", ref record[13]);
-            result += Czynsze_Entities.ValidateFloat("Powierzchnia IV pokoju", ref record[14]);
-            result += Czynsze_Entities.ValidateFloat("Powierzchnia V pokoju", ref record[15]);
-            result += Czynsze_Entities.ValidateFloat("Powierzchnia VI pokoju", ref record[16]);
-            result += Czynsze_Entities.ValidateInt("Ilość osób", ref record[19]);
+            if (action != Enums.Action.Przenieś)
+            {
+                result += Czynsze_Entities.ValidateFloat("Powierzchnia użytkowa", ref record[6]);
+                result += Czynsze_Entities.ValidateFloat("Powierzchnia mieszkalna", ref record[7]);
+                result += Czynsze_Entities.ValidateFloat("Udział", ref record[8]);
+                result += Czynsze_Entities.ValidateDate("Początek zakresu dat", ref record[9]);
+                result += Czynsze_Entities.ValidateDate("Koniec zakresu dat", ref record[10]);
+                result += Czynsze_Entities.ValidateFloat("Powierzchnia I pokoju", ref record[11]);
+                result += Czynsze_Entities.ValidateFloat("Powierzchnia II pokoju", ref record[12]);
+                result += Czynsze_Entities.ValidateFloat("Powierzchnia III pokoju", ref record[13]);
+                result += Czynsze_Entities.ValidateFloat("Powierzchnia IV pokoju", ref record[14]);
+                result += Czynsze_Entities.ValidateFloat("Powierzchnia V pokoju", ref record[15]);
+                result += Czynsze_Entities.ValidateFloat("Powierzchnia VI pokoju", ref record[16]);
+                result += Czynsze_Entities.ValidateInt("Ilość osób", ref record[19]);
+            }
 
             return result;
         }

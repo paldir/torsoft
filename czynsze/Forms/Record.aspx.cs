@@ -93,7 +93,7 @@ namespace czynsze.Forms
 
                 case Enums.Action.Przenieś:
                     globalEnabled = idEnabled = false;
-                    heading = "Przenoszenie";
+                    heading = "Przenoszenie ";
 
                     buttons.Add(new MyControls.Button("buttons", "Move", "Przenieś", "RecordValidation.aspx"));
                     buttons.Add(new MyControls.Button("buttons", "Cancel", "Anuluj", backUrl));

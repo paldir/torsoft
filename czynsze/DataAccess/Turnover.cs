@@ -13,7 +13,7 @@ namespace czynsze.DataAccess
 
         public abstract float suma { get; set; }
 
-        public abstract string data_obr { get; set; }
+        public abstract DateTime data_obr { get; set; }
 
         public abstract string opis { get; set; }
 
@@ -45,6 +45,11 @@ namespace czynsze.DataAccess
 
         public string[] ImportantFields()
         {
+            string data_obr = null;
+
+            if (this.data_obr != null)
+                data_obr = String.Format(DataAccess.Czynsze_Entities.DateFormat, this.data_obr);
+            
             return new string[] 
             {
                 __record.ToString(),
@@ -65,6 +70,7 @@ namespace czynsze.DataAccess
             int factor = 1;
             string wn = String.Empty;
             string ma = String.Empty;
+            string data_obr = null;
 
             using (Czynsze_Entities db = new Czynsze_Entities())
                 type = db.typesOfPayment.FirstOrDefault(t => t.kod_wplat == kod_wplat);
@@ -115,6 +121,9 @@ namespace czynsze.DataAccess
                     break;
             }
 
+            if (this.data_obr != null)
+                data_obr = String.Format(DataAccess.Czynsze_Entities.DateFormat, this.data_obr);
+
             return new string[]
             {
                 __record.ToString(),
@@ -127,11 +136,16 @@ namespace czynsze.DataAccess
 
         public string[] AllFields()
         {
+            string data_obr = null;
+
+            if (this.data_obr != null)
+                data_obr = String.Format(DataAccess.Czynsze_Entities.DateFormat, this.data_obr);
+            
             return new string[]
             {
                 __record.ToString(),
                 suma.ToString(),
-                data_obr.Trim(),
+                data_obr,
                 DateTime.Today.ToShortDateString(),
                 kod_wplat.ToString(),
                 nr_dowodu.Trim(),
@@ -145,7 +159,10 @@ namespace czynsze.DataAccess
         {
             __record = Convert.ToInt16(record[0]);
             suma = Convert.ToSingle(record[1]);
-            data_obr = record[2];
+
+            if (!String.IsNullOrEmpty(record[2]))
+                data_obr = Convert.ToDateTime(record[2]);
+
             //data_NO = record[3];
             kod_wplat = Convert.ToInt16(record[4]);
             nr_dowodu = record[5];
@@ -156,8 +173,6 @@ namespace czynsze.DataAccess
             using (Czynsze_Entities db = new Czynsze_Entities())
                 opis = db.typesOfPayment.FirstOrDefault(t => t.kod_wplat == kod_wplat).typ_wplat;
         }
-
-        public abstract IRecord Find(Czynsze_Entities dataBase, int id);
 
         public string Validate(Enums.Action action, string[] record)
         {

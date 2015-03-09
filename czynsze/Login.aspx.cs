@@ -24,8 +24,6 @@ namespace czynsze
             Forms.Hello.SiteMapPath = new List<string>();
             Forms.Hello.CurrentSet = Enums.SettlementTable.Czynsze;
 
-            throw new Exception("przenoszenie lokali");
-
             Response.Redirect("Forms/UserValidation.aspx?uzytkownik=admin&haslo=a");
         }
     }

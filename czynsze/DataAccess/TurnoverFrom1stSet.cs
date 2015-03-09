@@ -18,7 +18,7 @@ namespace czynsze.DataAccess
         public override float suma { get; set; }
 
         [Column("data_obr")]
-        public override string data_obr { get; set; }
+        public override DateTime data_obr { get; set; }
 
         [Column("opis")]
         public override string opis { get; set; }
@@ -37,10 +37,5 @@ namespace czynsze.DataAccess
 
         [Column("uwagi")]
         public override string uwagi { get; set; }
-
-        public override IRecord Find(Czynsze_Entities dataBase, int id)
-        {
-            return dataBase.turnoversFor14.FirstOrDefault(t => t.__record == id);
-        }
     }
 }

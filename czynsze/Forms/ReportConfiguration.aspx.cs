@@ -298,7 +298,7 @@ namespace czynsze.Forms
                                 for (int i = 1; i <= 12; i++)
                                 {
                                     List<string[]> monthReceivables = receivables.Where(r => DateTime.Parse(r.data_nal).Month == i).Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).ToList();
-                                    List<string[]> monthTurnovers = turnovers.Where(t => DateTime.Parse(t.data_obr).Month == i).Select(t => t.ImportantFieldsForReceivablesAndTurnoversOfTenant()).ToList();
+                                    List<string[]> monthTurnovers = turnovers.Where(t => t.data_obr.Month == i).Select(t => t.ImportantFieldsForReceivablesAndTurnoversOfTenant()).ToList();
                                     wnSum = monthReceivables.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToSingle(r[1])) + monthTurnovers.Sum(t => String.IsNullOrEmpty(t[1]) ? 0 : Convert.ToSingle(t[1]));
                                     maSum = monthTurnovers.Sum(t => String.IsNullOrEmpty(t[2]) ? 0 : Convert.ToSingle(t[2]));
 
@@ -333,7 +333,7 @@ namespace czynsze.Forms
                                         }
                                     }
 
-                                    foreach (DataAccess.Turnover turnover in turnovers.Where(t => DateTime.Parse(t.data_obr).Month == i))
+                                    foreach (DataAccess.Turnover turnover in turnovers.Where(t => t.data_obr.Month == i))
                                     {
                                         string[] row = turnover.ImportantFieldsForReceivablesAndTurnoversOfTenant();
                                         int index = db.typesOfPayment.FirstOrDefault(t => t.kod_wplat == turnover.kod_wplat).rodz_e - 1;

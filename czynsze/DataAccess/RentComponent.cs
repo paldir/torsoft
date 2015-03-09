@@ -33,10 +33,10 @@ namespace czynsze.DataAccess
         public float stawka_inf { get; set; }
 
         [Column("data_1")]
-        public string data_1 { get; set; }
+        public Nullable<DateTime> data_1 { get; set; }
 
         [Column("data_2")]
-        public string data_2 { get; set; }
+        public Nullable<DateTime> data_2 { get; set; }
 
         [Column("stawka_00")]
         public float stawka_00 { get; set; }
@@ -130,14 +130,14 @@ namespace czynsze.DataAccess
             string data_1, data_2;
 
             if (this.data_1 == null)
-                data_1 = String.Empty;
+                data_1 = null;
             else
-                data_1 = this.data_1.ToString();
+                data_1 = String.Format(DataAccess.Czynsze_Entities.DateFormat, this.data_1);
 
             if (this.data_2 == null)
-                data_2 = String.Empty;
+                data_2 = null;
             else
-                data_2 = this.data_2.ToString();
+                data_2 = String.Format(DataAccess.Czynsze_Entities.DateFormat, this.data_2);
 
             return new string[]
             {
@@ -222,8 +222,13 @@ namespace czynsze.DataAccess
             stawka = Convert.ToSingle(record[4]);
             stawka_inf = Convert.ToSingle(record[5]);
             typ_skl = Convert.ToInt16(record[6]);
-            data_1 = record[7];
-            data_2 = record[8];
+
+            if (!String.IsNullOrEmpty(record[7]))
+                data_1 = Convert.ToDateTime(record[7]);
+
+            if (!String.IsNullOrEmpty(record[8]))
+                data_2 = Convert.ToDateTime(record[8]);
+
             stawka_00 = Convert.ToSingle(record[9]);
             stawka_01 = Convert.ToSingle(record[10]);
             stawka_02 = Convert.ToSingle(record[11]);

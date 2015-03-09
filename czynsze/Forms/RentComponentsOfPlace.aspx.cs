@@ -121,8 +121,12 @@ namespace czynsze.Forms
                     firstLabel = "Nazwa składnika: ";
                     amount = currentRentComponent.dan_p.ToString("F2");
                     textOfSaveButton = "Edytuj";
-                    dat_od = currentRentComponent.dat_od;
-                    dat_do = currentRentComponent.dat_do;
+
+                    if (currentRentComponent.dat_od != null)
+                        dat_od = String.Format("{0:yyyy-MM-dd}", currentRentComponent.dat_od);
+
+                    if (currentRentComponent.dat_do != null)
+                        dat_do = String.Format("{0:yyyy-MM-dd}", currentRentComponent.dat_do);
 
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                         firstControl = new MyControls.TextBox("field", "nazwa", db.rentComponents.FirstOrDefault(c => c.nr_skl == currentRentComponent.nr_skl).nazwa, MyControls.TextBox.TextBoxMode.SingleLine, 30, 1, false);

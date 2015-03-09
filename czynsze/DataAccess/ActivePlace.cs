@@ -45,10 +45,10 @@ namespace czynsze.DataAccess
         public override float udzial { get; set; }
 
         [Column("dat_od")]
-        public override string dat_od { get; set; }
+        public override Nullable<DateTime> dat_od { get; set; }
 
         [Column("dat_do")]
-        public override string dat_do { get; set; }
+        public override Nullable<DateTime> dat_do { get; set; }
 
         [Column("p_1")]
         public override float p_1 { get; set; }

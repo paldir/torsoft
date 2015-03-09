@@ -7,7 +7,7 @@ using System.Data.Entity;
 
 namespace czynsze.DataAccess
 {
-    public class Czynsze_Entities: DbContext
+    public class Czynsze_Entities : DbContext
     {
         public Czynsze_Entities() : base(nameOrConnectionString: "czynsze_connectionString") { }
         public DbSet<Building> buildings { get; set; }
@@ -41,6 +41,8 @@ namespace czynsze.DataAccess
         public DbSet<TurnoverFrom3rdSet> turnoversFor14From3rdSet { get; set; }
         public DbSet<Completed> completed { get; set; }
 
+        public const string DateFormat = "{0:yyyy-MM-dd}";
+        
         public static string ValidateInt(string name, ref string integer)
         {
             string result = "";
@@ -71,7 +73,7 @@ namespace czynsze.DataAccess
         {
             string result = "";
 
-            if (date != null && date.Length > 0)
+            if (!String.IsNullOrEmpty(date) && date != "-1")
                 try { Convert.ToDateTime(date); }
                 catch { result += name + " musi mieć format rrrr-mm-dd! <br />"; }
             else

@@ -92,6 +92,7 @@
     <Content Include="Forms\AttributeOfObject.aspx" />
     <Content Include="Forms\ChangeDate.aspx" />
     <Content Include="Forms\ChangeSettlementTable.aspx" />
+    <Content Include="Forms\GenerationOfReceivables.aspx" />
     <Content Include="Forms\Hello.aspx" />
     <Content Include="Forms\List.aspx" />
     <Content Include="Forms\Loading.aspx" />
@@ -134,6 +135,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccess\Completed.cs" />
+    <Compile Include="Forms\GenerationOfReceivables.aspx.cs">
+      <DependentUpon>GenerationOfReceivables.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Forms\GenerationOfReceivables.aspx.designer.cs">
+      <DependentUpon>GenerationOfReceivables.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Forms\RentComponentsOfPlace.aspx.cs">
       <DependentUpon>RentComponentsOfPlace.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
