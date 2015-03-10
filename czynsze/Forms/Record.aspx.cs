@@ -998,17 +998,17 @@ namespace czynsze.Forms
                             switch (Hello.CurrentSet)
                             {
                                 case Enums.SettlementTable.Czynsze:
-                                    turnOvers = db.turnoversFor14.ToList().Cast<DataAccess.Turnover>();
+                                    turnOvers = db.turnoversFrom1stSet.ToList().Cast<DataAccess.Turnover>();
 
                                     break;
 
                                 case Enums.SettlementTable.SecondSet:
-                                    turnOvers = db.turnoversFor14From2ndSet.ToList().Cast<DataAccess.Turnover>();
+                                    turnOvers = db.turnoversFrom2ndSet.ToList().Cast<DataAccess.Turnover>();
 
                                     break;
 
                                 case Enums.SettlementTable.ThirdSet:
-                                    turnOvers = db.turnoversFor14From3rdSet.ToList().Cast<DataAccess.Turnover>();
+                                    turnOvers = db.turnoversFrom3rdSet.ToList().Cast<DataAccess.Turnover>();
 
                                     break;
                             }

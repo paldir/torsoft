@@ -8,12 +8,12 @@ namespace czynsze.DataAccess
     public abstract class Receivable
     {
         public const string ReceivableYear = "14";
-        
+
         public abstract int __record { get; set; }
 
         public abstract float kwota_nal { get; set; }
 
-        public abstract string data_nal { get; set; }
+        public abstract DateTime data_nal { get; set; }
 
         public abstract string opis { get; set; }
 
@@ -31,7 +31,7 @@ namespace czynsze.DataAccess
             {
                 __record.ToString(),
                 kwota_nal.ToString("F2"),
-                data_nal,
+                String.Format(DataAccess.Czynsze_Entities.DateFormat, data_nal),
                 opis,
                 kod_lok.ToString(),
                 nr_lok.ToString()
@@ -45,7 +45,7 @@ namespace czynsze.DataAccess
                 (-1*__record).ToString(),
                 kwota_nal.ToString("F2"),
                 String.Empty,
-                data_nal,
+                String.Format(DataAccess.Czynsze_Entities.DateFormat, data_nal),
                 opis
             };
         }

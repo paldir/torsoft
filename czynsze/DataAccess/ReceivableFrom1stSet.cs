@@ -18,7 +18,7 @@ namespace czynsze.DataAccess
         public override float kwota_nal { get; set; }
 
         [Column("data_nal")]
-        public override string data_nal { get; set; }
+        public override DateTime data_nal { get; set; }
 
         [Column("opis")]
         public override string opis { get; set; }

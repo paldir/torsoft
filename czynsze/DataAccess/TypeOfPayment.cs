@@ -145,7 +145,7 @@ namespace czynsze.DataAccess
                     kod_wplat = Convert.ToInt16(record[0]);
 
                     using (Czynsze_Entities db = new Czynsze_Entities())
-                        if (db.turnoversFor14.Count(t => t.kod_wplat == kod_wplat) + db.turnoversFor14From2ndSet.Count(t => t.kod_wplat == kod_wplat) + db.turnoversFor14From3rdSet.Count(t => t.kod_wplat == kod_wplat) > 0)
+                        if (db.turnoversFrom1stSet.Count(t => t.kod_wplat == kod_wplat) + db.turnoversFrom2ndSet.Count(t => t.kod_wplat == kod_wplat) + db.turnoversFrom3rdSet.Count(t => t.kod_wplat == kod_wplat) > 0)
                             result += "Nie można usunąć typu wpłaty lub wypłaty, jeśli jest on używany! <br />";
 
                     break;

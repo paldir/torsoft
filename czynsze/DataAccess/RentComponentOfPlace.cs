@@ -69,7 +69,9 @@ namespace czynsze.DataAccess
                     break;
 
                 case 5:
-                    ilosc = 0;
+                    DateTime date=Forms.Hello.Date;
+
+                    ilosc = DateTime.DaysInMonth(date.Year, date.Month);
 
                     break;
 

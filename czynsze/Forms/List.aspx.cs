@@ -397,7 +397,7 @@ namespace czynsze.Forms
                     {
                         DataAccess.Tenant tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == id);
                         heading = nodeOfSiteMapPath = "Należności najemcy " + tenant.nazwisko + " " + tenant.imie;
-                        List<DataAccess.ReceivableFrom1stSet> receivables = db.receivablesFor14.Where(r => r.nr_kontr == id).OrderBy(r => r.data_nal).ToList();
+                        List<DataAccess.ReceivableFrom1stSet> receivables = db.receivablesFrom1stSet.Where(r => r.nr_kontr == id).OrderBy(r => r.data_nal).ToList();
 
                         switch (table)
                         {
@@ -408,7 +408,7 @@ namespace czynsze.Forms
 
                             case Enums.Table.NotPastReceivablesOfTenant:
                                 heading += " (nieprzeterminowane)";
-                                rows = receivables.Where(r => Convert.ToDateTime(r.data_nal) >= Hello.Date).Select(r => r.ImportantFields()).ToList();
+                                rows = receivables.Where(r => r.data_nal >= Hello.Date).Select(r => r.ImportantFields()).ToList();
 
                                 break;
                         }
@@ -433,20 +433,20 @@ namespace czynsze.Forms
                         switch (Hello.CurrentSet)
                         {
                             case Enums.SettlementTable.Czynsze:
-                                receivables = db.receivablesFor14.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>();
-                                turnovers = db.turnoversFor14.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
+                                receivables = db.receivablesFrom1stSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>();
+                                turnovers = db.turnoversFrom1stSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
 
                             case Enums.SettlementTable.SecondSet:
-                                receivables = db.receivablesFor14From2ndSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>();
-                                turnovers = db.turnoversFor14From2ndSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
+                                receivables = db.receivablesFrom2ndSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>();
+                                turnovers = db.turnoversFrom2ndSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
 
                             case Enums.SettlementTable.ThirdSet:
-                                receivables = db.receivablesFor14From3rdSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>();
-                                turnovers = db.turnoversFor14From3rdSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
+                                receivables = db.receivablesFrom3rdSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>();
+                                turnovers = db.turnoversFrom3rdSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
                         }
@@ -454,7 +454,7 @@ namespace czynsze.Forms
                         rows = receivables.Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).Concat(turnovers.Select(t => t.ImportantFieldsForReceivablesAndTurnoversOfTenant())).OrderBy(r => DateTime.Parse(r[3])).ToList();
                         float wnAmount = rows.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToSingle(r[1]));
                         float maAmount = rows.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Convert.ToSingle(r[2]));
-                        List<string[]> rowsOfPastReceivables = receivables.Where(r => Convert.ToDateTime(r.data_nal) < Hello.Date).Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).Concat(turnovers.Where(t => Convert.ToDateTime(t.data_obr) < Hello.Date).Select(t => t.ImportantFieldsForReceivablesAndTurnoversOfTenant())).ToList();
+                        List<string[]> rowsOfPastReceivables = receivables.Where(r => r.data_nal < Hello.Date).Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).Concat(turnovers.Where(t => t.data_obr < Hello.Date).Select(t => t.ImportantFieldsForReceivablesAndTurnoversOfTenant())).ToList();
                         float wnAmountOfPastReceivables = rowsOfPastReceivables.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToSingle(r[1]));
                         summary = @"
                             <table class='additionalTable'>
@@ -519,20 +519,20 @@ namespace czynsze.Forms
                         switch (Hello.CurrentSet)
                         {
                             case Enums.SettlementTable.Czynsze:
-                                receivables = db.receivablesFor14.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>();
-                                turnovers = db.turnoversFor14.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
+                                receivables = db.receivablesFrom1stSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>();
+                                turnovers = db.turnoversFrom1stSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
 
                             case Enums.SettlementTable.SecondSet:
-                                receivables = db.receivablesFor14From2ndSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>();
-                                turnovers = db.turnoversFor14From2ndSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
+                                receivables = db.receivablesFrom2ndSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>();
+                                turnovers = db.turnoversFrom2ndSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
 
                             case Enums.SettlementTable.ThirdSet:
-                                receivables = db.receivablesFor14From3rdSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>();
-                                turnovers = db.turnoversFor14From3rdSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
+                                receivables = db.receivablesFrom3rdSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>();
+                                turnovers = db.turnoversFrom3rdSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
                         }
@@ -540,7 +540,7 @@ namespace czynsze.Forms
                         List<string[]> rowsOfReceivablesAndTurnovers = receivables.Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).Concat(turnovers.Select(t => t.ImportantFieldsForReceivablesAndTurnoversOfTenant())).ToList();
                         float wnAmount = rowsOfReceivablesAndTurnovers.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToSingle(r[1]));
                         float maAmount = rowsOfReceivablesAndTurnovers.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Convert.ToSingle(r[2]));
-                        List<string[]> rowsOfReceivablesAndTurnoversToDate = receivables.Where(r => Convert.ToDateTime(r.data_nal) <= Hello.Date).Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).Concat(turnovers.Where(t => Convert.ToDateTime(t.data_obr) <= Hello.Date).Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant())).ToList();
+                        List<string[]> rowsOfReceivablesAndTurnoversToDate = receivables.Where(r => r.data_nal <= Hello.Date).Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).Concat(turnovers.Where(t => t.data_obr <= Hello.Date).Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant())).ToList();
                         float wnAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToSingle(r[1]));
                         float maAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Convert.ToSingle(r[2]));
                         DataAccess.Configuration configuration = db.configurations.FirstOrDefault();
@@ -566,22 +566,22 @@ namespace czynsze.Forms
                         switch (Hello.CurrentSet)
                         {
                             case Enums.SettlementTable.Czynsze:
-                                turnovers = db.turnoversFor14.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
+                                turnovers = db.turnoversFrom1stSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
 
                             case Enums.SettlementTable.SecondSet:
-                                turnovers = db.turnoversFor14From2ndSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
+                                turnovers = db.turnoversFrom2ndSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
 
                             case Enums.SettlementTable.ThirdSet:
-                                turnovers = db.turnoversFor14From3rdSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
+                                turnovers = db.turnoversFrom3rdSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
                         }
 
-                        rows = turnovers.OrderBy(t => Convert.ToDateTime(t.data_obr)).Select(t => t.ImportantFields()).ToList();
+                        rows = turnovers.OrderBy(t => t.data_obr).Select(t => t.ImportantFields()).ToList();
 
                         placeOfMainTableButtons.Controls.Add(new MyControls.HtmlInputHidden("additionalId", id.ToString()));
                     }

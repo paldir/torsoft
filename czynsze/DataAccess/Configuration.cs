@@ -31,5 +31,8 @@ namespace czynsze.DataAccess
 
         [Column("p_37")]
         public int p_37 { get; set; }
+
+        [Column("p_46")]
+        public int p_46 { get; set; }
     }
 }

@@ -212,20 +212,20 @@ namespace czynsze.Forms
                         switch (Hello.CurrentSet)
                         {
                             case Enums.SettlementTable.Czynsze:
-                                receivables = db.receivablesFor14.Where(r => r.nr_kontr == additionalId).ToList().Cast<DataAccess.Receivable>();
-                                turnovers = db.turnoversFor14.Where(t => t.nr_kontr == additionalId).ToList().Cast<DataAccess.Turnover>();
+                                receivables = db.receivablesFrom1stSet.Where(r => r.nr_kontr == additionalId).ToList().Cast<DataAccess.Receivable>();
+                                turnovers = db.turnoversFrom1stSet.Where(t => t.nr_kontr == additionalId).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
 
                             case Enums.SettlementTable.SecondSet:
-                                receivables = db.receivablesFor14From2ndSet.Where(r => r.nr_kontr == additionalId).ToList().Cast<DataAccess.Receivable>();
-                                turnovers = db.turnoversFor14From2ndSet.Where(t => t.nr_kontr == additionalId).ToList().Cast<DataAccess.Turnover>();
+                                receivables = db.receivablesFrom2ndSet.Where(r => r.nr_kontr == additionalId).ToList().Cast<DataAccess.Receivable>();
+                                turnovers = db.turnoversFrom2ndSet.Where(t => t.nr_kontr == additionalId).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
 
                             case Enums.SettlementTable.ThirdSet:
-                                receivables = db.receivablesFor14From3rdSet.Where(r => r.nr_kontr == additionalId).ToList().Cast<DataAccess.Receivable>();
-                                turnovers = db.turnoversFor14From3rdSet.Where(t => t.nr_kontr == additionalId).ToList().Cast<DataAccess.Turnover>();
+                                receivables = db.receivablesFrom3rdSet.Where(r => r.nr_kontr == additionalId).ToList().Cast<DataAccess.Receivable>();
+                                turnovers = db.turnoversFrom3rdSet.Where(t => t.nr_kontr == additionalId).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
                         }
@@ -243,7 +243,7 @@ namespace czynsze.Forms
                                     captions[0] += db.rentComponents.FirstOrDefault(c => c.nr_skl == nr_skl).nazwa;
 
                                     for (int i = 1; i <= 12; i++)
-                                        tables[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", receivables.Where(r => r.nr_skl == nr_skl).ToList().Where(r => Convert.ToDateTime(r.data_nal).Year == Hello.Date.Year && Convert.ToDateTime(r.data_nal).Month == i).Sum(r => r.kwota_nal)) });
+                                        tables[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", receivables.Where(r => r.nr_skl == nr_skl).ToList().Where(r => r.data_nal.Year == Hello.Date.Year && r.data_nal.Month == i).Sum(r => r.kwota_nal)) });
                                 }
                                 else
                                 {
@@ -251,7 +251,7 @@ namespace czynsze.Forms
                                     captions[0] += db.typesOfPayment.FirstOrDefault(t => t.kod_wplat == kod_wplat).typ_wplat;
 
                                     for (int i = 1; i <= 12; i++)
-                                        tables[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", turnovers.Where(t => t.kod_wplat == kod_wplat).ToList().Where(t => Convert.ToDateTime(t.data_obr).Year == Hello.Date.Year && Convert.ToDateTime(t.data_obr).Month == i).Sum(t => t.suma)) });
+                                        tables[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", turnovers.Where(t => t.kod_wplat == kod_wplat).ToList().Where(t => t.data_obr.Year == Hello.Date.Year && t.data_obr.Month == i).Sum(t => t.suma)) });
                                 }
 
                                 tables[0].Add(new string[] { "Razem", String.Format("{0:N2}", tables[0].Sum(r => Convert.ToSingle(r[1]))) });
@@ -297,7 +297,7 @@ namespace czynsze.Forms
 
                                 for (int i = 1; i <= 12; i++)
                                 {
-                                    List<string[]> monthReceivables = receivables.Where(r => DateTime.Parse(r.data_nal).Month == i).Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).ToList();
+                                    List<string[]> monthReceivables = receivables.Where(r => r.data_nal.Month == i).Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).ToList();
                                     List<string[]> monthTurnovers = turnovers.Where(t => t.data_obr.Month == i).Select(t => t.ImportantFieldsForReceivablesAndTurnoversOfTenant()).ToList();
                                     wnSum = monthReceivables.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToSingle(r[1])) + monthTurnovers.Sum(t => String.IsNullOrEmpty(t[1]) ? 0 : Convert.ToSingle(t[1]));
                                     maSum = monthTurnovers.Sum(t => String.IsNullOrEmpty(t[2]) ? 0 : Convert.ToSingle(t[2]));
@@ -320,7 +320,7 @@ namespace czynsze.Forms
                                     float[] sum = new float[] { 0, 0, 0, 0 };
                                     wnSum = maSum = 0;
 
-                                    foreach (DataAccess.Receivable receivable in receivables.Where(r => DateTime.Parse(r.data_nal).Month == i))
+                                    foreach (DataAccess.Receivable receivable in receivables.Where(r => r.data_nal.Month == i))
                                     {
                                         string[] row = receivable.ImportantFieldsForReceivablesAndTurnoversOfTenant();
                                         int index = db.rentComponents.FirstOrDefault(c => c.nr_skl == receivable.nr_skl).rodz_e - 1;
