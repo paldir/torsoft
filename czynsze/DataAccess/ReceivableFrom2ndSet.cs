@@ -34,5 +34,11 @@ namespace czynsze.DataAccess
 
         [Column("nr_skl")]
         public override int nr_skl { get; set; }
+
+        [Column("stawka")]
+        public override float stawka { get; set; }
+
+        [Column("ilosc")]
+        public override float ilosc { get; set; }
     }
 }

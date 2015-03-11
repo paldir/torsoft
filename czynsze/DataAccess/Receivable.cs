@@ -25,6 +25,10 @@ namespace czynsze.DataAccess
 
         public abstract int nr_skl { get; set; }
 
+        public abstract float stawka { get; set; }
+
+        public abstract float ilosc { get; set; }
+
         public string[] ImportantFields()
         {
             return new string[]
@@ -48,6 +52,19 @@ namespace czynsze.DataAccess
                 String.Format(DataAccess.Czynsze_Entities.DateFormat, data_nal),
                 opis
             };
+        }
+
+        public void Set(float kwota_nal, DateTime data_nal, string opis, int nr_kontr, int nr_skl, int kod_lok, int nr_lok, float stawka, float ilosc)
+        {
+            this.kwota_nal = kwota_nal;
+            this.data_nal = data_nal;
+            this.opis = opis;
+            this.nr_kontr = nr_kontr;
+            this.nr_skl = nr_skl;
+            this.kod_lok = kod_lok;
+            this.nr_lok = nr_lok;
+            this.stawka = stawka;
+            this.ilosc = ilosc;
         }
     }
 }

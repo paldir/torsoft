@@ -16,8 +16,8 @@ namespace czynsze.Forms
                     form.Controls.Add(new LiteralControl("Miesiąc został już zamknięty."));
                 else
                 {
-                    Button allButton = new MyControls.Button("button", "allGeneration", "Generuj dla wszystkich lokali", String.Empty);
-                    Button fromToButton = new MyControls.Button("button", "fromToGeneration", "Generuj od do", String.Empty);
+                    Button allButton = new MyControls.Button("button", "allGeneration", "Generacja całego zestawienia", String.Empty);
+                    Button fromToButton = new MyControls.Button("button", "fromToGeneration", "Generacja od-do żądanego lokalu", String.Empty);
                     allButton.Click += allButton_Click;
 
                     form.Controls.Add(allButton);
@@ -42,7 +42,7 @@ namespace czynsze.Forms
                     form.Controls.Clear();
                     form.Controls.Add(new LiteralControl("Generacja była już wykonana. Czy chcesz powtórzyć?<br />"));
                     form.Controls.Add(generate);
-                    form.Controls.Add(new MyControls.Button("button", "noRepeat", "Nie", String.Empty));
+                    form.Controls.Add(new MyControls.Button("button", "noRepeat", "Ntie", String.Empty));
                 }
                 else
                     generate_Click(null, null);
@@ -65,41 +65,101 @@ namespace czynsze.Forms
                 else
                     rentFactor = 15 / daysInMonth;
 
-                foreach (DataAccess.ActivePlace place in db.places)
-                    using (DataAccess.Czynsze_Entities subDb = new DataAccess.Czynsze_Entities())
-                        foreach (DataAccess.RentComponentOfPlace rentComponentOfPlace in subDb.rentComponentsOfPlaces.Where(c => c.kod_lok == place.kod_lok && c.nr_lok == place.nr_lok))
+                foreach (DataAccess.ActivePlace place in db.places.ToList())
+                    //using (DataAccess.Czynsze_Entities subDb = new DataAccess.Czynsze_Entities())
+                        foreach (DataAccess.RentComponentOfPlace rentComponentOfPlace in db.rentComponentsOfPlaces.Where(c => c.kod_lok == place.kod_lok && c.nr_lok == place.nr_lok).ToList())
                         {
-                            DataAccess.RentComponent rentComponent;
-
-                            using (DataAccess.Czynsze_Entities subSubDb = new DataAccess.Czynsze_Entities())
-                                rentComponent = subSubDb.rentComponents.FirstOrDefault(c => c.nr_skl == rentComponentOfPlace.nr_skl);
+                            DataAccess.RentComponent rentComponent = db.rentComponents.FirstOrDefault(c => c.nr_skl == rentComponentOfPlace.nr_skl);
+                            float ilosc;
+                            float stawka = rentComponent.stawka;
 
                             switch (rentComponent.s_zaplat)
                             {
                                 case 1:
+                                    ilosc = place.pow_uzyt;
 
                                     break;
 
                                 case 2:
+                                    ilosc = rentComponentOfPlace.dan_p;
 
                                     break;
 
                                 case 3:
+                                    ilosc = (float)place.il_osob;
 
                                     break;
 
                                 case 4:
+                                    ilosc = 1;
 
                                     break;
 
                                 case 5:
+                                    ilosc = daysInMonth;
 
                                     break;
 
                                 case 6:
+                                    ilosc = 1;
+
+                                    switch (place.il_osob)
+                                    {
+                                        case 0:
+                                            stawka = rentComponent.stawka_00;
+
+                                            break;
+
+                                        case 1:
+                                            stawka = rentComponent.stawka_01;
+
+                                            break;
+
+                                        case 2:
+                                            stawka = rentComponent.stawka_02;
+
+                                            break;
+
+                                        case 3:
+                                            stawka = rentComponent.stawka_03;
+
+                                            break;
+
+                                        case 4:
+                                            stawka = rentComponent.stawka_04;
+
+                                            break;
+
+                                        case 5:
+                                            stawka = rentComponent.stawka_05;
+
+                                            break;
+
+                                        case 6:
+                                            stawka = rentComponent.stawka_06;
+
+                                            break;
+
+                                        case 7:
+                                            stawka = rentComponent.stawka_07;
+
+                                            break;
+
+                                        case 8:
+                                            stawka = rentComponent.stawka_08;
+
+                                            break;
+
+                                        default:
+                                            stawka = rentComponent.stawka_09;
+
+                                            break;
+                                    }
 
                                     break;
                             }
+
+
                         }
             }
         }
