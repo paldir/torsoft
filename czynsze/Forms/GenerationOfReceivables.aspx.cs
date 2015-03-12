@@ -7,71 +7,96 @@ using System.Web.UI.WebControls;
 
 namespace czynsze.Forms
 {
-    public partial class GenerationOfReceivables : System.Web.UI.Page
+    public partial class GenerationOfReceivables : Page
     {
+        readonly Func<DataAccess.Receivable, bool> receivablesFromCurrentMonth = c => c.data_nal >= new DateTime(Hello.Date.Year, Hello.Date.Month, 1) && c.data_nal <= new DateTime(Hello.Date.Year, Hello.Date.Month, DateTime.DaysInMonth(Hello.Date.Year, Hello.Date.Month));
+
+        int year
+        {
+            get { return (int)ViewState["year"]; }
+            set { ViewState["year"] = value; }
+        }
+        
+        int month
+        {
+            get { return (int)ViewState["month"]; }
+            set { ViewState["month"] = value; }
+        }
+        
+        int day
+        {
+            get { return (int)ViewState["day"]; }
+            set { ViewState["day"] = value; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                if (db.completed.ToList().Exists(c => c.rok == Hello.Date.Year && c.miesiac == Hello.Date.Month && c.z_rok && c.z_mies))
-                    form.Controls.Add(new LiteralControl("Miesiąc został już zamknięty."));
-                else
-                {
-                    Button allButton = new MyControls.Button("button", "allGeneration", "Generacja całego zestawienia", String.Empty);
-                    Button fromToButton = new MyControls.Button("button", "fromToGeneration", "Generacja od-do żądanego lokalu", String.Empty);
-                    allButton.Click += allButton_Click;
+            int daysInMonth = DateTime.DaysInMonth(Hello.Date.Year, Hello.Date.Month);
+            string generationMode = GetParamValue<string>("Generation");
+            string repeatGeneration = GetParamValue<string>("Repeat");
 
-                    form.Controls.Add(allButton);
-                    form.Controls.Add(new LiteralControl("<br />"));
-                    form.Controls.Add(fromToButton);
-                }
-        }
-
-        void allButton_Click(object sender, EventArgs e)
-        {
             using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
             {
-                DateTime start = new DateTime(Hello.Date.Year, Hello.Date.Month, 1);
-                DateTime end = new DateTime(Hello.Date.Year, Hello.Date.Month, DateTime.DaysInMonth(Hello.Date.Year, Hello.Date.Month));
-                System.Linq.Expressions.Expression<Func<DataAccess.Receivable, bool>> predicate = c => c.data_nal >= start && c.data_nal <= end;
-
-                if (db.receivablesFrom1stSet.Count(predicate) > 0 || db.receivablesFrom2ndSet.Count(predicate) > 0 || db.receivablesFrom3rdSet.Count(predicate) > 0)
-                {
-                    MyControls.Button generate = new MyControls.Button("button", "yesRepeat", "Tak", String.Empty);
-                    generate.Click += generate_Click;
-
-                    form.Controls.Clear();
-                    form.Controls.Add(new LiteralControl("Generacja była już wykonana. Czy chcesz powtórzyć?<br />"));
-                    form.Controls.Add(generate);
-                    form.Controls.Add(new MyControls.Button("button", "noRepeat", "Ntie", String.Empty));
-                }
-                else
-                    generate_Click(null, null);
-            }
-        }
-
-        void generate_Click(object sender, EventArgs e)
-        {
-            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-            {
-                int p_46 = db.configurations.FirstOrDefault().p_46;
-                float daysInMonth = DateTime.DaysInMonth(Hello.Date.Year, Hello.Date.Month);
-                float rentFactor;
-
-                if (p_46 >= 1)
-                    if (p_46 == 31)
-                        rentFactor = 1;
+                if (String.IsNullOrEmpty(generationMode))
+                    if (db.completed.ToList().Exists(c => c.rok == Hello.Date.Year && c.miesiac == Hello.Date.Month && c.z_rok && c.z_mies))
+                        form.Controls.Add(new LiteralControl("Miesiąc został już zamknięty."));
                     else
-                        rentFactor = p_46 / daysInMonth;
-                else
-                    rentFactor = 15 / daysInMonth;
+                    {
+                        day = db.configurations.FirstOrDefault().p_46;
 
-                foreach (DataAccess.ActivePlace place in db.places.ToList())
-                    //using (DataAccess.Czynsze_Entities subDb = new DataAccess.Czynsze_Entities())
+                        if (day >= 1)
+                        {
+                            if (day == 31)
+                                day = daysInMonth;
+                        }
+                        else
+                            day = 15;
+
+                        placeOfDate.Controls.Add(new LiteralControl("Podaj termin płatności: "));
+                        placeOfDate.Controls.Add(new LiteralControl("<br />"));
+                        placeOfDate.Controls.Add(new MyControls.TextBox("field", "year", Hello.Date.Year.ToString(), MyControls.TextBox.TextBoxMode.Number, 4, 1, true));
+                        placeOfDate.Controls.Add(new LiteralControl("-"));
+                        placeOfDate.Controls.Add(new MyControls.TextBox("field", "month", Hello.Date.Month.ToString("D2"), MyControls.TextBox.TextBoxMode.Number, 2, 1, true));
+                        placeOfDate.Controls.Add(new LiteralControl("-"));
+                        placeOfDate.Controls.Add(new MyControls.TextBox("field", "day", day.ToString("D2"), MyControls.TextBox.TextBoxMode.Number, 2, 1, true));
+                        placeOfGeneration.Controls.Add(new LiteralControl("<br />"));
+                        placeOfGeneration.Controls.Add(new MyControls.Button("button", "allGeneration", "Generacja całego zestawienia", String.Empty));
+                        placeOfGeneration.Controls.Add(new LiteralControl("<br />"));
+                        placeOfGeneration.Controls.Add(new MyControls.Button("button", "fromToGeneration", "Generacja od-do żądanego lokalu", String.Empty));
+                    }
+                else
+                {
+                    year = GetParamValue<int>("year");
+                    month = GetParamValue<int>("month");
+                    day = GetParamValue<int>("day");
+                    
+                    if (db.receivablesFrom1stSet.ToList().Count(receivablesFromCurrentMonth) > 0 || db.receivablesFrom2ndSet.Count(receivablesFromCurrentMonth) > 0 || db.receivablesFrom3rdSet.Count(receivablesFromCurrentMonth) > 0)
+                    {
+                        placeOfGeneration.Controls.Add(new LiteralControl("Generacja była już wykonana. Czy chcesz powtórzyć?<br />"));
+                        placeOfGeneration.Controls.Add(new MyControls.Button("button", "yesRepeat", "Tak", String.Empty));
+                        placeOfGeneration.Controls.Add(new MyControls.Button("button", "no", "Nie", String.Empty));
+                    }
+                    else
+                        repeatGeneration = "Tak";
+                }
+
+                if (!String.IsNullOrEmpty(repeatGeneration))
+                {
+                    db.receivablesFrom1stSet.RemoveRange(db.receivablesFrom1stSet.Where(receivablesFromCurrentMonth).Cast<DataAccess.ReceivableFrom1stSet>());
+
+                    foreach (DataAccess.ActivePlace place in new List<DataAccess.ActivePlace>() { db.places.FirstOrDefault(p => p.nr_kontr == 125) }/*db.places.ToList()*/)
                         foreach (DataAccess.RentComponentOfPlace rentComponentOfPlace in db.rentComponentsOfPlaces.Where(c => c.kod_lok == place.kod_lok && c.nr_lok == place.nr_lok).ToList())
                         {
                             DataAccess.RentComponent rentComponent = db.rentComponents.FirstOrDefault(c => c.nr_skl == rentComponentOfPlace.nr_skl);
-                            float ilosc;
+                            float ilosc = 0;
                             float stawka = rentComponent.stawka;
+                            DataAccess.ReceivableFrom1stSet receivableFrom1stSet = new DataAccess.ReceivableFrom1stSet();
+
+                            try { new DateTime(year, month, 1); }
+                            catch (ArgumentOutOfRangeException) { month = Hello.Date.Month; }
+
+                            try { new DateTime(year, month, day); }
+                            catch (ArgumentOutOfRangeException) { day = this.day; }
 
                             switch (rentComponent.s_zaplat)
                             {
@@ -159,8 +184,12 @@ namespace czynsze.Forms
                                     break;
                             }
 
-
+                            receivableFrom1stSet.Set(ilosc * stawka, new DateTime(year, month, day), rentComponent.nazwa.Trim() + " za m-c x", (int)place.nr_kontr, rentComponent.nr_skl, place.kod_lok, place.nr_lok, stawka, ilosc);
+                            db.receivablesFrom1stSet.Add(receivableFrom1stSet);
                         }
+
+                    db.SaveChanges();
+                }
             }
         }
     }

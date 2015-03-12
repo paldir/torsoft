@@ -12,12 +12,7 @@ namespace czynsze.Forms
             string value = Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith(key))];
 
             if (value == null)
-            {
-                if (Nullable.GetUnderlyingType(typeof(T)) == null)
-                    value = "-1";
-                else
-                    value = String.Empty;
-            }
+                return default(T);
 
             if (typeof(T).IsEnum)
                 return (T)Enum.Parse(typeof(T), value);

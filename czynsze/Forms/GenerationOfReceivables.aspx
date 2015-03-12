@@ -4,8 +4,10 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder" runat="server">
     <div class="placeOfResultWindow">
         <div class="resultWindow">
-
-            <form id="form" runat="server"></form>
+            <form id="form" runat="server">
+                <div id="placeOfDate" runat="server"></div>
+                <div id="placeOfGeneration" runat="server"></div>
+            </form>
         </div>
     </div>
 </asp:Content>
