@@ -192,7 +192,7 @@ namespace czynsze.DataAccess
                         nr_lok = Convert.ToInt16(record[2]);
 
                         using (Czynsze_Entities db = new Czynsze_Entities())
-                            if (db.places.Where(p => p.kod_lok == kod_lok && p.nr_lok == nr_lok).Count() != 0)
+                            if (db.places.Where(p => p.kod_lok == kod_lok && p.nr_lok == nr_lok).Any())
                                 result += "W wybranym budynku istnieje już lokal o danym numerze! <br />";
                     }
                     catch { result += "Nr lokalu musi być liczbą całkowitą! <br />"; }

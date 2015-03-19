@@ -62,7 +62,7 @@ namespace czynsze.Forms
 
                     if (DataAccess.AttributeOfObject.Validate(childAction, record, attributesOfObject))
                     {
-                        if (attributesOfObject.Count > 0)
+                        if (attributesOfObject.Any())
                             maxIdTmp = attributesOfObject.Max(a => a.__record);
 
                         switch (attributeOf)
@@ -71,7 +71,7 @@ namespace czynsze.Forms
                                 attributeOfObject = new DataAccess.AttributeOfBuilding();
 
                                 using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                                    if (db.attributesOfBuildings.Count() > 0)
+                                    if (db.attributesOfBuildings.Any())
                                         maxId = db.attributesOfBuildings.Max(a => a.__record);
 
                                 break;
@@ -80,7 +80,7 @@ namespace czynsze.Forms
                                 attributeOfObject = new DataAccess.AttributeOfCommunity();
 
                                 using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                                    if (db.attributesOfCommunities.Count() > 0)
+                                    if (db.attributesOfCommunities.Any())
                                         maxId = db.attributesOfCommunities.Max(a => a.__record);
 
                                 break;
@@ -89,7 +89,7 @@ namespace czynsze.Forms
                                 attributeOfObject = new DataAccess.AttributeOfPlace();
 
                                 using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                                    if (db.attributesOfPlaces.Count() > 0)
+                                    if (db.attributesOfPlaces.Any())
                                         maxId = db.attributesOfPlaces.Max(a => a.__record);
 
                                 break;
@@ -98,7 +98,7 @@ namespace czynsze.Forms
                                 attributeOfObject = new DataAccess.AttributeOfTenant();
 
                                 using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                                    if (db.attributesOfTenants.Count() > 0)
+                                    if (db.attributesOfTenants.Any())
                                         maxId = db.attributesOfTenants.Max(a => a.__record);
 
                                 break;

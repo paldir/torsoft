@@ -176,7 +176,7 @@ namespace czynsze.DataAccess
                         id = Convert.ToInt16(record[0]);
 
                         using (Czynsze_Entities db = new Czynsze_Entities())
-                            if (db.rentComponents.Count(c => c.nr_skl == id) != 0)
+                            if (db.rentComponents.Any(c => c.nr_skl == id))
                                 result += "Numer składnika jest już używany! <br />";
                     }
                     catch { result += "Numer składnika musi być liczbą całkowitą! <br />"; }
@@ -206,7 +206,7 @@ namespace czynsze.DataAccess
                 id = Convert.ToInt16(record[0]);
 
                 using (Czynsze_Entities db = new Czynsze_Entities())
-                    if (db.rentComponentsOfPlaces.Count(c => c.nr_skl == id) > 0)
+                    if (db.rentComponentsOfPlaces.Any(c => c.nr_skl == id))
                         result += "Nie można usunąć składnika opłat, który jest przypisany do lokali! <br />";
             }
 

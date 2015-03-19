@@ -74,7 +74,7 @@ namespace czynsze.DataAccess
                     if (record[2].Length > 0 && record[3].Length > 0)
                     {
                         using (DataAccess.Czynsze_Entities db = new Czynsze_Entities())
-                            if (db.users.ToList().Count(u => u.nazwisko.Trim() == recordList.ElementAt(1) && u.imie.Trim() == recordList.ElementAt(2)) > 0)
+                            if (db.users.ToList().Any(u => u.nazwisko.Trim() == recordList.ElementAt(1) && u.imie.Trim() == recordList.ElementAt(2)))
                                 result += "Użytkownik o podanym nazwisku i imieniu już istnieje! <br />";
                     }
                     else

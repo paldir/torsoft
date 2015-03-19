@@ -62,7 +62,7 @@ namespace czynsze.DataAccess
 
             if (action == Enums.Action.Usuń)
                 using (Czynsze_Entities db = new Czynsze_Entities())
-                    if (db.typesOfPayment.Count(t => t.vat == nazwa) > 0)
+                    if (db.typesOfPayment.Any(t => t.vat == nazwa))
                         result += "Nie można usunąć stawki VAT, ponieważ jest ona wykorzystywana w innych tabelach! <br />";
 
             return result;

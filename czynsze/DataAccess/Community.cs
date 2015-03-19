@@ -130,7 +130,7 @@ namespace czynsze.DataAccess
                         kod = Convert.ToInt16(record[0]);
 
                         using (Czynsze_Entities db = new Czynsze_Entities())
-                            if (db.communities.Count(c => c.kod == kod) != 0)
+                            if (db.communities.Any(c => c.kod == kod))
                                 result += "Kod wspólnoty jest już używany! <br />";
                     }
                     catch { result += "Kod wspólnoty musi być liczbą całkowitą! <br />"; }

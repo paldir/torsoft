@@ -67,7 +67,7 @@ namespace czynsze.Forms
                         MyControls.HtmlGenericControl secondBuilding = new MyControls.HtmlGenericControl("div", "control");
                         List<string[]> buildings = db.buildings.ToList().OrderBy(b => b.kod_1).Select(b => b.ImportantFields()).ToList();
 
-                        if (db.buildings.Count() > 0)
+                        if (db.buildings.Any())
                         {
                             firstBuildingNumber = db.buildings.Min(b => b.kod_1);
                             lastBuildingNumber = db.buildings.Max(b => b.kod_1);
@@ -134,7 +134,7 @@ namespace czynsze.Forms
             generationButton.Click += generationButton_Click;
             Title = heading;
 
-            if (Hello.SiteMapPath.Count > 0)
+            if (Hello.SiteMapPath.Any())
                 if (!Hello.SiteMapPath.Contains(heading))
                 {
                     Hello.SiteMapPath[Hello.SiteMapPath.Count - 1] = String.Concat("<a href=\"javascript: Load('" + Request.UrlReferrer.PathAndQuery + "')\">", Hello.SiteMapPath[Hello.SiteMapPath.Count - 1], "</a>");

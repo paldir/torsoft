@@ -50,7 +50,7 @@ namespace czynsze.DataAccess
                         kod = Convert.ToInt16(record[0]);
 
                         using (Czynsze_Entities db = new Czynsze_Entities())
-                            if (db.groupsOfRentComponents.Count(a => a.kod == kod) != 0)
+                            if (db.groupsOfRentComponents.Any(a => a.kod == kod))
                                 result += "Istnieje już grupa składników czynszu o podanym kodzie! <br />";
                     }
                     catch { result += "Kod grupy składników czynszu musi być liczbą całkowitą! <br />"; }

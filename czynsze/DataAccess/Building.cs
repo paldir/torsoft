@@ -79,7 +79,7 @@ namespace czynsze.DataAccess
                         id = Convert.ToInt16(record[0]);
 
                         using (Czynsze_Entities db = new Czynsze_Entities())
-                            if (db.buildings.Count(b => b.kod_1 == id) != 0)
+                            if (db.buildings.Any(b => b.kod_1 == id))
                                 result += "Kod budynku jest już używany! <br />";
                     }
                     catch { result += "Kod budynku musi być liczbą całkowitą! <br />"; }
@@ -106,7 +106,7 @@ namespace czynsze.DataAccess
                 id = Convert.ToInt16(record[0]);
 
                 using (Czynsze_Entities db = new Czynsze_Entities())
-                    if (db.places.Count(p => p.kod_lok == id) > 0)
+                    if (db.places.Any(p => p.kod_lok == id))
                         result += "Nie można usunąć budynku, w którym znajdują się lokale! <br />";
             }
 

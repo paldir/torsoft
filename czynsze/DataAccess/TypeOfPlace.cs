@@ -65,7 +65,7 @@ namespace czynsze.DataAccess
                         kod_typ = Convert.ToInt16(record[0]);
 
                         using (Czynsze_Entities db = new Czynsze_Entities())
-                            if (db.typesOfPlace.Count(t => t.kod_typ == kod_typ) != 0)
+                            if (db.typesOfPlace.Any(t => t.kod_typ == kod_typ))
                                 result += "Istnieje już typ lokali o podanym kodzie! <br />";
                     }
                     catch { result += "Kod typu lokali musi być liczbą całkowitą! <br />"; }
@@ -79,7 +79,7 @@ namespace czynsze.DataAccess
                 kod_typ = Convert.ToInt16(record[0]);
 
                 using (Czynsze_Entities db = new Czynsze_Entities())
-                    if (db.places.Count(p => p.kod_typ == kod_typ) > 0)
+                    if (db.places.Any(p => p.kod_typ == kod_typ))
                         result += "Nie można usunąć typu lokali, jeśli jest on używany! <br />";
             }
 

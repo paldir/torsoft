@@ -70,7 +70,7 @@ namespace czynsze.Forms
                     month = GetParamValue<int>("month");
                     day = GetParamValue<int>("day");
                     
-                    if (db.receivablesFrom1stSet.ToList().Count(receivablesFromCurrentMonth) > 0 || db.receivablesFrom2ndSet.Count(receivablesFromCurrentMonth) > 0 || db.receivablesFrom3rdSet.Count(receivablesFromCurrentMonth) > 0)
+                    if (db.receivablesFrom1stSet.ToList().Any(receivablesFromCurrentMonth) || db.receivablesFrom2ndSet.Any(receivablesFromCurrentMonth) || db.receivablesFrom3rdSet.Any(receivablesFromCurrentMonth))
                     {
                         placeOfGeneration.Controls.Add(new LiteralControl("Generacja była już wykonana. Czy chcesz powtórzyć?<br />"));
                         placeOfGeneration.Controls.Add(new MyControls.Button("button", "yesRepeat", "Tak", String.Empty));

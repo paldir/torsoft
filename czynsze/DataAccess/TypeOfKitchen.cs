@@ -65,7 +65,7 @@ namespace czynsze.DataAccess
                         kod_kuch = Convert.ToInt16(record[0]);
 
                         using (Czynsze_Entities db = new Czynsze_Entities())
-                            if (db.typesOfKitchen.Count(t => t.kod_kuch == kod_kuch) != 0)
+                            if (db.typesOfKitchen.Any(t => t.kod_kuch == kod_kuch))
                                 result += "Istnieje już rodzaj kuchni o podanym kodzie! <br />";
                     }
                     catch { result += "Kod rodzaju kuchni musi być liczbą całkowitą! <br />"; }
@@ -79,7 +79,7 @@ namespace czynsze.DataAccess
                 kod_kuch = Convert.ToInt16(record[0]);
 
                 using (Czynsze_Entities db = new Czynsze_Entities())
-                    if (db.places.Count(p => p.kod_kuch == kod_kuch) > 0)
+                    if (db.places.Any(p => p.kod_kuch == kod_kuch))
                         result += "Nie można usunąć rodzaju kuchni, jeśli jest on używany! <br />";
             }
 

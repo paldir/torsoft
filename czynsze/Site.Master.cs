@@ -23,7 +23,7 @@ namespace czynsze
             foreach (string siteMapNode in Forms.Hello.SiteMapPath)
                 placeOfSiteMapPath.InnerHtml += siteMapNode + " > ";
 
-            if (Forms.Hello.SiteMapPath.Count > 0)
+            if (Forms.Hello.SiteMapPath.Any())
                 placeOfSiteMapPath.InnerHtml = placeOfSiteMapPath.InnerHtml.Remove(placeOfSiteMapPath.InnerHtml.Length - 3);
 
             placeOfSelectedDate.InnerHtml = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[Forms.Hello.Date.Month - 1].ToString() + " " + Forms.Hello.Date.Year.ToString();

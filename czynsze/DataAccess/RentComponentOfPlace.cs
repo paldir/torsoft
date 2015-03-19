@@ -173,7 +173,7 @@ namespace czynsze.DataAccess
             {
                 case Enums.Action.Dodaj:
                     using (Czynsze_Entities db = new Czynsze_Entities())
-                        if (db.rentComponentsOfPlaces.ToList().Count(c => c.kod_lok == Convert.ToInt16(record[0]) && c.nr_lok == Convert.ToInt16(record[1]) && c.nr_skl == Convert.ToInt16(record[2])) > 0)
+                        if (db.rentComponentsOfPlaces.ToList().Any(c => c.kod_lok == Convert.ToInt16(record[0]) && c.nr_lok == Convert.ToInt16(record[1]) && c.nr_skl == Convert.ToInt16(record[2])))
                             return false;
 
                     break;

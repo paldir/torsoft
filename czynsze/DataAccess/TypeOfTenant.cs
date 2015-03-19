@@ -65,7 +65,7 @@ namespace czynsze.DataAccess
                         kod_najem = Convert.ToInt16(record[0]);
 
                         using (Czynsze_Entities db = new Czynsze_Entities())
-                            if (db.typesOfTenant.Count(t => t.kod_najem == kod_najem) != 0)
+                            if (db.typesOfTenant.Any(t => t.kod_najem == kod_najem))
                                 result += "Istnieje już rodzaj najemców o podanym kodzie! <br />";
                     }
                     catch { result += "Kod rodzaju najemców musi być liczbą całkowitą! <br />"; }
@@ -79,7 +79,7 @@ namespace czynsze.DataAccess
                 kod_najem = Convert.ToInt16(record[0]);
 
                 using (Czynsze_Entities db = new Czynsze_Entities())
-                    if (db.tenants.Count(t => t.kod_najem == kod_najem) > 0)
+                    if (db.tenants.Any(t => t.kod_najem == kod_najem))
                         result += "Nie można usunąć rodzaju najemców, jeśli jest on używany! <br />";
             }
 

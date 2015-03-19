@@ -141,7 +141,7 @@ namespace czynsze.DataAccess
                         kod = Convert.ToInt16(record[0]);
 
                         using (Czynsze_Entities db = new Czynsze_Entities())
-                            if (db.attributes.Count(a => a.kod == kod) != 0)
+                            if (db.attributes.Any(a => a.kod == kod))
                                 result += "Istnieje już cecha obiektów o podanym kodzie! <br />";
                     }
                     catch { result += "Kod cechy obiektów musi być liczbą całkowitą! <br />"; }

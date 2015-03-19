@@ -55,7 +55,7 @@ namespace czynsze.DataAccess
                         kod = Convert.ToInt16(record[0]);
 
                         using (Czynsze_Entities db = new Czynsze_Entities())
-                            if (db.financialGroups.Count(t => t.kod == kod) != 0)
+                            if (db.financialGroups.Any(t => t.kod == kod))
                                 result += "Istnieje już grupa finansowa o podanym kodzie! <br />";
                     }
                     catch { result += "Kod grupy finansowej musi być liczbą całkowitą! <br />"; }

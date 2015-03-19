@@ -65,7 +65,7 @@ namespace czynsze.DataAccess
                         kod_praw = Convert.ToInt16(record[0]);
 
                         using (Czynsze_Entities db = new Czynsze_Entities())
-                            if (db.titles.Count(t => t.kod_praw == kod_praw) != 0)
+                            if (db.titles.Any(t => t.kod_praw == kod_praw))
                                 result += "Istnieje już tytuł prawny do lokali o podanym kodzie! <br />";
                     }
                     catch { result += "Kod tytułu prawnego do lokali musi być liczbą całkowitą! <br />"; }
@@ -79,7 +79,7 @@ namespace czynsze.DataAccess
                 kod_praw = Convert.ToInt16(record[0]);
 
                 using (Czynsze_Entities db = new Czynsze_Entities())
-                    if (db.places.Count(t => t.kod_praw == kod_praw) > 0)
+                    if (db.places.Any(t => t.kod_praw == kod_praw))
                         result += "Nie można usunąć tytułu prawnego do lokali, jeśli jest on używany! <br />";
             }
 
