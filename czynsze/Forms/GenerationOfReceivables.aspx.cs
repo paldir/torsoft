@@ -184,8 +184,19 @@ namespace czynsze.Forms
                                     break;
                             }
 
-                            receivableFrom1stSet.Set(ilosc * stawka, new DateTime(year, month, day), rentComponent.nazwa.Trim() + " za m-c x", (int)place.nr_kontr, rentComponent.nr_skl, place.kod_lok, place.nr_lok, stawka, ilosc);
-                            db.receivablesFrom1stSet.Add(receivableFrom1stSet);
+                            IEnumerable<DateTime?> properStartsOfDates = new List<DateTime?>() { place.dat_od, rentComponentOfPlace.dat_od, rentComponent.data_1 }.Where(d => d.HasValue);
+                            IEnumerable<DateTime?> properEndsOfDates = new List<DateTime?>() { place.dat_do, rentComponentOfPlace.dat_do, rentComponent.data_2 }.Where(d => d.HasValue);
+                            DateTime? startDate = new DateTime(Hello.Date.Year, Hello.Date.Month, 1);
+                            DateTime? endDate = new DateTime(Hello.Date.Year, Hello.Date.Month, daysInMonth);
+
+                            if (properStartsOfDates.Any())
+                                startDate = properStartsOfDates.Max();
+
+                            if (properEndsOfDates.Any())
+                                endDate = properEndsOfDates.Min();
+
+                            //receivableFrom1stSet.Set(ilosc * stawka, new DateTime(year, month, day), rentComponent.nazwa.Trim() + " za m-c x", (int)place.nr_kontr, rentComponent.nr_skl, place.kod_lok, place.nr_lok, stawka, ilosc);
+                            //db.receivablesFrom1stSet.Add(receivableFrom1stSet);
                         }
 
                     db.SaveChanges();
