@@ -9,7 +9,7 @@ namespace czynsze
     {
         public enum Action
         {
-            Dodaj,
+            Dodaj = 1,
             Edytuj,
             Usuń,
             Przeglądaj,

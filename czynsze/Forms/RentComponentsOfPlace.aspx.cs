@@ -29,13 +29,13 @@ namespace czynsze.Forms
             List<int> componentsWithAmount = new List<int>();
             DataAccess.RentComponentOfPlace currentRentComponent = null;
 
-            if (id != -1)
+            if (id != 0)
                 currentRentComponent = rentComponentsOfPlace.ElementAt(id - 1);
 
             using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                 allComponentsWithAmount = db.rentComponents.Where(c => c.s_zaplat == 2).Select(c => c.nr_skl).ToList();
 
-            if ((int)childAction != -1)
+            if ((int)childAction != 0)
             {
                 string[] record = new string[]
                 {
@@ -87,7 +87,7 @@ namespace czynsze.Forms
             form.Controls.Add(new MyControls.HtmlInputHidden("kod_lok", kod_lok.ToString()));
             form.Controls.Add(new MyControls.HtmlInputHidden("nr_lok", nr_lok.ToString()));
 
-            if (window == "-1")
+            if (window == null)
                 switch (parentAction)
                 {
                     case Enums.Action.Dodaj:

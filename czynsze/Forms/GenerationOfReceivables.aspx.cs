@@ -184,18 +184,39 @@ namespace czynsze.Forms
                                     break;
                             }
 
-                            IEnumerable<DateTime?> properStartsOfDates = new List<DateTime?>() { place.dat_od, rentComponentOfPlace.dat_od, rentComponent.data_1 }.Where(d => d.HasValue);
-                            IEnumerable<DateTime?> properEndsOfDates = new List<DateTime?>() { place.dat_do, rentComponentOfPlace.dat_do, rentComponent.data_2 }.Where(d => d.HasValue);
-                            DateTime? startDate = new DateTime(Hello.Date.Year, Hello.Date.Month, 1);
-                            DateTime? endDate = new DateTime(Hello.Date.Year, Hello.Date.Month, daysInMonth);
+                            //IEnumerable<DateTime> properStartsOfDates = new List<DateTime?>() { place.dat_od, rentComponentOfPlace.dat_od, rentComponent.data_1 }.Where(d => d.HasValue).Cast<DateTime>();
+                            //IEnumerable<DateTime> properEndsOfDates = new List<DateTime?>() { place.dat_do, rentComponentOfPlace.dat_do, rentComponent.data_2 }.Where(d => d.HasValue).Cast<DateTime>();
+                            IEnumerable<DateTime> properStartsOfDates = new List<DateTime>() { new DateTime(2014, 1, 1), new DateTime(2015, 2, 5), new DateTime(2016, 3, 18) };
+                            IEnumerable<DateTime> properEndsOfDates = new List<DateTime>() { new DateTime(2014, 12, 3), new DateTime(2015, 9, 12), new DateTime(2016, 3, 20) };
+                            DateTime monthBeggining = new DateTime(Hello.Date.Year, Hello.Date.Month, 1);
+                            DateTime monthEnd = new DateTime(Hello.Date.Year, Hello.Date.Month, daysInMonth);
+                            int dayFactor = daysInMonth;
+                            DateTime? startDate = properStartsOfDates.Any() ? (DateTime?)properStartsOfDates.Max() : null;
+                            DateTime? endDate = properEndsOfDates.Any() ? (DateTime?)properEndsOfDates.Min() : null;
 
-                            if (properStartsOfDates.Any())
-                                startDate = properStartsOfDates.Max();
+                            if (startDate.HasValue && endDate.HasValue && startDate > endDate)
+                                dayFactor = 0;
+                            else
+                            {
+                                if (startDate.HasValue)
+                                    if (startDate > monthEnd)
+                                        dayFactor = 0;
+                                    else
+                                        if (startDate >= monthBeggining)
+                                            dayFactor -= ((DateTime)startDate - monthBeggining).Days;
 
-                            if (properEndsOfDates.Any())
-                                endDate = properEndsOfDates.Min();
+                                if (dayFactor != 0 && endDate.HasValue)
+                                    if (endDate < monthBeggining)
+                                        dayFactor = 0;
+                                    else
+                                        if (endDate <= monthEnd)
+                                            dayFactor -= (monthEnd - (DateTime)endDate).Days;
+                            }
 
-                            //receivableFrom1stSet.Set(ilosc * stawka, new DateTime(year, month, day), rentComponent.nazwa.Trim() + " za m-c x", (int)place.nr_kontr, rentComponent.nr_skl, place.kod_lok, place.nr_lok, stawka, ilosc);
+                            float naleznosc = ilosc * stawka;
+                            float f = naleznosc * dayFactor / daysInMonth;
+
+                            //receivableFrom1stSet.Set(ilosc * stawka * dayFactor / daysInMonth, new DateTime(year, month, day), rentComponent.nazwa.Trim() + " za m-c x", (int)place.nr_kontr, rentComponent.nr_skl, place.kod_lok, place.nr_lok, stawka, ilosc);
                             //db.receivablesFrom1stSet.Add(receivableFrom1stSet);
                         }
 
