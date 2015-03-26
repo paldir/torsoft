@@ -22,5 +22,13 @@ namespace czynsze.Forms
             user.InnerText = Session["user"].ToString();
             month.InnerText = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[Date.Month - 1].ToString() + " " + Date.Year.ToString();
         }
+
+        public static string ExceptionMessage(Exception exception)
+        {
+            if (exception == null)
+                return String.Empty;
+            else
+                return String.Format("{0}<br />{1}", exception.Message, ExceptionMessage(exception.InnerException));
+        }
     }
 }

@@ -16,18 +16,45 @@ namespace czynsze.Forms
             get { return (int)ViewState["year"]; }
             set { ViewState["year"] = value; }
         }
-        
+
         int month
         {
             get { return (int)ViewState["month"]; }
             set { ViewState["month"] = value; }
         }
-        
+
         int day
         {
             get { return (int)ViewState["day"]; }
             set { ViewState["day"] = value; }
         }
+
+        int fromBuilding
+        {
+            get { return (int)ViewState["fromBuilding"]; }
+            set { ViewState["fromBuilding"] = value; }
+        }
+
+        int fromPlace
+        {
+            get { return (int)ViewState["fromPlace"]; }
+            set { ViewState["fromPlace"] = value; }
+        }
+
+        int toBuilding
+        {
+            get { return (int)ViewState["toBuilding"]; }
+            set { ViewState["toBuilding"] = value; }
+        }
+
+        int toPlace
+        {
+            get { return (int)ViewState["toPlace"]; }
+            set { ViewState["toPlace"] = value; }
+        }
+
+        public static int ProgressOfProcessingOfReceivables { get; private set; }
+        public static string ErrorOfProcessingOfReceivables { get; private set; }
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -37,6 +64,8 @@ namespace czynsze.Forms
 
             using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
             {
+                Func<DataAccess.Receivable, bool> receivablesFromRangeOfPlaces = r => r.kod_lok >= fromBuilding && r.kod_lok <= toBuilding && r.nr_lok >= fromPlace && r.nr_lok <= toPlace;
+
                 if (String.IsNullOrEmpty(generationMode))
                     if (db.completed.ToList().Exists(c => c.rok == Hello.Date.Year && c.miesiac == Hello.Date.Month && c.z_rok && c.z_mies))
                         form.Controls.Add(new LiteralControl("Miesiąc został już zamknięty."));
@@ -63,14 +92,61 @@ namespace czynsze.Forms
                         placeOfGeneration.Controls.Add(new MyControls.Button("button", "allGeneration", "Generacja całego zestawienia", String.Empty));
                         placeOfGeneration.Controls.Add(new LiteralControl("<br />"));
                         placeOfGeneration.Controls.Add(new MyControls.Button("button", "fromToGeneration", "Generacja od-do żądanego lokalu", String.Empty));
+                        placeOfGeneration.Controls.Add(new LiteralControl("<br />"));
+                        placeOfGeneration.Controls.Add(new MyControls.Label("label", "fromBuilding", "Numer budynku pierwszego lokalu: ", String.Empty));
+                        placeOfGeneration.Controls.Add(new MyControls.TextBox("field", "fromBuilding", db.places.Min(p => p.kod_lok).ToString(), MyControls.TextBox.TextBoxMode.Number, 5, 1, true));
+                        placeOfGeneration.Controls.Add(new MyControls.Label("label", "fromPlace", " Numer pierwszego lokalu: ", String.Empty));
+                        placeOfGeneration.Controls.Add(new MyControls.TextBox("field", "fromPlace", db.places.Min(p => p.nr_lok).ToString(), MyControls.TextBox.TextBoxMode.Number, 3, 1, true));
+                        placeOfGeneration.Controls.Add(new LiteralControl("<br />"));
+                        placeOfGeneration.Controls.Add(new MyControls.Label("label", "toBuilding", "Numer budynku ostatniego lokalu: ", String.Empty));
+                        placeOfGeneration.Controls.Add(new MyControls.TextBox("field", "toBuilding", db.places.Max(p => p.kod_lok).ToString(), MyControls.TextBox.TextBoxMode.Number, 5, 1, true));
+                        placeOfGeneration.Controls.Add(new MyControls.Label("label", "toPlace", " Numer ostatniego lokalu: ", String.Empty));
+                        placeOfGeneration.Controls.Add(new MyControls.TextBox("field", "toPlace", db.places.Max(p => p.nr_lok).ToString(), MyControls.TextBox.TextBoxMode.Number, 3, 1, true));
                     }
                 else
                 {
                     year = GetParamValue<int>("year");
                     month = GetParamValue<int>("month");
                     day = GetParamValue<int>("day");
-                    
-                    if (db.receivablesFrom1stSet.ToList().Any(receivablesFromCurrentMonth) || db.receivablesFrom2ndSet.Any(receivablesFromCurrentMonth) || db.receivablesFrom3rdSet.Any(receivablesFromCurrentMonth))
+                    IEnumerable<DataAccess.ReceivableFrom1stSet> receivablesFrom1stSet;
+                    IEnumerable<DataAccess.ReceivableFrom2ndSet> receivablesFrom2ndSet;
+                    IEnumerable<DataAccess.ReceivableFrom3rdSet> receivablesFrom3rdSet;
+
+                    if (generationMode.Contains("od-do"))
+                    {
+                        fromBuilding = GetParamValue<int>("fromBuilding");
+                        fromPlace = GetParamValue<int>("fromPlace");
+                        toBuilding = GetParamValue<int>("toBuilding");
+                        toPlace = GetParamValue<int>("toPlace");
+
+                        if (fromBuilding > toBuilding)
+                        {
+                            fromBuilding = db.places.Min(p => p.kod_lok);
+                            toBuilding = db.places.Max(p => p.kod_lok);
+                        }
+
+                        if (fromPlace > toPlace)
+                        {
+                            fromPlace = db.places.Min(p => p.nr_lok);
+                            toPlace = db.places.Max(p => p.nr_lok);
+                        }
+
+                        receivablesFrom1stSet = db.receivablesFrom1stSet.Where(receivablesFromRangeOfPlaces).Cast<DataAccess.ReceivableFrom1stSet>();
+                        receivablesFrom2ndSet = db.receivablesFrom2ndSet.Where(receivablesFromRangeOfPlaces).Cast<DataAccess.ReceivableFrom2ndSet>();
+                        receivablesFrom3rdSet = db.receivablesFrom3rdSet.Where(receivablesFromRangeOfPlaces).Cast<DataAccess.ReceivableFrom3rdSet>();
+                    }
+                    else
+                    {
+                        fromBuilding = db.places.Min(p => p.kod_lok);
+                        toBuilding = db.places.Max(p => p.kod_lok);
+                        fromPlace = db.places.Min(p => p.nr_lok);
+                        toPlace = db.places.Max(p => p.nr_lok);
+                        receivablesFrom1stSet = db.receivablesFrom1stSet;
+                        receivablesFrom2ndSet = db.receivablesFrom2ndSet;
+                        receivablesFrom3rdSet = db.receivablesFrom3rdSet;
+                    }
+
+                    if (receivablesFrom1stSet.Any(receivablesFromCurrentMonth) || receivablesFrom2ndSet.Any(receivablesFromCurrentMonth) || receivablesFrom3rdSet.Any(receivablesFromCurrentMonth))
                     {
                         placeOfGeneration.Controls.Add(new LiteralControl("Generacja była już wykonana. Czy chcesz powtórzyć?<br />"));
                         placeOfGeneration.Controls.Add(new MyControls.Button("button", "yesRepeat", "Tak", String.Empty));
@@ -82,9 +158,32 @@ namespace czynsze.Forms
 
                 if (!String.IsNullOrEmpty(repeatGeneration))
                 {
-                    db.receivablesFrom1stSet.RemoveRange(db.receivablesFrom1stSet.Where(receivablesFromCurrentMonth).Cast<DataAccess.ReceivableFrom1stSet>());
+                    System.Threading.Thread thread = new System.Threading.Thread(() => Generate(fromBuilding, toBuilding, fromPlace, toPlace));
 
-                    foreach (DataAccess.ActivePlace place in new List<DataAccess.ActivePlace>() { db.places.FirstOrDefault(p => p.nr_kontr == 125) }/*db.places.ToList()*/)
+                    thread.Start();
+                    Response.Redirect("/Forms/ProgressOfGenerationOfReceivables.aspx");
+                }
+            }
+        }
+
+        void Generate(int fromBuilding, int toBuilding, int fromPlace, int toPlace)
+        {
+            int daysInMonth = DateTime.DaysInMonth(Hello.Date.Year, Hello.Date.Month);
+
+            try
+            {
+                using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                {
+                    List<DataAccess.ActivePlace> activePlaces = db.places.Where(p => p.kod_lok >= fromBuilding && p.kod_lok <= toBuilding && p.nr_lok >= fromPlace && p.nr_lok <= toPlace).ToList();
+                    int countOfActivePlaces = activePlaces.Count;
+
+                    db.receivablesFrom1stSet.RemoveRange(db.receivablesFrom1stSet.Where(receivablesFromCurrentMonth).Where(r => r.kod_lok >= fromBuilding && r.kod_lok <= toBuilding && r.nr_lok >= fromPlace && r.nr_lok <= toPlace).Cast<DataAccess.ReceivableFrom1stSet>());
+
+                    for (int i = 0; i < countOfActivePlaces; i++)
+                    {
+                        DataAccess.ActivePlace place = activePlaces[i];
+                        ProgressOfProcessingOfReceivables = i * 100 / countOfActivePlaces;
+
                         foreach (DataAccess.RentComponentOfPlace rentComponentOfPlace in db.rentComponentsOfPlaces.Where(c => c.kod_lok == place.kod_lok && c.nr_lok == place.nr_lok).ToList())
                         {
                             DataAccess.RentComponent rentComponent = db.rentComponents.FirstOrDefault(c => c.nr_skl == rentComponentOfPlace.nr_skl);
@@ -184,10 +283,10 @@ namespace czynsze.Forms
                                     break;
                             }
 
-                            //IEnumerable<DateTime> properStartsOfDates = new List<DateTime?>() { place.dat_od, rentComponentOfPlace.dat_od, rentComponent.data_1 }.Where(d => d.HasValue).Cast<DateTime>();
-                            //IEnumerable<DateTime> properEndsOfDates = new List<DateTime?>() { place.dat_do, rentComponentOfPlace.dat_do, rentComponent.data_2 }.Where(d => d.HasValue).Cast<DateTime>();
-                            IEnumerable<DateTime> properStartsOfDates = new List<DateTime>() { new DateTime(2014, 1, 1), new DateTime(2015, 2, 5), new DateTime(2016, 3, 18) };
-                            IEnumerable<DateTime> properEndsOfDates = new List<DateTime>() { new DateTime(2014, 12, 3), new DateTime(2015, 9, 12), new DateTime(2016, 3, 20) };
+                            IEnumerable<DateTime> properStartsOfDates = new List<DateTime?>() { place.dat_od, rentComponentOfPlace.dat_od, rentComponent.data_1 }.Where(d => d.HasValue).Cast<DateTime>();
+                            IEnumerable<DateTime> properEndsOfDates = new List<DateTime?>() { place.dat_do, rentComponentOfPlace.dat_do, rentComponent.data_2 }.Where(d => d.HasValue).Cast<DateTime>();
+                            //IEnumerable<DateTime> properStartsOfDates = new List<DateTime>() { new DateTime(2015, 1, 1), new DateTime(2015, 2, 5), new DateTime(2015, 2, 18) };
+                            //IEnumerable<DateTime> properEndsOfDates = new List<DateTime>() { new DateTime(2015, 12, 3), new DateTime(2015, 9, 12), new DateTime(2015, 4, 20) };
                             DateTime monthBeggining = new DateTime(Hello.Date.Year, Hello.Date.Month, 1);
                             DateTime monthEnd = new DateTime(Hello.Date.Year, Hello.Date.Month, daysInMonth);
                             int dayFactor = daysInMonth;
@@ -213,15 +312,22 @@ namespace czynsze.Forms
                                             dayFactor -= (monthEnd - (DateTime)endDate).Days;
                             }
 
-                            float naleznosc = ilosc * stawka;
-                            float f = naleznosc * dayFactor / daysInMonth;
-
-                            //receivableFrom1stSet.Set(ilosc * stawka * dayFactor / daysInMonth, new DateTime(year, month, day), rentComponent.nazwa.Trim() + " za m-c x", (int)place.nr_kontr, rentComponent.nr_skl, place.kod_lok, place.nr_lok, stawka, ilosc);
-                            //db.receivablesFrom1stSet.Add(receivableFrom1stSet);
+                            if (dayFactor != 0)
+                            {
+                                receivableFrom1stSet.Set(ilosc * stawka * dayFactor / daysInMonth, new DateTime(year, month, day), String.Format("{0} za m-c {1:00}", rentComponent.nazwa.Trim(), Hello.Date.Month), (int)place.nr_kontr, rentComponent.nr_skl, place.kod_lok, place.nr_lok, stawka, ilosc);
+                                db.receivablesFrom1stSet.Add(receivableFrom1stSet);
+                            }
                         }
+                    }
 
                     db.SaveChanges();
+
+                    ProgressOfProcessingOfReceivables = 100;
                 }
+            }
+            catch (Exception exception)
+            {
+                ErrorOfProcessingOfReceivables = Hello.ExceptionMessage(exception);
             }
         }
     }

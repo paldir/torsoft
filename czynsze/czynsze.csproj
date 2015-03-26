@@ -96,6 +96,7 @@
     <Content Include="Forms\Hello.aspx" />
     <Content Include="Forms\List.aspx" />
     <Content Include="Forms\Loading.aspx" />
+    <Content Include="Forms\ProgressOfGenerationOfReceivables.aspx" />
     <Content Include="Forms\Record.aspx" />
     <Content Include="Forms\RecordValidation.aspx" />
     <Content Include="Forms\RentComponentsOfPlace.aspx" />
@@ -141,6 +142,13 @@
     </Compile>
     <Compile Include="Forms\GenerationOfReceivables.aspx.designer.cs">
       <DependentUpon>GenerationOfReceivables.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ProgressOfGenerationOfReceivables.aspx.cs">
+      <DependentUpon>ProgressOfGenerationOfReceivables.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Forms\ProgressOfGenerationOfReceivables.aspx.designer.cs">
+      <DependentUpon>ProgressOfGenerationOfReceivables.aspx</DependentUpon>
     </Compile>
     <Compile Include="Forms\RentComponentsOfPlace.aspx.cs">
       <DependentUpon>RentComponentsOfPlace.aspx</DependentUpon>
