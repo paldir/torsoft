@@ -23,13 +23,12 @@ namespace czynsze.Forms
                 timer.Enabled = false;
                 string message;
 
-                info.Controls.Clear();
-
                 if (GenerationOfReceivables.ProgressOfProcessingOfReceivables == 100)
                     message = "Generacja należności zakończona pomyślnie.";
                 else
                     message = String.Format("{0}<br />Prosimy o kontakt z firmą. ", GenerationOfReceivables.ErrorOfProcessingOfReceivables);
 
+                info.Controls.Clear();
                 info.Controls.Add(new LiteralControl(String.Format("{0}<br />", message)));
                 info.Controls.Add(new MyControls.Button("button", "back", "Powrót do aplikacji", "Hello.aspx"));
                 updatePanel.Update();

@@ -13,6 +13,19 @@ namespace czynsze.Forms
     {
         Enums.Table table;
 
+        /*List<string[]> rows
+        {
+            get
+            {
+                if (ViewState["rows"] == null)
+                    return new List<string[]>();
+                else
+                    return (List<string[]>)ViewState["rows"];
+            }
+
+            set { ViewState["rows"] = value; }
+        }*/
+
         List<string[]> rows
         {
             get
@@ -149,6 +162,7 @@ namespace czynsze.Forms
                         headers = new string[] { "Kod budynku", "Numer lokalu", "Typ lokalu", "Powierzchnia użytkowa", "Nazwisko", "Imię" };
                         indexesOfNumericColumns = new List<int>() { 1, 2, 4 };
                         IEnumerable<DataAccess.Place> places = null;
+                        DataAccess.Place.TypesOfPlace = db.typesOfPlace.ToList();
 
                         placeOfMainTableButtons.Controls.Add(new MyControls.Button("mainTableButton", "moveaction", "Przenieś", postBackUrl));
 
@@ -182,7 +196,7 @@ namespace czynsze.Forms
                         }
 
                         if (places != null)
-                            rows = places.OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok).Select(p => p.ImportantFields()).ToList();
+                            rows = places/*.OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok)*/.Select(p => p.ImportantFields()).ToList();
 
                         break;
 
@@ -695,7 +709,7 @@ namespace czynsze.Forms
 
         void CreateMainTable()
         {
-            MyControls.Table mainTable = new MyControls.Table("mainTable", rows, headers, sortable, String.Empty, indexesOfNumericColumns, indexesOfColumnsWithSummary);
+            MyControls.Table mainTable = new MyControls.Table("mainTable", rows.ToList(), headers, sortable, String.Empty, indexesOfNumericColumns, indexesOfColumnsWithSummary);
 
             if (sortable)
                 foreach (TableCell cell in mainTable.Rows[0].Cells)

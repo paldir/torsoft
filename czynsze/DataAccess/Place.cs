@@ -61,17 +61,16 @@ namespace czynsze.DataAccess
 
         public abstract string uwagi_4 { get; set; }
 
+        public static List<TypeOfPlace> TypesOfPlace { get; set; }
+
         public string[] ImportantFields()
         {
             string kod_typ = String.Empty;
 
-            using (Czynsze_Entities db = new Czynsze_Entities())
-            {
-                TypeOfPlace typeOfPlace = db.typesOfPlace.Where(t => t.kod_typ == this.kod_typ).FirstOrDefault();
+            TypeOfPlace typeOfPlace = TypesOfPlace.FirstOrDefault(t => t.kod_typ == this.kod_typ);
 
-                if (typeOfPlace != null)
-                    kod_typ = typeOfPlace.typ_lok;
-            }
+            if (typeOfPlace != null)
+                kod_typ = typeOfPlace.typ_lok;
 
             return new string[] 
             { 

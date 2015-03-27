@@ -11,7 +11,7 @@ namespace czynsze.MyControls
 {
     public class Table : System.Web.UI.WebControls.Table
     {
-        public Table(string cSSClass, List<string[]> rows, string[] headerRow, bool sortable, string prefix, List<int> indexesOfNumericColumns, List<int> indexesOfColumnsWithSummary)
+        public Table(string cSSClass, IList<string[]> rows, string[] headerRow, bool sortable, string prefix, List<int> indexesOfNumericColumns, List<int> indexesOfColumnsWithSummary)
         {
             float[] widthsOfColumns = new float[headerRow.Length];
             Bitmap bitMap = new Bitmap(500, 200);
