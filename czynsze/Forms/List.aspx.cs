@@ -13,19 +13,6 @@ namespace czynsze.Forms
     {
         Enums.Table table;
 
-        /*List<string[]> rows
-        {
-            get
-            {
-                if (ViewState["rows"] == null)
-                    return new List<string[]>();
-                else
-                    return (List<string[]>)ViewState["rows"];
-            }
-
-            set { ViewState["rows"] = value; }
-        }*/
-
         List<string[]> rows
         {
             get
@@ -162,7 +149,6 @@ namespace czynsze.Forms
                         headers = new string[] { "Kod budynku", "Numer lokalu", "Typ lokalu", "Powierzchnia użytkowa", "Nazwisko", "Imię" };
                         indexesOfNumericColumns = new List<int>() { 1, 2, 4 };
                         IEnumerable<DataAccess.Place> places = null;
-                        DataAccess.Place.TypesOfPlace = db.typesOfPlace.ToList();
 
                         placeOfMainTableButtons.Controls.Add(new MyControls.Button("mainTableButton", "moveaction", "Przenieś", postBackUrl));
 
@@ -171,15 +157,15 @@ namespace czynsze.Forms
                             case Enums.Table.Places:
                                 heading += " (aktywne)";
                                 subMenu = new List<string[]>()
-                            {
-                                new string[]
                                 {
-                                    "Wydruki",
-                                    "<a href='ReportConfiguration.aspx?"+Enums.Report.PlacesInEachBuilding+"report=#'>Lokale w budynkach</a>",
-                                    "<a href='#'>Kolejny wydruk</a>",
-                                    "<a href='#'>I jeszcze jeden</a>"
-                                }
-                            };
+                                    new string[]
+                                    {
+                                        "Wydruki",
+                                        "<a href='ReportConfiguration.aspx?"+Enums.Report.PlacesInEachBuilding+"report=#'>Lokale w budynkach</a>",
+                                        "<a href='#'>Kolejny wydruk</a>",
+                                        "<a href='#'>I jeszcze jeden</a>"
+                                    }
+                                };
 
                                 if (!IsPostBack)
                                     places = db.places.ToList().Cast<DataAccess.Place>();
@@ -196,7 +182,11 @@ namespace czynsze.Forms
                         }
 
                         if (places != null)
-                            rows = places/*.OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok)*/.Select(p => p.ImportantFields()).ToList();
+                        {
+                            DataAccess.Place.TypesOfPlace = db.typesOfPlace.ToList();
+                            rows = places.OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok).Select(p => p.ImportantFields()).ToList();
+                            DataAccess.Place.TypesOfPlace = null;
+                        }
 
                         break;
 
@@ -357,23 +347,27 @@ namespace czynsze.Forms
                         sortable = false;
                         indexesOfNumericColumns = new List<int>() { 3, 4 };
                         subMenu = new List<string[]>()
-                    {
-                        new string[]
                         {
-                            "Należności",
-                            "<a href=\"javascript: Redirect('List.aspx?table=AllReceivablesOfTenant')\">Wszystkie</a>",
-                            "<a href=\"javascript: Redirect('List.aspx?table=NotPastReceivablesOfTenant')\">Nieprzeterminowane</a>"
-                        },
-                        new string[]
-                        {
-                            "Rozliczenia",
-                            "<a href=\"javascript: Redirect('List.aspx?table=ReceivablesAndTurnoversOfTenant')\">Należności i obroty</a>",
-                            "<a href='#'>Zaległości płatnicze</a>",
-                        }
-                    };
+                            new string[]
+                            {
+                                "Należności",
+                                "<a href=\"javascript: Redirect('List.aspx?table=AllReceivablesOfTenant')\">Wszystkie</a>",
+                                "<a href=\"javascript: Redirect('List.aspx?table=NotPastReceivablesOfTenant')\">Nieprzeterminowane</a>"
+                            },
+                            new string[]
+                            {
+                                "Rozliczenia",
+                                "<a href=\"javascript: Redirect('List.aspx?table=ReceivablesAndTurnoversOfTenant')\">Należności i obroty</a>",
+                                "<a href='#'>Zaległości płatnicze</a>",
+                            }
+                        };
 
                         if (!IsPostBack)
+                        {
+                            DataAccess.Tenant.Places = db.places.ToList();
                             rows = db.tenants.OrderBy(t => t.nazwisko).ThenBy(t => t.imie).ToList().Select(t => t.WithPlace()).ToList();
+                            DataAccess.Tenant.Places = null;
+                        }
 
                         MyControls.RadioButtonList list = new MyControls.RadioButtonList("list", "by", new List<string> { "wg nazwiska", "wg kodu lokalu" }, new List<string> { "nazwisko", "kod" }, "nazwisko", true, true);
                         list.SelectedIndexChanged += list_SelectedIndexChanged;
@@ -450,42 +444,42 @@ namespace czynsze.Forms
                             List<string[]> rowsOfPastReceivables = receivables.Where(r => r.data_nal < Hello.Date).Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).Concat(turnovers.Where(t => t.data_obr < Hello.Date).Select(t => t.ImportantFieldsForReceivablesAndTurnoversOfTenant())).ToList();
                             float wnAmountOfPastReceivables = rowsOfPastReceivables.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToSingle(r[1]));
                             summary = @"
-                            <table class='additionalTable'>
-                                <tr>
-                                    <td>Suma Wn: </td>
-                                    <td class='numericTableCell'>" + String.Format("{0:N2}", wnAmount) + @"</td>                                                                        
-                                </tr>
-                                <tr>
-                                    <td>Suma Ma: </td>
-                                    <td class='numericTableCell'>" + String.Format("{0:N2}", maAmount) + @"</td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td><hr /></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td class='numericTableCell'>" + String.Format("{0:N2}", maAmount - wnAmount) + @"</td>
-                                </tr>
-                            </table>
-                            <table class='additionalTable'>
-                                <tr>
-                                    <td>Należności przeterminowane: </td>
-                                    <td class='numericTableCell'>" + String.Format("{0:N2}", wnAmountOfPastReceivables) + @"</td>                                                                        
-                                </tr>
-                                <tr>
-                                    <td>Suma Ma: </td>
-                                    <td class='numericTableCell'>" + String.Format("{0:N2}", maAmount) + @"</td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td><hr /></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td class='numericTableCell'>" + String.Format("{0:N2}", maAmount - wnAmountOfPastReceivables) + @"</td>
-                                </tr>
-                            </table>";
+                                <table class='additionalTable'>
+                                    <tr>
+                                        <td>Suma Wn: </td>
+                                        <td class='numericTableCell'>" + String.Format("{0:N2}", wnAmount) + @"</td>                                                                        
+                                    </tr>
+                                    <tr>
+                                        <td>Suma Ma: </td>
+                                        <td class='numericTableCell'>" + String.Format("{0:N2}", maAmount) + @"</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td><hr /></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td class='numericTableCell'>" + String.Format("{0:N2}", maAmount - wnAmount) + @"</td>
+                                    </tr>
+                                </table>
+                                <table class='additionalTable'>
+                                    <tr>
+                                        <td>Należności przeterminowane: </td>
+                                        <td class='numericTableCell'>" + String.Format("{0:N2}", wnAmountOfPastReceivables) + @"</td>                                                                        
+                                    </tr>
+                                    <tr>
+                                        <td>Suma Ma: </td>
+                                        <td class='numericTableCell'>" + String.Format("{0:N2}", maAmount) + @"</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td><hr /></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td class='numericTableCell'>" + String.Format("{0:N2}", maAmount - wnAmountOfPastReceivables) + @"</td>
+                                    </tr>
+                                </table>";
                         }
 
                         placeUnderMainTable.Controls.Add(new LiteralControl(summary));

@@ -33,6 +33,8 @@ namespace czynsze.DataAccess
 
         public abstract string uwagi_2 { get; set; }
 
+        public static List<ActivePlace> Places { get; set; }
+
         public string[] ImportantFields()
         {
             return new string[] 
@@ -110,9 +112,9 @@ namespace czynsze.DataAccess
             string nr;
             string lokal;
 
-            using (DataAccess.Czynsze_Entities db = new Czynsze_Entities())
+            //using (DataAccess.Czynsze_Entities db = new Czynsze_Entities())
             {
-                DataAccess.Place place = db.places.FirstOrDefault(p => p.nr_kontr == nr_kontr);
+                DataAccess.Place place = Places.FirstOrDefault(p => p.nr_kontr == nr_kontr);
 
                 if (place == null)
                     kod = nr = lokal = "0";
