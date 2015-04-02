@@ -153,5 +153,15 @@ namespace czynsze.DataAccess
 
             return result;
         }
+
+        public string[] ImportantFieldsForDropdown()
+        {
+            return new string[]
+            {
+                kod_wplat.ToString(),
+                kod_wplat.ToString(),
+                typ_wplat
+            };
+        }
     }
 }

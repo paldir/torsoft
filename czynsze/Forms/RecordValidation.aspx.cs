@@ -27,6 +27,12 @@ namespace czynsze.Forms
             set { Session["rentComponentsOfPlace"] = value; }
         }
 
+        List<DataAccess.CommunityBuilding> communityBuildings
+        {
+            get { return (List<DataAccess.CommunityBuilding>)Session["communityBuildings"]; }
+            set { Session["communityBuildings"] = value; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             string[] recordFields = null;
@@ -466,6 +472,16 @@ namespace czynsze.Forms
                                         //
 
                                         break;
+
+                                    case Enums.Table.Communities:
+                                        foreach(DataAccess.CommunityBuilding communityBuilding in communityBuildings)
+                                        {
+                                            communityBuilding.kod = Convert.ToInt32(recordFields[0]);
+
+                                            db.buildingsOfCommunities.Add(communityBuilding);
+                                        }
+
+                                        break;
                                 }
 
                                 break;
@@ -505,6 +521,17 @@ namespace czynsze.Forms
                                         //
 
                                         break;
+
+                                    case Enums.Table.Communities:
+                                        DataAccess.Community community = (DataAccess.Community)record;
+
+                                        foreach (DataAccess.CommunityBuilding communityBuilding in db.buildingsOfCommunities.Where(c => c.kod == community.kod))
+                                            db.buildingsOfCommunities.Remove(communityBuilding);
+
+                                        foreach (DataAccess.CommunityBuilding communityBuilding in communityBuildings)
+                                            db.buildingsOfCommunities.Add(communityBuilding);
+
+                                        break;
                                 }
 
                                 break;
@@ -533,6 +560,14 @@ namespace czynsze.Forms
                                         //
                                         // TO DUMP INTO UNDERDARK
                                         //
+
+                                        break;
+
+                                    case Enums.Table.Communities:
+                                        DataAccess.Community community = (DataAccess.Community)record;
+
+                                        foreach (DataAccess.CommunityBuilding communityBuilding in db.buildingsOfCommunities.Where(c => c.kod == community.kod))
+                                            db.buildingsOfCommunities.Remove(communityBuilding);
 
                                         break;
                                 }

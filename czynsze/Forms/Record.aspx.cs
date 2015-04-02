@@ -25,6 +25,12 @@ namespace czynsze.Forms
             set { Session["rentComponentsOfPlace"] = value; }
         }
 
+        List<DataAccess.CommunityBuilding> communityBuildings
+        {
+            get { return (List<DataAccess.CommunityBuilding>)Session["communityBuildings"]; }
+            set { Session["communityBuildings"] = value; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             bool globalEnabled = false;
@@ -576,9 +582,10 @@ namespace czynsze.Forms
                                 values = new string[numberOfFields];
 
                             attributesOfObject = new List<DataAccess.AttributeOfObject>();
+                            communityBuildings = new List<DataAccess.CommunityBuilding>();
 
-                            foreach (DataAccess.AttributeOfCommunity attributeOfCommunity in db.attributesOfCommunities.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == id))
-                                attributesOfObject.Add(attributeOfCommunity);
+                            attributesOfObject.AddRange(db.attributesOfCommunities.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == id));
+                            communityBuildings.AddRange(db.buildingsOfCommunities.Where(c => c.kod == id).OrderBy(b => b.kod_1));
                         }
 
                         preview = new List<Control>()
@@ -596,17 +603,20 @@ namespace czynsze.Forms
                         tabButtons = new List<MyControls.HtmlInputRadioButton>()
                         {
                             new MyControls.HtmlInputRadioButton("tabRadio", "dane", "tabRadios", "dane", true),
+                            new MyControls.HtmlInputRadioButton("tabRadio", "budynki", "tabRadios", "budynki", false),
                             new MyControls.HtmlInputRadioButton("tabRadio", "cechy", "tabRadios", "cechy", false),
                         };
 
                         labelsOfTabButtons = new List<MyControls.Label>()
                         {
                             new MyControls.Label("tabLabel", tabButtons.ElementAt(0).ID, "Dane", String.Empty),
-                            new MyControls.Label("tabLabel", tabButtons.ElementAt(1).ID, "Cechy", String.Empty),
+                            new MyControls.Label("tabLabel", tabButtons.ElementAt(1).ID, "Budynki", String.Empty),
+                            new MyControls.Label("tabLabel", tabButtons.ElementAt(2).ID, "Cechy", String.Empty),
                         };
 
                         tabs = new List<MyControls.HtmlIframe>()
                         {
+                            new MyControls.HtmlIframe("tab", "budynki_tab", "CommunityBuildings.aspx?kod="+id.ToString()+"&parentAction="+action.ToString(), "hidden"),
                             new MyControls.HtmlIframe("tab", "cechy_tab", "AttributeOfObject.aspx?attributeOf="+Enums.AttributeOf.Community+"&parentId="+id.ToString()+"&action="+action.ToString()+"&childAction=Przeglądaj", "hidden")
                         };
 
@@ -1035,7 +1045,8 @@ namespace czynsze.Forms
 
                         List<DataAccess.TypeOfPayment> typesOfPayment = db.typesOfPayment.ToList();
 
-                        controls.Add(new MyControls.RadioButtonList("field", "kod_wplat", typesOfPayment.Select(t => t.typ_wplat).ToList(), typesOfPayment.Select(t => t.kod_wplat.ToString()).ToList(), values[4], globalEnabled, false));
+                        //controls.Add(new MyControls.RadioButtonList("field", "kod_wplat", typesOfPayment.Select(t => t.typ_wplat).ToList(), typesOfPayment.Select(t => t.kod_wplat.ToString()).ToList(), values[4], globalEnabled, false));
+                        controls.Add(new MyControls.DropDownList("field", "kod_wplat", typesOfPayment.Select(t => t.ImportantFieldsForDropdown()).ToList(), values[4], globalEnabled, false));
                         controls.Add(new MyControls.TextBox("field", "nr_dowodu", values[5], MyControls.TextBox.TextBoxMode.SingleLine, 11, 1, globalEnabled));
                         controls.Add(new MyControls.TextBox("field", "pozycja_d", values[6], MyControls.TextBox.TextBoxMode.Number, 2, 1, globalEnabled));
                         controls.Add(new MyControls.TextBox("field", "uwagi", values[7], MyControls.TextBox.TextBoxMode.SingleLine, 40, 1, globalEnabled));

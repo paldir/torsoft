@@ -92,6 +92,7 @@
     <Content Include="Forms\AttributeOfObject.aspx" />
     <Content Include="Forms\ChangeDate.aspx" />
     <Content Include="Forms\ChangeSettlementTable.aspx" />
+    <Content Include="Forms\CommunityBuildings.aspx" />
     <Content Include="Forms\GenerationOfReceivables.aspx" />
     <Content Include="Forms\Hello.aspx" />
     <Content Include="Forms\List.aspx" />
@@ -108,6 +109,7 @@
     <Content Include="Images\waterMark.bmp" />
     <Content Include="Images\logo.png" />
     <Content Include="JavaScripts\AttributeOfObject.js" />
+    <Content Include="JavaScripts\CommunityBuildings.js" />
     <Content Include="JavaScripts\List.js" />
     <Content Include="JavaScripts\Record.js" />
     <Content Include="JavaScripts\RentComponentsOfPlace.js" />
@@ -135,7 +137,15 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\CommunityBuilding.cs" />
     <Compile Include="DataAccess\Completed.cs" />
+    <Compile Include="Forms\CommunityBuildings.aspx.cs">
+      <DependentUpon>CommunityBuildings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Forms\CommunityBuildings.aspx.designer.cs">
+      <DependentUpon>CommunityBuildings.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Forms\GenerationOfReceivables.aspx.cs">
       <DependentUpon>GenerationOfReceivables.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

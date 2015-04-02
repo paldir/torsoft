@@ -40,6 +40,7 @@ namespace czynsze.DataAccess
         public DbSet<ReceivableFrom3rdSet> receivablesFrom3rdSet { get; set; }
         public DbSet<TurnoverFrom3rdSet> turnoversFrom3rdSet { get; set; }
         public DbSet<Completed> completed { get; set; }
+        public DbSet<CommunityBuilding> buildingsOfCommunities { get; set; }
 
         public const string DateFormat = "{0:yyyy-MM-dd}";
         
