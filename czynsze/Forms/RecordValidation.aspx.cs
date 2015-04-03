@@ -67,7 +67,7 @@ namespace czynsze.Forms
 
             if (action != Enums.Action.Dodaj)
             {
-                //id = Convert.ToInt16(Request.Params[Request.Params.AllKeys.FirstOrDefault(t => t.EndsWith("id"))]);
+                //id = Convert.ToInt32(Request.Params[Request.Params.AllKeys.FirstOrDefault(t => t.EndsWith("id"))]);
                 id = GetParamValue<int>("id");
 
                 form.Controls.Add(new MyControls.HtmlInputHidden("id", id.ToString()));
@@ -457,8 +457,8 @@ namespace czynsze.Forms
                                     case Enums.Table.Places:
                                         foreach (DataAccess.RentComponentOfPlace rentComponentOfPlace in rentComponentsOfPlace)
                                         {
-                                            rentComponentOfPlace.kod_lok = Convert.ToInt16(recordFields[1]);
-                                            rentComponentOfPlace.nr_lok = Convert.ToInt16(recordFields[2]);
+                                            rentComponentOfPlace.kod_lok = Convert.ToInt32(recordFields[1]);
+                                            rentComponentOfPlace.nr_lok = Convert.ToInt32(recordFields[2]);
 
                                             db.rentComponentsOfPlaces.Add(rentComponentOfPlace);
                                         }

@@ -74,8 +74,8 @@ namespace czynsze.DataAccess
 
         public void Set(string[] record)
         {
-            nr_kontr = Convert.ToInt16(record[0]);
-            kod_najem = Convert.ToInt16(record[1]);
+            nr_kontr = Convert.ToInt32(record[0]);
+            kod_najem = Convert.ToInt32(record[1]);
             nazwisko = record[2];
             imie = record[3];
 

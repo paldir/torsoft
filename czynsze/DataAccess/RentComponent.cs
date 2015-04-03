@@ -173,7 +173,7 @@ namespace czynsze.DataAccess
                 {
                     try
                     {
-                        id = Convert.ToInt16(record[0]);
+                        id = Convert.ToInt32(record[0]);
 
                         using (Czynsze_Entities db = new Czynsze_Entities())
                             if (db.rentComponents.Any(c => c.nr_skl == id))
@@ -203,7 +203,7 @@ namespace czynsze.DataAccess
             }
             else
             {
-                id = Convert.ToInt16(record[0]);
+                id = Convert.ToInt32(record[0]);
 
                 using (Czynsze_Entities db = new Czynsze_Entities())
                     if (db.rentComponentsOfPlaces.Any(c => c.nr_skl == id))
@@ -215,13 +215,13 @@ namespace czynsze.DataAccess
 
         public void Set(string[] record)
         {
-            nr_skl = Convert.ToInt16(record[0]);
+            nr_skl = Convert.ToInt32(record[0]);
             nazwa = record[1];
-            rodz_e = Convert.ToInt16(record[2]);
-            s_zaplat = Convert.ToInt16(record[3]);
+            rodz_e = Convert.ToInt32(record[2]);
+            s_zaplat = Convert.ToInt32(record[3]);
             stawka = Convert.ToSingle(record[4]);
             stawka_inf = Convert.ToSingle(record[5]);
-            typ_skl = Convert.ToInt16(record[6]);
+            typ_skl = Convert.ToInt32(record[6]);
 
             if (!String.IsNullOrEmpty(record[7]))
                 data_1 = Convert.ToDateTime(record[7]);

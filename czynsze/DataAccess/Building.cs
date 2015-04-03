@@ -49,9 +49,9 @@ namespace czynsze.DataAccess
 
         public void Set(string[] record)
         {
-            kod_1 = Convert.ToInt16(record[0]);
-            il_miesz = Convert.ToInt16(record[1]);
-            sp_rozl = Convert.ToInt16(record[2]);
+            kod_1 = Convert.ToInt32(record[0]);
+            il_miesz = Convert.ToInt32(record[1]);
+            sp_rozl = Convert.ToInt32(record[2]);
             adres = record[3];
             adres_2 = record[4];
             udzial_w_k = Convert.ToSingle(record[5]);
@@ -76,7 +76,7 @@ namespace czynsze.DataAccess
                 {
                     try
                     {
-                        id = Convert.ToInt16(record[0]);
+                        id = Convert.ToInt32(record[0]);
 
                         using (Czynsze_Entities db = new Czynsze_Entities())
                             if (db.buildings.Any(b => b.kod_1 == id))
@@ -90,7 +90,7 @@ namespace czynsze.DataAccess
             if (action != Enums.Action.Usuń)
             {
                 if (record[1].Length > 0)
-                    try { Convert.ToInt16(record[1]); }
+                    try { Convert.ToInt32(record[1]); }
                     catch { result += "Ilość lokali musi być liczbą całkowitą! <br />"; }
                 else
                     record[1] = "0";
@@ -103,7 +103,7 @@ namespace czynsze.DataAccess
             }
             else
             {
-                id = Convert.ToInt16(record[0]);
+                id = Convert.ToInt32(record[0]);
 
                 using (Czynsze_Entities db = new Czynsze_Entities())
                     if (db.places.Any(p => p.kod_lok == id))

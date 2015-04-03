@@ -49,7 +49,7 @@ namespace czynsze.DataAccess
             string result = "";
 
             if (integer != null && integer.Length > 0)
-                try { Convert.ToInt16(integer); }
+                try { Convert.ToInt32(integer); }
                 catch { result += name + " musi być liczbą całkowitą! <br />"; }
             else
                 integer = "0";

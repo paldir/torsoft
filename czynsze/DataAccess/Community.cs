@@ -95,9 +95,9 @@ namespace czynsze.DataAccess
 
         public void Set(string[] record)
         {
-            kod = Convert.ToInt16(record[0]);
-            il_bud = Convert.ToInt16(record[1]);
-            il_miesz = Convert.ToInt16(record[2]);
+            kod = Convert.ToInt32(record[0]);
+            il_bud = Convert.ToInt32(record[1]);
+            il_miesz = Convert.ToInt32(record[2]);
             nazwa_pel = record[3];
             nazwa_skr = record[4];
             adres = record[5];
@@ -127,7 +127,7 @@ namespace czynsze.DataAccess
                 {
                     try
                     {
-                        kod = Convert.ToInt16(record[0]);
+                        kod = Convert.ToInt32(record[0]);
 
                         using (Czynsze_Entities db = new Czynsze_Entities())
                             if (db.communities.Any(c => c.kod == kod))

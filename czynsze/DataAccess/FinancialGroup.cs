@@ -52,7 +52,7 @@ namespace czynsze.DataAccess
                 {
                     try
                     {
-                        kod = Convert.ToInt16(record[0]);
+                        kod = Convert.ToInt32(record[0]);
 
                         using (Czynsze_Entities db = new Czynsze_Entities())
                             if (db.financialGroups.Any(t => t.kod == kod))
@@ -76,7 +76,7 @@ namespace czynsze.DataAccess
 
         public void Set(string[] record)
         {
-            kod = Convert.ToInt16(record[0]);
+            kod = Convert.ToInt32(record[0]);
             k_syn = record[1];
             nazwa = record[2];
         }

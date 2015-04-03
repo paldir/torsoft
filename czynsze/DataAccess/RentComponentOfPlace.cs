@@ -146,9 +146,9 @@ namespace czynsze.DataAccess
 
         public void Set(string[] record)
         {
-            kod_lok = Convert.ToInt16(record[0]);
-            nr_lok = Convert.ToInt16(record[1]);
-            nr_skl = Convert.ToInt16(record[2]);
+            kod_lok = Convert.ToInt32(record[0]);
+            nr_lok = Convert.ToInt32(record[1]);
+            nr_skl = Convert.ToInt32(record[2]);
             dan_p = Convert.ToSingle(record[3]);
 
             if (record[4] != null)
@@ -173,7 +173,7 @@ namespace czynsze.DataAccess
             {
                 case Enums.Action.Dodaj:
                     using (Czynsze_Entities db = new Czynsze_Entities())
-                        if (db.rentComponentsOfPlaces.ToList().Any(c => c.kod_lok == Convert.ToInt16(record[0]) && c.nr_lok == Convert.ToInt16(record[1]) && c.nr_skl == Convert.ToInt16(record[2])))
+                        if (db.rentComponentsOfPlaces.ToList().Any(c => c.kod_lok == Convert.ToInt32(record[0]) && c.nr_lok == Convert.ToInt32(record[1]) && c.nr_skl == Convert.ToInt32(record[2])))
                             return false;
 
                     break;

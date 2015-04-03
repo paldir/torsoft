@@ -22,14 +22,14 @@ namespace czynsze.Forms
             //EnumP.Action action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("action"))]);
             Enums.Action action = GetParamValue<Enums.Action>("action");
             Enums.Action childAction = Enums.Action.Przeglądaj;
-            //int parentId = Convert.ToInt16(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("parentId"))]);
+            //int parentId = Convert.ToInt32(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("parentId"))]);
             int parentId = GetParamValue<int>("parentId");
             int id = GetParamValue<int>("id");
             string[] record;
             string childActionKey = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("childAction"));
 
             /*if (Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))] != null)
-                id = Convert.ToInt16(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))]);*/
+                id = Convert.ToInt32(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))]);*/
 
             if (childActionKey != null)
             {
@@ -114,7 +114,7 @@ namespace czynsze.Forms
 
                 case Enums.Action.Edytuj:
                     string wartosc = Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("wartosc_edit"))];
-                    int id_edit = Convert.ToInt16(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id_edit"))]);
+                    int id_edit = Convert.ToInt32(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id_edit"))]);
                     DataAccess.AttributeOfObject attribute = attributesOfObject.FirstOrDefault(a => a.__record == id_edit);
 
                     record = new string[]

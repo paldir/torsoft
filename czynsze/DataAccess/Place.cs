@@ -127,10 +127,10 @@ namespace czynsze.DataAccess
 
         public void Set(string[] record)
         {
-            nr_system = Convert.ToInt16(record[0]);
-            kod_lok = Convert.ToInt16(record[1]);
-            nr_lok = Convert.ToInt16(record[2]);
-            kod_typ = Convert.ToInt16(record[3]);
+            nr_system = Convert.ToInt32(record[0]);
+            kod_lok = Convert.ToInt32(record[1]);
+            nr_lok = Convert.ToInt32(record[2]);
+            kod_typ = Convert.ToInt32(record[3]);
             adres = record[4];
             adres_2 = record[5];
             pow_uzyt = Convert.ToSingle(record[6]);
@@ -149,8 +149,8 @@ namespace czynsze.DataAccess
             p_4 = Convert.ToSingle(record[14]);
             p_5 = Convert.ToSingle(record[15]);
             p_6 = Convert.ToSingle(record[16]);
-            kod_kuch = Convert.ToInt16(record[17]);
-            nr_kontr = Convert.ToInt16(record[18]);
+            kod_kuch = Convert.ToInt32(record[17]);
+            nr_kontr = Convert.ToInt32(record[18]);
 
             using (Czynsze_Entities db = new Czynsze_Entities())
             {
@@ -165,8 +165,8 @@ namespace czynsze.DataAccess
                 }
             }
 
-            il_osob = Convert.ToInt16(record[19]);
-            kod_praw = Convert.ToInt16(record[20]);
+            il_osob = Convert.ToInt32(record[19]);
+            kod_praw = Convert.ToInt32(record[20]);
 
             record[21] = record[21].PadRight(240);
 
@@ -187,8 +187,8 @@ namespace czynsze.DataAccess
                 {
                     try
                     {
-                        kod_lok = Convert.ToInt16(record[1]);
-                        nr_lok = Convert.ToInt16(record[2]);
+                        kod_lok = Convert.ToInt32(record[1]);
+                        nr_lok = Convert.ToInt32(record[2]);
 
                         using (Czynsze_Entities db = new Czynsze_Entities())
                             if (db.places.Where(p => p.kod_lok == kod_lok && p.nr_lok == nr_lok).Any())

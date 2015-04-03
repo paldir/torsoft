@@ -47,7 +47,7 @@ namespace czynsze.DataAccess
 
         public void Set(string[] record)
         {
-            kod_kuch = Convert.ToInt16(record[0]);
+            kod_kuch = Convert.ToInt32(record[0]);
             typ_kuch = record[1];
         }
 
@@ -62,7 +62,7 @@ namespace czynsze.DataAccess
                 {
                     try
                     {
-                        kod_kuch = Convert.ToInt16(record[0]);
+                        kod_kuch = Convert.ToInt32(record[0]);
 
                         using (Czynsze_Entities db = new Czynsze_Entities())
                             if (db.typesOfKitchen.Any(t => t.kod_kuch == kod_kuch))
@@ -76,7 +76,7 @@ namespace czynsze.DataAccess
 
             if (action == Enums.Action.Usuń)
             {
-                kod_kuch = Convert.ToInt16(record[0]);
+                kod_kuch = Convert.ToInt32(record[0]);
 
                 using (Czynsze_Entities db = new Czynsze_Entities())
                     if (db.places.Any(p => p.kod_kuch == kod_kuch))

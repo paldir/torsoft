@@ -47,7 +47,7 @@ namespace czynsze.DataAccess
 
         public void Set(string[] record)
         {
-            kod_praw = Convert.ToInt16(record[0]);
+            kod_praw = Convert.ToInt32(record[0]);
             tyt_prawny = record[1];
         }
 
@@ -62,7 +62,7 @@ namespace czynsze.DataAccess
                 {
                     try
                     {
-                        kod_praw = Convert.ToInt16(record[0]);
+                        kod_praw = Convert.ToInt32(record[0]);
 
                         using (Czynsze_Entities db = new Czynsze_Entities())
                             if (db.titles.Any(t => t.kod_praw == kod_praw))
@@ -76,7 +76,7 @@ namespace czynsze.DataAccess
 
             if (action == Enums.Action.Usuń)
             {
-                kod_praw = Convert.ToInt16(record[0]);
+                kod_praw = Convert.ToInt32(record[0]);
 
                 using (Czynsze_Entities db = new Czynsze_Entities())
                     if (db.places.Any(t => t.kod_praw == kod_praw))

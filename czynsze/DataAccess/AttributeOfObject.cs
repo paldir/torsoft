@@ -49,8 +49,8 @@ namespace czynsze.DataAccess
 
         public void Set(string[] record)
         {
-            __record = Convert.ToInt16(record[0]);
-            kod = Convert.ToInt16(record[1]);
+            __record = Convert.ToInt32(record[0]);
+            kod = Convert.ToInt32(record[1]);
 
             using (DataAccess.Czynsze_Entities db = new Czynsze_Entities())
                 switch (db.attributes.FirstOrDefault(a => a.kod == kod).nr_str)
@@ -72,11 +72,11 @@ namespace czynsze.DataAccess
         public static bool Validate(Enums.Action action, string[] record, List<DataAccess.AttributeOfObject> attributesOfObject)
         {
             if (action != Enums.Action.Edytuj)
-                if (attributesOfObject.Any(a => a.kod == Convert.ToInt16(record[1]) && Convert.ToInt16(a.kod_powiaz) == Convert.ToInt16(record[3])))
+                if (attributesOfObject.Any(a => a.kod == Convert.ToInt32(record[1]) && Convert.ToInt32(a.kod_powiaz) == Convert.ToInt32(record[3])))
                     return false;
 
             using (DataAccess.Czynsze_Entities db = new Czynsze_Entities())
-                if (db.attributes.ToList().FirstOrDefault(a => a.kod == Convert.ToInt16(record[1])).nr_str == "N")
+                if (db.attributes.ToList().FirstOrDefault(a => a.kod == Convert.ToInt32(record[1])).nr_str == "N")
                     try { Convert.ToSingle(record[2]); }
                     catch { record[2] = "0"; }
 

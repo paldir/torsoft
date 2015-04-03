@@ -157,18 +157,18 @@ namespace czynsze.DataAccess
 
         public void Set(string[] record)
         {
-            __record = Convert.ToInt16(record[0]);
+            __record = Convert.ToInt32(record[0]);
             suma = Convert.ToSingle(record[1]);
 
             if (!String.IsNullOrEmpty(record[2]))
                 data_obr = Convert.ToDateTime(record[2]);
 
             //data_NO = record[3];
-            kod_wplat = Convert.ToInt16(record[4]);
+            kod_wplat = Convert.ToInt32(record[4]);
             nr_dowodu = record[5];
-            pozycja_d = Convert.ToInt16(record[6]);
+            pozycja_d = Convert.ToInt32(record[6]);
             uwagi = record[7];
-            nr_kontr = Convert.ToInt16(record[8]);
+            nr_kontr = Convert.ToInt32(record[8]);
 
             using (Czynsze_Entities db = new Czynsze_Entities())
                 opis = db.typesOfPayment.FirstOrDefault(t => t.kod_wplat == kod_wplat).typ_wplat;

@@ -47,7 +47,7 @@ namespace czynsze.DataAccess
 
         public void Set(string[] record)
         {
-            kod_typ = Convert.ToInt16(record[0]);
+            kod_typ = Convert.ToInt32(record[0]);
             typ_lok = record[1];
         }
 
@@ -62,7 +62,7 @@ namespace czynsze.DataAccess
                 {
                     try
                     {
-                        kod_typ = Convert.ToInt16(record[0]);
+                        kod_typ = Convert.ToInt32(record[0]);
 
                         using (Czynsze_Entities db = new Czynsze_Entities())
                             if (db.typesOfPlace.Any(t => t.kod_typ == kod_typ))
@@ -76,7 +76,7 @@ namespace czynsze.DataAccess
 
             if (action == Enums.Action.Usuń)
             {
-                kod_typ = Convert.ToInt16(record[0]);
+                kod_typ = Convert.ToInt32(record[0]);
 
                 using (Czynsze_Entities db = new Czynsze_Entities())
                     if (db.places.Any(p => p.kod_typ == kod_typ))

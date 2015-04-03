@@ -46,7 +46,7 @@ namespace czynsze.Forms
             List<MyControls.HtmlInputRadioButton> tabButtons = null;
             List<MyControls.Label> labelsOfTabButtons = null;
             List<Control> preview = null;
-            //id = Convert.ToInt16(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))]);
+            //id = Convert.ToInt32(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))]);
             id = GetParamValue<int>("id");
             //action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("action"))]);
             action = GetParamValue<Enums.Action>("action");
@@ -152,7 +152,7 @@ namespace czynsze.Forms
 
                             attributesOfObject = new List<DataAccess.AttributeOfObject>();
 
-                            foreach (DataAccess.AttributeOfBuilding attributeOfBuilding in db.attributesOfBuildings.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == id))
+                            foreach (DataAccess.AttributeOfBuilding attributeOfBuilding in db.attributesOfBuildings.ToList().Where(a => Convert.ToInt32(a.kod_powiaz) == id))
                                 attributesOfObject.Add(attributeOfBuilding);
                         }
 
@@ -245,8 +245,8 @@ namespace czynsze.Forms
                             attributesOfObject = new List<DataAccess.AttributeOfObject>();
                             rentComponentsOfPlace = new List<DataAccess.RentComponentOfPlace>();
 
-                            attributesOfObject.AddRange(db.attributesOfPlaces.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == id));
-                            rentComponentsOfPlace.AddRange(db.rentComponentsOfPlaces.ToList().Where(c => c.kod_lok == Convert.ToInt16(values[1]) && c.nr_lok == Convert.ToInt16(values[2])));
+                            attributesOfObject.AddRange(db.attributesOfPlaces.ToList().Where(a => Convert.ToInt32(a.kod_powiaz) == id));
+                            rentComponentsOfPlace.AddRange(db.rentComponentsOfPlaces.ToList().Where(c => c.kod_lok == Convert.ToInt32(values[1]) && c.nr_lok == Convert.ToInt32(values[2])));
                         }
 
                         tabButtons = new List<MyControls.HtmlInputRadioButton>()
@@ -430,7 +430,7 @@ namespace czynsze.Forms
 
                             attributesOfObject = new List<DataAccess.AttributeOfObject>();
 
-                            foreach (DataAccess.AttributeOfTenant attributeOfTenant in db.attributesOfTenants.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == id))
+                            foreach (DataAccess.AttributeOfTenant attributeOfTenant in db.attributesOfTenants.ToList().Where(a => Convert.ToInt32(a.kod_powiaz) == id))
                                 attributesOfObject.Add(attributeOfTenant);
                         }
 
@@ -584,7 +584,7 @@ namespace czynsze.Forms
                             attributesOfObject = new List<DataAccess.AttributeOfObject>();
                             communityBuildings = new List<DataAccess.CommunityBuilding>();
 
-                            attributesOfObject.AddRange(db.attributesOfCommunities.ToList().Where(a => Convert.ToInt16(a.kod_powiaz) == id));
+                            attributesOfObject.AddRange(db.attributesOfCommunities.ToList().Where(a => Convert.ToInt32(a.kod_powiaz) == id));
                             communityBuildings.AddRange(db.buildingsOfCommunities.Where(c => c.kod == id).OrderBy(b => b.kod_1));
                         }
 

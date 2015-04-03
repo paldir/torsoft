@@ -715,7 +715,7 @@ namespace czynsze.Forms
 
         void LinkButtonOfColumn_Click(object sender, EventArgs e)
         {
-            int columnNumber = Convert.ToInt16(((MyControls.LinkButton)sender).ID.Replace("column", String.Empty)) + 1;
+            int columnNumber = Convert.ToInt32(((MyControls.LinkButton)sender).ID.Replace("column", String.Empty)) + 1;
 
             switch (sortOrder)
             {

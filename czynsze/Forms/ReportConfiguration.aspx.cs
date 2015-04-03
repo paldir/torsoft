@@ -20,7 +20,7 @@ namespace czynsze.Forms
                 if (ViewState["id"] == null)
                     return 0;
 
-                return Convert.ToInt16(ViewState["id"]);
+                return Convert.ToInt32(ViewState["id"]);
             }
             set { ViewState["id"] = value; }
         }
@@ -32,7 +32,7 @@ namespace czynsze.Forms
                 if (ViewState["additionalId"] == null)
                     return 0;
 
-                return Convert.ToInt16(ViewState["additionalId"]);
+                return Convert.ToInt32(ViewState["additionalId"]);
             }
             set { ViewState["additionalId"] = value; }
         }
@@ -49,10 +49,10 @@ namespace czynsze.Forms
 
             if (!String.IsNullOrEmpty(key))
                 id = GetParamValue<int>(key);
-                //id = Convert.ToInt16(Request.Params[key]);
+                //id = Convert.ToInt32(Request.Params[key]);
 
             if (index != -1)
-                additionalId = Convert.ToInt16(Request.UrlReferrer.Query.Substring(index + 3));
+                additionalId = Convert.ToInt32(Request.UrlReferrer.Query.Substring(index + 3));
 
             placeOfConfigurationFields.Controls.Add(new MyControls.HtmlInputHidden(report + "report", "#"));
 
@@ -166,17 +166,17 @@ namespace czynsze.Forms
                         "Imię"
                     };
 
-                    try { kod_1_start = Convert.ToInt16(((TextBox)placeOfConfigurationFields.FindControl("kod_1_start")).Text); }
+                    try { kod_1_start = Convert.ToInt32(((TextBox)placeOfConfigurationFields.FindControl("kod_1_start")).Text); }
                     catch { kod_1_start = 0; }
 
-                    try { kod_1_end = Convert.ToInt16(((TextBox)placeOfConfigurationFields.FindControl("kod_1_end")).Text); }
+                    try { kod_1_end = Convert.ToInt32(((TextBox)placeOfConfigurationFields.FindControl("kod_1_end")).Text); }
                     catch { kod_1_end = 0; }
 
                     try
                     {
                         foreach (ListItem item in ((CheckBoxList)placeOfConfigurationFields.FindControl("kod_typ")).Items)
                             if (item.Selected)
-                                selectedTypesOfPlace.Add(Convert.ToInt16(item.Value));
+                                selectedTypesOfPlace.Add(Convert.ToInt32(item.Value));
                     }
                     catch { }
 

@@ -106,12 +106,12 @@ namespace czynsze.DataAccess
 
         public void Set(string[] record)
         {
-            kod_wplat = Convert.ToInt16(record[0]);
+            kod_wplat = Convert.ToInt32(record[0]);
             typ_wplat = record[1];
-            rodz_e = Convert.ToInt16(record[2]);
-            s_rozli = Convert.ToInt16(record[3]);
-            tn_odset = Convert.ToInt16(record[4]);
-            nota_odset = Convert.ToInt16(record[5]);
+            rodz_e = Convert.ToInt32(record[2]);
+            s_rozli = Convert.ToInt32(record[3]);
+            tn_odset = Convert.ToInt32(record[4]);
+            nota_odset = Convert.ToInt32(record[5]);
             vat = record[6];
             sww = record[7];
         }
@@ -128,7 +128,7 @@ namespace czynsze.DataAccess
                     {
                         try
                         {
-                            kod_wplat = Convert.ToInt16(record[0]);
+                            kod_wplat = Convert.ToInt32(record[0]);
 
                             using (Czynsze_Entities db = new Czynsze_Entities())
                                 if (db.typesOfPayment.Any(t => t.kod_wplat == kod_wplat))
@@ -142,7 +142,7 @@ namespace czynsze.DataAccess
                     break;
 
                 case Enums.Action.Usuń:
-                    kod_wplat = Convert.ToInt16(record[0]);
+                    kod_wplat = Convert.ToInt32(record[0]);
 
                     using (Czynsze_Entities db = new Czynsze_Entities())
                         if (db.turnoversFrom1stSet.Any(t => t.kod_wplat == kod_wplat) || db.turnoversFrom2ndSet.Any(t => t.kod_wplat == kod_wplat) || db.turnoversFrom3rdSet.Any(t => t.kod_wplat == kod_wplat))
