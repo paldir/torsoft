@@ -36,7 +36,8 @@ namespace czynsze.DataAccess
             return new string[]
             {
                 kod_1.ToString(),
-                adres
+                adres,
+                uwagi
             };
         }
 

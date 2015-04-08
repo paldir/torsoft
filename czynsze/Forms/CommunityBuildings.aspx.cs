@@ -103,7 +103,7 @@ namespace czynsze.Forms
                 {
                     firstLabel = "Budynek: ";
                     textOfSaveButton = "Edytuj";
-                    comments = currentCommunityBuilding.uwagi;
+                    comments = currentCommunityBuilding.uwagi.Trim();
 
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                         firstControl = new MyControls.TextBox("field", "budynek", db.buildings.FirstOrDefault(b => b.kod_1 == currentCommunityBuilding.kod_1).kod_1.ToString(), MyControls.TextBox.TextBoxMode.SingleLine, 30, 1, false);
@@ -122,7 +122,7 @@ namespace czynsze.Forms
                 placeOfButtonsOfWindow.Controls.Add(new MyControls.Button("button", String.Empty, "Anuluj", postBackUrl));
             }
 
-            placeOfTable.Controls.Add(new MyControls.Table("mainTable tabTable", rows, new string[] { "Lp.", "Nr budynku", "Adres" }, false, String.Empty, new List<int>() { 1, 2 }, new List<int>()));
+            placeOfTable.Controls.Add(new MyControls.Table("mainTable tabTable", rows, new string[] { "Lp.", "Nr budynku", "Adres", "Uwagi" }, false, String.Empty, new List<int>() { 1, 2 }, new List<int>()));
         }
     }
 }

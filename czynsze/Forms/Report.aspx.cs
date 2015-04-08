@@ -107,11 +107,10 @@ namespace czynsze.Forms
                     byte[] bytes = pechkin.Convert(config, html);
                     Response.ContentType = "application/pdf";
 
-                    Response.AddHeader("content-disposition", "attachment; filename=Wydruk.pdf");
-                    Response.AddHeader("content-length", bytes.Length.ToString());
+                    Response.AddHeader("content-disposition", "inline; filename=Wydruk.pdf");
+                    Response.Cache.SetCacheability(HttpCacheability.NoCache);
                     Response.BinaryWrite(bytes);
-                    //Response.Flush();
-                    //Response.End();
+                    Response.End();
 
                     break;
 

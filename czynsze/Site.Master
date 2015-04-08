@@ -96,13 +96,10 @@
                     </li>
                 </ul>
             </li>
-            <li class="mainSuperMenuItem">Analizy
+            <!--<li class="mainSuperMenuItem">Analizy
                 <ul class="mainSubMenu">
-                    <!--<li class="mainSubMenuItem"><a href="#">Analiza1</a></li>
-                    <li class="mainSubMenuItem"><a href="#">Analiza2</a></li>
-                    <li class="mainSubMenuItem"><a href="#">Analiza3</a></li>-->
                 </ul>
-            </li>
+            </li>-->
             <li class="mainSuperMenuItem">Raporty
                 <ul class="mainSubMenu">
                     <!--<li class="mainSubMenuItem"><a href="#">Raport1</a></li>

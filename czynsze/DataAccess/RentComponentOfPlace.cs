@@ -134,13 +134,24 @@ namespace czynsze.DataAccess
                     break;
             }
 
+                        string dat_od=String.Empty;
+            string dat_do=String.Empty;
+
+            if (this.dat_od.HasValue)
+                dat_od = this.dat_od.Value.ToShortDateString();
+
+            if (this.dat_do.HasValue)
+                dat_do = this.dat_do.Value.ToShortDateString();
+
             return new string[]
             {
                 nr_skl.ToString(),
                 rentComponent.nazwa,
                 stawka.ToString("F2"),
                 ilosc.ToString("F2"),
-                (ilosc*stawka).ToString("F2")
+                (ilosc*stawka).ToString("F2"),
+                dat_od,
+                dat_od
             };
         }
 
