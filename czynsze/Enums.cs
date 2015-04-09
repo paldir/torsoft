@@ -84,5 +84,18 @@ namespace czynsze
             SecondSet,
             ThirdSet
         };
+
+        public enum RentAmount
+        {
+            Current,
+            ForMonth
+        };
+
+        public enum ContentsOfDescriptions
+        {
+            Payments,
+            Book,
+            Water
+        }
     }
 }

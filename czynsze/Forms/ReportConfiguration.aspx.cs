@@ -181,6 +181,9 @@ namespace czynsze.Forms
                     catch { }
 
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                    {
+                        DataAccess.Place.TypesOfPlace = db.typesOfPlace.ToList();
+
                         for (int i = kod_1_start; i <= kod_1_end; i++)
                         {
                             DataAccess.Building building = db.buildings.Where(b => b.kod_1 == i).FirstOrDefault();
@@ -191,6 +194,9 @@ namespace czynsze.Forms
                                 tables.Add(db.places.Where(p => p.kod_lok == i && selectedTypesOfPlace.Contains(p.kod_typ)).OrderBy(p => p.nr_lok).ToList().Select(p => p.ImportantFields().ToList().GetRange(2, p.ImportantFields().Length - 2).ToArray()).ToList());
                             }
                         }
+
+                        DataAccess.Place.TypesOfPlace = null;
+                    }
 
                     break;
 

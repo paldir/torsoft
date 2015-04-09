@@ -62,7 +62,7 @@ namespace czynsze.DataAccess
         public abstract string uwagi_4 { get; set; }
 
         public static List<TypeOfPlace> TypesOfPlace { get; set; }
-
+        
         public string[] ImportantFields()
         {
             string kod_typ = String.Empty;

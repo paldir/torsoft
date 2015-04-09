@@ -93,6 +93,7 @@
     <Content Include="Forms\ChangeDate.aspx" />
     <Content Include="Forms\ChangeSettlementTable.aspx" />
     <Content Include="Forms\CommunityBuildings.aspx" />
+    <Content Include="Forms\ContentsOfDescriptions.aspx" />
     <Content Include="Forms\GenerationOfReceivables.aspx" />
     <Content Include="Forms\Hello.aspx" />
     <Content Include="Forms\List.aspx" />
@@ -100,6 +101,7 @@
     <Content Include="Forms\ProgressOfGenerationOfReceivables.aspx" />
     <Content Include="Forms\Record.aspx" />
     <Content Include="Forms\RecordValidation.aspx" />
+    <Content Include="Forms\RentAmount.aspx" />
     <Content Include="Forms\RentComponentsOfPlace.aspx" />
     <Content Include="Forms\Report.aspx" />
     <Content Include="Forms\ReportConfiguration.aspx" />
@@ -139,12 +141,20 @@
   <ItemGroup>
     <Compile Include="DataAccess\CommunityBuilding.cs" />
     <Compile Include="DataAccess\Completed.cs" />
+    <Compile Include="DataAccess\Content.cs" />
     <Compile Include="Forms\CommunityBuildings.aspx.cs">
       <DependentUpon>CommunityBuildings.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Forms\CommunityBuildings.aspx.designer.cs">
       <DependentUpon>CommunityBuildings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ContentsOfDescriptions.aspx.cs">
+      <DependentUpon>ContentsOfDescriptions.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Forms\ContentsOfDescriptions.aspx.designer.cs">
+      <DependentUpon>ContentsOfDescriptions.aspx</DependentUpon>
     </Compile>
     <Compile Include="Forms\GenerationOfReceivables.aspx.cs">
       <DependentUpon>GenerationOfReceivables.aspx</DependentUpon>
@@ -159,6 +169,13 @@
     </Compile>
     <Compile Include="Forms\ProgressOfGenerationOfReceivables.aspx.designer.cs">
       <DependentUpon>ProgressOfGenerationOfReceivables.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\RentAmount.aspx.cs">
+      <DependentUpon>RentAmount.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Forms\RentAmount.aspx.designer.cs">
+      <DependentUpon>RentAmount.aspx</DependentUpon>
     </Compile>
     <Compile Include="Forms\RentComponentsOfPlace.aspx.cs">
       <DependentUpon>RentComponentsOfPlace.aspx</DependentUpon>

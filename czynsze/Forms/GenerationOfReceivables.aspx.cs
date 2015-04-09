@@ -61,6 +61,7 @@ namespace czynsze.Forms
             int daysInMonth = DateTime.DaysInMonth(Hello.Date.Year, Hello.Date.Month);
             string generationMode = GetParamValue<string>("Generation");
             string repeatGeneration = GetParamValue<string>("Repeat");
+            Hello.SiteMapPath = new List<string>() { "Rozliczenia finansowe", "Generacja należności" };
 
             using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
             {

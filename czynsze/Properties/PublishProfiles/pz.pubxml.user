@@ -15,7 +15,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/23/2015 13:12:26</publishTime>
     </File>
     <File Include="bin/czynsze.dll">
-      <publishTime>03/27/2015 13:04:22</publishTime>
+      <publishTime>04/09/2015 09:07:50</publishTime>
     </File>
     <File Include="bin/de/Npgsql.resources.dll">
       <publishTime>02/23/2015 13:12:40</publishTime>
@@ -83,6 +83,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Forms/ChangeSettlementTable.aspx">
       <publishTime>02/23/2015 13:08:28</publishTime>
     </File>
+    <File Include="Forms/CommunityBuildings.aspx">
+      <publishTime>04/02/2015 09:59:12</publishTime>
+    </File>
     <File Include="Forms/CryptPassword.aspx">
       <publishTime>10/08/2014 13:56:43</publishTime>
     </File>
@@ -110,6 +113,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Forms/RecordValidation.aspx">
       <publishTime>02/23/2015 13:08:28</publishTime>
     </File>
+    <File Include="Forms/RentAmount.aspx">
+      <publishTime>04/09/2015 09:07:48</publishTime>
+    </File>
     <File Include="Forms/RentComponentsOfPlace.aspx">
       <publishTime>03/05/2015 09:39:37</publishTime>
     </File>
@@ -136,6 +142,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="JavaScripts/AttributeOfObject.js">
       <publishTime>02/23/2015 13:08:29</publishTime>
+    </File>
+    <File Include="JavaScripts/CommunityBuildings.js">
+      <publishTime>04/02/2015 09:51:57</publishTime>
     </File>
     <File Include="JavaScripts/List.js">
       <publishTime>03/06/2015 12:58:13</publishTime>
@@ -186,7 +195,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/16/2014 09:50:06</publishTime>
     </File>
     <File Include="Site.Master">
-      <publishTime>03/09/2015 09:33:25</publishTime>
+      <publishTime>04/09/2015 09:00:30</publishTime>
     </File>
     <File Include="ssleay32.dll">
       <publishTime>02/23/2015 13:08:29</publishTime>
@@ -198,7 +207,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/15/2014 14:26:03</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>03/27/2015 12:20:33</publishTime>
+      <publishTime>04/09/2015 09:07:52</publishTime>
     </File>
     <File Include="wkhtmltox0.dll">
       <publishTime>02/23/2015 13:08:31</publishTime>
