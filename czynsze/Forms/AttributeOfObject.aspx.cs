@@ -200,7 +200,7 @@ namespace czynsze.Forms
                                     break;
                             }
 
-                            placeOfEditingWindow.Controls.Add(new LiteralControl("<br />"));
+                            AddNewLine(placeOfEditingWindow);
                             placeOfEditingWindow.Controls.Add(new MyControls.Button("button", "editchildAction", "Zapisz", postBackUrl));
                             placeOfEditingWindow.Controls.Add(new MyControls.Button("button", String.Empty, "Anuluj", postBackUrl));
                         }

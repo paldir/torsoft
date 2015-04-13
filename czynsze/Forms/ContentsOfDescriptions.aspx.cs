@@ -54,14 +54,12 @@ namespace czynsze.Forms
                     break;
             }
 
-            DataAccess.Content contents;
-            string[] fields = new string[numberOfFields];
-
             Hello.SiteMapPath.Add(heading);
 
             using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
             {
-                contents = db.contents.FirstOrDefault();
+                DataAccess.Content contents = db.contents.FirstOrDefault();
+                string[] fields = new string[numberOfFields];
 
                 if (String.IsNullOrEmpty(GetParamValue<string>("Save")))
                 {
@@ -86,7 +84,7 @@ namespace czynsze.Forms
                     for (int i = 0; i < fields.Length; i++)
                     {
                         placeOfFields.Controls.Add(new MyControls.TextBox("field", String.Format(format, prefix, i + 1), fields[i], MyControls.TextBox.TextBoxMode.SingleLine, fieldLength, 1, true));
-                        placeOfFields.Controls.Add(new LiteralControl("<br />"));
+                        AddNewLine(placeOfFields);
                     }
 
                     placeOfButtons.Controls.Add(new MyControls.Button("button", "Save", "Zapisz", String.Empty));

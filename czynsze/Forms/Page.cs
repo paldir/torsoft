@@ -19,5 +19,10 @@ namespace czynsze.Forms
             else
                 return (T)Convert.ChangeType(value, typeof(T));
         }
+
+        public void AddNewLine(System.Web.UI.Control container)
+        {
+            container.Controls.Add(new System.Web.UI.LiteralControl("<br />"));
+        }
     }
 }

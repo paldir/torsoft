@@ -49,7 +49,8 @@ namespace czynsze
             MonthlySumOfComponent,
             ReceivablesAndTurnoversOfTenant,
             MonthlyAnalysisOfReceivablesAndTurnovers,
-            DetailedAnalysisOfReceivablesAndTurnovers
+            DetailedAnalysisOfReceivablesAndTurnovers,
+            CurrentRentAmountOfPlaces
         };
 
         public enum ReportFormat

@@ -13,7 +13,7 @@ namespace czynsze.Forms
     {
         Enums.Report report;
 
-        int id
+        /*int id
         {
             get
             {
@@ -23,9 +23,9 @@ namespace czynsze.Forms
                 return Convert.ToInt32(ViewState["id"]);
             }
             set { ViewState["id"] = value; }
-        }
+        }*/
 
-        int additionalId
+        /*int additionalId
         {
             get
             {
@@ -35,6 +35,12 @@ namespace czynsze.Forms
                 return Convert.ToInt32(ViewState["additionalId"]);
             }
             set { ViewState["additionalId"] = value; }
+        }*/
+
+        List<int> ids
+        {
+            get { return (List<int>)ViewState["ids"]; }
+            set { ViewState["ids"] = value; }
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -46,13 +52,14 @@ namespace czynsze.Forms
             report = (Enums.Report)Enum.Parse(typeof(Enums.Report), key.Replace("report", String.Empty).Substring(key.LastIndexOf('$') + 1));
             key = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"));
             int index = Request.UrlReferrer.Query.IndexOf("id");
+            ids = new List<int>() { 0, 0, 0, 0 };
 
             if (!String.IsNullOrEmpty(key))
-                id = GetParamValue<int>(key);
+                ids[0] = GetParamValue<int>(key);
                 //id = Convert.ToInt32(Request.Params[key]);
 
             if (index != -1)
-                additionalId = Convert.ToInt32(Request.UrlReferrer.Query.Substring(index + 3));
+                ids[1] = Convert.ToInt32(Request.UrlReferrer.Query.Substring(index + 3));
 
             placeOfConfigurationFields.Controls.Add(new MyControls.HtmlInputHidden(report + "report", "#"));
 
@@ -99,7 +106,7 @@ namespace czynsze.Forms
 
                 case Enums.Report.MonthlySumOfComponent:
                     heading += "(Sumy miesięczne składnika)";
-
+                    
                     break;
 
                 case Enums.Report.ReceivablesAndTurnoversOfTenant:
@@ -116,6 +123,15 @@ namespace czynsze.Forms
                     heading += "(Analiza szczegółowa)";
 
                     break;
+
+                case Enums.Report.CurrentRentAmountOfPlaces:
+                    heading += "(Bieżąca kwota czynszu)";
+                    ids[0] = GetParamValue<int>("fromBuilding");
+                    ids[1] = GetParamValue<int>("fromPlace");
+                    ids[2] = GetParamValue<int>("toBuilding");
+                    ids[3] = GetParamValue<int>("toPlace");
+
+                    break;
             }
 
             placeOfConfigurationFields.Controls.Add(new LiteralControl("<h2>" + heading + "</h2>"));
@@ -126,7 +142,7 @@ namespace czynsze.Forms
             {
                 placeOfConfigurationFields.Controls.Add(new LiteralControl("<div class='fieldWithLabel'>"));
                 placeOfConfigurationFields.Controls.Add(new MyControls.Label("label", controls[i].ID, labels[i], String.Empty));
-                placeOfConfigurationFields.Controls.Add(new LiteralControl("<br />"));
+                AddNewLine(placeOfConfigurationFields);
                 placeOfConfigurationFields.Controls.Add(controls[i]);
                 placeOfConfigurationFields.Controls.Add(new LiteralControl("</div>"));
             }
@@ -212,26 +228,26 @@ namespace czynsze.Forms
 
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                     {
-                        DataAccess.Tenant tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == additionalId);
+                        DataAccess.Tenant tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == ids[1]);
                         captions = new List<string>() { tenant.nazwisko + " " + tenant.imie + "<br />" + tenant.adres_1 + " " + tenant.adres_2 + "<br />" };
 
                         switch (Hello.CurrentSet)
                         {
                             case Enums.SettlementTable.Czynsze:
-                                receivables = db.receivablesFrom1stSet.Where(r => r.nr_kontr == additionalId).ToList().Cast<DataAccess.Receivable>();
-                                turnovers = db.turnoversFrom1stSet.Where(t => t.nr_kontr == additionalId).ToList().Cast<DataAccess.Turnover>();
+                                receivables = db.receivablesFrom1stSet.Where(r => r.nr_kontr == ids[1]).ToList().Cast<DataAccess.Receivable>();
+                                turnovers = db.turnoversFrom1stSet.Where(t => t.nr_kontr == ids[1]).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
 
                             case Enums.SettlementTable.SecondSet:
-                                receivables = db.receivablesFrom2ndSet.Where(r => r.nr_kontr == additionalId).ToList().Cast<DataAccess.Receivable>();
-                                turnovers = db.turnoversFrom2ndSet.Where(t => t.nr_kontr == additionalId).ToList().Cast<DataAccess.Turnover>();
+                                receivables = db.receivablesFrom2ndSet.Where(r => r.nr_kontr == ids[1]).ToList().Cast<DataAccess.Receivable>();
+                                turnovers = db.turnoversFrom2ndSet.Where(t => t.nr_kontr == ids[1]).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
 
                             case Enums.SettlementTable.ThirdSet:
-                                receivables = db.receivablesFrom3rdSet.Where(r => r.nr_kontr == additionalId).ToList().Cast<DataAccess.Receivable>();
-                                turnovers = db.turnoversFrom3rdSet.Where(t => t.nr_kontr == additionalId).ToList().Cast<DataAccess.Turnover>();
+                                receivables = db.receivablesFrom3rdSet.Where(r => r.nr_kontr == ids[1]).ToList().Cast<DataAccess.Receivable>();
+                                turnovers = db.turnoversFrom3rdSet.Where(t => t.nr_kontr == ids[1]).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
                         }
@@ -242,10 +258,10 @@ namespace czynsze.Forms
                                 title = "ZESTAWIENIE ROZLICZEN MIESIECZNYCH ZA ROK 2014";
                                 headers = new List<string>() { "m-c", "Wartość" };
 
-                                if (id < 0)
+                                if (ids[0] < 0)
                                 {
 
-                                    int nr_skl = receivables.FirstOrDefault(r => r.__record == -1 * id).nr_skl;
+                                    int nr_skl = receivables.FirstOrDefault(r => r.__record == -1 * ids[0]).nr_skl;
                                     captions[0] += db.rentComponents.FirstOrDefault(c => c.nr_skl == nr_skl).nazwa;
 
                                     for (int i = 1; i <= 12; i++)
@@ -253,7 +269,7 @@ namespace czynsze.Forms
                                 }
                                 else
                                 {
-                                    int kod_wplat = turnovers.FirstOrDefault(t => t.__record == id).kod_wplat;
+                                    int kod_wplat = turnovers.FirstOrDefault(t => t.__record == ids[0]).kod_wplat;
                                     captions[0] += db.typesOfPayment.FirstOrDefault(t => t.kod_wplat == kod_wplat).typ_wplat;
 
                                     for (int i = 1; i <= 12; i++)
@@ -391,6 +407,11 @@ namespace czynsze.Forms
                                 break;
                         }
                     }
+
+                    break;
+
+                case Enums.Report.CurrentRentAmountOfPlaces:
+                    throw new NotImplementedException();
 
                     break;
             }

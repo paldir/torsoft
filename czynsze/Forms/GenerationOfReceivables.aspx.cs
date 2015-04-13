@@ -83,22 +83,22 @@ namespace czynsze.Forms
                             day = 15;
 
                         placeOfDate.Controls.Add(new LiteralControl("Podaj termin płatności: "));
-                        placeOfDate.Controls.Add(new LiteralControl("<br />"));
+                        AddNewLine(placeOfDate);
                         placeOfDate.Controls.Add(new MyControls.TextBox("field", "year", Hello.Date.Year.ToString(), MyControls.TextBox.TextBoxMode.Number, 4, 1, true));
                         placeOfDate.Controls.Add(new LiteralControl("-"));
                         placeOfDate.Controls.Add(new MyControls.TextBox("field", "month", Hello.Date.Month.ToString("D2"), MyControls.TextBox.TextBoxMode.Number, 2, 1, true));
                         placeOfDate.Controls.Add(new LiteralControl("-"));
                         placeOfDate.Controls.Add(new MyControls.TextBox("field", "day", day.ToString("D2"), MyControls.TextBox.TextBoxMode.Number, 2, 1, true));
-                        placeOfGeneration.Controls.Add(new LiteralControl("<br />"));
+                        AddNewLine(placeOfGeneration);
                         placeOfGeneration.Controls.Add(new MyControls.Button("button", "allGeneration", "Generacja całego zestawienia", String.Empty));
-                        placeOfGeneration.Controls.Add(new LiteralControl("<br />"));
+                        AddNewLine(placeOfGeneration);
                         placeOfGeneration.Controls.Add(new MyControls.Button("button", "fromToGeneration", "Generacja od-do żądanego lokalu", String.Empty));
-                        placeOfGeneration.Controls.Add(new LiteralControl("<br />"));
+                        AddNewLine(placeOfGeneration);
                         placeOfGeneration.Controls.Add(new MyControls.Label("label", "fromBuilding", "Numer budynku pierwszego lokalu: ", String.Empty));
                         placeOfGeneration.Controls.Add(new MyControls.TextBox("field", "fromBuilding", db.places.Min(p => p.kod_lok).ToString(), MyControls.TextBox.TextBoxMode.Number, 5, 1, true));
                         placeOfGeneration.Controls.Add(new MyControls.Label("label", "fromPlace", " Numer pierwszego lokalu: ", String.Empty));
                         placeOfGeneration.Controls.Add(new MyControls.TextBox("field", "fromPlace", db.places.Min(p => p.nr_lok).ToString(), MyControls.TextBox.TextBoxMode.Number, 3, 1, true));
-                        placeOfGeneration.Controls.Add(new LiteralControl("<br />"));
+                        AddNewLine(placeOfGeneration);
                         placeOfGeneration.Controls.Add(new MyControls.Label("label", "toBuilding", "Numer budynku ostatniego lokalu: ", String.Empty));
                         placeOfGeneration.Controls.Add(new MyControls.TextBox("field", "toBuilding", db.places.Max(p => p.kod_lok).ToString(), MyControls.TextBox.TextBoxMode.Number, 5, 1, true));
                         placeOfGeneration.Controls.Add(new MyControls.Label("label", "toPlace", " Numer ostatniego lokalu: ", String.Empty));

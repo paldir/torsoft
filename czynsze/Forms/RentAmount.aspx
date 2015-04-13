@@ -5,7 +5,9 @@
     <div class="placeOfResultWindow">
         <div class="resultWindow">
             <form id="form" runat="server">
-                <div id="placeOfContent" runat="server"></div>
+                <div id="placeOfPlaces" runat="server"></div>
+                <hr />
+                <div id="placeOfBuildings" runat="server"></div>
             </form>
         </div>
     </div>

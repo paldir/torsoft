@@ -1072,7 +1072,7 @@ namespace czynsze.Forms
 
                 cell.Controls.Add(new LiteralControl("<div class='fieldWithLabel'>"));
                 cell.Controls.Add(new MyControls.Label("fieldLabel", controls[i].ID, labels[i], String.Empty));
-                cell.Controls.Add(new LiteralControl("<br />"));
+                AddNewLine(cell);
                 cell.Controls.Add(controls[i]);
                 cell.Controls.Add(new LiteralControl("</div>"));
             }
@@ -1085,7 +1085,7 @@ namespace czynsze.Forms
                 {
                     placeOfPreview.Controls.Add(preview[i]);
                     placeOfPreview.Controls.Add(preview[i + 1]);
-                    placeOfPreview.Controls.Add(new LiteralControl("<br />"));
+                    AddNewLine(placeOfPreview);
                 }
 
                 placeOfPreview.Controls.Add(new LiteralControl("</h3>"));
