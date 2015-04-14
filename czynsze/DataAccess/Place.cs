@@ -65,23 +65,28 @@ namespace czynsze.DataAccess
         
         public string[] ImportantFields()
         {
-            string kod_typ = String.Empty;
 
-            TypeOfPlace typeOfPlace = TypesOfPlace.FirstOrDefault(t => t.kod_typ == this.kod_typ);
-
-            if (typeOfPlace != null)
-                kod_typ = typeOfPlace.typ_lok;
 
             return new string[] 
             { 
                 nr_system.ToString(), 
                 kod_lok.ToString(), 
                 nr_lok.ToString(), 
-                kod_typ, 
+                Recognize_kod_typ(),
                 pow_uzyt.ToString("F2"), 
                 nazwisko, 
                 imie 
             };
+        }
+
+        public string Recognize_kod_typ()
+        {
+            TypeOfPlace typeOfPlace = TypesOfPlace.FirstOrDefault(t => t.kod_typ == this.kod_typ);
+
+            if (typeOfPlace == null)
+                return String.Empty;
+            else
+                return typeOfPlace.typ_lok;
         }
 
         public string[] AllFields()

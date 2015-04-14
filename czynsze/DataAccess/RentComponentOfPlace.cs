@@ -29,22 +29,70 @@ namespace czynsze.DataAccess
         [Column("dat_do")]
         public Nullable<DateTime> dat_do { get; set; }
 
+        public static List<ActivePlace> Places { get; set; }
+        public static List<RentComponent> RentComponents { get; set; }
+
         public string[] ImportantFields()
+        {
+            RentComponent rentComponent;
+
+            using (Czynsze_Entities db = new Czynsze_Entities())
+                rentComponent = db.rentComponents.FirstOrDefault(c => c.nr_skl == nr_skl);
+
+            float ilosc;
+            float stawka;
+
+            Recognize_ilosc_and_stawka(out ilosc, out stawka);
+
+            string dat_od = String.Empty;
+            string dat_do = String.Empty;
+
+            if (this.dat_od.HasValue)
+                dat_od = this.dat_od.Value.ToShortDateString();
+
+            if (this.dat_do.HasValue)
+                dat_do = this.dat_do.Value.ToShortDateString();
+
+            return new string[]
+            {
+                nr_skl.ToString(),
+                rentComponent.nazwa,
+                stawka.ToString("F2"),
+                ilosc.ToString("F2"),
+                (ilosc*stawka).ToString("F2"),
+                dat_od,
+                dat_od
+            };
+        }
+
+        public void Set(string[] record)
+        {
+            kod_lok = Convert.ToInt32(record[0]);
+            nr_lok = Convert.ToInt32(record[1]);
+            nr_skl = Convert.ToInt32(record[2]);
+            dan_p = Convert.ToSingle(record[3]);
+
+            if (record[4] != null)
+                dat_od = Convert.ToDateTime(record[4]);
+
+            if (record[5] != null)
+                dat_do = Convert.ToDateTime(record[5]);
+        }
+
+        public void Recognize_ilosc_and_stawka(out float ilosc, out float stawka)
         {
             RentComponent rentComponent;
             Place place;
 
-            using (Czynsze_Entities db = new Czynsze_Entities())
-            {
-                rentComponent = db.rentComponents.FirstOrDefault(c => c.nr_skl == nr_skl);
-                place = db.places.FirstOrDefault(p => p.kod_lok == kod_lok && p.nr_lok == nr_lok);
+            rentComponent = RentComponents.FirstOrDefault(c => c.nr_skl == nr_skl);
+            place = Places.FirstOrDefault(p => p.kod_lok == kod_lok && p.nr_lok == nr_lok);
 
-                if (place == null)
+            if (place == null)
+                using (Czynsze_Entities db = new Czynsze_Entities())
                     place = db.inactivePlaces.FirstOrDefault(p => p.kod_lok == kod_lok && p.nr_lok == nr_lok);
-            }
 
-            float ilosc = 0;
-            float stawka = rentComponent.stawka;
+            ilosc = 0;
+            stawka = rentComponent.stawka;
 
             switch (rentComponent.s_zaplat)
             {
@@ -69,7 +117,7 @@ namespace czynsze.DataAccess
                     break;
 
                 case 5:
-                    DateTime date=Forms.Hello.Date;
+                    DateTime date = Forms.Hello.Date;
 
                     ilosc = DateTime.DaysInMonth(date.Year, date.Month);
 
@@ -133,40 +181,6 @@ namespace czynsze.DataAccess
 
                     break;
             }
-
-                        string dat_od=String.Empty;
-            string dat_do=String.Empty;
-
-            if (this.dat_od.HasValue)
-                dat_od = this.dat_od.Value.ToShortDateString();
-
-            if (this.dat_do.HasValue)
-                dat_do = this.dat_do.Value.ToShortDateString();
-
-            return new string[]
-            {
-                nr_skl.ToString(),
-                rentComponent.nazwa,
-                stawka.ToString("F2"),
-                ilosc.ToString("F2"),
-                (ilosc*stawka).ToString("F2"),
-                dat_od,
-                dat_od
-            };
-        }
-
-        public void Set(string[] record)
-        {
-            kod_lok = Convert.ToInt32(record[0]);
-            nr_lok = Convert.ToInt32(record[1]);
-            nr_skl = Convert.ToInt32(record[2]);
-            dan_p = Convert.ToSingle(record[3]);
-
-            if (record[4] != null)
-                dat_od = Convert.ToDateTime(record[4]);
-
-            if (record[5] != null)
-                dat_do = Convert.ToDateTime(record[5]);
         }
 
         public static bool Validate(string[] record, Enums.Action action)

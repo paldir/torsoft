@@ -73,12 +73,21 @@ namespace czynsze.Forms
                 }
             }
 
+            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+            {
+                DataAccess.RentComponentOfPlace.Places = db.places.ToList();
+                DataAccess.RentComponentOfPlace.RentComponents = db.rentComponents.ToList();
+            }
+
             for (int i = 0; i < rentComponentsOfPlace.Count; i++)
             {
                 string index = (i + 1).ToString();
 
                 rows.Add(new string[] { index, index }.Concat(rentComponentsOfPlace.ElementAt(i).ImportantFields()).ToArray());
             }
+
+            DataAccess.RentComponentOfPlace.Places = null;
+            DataAccess.RentComponentOfPlace.RentComponents = null;
 
             ViewState["componentsWithAmount"] = allComponentsWithAmount;
             ViewState["id"] = id;

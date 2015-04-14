@@ -411,7 +411,49 @@ namespace czynsze.Forms
                     break;
 
                 case Enums.Report.CurrentRentAmountOfPlaces:
-                    throw new NotImplementedException();
+                    title = "BIEŻĄCA KWOTA CZYNSZU";
+                    headers = new List<string>() { "Lp.", "Kod budynku", "Nr lokalu", "Typ lokalu", "Nazwisko", "Imię", "Adres", "Kwota czynszu" };
+
+                    using(DataAccess.Czynsze_Entities db=new DataAccess.Czynsze_Entities())
+                    {
+                        int kod1 = ids[0];
+                        int nr1 = ids[1];
+                        int kod2 = ids[2];
+                        int nr2 = ids[3];
+                        List<DataAccess.ActivePlace> places = db.places.Where(p => p.kod_lok >= kod1 && p.nr_lok >= nr1 && p.kod_lok <= kod2 && p.kod_lok <= nr2).OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok).ToList();
+                        List<string[]> table = new List<string[]>();
+                        DataAccess.Place.TypesOfPlace = db.typesOfPlace.ToList();
+                        DataAccess.RentComponentOfPlace.Places = places.ToList();
+                        DataAccess.RentComponentOfPlace.RentComponents = db.rentComponents.ToList();
+                        int index = 1;
+
+                        captions.Add(String.Empty);
+
+                        foreach (DataAccess.Place place in places)
+                        {
+                            float sum = 0;
+
+                            foreach (DataAccess.RentComponentOfPlace rentComponentOfPlace in db.rentComponentsOfPlaces.Where(c => c.kod_lok == place.kod_lok && c.nr_lok == place.nr_lok))
+                            {
+                                float ilosc;
+                                float stawka;
+
+                                rentComponentOfPlace.Recognize_ilosc_and_stawka(out ilosc, out stawka);
+
+                                sum += ilosc * stawka;
+                            }
+
+                            table.Add(new string[] { index.ToString(), place.kod_lok.ToString(), place.nr_lok.ToString(), place.Recognize_kod_typ(), place.nazwisko, place.imie, String.Format("{0} {1}", place.adres, place.adres_2), String.Format("{0:N2}", sum) });
+
+                            index++;
+                        }
+
+                        DataAccess.Place.TypesOfPlace = null;
+                        DataAccess.RentComponentOfPlace.Places = null;
+                        DataAccess.RentComponentOfPlace.RentComponents = null;
+
+                        tables.Add(table);
+                    }
 
                     break;
             }
