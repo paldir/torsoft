@@ -12,7 +12,7 @@ namespace czynsze.Forms
         protected void Page_Load(object sender, EventArgs e)
         {
             Enums.RentAmount time = GetParamValue<Enums.RentAmount>("mode");
-            string range = GetParamValue<string>("RentAmount");
+            string range = Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("RentAmount"));
             Hello.SiteMapPath = new List<string>() { "Raporty", "Kwota czynszu" };
 
             switch (time)
@@ -69,7 +69,30 @@ namespace czynsze.Forms
                 }
                 else
                 {
-                    Response.Redirect(String.Format("ReportConfiguration.aspx?{0}report=dummy&fromBuilding={1}&fromPlace={2}&toBuilding={3}&toPlace={4}", Enums.Report.CurrentRentAmountOfPlaces, minBuilding, minPlace, maxBuilding, maxPlace));
+                    range = range.Substring(range.LastIndexOf('$') + 1).Replace("RentAmount", String.Empty);
+                    string kod1, kod2, nr1, nr2;
+                    kod1 = kod2 = nr1 = nr2 = "0";
+
+                    switch(range)
+                    {
+                        case "allPlaces":
+                            kod1 = minBuilding;
+                            nr1 = minPlace;
+                            kod2 = maxBuilding;
+                            nr2 = maxPlace;
+
+                            break;
+
+                        case "fromToPlace":
+                            kod1 = GetParamValue<string>("fromBuildingOfPlace");
+                            nr1 = GetParamValue<string>("fromPlace");
+                            kod2 = GetParamValue<string>("toBuildingOfPlace");
+                            nr2 = GetParamValue<string>("toPlace");
+
+                            break;
+                    }
+                    
+                    Response.Redirect(String.Format("ReportConfiguration.aspx?{0}report=dummy&fromBuilding={1}&fromPlace={2}&toBuilding={3}&toPlace={4}", Enums.Report.CurrentRentAmountOfPlaces, kod1, nr1, kod2, nr2));
                 }
             }
         }

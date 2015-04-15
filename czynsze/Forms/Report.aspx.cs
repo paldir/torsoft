@@ -32,18 +32,21 @@ namespace czynsze.Forms
                 case Enums.ReportFormat.Pdf:
                     StringWriter stringWriter = new StringWriter();
                     float single;
+                    int rowNumber = 1;
+                    bool newPageException;
 
                     using (writer = new HtmlTextWriter(stringWriter))
-                    {
-
                         for (int i = 0; i < tables.Count; i++)
                         {
-                            int rowNumber = 0;
+                            List<string[]> table = tables[i];
+                            newPageException = false;
 
                             RenderTableHeader(i);
 
-                            foreach (string[] row in tables[i])
+                            for (int j = 0; j < table.Count; j++)
                             {
+                                string[] row = table[j];
+
                                 writer.AddAttribute(HtmlTextWriterAttribute.Id, "row" + rowNumber.ToString());
                                 writer.RenderBeginTag(HtmlTextWriterTag.Tr);
 
@@ -63,20 +66,24 @@ namespace czynsze.Forms
                                 {
                                     writer.RenderEndTag();
                                     RenderNewPage();
-                                    RenderTableHeader(i);
 
-                                    rowNumber = -1;
+                                    if (j == table.Count - 1)
+                                        newPageException = true;
+                                    else
+                                        RenderTableHeader(i);
+
+                                    rowNumber = 0;
                                 }
 
                                 rowNumber++;
                             }
 
-                            writer.RenderEndTag();
+                            if (!newPageException)
+                                writer.RenderEndTag();
 
-                            if (i != tables.Count - 1)
-                                RenderNewPage();
+                            /*if (i != tables.Count - 1)
+                                RenderNewPage();*/
                         }
-                    }
 
                     html = stringWriter.ToString();
 

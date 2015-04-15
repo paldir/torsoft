@@ -411,48 +411,56 @@ namespace czynsze.Forms
                     break;
 
                 case Enums.Report.CurrentRentAmountOfPlaces:
-                    title = "BIEŻĄCA KWOTA CZYNSZU";
+                    title = "BIEZACA KWOTA CZYNSZU";
                     headers = new List<string>() { "Lp.", "Kod budynku", "Nr lokalu", "Typ lokalu", "Nazwisko", "Imię", "Adres", "Kwota czynszu" };
 
-                    using(DataAccess.Czynsze_Entities db=new DataAccess.Czynsze_Entities())
+                    using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                     {
                         int kod1 = ids[0];
                         int nr1 = ids[1];
                         int kod2 = ids[2];
                         int nr2 = ids[3];
-                        List<DataAccess.ActivePlace> places = db.places.Where(p => p.kod_lok >= kod1 && p.nr_lok >= nr1 && p.kod_lok <= kod2 && p.kod_lok <= nr2).OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok).ToList();
-                        List<string[]> table = new List<string[]>();
                         DataAccess.Place.TypesOfPlace = db.typesOfPlace.ToList();
-                        DataAccess.RentComponentOfPlace.Places = places.ToList();
                         DataAccess.RentComponentOfPlace.RentComponents = db.rentComponents.ToList();
                         int index = 1;
 
-                        captions.Add(String.Empty);
-
-                        foreach (DataAccess.Place place in places)
+                        for (int i = kod1; i <= kod2; i++)
                         {
-                            float sum = 0;
+                            List<DataAccess.ActivePlace> activePlaces = db.places.Where(p => p.kod_lok == i && p.nr_lok >= nr1 && p.nr_lok <= nr2).OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok).ToList();
+                            DataAccess.RentComponentOfPlace.Places = activePlaces;
+                            DataAccess.Building building = db.buildings.FirstOrDefault(b => b.kod_1 == i);
+                            List<string[]> table = new List<string[]>();
+                            float buildingSum = 0;
 
-                            foreach (DataAccess.RentComponentOfPlace rentComponentOfPlace in db.rentComponentsOfPlaces.Where(c => c.kod_lok == place.kod_lok && c.nr_lok == place.nr_lok))
+                            foreach (DataAccess.Place place in activePlaces)
                             {
-                                float ilosc;
-                                float stawka;
+                                float sum = 0;
 
-                                rentComponentOfPlace.Recognize_ilosc_and_stawka(out ilosc, out stawka);
+                                foreach (DataAccess.RentComponentOfPlace rentComponentOfPlace in db.rentComponentsOfPlaces.Where(c => c.kod_lok == place.kod_lok && c.nr_lok == place.nr_lok))
+                                {
+                                    float ilosc;
+                                    float stawka;
 
-                                sum += ilosc * stawka;
+                                    rentComponentOfPlace.Recognize_ilosc_and_stawka(out ilosc, out stawka);
+
+                                    sum += ilosc * stawka;
+                                }
+
+                                table.Add(new string[] { index.ToString(), place.kod_lok.ToString(), place.nr_lok.ToString(), place.Recognize_kod_typ(), place.nazwisko, place.imie, String.Format("{0} {1}", place.adres, place.adres_2), String.Format("{0:N2}", sum) });
+
+                                index++;
+                                buildingSum += sum;
                             }
 
-                            table.Add(new string[] { index.ToString(), place.kod_lok.ToString(), place.nr_lok.ToString(), place.Recognize_kod_typ(), place.nazwisko, place.imie, String.Format("{0} {1}", place.adres, place.adres_2), String.Format("{0:N2}", sum) });
+                            table.Add(new string[] { String.Empty, i.ToString(), String.Empty, String.Empty, "<b>RAZEM</b>", "<b>BUDYNEK</b>", String.Format("{0} {1}", building.adres, building.adres_2), String.Format("{0:N2}", buildingSum) });
+                            tables.Add(table);
+                            captions.Add(String.Empty);
 
-                            index++;
+                            DataAccess.RentComponentOfPlace.Places = null;
                         }
 
                         DataAccess.Place.TypesOfPlace = null;
-                        DataAccess.RentComponentOfPlace.Places = null;
                         DataAccess.RentComponentOfPlace.RentComponents = null;
-
-                        tables.Add(table);
                     }
 
                     break;
