@@ -31,7 +31,7 @@ namespace czynsze.Forms
             {
                 case Enums.ReportFormat.Pdf:
                     StringWriter stringWriter = new StringWriter();
-                    float single;
+                    decimal single;
                     int rowNumber = 1;
                     bool newPageException;
 
@@ -52,7 +52,7 @@ namespace czynsze.Forms
 
                                 foreach (string cell in row)
                                 {
-                                    if (Single.TryParse(cell, out single))
+                                    if (Decimal.TryParse(cell, out single))
                                         writer.AddAttribute(HtmlTextWriterAttribute.Class, "numericCell");
 
                                     writer.RenderBeginTag(HtmlTextWriterTag.Td);

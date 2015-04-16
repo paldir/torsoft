@@ -27,7 +27,7 @@ namespace czynsze.DataAccess
         public int sp_rozl { get; set; }
 
         [Column("udzial_w_k")]
-        public float udzial_w_k { get; set; }
+        public decimal udzial_w_k { get; set; }
 
         [Column("uwagi_1")]
         public string uwagi_1 { get; set; }
@@ -54,7 +54,7 @@ namespace czynsze.DataAccess
             sp_rozl = Convert.ToInt32(record[2]);
             adres = record[3];
             adres_2 = record[4];
-            udzial_w_k = Convert.ToSingle(record[5]);
+            udzial_w_k = Convert.ToDecimal(record[5]);
 
             record[6] = record[6].PadRight(420);
 

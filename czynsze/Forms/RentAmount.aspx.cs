@@ -12,7 +12,7 @@ namespace czynsze.Forms
         protected void Page_Load(object sender, EventArgs e)
         {
             Enums.RentAmount time = GetParamValue<Enums.RentAmount>("mode");
-            string range = Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("RentAmount"));
+            string range = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("RentAmount"));
             Hello.SiteMapPath = new List<string>() { "Raporty", "Kwota czynszu" };
 
             switch (time)
@@ -38,6 +38,8 @@ namespace czynsze.Forms
                 string minPlace = (db.places.Any() ? db.places.Min(p => p.nr_lok) : 0).ToString();
                 string maxBuilding = (db.buildings.Any() ? db.buildings.Max(b => b.kod_1) : 0).ToString();
                 string maxPlace = (db.places.Any() ? db.places.Max(p => p.nr_lok) : 0).ToString();
+                string minCommunity = (db.communities.Any() ? db.communities.Min(c => c.kod) : 0).ToString();
+                string maxCommunity = (db.communities.Any() ? db.communities.Max(c => c.kod) : 0).ToString();
 
                 if (String.IsNullOrEmpty(range))
                 {
@@ -66,33 +68,60 @@ namespace czynsze.Forms
                     AddNewLine(placeOfBuildings);
                     placeOfBuildings.Controls.Add(new MyControls.Label("label", "toBuilding", "Numer ostatniego budynku: ", String.Empty));
                     placeOfBuildings.Controls.Add(new MyControls.TextBox("field", "toBuilding", maxBuilding, MyControls.TextBox.TextBoxMode.Number, 5, 1, true));
+
+                    placeOfCommunities.Controls.Add(new MyControls.Button("button", "allCommunitiesRentAmount", "Zestawienie wszystkich wspólnot", String.Empty));
+                    AddNewLine(placeOfCommunities);
+                    placeOfCommunities.Controls.Add(new MyControls.Button("button", "fromToCommunityRentAmount", "Od-do żądanej wspólnoty", String.Empty));
+                    AddNewLine(placeOfCommunities);
+                    placeOfCommunities.Controls.Add(new MyControls.Label("label", "fromCommunity", "Numer pierwszej wspólnoty: ", String.Empty));
+                    placeOfCommunities.Controls.Add(new MyControls.TextBox("field", "fromCommunity", minCommunity, MyControls.TextBox.TextBoxMode.Number, 5, 1, true));
+                    AddNewLine(placeOfCommunities);
+                    placeOfCommunities.Controls.Add(new MyControls.Label("label", "toCommunity", "Numer ostatniej wspólnoty: ", String.Empty));
+                    placeOfCommunities.Controls.Add(new MyControls.TextBox("field", "toCommunity", maxCommunity, MyControls.TextBox.TextBoxMode.Number, 5, 1, true));
                 }
                 else
                 {
                     range = range.Substring(range.LastIndexOf('$') + 1).Replace("RentAmount", String.Empty);
-                    string kod1, kod2, nr1, nr2;
-                    kod1 = kod2 = nr1 = nr2 = "0";
+                    string kod_1_1, kod_1_2, nr1, nr2, kod1, kod2;
+                    kod_1_1 = kod_1_2 = nr1 = nr2 = kod1 = kod2 = "0";
+                    Enums.Report report = (Enums.Report)(-1);
 
-                    switch(range)
+                    switch (range)
                     {
                         case "allPlaces":
-                            kod1 = minBuilding;
+                            report = Enums.Report.CurrentRentAmountOfPlaces;
+                            kod_1_1 = minBuilding;
                             nr1 = minPlace;
-                            kod2 = maxBuilding;
+                            kod_1_2 = maxBuilding;
                             nr2 = maxPlace;
 
                             break;
 
                         case "fromToPlace":
-                            kod1 = GetParamValue<string>("fromBuildingOfPlace");
+                            report = Enums.Report.CurrentRentAmountOfPlaces;
+                            kod_1_1 = GetParamValue<string>("fromBuildingOfPlace");
                             nr1 = GetParamValue<string>("fromPlace");
-                            kod2 = GetParamValue<string>("toBuildingOfPlace");
+                            kod_1_2 = GetParamValue<string>("toBuildingOfPlace");
                             nr2 = GetParamValue<string>("toPlace");
 
                             break;
+
+                        case "allBuildings":
+                            report = Enums.Report.CurrentRentAmountOfBuildings;
+                            kod_1_1 = minBuilding;
+                            kod_1_2 = maxBuilding;
+
+                            break;
+
+                        case "fromToBuilding":
+                            report = Enums.Report.CurrentRentAmountOfCommunities;
+                            kod_1_1 = GetParamValue<string>("fromBuilding");
+                            kod_1_2 = GetParamValue<string>("toBuilding");
+
+                            break;
                     }
-                    
-                    Response.Redirect(String.Format("ReportConfiguration.aspx?{0}report=dummy&fromBuilding={1}&fromPlace={2}&toBuilding={3}&toPlace={4}", Enums.Report.CurrentRentAmountOfPlaces, kod1, nr1, kod2, nr2));
+
+                    Response.Redirect(String.Format("ReportConfiguration.aspx?{0}report=dummy&fromBuilding={1}&fromPlace={2}&toBuilding={3}&toPlace={4}&fromCommunity={5}&toCommunity={6}", report, kod_1_1, nr1, kod_1_2, nr2, kod1, kod2));
                 }
             }
         }

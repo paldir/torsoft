@@ -8,6 +8,8 @@
                 <div id="placeOfPlaces" runat="server"></div>
                 <hr />
                 <div id="placeOfBuildings" runat="server"></div>
+                <hr />
+                <div id="placeOfCommunities" runat="server"></div>
             </form>
         </div>
     </div>

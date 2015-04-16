@@ -11,7 +11,7 @@ namespace czynsze.DataAccess
 
         public abstract int __record { get; set; }
 
-        public abstract float suma { get; set; }
+        public abstract decimal suma { get; set; }
 
         public abstract DateTime data_obr { get; set; }
 
@@ -158,7 +158,7 @@ namespace czynsze.DataAccess
         public void Set(string[] record)
         {
             __record = Convert.ToInt32(record[0]);
-            suma = Convert.ToSingle(record[1]);
+            suma = Convert.ToDecimal(record[1]);
 
             if (!String.IsNullOrEmpty(record[2]))
                 data_obr = Convert.ToDateTime(record[2]);

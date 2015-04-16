@@ -15,7 +15,7 @@ namespace czynsze.DataAccess
         public override int __record { get; set; }
 
         [Column("kwota_nal")]
-        public override float kwota_nal { get; set; }
+        public override decimal kwota_nal { get; set; }
 
         [Column("data_nal")]
         public override DateTime data_nal { get; set; }
@@ -36,9 +36,9 @@ namespace czynsze.DataAccess
         public override int nr_skl { get; set; }
 
         [Column("stawka")]
-        public override float stawka { get; set; }
+        public override decimal stawka { get; set; }
 
         [Column("ilosc")]
-        public override float ilosc { get; set; }
+        public override decimal ilosc { get; set; }
     }
 }

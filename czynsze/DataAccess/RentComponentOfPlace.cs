@@ -21,7 +21,7 @@ namespace czynsze.DataAccess
         public int nr_skl { get; set; }
 
         [Column("dan_p")]
-        public float dan_p { get; set; }
+        public decimal dan_p { get; set; }
 
         [Column("dat_od")]
         public Nullable<DateTime> dat_od { get; set; }
@@ -39,8 +39,8 @@ namespace czynsze.DataAccess
             using (Czynsze_Entities db = new Czynsze_Entities())
                 rentComponent = db.rentComponents.FirstOrDefault(c => c.nr_skl == nr_skl);
 
-            float ilosc;
-            float stawka;
+            decimal ilosc;
+            decimal stawka;
 
             Recognize_ilosc_and_stawka(out ilosc, out stawka);
 
@@ -59,7 +59,7 @@ namespace czynsze.DataAccess
                 rentComponent.nazwa,
                 stawka.ToString("F2"),
                 ilosc.ToString("F2"),
-                (ilosc*stawka).ToString("F2"),
+                String.Format("{0:N2}", Decimal.Round(stawka*ilosc, 2)),
                 dat_od,
                 dat_od
             };
@@ -70,7 +70,7 @@ namespace czynsze.DataAccess
             kod_lok = Convert.ToInt32(record[0]);
             nr_lok = Convert.ToInt32(record[1]);
             nr_skl = Convert.ToInt32(record[2]);
-            dan_p = Convert.ToSingle(record[3]);
+            dan_p = Convert.ToDecimal(record[3]);
 
             if (record[4] != null)
                 dat_od = Convert.ToDateTime(record[4]);
@@ -79,7 +79,7 @@ namespace czynsze.DataAccess
                 dat_do = Convert.ToDateTime(record[5]);
         }
 
-        public void Recognize_ilosc_and_stawka(out float ilosc, out float stawka)
+        public void Recognize_ilosc_and_stawka(out decimal ilosc, out decimal stawka)
         {
             RentComponent rentComponent;
             Place place;
@@ -107,7 +107,7 @@ namespace czynsze.DataAccess
                     break;
 
                 case 3:
-                    ilosc = (float)place.il_osob;
+                    ilosc = (decimal)place.il_osob;
 
                     break;
 

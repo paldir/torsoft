@@ -11,7 +11,7 @@ namespace czynsze.DataAccess
 
         public abstract int __record { get; set; }
 
-        public abstract float kwota_nal { get; set; }
+        public abstract decimal kwota_nal { get; set; }
 
         public abstract DateTime data_nal { get; set; }
 
@@ -25,9 +25,9 @@ namespace czynsze.DataAccess
 
         public abstract int nr_skl { get; set; }
 
-        public abstract float stawka { get; set; }
+        public abstract decimal stawka { get; set; }
 
-        public abstract float ilosc { get; set; }
+        public abstract decimal ilosc { get; set; }
 
         public string[] ImportantFields()
         {
@@ -54,7 +54,7 @@ namespace czynsze.DataAccess
             };
         }
 
-        public void Set(float kwota_nal, DateTime data_nal, string opis, int nr_kontr, int nr_skl, int kod_lok, int nr_lok, float stawka, float ilosc)
+        public void Set(decimal kwota_nal, DateTime data_nal, string opis, int nr_kontr, int nr_skl, int kod_lok, int nr_lok, decimal stawka, decimal ilosc)
         {
             this.kwota_nal = kwota_nal;
             this.data_nal = data_nal;

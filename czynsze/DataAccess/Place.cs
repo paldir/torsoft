@@ -15,7 +15,7 @@ namespace czynsze.DataAccess
 
         public abstract int kod_typ { get; set; }
 
-        public abstract float pow_uzyt { get; set; }
+        public abstract decimal pow_uzyt { get; set; }
 
         public abstract string nazwisko { get; set; }
 
@@ -25,25 +25,25 @@ namespace czynsze.DataAccess
 
         public abstract string adres_2 { get; set; }
 
-        public abstract float pow_miesz { get; set; }
+        public abstract decimal pow_miesz { get; set; }
 
-        public abstract float udzial { get; set; }
+        public abstract decimal udzial { get; set; }
 
         public abstract Nullable<DateTime> dat_od { get; set; }
 
         public abstract Nullable<DateTime> dat_do { get; set; }
 
-        public abstract float p_1 { get; set; }
+        public abstract decimal p_1 { get; set; }
 
-        public abstract float p_2 { get; set; }
+        public abstract decimal p_2 { get; set; }
 
-        public abstract float p_3 { get; set; }
+        public abstract decimal p_3 { get; set; }
 
-        public abstract float p_4 { get; set; }
+        public abstract decimal p_4 { get; set; }
 
-        public abstract float p_5 { get; set; }
+        public abstract decimal p_5 { get; set; }
 
-        public abstract float p_6 { get; set; }
+        public abstract decimal p_6 { get; set; }
 
         public abstract Nullable<int> kod_kuch { get; set; }
 
@@ -138,9 +138,9 @@ namespace czynsze.DataAccess
             kod_typ = Convert.ToInt32(record[3]);
             adres = record[4];
             adres_2 = record[5];
-            pow_uzyt = Convert.ToSingle(record[6]);
-            pow_miesz = Convert.ToSingle(record[7]);
-            udzial = Convert.ToSingle(record[8]);
+            pow_uzyt = Convert.ToDecimal(record[6]);
+            pow_miesz = Convert.ToDecimal(record[7]);
+            udzial = Convert.ToDecimal(record[8]);
 
             if (record[9] != null)
                 dat_od = Convert.ToDateTime(record[9]);
@@ -148,12 +148,12 @@ namespace czynsze.DataAccess
             if (record[10] != null)
                 dat_do = Convert.ToDateTime(record[10]);
 
-            p_1 = Convert.ToSingle(record[11]);
-            p_2 = Convert.ToSingle(record[12]);
-            p_3 = Convert.ToSingle(record[13]);
-            p_4 = Convert.ToSingle(record[14]);
-            p_5 = Convert.ToSingle(record[15]);
-            p_6 = Convert.ToSingle(record[16]);
+            p_1 = Convert.ToDecimal(record[11]);
+            p_2 = Convert.ToDecimal(record[12]);
+            p_3 = Convert.ToDecimal(record[13]);
+            p_4 = Convert.ToDecimal(record[14]);
+            p_5 = Convert.ToDecimal(record[15]);
+            p_6 = Convert.ToDecimal(record[16]);
             kod_kuch = Convert.ToInt32(record[17]);
             nr_kontr = Convert.ToInt32(record[18]);
 

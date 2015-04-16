@@ -15,7 +15,7 @@ namespace czynsze.DataAccess
         public override int __record { get; set; }
 
         [Column("suma")]
-        public override float suma { get; set; }
+        public override decimal suma { get; set; }
 
         [Column("data_obr")]
         public override DateTime data_obr { get; set; }

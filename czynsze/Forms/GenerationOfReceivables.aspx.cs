@@ -188,8 +188,8 @@ namespace czynsze.Forms
                         foreach (DataAccess.RentComponentOfPlace rentComponentOfPlace in db.rentComponentsOfPlaces.Where(c => c.kod_lok == place.kod_lok && c.nr_lok == place.nr_lok).ToList())
                         {
                             DataAccess.RentComponent rentComponent = db.rentComponents.FirstOrDefault(c => c.nr_skl == rentComponentOfPlace.nr_skl);
-                            float ilosc = 0;
-                            float stawka = rentComponent.stawka;
+                            decimal ilosc = 0;
+                            decimal stawka = rentComponent.stawka;
                             DataAccess.ReceivableFrom1stSet receivableFrom1stSet = new DataAccess.ReceivableFrom1stSet();
 
                             try { new DateTime(year, month, 1); }
@@ -231,7 +231,7 @@ namespace czynsze.Forms
 
                             if (dayFactor != 0)
                             {
-                                receivableFrom1stSet.Set(ilosc * stawka * dayFactor / daysInMonth, new DateTime(year, month, day), String.Format("{0} za m-c {1:00}", rentComponent.nazwa.Trim(), Hello.Date.Month), (int)place.nr_kontr, rentComponent.nr_skl, place.kod_lok, place.nr_lok, stawka, ilosc);
+                                receivableFrom1stSet.Set(Decimal.Round(ilosc * stawka, 2) * dayFactor / daysInMonth, new DateTime(year, month, day), String.Format("{0} za m-c {1:00}", rentComponent.nazwa.Trim(), Hello.Date.Month), (int)place.nr_kontr, rentComponent.nr_skl, place.kod_lok, place.nr_lok, stawka, ilosc);
                                 db.receivablesFrom1stSet.Add(receivableFrom1stSet);
                             }
                         }

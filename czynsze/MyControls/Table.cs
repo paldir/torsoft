@@ -18,7 +18,7 @@ namespace czynsze.MyControls
             Graphics graphics = Graphics.FromImage(bitMap);
             graphics.PageUnit = GraphicsUnit.Pixel;
             Font font = new Font("Times New Roman", 12);
-            float[] summary = new float[headerRow.Length];
+            decimal[] summary = new decimal[headerRow.Length];
             float columnWidth;
             string cellText;
 
@@ -46,7 +46,7 @@ namespace czynsze.MyControls
                 }
 
                 if (indexesOfColumnsWithSummary.Contains(1) && !String.IsNullOrEmpty(cellText))
-                    summary[0] += Convert.ToSingle(cellText);
+                    summary[0] += Convert.ToDecimal(cellText);
 
                 tableCell.Controls.Add(new RadioButton("radioButton", prefix + row[0], "id"));
                 tableCell.Controls.Add(new Label("label", row[0], row[1], String.Empty));
@@ -74,7 +74,7 @@ namespace czynsze.MyControls
                     }
 
                     if (indexesOfColumnsWithSummary.Contains(j) && !String.IsNullOrEmpty(cellText))
-                        summary[j - 1] += Convert.ToSingle(cellText);
+                        summary[j - 1] += Convert.ToDecimal(cellText);
 
                     tableCell.Controls.Add(new Label("label", rows.ElementAt(i)[0], cellText, String.Empty));
                     Rows[i].Cells.Add(tableCell);

@@ -24,13 +24,13 @@ namespace czynsze.DataAccess
         public int typ_skl { get; set; }
 
         [Column("stawka")]
-        public float stawka { get; set; }
+        public decimal stawka { get; set; }
 
         [Column("rodz_e")]
         public int rodz_e { get; set; }
 
         [Column("stawka_inf")]
-        public float stawka_inf { get; set; }
+        public decimal stawka_inf { get; set; }
 
         [Column("data_1")]
         public Nullable<DateTime> data_1 { get; set; }
@@ -39,34 +39,34 @@ namespace czynsze.DataAccess
         public Nullable<DateTime> data_2 { get; set; }
 
         [Column("stawka_00")]
-        public float stawka_00 { get; set; }
+        public decimal stawka_00 { get; set; }
 
         [Column("stawka_01")]
-        public float stawka_01 { get; set; }
+        public decimal stawka_01 { get; set; }
 
         [Column("stawka_02")]
-        public float stawka_02 { get; set; }
+        public decimal stawka_02 { get; set; }
 
         [Column("stawka_03")]
-        public float stawka_03 { get; set; }
+        public decimal stawka_03 { get; set; }
 
         [Column("stawka_04")]
-        public float stawka_04 { get; set; }
+        public decimal stawka_04 { get; set; }
 
         [Column("stawka_05")]
-        public float stawka_05 { get; set; }
+        public decimal stawka_05 { get; set; }
 
         [Column("stawka_06")]
-        public float stawka_06 { get; set; }
+        public decimal stawka_06 { get; set; }
 
         [Column("stawka_07")]
-        public float stawka_07 { get; set; }
+        public decimal stawka_07 { get; set; }
 
         [Column("stawka_08")]
-        public float stawka_08 { get; set; }
+        public decimal stawka_08 { get; set; }
 
         [Column("stawka_09")]
-        public float stawka_09 { get; set; }
+        public decimal stawka_09 { get; set; }
 
         string Recognize_s_zaplat()
         {
@@ -219,8 +219,8 @@ namespace czynsze.DataAccess
             nazwa = record[1];
             rodz_e = Convert.ToInt32(record[2]);
             s_zaplat = Convert.ToInt32(record[3]);
-            stawka = Convert.ToSingle(record[4]);
-            stawka_inf = Convert.ToSingle(record[5]);
+            stawka = Convert.ToDecimal(record[4]);
+            stawka_inf = Convert.ToDecimal(record[5]);
             typ_skl = Convert.ToInt32(record[6]);
 
             if (!String.IsNullOrEmpty(record[7]))
@@ -229,16 +229,16 @@ namespace czynsze.DataAccess
             if (!String.IsNullOrEmpty(record[8]))
                 data_2 = Convert.ToDateTime(record[8]);
 
-            stawka_00 = Convert.ToSingle(record[9]);
-            stawka_01 = Convert.ToSingle(record[10]);
-            stawka_02 = Convert.ToSingle(record[11]);
-            stawka_03 = Convert.ToSingle(record[12]);
-            stawka_04 = Convert.ToSingle(record[13]);
-            stawka_05 = Convert.ToSingle(record[14]);
-            stawka_06 = Convert.ToSingle(record[15]);
-            stawka_07 = Convert.ToSingle(record[16]);
-            stawka_08 = Convert.ToSingle(record[17]);
-            stawka_09 = Convert.ToSingle(record[18]);
+            stawka_00 = Convert.ToDecimal(record[9]);
+            stawka_01 = Convert.ToDecimal(record[10]);
+            stawka_02 = Convert.ToDecimal(record[11]);
+            stawka_03 = Convert.ToDecimal(record[12]);
+            stawka_04 = Convert.ToDecimal(record[13]);
+            stawka_05 = Convert.ToDecimal(record[14]);
+            stawka_06 = Convert.ToDecimal(record[15]);
+            stawka_07 = Convert.ToDecimal(record[16]);
+            stawka_08 = Convert.ToDecimal(record[17]);
+            stawka_09 = Convert.ToDecimal(record[18]);
         }
     }
 }

@@ -36,7 +36,7 @@ namespace czynsze.DataAccess
         public string jedn { get; set; }
 
         [Column("wartosc_n")]
-        public float wartosc_n { get; set; }
+        public decimal wartosc_n { get; set; }
 
         [Column("wartosc_s")]
         public string wartosc_s { get; set; }
@@ -110,7 +110,7 @@ namespace czynsze.DataAccess
             switch (nr_str)
             {
                 case "N":
-                    wartosc_n = Convert.ToSingle(record[4]);
+                    wartosc_n = Convert.ToDecimal(record[4]);
 
                     break;
 

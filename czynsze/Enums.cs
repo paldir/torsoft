@@ -50,7 +50,9 @@ namespace czynsze
             ReceivablesAndTurnoversOfTenant,
             MonthlyAnalysisOfReceivablesAndTurnovers,
             DetailedAnalysisOfReceivablesAndTurnovers,
-            CurrentRentAmountOfPlaces
+            CurrentRentAmountOfPlaces,
+            CurrentRentAmountOfBuildings,
+            CurrentRentAmountOfCommunities
         };
 
         public enum ReportFormat

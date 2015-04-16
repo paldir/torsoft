@@ -14,7 +14,7 @@ namespace czynsze.DataAccess
 
         public abstract string kod_powiaz { get; set; }
 
-        public abstract float wartosc_n { get; set; }
+        public abstract decimal wartosc_n { get; set; }
 
         public abstract string wartosc_s { get; set; }
 
@@ -56,7 +56,7 @@ namespace czynsze.DataAccess
                 switch (db.attributes.FirstOrDefault(a => a.kod == kod).nr_str)
                 {
                     case "N":
-                        wartosc_n = Convert.ToSingle(record[2]);
+                        wartosc_n = Convert.ToDecimal(record[2]);
 
                         break;
 

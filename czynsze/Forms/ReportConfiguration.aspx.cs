@@ -37,9 +37,16 @@ namespace czynsze.Forms
             set { ViewState["additionalId"] = value; }
         }*/
 
-        List<int> ids
+        int[] ids
         {
-            get { return (List<int>)ViewState["ids"]; }
+            get
+            {
+                if (ViewState["ids"] == null)
+                    ViewState["ids"] = new int[6];
+
+                return (int[])ViewState["ids"];
+            }
+
             set { ViewState["ids"] = value; }
         }
 
@@ -52,11 +59,10 @@ namespace czynsze.Forms
             report = (Enums.Report)Enum.Parse(typeof(Enums.Report), key.Replace("report", String.Empty).Substring(key.LastIndexOf('$') + 1));
             key = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"));
             int index = Request.UrlReferrer.Query.IndexOf("id");
-            ids = new List<int>() { 0, 0, 0, 0 };
 
             if (!String.IsNullOrEmpty(key))
                 ids[0] = GetParamValue<int>(key);
-                //id = Convert.ToInt32(Request.Params[key]);
+            //id = Convert.ToInt32(Request.Params[key]);
 
             if (index != -1)
                 ids[1] = Convert.ToInt32(Request.UrlReferrer.Query.Substring(index + 3));
@@ -106,7 +112,7 @@ namespace czynsze.Forms
 
                 case Enums.Report.MonthlySumOfComponent:
                     heading += "(Sumy miesięczne składnika)";
-                    
+
                     break;
 
                 case Enums.Report.ReceivablesAndTurnoversOfTenant:
@@ -125,6 +131,8 @@ namespace czynsze.Forms
                     break;
 
                 case Enums.Report.CurrentRentAmountOfPlaces:
+                case Enums.Report.CurrentRentAmountOfBuildings:
+                case Enums.Report.CurrentRentAmountOfCommunities:
                     heading += "(Bieżąca kwota czynszu)";
                     ids[0] = GetParamValue<int>("fromBuilding");
                     ids[1] = GetParamValue<int>("fromPlace");
@@ -169,11 +177,12 @@ namespace czynsze.Forms
             switch (report)
             {
                 case Enums.Report.PlacesInEachBuilding:
-                    int kod_1_start;
-                    int kod_1_end;
-                    List<int> selectedTypesOfPlace = new List<int>();
-                    title = "LOKALE W BUDYNKACH";
-                    headers = new List<string>()
+                    {
+                        int kod_1_start;
+                        int kod_1_end;
+                        List<int> selectedTypesOfPlace = new List<int>();
+                        title = "LOKALE W BUDYNKACH";
+                        headers = new List<string>()
                     {
                         "Numer lokalu",
                         "Typ lokalu",
@@ -182,36 +191,37 @@ namespace czynsze.Forms
                         "Imię"
                     };
 
-                    try { kod_1_start = Convert.ToInt32(((TextBox)placeOfConfigurationFields.FindControl("kod_1_start")).Text); }
-                    catch { kod_1_start = 0; }
+                        try { kod_1_start = Convert.ToInt32(((TextBox)placeOfConfigurationFields.FindControl("kod_1_start")).Text); }
+                        catch { kod_1_start = 0; }
 
-                    try { kod_1_end = Convert.ToInt32(((TextBox)placeOfConfigurationFields.FindControl("kod_1_end")).Text); }
-                    catch { kod_1_end = 0; }
+                        try { kod_1_end = Convert.ToInt32(((TextBox)placeOfConfigurationFields.FindControl("kod_1_end")).Text); }
+                        catch { kod_1_end = 0; }
 
-                    try
-                    {
-                        foreach (ListItem item in ((CheckBoxList)placeOfConfigurationFields.FindControl("kod_typ")).Items)
-                            if (item.Selected)
-                                selectedTypesOfPlace.Add(Convert.ToInt32(item.Value));
-                    }
-                    catch { }
-
-                    using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                    {
-                        DataAccess.Place.TypesOfPlace = db.typesOfPlace.ToList();
-
-                        for (int i = kod_1_start; i <= kod_1_end; i++)
+                        try
                         {
-                            DataAccess.Building building = db.buildings.Where(b => b.kod_1 == i).FirstOrDefault();
-
-                            if (building != null)
-                            {
-                                captions.Add("Budynek nr " + building.kod_1.ToString() + ", " + building.adres + ", " + building.adres_2);
-                                tables.Add(db.places.Where(p => p.kod_lok == i && selectedTypesOfPlace.Contains(p.kod_typ)).OrderBy(p => p.nr_lok).ToList().Select(p => p.ImportantFields().ToList().GetRange(2, p.ImportantFields().Length - 2).ToArray()).ToList());
-                            }
+                            foreach (ListItem item in ((CheckBoxList)placeOfConfigurationFields.FindControl("kod_typ")).Items)
+                                if (item.Selected)
+                                    selectedTypesOfPlace.Add(Convert.ToInt32(item.Value));
                         }
+                        catch { }
 
-                        DataAccess.Place.TypesOfPlace = null;
+                        using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                        {
+                            DataAccess.Place.TypesOfPlace = db.typesOfPlace.ToList();
+
+                            for (int i = kod_1_start; i <= kod_1_end; i++)
+                            {
+                                DataAccess.Building building = db.buildings.Where(b => b.kod_1 == i).FirstOrDefault();
+
+                                if (building != null)
+                                {
+                                    captions.Add("Budynek nr " + building.kod_1.ToString() + ", " + building.adres + ", " + building.adres_2);
+                                    tables.Add(db.places.Where(p => p.kod_lok == i && selectedTypesOfPlace.Contains(p.kod_typ)).OrderBy(p => p.nr_lok).ToList().Select(p => p.ImportantFields().ToList().GetRange(2, p.ImportantFields().Length - 2).ToArray()).ToList());
+                                }
+                            }
+
+                            DataAccess.Place.TypesOfPlace = null;
+                        }
                     }
 
                     break;
@@ -223,31 +233,32 @@ namespace czynsze.Forms
                     tables = new List<List<string[]>> { new List<string[]>() };
                     IEnumerable<DataAccess.Receivable> receivables = null;
                     IEnumerable<DataAccess.Turnover> turnovers = null;
-                    float wnSum, maSum;
-                    List<float> balances = new List<float>();
+                    decimal wnSum, maSum;
+                    List<decimal> balances = new List<decimal>();
+                    int nr_kontr = ids[1];
 
                     using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
                     {
-                        DataAccess.Tenant tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == ids[1]);
+                        DataAccess.Tenant tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == nr_kontr);
                         captions = new List<string>() { tenant.nazwisko + " " + tenant.imie + "<br />" + tenant.adres_1 + " " + tenant.adres_2 + "<br />" };
 
                         switch (Hello.CurrentSet)
                         {
                             case Enums.SettlementTable.Czynsze:
-                                receivables = db.receivablesFrom1stSet.Where(r => r.nr_kontr == ids[1]).ToList().Cast<DataAccess.Receivable>();
-                                turnovers = db.turnoversFrom1stSet.Where(t => t.nr_kontr == ids[1]).ToList().Cast<DataAccess.Turnover>();
+                                receivables = db.receivablesFrom1stSet.Where(r => r.nr_kontr == nr_kontr).ToList().Cast<DataAccess.Receivable>();
+                                turnovers = db.turnoversFrom1stSet.Where(t => t.nr_kontr == nr_kontr).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
 
                             case Enums.SettlementTable.SecondSet:
-                                receivables = db.receivablesFrom2ndSet.Where(r => r.nr_kontr == ids[1]).ToList().Cast<DataAccess.Receivable>();
-                                turnovers = db.turnoversFrom2ndSet.Where(t => t.nr_kontr == ids[1]).ToList().Cast<DataAccess.Turnover>();
+                                receivables = db.receivablesFrom2ndSet.Where(r => r.nr_kontr == nr_kontr).ToList().Cast<DataAccess.Receivable>();
+                                turnovers = db.turnoversFrom2ndSet.Where(t => t.nr_kontr == nr_kontr).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
 
                             case Enums.SettlementTable.ThirdSet:
-                                receivables = db.receivablesFrom3rdSet.Where(r => r.nr_kontr == ids[1]).ToList().Cast<DataAccess.Receivable>();
-                                turnovers = db.turnoversFrom3rdSet.Where(t => t.nr_kontr == ids[1]).ToList().Cast<DataAccess.Turnover>();
+                                receivables = db.receivablesFrom3rdSet.Where(r => r.nr_kontr == nr_kontr).ToList().Cast<DataAccess.Receivable>();
+                                turnovers = db.turnoversFrom3rdSet.Where(t => t.nr_kontr == nr_kontr).ToList().Cast<DataAccess.Turnover>();
 
                                 break;
                         }
@@ -303,8 +314,8 @@ namespace czynsze.Forms
                                 }
 
                                 tables[0] = tables[0].OrderBy(r => DateTime.Parse(r[2])).ToList();
-                                wnSum = tables[0].Sum(r => String.IsNullOrEmpty(r[0]) ? 0 : Convert.ToSingle(r[0]));
-                                maSum = tables[0].Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToSingle(r[1]));
+                                wnSum = tables[0].Sum(r => String.IsNullOrEmpty(r[0]) ? 0 : Convert.ToDecimal(r[0]));
+                                maSum = tables[0].Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToDecimal(r[1]));
 
                                 tables[0].Add(new string[] { String.Format("{0:N2}", wnSum), String.Format("{0:N2}", maSum), String.Empty, String.Empty });
                                 tables[0].Add(new string[] { "SALDO", String.Format("{0:N2}", maSum - wnSum), String.Empty, String.Empty });
@@ -314,15 +325,15 @@ namespace czynsze.Forms
                             case Enums.Report.MonthlyAnalysisOfReceivablesAndTurnovers:
                                 title = "ZESTAWIENIE ROZLICZEN MIESIECZNYCH";
                                 headers = new List<string>() { "m-c", "suma WN w miesiącu", "suma MA w miesiącu", "saldo w miesiącu", "suma WN narastająco", "suma MA narastająco", "saldo narastająco" };
-                                List<float> wnAmounts = new List<float>();
-                                List<float> maAmounts = new List<float>();
+                                List<decimal> wnAmounts = new List<decimal>();
+                                List<decimal> maAmounts = new List<decimal>();
 
                                 for (int i = 1; i <= 12; i++)
                                 {
                                     List<string[]> monthReceivables = receivables.Where(r => r.data_nal.Month == i).Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).ToList();
                                     List<string[]> monthTurnovers = turnovers.Where(t => t.data_obr.Month == i).Select(t => t.ImportantFieldsForReceivablesAndTurnoversOfTenant()).ToList();
-                                    wnSum = monthReceivables.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToSingle(r[1])) + monthTurnovers.Sum(t => String.IsNullOrEmpty(t[1]) ? 0 : Convert.ToSingle(t[1]));
-                                    maSum = monthTurnovers.Sum(t => String.IsNullOrEmpty(t[2]) ? 0 : Convert.ToSingle(t[2]));
+                                    wnSum = monthReceivables.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToDecimal(r[1])) + monthTurnovers.Sum(t => String.IsNullOrEmpty(t[1]) ? 0 : Convert.ToDecimal(t[1]));
+                                    maSum = monthTurnovers.Sum(t => String.IsNullOrEmpty(t[2]) ? 0 : Convert.ToDecimal(t[2]));
 
                                     wnAmounts.Add(wnSum);
                                     maAmounts.Add(maSum);
@@ -339,7 +350,7 @@ namespace czynsze.Forms
 
                                 for (int i = 1; i <= 12; i++)
                                 {
-                                    float[] sum = new float[] { 0, 0, 0, 0 };
+                                    decimal[] sum = new decimal[] { 0, 0, 0, 0 };
                                     wnSum = maSum = 0;
 
                                     foreach (DataAccess.Receivable receivable in receivables.Where(r => r.data_nal.Month == i))
@@ -349,7 +360,7 @@ namespace czynsze.Forms
 
                                         if (!String.IsNullOrEmpty(row[1]))
                                         {
-                                            float single = Convert.ToSingle(row[1]);
+                                            decimal single = Convert.ToDecimal(row[1]);
                                             sum[index] += single;
                                             wnSum += single;
                                         }
@@ -362,18 +373,18 @@ namespace czynsze.Forms
 
                                         if (index >= 0)
                                         {
-                                            float single;
+                                            decimal single;
 
                                             if (!String.IsNullOrEmpty(row[1]))
                                             {
-                                                single = Convert.ToSingle(row[1]);
+                                                single = Convert.ToDecimal(row[1]);
                                                 sum[index] += single;
                                                 wnSum += single;
                                             }
 
                                             if (!String.IsNullOrEmpty(row[2]))
                                             {
-                                                single = Convert.ToSingle(row[2]);
+                                                single = Convert.ToDecimal(row[2]);
                                                 sum[index] += single;
                                                 maSum += single;
                                             }
@@ -423,6 +434,7 @@ namespace czynsze.Forms
                         DataAccess.Place.TypesOfPlace = db.typesOfPlace.ToList();
                         DataAccess.RentComponentOfPlace.RentComponents = db.rentComponents.ToList();
                         int index = 1;
+                        decimal overallSum = 0;
 
                         for (int i = kod1; i <= kod2; i++)
                         {
@@ -430,20 +442,20 @@ namespace czynsze.Forms
                             DataAccess.RentComponentOfPlace.Places = activePlaces;
                             DataAccess.Building building = db.buildings.FirstOrDefault(b => b.kod_1 == i);
                             List<string[]> table = new List<string[]>();
-                            float buildingSum = 0;
+                            decimal buildingSum = 0;
 
                             foreach (DataAccess.Place place in activePlaces)
                             {
-                                float sum = 0;
+                                decimal sum = 0;
 
                                 foreach (DataAccess.RentComponentOfPlace rentComponentOfPlace in db.rentComponentsOfPlaces.Where(c => c.kod_lok == place.kod_lok && c.nr_lok == place.nr_lok))
                                 {
-                                    float ilosc;
-                                    float stawka;
+                                    decimal ilosc;
+                                    decimal stawka;
 
                                     rentComponentOfPlace.Recognize_ilosc_and_stawka(out ilosc, out stawka);
 
-                                    sum += ilosc * stawka;
+                                    sum += Decimal.Round(ilosc * stawka, 2);
                                 }
 
                                 table.Add(new string[] { index.ToString(), place.kod_lok.ToString(), place.nr_lok.ToString(), place.Recognize_kod_typ(), place.nazwisko, place.imie, String.Format("{0} {1}", place.adres, place.adres_2), String.Format("{0:N2}", sum) });
@@ -457,10 +469,69 @@ namespace czynsze.Forms
                             captions.Add(String.Empty);
 
                             DataAccess.RentComponentOfPlace.Places = null;
+                            overallSum += buildingSum;
                         }
 
                         DataAccess.Place.TypesOfPlace = null;
                         DataAccess.RentComponentOfPlace.RentComponents = null;
+
+                        if (tables.Any())
+                            tables.Last().Add(new string[] { String.Empty, String.Empty, String.Empty, String.Empty, "<b>RAZEM</b>", "<b>WSZYSTKIE</b>", "<b>BUDYNKI</b>", String.Format("{0:N2}", overallSum) });
+                    }
+
+                    break;
+
+                case Enums.Report.CurrentRentAmountOfBuildings:
+                    title = "BIEZACA KWOTA CZYNSZU";
+                    headers = new List<string>() { "Lp.", "Kod budynku", "Adres", "Kwota czynszu" };
+
+                    using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                    {
+                        int kod1 = ids[0];
+                        int kod2 = ids[2];
+                        decimal overallSum = 0;
+                        DataAccess.RentComponentOfPlace.RentComponents = db.rentComponents.ToList();
+                        List<string[]> table = new List<string[]>();
+
+                        for (int i = kod1; i <= kod2; i++)
+                        {
+                            DataAccess.Building building = db.buildings.FirstOrDefault(b => b.kod_1 == i);
+                            decimal sum = 0;
+                            List<DataAccess.ActivePlace> activePlaces = db.places.Where(p => p.kod_lok == i).ToList();
+                            DataAccess.RentComponentOfPlace.Places = activePlaces;
+
+                            foreach (DataAccess.ActivePlace activePlace in activePlaces)
+                                foreach (DataAccess.RentComponentOfPlace rentComponentOfPlace in db.rentComponentsOfPlaces.Where(c => c.kod_lok == i && c.nr_lok == activePlace.nr_lok))
+                                {
+                                    decimal ilosc;
+                                    decimal stawka;
+
+                                    rentComponentOfPlace.Recognize_ilosc_and_stawka(out ilosc, out stawka);
+
+                                    sum += Decimal.Round(ilosc * stawka, 2);
+                                }
+
+                            overallSum += sum;
+                            DataAccess.RentComponentOfPlace.Places = null;
+
+                            table.Add(new string[] { String.Format("{0}", i - kod1 + 1), building.kod_1.ToString(), String.Format("{0} {1}", building.adres, building.adres_2), String.Format("{0:N2}", sum) });
+                        }
+
+                        DataAccess.RentComponentOfPlace.RentComponents = null;
+
+                        table.Add(new string[] { String.Empty, String.Empty, "<b>RAZEM</b>", String.Format("{0:N2}", overallSum) });
+                        captions.Add(String.Empty);
+                        tables.Add(table);
+                    }
+
+                    break;
+
+                case Enums.Report.CurrentRentAmountOfCommunities:
+                    title = "BIEZACA KWOTA CZYNSZU";
+
+                    using(DataAccess.Czynsze_Entities db=new DataAccess.Czynsze_Entities())
+                    {
+
                     }
 
                     break;

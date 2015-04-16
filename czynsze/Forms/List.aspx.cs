@@ -439,10 +439,10 @@ namespace czynsze.Forms
                             }
 
                             rows = receivables.Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).Concat(turnovers.Select(t => t.ImportantFieldsForReceivablesAndTurnoversOfTenant())).OrderBy(r => DateTime.Parse(r[3])).ToList();
-                            float wnAmount = rows.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToSingle(r[1]));
-                            float maAmount = rows.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Convert.ToSingle(r[2]));
+                            decimal wnAmount = rows.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToDecimal(r[1]));
+                            decimal maAmount = rows.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Convert.ToDecimal(r[2]));
                             List<string[]> rowsOfPastReceivables = receivables.Where(r => r.data_nal < Hello.Date).Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).Concat(turnovers.Where(t => t.data_obr < Hello.Date).Select(t => t.ImportantFieldsForReceivablesAndTurnoversOfTenant())).ToList();
-                            float wnAmountOfPastReceivables = rowsOfPastReceivables.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToSingle(r[1]));
+                            decimal wnAmountOfPastReceivables = rowsOfPastReceivables.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToDecimal(r[1]));
                             summary = @"
                                 <table class='additionalTable'>
                                     <tr>
@@ -523,15 +523,15 @@ namespace czynsze.Forms
                             }
 
                             List<string[]> rowsOfReceivablesAndTurnovers = receivables.Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).Concat(turnovers.Select(t => t.ImportantFieldsForReceivablesAndTurnoversOfTenant())).ToList();
-                            float wnAmount = rowsOfReceivablesAndTurnovers.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToSingle(r[1]));
-                            float maAmount = rowsOfReceivablesAndTurnovers.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Convert.ToSingle(r[2]));
+                            decimal wnAmount = rowsOfReceivablesAndTurnovers.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToDecimal(r[1]));
+                            decimal maAmount = rowsOfReceivablesAndTurnovers.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Convert.ToDecimal(r[2]));
                             List<string[]> rowsOfReceivablesAndTurnoversToDate = receivables.Where(r => r.data_nal <= Hello.Date).Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).Concat(turnovers.Where(t => t.data_obr <= Hello.Date).Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant())).ToList();
-                            float wnAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToSingle(r[1]));
-                            float maAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Convert.ToSingle(r[2]));
+                            decimal wnAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToDecimal(r[1]));
+                            decimal maAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Convert.ToDecimal(r[2]));
                             DataAccess.Configuration configuration = db.configurations.FirstOrDefault();
                             List<string[]> rowsOfInterestNotes = turnovers.Where(t => t.kod_wplat == configuration.p_20 || t.kod_wplat == configuration.p_37).Select(t => t.ImportantFieldsForReceivablesAndTurnoversOfTenant()).ToList();
-                            float wnOfInterestNotes = rowsOfInterestNotes.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToSingle(r[1]));
-                            float maOfInterestNotes = rowsOfInterestNotes.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Convert.ToSingle(r[2]));
+                            decimal wnOfInterestNotes = rowsOfInterestNotes.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToDecimal(r[1]));
+                            decimal maOfInterestNotes = rowsOfInterestNotes.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Convert.ToDecimal(r[2]));
                             rows = new List<string[]>() { new string[] { String.Empty, String.Format("{0:N2}", maAmount - wnAmount), String.Format("{0:N2}", maAmountToDay - wnAmountToDay), String.Format("{0:N2}", maOfInterestNotes - wnOfInterestNotes) } };
                         }
 
