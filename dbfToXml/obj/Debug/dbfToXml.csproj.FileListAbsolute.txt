@@ -1,0 +1,1 @@
+C:\Users\paldir\Documents\GitHub\dbfToXmlConverter\dbfToXml\dbfToXml\bin\Debug\dbfToXml.exe.config
