@@ -10,7 +10,7 @@
     <KONTRAHENT>
       <ID_ZRODLA>
       </ID_ZRODLA>
-      <AKRONIM>&lt;![CDATA[PLAC�WKA NR 4]]&gt;</AKRONIM>
+      <AKRONIM><![CDATA[PLACÓWKA NR 4]]></AKRONIM>
       <RODZAJ>
       </RODZAJ>
       <KRAJ_ISO>
@@ -23,21 +23,17 @@
         <ADRES>
           <STATUS>
           </STATUS>
-          <NAZWA1>
-          </NAZWA1>
-          <NAZWA2>
-          </NAZWA2>
+          <NAZWA1><![CDATA[PLACÓWKA OPIEKUŃCZO-WYCHOWAWCZA NR 4 W TORUNIU]]></NAZWA1>
+          <NAZWA2><![CDATA[]]></NAZWA2>
           <NAZWA3>
           </NAZWA3>
           <ULICA>
           </ULICA>
-          <MIASTO>
-          </MIASTO>
-          <KOD_POCZTOWY>
-          </KOD_POCZTOWY>
+          <MIASTO><![CDATA[TORUŃ]]></MIASTO>
+          <KOD_POCZTOWY><![CDATA[87-100]]></KOD_POCZTOWY>
           <NIP_KRAJ>
           </NIP_KRAJ>
-          <NIP>&lt;![CDATA[8792671204]]&gt;</NIP>
+          <NIP><![CDATA[8792671204]]></NIP>
           <TELEFON1>
           </TELEFON1>
           <EMAIL>
@@ -86,19 +82,17 @@
       </TERMIN>
       <FORMA_PLATNOSCI>
       </FORMA_PLATNOSCI>
-      <NUMER>&lt;![CDATA[1/JK/15]]&gt;</NUMER>
+      <NUMER><![CDATA[1/JK/15]]></NUMER>
       <KOREKTA>
       </KOREKTA>
       <KOREKTA_NUMER>
       </KOREKTA_NUMER>
       <WEWNETRZNA>
       </WEWNETRZNA>
-      <FISKALNA>
-      </FISKALNA>
+      <FISKALNA>Nie</FISKALNA>
       <DETALICZNA>
       </DETALICZNA>
-      <EKSPORT>
-      </EKSPORT>
+      <EKSPORT>Nie</EKSPORT>
       <PODATNIK_CZYNNY>
       </PODATNIK_CZYNNY>
       <DATA_KURSU>
@@ -111,13 +105,11 @@
       </PODMIOT>
       <NIP_KRAJ>
       </NIP_KRAJ>
-      <NIP>&lt;![CDATA[8792671204]]&gt;</NIP>
+      <NIP><![CDATA[8792671204]]></NIP>
       <ULICA>
       </ULICA>
-      <MIASTO>
-      </MIASTO>
-      <KOD_POCZTOWY>
-      </KOD_POCZTOWY>
+      <MIASTO><![CDATA[TORUŃ]]></MIASTO>
+      <KOD_POCZTOWY><![CDATA[87-100]]></KOD_POCZTOWY>
       <FINALNY>
       </FINALNY>
       <POZYCJE>
