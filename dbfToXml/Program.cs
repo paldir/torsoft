@@ -23,28 +23,37 @@ namespace dbfToXml
             {
                 connection.Open();
 
-                OleDbCommand command = new OleDbCommand("SELECT * FROM _FK.DBF", connection);
-                DataSet dataSet = new DataSet();
-                OleDbDataAdapter dataAdapter = new OleDbDataAdapter(command);
+                OleDbCommand fkCommand = new OleDbCommand("SELECT * FROM _FK.DBF", connection);
+                OleDbCommand fkListCommand = new OleDbCommand("SELECT * FROM _FK_LIST.DBF", connection);
+                DataSet fkDataSet = new DataSet();
+                DataSet fkListDataSet = new DataSet();
+                OleDbDataAdapter fkDataAdapter = new OleDbDataAdapter(fkCommand);
+                OleDbDataAdapter fkListDataAdapter = new OleDbDataAdapter(fkListCommand);
 
-                dataAdapter.Fill(dataSet);
+                fkDataAdapter.Fill(fkDataSet);
+                fkListDataAdapter.Fill(fkListDataSet);
 
-                DataTable table = dataSet.Tables[0];
-                Dictionary<string, int> columnNameToOrdinal = new Dictionary<string, int>();
+                DataTable fkTable = fkDataSet.Tables[0];
+                DataTable fkListTable = fkListDataSet.Tables[0];
+                Dictionary<string, int> fkColumnNameToOrdinal = new Dictionary<string, int>();
+                Dictionary<string, int> fkListColumnNameToOrdinal = new Dictionary<string, int>();
 
-                foreach (DataColumn column in table.Columns)
-                    columnNameToOrdinal.Add(column.ColumnName.ToLower(), column.Ordinal);
+                foreach (DataColumn column in fkTable.Columns)
+                    fkColumnNameToOrdinal.Add(column.ColumnName.ToLower(), column.Ordinal);
+
+                foreach (DataColumn column in fkListTable.Columns)
+                    fkListColumnNameToOrdinal.Add(column.ColumnName.ToLower(), column.Ordinal);
 
                 /*using (System.IO.StreamWriter streamWriter = new System.IO.StreamWriter("index.html"))
                 {
                     streamWriter.Write("<html><head><title></title></head><body><table border='1'><tr>");
 
-                    foreach (string column in columnNameToOrdinal.Values)
+                    foreach (string column in fkListColumnNameToOrdinal.Keys)
                         streamWriter.Write(String.Format("<th>{0}</th>", column));
 
                     streamWriter.Write("</tr>");
 
-                    foreach (DataRow dataRow in table.Rows)
+                    foreach (DataRow dataRow in fkListTable.Rows)
                     {
                         streamWriter.Write("<tr>");
 
@@ -61,27 +70,40 @@ namespace dbfToXml
 
                 xmlDocument.Load("wzor_fk.xml");
 
-                foreach (DataRow dataRow in table.Rows)
+                foreach (DataRow dataRow in fkTable.Rows)
                 {
                     object[] itemArray = dataRow.ItemArray;
                     string kod, miasto, ulica;
                     string fileName = "1.xml";
 
-                    SaveItemToXml("akronim", itemArray[columnNameToOrdinal["indeks_kon"]]);
-                    SaveItemToXml("nip", itemArray[columnNameToOrdinal["nr_ident"]]);
-                    SaveItemToXml("numer", itemArray[columnNameToOrdinal["nr_fk"]]);
-                    SaveItemToXml("kwota_plat", itemArray[columnNameToOrdinal["wartosc"]], false);
-                    SaveItemToXml("kwota_pln_plat", itemArray[columnNameToOrdinal["wartosc"]], false);
-                    SaveItemToXml("nazwa1", itemArray[columnNameToOrdinal["platnik"]]);
-                    SaveItemToXml("nazwa2", itemArray[columnNameToOrdinal["platnik1"]]);
+                    SaveItemToXml("akronim", itemArray[fkColumnNameToOrdinal["indeks_kon"]]);
+                    SaveItemToXml("nip", itemArray[fkColumnNameToOrdinal["nr_ident"]]);
+                    SaveItemToXml("numer", itemArray[fkColumnNameToOrdinal["nr_fk"]]);
+                    SaveItemToXml("kwota_plat", itemArray[fkColumnNameToOrdinal["wartosc"]], false);
+                    SaveItemToXml("kwota_pln_plat", itemArray[fkColumnNameToOrdinal["wartosc"]], false);
+                    SaveItemToXml("nazwa1", itemArray[fkColumnNameToOrdinal["platnik"]]);
+                    SaveItemToXml("nazwa2", itemArray[fkColumnNameToOrdinal["platnik1"]]);
 
-                    ParseAddress(String.Format("{0};{1}", itemArray[columnNameToOrdinal["adres1"]], itemArray[columnNameToOrdinal["adres2"]]), out kod, out miasto, out ulica);
+                    ParseAddress(String.Format("{0};{1}", itemArray[fkColumnNameToOrdinal["adres1"]], itemArray[fkColumnNameToOrdinal["adres2"]]), out kod, out miasto, out ulica);
                     SaveItemToXml("kod_pocztowy", kod);
                     SaveItemToXml("miasto", miasto);
                     SaveItemToXml("miasto", miasto);
 
-                    SaveItemToXml("fiskalna", BoolToPolishBool(itemArray[columnNameToOrdinal["fisk"]]), false);
-                    SaveItemToXml("root/rejestry_sprzedazy_vat/rejestr_sprzedazy_vat/eksport", BoolToPolishBool(itemArray[columnNameToOrdinal["exported"]]), false);
+                    SaveItemToXml("fiskalna", BoolToPolishBool(itemArray[fkColumnNameToOrdinal["fisk"]]), false);
+                    SaveItemToXml("root/rejestry_sprzedazy_vat/rejestr_sprzedazy_vat/eksport", BoolToPolishBool(itemArray[fkColumnNameToOrdinal["exported"]]), false);
+
+                    DateTime dateTime = (DateTime)itemArray[fkColumnNameToOrdinal["data"]];
+                    string dateTimeString = dateTime.ToShortDateString();
+                    string deadlineString = dateTime.AddDays((double)itemArray[fkColumnNameToOrdinal["termin"]]).ToShortDateString();
+                    SaveItemToXml("data_wystawienia", dateTimeString);
+                    SaveItemToXml("data_dataobowiazkupodatkowego", dateTimeString);
+                    SaveItemToXml("data_dataprawaodliczenia", dateTimeString);
+                    SaveItemToXml("termin", deadlineString);
+                    SaveItemToXml("termin_plat", deadlineString);
+
+                    SaveItemToXml("data_sprzedazy", ((DateTime)itemArray[fkColumnNameToOrdinal["data_sprz"]]).ToShortDateString());
+
+
 
                     xmlDocument.Save(fileName);
 
@@ -102,7 +124,10 @@ namespace dbfToXml
         {
             tagNameOrXPath = tagNameOrXPath.ToUpper();
             XmlNodeList xmlNodeList;
-            string valueString = value.ToString().Trim();
+            string valueString = null;
+
+            if (value != null)
+                valueString = value.ToString().Trim();
 
             if (tagNameOrXPath.Contains('/'))
                 xmlNodeList = xmlDocument.SelectNodes(tagNameOrXPath);
