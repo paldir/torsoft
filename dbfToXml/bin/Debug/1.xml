@@ -1,128 +1,98 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <ROOT>
   <KONTRAHENCI>
-    <WERSJA>
-    </WERSJA>
+    <WERSJA>2.00</WERSJA>
     <BAZA_ZRD_ID>
     </BAZA_ZRD_ID>
-    <BAZA_DOC_ID>
-    </BAZA_DOC_ID>
+    <BAZA_DOC_ID>K1</BAZA_DOC_ID>
     <KONTRAHENT>
       <ID_ZRODLA>
       </ID_ZRODLA>
-      <AKRONIM><![CDATA[GLOTOR]]></AKRONIM>
-      <RODZAJ>
-      </RODZAJ>
-      <KRAJ_ISO>
-      </KRAJ_ISO>
-      <EKSPORT>
-      </EKSPORT>
-      <PLATNIK_VAT>
-      </PLATNIK_VAT>
+      <AKRONIM><![CDATA[WOTUIW]]></AKRONIM>
+      <RODZAJ>dostawca</RODZAJ>
+      <KRAJ_ISO><![CDATA[PL]]></KRAJ_ISO>
+      <EKSPORT><![CDATA[krajowy]]></EKSPORT>
+      <PLATNIK_VAT><![CDATA[Tak]]></PLATNIK_VAT>
       <ADRESY>
         <ADRES>
-          <STATUS>
-          </STATUS>
-          <NAZWA1><![CDATA[PRZEDSIĘBIORSTWO HANDLOWO-USŁUGOWE]]></NAZWA1>
-          <NAZWA2><![CDATA[GLOTOR SP. Z O.O.]]></NAZWA2>
+          <STATUS>aktualny</STATUS>
+          <NAZWA1><![CDATA[WOJEWÓDZKI OŚRODEK TERAPII UZALEŻNIEŃ]]></NAZWA1>
+          <NAZWA2><![CDATA[]]></NAZWA2>
           <NAZWA3>
           </NAZWA3>
           <ULICA>
           </ULICA>
-          <MIASTO><![CDATA[DOBRZEJEWICE]]></MIASTO>
-          <KOD_POCZTOWY><![CDATA[87-123]]></KOD_POCZTOWY>
-          <NIP_KRAJ>
-          </NIP_KRAJ>
-          <NIP><![CDATA[879-259-92-34]]></NIP>
+          <MIASTO><![CDATA[TORUŃ, UL. SZOSA BYDGOSKA 1]]></MIASTO>
+          <KOD_POCZTOWY><![CDATA[87-100]]></KOD_POCZTOWY>
+          <NIP_KRAJ><![CDATA[PL]]></NIP_KRAJ>
+          <NIP><![CDATA[956-20-48-040]]></NIP>
           <TELEFON1>
           </TELEFON1>
           <EMAIL>
           </EMAIL>
-          <KRAJ>
-          </KRAJ>
-          <FINALNY>
-          </FINALNY>
+          <KRAJ><![CDATA[Polska]]></KRAJ>
+          <FINALNY>Nie</FINALNY>
         </ADRES>
       </ADRESY>
     </KONTRAHENT>
   </KONTRAHENCI>
   <KATEGORIE>
-    <WERSJA>
-    </WERSJA>
+    <WERSJA>2.00</WERSJA>
     <BAZA_ZRD_ID>
     </BAZA_ZRD_ID>
-    <BAZA_DOC_ID>
-    </BAZA_DOC_ID>
+    <BAZA_DOC_ID>K1</BAZA_DOC_ID>
   </KATEGORIE>
   <REJESTRY_SPRZEDAZY_VAT>
-    <WERSJA>
-    </WERSJA>
+    <WERSJA>2.00</WERSJA>
     <BAZA_ZRD_ID>
     </BAZA_ZRD_ID>
-    <BAZA_DOC_ID>
-    </BAZA_DOC_ID>
+    <BAZA_DOC_ID>K1</BAZA_DOC_ID>
     <REJESTR_SPRZEDAZY_VAT>
       <ID_ZRODLA>
       </ID_ZRODLA>
-      <MODUL>
-      </MODUL>
-      <TYP>
-      </TYP>
-      <REJESTR>
-      </REJESTR>
-      <DATA_WYSTAWIENIA><![CDATA[2015-04-16]]></DATA_WYSTAWIENIA>
-      <DATA_SPRZEDAZY><![CDATA[2015-04-16]]></DATA_SPRZEDAZY>
-      <DATA_DATAOBOWIAZKUPODATKOWEGO><![CDATA[2015-04-16]]></DATA_DATAOBOWIAZKUPODATKOWEGO>
-      <DATA_DATAPRAWAODLICZENIA><![CDATA[2015-04-16]]></DATA_DATAPRAWAODLICZENIA>
-      <TERMIN><![CDATA[2015-04-19]]></TERMIN>
+      <MODUL>Rejestr Vat</MODUL>
+      <TYP>Rejestr sprzedaży</TYP>
+      <REJESTR><![CDATA[sprzedaż]]></REJESTR>
+      <DATA_WYSTAWIENIA><![CDATA[2015-04-14]]></DATA_WYSTAWIENIA>
+      <DATA_SPRZEDAZY><![CDATA[2015-04-14]]></DATA_SPRZEDAZY>
+      <DATA_DATAOBOWIAZKUPODATKOWEGO><![CDATA[2015-04-14]]></DATA_DATAOBOWIAZKUPODATKOWEGO>
+      <DATA_DATAPRAWAODLICZENIA><![CDATA[2015-04-14]]></DATA_DATAPRAWAODLICZENIA>
+      <TERMIN><![CDATA[2015-04-28]]></TERMIN>
       <FORMA_PLATNOSCI>
       </FORMA_PLATNOSCI>
-      <NUMER><![CDATA[182/JK/15]]></NUMER>
-      <KOREKTA>
-      </KOREKTA>
+      <NUMER><![CDATA[177/JK/15]]></NUMER>
+      <KOREKTA>Nie</KOREKTA>
       <KOREKTA_NUMER>
       </KOREKTA_NUMER>
       <WEWNETRZNA>
       </WEWNETRZNA>
       <FISKALNA>Nie</FISKALNA>
-      <DETALICZNA>
-      </DETALICZNA>
+      <DETALICZNA>Nie</DETALICZNA>
       <EKSPORT>Nie</EKSPORT>
-      <PODATNIK_CZYNNY>
-      </PODATNIK_CZYNNY>
-      <DATA_KURSU>
-      </DATA_KURSU>
-      <DATA_KURSU_2>
-      </DATA_KURSU_2>
-      <TYP_PODMIOTU>
-      </TYP_PODMIOTU>
-      <PODMIOT>
-      </PODMIOT>
-      <NIP_KRAJ>
-      </NIP_KRAJ>
-      <NIP><![CDATA[879-259-92-34]]></NIP>
+      <PODATNIK_CZYNNY>Tak</PODATNIK_CZYNNY>
+      <DATA_KURSU><![CDATA[2015-04-14]]></DATA_KURSU>
+      <DATA_KURSU_2><![CDATA[2015-04-14]]></DATA_KURSU_2>
+      <TYP_PODMIOTU><![CDATA[kontrahent]]></TYP_PODMIOTU>
+      <PODMIOT><![CDATA[WOTUIW]]></PODMIOT>
+      <NIP_KRAJ><![CDATA[PL]]></NIP_KRAJ>
+      <NIP><![CDATA[956-20-48-040]]></NIP>
       <ULICA>
       </ULICA>
-      <MIASTO><![CDATA[DOBRZEJEWICE]]></MIASTO>
-      <KOD_POCZTOWY><![CDATA[87-123]]></KOD_POCZTOWY>
-      <FINALNY>
-      </FINALNY>
+      <MIASTO><![CDATA[TORUŃ, UL. SZOSA BYDGOSKA 1]]></MIASTO>
+      <KOD_POCZTOWY><![CDATA[87-100]]></KOD_POCZTOWY>
+      <FINALNY>Nie</FINALNY>
       <POZYCJE>
         <POZYCJA>
           <STAWKA_VAT>23</STAWKA_VAT>
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -133,16 +103,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -153,16 +119,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -173,16 +135,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -193,16 +151,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -213,16 +167,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -233,16 +183,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -253,16 +199,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -273,16 +215,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -293,16 +231,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -313,16 +247,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -333,16 +263,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -353,16 +279,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -373,16 +295,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -393,16 +311,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -413,16 +327,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -433,16 +343,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -453,16 +359,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -473,16 +375,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -493,16 +391,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -513,16 +407,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -533,16 +423,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -553,16 +439,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -573,16 +455,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -593,16 +471,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -613,16 +487,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -633,16 +503,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -653,16 +519,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -673,16 +535,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -693,16 +551,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -713,16 +567,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -733,16 +583,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -753,16 +599,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -773,16 +615,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -793,16 +631,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -813,16 +647,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -833,16 +663,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -853,16 +679,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -873,16 +695,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -893,16 +711,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -913,16 +727,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -933,16 +743,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -953,16 +759,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -973,16 +775,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -993,16 +791,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1013,16 +807,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1033,16 +823,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1053,16 +839,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1073,16 +855,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1093,16 +871,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1113,16 +887,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1133,16 +903,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1153,16 +919,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1173,16 +935,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1193,16 +951,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1213,16 +967,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1233,16 +983,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1253,16 +999,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1273,16 +1015,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1293,16 +1031,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1313,16 +1047,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1333,16 +1063,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1353,16 +1079,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1373,16 +1095,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1393,16 +1111,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1413,16 +1127,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1433,16 +1143,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1453,16 +1159,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1473,16 +1175,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1493,16 +1191,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1513,16 +1207,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1533,16 +1223,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1553,16 +1239,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1573,16 +1255,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1593,16 +1271,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1613,16 +1287,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1633,16 +1303,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1653,16 +1319,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1673,16 +1335,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1693,16 +1351,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1713,16 +1367,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1733,16 +1383,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1753,16 +1399,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1773,16 +1415,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1793,116 +1431,12 @@
           <STATUS_VAT>
           </STATUS_VAT>
           <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
+          <NETTO_SYS>0</NETTO_SYS>
+          <NETTO_SYS2>0</NETTO_SYS2>
+          <VAT>0</VAT>
           <VAT_SYS>
           </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
-          <RODZAJ_SPRZEDAZY>
-          </RODZAJ_SPRZEDAZY>
-          <UWZ_W_PROPORCJI>
-          </UWZ_W_PROPORCJI>
-        </POZYCJA>
-        <POZYCJA>
-          <STAWKA_VAT>23</STAWKA_VAT>
-          <STATUS_VAT>
-          </STATUS_VAT>
-          <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
-          <VAT_SYS>
-          </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
-          <RODZAJ_SPRZEDAZY>
-          </RODZAJ_SPRZEDAZY>
-          <UWZ_W_PROPORCJI>
-          </UWZ_W_PROPORCJI>
-        </POZYCJA>
-        <POZYCJA>
-          <STAWKA_VAT>23</STAWKA_VAT>
-          <STATUS_VAT>
-          </STATUS_VAT>
-          <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
-          <VAT_SYS>
-          </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
-          <RODZAJ_SPRZEDAZY>
-          </RODZAJ_SPRZEDAZY>
-          <UWZ_W_PROPORCJI>
-          </UWZ_W_PROPORCJI>
-        </POZYCJA>
-        <POZYCJA>
-          <STAWKA_VAT>23</STAWKA_VAT>
-          <STATUS_VAT>
-          </STATUS_VAT>
-          <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
-          <VAT_SYS>
-          </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
-          <RODZAJ_SPRZEDAZY>
-          </RODZAJ_SPRZEDAZY>
-          <UWZ_W_PROPORCJI>
-          </UWZ_W_PROPORCJI>
-        </POZYCJA>
-        <POZYCJA>
-          <STAWKA_VAT>23</STAWKA_VAT>
-          <STATUS_VAT>
-          </STATUS_VAT>
-          <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
-          <VAT_SYS>
-          </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
-          <RODZAJ_SPRZEDAZY>
-          </RODZAJ_SPRZEDAZY>
-          <UWZ_W_PROPORCJI>
-          </UWZ_W_PROPORCJI>
-        </POZYCJA>
-        <POZYCJA>
-          <STAWKA_VAT>23</STAWKA_VAT>
-          <STATUS_VAT>
-          </STATUS_VAT>
-          <NETTO>0</NETTO>
-          <NETTO_SYS>
-          </NETTO_SYS>
-          <NETTO_SYS2>
-          </NETTO_SYS2>
-          <VAT>
-          </VAT>
-          <VAT_SYS>
-          </VAT_SYS>
-          <VAT_SYS2>
-          </VAT_SYS2>
+          <VAT_SYS2>Nie</VAT_SYS2>
           <RODZAJ_SPRZEDAZY>
           </RODZAJ_SPRZEDAZY>
           <UWZ_W_PROPORCJI>
@@ -1911,23 +1445,20 @@
       </POZYCJE>
       <PLATNOSCI>
         <PLATNOSC>
-          <TERMIN_PLAT><![CDATA[2015-04-19]]></TERMIN_PLAT>
+          <TERMIN_PLAT><![CDATA[2015-04-28]]></TERMIN_PLAT>
           <FORMA_PLATNOSCI_PLAT>
           </FORMA_PLATNOSCI_PLAT>
           <WALUTA_DOK>
           </WALUTA_DOK>
-          <DATA_KURSU>
-          </DATA_KURSU>
-          <KWOTA_PLAT>2939,7</KWOTA_PLAT>
-          <KWOTA_PLN_PLAT>2939,7</KWOTA_PLN_PLAT>
-          <KIERUNEK>
-          </KIERUNEK>
+          <DATA_KURSU><![CDATA[2015-04-14]]></DATA_KURSU>
+          <KWOTA_PLAT>1162,35</KWOTA_PLAT>
+          <KWOTA_PLN_PLAT>1162,35</KWOTA_PLN_PLAT>
+          <KIERUNEK>przychód</KIERUNEK>
         </PLATNOSC>
       </PLATNOSCI>
       <ATRYBUTY>
         <ATRYBUT>
-          <KOD_ATR>
-          </KOD_ATR>
+          <KOD_ATR>SALDEO</KOD_ATR>
           <WARTOSC>
           </WARTOSC>
         </ATRYBUT>
@@ -1935,11 +1466,9 @@
     </REJESTR_SPRZEDAZY_VAT>
   </REJESTRY_SPRZEDAZY_VAT>
   <REJESTRY_ZAKUPU_VAT>
-    <WERSJA>
-    </WERSJA>
+    <WERSJA>2.00</WERSJA>
     <BAZA_ZRD_ID>
     </BAZA_ZRD_ID>
-    <BAZA_DOC_ID>
-    </BAZA_DOC_ID>
+    <BAZA_DOC_ID>K1</BAZA_DOC_ID>
   </REJESTRY_ZAKUPU_VAT>
 </ROOT>
