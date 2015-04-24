@@ -43,7 +43,7 @@ namespace dbfToXml
                     break;
             }
 
-            using (OleDbConnection połączenie = new OleDbConnection(String.Format(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Extended Properties=dBASE IV;", Path.Combine(Environment.CurrentDirectory, "DBF"))))
+            using (OleDbConnection połączenie = new OleDbConnection(String.Format(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Extended Properties=dBASE IV;", Environment.CurrentDirectory)))
             {
                 połączenie.Open();
 
@@ -92,7 +92,6 @@ namespace dbfToXml
                 XmlNode wzórRejestru = dokumentXml.GetElementsByTagName("REJESTR_SPRZEDAZY_VAT")[0];
                 XmlNode wzórPozycji = dokumentXml.GetElementsByTagName("POZYCJA")[0];
                 string plik = "faktury.xml";
-                string xml;
 
                 foreach (DataRow wiersz in fk.Rows)
                 {
@@ -108,7 +107,7 @@ namespace dbfToXml
                         XmlNode rejestr = wzórRejestru.CloneNode(true);
                         DateTime data = (DateTime)polaFk[nazwaKolumnyDoJejNumeruFk["data"]];
                         string napisDaty = data.ToShortDateString();
-                        string napisTerminu = data.AddDays((double)polaFk[nazwaKolumnyDoJejNumeruFk["termin"]]).ToShortDateString();
+                        string napisTerminu = data.AddDays(Convert.ToDouble(polaFk[nazwaKolumnyDoJejNumeruFk["termin"]])).ToShortDateString();
 
                         Console.WriteLine("Generowanie XML dla faktury nr {0}.", numerFaktury);
                         AnalizujAdres(String.Format("{0};{1}", polaFk[nazwaKolumnyDoJejNumeruFk["adres1"]], polaFk[nazwaKolumnyDoJejNumeruFk["adres2"]]), out kod, out miasto, out ulica);
@@ -193,13 +192,8 @@ namespace dbfToXml
                 foreach (XmlNode węzełPozycji in dokumentXml.GetElementsByTagName("POZYCJE"))
                     węzełPozycji.RemoveChild(węzełPozycji.ChildNodes[0]);
 
-                dokumentXml.Save(plik);
-
-                using (StreamReader strumień = new StreamReader(plik, Encoding.GetEncoding("Windows-1250")))
-                    xml = strumień.ReadToEnd();
-
-                using (StreamWriter strumień = new StreamWriter(plik))
-                    strumień.Write(xml.Replace("&lt;", "<").Replace("&gt;", ">"));
+                using (StreamWriter strumień = new StreamWriter(plik, false, Encoding.GetEncoding("Windows-1250")))
+                    dokumentXml.Save(strumień);
 
                 Console.WriteLine("Zakończono.");
             }
