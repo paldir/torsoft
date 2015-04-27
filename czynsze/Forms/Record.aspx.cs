@@ -10,24 +10,24 @@ namespace czynsze.Forms
     public partial class Record : Page
     {
         int id;
-        Enums.Action action;
+        Enums.Akcja action;
         Enums.Table table;
 
-        List<DataAccess.AttributeOfObject> attributesOfObject
+        List<DostępDoBazy.AtrybutObiektu> attributesOfObject
         {
-            get { return (List<DataAccess.AttributeOfObject>)Session["attributesOfObject"]; }
+            get { return (List<DostępDoBazy.AtrybutObiektu>)Session["attributesOfObject"]; }
             set { Session["attributesOfObject"] = value; }
         }
 
-        List<DataAccess.RentComponentOfPlace> rentComponentsOfPlace
+        List<DostępDoBazy.SkładnikCzynszuLokalu> rentComponentsOfPlace
         {
-            get { return (List<DataAccess.RentComponentOfPlace>)Session["rentComponentsOfPlace"]; }
+            get { return (List<DostępDoBazy.SkładnikCzynszuLokalu>)Session["rentComponentsOfPlace"]; }
             set { Session["rentComponentsOfPlace"] = value; }
         }
 
-        List<DataAccess.CommunityBuilding> communityBuildings
+        List<DostępDoBazy.BudynekWspólnoty> communityBuildings
         {
-            get { return (List<DataAccess.CommunityBuilding>)Session["communityBuildings"]; }
+            get { return (List<DostępDoBazy.BudynekWspólnoty>)Session["communityBuildings"]; }
             set { Session["communityBuildings"] = value; }
         }
 
@@ -46,10 +46,10 @@ namespace czynsze.Forms
             List<MyControls.HtmlInputRadioButton> tabButtons = null;
             List<MyControls.Label> labelsOfTabButtons = null;
             List<Control> preview = null;
-            //id = Convert.ToInt32(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))]);
+            //id = Int32.Parse(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))]);
             id = GetParamValue<int>("id");
             //action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("action"))]);
-            action = GetParamValue<Enums.Action>("action");
+            action = GetParamValue<Enums.Akcja>("action");
             //table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))]);
             table = GetParamValue<Enums.Table>("table");
             string backUrl = "javascript: Load('" + Request.UrlReferrer + "')";
@@ -61,7 +61,7 @@ namespace czynsze.Forms
 
             switch (action)
             {
-                case Enums.Action.Dodaj:
+                case Enums.Akcja.Dodaj:
                     globalEnabled = idEnabled = true;
                     heading = "Dodawanie ";
 
@@ -70,7 +70,7 @@ namespace czynsze.Forms
 
                     break;
 
-                case Enums.Action.Edytuj:
+                case Enums.Akcja.Edytuj:
                     globalEnabled = true;
                     idEnabled = false;
                     heading = "Edycja ";
@@ -80,7 +80,7 @@ namespace czynsze.Forms
 
                     break;
 
-                case Enums.Action.Usuń:
+                case Enums.Akcja.Usuń:
                     globalEnabled = idEnabled = false;
                     heading = "Usuwanie ";
 
@@ -89,7 +89,7 @@ namespace czynsze.Forms
 
                     break;
 
-                case Enums.Action.Przeglądaj:
+                case Enums.Akcja.Przeglądaj:
                     globalEnabled = idEnabled = false;
                     heading = "Przeglądanie ";
 
@@ -97,7 +97,7 @@ namespace czynsze.Forms
 
                     break;
 
-                case Enums.Action.Przenieś:
+                case Enums.Akcja.Przenieś:
                     globalEnabled = idEnabled = false;
                     heading = "Przenoszenie ";
 
@@ -107,7 +107,7 @@ namespace czynsze.Forms
                     break;
             }
 
-            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+            using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
                 switch (table)
                 {
                     case Enums.Table.Buildings:
@@ -145,14 +145,14 @@ namespace czynsze.Forms
 
                         if (values == null)
                         {
-                            if (action != Enums.Action.Dodaj)
-                                values = db.buildings.FirstOrDefault(b => b.kod_1 == id).AllFields();
+                            if (action != Enums.Akcja.Dodaj)
+                                values = db.Budynki.FirstOrDefault(b => b.kod_1 == id).WszystkiePola();
                             else
                                 values = new string[numberOfFields];
 
-                            attributesOfObject = new List<DataAccess.AttributeOfObject>();
+                            attributesOfObject = new List<DostępDoBazy.AtrybutObiektu>();
 
-                            foreach (DataAccess.AttributeOfBuilding attributeOfBuilding in db.attributesOfBuildings.ToList().Where(a => Convert.ToInt32(a.kod_powiaz) == id))
+                            foreach (DostępDoBazy.AtrybutBudynku attributeOfBuilding in db.AtrybutyBudynków.ToList().Where(a => Int32.Parse(a.kod_powiaz) == id))
                                 attributesOfObject.Add(attributeOfBuilding);
                         }
 
@@ -221,18 +221,18 @@ namespace czynsze.Forms
 
                         if (values == null)
                         {
-                            if (action != Enums.Action.Dodaj)
+                            if (action != Enums.Akcja.Dodaj)
                             {
                                 if (table == Enums.Table.Places)
-                                    values = db.places.FirstOrDefault(b => b.nr_system == id).AllFields();
+                                    values = db.AktywneLokale.FirstOrDefault(b => b.nr_system == id).WszystkiePola();
                                 else
-                                    values = db.inactivePlaces.FirstOrDefault(b => b.nr_system == id).AllFields();
+                                    values = db.NieaktywneLokale.FirstOrDefault(b => b.nr_system == id).WszystkiePola();
                             }
                             else
                             {
                                 values = new string[numberOfFields];
 
-                                IEnumerable<DataAccess.Place> places = db.places.ToList().Cast<DataAccess.Place>().Concat(db.inactivePlaces.ToList().Cast<DataAccess.InactivePlace>());
+                                IEnumerable<DostępDoBazy.Lokal> places = db.AktywneLokale.ToList().Cast<DostępDoBazy.Lokal>().Concat(db.NieaktywneLokale.ToList().Cast<DostępDoBazy.Lokal>());
 
                                 if (places.Any())
                                     values[0] = (places.Max(p => p.nr_system) + 1).ToString();
@@ -242,11 +242,11 @@ namespace czynsze.Forms
                                 values[1] = values[2] = "0";
                             }
 
-                            attributesOfObject = new List<DataAccess.AttributeOfObject>();
-                            rentComponentsOfPlace = new List<DataAccess.RentComponentOfPlace>();
+                            attributesOfObject = new List<DostępDoBazy.AtrybutObiektu>();
+                            rentComponentsOfPlace = new List<DostępDoBazy.SkładnikCzynszuLokalu>();
 
-                            attributesOfObject.AddRange(db.attributesOfPlaces.ToList().Where(a => Convert.ToInt32(a.kod_powiaz) == id));
-                            rentComponentsOfPlace.AddRange(db.rentComponentsOfPlaces.ToList().Where(c => c.kod_lok == Convert.ToInt32(values[1]) && c.nr_lok == Convert.ToInt32(values[2])));
+                            attributesOfObject.AddRange(db.AtrybutyLokali.ToList().Where(a => Int32.Parse(a.kod_powiaz) == id));
+                            rentComponentsOfPlace.AddRange(db.SkładnikiCzynszuLokalu.ToList().Where(c => c.kod_lok == Int32.Parse(values[1]) && c.nr_lok == Int32.Parse(values[2])));
                         }
 
                         tabButtons = new List<MyControls.HtmlInputRadioButton>()
@@ -284,17 +284,17 @@ namespace czynsze.Forms
 
                         switch (action)
                         {
-                            case Enums.Action.Dodaj:
+                            case Enums.Akcja.Dodaj:
                                 parentAction = "add";
 
                                 break;
 
-                            case Enums.Action.Edytuj:
+                            case Enums.Akcja.Edytuj:
                                 parentAction = "edit";
 
                                 break;
 
-                            case Enums.Action.Usuń:
+                            case Enums.Akcja.Usuń:
                                 parentAction = "delete";
 
                                 break;
@@ -325,9 +325,9 @@ namespace czynsze.Forms
                             form.Controls.Add(new MyControls.HtmlInputHidden("nr_lok", values[2]));
                         }
 
-                        controls.Add(new MyControls.DropDownList("field", "kod_lok"+fromIdEnabledToIdSuffix[idEnabled], db.buildings.ToList().OrderBy(b => b.kod_1).Select(b => b.ImportantFields()).ToList(), values[1], idEnabled, false));
+                        controls.Add(new MyControls.DropDownList("field", "kod_lok"+fromIdEnabledToIdSuffix[idEnabled], db.Budynki.ToList().OrderBy(b => b.kod_1).Select(b => b.WażnePola()).ToList(), values[1], idEnabled, false));
                         controls.Add(new MyControls.TextBox("field", "nr_lok" + fromIdEnabledToIdSuffix[idEnabled], values[2], MyControls.TextBox.TextBoxMode.Number, 3, 1, idEnabled));
-                        controls.Add(new MyControls.DropDownList("field", "kod_typ", db.typesOfPlace.ToList().Select(t => t.ImportantFieldsForDropDown()).ToList(), values[3], globalEnabled, false));
+                        controls.Add(new MyControls.DropDownList("field", "kod_typ", db.TypyLokali.ToList().Select(t => t.WażnePolaDoRozwijanejListy()).ToList(), values[3], globalEnabled, false));
                         controls.Add(new MyControls.TextBox("field", "adres", values[4], MyControls.TextBox.TextBoxMode.SingleLine, 30, 1, globalEnabled));
                         controls.Add(new MyControls.TextBox("field", "adres_2", values[5], MyControls.TextBox.TextBoxMode.SingleLine, 30, 1, globalEnabled));
                         controls.Add(new MyControls.TextBox("field", "pow_uzyt", values[6], MyControls.TextBox.TextBoxMode.Float, 8, 1, globalEnabled));
@@ -341,10 +341,10 @@ namespace czynsze.Forms
                         controls.Add(new MyControls.TextBox("field", "p_4", values[14], MyControls.TextBox.TextBoxMode.Float, 5, 1, globalEnabled));
                         controls.Add(new MyControls.TextBox("field", "p_5", values[15], MyControls.TextBox.TextBoxMode.Float, 5, 1, globalEnabled));
                         controls.Add(new MyControls.TextBox("field", "p_6", values[16], MyControls.TextBox.TextBoxMode.Float, 5, 1, globalEnabled));
-                        controls.Add(new MyControls.DropDownList("field", "kod_kuch", db.typesOfKitchen.ToList().Select(t => t.ImportantFieldsForDropDown()).ToList(), values[17], globalEnabled, false));
-                        controls.Add(new MyControls.DropDownList("field", "nr_kontr", db.tenants.OrderBy(t => t.nazwisko).ToList().Select(t => t.ImportantFields().ToList().GetRange(1, 4).ToArray()).ToList(), values[18], globalEnabled, true));
+                        controls.Add(new MyControls.DropDownList("field", "kod_kuch", db.TypyKuchni.ToList().Select(t => t.WażnePolaDoRozwijanejListy()).ToList(), values[17], globalEnabled, false));
+                        controls.Add(new MyControls.DropDownList("field", "nr_kontr", db.AktywniNajemcy.OrderBy(t => t.nazwisko).ToList().Select(t => t.WażnePola().ToList().GetRange(1, 4).ToArray()).ToList(), values[18], globalEnabled, true));
                         controls.Add(new MyControls.TextBox("field", "il_osob", values[19], MyControls.TextBox.TextBoxMode.Number, 3, 1, globalEnabled));
-                        controls.Add(new MyControls.DropDownList("field", "kod_praw", db.titles.ToList().Select(t => t.ImportantFieldsForDropDown()).ToList(), values[20], globalEnabled, false));
+                        controls.Add(new MyControls.DropDownList("field", "kod_praw", db.TytułyPrawne.ToList().Select(t => t.WażnePolaDoRozwijanejListy()).ToList(), values[20], globalEnabled, false));
                         controls.Add(new MyControls.TextBox("field", "uwagi", values[21], MyControls.TextBox.TextBoxMode.MultiLine, 240, 4, globalEnabled));
 
                         //
@@ -354,7 +354,7 @@ namespace czynsze.Forms
                         {
                             switch (action)
                             {
-                                case Enums.Action.Dodaj:
+                                case Enums.Akcja.Dodaj:
                                     //db.Database.ExecuteSqlCommand("CREATE TABLE skl_cz_tmp AS SELECT * FROM skl_cz WHERE 1=2");
                                     db.Database.ExecuteSqlCommand("CREATE TABLE pliki_tmp AS SELECT * FROM pliki WHERE 1=2");
 
@@ -404,23 +404,23 @@ namespace czynsze.Forms
 
                         if (values == null)
                         {
-                            if (action != Enums.Action.Dodaj)
+                            if (action != Enums.Akcja.Dodaj)
                                 switch (table)
                                 {
                                     case Enums.Table.Tenants:
-                                        values = db.tenants.FirstOrDefault(t => t.nr_kontr == id).AllFields();
+                                        values = db.AktywniNajemcy.FirstOrDefault(t => t.nr_kontr == id).WszystkiePola();
 
                                         break;
 
                                     case Enums.Table.InactiveTenants:
-                                        values = db.inactiveTenants.FirstOrDefault(t => t.nr_kontr == id).AllFields();
+                                        values = db.NieaktywniNajemcy.FirstOrDefault(t => t.nr_kontr == id).WszystkiePola();
 
                                         break;
                                 }
                             else
                             {
                                 values = new string[numberOfFields];
-                                IEnumerable<DataAccess.Tenant> tenants = db.tenants.ToList().Cast<DataAccess.Tenant>().Concat(db.inactiveTenants.Cast<DataAccess.Tenant>());
+                                IEnumerable<DostępDoBazy.Najemca> tenants = db.AktywniNajemcy.ToList().Cast<DostępDoBazy.Najemca>().Concat(db.NieaktywniNajemcy.Cast<DostępDoBazy.Najemca>());
 
                                 if (tenants.Any())
                                     values[0] = (tenants.Max(t => t.nr_kontr) + 1).ToString();
@@ -428,9 +428,9 @@ namespace czynsze.Forms
                                     values[0] = "1";
                             }
 
-                            attributesOfObject = new List<DataAccess.AttributeOfObject>();
+                            attributesOfObject = new List<DostępDoBazy.AtrybutObiektu>();
 
-                            foreach (DataAccess.AttributeOfTenant attributeOfTenant in db.attributesOfTenants.ToList().Where(a => Convert.ToInt32(a.kod_powiaz) == id))
+                            foreach (DostępDoBazy.AtrybutNajemcy attributeOfTenant in db.AtrybutyNajemców.ToList().Where(a => Int32.Parse(a.kod_powiaz) == id))
                                 attributesOfObject.Add(attributeOfTenant);
                         }
 
@@ -467,7 +467,7 @@ namespace czynsze.Forms
 
                         controls.Add(new MyControls.TextBox("field", "nr_kontr_disabled", values[0], MyControls.TextBox.TextBoxMode.Number, 6, 1, false));
                         placeOfButtons.Controls.Add(new MyControls.HtmlInputHidden("id", values[0]));
-                        controls.Add(new MyControls.DropDownList("field", "kod_najem", db.typesOfTenant.ToList().Select(t => t.ImportantFieldsForDropDown()).ToList(), values[1], globalEnabled, false));
+                        controls.Add(new MyControls.DropDownList("field", "kod_najem", db.TypyNajemców.ToList().Select(t => t.WażnePolaDoRozwijanejListy()).ToList(), values[1], globalEnabled, false));
                         controls.Add(new MyControls.TextBox("field", "nazwisko", values[2], MyControls.TextBox.TextBoxMode.SingleLine, 25, 1, globalEnabled));
                         controls.Add(new MyControls.TextBox("field", "imie", values[3], MyControls.TextBox.TextBoxMode.SingleLine, 25, 1, globalEnabled));
                         controls.Add(new MyControls.TextBox("field", "adres_1", values[4], MyControls.TextBox.TextBoxMode.SingleLine, 30, 1, globalEnabled));
@@ -502,8 +502,8 @@ namespace czynsze.Forms
 
                         if (values == null)
                         {
-                            if (action != Enums.Action.Dodaj)
-                                values = db.rentComponents.FirstOrDefault(c => c.nr_skl == id).AllFields();
+                            if (action != Enums.Akcja.Dodaj)
+                                values = db.SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == id).WszystkiePola();
                             else
                                 values = new string[numberOfFields];
                         }
@@ -576,16 +576,16 @@ namespace czynsze.Forms
 
                         if (values == null)
                         {
-                            if (action != Enums.Action.Dodaj)
-                                values = db.communities.FirstOrDefault(c => c.kod == id).AllFields();
+                            if (action != Enums.Akcja.Dodaj)
+                                values = db.Wspólnoty.FirstOrDefault(c => c.kod == id).WszystkiePola();
                             else
                                 values = new string[numberOfFields];
 
-                            attributesOfObject = new List<DataAccess.AttributeOfObject>();
-                            communityBuildings = new List<DataAccess.CommunityBuilding>();
+                            attributesOfObject = new List<DostępDoBazy.AtrybutObiektu>();
+                            communityBuildings = new List<DostępDoBazy.BudynekWspólnoty>();
 
-                            attributesOfObject.AddRange(db.attributesOfCommunities.ToList().Where(a => Convert.ToInt32(a.kod_powiaz) == id));
-                            communityBuildings.AddRange(db.buildingsOfCommunities.Where(c => c.kod == id).OrderBy(b => b.kod_1));
+                            attributesOfObject.AddRange(db.AtrybutyWspólnot.ToList().Where(a => Int32.Parse(a.kod_powiaz) == id));
+                            communityBuildings.AddRange(db.BudynkiWspólnot.Where(c => c.kod == id).OrderBy(b => b.kod_1));
                         }
 
                         preview = new List<Control>()
@@ -651,8 +651,8 @@ namespace czynsze.Forms
 
                         if (values == null)
                         {
-                            if (action != Enums.Action.Dodaj)
-                                values = db.typesOfPlace.FirstOrDefault(t => t.kod_typ == id).AllFields();
+                            if (action != Enums.Akcja.Dodaj)
+                                values = db.TypyLokali.FirstOrDefault(t => t.kod_typ == id).WszystkiePola();
                             else
                                 values = new string[numberOfFields];
                         }
@@ -678,8 +678,8 @@ namespace czynsze.Forms
 
                         if (values == null)
                         {
-                            if (action != Enums.Action.Dodaj)
-                                values = db.typesOfKitchen.FirstOrDefault(t => t.kod_kuch == id).AllFields();
+                            if (action != Enums.Akcja.Dodaj)
+                                values = db.TypyKuchni.FirstOrDefault(t => t.kod_kuch == id).WszystkiePola();
                             else
                                 values = new string[numberOfFields];
                         }
@@ -705,8 +705,8 @@ namespace czynsze.Forms
 
                         if (values == null)
                         {
-                            if (action != Enums.Action.Dodaj)
-                                values = db.typesOfTenant.FirstOrDefault(t => t.kod_najem == id).AllFields();
+                            if (action != Enums.Akcja.Dodaj)
+                                values = db.TypyNajemców.FirstOrDefault(t => t.kod_najem == id).WszystkiePola();
                             else
                                 values = new string[numberOfFields];
                         }
@@ -732,8 +732,8 @@ namespace czynsze.Forms
 
                         if (values == null)
                         {
-                            if (action != Enums.Action.Dodaj)
-                                values = db.titles.FirstOrDefault(t => t.kod_praw == id).AllFields();
+                            if (action != Enums.Akcja.Dodaj)
+                                values = db.TytułyPrawne.FirstOrDefault(t => t.kod_praw == id).WszystkiePola();
                             else
                                 values = new string[numberOfFields];
                         }
@@ -765,8 +765,8 @@ namespace czynsze.Forms
 
                         if (values == null)
                         {
-                            if (action != Enums.Action.Dodaj)
-                                values = db.typesOfPayment.FirstOrDefault(t => t.kod_wplat == id).AllFields();
+                            if (action != Enums.Akcja.Dodaj)
+                                values = db.RodzajePłatności.FirstOrDefault(t => t.kod_wplat == id).WszystkiePola();
                             else
                                 values = new string[numberOfFields];
                         }
@@ -795,7 +795,7 @@ namespace czynsze.Forms
 
                         controls.Add(new MyControls.RadioButtonList("field", "tn_odset", new List<string>() { "Nie", "Tak" }, new List<string>() { "0", "1" }, values[4], globalEnabled, false));
                         controls.Add(new MyControls.RadioButtonList("field", "nota_odset", new List<string>() { "Nie", "Tak" }, new List<string>() { "0", "1" }, values[5], globalEnabled, false));
-                        controls.Add(new MyControls.DropDownList("field", "vat", db.vatRates.ToList().Select(r => r.ImportantFieldsForDropDown()).ToList(), values[6], globalEnabled, false));
+                        controls.Add(new MyControls.DropDownList("field", "vat", db.StawkiVat.ToList().Select(r => r.WażnePolaDoRozwijanejListy()).ToList(), values[6], globalEnabled, false));
                         controls.Add(new MyControls.TextBox("field", "sww", values[7], MyControls.TextBox.TextBoxMode.SingleLine, 10, 1, globalEnabled));
 
                         break;
@@ -813,8 +813,8 @@ namespace czynsze.Forms
 
                         if (values == null)
                         {
-                            if (action != Enums.Action.Dodaj)
-                                values = db.groupsOfRentComponents.FirstOrDefault(g => g.kod == id).AllFields();
+                            if (action != Enums.Akcja.Dodaj)
+                                values = db.GrupySkładnikówCzynszu.FirstOrDefault(g => g.kod == id).WszystkiePola();
                             else
                                 values = new string[numberOfFields];
                         }
@@ -841,8 +841,8 @@ namespace czynsze.Forms
 
                         if (values == null)
                         {
-                            if (action != Enums.Action.Dodaj)
-                                values = db.financialGroups.FirstOrDefault(g => g.kod == id).AllFields();
+                            if (action != Enums.Akcja.Dodaj)
+                                values = db.GrupyFinansowe.FirstOrDefault(g => g.kod == id).WszystkiePola();
                             else
                                 values = new string[numberOfFields];
                         }
@@ -869,8 +869,8 @@ namespace czynsze.Forms
 
                         if (values == null)
                         {
-                            if (action != Enums.Action.Dodaj)
-                                values = db.vatRates.FirstOrDefault(r => r.__record == id).AllFields();
+                            if (action != Enums.Akcja.Dodaj)
+                                values = db.StawkiVat.FirstOrDefault(r => r.__record == id).WszystkiePola();
                             else
                                 values = new string[numberOfFields];
                         }
@@ -903,8 +903,8 @@ namespace czynsze.Forms
 
                         if (values == null)
                         {
-                            if (action != Enums.Action.Dodaj)
-                                values = db.attributes.FirstOrDefault(a => a.kod == id).AllFields();
+                            if (action != Enums.Akcja.Dodaj)
+                                values = db.Atrybuty.FirstOrDefault(a => a.kod == id).WszystkiePola();
                             else
                             {
                                 values = new string[numberOfFields];
@@ -958,9 +958,9 @@ namespace czynsze.Forms
 
                         if (values == null)
                         {
-                            if (action != Enums.Action.Dodaj)
+                            if (action != Enums.Akcja.Dodaj)
                             {
-                                values = db.users.FirstOrDefault(u => u.__record == id).AllFields();
+                                values = db.Użytkownicy.FirstOrDefault(u => u.__record == id).WszystkiePola();
 
                                 values[5] = String.Empty;
                             }
@@ -1003,28 +1003,28 @@ namespace czynsze.Forms
 
                         if (values == null)
                         {
-                            IEnumerable<DataAccess.Turnover> turnOvers = null;
+                            IEnumerable<DostępDoBazy.Obrót> turnOvers = null;
 
                             switch (Hello.CurrentSet)
                             {
                                 case Enums.SettlementTable.Czynsze:
-                                    turnOvers = db.turnoversFrom1stSet.ToList().Cast<DataAccess.Turnover>();
+                                    turnOvers = db.ObrotyZPierwszegoZbioru.ToList().Cast<DostępDoBazy.Obrót>();
 
                                     break;
 
                                 case Enums.SettlementTable.SecondSet:
-                                    turnOvers = db.turnoversFrom2ndSet.ToList().Cast<DataAccess.Turnover>();
+                                    turnOvers = db.ObrotyZDrugiegoZbioru.ToList().Cast<DostępDoBazy.Obrót>();
 
                                     break;
 
                                 case Enums.SettlementTable.ThirdSet:
-                                    turnOvers = db.turnoversFrom3rdSet.ToList().Cast<DataAccess.Turnover>();
+                                    turnOvers = db.ObrotyZTrzeciegoZbioru.ToList().Cast<DostępDoBazy.Obrót>();
 
                                     break;
                             }
 
-                            if (action != Enums.Action.Dodaj)
-                                values = turnOvers.FirstOrDefault(t => t.__record == id).AllFields();
+                            if (action != Enums.Akcja.Dodaj)
+                                values = turnOvers.FirstOrDefault(t => t.__record == id).WszystkiePola();
                             else
                             {
                                 values = new string[numberOfFields];
@@ -1043,7 +1043,7 @@ namespace czynsze.Forms
                         controls.Add(new MyControls.TextBox("field", "data_obr", values[2], MyControls.TextBox.TextBoxMode.Date, 10, 1, globalEnabled));
                         controls.Add(new MyControls.TextBox("field", "?", values[3], MyControls.TextBox.TextBoxMode.Date, 10, 1, globalEnabled));
 
-                        List<DataAccess.TypeOfPayment> typesOfPayment = db.typesOfPayment.ToList();
+                        List<DostępDoBazy.RodzajPłatności> typesOfPayment = db.RodzajePłatności.ToList();
 
                         //controls.Add(new MyControls.RadioButtonList("field", "kod_wplat", typesOfPayment.Select(t => t.typ_wplat).ToList(), typesOfPayment.Select(t => t.kod_wplat.ToString()).ToList(), values[4], globalEnabled, false));
                         controls.Add(new MyControls.DropDownList("field", "kod_wplat", typesOfPayment.Select(t => t.ImportantFieldsForDropdown()).ToList(), values[4], globalEnabled, false));

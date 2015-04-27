@@ -20,7 +20,7 @@ namespace czynsze.Forms
                 if (ViewState["id"] == null)
                     return 0;
 
-                return Convert.ToInt32(ViewState["id"]);
+                return Int32.Parse(ViewState["id"]);
             }
             set { ViewState["id"] = value; }
         }*/
@@ -32,7 +32,7 @@ namespace czynsze.Forms
                 if (ViewState["additionalId"] == null)
                     return 0;
 
-                return Convert.ToInt32(ViewState["additionalId"]);
+                return Int32.Parse(ViewState["additionalId"]);
             }
             set { ViewState["additionalId"] = value; }
         }*/
@@ -62,28 +62,27 @@ namespace czynsze.Forms
 
             if (!String.IsNullOrEmpty(key))
                 ids[0] = GetParamValue<int>(key);
-            //id = Convert.ToInt32(Request.Params[key]);
 
             if (index != -1)
-                ids[1] = Convert.ToInt32(Request.UrlReferrer.Query.Substring(index + 3));
+                ids[1] = Int32.Parse(Request.UrlReferrer.Query.Substring(index + 3));
 
             placeOfConfigurationFields.Controls.Add(new MyControls.HtmlInputHidden(report + "report", "#"));
 
             switch (report)
             {
                 case Enums.Report.PlacesInEachBuilding:
-                    using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                    using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
                     {
                         heading += "(Lokale w budynkach)";
                         int firstBuildingNumber, lastBuildingNumber;
                         MyControls.HtmlGenericControl firstBuilding = new MyControls.HtmlGenericControl("div", "control");
                         MyControls.HtmlGenericControl secondBuilding = new MyControls.HtmlGenericControl("div", "control");
-                        List<string[]> buildings = db.buildings.ToList().OrderBy(b => b.kod_1).Select(b => b.ImportantFields()).ToList();
+                        List<string[]> buildings = db.Budynki.ToList().OrderBy(b => b.kod_1).Select(b => b.WażnePola()).ToList();
 
-                        if (db.buildings.Any())
+                        if (db.Budynki.Any())
                         {
-                            firstBuildingNumber = db.buildings.Min(b => b.kod_1);
-                            lastBuildingNumber = db.buildings.Max(b => b.kod_1);
+                            firstBuildingNumber = db.Budynki.Min(b => b.kod_1);
+                            lastBuildingNumber = db.Budynki.Max(b => b.kod_1);
                         }
                         else
                             firstBuildingNumber = lastBuildingNumber = 0;
@@ -97,7 +96,7 @@ namespace czynsze.Forms
                             {
                                 firstBuilding,
                                 secondBuilding,
-                                new MyControls.CheckBoxList("field", "kod_typ", db.typesOfPlace.Select(t=>t.typ_lok).ToList(), db.typesOfPlace.Select(t=>t.kod_typ.ToString()).ToList(), db.typesOfPlace.Select(t=>t.kod_typ.ToString()).ToList(), true)
+                                new MyControls.CheckBoxList("field", "kod_typ", db.TypyLokali.Select(t=>t.typ_lok).ToList(), db.TypyLokali.Select(t=>t.kod_typ.ToString()).ToList(), db.TypyLokali.Select(t=>t.kod_typ.ToString()).ToList(), true)
                             };
                     }
 
@@ -138,6 +137,8 @@ namespace czynsze.Forms
                     ids[1] = GetParamValue<int>("fromPlace");
                     ids[2] = GetParamValue<int>("toBuilding");
                     ids[3] = GetParamValue<int>("toPlace");
+                    ids[4] = GetParamValue<int>("fromCommunity");
+                    ids[5] = GetParamValue<int>("toCommunity");
 
                     break;
             }
@@ -191,36 +192,36 @@ namespace czynsze.Forms
                         "Imię"
                     };
 
-                        try { kod_1_start = Convert.ToInt32(((TextBox)placeOfConfigurationFields.FindControl("kod_1_start")).Text); }
+                        try { kod_1_start = Int32.Parse(((TextBox)placeOfConfigurationFields.FindControl("kod_1_start")).Text); }
                         catch { kod_1_start = 0; }
 
-                        try { kod_1_end = Convert.ToInt32(((TextBox)placeOfConfigurationFields.FindControl("kod_1_end")).Text); }
+                        try { kod_1_end = Int32.Parse(((TextBox)placeOfConfigurationFields.FindControl("kod_1_end")).Text); }
                         catch { kod_1_end = 0; }
 
                         try
                         {
                             foreach (ListItem item in ((CheckBoxList)placeOfConfigurationFields.FindControl("kod_typ")).Items)
                                 if (item.Selected)
-                                    selectedTypesOfPlace.Add(Convert.ToInt32(item.Value));
+                                    selectedTypesOfPlace.Add(Int32.Parse(item.Value));
                         }
                         catch { }
 
-                        using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                        using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
                         {
-                            DataAccess.Place.TypesOfPlace = db.typesOfPlace.ToList();
+                            DostępDoBazy.Lokal.TypesOfPlace = db.TypyLokali.ToList();
 
                             for (int i = kod_1_start; i <= kod_1_end; i++)
                             {
-                                DataAccess.Building building = db.buildings.Where(b => b.kod_1 == i).FirstOrDefault();
+                                DostępDoBazy.Budynek building = db.Budynki.Where(b => b.kod_1 == i).FirstOrDefault();
 
                                 if (building != null)
                                 {
                                     captions.Add("Budynek nr " + building.kod_1.ToString() + ", " + building.adres + ", " + building.adres_2);
-                                    tables.Add(db.places.Where(p => p.kod_lok == i && selectedTypesOfPlace.Contains(p.kod_typ)).OrderBy(p => p.nr_lok).ToList().Select(p => p.ImportantFields().ToList().GetRange(2, p.ImportantFields().Length - 2).ToArray()).ToList());
+                                    tables.Add(db.AktywneLokale.Where(p => p.kod_lok == i && selectedTypesOfPlace.Contains(p.kod_typ)).OrderBy(p => p.nr_lok).ToList().Select(p => p.WażnePola().ToList().GetRange(2, p.WażnePola().Length - 2).ToArray()).ToList());
                                 }
                             }
 
-                            DataAccess.Place.TypesOfPlace = null;
+                            DostępDoBazy.Lokal.TypesOfPlace = null;
                         }
                     }
 
@@ -231,34 +232,34 @@ namespace czynsze.Forms
                 case Enums.Report.MonthlyAnalysisOfReceivablesAndTurnovers:
                 case Enums.Report.DetailedAnalysisOfReceivablesAndTurnovers:
                     tables = new List<List<string[]>> { new List<string[]>() };
-                    IEnumerable<DataAccess.Receivable> receivables = null;
-                    IEnumerable<DataAccess.Turnover> turnovers = null;
+                    IEnumerable<DostępDoBazy.Należność> receivables = null;
+                    IEnumerable<DostępDoBazy.Obrót> turnovers = null;
                     decimal wnSum, maSum;
                     List<decimal> balances = new List<decimal>();
                     int nr_kontr = ids[1];
 
-                    using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                    using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
                     {
-                        DataAccess.Tenant tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == nr_kontr);
+                        DostępDoBazy.Najemca tenant = db.AktywniNajemcy.FirstOrDefault(t => t.nr_kontr == nr_kontr);
                         captions = new List<string>() { tenant.nazwisko + " " + tenant.imie + "<br />" + tenant.adres_1 + " " + tenant.adres_2 + "<br />" };
 
                         switch (Hello.CurrentSet)
                         {
                             case Enums.SettlementTable.Czynsze:
-                                receivables = db.receivablesFrom1stSet.Where(r => r.nr_kontr == nr_kontr).ToList().Cast<DataAccess.Receivable>();
-                                turnovers = db.turnoversFrom1stSet.Where(t => t.nr_kontr == nr_kontr).ToList().Cast<DataAccess.Turnover>();
+                                receivables = db.NależnościZPierwszegoZbioru.Where(r => r.nr_kontr == nr_kontr).ToList().Cast<DostępDoBazy.Należność>();
+                                turnovers = db.ObrotyZPierwszegoZbioru.Where(t => t.nr_kontr == nr_kontr).ToList().Cast<DostępDoBazy.Obrót>();
 
                                 break;
 
                             case Enums.SettlementTable.SecondSet:
-                                receivables = db.receivablesFrom2ndSet.Where(r => r.nr_kontr == nr_kontr).ToList().Cast<DataAccess.Receivable>();
-                                turnovers = db.turnoversFrom2ndSet.Where(t => t.nr_kontr == nr_kontr).ToList().Cast<DataAccess.Turnover>();
+                                receivables = db.NależnościZDrugiegoZbioru.Where(r => r.nr_kontr == nr_kontr).ToList().Cast<DostępDoBazy.Należność>();
+                                turnovers = db.ObrotyZDrugiegoZbioru.Where(t => t.nr_kontr == nr_kontr).ToList().Cast<DostępDoBazy.Obrót>();
 
                                 break;
 
                             case Enums.SettlementTable.ThirdSet:
-                                receivables = db.receivablesFrom3rdSet.Where(r => r.nr_kontr == nr_kontr).ToList().Cast<DataAccess.Receivable>();
-                                turnovers = db.turnoversFrom3rdSet.Where(t => t.nr_kontr == nr_kontr).ToList().Cast<DataAccess.Turnover>();
+                                receivables = db.NależnościZTrzeciegoZbioru.Where(r => r.nr_kontr == nr_kontr).ToList().Cast<DostępDoBazy.Należność>();
+                                turnovers = db.ObrotyZTrzeciegoZbioru.Where(t => t.nr_kontr == nr_kontr).ToList().Cast<DostępDoBazy.Obrót>();
 
                                 break;
                         }
@@ -273,7 +274,7 @@ namespace czynsze.Forms
                                 {
 
                                     int nr_skl = receivables.FirstOrDefault(r => r.__record == -1 * ids[0]).nr_skl;
-                                    captions[0] += db.rentComponents.FirstOrDefault(c => c.nr_skl == nr_skl).nazwa;
+                                    captions[0] += db.SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == nr_skl).nazwa;
 
                                     for (int i = 1; i <= 12; i++)
                                         tables[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", receivables.Where(r => r.nr_skl == nr_skl).ToList().Where(r => r.data_nal.Year == Hello.Date.Year && r.data_nal.Month == i).Sum(r => r.kwota_nal)) });
@@ -281,13 +282,13 @@ namespace czynsze.Forms
                                 else
                                 {
                                     int kod_wplat = turnovers.FirstOrDefault(t => t.__record == ids[0]).kod_wplat;
-                                    captions[0] += db.typesOfPayment.FirstOrDefault(t => t.kod_wplat == kod_wplat).typ_wplat;
+                                    captions[0] += db.RodzajePłatności.FirstOrDefault(t => t.kod_wplat == kod_wplat).typ_wplat;
 
                                     for (int i = 1; i <= 12; i++)
                                         tables[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", turnovers.Where(t => t.kod_wplat == kod_wplat).ToList().Where(t => t.data_obr.Year == Hello.Date.Year && t.data_obr.Month == i).Sum(t => t.suma)) });
                                 }
 
-                                tables[0].Add(new string[] { "Razem", String.Format("{0:N2}", tables[0].Sum(r => Convert.ToSingle(r[1]))) });
+                                tables[0].Add(new string[] { "Razem", String.Format("{0:N2}", tables[0].Sum(r => Single.Parse(r[1]))) });
 
                                 break;
 
@@ -295,18 +296,18 @@ namespace czynsze.Forms
                                 title = "ZESTAWIENIE NALEZNOSCI I WPLAT";
                                 headers = new List<string> { "Kwota Wn", "Kwota Ma", "Data", "Operacja" };
 
-                                foreach (DataAccess.Receivable receivable in receivables)
+                                foreach (DostępDoBazy.Należność receivable in receivables)
                                 {
-                                    List<string> fields = receivable.ImportantFieldsForReceivablesAndTurnoversOfTenant().ToList();
+                                    List<string> fields = receivable.WażnePolaDoNależnościIObrotówNajemcy().ToList();
 
                                     fields.RemoveAt(0);
 
                                     tables[0].Add(fields.ToArray());
                                 }
 
-                                foreach (DataAccess.Turnover turnover in turnovers)
+                                foreach (DostępDoBazy.Obrót turnover in turnovers)
                                 {
-                                    List<string> fields = turnover.ImportantFieldsForReceivablesAndTurnoversOfTenant().ToList();
+                                    List<string> fields = turnover.WażnePolaDoNależnościIObrotówNajemcy().ToList();
 
                                     fields.RemoveAt(0);
 
@@ -314,8 +315,8 @@ namespace czynsze.Forms
                                 }
 
                                 tables[0] = tables[0].OrderBy(r => DateTime.Parse(r[2])).ToList();
-                                wnSum = tables[0].Sum(r => String.IsNullOrEmpty(r[0]) ? 0 : Convert.ToDecimal(r[0]));
-                                maSum = tables[0].Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToDecimal(r[1]));
+                                wnSum = tables[0].Sum(r => String.IsNullOrEmpty(r[0]) ? 0 : Decimal.Parse(r[0]));
+                                maSum = tables[0].Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
 
                                 tables[0].Add(new string[] { String.Format("{0:N2}", wnSum), String.Format("{0:N2}", maSum), String.Empty, String.Empty });
                                 tables[0].Add(new string[] { "SALDO", String.Format("{0:N2}", maSum - wnSum), String.Empty, String.Empty });
@@ -330,10 +331,10 @@ namespace czynsze.Forms
 
                                 for (int i = 1; i <= 12; i++)
                                 {
-                                    List<string[]> monthReceivables = receivables.Where(r => r.data_nal.Month == i).Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).ToList();
-                                    List<string[]> monthTurnovers = turnovers.Where(t => t.data_obr.Month == i).Select(t => t.ImportantFieldsForReceivablesAndTurnoversOfTenant()).ToList();
-                                    wnSum = monthReceivables.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToDecimal(r[1])) + monthTurnovers.Sum(t => String.IsNullOrEmpty(t[1]) ? 0 : Convert.ToDecimal(t[1]));
-                                    maSum = monthTurnovers.Sum(t => String.IsNullOrEmpty(t[2]) ? 0 : Convert.ToDecimal(t[2]));
+                                    List<string[]> monthReceivables = receivables.Where(r => r.data_nal.Month == i).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).ToList();
+                                    List<string[]> monthTurnovers = turnovers.Where(t => t.data_obr.Month == i).Select(t => t.WażnePolaDoNależnościIObrotówNajemcy()).ToList();
+                                    wnSum = monthReceivables.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1])) + monthTurnovers.Sum(t => String.IsNullOrEmpty(t[1]) ? 0 : Decimal.Parse(t[1]));
+                                    maSum = monthTurnovers.Sum(t => String.IsNullOrEmpty(t[2]) ? 0 : Decimal.Parse(t[2]));
 
                                     wnAmounts.Add(wnSum);
                                     maAmounts.Add(maSum);
@@ -353,23 +354,23 @@ namespace czynsze.Forms
                                     decimal[] sum = new decimal[] { 0, 0, 0, 0 };
                                     wnSum = maSum = 0;
 
-                                    foreach (DataAccess.Receivable receivable in receivables.Where(r => r.data_nal.Month == i))
+                                    foreach (DostępDoBazy.Należność receivable in receivables.Where(r => r.data_nal.Month == i))
                                     {
-                                        string[] row = receivable.ImportantFieldsForReceivablesAndTurnoversOfTenant();
-                                        int index = db.rentComponents.FirstOrDefault(c => c.nr_skl == receivable.nr_skl).rodz_e - 1;
+                                        string[] row = receivable.WażnePolaDoNależnościIObrotówNajemcy();
+                                        int index = db.SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == receivable.nr_skl).rodz_e - 1;
 
                                         if (!String.IsNullOrEmpty(row[1]))
                                         {
-                                            decimal single = Convert.ToDecimal(row[1]);
+                                            decimal single = Decimal.Parse(row[1]);
                                             sum[index] += single;
                                             wnSum += single;
                                         }
                                     }
 
-                                    foreach (DataAccess.Turnover turnover in turnovers.Where(t => t.data_obr.Month == i))
+                                    foreach (DostępDoBazy.Obrót turnover in turnovers.Where(t => t.data_obr.Month == i))
                                     {
-                                        string[] row = turnover.ImportantFieldsForReceivablesAndTurnoversOfTenant();
-                                        int index = db.typesOfPayment.FirstOrDefault(t => t.kod_wplat == turnover.kod_wplat).rodz_e - 1;
+                                        string[] row = turnover.WażnePolaDoNależnościIObrotówNajemcy();
+                                        int index = db.RodzajePłatności.FirstOrDefault(t => t.kod_wplat == turnover.kod_wplat).rodz_e - 1;
 
                                         if (index >= 0)
                                         {
@@ -377,14 +378,14 @@ namespace czynsze.Forms
 
                                             if (!String.IsNullOrEmpty(row[1]))
                                             {
-                                                single = Convert.ToDecimal(row[1]);
+                                                single = Decimal.Parse(row[1]);
                                                 sum[index] += single;
                                                 wnSum += single;
                                             }
 
                                             if (!String.IsNullOrEmpty(row[2]))
                                             {
-                                                single = Convert.ToDecimal(row[2]);
+                                                single = Decimal.Parse(row[2]);
                                                 sum[index] += single;
                                                 maSum += single;
                                             }
@@ -409,7 +410,7 @@ namespace czynsze.Forms
                                 newRow[0] = "Razem";
 
                                 for (int i = 1; i < newRow.Length - 1; i++)
-                                    newRow[i] = String.Format("{0:N2}", tables[0].Sum(r => Convert.ToSingle(r[i])));
+                                    newRow[i] = String.Format("{0:N2}", tables[0].Sum(r => Single.Parse(r[i])));
 
                                 newRow[6] = newRow[5];
 
@@ -425,40 +426,40 @@ namespace czynsze.Forms
                     title = "BIEZACA KWOTA CZYNSZU";
                     headers = new List<string>() { "Lp.", "Kod budynku", "Nr lokalu", "Typ lokalu", "Nazwisko", "Imię", "Adres", "Kwota czynszu" };
 
-                    using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                    using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
                     {
                         int kod1 = ids[0];
                         int nr1 = ids[1];
                         int kod2 = ids[2];
                         int nr2 = ids[3];
-                        DataAccess.Place.TypesOfPlace = db.typesOfPlace.ToList();
-                        DataAccess.RentComponentOfPlace.RentComponents = db.rentComponents.ToList();
+                        DostępDoBazy.Lokal.TypesOfPlace = db.TypyLokali.ToList();
+                        DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
                         int index = 1;
                         decimal overallSum = 0;
 
                         for (int i = kod1; i <= kod2; i++)
                         {
-                            List<DataAccess.ActivePlace> activePlaces = db.places.Where(p => p.kod_lok == i && p.nr_lok >= nr1 && p.nr_lok <= nr2).OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok).ToList();
-                            DataAccess.RentComponentOfPlace.Places = activePlaces;
-                            DataAccess.Building building = db.buildings.FirstOrDefault(b => b.kod_1 == i);
+                            List<DostępDoBazy.AktywnyLokal> activePlaces = db.AktywneLokale.Where(p => p.kod_lok == i && p.nr_lok >= nr1 && p.nr_lok <= nr2).OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok).ToList();
+                            DostępDoBazy.SkładnikCzynszuLokalu.Lokale = activePlaces;
+                            DostępDoBazy.Budynek building = db.Budynki.FirstOrDefault(b => b.kod_1 == i);
                             List<string[]> table = new List<string[]>();
                             decimal buildingSum = 0;
 
-                            foreach (DataAccess.Place place in activePlaces)
+                            foreach (DostępDoBazy.Lokal place in activePlaces)
                             {
                                 decimal sum = 0;
 
-                                foreach (DataAccess.RentComponentOfPlace rentComponentOfPlace in db.rentComponentsOfPlaces.Where(c => c.kod_lok == place.kod_lok && c.nr_lok == place.nr_lok))
+                                foreach (DostępDoBazy.SkładnikCzynszuLokalu rentComponentOfPlace in db.SkładnikiCzynszuLokalu.Where(c => c.kod_lok == place.kod_lok && c.nr_lok == place.nr_lok))
                                 {
                                     decimal ilosc;
                                     decimal stawka;
 
-                                    rentComponentOfPlace.Recognize_ilosc_and_stawka(out ilosc, out stawka);
+                                    rentComponentOfPlace.Rozpoznaj_ilosc_and_stawka(out ilosc, out stawka);
 
                                     sum += Decimal.Round(ilosc * stawka, 2);
                                 }
 
-                                table.Add(new string[] { index.ToString(), place.kod_lok.ToString(), place.nr_lok.ToString(), place.Recognize_kod_typ(), place.nazwisko, place.imie, String.Format("{0} {1}", place.adres, place.adres_2), String.Format("{0:N2}", sum) });
+                                table.Add(new string[] { index.ToString(), place.kod_lok.ToString(), place.nr_lok.ToString(), place.Rozpoznaj_kod_typ(), place.nazwisko, place.imie, String.Format("{0} {1}", place.adres, place.adres_2), String.Format("{0:N2}", sum) });
 
                                 index++;
                                 buildingSum += sum;
@@ -468,12 +469,12 @@ namespace czynsze.Forms
                             tables.Add(table);
                             captions.Add(String.Empty);
 
-                            DataAccess.RentComponentOfPlace.Places = null;
+                            DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
                             overallSum += buildingSum;
                         }
 
-                        DataAccess.Place.TypesOfPlace = null;
-                        DataAccess.RentComponentOfPlace.RentComponents = null;
+                        DostępDoBazy.Lokal.TypesOfPlace = null;
+                        DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
 
                         if (tables.Any())
                             tables.Last().Add(new string[] { String.Empty, String.Empty, String.Empty, String.Empty, "<b>RAZEM</b>", "<b>WSZYSTKIE</b>", "<b>BUDYNKI</b>", String.Format("{0:N2}", overallSum) });
@@ -485,39 +486,39 @@ namespace czynsze.Forms
                     title = "BIEZACA KWOTA CZYNSZU";
                     headers = new List<string>() { "Lp.", "Kod budynku", "Adres", "Kwota czynszu" };
 
-                    using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                    using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
                     {
                         int kod1 = ids[0];
                         int kod2 = ids[2];
                         decimal overallSum = 0;
-                        DataAccess.RentComponentOfPlace.RentComponents = db.rentComponents.ToList();
+                        DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
                         List<string[]> table = new List<string[]>();
 
                         for (int i = kod1; i <= kod2; i++)
                         {
-                            DataAccess.Building building = db.buildings.FirstOrDefault(b => b.kod_1 == i);
+                            DostępDoBazy.Budynek building = db.Budynki.FirstOrDefault(b => b.kod_1 == i);
                             decimal sum = 0;
-                            List<DataAccess.ActivePlace> activePlaces = db.places.Where(p => p.kod_lok == i).ToList();
-                            DataAccess.RentComponentOfPlace.Places = activePlaces;
+                            List<DostępDoBazy.AktywnyLokal> activePlaces = db.AktywneLokale.Where(p => p.kod_lok == i).ToList();
+                            DostępDoBazy.SkładnikCzynszuLokalu.Lokale = activePlaces;
 
-                            foreach (DataAccess.ActivePlace activePlace in activePlaces)
-                                foreach (DataAccess.RentComponentOfPlace rentComponentOfPlace in db.rentComponentsOfPlaces.Where(c => c.kod_lok == i && c.nr_lok == activePlace.nr_lok))
+                            foreach (DostępDoBazy.AktywnyLokal activePlace in activePlaces)
+                                foreach (DostępDoBazy.SkładnikCzynszuLokalu rentComponentOfPlace in db.SkładnikiCzynszuLokalu.Where(c => c.kod_lok == i && c.nr_lok == activePlace.nr_lok))
                                 {
                                     decimal ilosc;
                                     decimal stawka;
 
-                                    rentComponentOfPlace.Recognize_ilosc_and_stawka(out ilosc, out stawka);
+                                    rentComponentOfPlace.Rozpoznaj_ilosc_and_stawka(out ilosc, out stawka);
 
                                     sum += Decimal.Round(ilosc * stawka, 2);
                                 }
 
                             overallSum += sum;
-                            DataAccess.RentComponentOfPlace.Places = null;
+                            DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
 
                             table.Add(new string[] { String.Format("{0}", i - kod1 + 1), building.kod_1.ToString(), String.Format("{0} {1}", building.adres, building.adres_2), String.Format("{0:N2}", sum) });
                         }
 
-                        DataAccess.RentComponentOfPlace.RentComponents = null;
+                        DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
 
                         table.Add(new string[] { String.Empty, String.Empty, "<b>RAZEM</b>", String.Format("{0:N2}", overallSum) });
                         captions.Add(String.Empty);
@@ -529,9 +530,15 @@ namespace czynsze.Forms
                 case Enums.Report.CurrentRentAmountOfCommunities:
                     title = "BIEZACA KWOTA CZYNSZU";
 
-                    using(DataAccess.Czynsze_Entities db=new DataAccess.Czynsze_Entities())
+                    using(DostępDoBazy.CzynszeKontekst db=new DostępDoBazy.CzynszeKontekst())
                     {
+                        int kod1 = ids[4];
+                        int kod2 = ids[5];
 
+                        for(int i=kod1; i<kod2; i++)
+                        {
+                            //DostępDoBazy.
+                        }
                     }
 
                     break;

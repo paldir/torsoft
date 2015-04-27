@@ -13,11 +13,11 @@ namespace czynsze
         {
             Session.Clear();
 
-            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+            using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
-                Forms.Hello.CompanyName = companyName.InnerText = db.configurations.FirstOrDefault().nazwa_1;
-                Forms.Hello.NumberOfSets = db.configurations.FirstOrDefault().p_32;
-                Forms.Hello.NamesOfSets = new string[] { "CZYNSZE", db.configurations.FirstOrDefault().nazwa_2zb, db.configurations.FirstOrDefault().nazwa_3zb };
+                Forms.Hello.CompanyName = companyName.InnerText = db.Konfiguracje.FirstOrDefault().nazwa_1;
+                Forms.Hello.NumberOfSets = db.Konfiguracje.FirstOrDefault().p_32;
+                Forms.Hello.NamesOfSets = new string[] { "CZYNSZE", db.Konfiguracje.FirstOrDefault().nazwa_2zb, db.Konfiguracje.FirstOrDefault().nazwa_3zb };
             }
 
             Forms.Hello.Date = DateTime.Today;

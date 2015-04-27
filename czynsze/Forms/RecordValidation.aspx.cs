@@ -12,24 +12,24 @@ namespace czynsze.Forms
     public partial class RecordValidation : Page
     {
         Enums.Table table;
-        Enums.Action action;
+        Enums.Akcja action;
         int id;
 
-        List<DataAccess.AttributeOfObject> attributesOfObject
+        List<DostępDoBazy.AtrybutObiektu> attributesOfObject
         {
-            get { return (List<DataAccess.AttributeOfObject>)Session["attributesOfObject"]; }
+            get { return (List<DostępDoBazy.AtrybutObiektu>)Session["attributesOfObject"]; }
             set { Session["attributesOfObject"] = value; }
         }
 
-        List<DataAccess.RentComponentOfPlace> rentComponentsOfPlace
+        List<DostępDoBazy.SkładnikCzynszuLokalu> rentComponentsOfPlace
         {
-            get { return (List<DataAccess.RentComponentOfPlace>)Session["rentComponentsOfPlace"]; }
+            get { return (List<DostępDoBazy.SkładnikCzynszuLokalu>)Session["rentComponentsOfPlace"]; }
             set { Session["rentComponentsOfPlace"] = value; }
         }
 
-        List<DataAccess.CommunityBuilding> communityBuildings
+        List<DostępDoBazy.BudynekWspólnoty> communityBuildings
         {
-            get { return (List<DataAccess.CommunityBuilding>)Session["communityBuildings"]; }
+            get { return (List<DostępDoBazy.BudynekWspólnoty>)Session["communityBuildings"]; }
             set { Session["communityBuildings"] = value; }
         }
 
@@ -41,33 +41,33 @@ namespace czynsze.Forms
             //table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(t => t.EndsWith("table"))]);
             table = GetParamValue<Enums.Table>("table");
             //action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(t => t.EndsWith("action"))]);
-            action = GetParamValue<Enums.Action>("action");
+            action = GetParamValue<Enums.Akcja>("action");
             string backUrl = "javascript: Load('List.aspx?table=" + table + "')";
             string nominativeCase = String.Empty;
             string genitiveCase = String.Empty;
-            DataAccess.IRecord record = null;
+            DostępDoBazy.IRekord record = null;
             Type attributeType = null;
             Type inactiveType = null;
 
-            Dictionary<Enums.Action, string> dictionaryOfActionInfinitives = new Dictionary<Enums.Action, string>()
+            Dictionary<Enums.Akcja, string> dictionaryOfActionInfinitives = new Dictionary<Enums.Akcja, string>()
             {
-                { Enums.Action.Dodaj, "dodać" },
-                { Enums.Action.Edytuj, "edytować" },
-                { Enums.Action.Przenieś, "przenieść" },
-                { Enums.Action.Usuń, "usunąć" }
+                { Enums.Akcja.Dodaj, "dodać" },
+                { Enums.Akcja.Edytuj, "edytować" },
+                { Enums.Akcja.Przenieś, "przenieść" },
+                { Enums.Akcja.Usuń, "usunąć" }
             };
 
-            Dictionary<Enums.Action, string> dictionaryOfActionParticiples = new Dictionary<Enums.Action, string>()
+            Dictionary<Enums.Akcja, string> dictionaryOfActionParticiples = new Dictionary<Enums.Akcja, string>()
             {
-                { Enums.Action.Dodaj, "dodany" },
-                { Enums.Action.Edytuj, "wyedytowany" },
-                { Enums.Action.Przenieś, "przeniesiony" },
-                { Enums.Action.Usuń, "usunięty" }
+                { Enums.Akcja.Dodaj, "dodany" },
+                { Enums.Akcja.Edytuj, "wyedytowany" },
+                { Enums.Akcja.Przenieś, "przeniesiony" },
+                { Enums.Akcja.Usuń, "usunięty" }
             };
 
-            if (action != Enums.Action.Dodaj)
+            if (action != Enums.Akcja.Dodaj)
             {
-                //id = Convert.ToInt32(Request.Params[Request.Params.AllKeys.FirstOrDefault(t => t.EndsWith("id"))]);
+                //id = Int32.Parse(Request.Params[Request.Params.AllKeys.FirstOrDefault(t => t.EndsWith("id"))]);
                 id = GetParamValue<int>("id");
 
                 form.Controls.Add(new MyControls.HtmlInputHidden("id", id.ToString()));
@@ -78,13 +78,13 @@ namespace czynsze.Forms
 
             try
             {
-                using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
                 {
                     switch (table)
                     {
                         case Enums.Table.Buildings:
-                            record = new DataAccess.Building();
-                            attributeType = typeof(DataAccess.AttributeOfBuilding);
+                            record = new DostępDoBazy.Budynek();
+                            attributeType = typeof(DostępDoBazy.AtrybutBudynku);
                             nominativeCase = "budynek";
                             genitiveCase = "budynku";
 
@@ -102,9 +102,9 @@ namespace czynsze.Forms
                             break;
 
                         case Enums.Table.Places:
-                            record = new DataAccess.ActivePlace();
-                            attributeType = typeof(DataAccess.AttributeOfPlace);
-                            inactiveType = typeof(DataAccess.InactivePlace);
+                            record = new DostępDoBazy.AktywnyLokal();
+                            attributeType = typeof(DostępDoBazy.AtrybutLokalu);
+                            inactiveType = typeof(DostępDoBazy.NieaktywnyLokal);
                             nominativeCase = "lokal";
                             genitiveCase = "lokalu";
 
@@ -137,17 +137,17 @@ namespace czynsze.Forms
                             break;
 
                         case Enums.Table.InactivePlaces:
-                            record = new DataAccess.InactivePlace();
-                            inactiveType = typeof(DataAccess.ActivePlace);
+                            record = new DostępDoBazy.NieaktywnyLokal();
+                            inactiveType = typeof(DostępDoBazy.AktywnyLokal);
                             nominativeCase = "lokal (nieaktywny)";
                             genitiveCase = "lokalu (nieaktywnego)";
 
                             break;
 
                         case Enums.Table.Tenants:
-                            record = new DataAccess.ActiveTenant();
-                            attributeType = typeof(DataAccess.AttributeOfTenant);
-                            inactiveType = typeof(DataAccess.InactiveTenant);
+                            record = new DostępDoBazy.AktywnyNajemca();
+                            attributeType = typeof(DostępDoBazy.AtrybutNajemcy);
+                            inactiveType = typeof(DostępDoBazy.NieaktywnyNajemca);
                             nominativeCase = "najemca";
                             genitiveCase = "najemcy";
 
@@ -170,16 +170,16 @@ namespace czynsze.Forms
                             break;
 
                         case Enums.Table.InactiveTenants:
-                            record = new DataAccess.InactiveTenant();
-                            inactiveType = typeof(DataAccess.ActiveTenant);
+                            record = new DostępDoBazy.NieaktywnyNajemca();
+                            inactiveType = typeof(DostępDoBazy.AktywnyNajemca);
                             nominativeCase = "najemca (nieaktywny)";
                             genitiveCase = "najemcy (nieaktywnego)";
 
                             break;
 
                         case Enums.Table.Communities:
-                            record = new DataAccess.Community();
-                            attributeType = typeof(DataAccess.AttributeOfCommunity);
+                            record = new DostępDoBazy.Wspólnota();
+                            attributeType = typeof(DostępDoBazy.AtrybutWspólnoty);
                             nominativeCase = "wspólnota";
                             genitiveCase = "wspólnoty";
 
@@ -202,7 +202,7 @@ namespace czynsze.Forms
                             break;
 
                         case Enums.Table.RentComponents:
-                            record = new DataAccess.RentComponent();
+                            record = new DostępDoBazy.SkładnikCzynszu();
                             nominativeCase = "składnik opłat";
                             genitiveCase = "składnika opłat";
 
@@ -239,7 +239,7 @@ namespace czynsze.Forms
                             break;
 
                         case Enums.Table.TypesOfPlace:
-                            record = new DataAccess.TypeOfPlace();
+                            record = new DostępDoBazy.TypLokalu();
                             nominativeCase = "typ lokali";
                             genitiveCase = "typu lokali";
 
@@ -252,7 +252,7 @@ namespace czynsze.Forms
                             break;
 
                         case Enums.Table.TypesOfKitchen:
-                            record = new DataAccess.TypeOfKitchen();
+                            record = new DostępDoBazy.TypKuchni();
                             nominativeCase = "typ kuchni";
                             genitiveCase = "typu kuchni";
 
@@ -265,7 +265,7 @@ namespace czynsze.Forms
                             break;
 
                         case Enums.Table.TypesOfTenant:
-                            record = new DataAccess.TypeOfTenant();
+                            record = new DostępDoBazy.TypNajemcy();
                             nominativeCase = "rodzaj najemcy";
                             genitiveCase = "rodzaju najemcy";
 
@@ -278,7 +278,7 @@ namespace czynsze.Forms
                             break;
 
                         case Enums.Table.Titles:
-                            record = new DataAccess.Title();
+                            record = new DostępDoBazy.TytułPrawny();
                             nominativeCase = "tytuł prawny do lokali";
                             genitiveCase = "tytułu prawnego do lokali";
 
@@ -291,7 +291,7 @@ namespace czynsze.Forms
                             break;
 
                         case Enums.Table.TypesOfPayment:
-                            record = new DataAccess.TypeOfPayment();
+                            record = new DostępDoBazy.RodzajPłatności();
                             nominativeCase = "rodzaj wpłaty lub wypłaty";
                             genitiveCase = "rodzaju wpłaty lub wypłaty";
 
@@ -310,7 +310,7 @@ namespace czynsze.Forms
                             break;
 
                         case Enums.Table.GroupsOfRentComponents:
-                            record = new DataAccess.GroupOfRentComponents();
+                            record = new DostępDoBazy.GrupaSkładnikówCzynszu();
                             nominativeCase = "grupa składników czynszu";
                             genitiveCase = "grupy składników czynszu";
 
@@ -323,7 +323,7 @@ namespace czynsze.Forms
                             break;
 
                         case Enums.Table.FinancialGroups:
-                            record = new DataAccess.FinancialGroup();
+                            record = new DostępDoBazy.GrupaFinansowa();
                             nominativeCase = "grupa finansowa";
                             genitiveCase = "grupy finansowej";
 
@@ -337,7 +337,7 @@ namespace czynsze.Forms
                             break;
 
                         case Enums.Table.VatRates:
-                            record = new DataAccess.VatRate();
+                            record = new DostępDoBazy.StawkaVat();
                             nominativeCase = "stawka VAT";
                             genitiveCase = "stawki VAt";
 
@@ -351,7 +351,7 @@ namespace czynsze.Forms
                             break;
 
                         case Enums.Table.Attributes:
-                            record = new DataAccess.Attribute();
+                            record = new DostępDoBazy.Atrybut();
                             nominativeCase = "cecha obiektów";
                             genitiveCase = "cechy obiektów";
 
@@ -372,7 +372,7 @@ namespace czynsze.Forms
                             break;
 
                         case Enums.Table.Users:
-                            record = new DataAccess.User();
+                            record = new DostępDoBazy.Użytkownik();
                             nominativeCase = "użytkownik";
                             genitiveCase = "użytkownika";
 
@@ -408,17 +408,17 @@ namespace czynsze.Forms
                             switch (Hello.CurrentSet)
                             {
                                 case Enums.SettlementTable.Czynsze:
-                                    record = new DataAccess.TurnoverFrom1stSet();
+                                    record = new DostępDoBazy.ObrótZPierwszegoZbioru();
 
                                     break;
 
                                 case Enums.SettlementTable.SecondSet:
-                                    record = new DataAccess.TurnoverFrom2ndSet();
+                                    record = new DostępDoBazy.ObrótZDrugiegoZbioru();
 
                                     break;
 
                                 case Enums.SettlementTable.ThirdSet:
-                                    record = new DataAccess.TurnoverFrom3rdSet();
+                                    record = new DostępDoBazy.ObrótZTrzeciegoZbioru();
 
                                     break;
                             }
@@ -428,7 +428,7 @@ namespace czynsze.Forms
                             break;
                     }
 
-                    validationResult = record.Validate(action, recordFields);
+                    validationResult = record.Waliduj(action, recordFields);
 
                     if (String.IsNullOrEmpty(validationResult))
                     {
@@ -440,12 +440,12 @@ namespace czynsze.Forms
 
                         switch (action)
                         {
-                            case Enums.Action.Dodaj:
-                                record.Set(recordFields);
+                            case Enums.Akcja.Dodaj:
+                                record.Ustaw(recordFields);
                                 dbSet.Add(record);
 
                                 if (dbSetOfAttributes != null)
-                                    foreach (DataAccess.AttributeOfObject attribute in attributesOfObject)
+                                    foreach (DostępDoBazy.AtrybutObiektu attribute in attributesOfObject)
                                     {
                                         attribute.kod_powiaz = recordFields[0];
 
@@ -455,12 +455,12 @@ namespace czynsze.Forms
                                 switch (table)
                                 {
                                     case Enums.Table.Places:
-                                        foreach (DataAccess.RentComponentOfPlace rentComponentOfPlace in rentComponentsOfPlace)
+                                        foreach (DostępDoBazy.SkładnikCzynszuLokalu rentComponentOfPlace in rentComponentsOfPlace)
                                         {
-                                            rentComponentOfPlace.kod_lok = Convert.ToInt32(recordFields[1]);
-                                            rentComponentOfPlace.nr_lok = Convert.ToInt32(recordFields[2]);
+                                            rentComponentOfPlace.kod_lok = Int32.Parse(recordFields[1]);
+                                            rentComponentOfPlace.nr_lok = Int32.Parse(recordFields[2]);
 
-                                            db.rentComponentsOfPlaces.Add(rentComponentOfPlace);
+                                            db.SkładnikiCzynszuLokalu.Add(rentComponentOfPlace);
                                         }
 
                                         //
@@ -474,11 +474,11 @@ namespace czynsze.Forms
                                         break;
 
                                     case Enums.Table.Communities:
-                                        foreach(DataAccess.CommunityBuilding communityBuilding in communityBuildings)
+                                        foreach(DostępDoBazy.BudynekWspólnoty communityBuilding in communityBuildings)
                                         {
-                                            communityBuilding.kod = Convert.ToInt32(recordFields[0]);
+                                            communityBuilding.kod = Int32.Parse(recordFields[0]);
 
-                                            db.buildingsOfCommunities.Add(communityBuilding);
+                                            db.BudynkiWspólnot.Add(communityBuilding);
                                         }
 
                                         break;
@@ -486,30 +486,30 @@ namespace czynsze.Forms
 
                                 break;
 
-                            case Enums.Action.Edytuj:
-                                record = (DataAccess.IRecord)dbSet.Find(id);
+                            case Enums.Akcja.Edytuj:
+                                record = (DostępDoBazy.IRekord)dbSet.Find(id);
 
-                                record.Set(recordFields);
+                                record.Ustaw(recordFields);
 
                                 if (dbSetOfAttributes != null)
                                 {
-                                    foreach (DataAccess.AttributeOfObject attributeOfObject in dbSetOfAttributes.ToListAsync().Result.Cast<DataAccess.AttributeOfObject>().Where(a => a.kod_powiaz.Trim() == id.ToString()))
+                                    foreach (DostępDoBazy.AtrybutObiektu attributeOfObject in dbSetOfAttributes.ToListAsync().Result.Cast<DostępDoBazy.AtrybutObiektu>().Where(a => a.kod_powiaz.Trim() == id.ToString()))
                                         dbSetOfAttributes.Remove(attributeOfObject);
 
-                                    foreach (DataAccess.AttributeOfObject attributeOfObject in attributesOfObject)
+                                    foreach (DostępDoBazy.AtrybutObiektu attributeOfObject in attributesOfObject)
                                         dbSetOfAttributes.Add(attributeOfObject);
                                 }
 
                                 switch (table)
                                 {
                                     case Enums.Table.Places:
-                                        DataAccess.Place place = (DataAccess.Place)record;
+                                        DostępDoBazy.Lokal place = (DostępDoBazy.Lokal)record;
 
-                                        foreach (DataAccess.RentComponentOfPlace rentComponentOfPlace in db.rentComponentsOfPlaces.Where(c => c.kod_lok == place.kod_lok && c.nr_lok == place.nr_lok))
-                                            db.rentComponentsOfPlaces.Remove(rentComponentOfPlace);
+                                        foreach (DostępDoBazy.SkładnikCzynszuLokalu rentComponentOfPlace in db.SkładnikiCzynszuLokalu.Where(c => c.kod_lok == place.kod_lok && c.nr_lok == place.nr_lok))
+                                            db.SkładnikiCzynszuLokalu.Remove(rentComponentOfPlace);
 
-                                        foreach (DataAccess.RentComponentOfPlace rentComponentOfPlace in rentComponentsOfPlace)
-                                            db.rentComponentsOfPlaces.Add(rentComponentOfPlace);
+                                        foreach (DostępDoBazy.SkładnikCzynszuLokalu rentComponentOfPlace in rentComponentsOfPlace)
+                                            db.SkładnikiCzynszuLokalu.Add(rentComponentOfPlace);
 
                                         //
                                         // CXP PART
@@ -523,35 +523,35 @@ namespace czynsze.Forms
                                         break;
 
                                     case Enums.Table.Communities:
-                                        DataAccess.Community community = (DataAccess.Community)record;
+                                        DostępDoBazy.Wspólnota community = (DostępDoBazy.Wspólnota)record;
 
-                                        foreach (DataAccess.CommunityBuilding communityBuilding in db.buildingsOfCommunities.Where(c => c.kod == community.kod))
-                                            db.buildingsOfCommunities.Remove(communityBuilding);
+                                        foreach (DostępDoBazy.BudynekWspólnoty communityBuilding in db.BudynkiWspólnot.Where(c => c.kod == community.kod))
+                                            db.BudynkiWspólnot.Remove(communityBuilding);
 
-                                        foreach (DataAccess.CommunityBuilding communityBuilding in communityBuildings)
-                                            db.buildingsOfCommunities.Add(communityBuilding);
+                                        foreach (DostępDoBazy.BudynekWspólnoty communityBuilding in communityBuildings)
+                                            db.BudynkiWspólnot.Add(communityBuilding);
 
                                         break;
                                 }
 
                                 break;
 
-                            case Enums.Action.Usuń:
-                                record = (DataAccess.IRecord)dbSet.Find(id);
+                            case Enums.Akcja.Usuń:
+                                record = (DostępDoBazy.IRekord)dbSet.Find(id);
 
                                 dbSet.Remove(record);
 
                                 if (dbSetOfAttributes != null)
-                                    foreach (DataAccess.AttributeOfObject attributeOfObject in dbSetOfAttributes.ToListAsync().Result.Cast<DataAccess.AttributeOfObject>().Where(a => a.kod_powiaz.Trim() == id.ToString()))
+                                    foreach (DostępDoBazy.AtrybutObiektu attributeOfObject in dbSetOfAttributes.ToListAsync().Result.Cast<DostępDoBazy.AtrybutObiektu>().Where(a => a.kod_powiaz.Trim() == id.ToString()))
                                         dbSetOfAttributes.Remove(attributeOfObject);
 
                                 switch (table)
                                 {
                                     case Enums.Table.Places:
-                                        DataAccess.Place place = (DataAccess.Place)record;
+                                        DostępDoBazy.Lokal place = (DostępDoBazy.Lokal)record;
 
-                                        foreach (DataAccess.RentComponentOfPlace component in db.rentComponentsOfPlaces.Where(c => c.kod_lok == place.kod_lok && c.nr_lok == place.nr_lok))
-                                            db.rentComponentsOfPlaces.Remove(component);
+                                        foreach (DostępDoBazy.SkładnikCzynszuLokalu component in db.SkładnikiCzynszuLokalu.Where(c => c.kod_lok == place.kod_lok && c.nr_lok == place.nr_lok))
+                                            db.SkładnikiCzynszuLokalu.Remove(component);
 
                                         //
                                         // CXP PART
@@ -564,22 +564,22 @@ namespace czynsze.Forms
                                         break;
 
                                     case Enums.Table.Communities:
-                                        DataAccess.Community community = (DataAccess.Community)record;
+                                        DostępDoBazy.Wspólnota community = (DostępDoBazy.Wspólnota)record;
 
-                                        foreach (DataAccess.CommunityBuilding communityBuilding in db.buildingsOfCommunities.Where(c => c.kod == community.kod))
-                                            db.buildingsOfCommunities.Remove(communityBuilding);
+                                        foreach (DostępDoBazy.BudynekWspólnoty communityBuilding in db.BudynkiWspólnot.Where(c => c.kod == community.kod))
+                                            db.BudynkiWspólnot.Remove(communityBuilding);
 
                                         break;
                                 }
 
                                 break;
 
-                            case Enums.Action.Przenieś:
-                                DataAccess.IRecord inactive = (DataAccess.IRecord)Activator.CreateInstance(inactiveType);
-                                record = (DataAccess.IRecord)dbSet.Find(id);
+                            case Enums.Akcja.Przenieś:
+                                DostępDoBazy.IRekord inactive = (DostępDoBazy.IRekord)Activator.CreateInstance(inactiveType);
+                                record = (DostępDoBazy.IRekord)dbSet.Find(id);
 
                                 dbSet.Remove(record);
-                                inactive.Set(record.AllFields());
+                                inactive.Ustaw(record.WszystkiePola());
                                 db.Set(inactiveType).Add(inactive);
 
                                 break;

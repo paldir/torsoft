@@ -46,7 +46,7 @@ namespace czynsze.MyControls
                 }
 
                 if (indexesOfColumnsWithSummary.Contains(1) && !String.IsNullOrEmpty(cellText))
-                    summary[0] += Convert.ToDecimal(cellText);
+                    summary[0] += Decimal.Parse(cellText);
 
                 tableCell.Controls.Add(new RadioButton("radioButton", prefix + row[0], "id"));
                 tableCell.Controls.Add(new Label("label", row[0], row[1], String.Empty));
@@ -74,7 +74,7 @@ namespace czynsze.MyControls
                     }
 
                     if (indexesOfColumnsWithSummary.Contains(j) && !String.IsNullOrEmpty(cellText))
-                        summary[j - 1] += Convert.ToDecimal(cellText);
+                        summary[j - 1] += Decimal.Parse(cellText);
 
                     tableCell.Controls.Add(new Label("label", rows.ElementAt(i)[0], cellText, String.Empty));
                     Rows[i].Cells.Add(tableCell);
@@ -152,7 +152,7 @@ namespace czynsze.MyControls
                 else
                     format = "{0:N2}";
 
-                return String.Format(format, Convert.ToSingle(cellText));
+                return String.Format(format, Single.Parse(cellText));
             }
         }
     }

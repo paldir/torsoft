@@ -7,7 +7,7 @@ namespace czynsze
 {
     public static class Enums
     {
-        public enum Action
+        public enum Akcja
         {
             Dodaj = 1,
             Edytuj,

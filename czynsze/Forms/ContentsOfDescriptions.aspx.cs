@@ -56,18 +56,18 @@ namespace czynsze.Forms
 
             Hello.SiteMapPath.Add(heading);
 
-            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+            using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
-                DataAccess.Content contents = db.contents.FirstOrDefault();
+                DostępDoBazy.Treść contents = db.Treści.FirstOrDefault();
                 string[] fields = new string[numberOfFields];
 
                 if (String.IsNullOrEmpty(GetParamValue<string>("Save")))
                 {
                     if (contents == null)
                     {
-                        contents = new DataAccess.Content();
+                        contents = new DostępDoBazy.Treść();
 
-                        db.contents.Add(contents);
+                        db.Treści.Add(contents);
                         db.SaveChanges();
                     }
                     else

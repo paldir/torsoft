@@ -29,10 +29,10 @@ namespace czynsze.Forms
             int year;
             int day;
 
-            try { month = Convert.ToInt32(((TextBox)monthTextBox).Text); }
+            try { month = Int32.Parse(((TextBox)monthTextBox).Text); }
             catch { month = DateTime.Today.Month; }
 
-            try { year = Convert.ToInt32(((TextBox)yearTextBox).Text); }
+            try { year = Int32.Parse(((TextBox)yearTextBox).Text); }
             catch { year = DateTime.Today.Year; }
 
             if (month == DateTime.Today.Month)

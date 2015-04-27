@@ -32,14 +32,14 @@ namespace czynsze.Forms
                     break;
             }
 
-            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+            using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
-                string minBuilding = (db.buildings.Any() ? db.buildings.Min(b => b.kod_1) : 0).ToString();
-                string minPlace = (db.places.Any() ? db.places.Min(p => p.nr_lok) : 0).ToString();
-                string maxBuilding = (db.buildings.Any() ? db.buildings.Max(b => b.kod_1) : 0).ToString();
-                string maxPlace = (db.places.Any() ? db.places.Max(p => p.nr_lok) : 0).ToString();
-                string minCommunity = (db.communities.Any() ? db.communities.Min(c => c.kod) : 0).ToString();
-                string maxCommunity = (db.communities.Any() ? db.communities.Max(c => c.kod) : 0).ToString();
+                string minBuilding = (db.Budynki.Any() ? db.Budynki.Min(b => b.kod_1) : 0).ToString();
+                string minPlace = (db.AktywneLokale.Any() ? db.AktywneLokale.Min(p => p.nr_lok) : 0).ToString();
+                string maxBuilding = (db.Budynki.Any() ? db.Budynki.Max(b => b.kod_1) : 0).ToString();
+                string maxPlace = (db.AktywneLokale.Any() ? db.AktywneLokale.Max(p => p.nr_lok) : 0).ToString();
+                string minCommunity = (db.Wspólnoty.Any() ? db.Wspólnoty.Min(c => c.kod) : 0).ToString();
+                string maxCommunity = (db.Wspólnoty.Any() ? db.Wspólnoty.Max(c => c.kod) : 0).ToString();
 
                 if (String.IsNullOrEmpty(range))
                 {
@@ -114,9 +114,23 @@ namespace czynsze.Forms
                             break;
 
                         case "fromToBuilding":
-                            report = Enums.Report.CurrentRentAmountOfCommunities;
+                            report = Enums.Report.CurrentRentAmountOfBuildings;
                             kod_1_1 = GetParamValue<string>("fromBuilding");
                             kod_1_2 = GetParamValue<string>("toBuilding");
+
+                            break;
+
+                        case "allCommunities":
+                            report = Enums.Report.CurrentRentAmountOfCommunities;
+                            kod1 = minCommunity;
+                            kod2 = maxCommunity;
+
+                            break;
+
+                        case "fromToCommunity":
+                            report = Enums.Report.CurrentRentAmountOfCommunities;
+                            kod1 = GetParamValue<string>("fromCommunity");
+                            kod2 = GetParamValue<string>("toCommunity");
 
                             break;
                     }

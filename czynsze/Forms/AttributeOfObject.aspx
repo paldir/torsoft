@@ -18,17 +18,17 @@
     </form>
     <script>
         <%
-        List<czynsze.DataAccess.Attribute> attributes;
+        List<czynsze.DostępDoBazy.Attribute> attributes;
         
-        using (czynsze.DataAccess.Czynsze_Entities db = new czynsze.DataAccess.Czynsze_Entities())
-            attributes = db.attributes.ToList();
+        using (czynsze.DostępDoBazy.Czynsze_Entities db = new czynsze.DostępDoBazy.Czynsze_Entities())
+            attributes = db.Atrybuty.ToList();
 
         string ids = String.Empty;
         string types = String.Empty;
         string units = String.Empty;
         string defaults = String.Empty;
 
-        foreach (czynsze.DataAccess.Attribute attribute in attributes)
+        foreach (czynsze.DostępDoBazy.Attribute attribute in attributes)
         {
             ids += "'" + attribute.kod.ToString() + "', ";
             types += "'" + attribute.nr_str + "', ";

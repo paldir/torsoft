@@ -9,9 +9,9 @@ namespace czynsze.Forms
 {
     public partial class AttributeOfObject : Page
     {
-        List<DataAccess.AttributeOfObject> attributesOfObject
+        List<DostępDoBazy.AtrybutObiektu> attributesOfObject
         {
-            get { return (List<DataAccess.AttributeOfObject>)Session["attributesOfObject"]; }
+            get { return (List<DostępDoBazy.AtrybutObiektu>)Session["attributesOfObject"]; }
             set { Session["attributesOfObject"] = value; }
         }
 
@@ -20,26 +20,26 @@ namespace czynsze.Forms
             //EnumP.AttributeOf attributeOf = (EnumP.AttributeOf)Enum.Parse(typeof(EnumP.AttributeOf), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("attributeOf"))]);
             Enums.AttributeOf attributeOf = GetParamValue<Enums.AttributeOf>("attributeOf");
             //EnumP.Action action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("action"))]);
-            Enums.Action action = GetParamValue<Enums.Action>("action");
-            Enums.Action childAction = Enums.Action.Przeglądaj;
-            //int parentId = Convert.ToInt32(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("parentId"))]);
+            Enums.Akcja action = GetParamValue<Enums.Akcja>("action");
+            Enums.Akcja childAction = Enums.Akcja.Przeglądaj;
+            //int parentId = Int32.Parse(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("parentId"))]);
             int parentId = GetParamValue<int>("parentId");
             int id = GetParamValue<int>("id");
             string[] record;
             string childActionKey = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("childAction"));
 
             /*if (Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))] != null)
-                id = Convert.ToInt32(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))]);*/
+                id = Int32.Parse(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))]);*/
 
             if (childActionKey != null)
             {
                 if (childActionKey.Contains("add"))
-                    childAction = (Enums.Action)Enum.Parse(typeof(Enums.Action), Request.Params[childActionKey].Replace("Zapisz", "Dodaj"));
+                    childAction = (Enums.Akcja)Enum.Parse(typeof(Enums.Akcja), Request.Params[childActionKey].Replace("Zapisz", "Dodaj"));
                 else
                     if (childActionKey.Contains("edit"))
-                        childAction = (Enums.Action)Enum.Parse(typeof(Enums.Action), Request.Params[childActionKey].Replace("Zapisz", "Edytuj"));
+                        childAction = (Enums.Akcja)Enum.Parse(typeof(Enums.Akcja), Request.Params[childActionKey].Replace("Zapisz", "Edytuj"));
                     else
-                        childAction = (Enums.Action)Enum.Parse(typeof(Enums.Action), Request.Params[childActionKey]);
+                        childAction = (Enums.Akcja)Enum.Parse(typeof(Enums.Akcja), Request.Params[childActionKey]);
             }
 
             List<string[]> rows = null;
@@ -47,8 +47,8 @@ namespace czynsze.Forms
 
             switch (childAction)
             {
-                case Enums.Action.Dodaj:
-                    DataAccess.AttributeOfObject attributeOfObject = null;
+                case Enums.Akcja.Dodaj:
+                    DostępDoBazy.AtrybutObiektu attributeOfObject = null;
                     int maxIdTmp = 0;
                     int maxId = 0;
 
@@ -60,7 +60,7 @@ namespace czynsze.Forms
                         parentId.ToString()
                     };
 
-                    if (DataAccess.AttributeOfObject.Validate(childAction, record, attributesOfObject))
+                    if (DostępDoBazy.AtrybutObiektu.Waliduj(childAction, record, attributesOfObject))
                     {
                         if (attributesOfObject.Any())
                             maxIdTmp = attributesOfObject.Max(a => a.__record);
@@ -68,54 +68,54 @@ namespace czynsze.Forms
                         switch (attributeOf)
                         {
                             case Enums.AttributeOf.Building:
-                                attributeOfObject = new DataAccess.AttributeOfBuilding();
+                                attributeOfObject = new DostępDoBazy.AtrybutBudynku();
 
-                                using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                                    if (db.attributesOfBuildings.Any())
-                                        maxId = db.attributesOfBuildings.Max(a => a.__record);
+                                using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
+                                    if (db.AtrybutyBudynków.Any())
+                                        maxId = db.AtrybutyBudynków.Max(a => a.__record);
 
                                 break;
 
                             case Enums.AttributeOf.Community:
-                                attributeOfObject = new DataAccess.AttributeOfCommunity();
+                                attributeOfObject = new DostępDoBazy.AtrybutWspólnoty();
 
-                                using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                                    if (db.attributesOfCommunities.Any())
-                                        maxId = db.attributesOfCommunities.Max(a => a.__record);
+                                using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
+                                    if (db.AtrybutyWspólnot.Any())
+                                        maxId = db.AtrybutyWspólnot.Max(a => a.__record);
 
                                 break;
 
                             case Enums.AttributeOf.Place:
-                                attributeOfObject = new DataAccess.AttributeOfPlace();
+                                attributeOfObject = new DostępDoBazy.AtrybutLokalu();
 
-                                using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                                    if (db.attributesOfPlaces.Any())
-                                        maxId = db.attributesOfPlaces.Max(a => a.__record);
+                                using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
+                                    if (db.AtrybutyLokali.Any())
+                                        maxId = db.AtrybutyLokali.Max(a => a.__record);
 
                                 break;
 
                             case Enums.AttributeOf.Tenant:
-                                attributeOfObject = new DataAccess.AttributeOfTenant();
+                                attributeOfObject = new DostępDoBazy.AtrybutNajemcy();
 
-                                using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                                    if (db.attributesOfTenants.Any())
-                                        maxId = db.attributesOfTenants.Max(a => a.__record);
+                                using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
+                                    if (db.AtrybutyNajemców.Any())
+                                        maxId = db.AtrybutyNajemców.Max(a => a.__record);
 
                                 break;
                         }
 
                         record[0] = (Math.Max(maxId, maxIdTmp) + 1).ToString();
 
-                        attributeOfObject.Set(record);
+                        attributeOfObject.Ustaw(record);
                         attributesOfObject.Add(attributeOfObject);
                     }
 
                     break;
 
-                case Enums.Action.Edytuj:
+                case Enums.Akcja.Edytuj:
                     string wartosc = Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("wartosc_edit"))];
-                    int id_edit = Convert.ToInt32(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id_edit"))]);
-                    DataAccess.AttributeOfObject attribute = attributesOfObject.FirstOrDefault(a => a.__record == id_edit);
+                    int id_edit = Int32.Parse(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id_edit"))]);
+                    DostępDoBazy.AtrybutObiektu attribute = attributesOfObject.FirstOrDefault(a => a.__record == id_edit);
 
                     record = new string[]
                     {
@@ -125,42 +125,42 @@ namespace czynsze.Forms
                         attribute.kod_powiaz
                     };
 
-                    if (DataAccess.AttributeOfObject.Validate(childAction, record, attributesOfObject))
-                        attribute.Set(record);
+                    if (DostępDoBazy.AtrybutObiektu.Waliduj(childAction, record, attributesOfObject))
+                        attribute.Ustaw(record);
 
                     break;
 
-                case Enums.Action.Usuń:
+                case Enums.Akcja.Usuń:
                     attributesOfObject.Remove(attributesOfObject.FirstOrDefault(a => a.__record == id));
 
                     break;
             }
 
-            rows = attributesOfObject.Select(a => a.ImportantFields()).ToList();
+            rows = attributesOfObject.Select(a => a.WażnePola()).ToList();
 
             switch (attributeOf)
             {
                 case Enums.AttributeOf.Building:
-                    using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                        rowsOfDropDown = db.attributes.Where(a => a.zb_b == "X").ToList().Select(a => a.ImportantFieldsForDropDown()).ToList();
+                    using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
+                        rowsOfDropDown = db.Atrybuty.Where(a => a.zb_b == "X").ToList().Select(a => a.WażnePolaDoRozwijanejListy()).ToList();
 
                     break;
 
                 case Enums.AttributeOf.Community:
-                    using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                        rowsOfDropDown = db.attributes.Where(a => a.zb_s == "X").ToList().Select(a => a.ImportantFieldsForDropDown()).ToList();
+                    using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
+                        rowsOfDropDown = db.Atrybuty.Where(a => a.zb_s == "X").ToList().Select(a => a.WażnePolaDoRozwijanejListy()).ToList();
 
                     break;
 
                 case Enums.AttributeOf.Place:
-                    using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                        rowsOfDropDown = db.attributes.Where(a => a.zb_l == "X").ToList().Select(a => a.ImportantFieldsForDropDown()).ToList();
+                    using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
+                        rowsOfDropDown = db.Atrybuty.Where(a => a.zb_l == "X").ToList().Select(a => a.WażnePolaDoRozwijanejListy()).ToList();
 
                     break;
 
                 case Enums.AttributeOf.Tenant:
-                    using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                        rowsOfDropDown = db.attributes.Where(a => a.zb_n == "X").ToList().Select(a => a.ImportantFieldsForDropDown()).ToList();
+                    using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
+                        rowsOfDropDown = db.Atrybuty.Where(a => a.zb_n == "X").ToList().Select(a => a.WażnePolaDoRozwijanejListy()).ToList();
 
                     break;
             }
@@ -174,13 +174,13 @@ namespace czynsze.Forms
 
             switch (action)
             {
-                case Enums.Action.Dodaj:
-                case Enums.Action.Edytuj:
+                case Enums.Akcja.Dodaj:
+                case Enums.Akcja.Edytuj:
                     if (Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("showEditingWindow"))] != null)
-                        using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                        using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
                         {
-                            DataAccess.AttributeOfObject attributeOfObject = attributesOfObject.FirstOrDefault(a => a.__record == id);
-                            DataAccess.Attribute attribute = db.attributes.FirstOrDefault(a => a.kod == attributeOfObject.kod);
+                            DostępDoBazy.AtrybutObiektu attributeOfObject = attributesOfObject.FirstOrDefault(a => a.__record == id);
+                            DostępDoBazy.Atrybut attribute = db.Atrybuty.FirstOrDefault(a => a.kod == attributeOfObject.kod);
 
                             placeOfEditingWindow.Controls.Add(new MyControls.HtmlInputHidden("id_edit", attributeOfObject.__record.ToString()));
                             placeOfEditingWindow.Controls.Add(new MyControls.Label("label", "nazwa", "Nazwa: ", String.Empty));

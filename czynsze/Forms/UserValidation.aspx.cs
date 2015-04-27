@@ -16,10 +16,10 @@ namespace czynsze.Forms
             string user = Request.Params["uzytkownik"];
             string password = Request.Params["haslo"];
             bool validated = false;
-            DataAccess.User typedUser;
+            DostępDoBazy.Użytkownik typedUser;
 
-            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                typedUser = db.users.FirstOrDefault(u => u.uzytkownik == user);
+            using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
+                typedUser = db.Użytkownicy.FirstOrDefault(u => u.uzytkownik == user);
 
             if (typedUser != null)
                 if (Enumerable.SequenceEqual(Encoding.UTF8.GetBytes(password), Encoding.UTF8.GetBytes(typedUser.haslo.Trim()).Select(b => (byte)(b - 10)).ToArray()))

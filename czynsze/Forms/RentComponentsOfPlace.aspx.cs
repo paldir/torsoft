@@ -9,9 +9,9 @@ namespace czynsze.Forms
 {
     public partial class RentComponentsOfPlace : Page
     {
-        List<DataAccess.RentComponentOfPlace> rentComponentsOfPlace
+        List<DostępDoBazy.SkładnikCzynszuLokalu> rentComponentsOfPlace
         {
-            get { return (List<DataAccess.RentComponentOfPlace>)Session["rentComponentsOfPlace"]; }
+            get { return (List<DostępDoBazy.SkładnikCzynszuLokalu>)Session["rentComponentsOfPlace"]; }
             set { Session["rentComponentsOfPlace"] = value; }
         }
 
@@ -21,19 +21,19 @@ namespace czynsze.Forms
             int nr_lok = GetParamValue<int>("nr_lok");
             List<string[]> rows = new List<string[]>();
             string window = GetParamValue<string>("ShowWindow");
-            Enums.Action parentAction = GetParamValue<Enums.Action>("parentAction");
-            Enums.Action childAction = GetParamValue<Enums.Action>("ChildAction");
+            Enums.Akcja parentAction = GetParamValue<Enums.Akcja>("parentAction");
+            Enums.Akcja childAction = GetParamValue<Enums.Akcja>("ChildAction");
             int id = GetParamValue<int>("id");
             string postBackUrl = "RentComponentsOfPlace.aspx";
             List<int> allComponentsWithAmount;
             List<int> componentsWithAmount = new List<int>();
-            DataAccess.RentComponentOfPlace currentRentComponent = null;
+            DostępDoBazy.SkładnikCzynszuLokalu currentRentComponent = null;
 
             if (id != 0)
                 currentRentComponent = rentComponentsOfPlace.ElementAt(id - 1);
 
-            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                allComponentsWithAmount = db.rentComponents.Where(c => c.s_zaplat == 2).Select(c => c.nr_skl).ToList();
+            using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
+                allComponentsWithAmount = db.SkładnikiCzynszu.Where(c => c.s_zaplat == 2).Select(c => c.nr_skl).ToList();
 
             if ((int)childAction != 0)
             {
@@ -49,45 +49,45 @@ namespace czynsze.Forms
                 
                 switch (childAction)
                 {
-                    case Enums.Action.Dodaj:
-                        if (DataAccess.RentComponentOfPlace.Validate(record, childAction))
+                    case Enums.Akcja.Dodaj:
+                        if (DostępDoBazy.SkładnikCzynszuLokalu.Waliduj(record, childAction))
                         {
-                            DataAccess.RentComponentOfPlace rentComponentOfPlace = new DataAccess.RentComponentOfPlace();
+                            DostępDoBazy.SkładnikCzynszuLokalu rentComponentOfPlace = new DostępDoBazy.SkładnikCzynszuLokalu();
 
-                            rentComponentOfPlace.Set(record);
+                            rentComponentOfPlace.Ustaw(record);
                             rentComponentsOfPlace.Add(rentComponentOfPlace);
                         }
 
                         break;
 
-                    case Enums.Action.Edytuj:
-                        if (DataAccess.RentComponentOfPlace.Validate(record, childAction))
-                            currentRentComponent.Set(record);
+                    case Enums.Akcja.Edytuj:
+                        if (DostępDoBazy.SkładnikCzynszuLokalu.Waliduj(record, childAction))
+                            currentRentComponent.Ustaw(record);
 
                         break;
 
-                    case Enums.Action.Usuń:
+                    case Enums.Akcja.Usuń:
                         rentComponentsOfPlace.Remove(currentRentComponent);
 
                         break;
                 }
             }
 
-            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+            using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
-                DataAccess.RentComponentOfPlace.Places = db.places.ToList();
-                DataAccess.RentComponentOfPlace.RentComponents = db.rentComponents.ToList();
+                DostępDoBazy.SkładnikCzynszuLokalu.Lokale = db.AktywneLokale.ToList();
+                DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
             }
 
             for (int i = 0; i < rentComponentsOfPlace.Count; i++)
             {
                 string index = (i + 1).ToString();
 
-                rows.Add(new string[] { index, index }.Concat(rentComponentsOfPlace.ElementAt(i).ImportantFields()).ToArray());
+                rows.Add(new string[] { index, index }.Concat(rentComponentsOfPlace.ElementAt(i).WażnePola()).ToArray());
             }
 
-            DataAccess.RentComponentOfPlace.Places = null;
-            DataAccess.RentComponentOfPlace.RentComponents = null;
+            DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
+            DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
 
             ViewState["componentsWithAmount"] = allComponentsWithAmount;
             ViewState["id"] = id;
@@ -99,8 +99,8 @@ namespace czynsze.Forms
             if (window == null)
                 switch (parentAction)
                 {
-                    case Enums.Action.Dodaj:
-                    case Enums.Action.Edytuj:
+                    case Enums.Akcja.Dodaj:
+                    case Enums.Akcja.Edytuj:
                         placeOfButtons.Controls.Add(new MyControls.Button("button", "addShowWindow", "Dodaj", postBackUrl));
                         placeOfButtons.Controls.Add(new MyControls.Button("button", "removeChildAction", "Usuń", postBackUrl));
                         placeOfButtons.Controls.Add(new MyControls.Button("button", "editShowWindow", "Edytuj", postBackUrl));
@@ -122,8 +122,8 @@ namespace czynsze.Forms
                     amount = String.Empty;
                     textOfSaveButton = "Dodaj";
 
-                    using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                        firstControl = new MyControls.DropDownList("field", "nr_skl", db.rentComponents.OrderBy(c => c.nr_skl).ToList().Select(c => c.ImportantFieldsForDropdown()).ToList(), String.Empty, true, false);
+                    using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
+                        firstControl = new MyControls.DropDownList("field", "nr_skl", db.SkładnikiCzynszu.OrderBy(c => c.nr_skl).ToList().Select(c => c.WażnePolaDoRozwijanejListy()).ToList(), String.Empty, true, false);
                 }
                 else
                 {
@@ -137,8 +137,8 @@ namespace czynsze.Forms
                     if (currentRentComponent.dat_do != null)
                         dat_do = String.Format("{0:yyyy-MM-dd}", currentRentComponent.dat_do);
 
-                    using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
-                        firstControl = new MyControls.TextBox("field", "nazwa", db.rentComponents.FirstOrDefault(c => c.nr_skl == currentRentComponent.nr_skl).nazwa, MyControls.TextBox.TextBoxMode.SingleLine, 30, 1, false);
+                    using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
+                        firstControl = new MyControls.TextBox("field", "nazwa", db.SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == currentRentComponent.nr_skl).nazwa, MyControls.TextBox.TextBoxMode.SingleLine, 30, 1, false);
 
                     form.Controls.Add(new MyControls.HtmlInputHidden("nr_skl", currentRentComponent.nr_skl.ToString()));
                     form.Controls.Add(new MyControls.HtmlInputHidden("id", id.ToString()));
@@ -146,7 +146,7 @@ namespace czynsze.Forms
 
                 placeOfNewComponent.Controls.Add(new MyControls.Label("label", "nr_skl", firstLabel, String.Empty));
 
-                using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
                     placeOfNewComponent.Controls.Add(firstControl);
 
                 placeOfAmount.Controls.Add(new MyControls.Label("label", "dan_p", "Ilość: ", String.Empty));

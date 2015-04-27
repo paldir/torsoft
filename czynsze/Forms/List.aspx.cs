@@ -130,7 +130,7 @@ namespace czynsze.Forms
                     break;
             }
 
-            using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+            using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
                 switch (table)
                 {
                     case Enums.Table.Buildings:
@@ -139,7 +139,7 @@ namespace czynsze.Forms
                         indexesOfNumericColumns = new List<int>() { 1 };
 
                         if (!IsPostBack)
-                            rows = db.buildings.OrderBy(b => b.kod_1).ToList().Select(b => b.ImportantFields()).ToList();
+                            rows = db.Budynki.OrderBy(b => b.kod_1).ToList().Select(b => b.WażnePola()).ToList();
 
                         break;
 
@@ -148,7 +148,7 @@ namespace czynsze.Forms
                         heading = nodeOfSiteMapPath = "Lokale";
                         headers = new string[] { "Kod budynku", "Numer lokalu", "Typ lokalu", "Powierzchnia użytkowa", "Nazwisko", "Imię" };
                         indexesOfNumericColumns = new List<int>() { 1, 2, 4 };
-                        IEnumerable<DataAccess.Place> places = null;
+                        IEnumerable<DostępDoBazy.Lokal> places = null;
 
                         placeOfMainTableButtons.Controls.Add(new MyControls.Button("mainTableButton", "moveaction", "Przenieś", postBackUrl));
 
@@ -168,7 +168,7 @@ namespace czynsze.Forms
                                 };
 
                                 if (!IsPostBack)
-                                    places = db.places.ToList().Cast<DataAccess.Place>();
+                                    places = db.AktywneLokale.ToList().Cast<DostępDoBazy.Lokal>();
 
                                 break;
 
@@ -176,16 +176,16 @@ namespace czynsze.Forms
                                 heading += " (nieaktywne)";
 
                                 if (!IsPostBack)
-                                    places = db.inactivePlaces.ToList().Cast<DataAccess.Place>();
+                                    places = db.NieaktywneLokale.ToList().Cast<DostępDoBazy.Lokal>();
 
                                 break;
                         }
 
                         if (places != null)
                         {
-                            DataAccess.Place.TypesOfPlace = db.typesOfPlace.ToList();
-                            rows = places.OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok).Select(p => p.ImportantFields()).ToList();
-                            DataAccess.Place.TypesOfPlace = null;
+                            DostępDoBazy.Lokal.TypesOfPlace = db.TypyLokali.ToList();
+                            rows = places.OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok).Select(p => p.WażnePola()).ToList();
+                            DostępDoBazy.Lokal.TypesOfPlace = null;
                         }
 
                         break;
@@ -195,7 +195,7 @@ namespace czynsze.Forms
                         heading = nodeOfSiteMapPath = "Najemcy";
                         headers = new string[] { "Numer kontrolny", "Nazwisko", "Imię", "Adres", "Adres cd." };
                         indexesOfNumericColumns = new List<int>() { 1 };
-                        IEnumerable<DataAccess.Tenant> tenants = null;
+                        IEnumerable<DostępDoBazy.Najemca> tenants = null;
 
                         placeOfMainTableButtons.Controls.Add(new MyControls.Button("mainTableButton", "moveaction", "Przenieś", postBackUrl));
 
@@ -205,7 +205,7 @@ namespace czynsze.Forms
                                 heading += " (aktywni)";
 
                                 if (!IsPostBack)
-                                    tenants = db.tenants.ToList().Cast<DataAccess.Tenant>();
+                                    tenants = db.AktywniNajemcy.ToList().Cast<DostępDoBazy.Najemca>();
 
                                 break;
 
@@ -213,13 +213,13 @@ namespace czynsze.Forms
                                 heading += " (nieaktywni)";
 
                                 if (!IsPostBack)
-                                    tenants = db.inactiveTenants.ToList().Cast<DataAccess.Tenant>();
+                                    tenants = db.NieaktywniNajemcy.ToList().Cast<DostępDoBazy.Najemca>();
 
                                 break;
                         }
 
                         if (tenants != null)
-                            rows = tenants.OrderBy(t => t.nazwisko).ThenBy(t => t.imie).Select(t => t.ImportantFields()).ToList();
+                            rows = tenants.OrderBy(t => t.nazwisko).ThenBy(t => t.imie).Select(t => t.WażnePola()).ToList();
 
                         break;
 
@@ -229,7 +229,7 @@ namespace czynsze.Forms
                         indexesOfNumericColumns = new List<int>() { 1, 5 };
 
                         if (!IsPostBack)
-                            rows = db.rentComponents.OrderBy(c => c.nr_skl).ToList().Select(c => c.ImportantFields()).ToList();
+                            rows = db.SkładnikiCzynszu.OrderBy(c => c.nr_skl).ToList().Select(c => c.WażnePola()).ToList();
 
                         break;
 
@@ -239,7 +239,7 @@ namespace czynsze.Forms
                         indexesOfNumericColumns = new List<int>() { 1, 3, 4 };
 
                         if (!IsPostBack)
-                            rows = db.communities.OrderBy(c => c.kod).ToList().Select(c => c.ImportantFields()).ToList();
+                            rows = db.Wspólnoty.OrderBy(c => c.kod).ToList().Select(c => c.WażnePola()).ToList();
 
                         break;
 
@@ -249,7 +249,7 @@ namespace czynsze.Forms
                         indexesOfNumericColumns = new List<int>() { 1 };
 
                         if (!IsPostBack)
-                            rows = db.typesOfPlace.OrderBy(t => t.kod_typ).ToList().Select(t => t.ImportantFields()).ToList();
+                            rows = db.TypyLokali.OrderBy(t => t.kod_typ).ToList().Select(t => t.WażnePola()).ToList();
 
                         break;
 
@@ -259,7 +259,7 @@ namespace czynsze.Forms
                         indexesOfNumericColumns = new List<int>() { 1 };
 
                         if (!IsPostBack)
-                            rows = db.typesOfKitchen.OrderBy(t => t.kod_kuch).ToList().Select(t => t.ImportantFields()).ToList();
+                            rows = db.TypyKuchni.OrderBy(t => t.kod_kuch).ToList().Select(t => t.WażnePola()).ToList();
 
                         break;
 
@@ -269,7 +269,7 @@ namespace czynsze.Forms
                         indexesOfNumericColumns = new List<int>() { 1 };
 
                         if (!IsPostBack)
-                            rows = db.typesOfTenant.OrderBy(t => t.kod_najem).ToList().Select(t => t.ImportantFields()).ToList();
+                            rows = db.TypyNajemców.OrderBy(t => t.kod_najem).ToList().Select(t => t.WażnePola()).ToList();
 
                         break;
 
@@ -279,7 +279,7 @@ namespace czynsze.Forms
                         indexesOfNumericColumns = new List<int>() { 1 };
 
                         if (!IsPostBack)
-                            rows = db.titles.OrderBy(t => t.kod_praw).ToList().Select(t => t.ImportantFields()).ToList();
+                            rows = db.TytułyPrawne.OrderBy(t => t.kod_praw).ToList().Select(t => t.WażnePola()).ToList();
 
                         break;
 
@@ -289,7 +289,7 @@ namespace czynsze.Forms
                         indexesOfNumericColumns = new List<int>() { 1 };
 
                         if (!IsPostBack)
-                            rows = db.typesOfPayment.OrderBy(t => t.kod_wplat).ToList().Select(t => t.ImportantFields()).ToList();
+                            rows = db.RodzajePłatności.OrderBy(t => t.kod_wplat).ToList().Select(t => t.WażnePola()).ToList();
 
                         break;
 
@@ -299,7 +299,7 @@ namespace czynsze.Forms
                         indexesOfNumericColumns = new List<int>() { 1 };
 
                         if (!IsPostBack)
-                            rows = db.groupsOfRentComponents.OrderBy(g => g.kod).ToList().Select(t => t.ImportantFields()).ToList();
+                            rows = db.GrupySkładnikówCzynszu.OrderBy(g => g.kod).ToList().Select(t => t.WażnePola()).ToList();
 
                         break;
 
@@ -309,7 +309,7 @@ namespace czynsze.Forms
                         indexesOfNumericColumns = new List<int>() { 1 };
 
                         if (!IsPostBack)
-                            rows = db.financialGroups.OrderBy(g => g.kod).ToList().Select(g => g.ImportantFields()).ToList();
+                            rows = db.GrupyFinansowe.OrderBy(g => g.kod).ToList().Select(g => g.WażnePola()).ToList();
 
                         break;
 
@@ -318,7 +318,7 @@ namespace czynsze.Forms
                         headers = new string[] { "Oznaczenie stawki", "Symbol fiskalny" };
 
                         if (!IsPostBack)
-                            rows = db.vatRates.OrderBy(r => r.symb_fisk).ToList().Select(r => r.ImportantFields()).ToList();
+                            rows = db.StawkiVat.OrderBy(r => r.symb_fisk).ToList().Select(r => r.WażnePola()).ToList();
 
                         break;
 
@@ -328,7 +328,7 @@ namespace czynsze.Forms
                         indexesOfNumericColumns = new List<int>() { 1 };
 
                         if (!IsPostBack)
-                            rows = db.attributes.OrderBy(a => a.kod).ToList().Select(a => a.ImportantFields()).ToList();
+                            rows = db.Atrybuty.OrderBy(a => a.kod).ToList().Select(a => a.WażnePola()).ToList();
 
                         break;
 
@@ -337,7 +337,7 @@ namespace czynsze.Forms
                         headers = new string[] { "Symbol", "Nazwisko", "Imię" };
 
                         if (!IsPostBack)
-                            rows = db.users.OrderBy(u => u.symbol).ToList().Select(u => u.ImportantFields()).ToList();
+                            rows = db.Użytkownicy.OrderBy(u => u.symbol).ToList().Select(u => u.WażnePola()).ToList();
 
                         break;
 
@@ -364,9 +364,9 @@ namespace czynsze.Forms
 
                         if (!IsPostBack)
                         {
-                            DataAccess.Tenant.Places = db.places.ToList();
-                            rows = db.tenants.OrderBy(t => t.nazwisko).ThenBy(t => t.imie).ToList().Select(t => t.WithPlace()).ToList();
-                            DataAccess.Tenant.Places = null;
+                            DostępDoBazy.Najemca.Places = db.AktywneLokale.ToList();
+                            rows = db.AktywniNajemcy.OrderBy(t => t.nazwisko).ThenBy(t => t.imie).ToList().Select(t => t.ZLokalem()).ToList();
+                            DostępDoBazy.Najemca.Places = null;
                         }
 
                         MyControls.RadioButtonList list = new MyControls.RadioButtonList("list", "by", new List<string> { "wg nazwiska", "wg kodu lokalu" }, new List<string> { "nazwisko", "kod" }, "nazwisko", true, true);
@@ -384,20 +384,20 @@ namespace czynsze.Forms
                         indexesOfNumericColumns = new List<int>() { 1, 4, 5 };
                         indexesOfColumnsWithSummary = new List<int>() { 1 };
                         {
-                            DataAccess.Tenant tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == id);
+                            DostępDoBazy.Najemca tenant = db.AktywniNajemcy.FirstOrDefault(t => t.nr_kontr == id);
                             heading = nodeOfSiteMapPath = "Należności najemcy " + tenant.nazwisko + " " + tenant.imie;
-                            List<DataAccess.ReceivableFrom1stSet> receivables = db.receivablesFrom1stSet.Where(r => r.nr_kontr == id).OrderBy(r => r.data_nal).ToList();
+                            List<DostępDoBazy.NależnośćZPierwszegoZbioru> receivables = db.NależnościZPierwszegoZbioru.Where(r => r.nr_kontr == id).OrderBy(r => r.data_nal).ToList();
 
                             switch (table)
                             {
                                 case Enums.Table.AllReceivablesOfTenant:
-                                    rows = receivables.Select(r => r.ImportantFields()).ToList();
+                                    rows = receivables.Select(r => r.WażnePola()).ToList();
 
                                     break;
 
                                 case Enums.Table.NotPastReceivablesOfTenant:
                                     heading += " (nieprzeterminowane)";
-                                    rows = receivables.Where(r => r.data_nal >= Hello.Date).Select(r => r.ImportantFields()).ToList();
+                                    rows = receivables.Where(r => r.data_nal >= Hello.Date).Select(r => r.WażnePola()).ToList();
 
                                     break;
                             }
@@ -412,37 +412,37 @@ namespace czynsze.Forms
                         //indexesOfColumnsWithSummary = new List<int>() { 1, 2 };
                         string summary;
                         {
-                            DataAccess.Tenant tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == id);
-                            IEnumerable<DataAccess.Receivable> receivables = null;
-                            IEnumerable<DataAccess.Turnover> turnovers = null;
+                            DostępDoBazy.Najemca tenant = db.AktywniNajemcy.FirstOrDefault(t => t.nr_kontr == id);
+                            IEnumerable<DostępDoBazy.Należność> receivables = null;
+                            IEnumerable<DostępDoBazy.Obrót> turnovers = null;
                             heading = nodeOfSiteMapPath = "Należności  i obroty najemcy " + tenant.nazwisko + " " + tenant.imie;
 
                             switch (Hello.CurrentSet)
                             {
                                 case Enums.SettlementTable.Czynsze:
-                                    receivables = db.receivablesFrom1stSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>();
-                                    turnovers = db.turnoversFrom1stSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
+                                    receivables = db.NależnościZPierwszegoZbioru.Where(r => r.nr_kontr == id).ToList().Cast<DostępDoBazy.Należność>();
+                                    turnovers = db.ObrotyZPierwszegoZbioru.Where(t => t.nr_kontr == id).ToList().Cast<DostępDoBazy.Obrót>();
 
                                     break;
 
                                 case Enums.SettlementTable.SecondSet:
-                                    receivables = db.receivablesFrom2ndSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>();
-                                    turnovers = db.turnoversFrom2ndSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
+                                    receivables = db.NależnościZDrugiegoZbioru.Where(r => r.nr_kontr == id).ToList().Cast<DostępDoBazy.Należność>();
+                                    turnovers = db.ObrotyZDrugiegoZbioru.Where(t => t.nr_kontr == id).ToList().Cast<DostępDoBazy.Obrót>();
 
                                     break;
 
                                 case Enums.SettlementTable.ThirdSet:
-                                    receivables = db.receivablesFrom3rdSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>();
-                                    turnovers = db.turnoversFrom3rdSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
+                                    receivables = db.NależnościZTrzeciegoZbioru.Where(r => r.nr_kontr == id).ToList().Cast<DostępDoBazy.Należność>();
+                                    turnovers = db.ObrotyZTrzeciegoZbioru.Where(t => t.nr_kontr == id).ToList().Cast<DostępDoBazy.Obrót>();
 
                                     break;
                             }
 
-                            rows = receivables.Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).Concat(turnovers.Select(t => t.ImportantFieldsForReceivablesAndTurnoversOfTenant())).OrderBy(r => DateTime.Parse(r[3])).ToList();
-                            decimal wnAmount = rows.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToDecimal(r[1]));
-                            decimal maAmount = rows.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Convert.ToDecimal(r[2]));
-                            List<string[]> rowsOfPastReceivables = receivables.Where(r => r.data_nal < Hello.Date).Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).Concat(turnovers.Where(t => t.data_obr < Hello.Date).Select(t => t.ImportantFieldsForReceivablesAndTurnoversOfTenant())).ToList();
-                            decimal wnAmountOfPastReceivables = rowsOfPastReceivables.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToDecimal(r[1]));
+                            rows = receivables.Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Select(t => t.WażnePolaDoNależnościIObrotówNajemcy())).OrderBy(r => DateTime.Parse(r[3])).ToList();
+                            decimal wnAmount = rows.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
+                            decimal maAmount = rows.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Decimal.Parse(r[2]));
+                            List<string[]> rowsOfPastReceivables = receivables.Where(r => r.data_nal < Hello.Date).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Where(t => t.data_obr < Hello.Date).Select(t => t.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
+                            decimal wnAmountOfPastReceivables = rowsOfPastReceivables.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
                             summary = @"
                                 <table class='additionalTable'>
                                     <tr>
@@ -495,43 +495,43 @@ namespace czynsze.Forms
                         sortable = false;
                         indexesOfNumericColumns = new List<int>() { 1, 2, 3 };
                         {
-                            IEnumerable<DataAccess.Receivable> receivables = null;
-                            IEnumerable<DataAccess.Turnover> turnovers = null;
-                            DataAccess.Tenant tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == id);
+                            IEnumerable<DostępDoBazy.Należność> receivables = null;
+                            IEnumerable<DostępDoBazy.Obrót> turnovers = null;
+                            DostępDoBazy.Najemca tenant = db.AktywniNajemcy.FirstOrDefault(t => t.nr_kontr == id);
                             heading = tenant.nazwisko + " " + tenant.imie + "<br />" + tenant.adres_1 + " " + tenant.adres_2;
                             nodeOfSiteMapPath = "Saldo najemcy " + tenant.nazwisko + " " + tenant.imie;
 
                             switch (Hello.CurrentSet)
                             {
                                 case Enums.SettlementTable.Czynsze:
-                                    receivables = db.receivablesFrom1stSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>();
-                                    turnovers = db.turnoversFrom1stSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
+                                    receivables = db.NależnościZPierwszegoZbioru.Where(r => r.nr_kontr == id).ToList().Cast<DostępDoBazy.Należność>();
+                                    turnovers = db.ObrotyZPierwszegoZbioru.Where(r => r.nr_kontr == id).ToList().Cast<DostępDoBazy.Obrót>();
 
                                     break;
 
                                 case Enums.SettlementTable.SecondSet:
-                                    receivables = db.receivablesFrom2ndSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>();
-                                    turnovers = db.turnoversFrom2ndSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
+                                    receivables = db.NależnościZDrugiegoZbioru.Where(r => r.nr_kontr == id).ToList().Cast<DostępDoBazy.Należność>();
+                                    turnovers = db.ObrotyZDrugiegoZbioru.Where(r => r.nr_kontr == id).ToList().Cast<DostępDoBazy.Obrót>();
 
                                     break;
 
                                 case Enums.SettlementTable.ThirdSet:
-                                    receivables = db.receivablesFrom3rdSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Receivable>();
-                                    turnovers = db.turnoversFrom3rdSet.Where(r => r.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
+                                    receivables = db.NależnościZTrzeciegoZbioru.Where(r => r.nr_kontr == id).ToList().Cast<DostępDoBazy.Należność>();
+                                    turnovers = db.ObrotyZTrzeciegoZbioru.Where(r => r.nr_kontr == id).ToList().Cast<DostępDoBazy.Obrót>();
 
                                     break;
                             }
 
-                            List<string[]> rowsOfReceivablesAndTurnovers = receivables.Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).Concat(turnovers.Select(t => t.ImportantFieldsForReceivablesAndTurnoversOfTenant())).ToList();
-                            decimal wnAmount = rowsOfReceivablesAndTurnovers.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToDecimal(r[1]));
-                            decimal maAmount = rowsOfReceivablesAndTurnovers.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Convert.ToDecimal(r[2]));
-                            List<string[]> rowsOfReceivablesAndTurnoversToDate = receivables.Where(r => r.data_nal <= Hello.Date).Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant()).Concat(turnovers.Where(t => t.data_obr <= Hello.Date).Select(r => r.ImportantFieldsForReceivablesAndTurnoversOfTenant())).ToList();
-                            decimal wnAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToDecimal(r[1]));
-                            decimal maAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Convert.ToDecimal(r[2]));
-                            DataAccess.Configuration configuration = db.configurations.FirstOrDefault();
-                            List<string[]> rowsOfInterestNotes = turnovers.Where(t => t.kod_wplat == configuration.p_20 || t.kod_wplat == configuration.p_37).Select(t => t.ImportantFieldsForReceivablesAndTurnoversOfTenant()).ToList();
-                            decimal wnOfInterestNotes = rowsOfInterestNotes.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Convert.ToDecimal(r[1]));
-                            decimal maOfInterestNotes = rowsOfInterestNotes.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Convert.ToDecimal(r[2]));
+                            List<string[]> rowsOfReceivablesAndTurnovers = receivables.Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Select(t => t.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
+                            decimal wnAmount = rowsOfReceivablesAndTurnovers.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
+                            decimal maAmount = rowsOfReceivablesAndTurnovers.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Decimal.Parse(r[2]));
+                            List<string[]> rowsOfReceivablesAndTurnoversToDate = receivables.Where(r => r.data_nal <= Hello.Date).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Where(t => t.data_obr <= Hello.Date).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
+                            decimal wnAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
+                            decimal maAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Decimal.Parse(r[2]));
+                            DostępDoBazy.Konfiguracja configuration = db.Konfiguracje.FirstOrDefault();
+                            List<string[]> rowsOfInterestNotes = turnovers.Where(t => t.kod_wplat == configuration.p_20 || t.kod_wplat == configuration.p_37).Select(t => t.WażnePolaDoNależnościIObrotówNajemcy()).ToList();
+                            decimal wnOfInterestNotes = rowsOfInterestNotes.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
+                            decimal maOfInterestNotes = rowsOfInterestNotes.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Decimal.Parse(r[2]));
                             rows = new List<string[]>() { new string[] { String.Empty, String.Format("{0:N2}", maAmount - wnAmount), String.Format("{0:N2}", maAmountToDay - wnAmountToDay), String.Format("{0:N2}", maOfInterestNotes - wnOfInterestNotes) } };
                         }
 
@@ -542,29 +542,29 @@ namespace czynsze.Forms
                         sortable = false;
                         indexesOfNumericColumns = new List<int>() { 1, 6 };
                         {
-                            IEnumerable<DataAccess.Turnover> turnovers = null;
-                            DataAccess.Tenant tenant = db.tenants.FirstOrDefault(t => t.nr_kontr == id);
+                            IEnumerable<DostępDoBazy.Obrót> turnovers = null;
+                            DostępDoBazy.Najemca tenant = db.AktywniNajemcy.FirstOrDefault(t => t.nr_kontr == id);
                             heading = nodeOfSiteMapPath = "Obroty najemcy " + tenant.nazwisko + " " + tenant.imie;
 
                             switch (Hello.CurrentSet)
                             {
                                 case Enums.SettlementTable.Czynsze:
-                                    turnovers = db.turnoversFrom1stSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
+                                    turnovers = db.ObrotyZPierwszegoZbioru.Where(t => t.nr_kontr == id).ToList().Cast<DostępDoBazy.Obrót>();
 
                                     break;
 
                                 case Enums.SettlementTable.SecondSet:
-                                    turnovers = db.turnoversFrom2ndSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
+                                    turnovers = db.ObrotyZDrugiegoZbioru.Where(t => t.nr_kontr == id).ToList().Cast<DostępDoBazy.Obrót>();
 
                                     break;
 
                                 case Enums.SettlementTable.ThirdSet:
-                                    turnovers = db.turnoversFrom3rdSet.Where(t => t.nr_kontr == id).ToList().Cast<DataAccess.Turnover>();
+                                    turnovers = db.ObrotyZTrzeciegoZbioru.Where(t => t.nr_kontr == id).ToList().Cast<DostępDoBazy.Obrót>();
 
                                     break;
                             }
 
-                            rows = turnovers.OrderBy(t => t.data_obr).Select(t => t.ImportantFields()).ToList();
+                            rows = turnovers.OrderBy(t => t.data_obr).Select(t => t.WażnePola()).ToList();
 
                             placeOfMainTableButtons.Controls.Add(new MyControls.HtmlInputHidden("additionalId", id.ToString()));
                         }
@@ -678,7 +678,7 @@ namespace czynsze.Forms
             {
                 case Enums.Table.Places:
                 case Enums.Table.InactivePlaces:
-                    using (DataAccess.Czynsze_Entities db = new DataAccess.Czynsze_Entities())
+                    using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
                     {
                         try
                         {
@@ -715,12 +715,12 @@ namespace czynsze.Forms
 
         void LinkButtonOfColumn_Click(object sender, EventArgs e)
         {
-            int columnNumber = Convert.ToInt32(((MyControls.LinkButton)sender).ID.Replace("column", String.Empty)) + 1;
+            int columnNumber = Int32.Parse(((MyControls.LinkButton)sender).ID.Replace("column", String.Empty)) + 1;
 
             switch (sortOrder)
             {
                 case Enums.SortOrder.Asc:
-                    try { rows = rows.OrderBy(r => Convert.ToSingle(r[columnNumber])).ToList(); }
+                    try { rows = rows.OrderBy(r => Single.Parse(r[columnNumber])).ToList(); }
                     catch { rows = rows.OrderBy(r => r[columnNumber]).ToList(); }
 
                     sortOrder = Enums.SortOrder.Desc;
@@ -728,7 +728,7 @@ namespace czynsze.Forms
                     break;
 
                 case Enums.SortOrder.Desc:
-                    try { rows = rows.OrderByDescending(r => Convert.ToSingle(r[columnNumber])).ToList(); }
+                    try { rows = rows.OrderByDescending(r => Single.Parse(r[columnNumber])).ToList(); }
                     catch { rows = rows.OrderByDescending(r => r[columnNumber]).ToList(); }
 
                     sortOrder = Enums.SortOrder.Asc;
@@ -751,7 +751,7 @@ namespace czynsze.Forms
                     break;
 
                 case "kod":
-                    rows = rows.OrderBy(r => Convert.ToSingle(r[3])).ThenBy(r => Convert.ToSingle(r[4])).ToList();
+                    rows = rows.OrderBy(r => Single.Parse(r[3])).ThenBy(r => Single.Parse(r[4])).ToList();
 
                     break;
             }
