@@ -127,12 +127,12 @@ namespace czynsze.DostępDoBazy
             zb_s = record[9];
         }
 
-        public string Waliduj(Enums.Akcja akcja, string[] rekord)
+        public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             string wynik = String.Empty;
             int kod;
 
-            if (akcja == Enums.Akcja.Dodaj)
+            if (akcja == Enumeratory.Akcja.Dodaj)
             {
                 if (rekord[0].Length > 0)
                 {
@@ -150,7 +150,7 @@ namespace czynsze.DostępDoBazy
                     wynik += "Należy podać kod cechy obiektów! <br />";
             }
 
-            if (akcja != Enums.Akcja.Usuń)
+            if (akcja != Enumeratory.Akcja.Usuń)
             {
                 if (rekord[2] == "N")
                     wynik += CzynszeKontekst.WalidujFloat("Wartość domyślna", ref rekord[4]);

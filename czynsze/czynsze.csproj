@@ -89,23 +89,23 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Forms\AttributeOfObject.aspx" />
-    <Content Include="Forms\ChangeDate.aspx" />
-    <Content Include="Forms\ChangeSettlementTable.aspx" />
-    <Content Include="Forms\CommunityBuildings.aspx" />
-    <Content Include="Forms\ContentsOfDescriptions.aspx" />
-    <Content Include="Forms\GenerationOfReceivables.aspx" />
-    <Content Include="Forms\Hello.aspx" />
-    <Content Include="Forms\List.aspx" />
-    <Content Include="Forms\Loading.aspx" />
-    <Content Include="Forms\ProgressOfGenerationOfReceivables.aspx" />
-    <Content Include="Forms\Record.aspx" />
-    <Content Include="Forms\RecordValidation.aspx" />
-    <Content Include="Forms\RentAmount.aspx" />
-    <Content Include="Forms\RentComponentsOfPlace.aspx" />
-    <Content Include="Forms\Report.aspx" />
-    <Content Include="Forms\ReportConfiguration.aspx" />
-    <Content Include="Forms\UserValidation.aspx" />
+    <Content Include="Formularze\AttributeOfObject.aspx" />
+    <Content Include="Formularze\ChangeDate.aspx" />
+    <Content Include="Formularze\ChangeSettlementTable.aspx" />
+    <Content Include="Formularze\CommunityBuildings.aspx" />
+    <Content Include="Formularze\ContentsOfDescriptions.aspx" />
+    <Content Include="Formularze\GenerationOfReceivables.aspx" />
+    <Content Include="Formularze\Hello.aspx" />
+    <Content Include="Formularze\List.aspx" />
+    <Content Include="Formularze\Loading.aspx" />
+    <Content Include="Formularze\ProgressOfGenerationOfReceivables.aspx" />
+    <Content Include="Formularze\Record.aspx" />
+    <Content Include="Formularze\RecordValidation.aspx" />
+    <Content Include="Formularze\RentAmount.aspx" />
+    <Content Include="Formularze\RentComponentsOfPlace.aspx" />
+    <Content Include="Formularze\Report.aspx" />
+    <Content Include="Formularze\ReportConfiguration.aspx" />
+    <Content Include="Formularze\UserValidation.aspx" />
     <Content Include="Images\icon.ico" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\waterMark.bmp" />
@@ -123,7 +123,7 @@
     <Content Include="libgcc_s_dw2-1.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Login.aspx" />
+    <Content Include="Logowanie.aspx" />
     <Content Include="mingwm10.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -142,61 +142,61 @@
     <Compile Include="DostępDoBazy\BudynekWspólnoty.cs" />
     <Compile Include="DostępDoBazy\Zamknięty.cs" />
     <Compile Include="DostępDoBazy\Treść.cs" />
-    <Compile Include="Forms\CommunityBuildings.aspx.cs">
+    <Compile Include="Formularze\CommunityBuildings.aspx.cs">
       <DependentUpon>CommunityBuildings.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Forms\CommunityBuildings.aspx.designer.cs">
+    <Compile Include="Formularze\CommunityBuildings.aspx.designer.cs">
       <DependentUpon>CommunityBuildings.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ContentsOfDescriptions.aspx.cs">
+    <Compile Include="Formularze\ContentsOfDescriptions.aspx.cs">
       <DependentUpon>ContentsOfDescriptions.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Forms\ContentsOfDescriptions.aspx.designer.cs">
+    <Compile Include="Formularze\ContentsOfDescriptions.aspx.designer.cs">
       <DependentUpon>ContentsOfDescriptions.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Forms\GenerationOfReceivables.aspx.cs">
+    <Compile Include="Formularze\GenerationOfReceivables.aspx.cs">
       <DependentUpon>GenerationOfReceivables.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Forms\GenerationOfReceivables.aspx.designer.cs">
+    <Compile Include="Formularze\GenerationOfReceivables.aspx.designer.cs">
       <DependentUpon>GenerationOfReceivables.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ProgressOfGenerationOfReceivables.aspx.cs">
+    <Compile Include="Formularze\ProgressOfGenerationOfReceivables.aspx.cs">
       <DependentUpon>ProgressOfGenerationOfReceivables.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Forms\ProgressOfGenerationOfReceivables.aspx.designer.cs">
+    <Compile Include="Formularze\ProgressOfGenerationOfReceivables.aspx.designer.cs">
       <DependentUpon>ProgressOfGenerationOfReceivables.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Forms\RentAmount.aspx.cs">
+    <Compile Include="Formularze\RentAmount.aspx.cs">
       <DependentUpon>RentAmount.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Forms\RentAmount.aspx.designer.cs">
+    <Compile Include="Formularze\RentAmount.aspx.designer.cs">
       <DependentUpon>RentAmount.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Forms\RentComponentsOfPlace.aspx.cs">
+    <Compile Include="Formularze\RentComponentsOfPlace.aspx.cs">
       <DependentUpon>RentComponentsOfPlace.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Forms\RentComponentsOfPlace.aspx.designer.cs">
+    <Compile Include="Formularze\RentComponentsOfPlace.aspx.designer.cs">
       <DependentUpon>RentComponentsOfPlace.aspx</DependentUpon>
     </Compile>
-    <Compile Include="MyControls\Button.cs" />
-    <Compile Include="MyControls\CheckBoxList.cs" />
-    <Compile Include="MyControls\DropDownList.cs" />
-    <Compile Include="MyControls\HtmlGenericControl.cs" />
-    <Compile Include="MyControls\HtmlIframe.cs" />
-    <Compile Include="MyControls\HtmlInputHidden.cs" />
-    <Compile Include="MyControls\HtmlInputRadioButton.cs" />
-    <Compile Include="MyControls\Label.cs" />
-    <Compile Include="MyControls\LinkButton.cs" />
-    <Compile Include="MyControls\RadioButtonList.cs" />
-    <Compile Include="MyControls\RadioButton.cs" />
-    <Compile Include="MyControls\Table.cs" />
-    <Compile Include="MyControls\TextBox.cs" />
+    <Compile Include="Kontrolki\Button.cs" />
+    <Compile Include="Kontrolki\CheckBoxList.cs" />
+    <Compile Include="Kontrolki\DropDownList.cs" />
+    <Compile Include="Kontrolki\HtmlGenericControl.cs" />
+    <Compile Include="Kontrolki\HtmlIframe.cs" />
+    <Compile Include="Kontrolki\HtmlInputHidden.cs" />
+    <Compile Include="Kontrolki\HtmlInputRadioButton.cs" />
+    <Compile Include="Kontrolki\Label.cs" />
+    <Compile Include="Kontrolki\LinkButton.cs" />
+    <Compile Include="Kontrolki\RadioButtonList.cs" />
+    <Compile Include="Kontrolki\RadioButton.cs" />
+    <Compile Include="Kontrolki\Table.cs" />
+    <Compile Include="Kontrolki\TextBox.cs" />
     <Compile Include="DostępDoBazy\Atrybut.cs" />
     <Compile Include="DostępDoBazy\AtrybutBudynku.cs" />
     <Compile Include="DostępDoBazy\AtrybutWspólnoty.cs" />
@@ -233,93 +233,93 @@
     <Compile Include="DostępDoBazy\TypNajemcy.cs" />
     <Compile Include="DostępDoBazy\Użytkownik.cs" />
     <Compile Include="DostępDoBazy\StawkaVat.cs" />
-    <Compile Include="Enums.cs" />
-    <Compile Include="Forms\AttributeOfObject.aspx.cs">
+    <Compile Include="Enumeratory.cs" />
+    <Compile Include="Formularze\AttributeOfObject.aspx.cs">
       <DependentUpon>AttributeOfObject.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Forms\AttributeOfObject.aspx.designer.cs">
+    <Compile Include="Formularze\AttributeOfObject.aspx.designer.cs">
       <DependentUpon>AttributeOfObject.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ChangeDate.aspx.cs">
+    <Compile Include="Formularze\ChangeDate.aspx.cs">
       <DependentUpon>ChangeDate.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Forms\ChangeDate.aspx.designer.cs">
+    <Compile Include="Formularze\ChangeDate.aspx.designer.cs">
       <DependentUpon>ChangeDate.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ChangeSettlementTable.aspx.cs">
+    <Compile Include="Formularze\ChangeSettlementTable.aspx.cs">
       <DependentUpon>ChangeSettlementTable.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Forms\ChangeSettlementTable.aspx.designer.cs">
+    <Compile Include="Formularze\ChangeSettlementTable.aspx.designer.cs">
       <DependentUpon>ChangeSettlementTable.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Hello.aspx.cs">
+    <Compile Include="Formularze\Hello.aspx.cs">
       <DependentUpon>Hello.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Forms\Hello.aspx.designer.cs">
+    <Compile Include="Formularze\Hello.aspx.designer.cs">
       <DependentUpon>Hello.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Forms\List.aspx.cs">
+    <Compile Include="Formularze\List.aspx.cs">
       <DependentUpon>List.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Forms\List.aspx.designer.cs">
+    <Compile Include="Formularze\List.aspx.designer.cs">
       <DependentUpon>List.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Loading.aspx.cs">
+    <Compile Include="Formularze\Loading.aspx.cs">
       <DependentUpon>Loading.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Forms\Loading.aspx.designer.cs">
+    <Compile Include="Formularze\Loading.aspx.designer.cs">
       <DependentUpon>Loading.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Page.cs">
+    <Compile Include="Formularze\Page.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Forms\Record.aspx.cs">
+    <Compile Include="Formularze\Record.aspx.cs">
       <DependentUpon>Record.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Forms\Record.aspx.designer.cs">
+    <Compile Include="Formularze\Record.aspx.designer.cs">
       <DependentUpon>Record.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Forms\RecordValidation.aspx.cs">
+    <Compile Include="Formularze\RecordValidation.aspx.cs">
       <DependentUpon>RecordValidation.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Forms\RecordValidation.aspx.designer.cs">
+    <Compile Include="Formularze\RecordValidation.aspx.designer.cs">
       <DependentUpon>RecordValidation.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Report.aspx.cs">
+    <Compile Include="Formularze\Report.aspx.cs">
       <DependentUpon>Report.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Forms\Report.aspx.designer.cs">
+    <Compile Include="Formularze\Report.aspx.designer.cs">
       <DependentUpon>Report.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ReportConfiguration.aspx.cs">
+    <Compile Include="Formularze\ReportConfiguration.aspx.cs">
       <DependentUpon>ReportConfiguration.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Forms\ReportConfiguration.aspx.designer.cs">
+    <Compile Include="Formularze\ReportConfiguration.aspx.designer.cs">
       <DependentUpon>ReportConfiguration.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UserValidation.aspx.cs">
+    <Compile Include="Formularze\UserValidation.aspx.cs">
       <DependentUpon>UserValidation.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Forms\UserValidation.aspx.designer.cs">
+    <Compile Include="Formularze\UserValidation.aspx.designer.cs">
       <DependentUpon>UserValidation.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Login.aspx.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
+    <Compile Include="Logowanie.aspx.cs">
+      <DependentUpon>Logowanie.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Login.aspx.designer.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
+    <Compile Include="Logowanie.aspx.designer.cs">
+      <DependentUpon>Logowanie.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">

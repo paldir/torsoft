@@ -67,7 +67,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public string Waliduj(Enums.Akcja akcja, string[] rekord)
+        public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             return String.Empty;
         }

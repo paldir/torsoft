@@ -51,12 +51,12 @@ namespace czynsze.DostępDoBazy
             typ_kuch = rekord[1];
         }
 
-        public string Waliduj(Enums.Akcja akcja, string[] rekord)
+        public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             string wynik = String.Empty;
             int kod_kuch;
 
-            if (akcja == Enums.Akcja.Dodaj)
+            if (akcja == Enumeratory.Akcja.Dodaj)
             {
                 if (rekord[0].Length > 0)
                 {
@@ -74,7 +74,7 @@ namespace czynsze.DostępDoBazy
                     wynik += "Należy podać kod rodzaju kuchni! <br />";
             }
 
-            if (akcja == Enums.Akcja.Usuń)
+            if (akcja == Enumeratory.Akcja.Usuń)
             {
                 kod_kuch = Int32.Parse(rekord[0]);
 

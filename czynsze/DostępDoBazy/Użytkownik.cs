@@ -63,14 +63,14 @@ namespace czynsze.DostępDoBazy
             haslo = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(rekord[4]).Select(b => (byte)(b + 10)).ToArray());
         }
 
-        public string Waliduj(Enums.Akcja akcja, string[] rekord)
+        public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             string wynik = String.Empty;
             List<string> listaRekordów = rekord.ToList();
 
             switch (akcja)
             {
-                case Enums.Akcja.Dodaj:
+                case Enumeratory.Akcja.Dodaj:
                     if (rekord[2].Length > 0 && rekord[3].Length > 0)
                     {
                         using (DostępDoBazy.CzynszeKontekst db = new CzynszeKontekst())
@@ -83,7 +83,7 @@ namespace czynsze.DostępDoBazy
                     break;
             }
 
-            if (akcja != Enums.Akcja.Usuń)
+            if (akcja != Enumeratory.Akcja.Usuń)
             {
                 if (rekord[4].Length > 0)
                 {

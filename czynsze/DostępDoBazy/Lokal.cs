@@ -181,12 +181,12 @@ namespace czynsze.DostępDoBazy
             uwagi_4 = rekord[21].Substring(180, 60).Trim();
         }
 
-        public string Waliduj(Enums.Akcja akcja, string[] rekord)
+        public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             string wynik = "";
             int kod_lok, nr_lok;
 
-            if (akcja == Enums.Akcja.Dodaj)
+            if (akcja == Enumeratory.Akcja.Dodaj)
             {
                 if (rekord[2].Length > 0)
                 {
@@ -205,7 +205,7 @@ namespace czynsze.DostępDoBazy
                     wynik += "Należy podać numer lokalu! <br />";
             }
 
-            if (akcja != Enums.Akcja.Przenieś)
+            if (akcja != Enumeratory.Akcja.Przenieś)
             {
                 wynik += CzynszeKontekst.WalidujFloat("Powierzchnia użytkowa", ref rekord[6]);
                 wynik += CzynszeKontekst.WalidujFloat("Powierzchnia mieszkalna", ref rekord[7]);

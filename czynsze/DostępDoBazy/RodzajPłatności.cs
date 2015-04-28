@@ -116,14 +116,14 @@ namespace czynsze.DostępDoBazy
             sww = record[7];
         }
 
-        public string Waliduj(Enums.Akcja action, string[] record)
+        public string Waliduj(Enumeratory.Akcja action, string[] record)
         {
             string result = String.Empty;
             int kod_wplat;
 
             switch (action)
             {
-                case Enums.Akcja.Dodaj:
+                case Enumeratory.Akcja.Dodaj:
                     if (record[0].Length > 0)
                     {
                         try
@@ -141,7 +141,7 @@ namespace czynsze.DostępDoBazy
 
                     break;
 
-                case Enums.Akcja.Usuń:
+                case Enumeratory.Akcja.Usuń:
                     kod_wplat = Int32.Parse(record[0]);
 
                     using (CzynszeKontekst db = new CzynszeKontekst())

@@ -174,11 +174,11 @@ namespace czynsze.DostępDoBazy
                 opis = db.RodzajePłatności.FirstOrDefault(t => t.kod_wplat == kod_wplat).typ_wplat;
         }
 
-        public string Waliduj(Enums.Akcja akcja, string[] rekord)
+        public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             string wynik = String.Empty;
 
-            if (akcja != Enums.Akcja.Usuń)
+            if (akcja != Enumeratory.Akcja.Usuń)
             {
                 wynik += CzynszeKontekst.WalidujFloat("Kwota", ref rekord[1]);
                 wynik += CzynszeKontekst.WalidujDatę("Data", ref rekord[2]);

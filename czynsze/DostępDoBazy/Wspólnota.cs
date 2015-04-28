@@ -117,12 +117,12 @@ namespace czynsze.DostępDoBazy
             uwagi_6 = rekord[11].Substring(350).Trim();
         }
 
-        public string Waliduj(Enums.Akcja akcja, string[] rekord)
+        public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             string wynik = "";
             int kod;
 
-            if (akcja == Enums.Akcja.Dodaj)
+            if (akcja == Enumeratory.Akcja.Dodaj)
                 if (rekord[0].Length > 0)
                 {
                     try
@@ -138,7 +138,7 @@ namespace czynsze.DostępDoBazy
                 else
                     wynik += "Należy podać kod wspólnoty! <br />";
 
-            if (akcja != Enums.Akcja.Usuń)
+            if (akcja != Enumeratory.Akcja.Usuń)
             {
                 wynik += CzynszeKontekst.WalidujInt("Ilość budynków", ref rekord[1]);
                 wynik += CzynszeKontekst.WalidujInt("Ilość lokali", ref rekord[2]);

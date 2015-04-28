@@ -12,7 +12,7 @@ namespace czynsze
         protected void Page_Init(object sender, EventArgs e)
         {   
             if (Session["user"] == null)
-                Response.Redirect("../Login.aspx?reason=" + Enums.ReasonOfRedirectToLoginPage.NotLoggedInOrSessionExpired);
+                Response.Redirect("../Login.aspx?reason=" + Enumeratory.PowódPrzeniesieniaNaStronęLogowania.NiezalogowanyLubSesjaWygasła);
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -20,14 +20,14 @@ namespace czynsze
             user.InnerText = Session["user"].ToString();
             placeOfSiteMapPath.InnerHtml = String.Empty;
 
-            foreach (string siteMapNode in Forms.Hello.SiteMapPath)
+            foreach (string siteMapNode in Formularze.Hello.SiteMapPath)
                 placeOfSiteMapPath.InnerHtml += siteMapNode + " > ";
 
-            if (Forms.Hello.SiteMapPath.Any())
+            if (Formularze.Hello.SiteMapPath.Any())
                 placeOfSiteMapPath.InnerHtml = placeOfSiteMapPath.InnerHtml.Remove(placeOfSiteMapPath.InnerHtml.Length - 3);
 
-            placeOfSelectedDate.InnerHtml = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[Forms.Hello.Date.Month - 1].ToString() + " " + Forms.Hello.Date.Year.ToString();
-            placeOfCurrentSet.InnerHtml = Forms.Hello.NamesOfSets[(int)Forms.Hello.CurrentSet];
+            placeOfSelectedDate.InnerHtml = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[Formularze.Hello.Date.Month - 1].ToString() + " " + Formularze.Hello.Date.Year.ToString();
+            placeOfCurrentSet.InnerHtml = Formularze.Hello.NamesOfSets[(int)Formularze.Hello.CurrentSet];
         }
     }
 }

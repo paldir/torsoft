@@ -51,12 +51,12 @@ namespace czynsze.DostępDoBazy
             typ_lok = rekord[1];
         }
 
-        public string Waliduj(Enums.Akcja akcja, string[] rekord)
+        public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             string wynik = String.Empty;
             int kod_typ;
 
-            if (akcja == Enums.Akcja.Dodaj)
+            if (akcja == Enumeratory.Akcja.Dodaj)
             {
                 if (rekord[0].Length > 0)
                 {
@@ -74,7 +74,7 @@ namespace czynsze.DostępDoBazy
                     wynik += "Należy podać kod typu lokali! <br />";
             }
 
-            if (akcja == Enums.Akcja.Usuń)
+            if (akcja == Enumeratory.Akcja.Usuń)
             {
                 kod_typ = Int32.Parse(rekord[0]);
 

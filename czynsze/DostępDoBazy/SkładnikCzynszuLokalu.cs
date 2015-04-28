@@ -117,7 +117,7 @@ namespace czynsze.DostępDoBazy
                     break;
 
                 case 5:
-                    DateTime date = Forms.Hello.Date;
+                    DateTime date = Formularze.Hello.Date;
                     ilosc = DateTime.DaysInMonth(date.Year, date.Month);
 
                     break;
@@ -182,7 +182,7 @@ namespace czynsze.DostępDoBazy
             }
         }
 
-        public static bool Waliduj(string[] rekord, Enums.Akcja akcja)
+        public static bool Waliduj(string[] rekord, Enumeratory.Akcja akcja)
         {
             if (!String.IsNullOrEmpty(CzynszeKontekst.WalidujFloat("dan_p", ref rekord[3])))
                 return false;
@@ -195,7 +195,7 @@ namespace czynsze.DostępDoBazy
 
             switch (akcja)
             {
-                case Enums.Akcja.Dodaj:
+                case Enumeratory.Akcja.Dodaj:
                     using (CzynszeKontekst db = new CzynszeKontekst())
                         if (db.SkładnikiCzynszuLokalu.ToList().Any(c => c.kod_lok == Int32.Parse(rekord[0]) && c.nr_lok == Int32.Parse(rekord[1]) && c.nr_skl == Int32.Parse(rekord[2])))
                             return false;

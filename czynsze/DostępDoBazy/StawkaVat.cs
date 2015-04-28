@@ -55,12 +55,12 @@ namespace czynsze.DostępDoBazy
             symb_fisk = rekord[2];
         }
 
-        public string Waliduj(Enums.Akcja akcja, string[] rekord)
+        public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             string wynik = String.Empty;
             string nazwa = rekord[1];
 
-            if (akcja == Enums.Akcja.Usuń)
+            if (akcja == Enumeratory.Akcja.Usuń)
                 using (CzynszeKontekst db = new CzynszeKontekst())
                     if (db.RodzajePłatności.Any(t => t.vat == nazwa))
                         wynik += "Nie można usunąć stawki VAT, ponieważ jest ona wykorzystywana w innych tabelach! <br />";

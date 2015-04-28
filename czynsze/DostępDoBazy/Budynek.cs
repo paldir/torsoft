@@ -66,12 +66,12 @@ namespace czynsze.DostępDoBazy
             uwagi_6 = rekord[6].Substring(350).Trim();
         }
 
-        public string Waliduj(Enums.Akcja akcja, string[] rekord)
+        public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             string wynik = "";
             int id;
 
-            if (akcja == Enums.Akcja.Dodaj)
+            if (akcja == Enumeratory.Akcja.Dodaj)
                 if (rekord[0].Length > 0)
                 {
                     try
@@ -87,7 +87,7 @@ namespace czynsze.DostępDoBazy
                 else
                     wynik += "Należy podać kod budynku! <br />";
 
-            if (akcja != Enums.Akcja.Usuń)
+            if (akcja != Enumeratory.Akcja.Usuń)
             {
                 if (rekord[1].Length > 0)
                     try { Int32.Parse(rekord[1]); }

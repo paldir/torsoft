@@ -69,9 +69,9 @@ namespace czynsze.DostępDoBazy
             kod_powiaz = rekord[3];
         }
 
-        public static bool Waliduj(Enums.Akcja akcja, string[] rekord, List<DostępDoBazy.AtrybutObiektu> atrybutyObiektu)
+        public static bool Waliduj(Enumeratory.Akcja akcja, string[] rekord, List<DostępDoBazy.AtrybutObiektu> atrybutyObiektu)
         {
-            if (akcja != Enums.Akcja.Edytuj)
+            if (akcja != Enumeratory.Akcja.Edytuj)
                 if (atrybutyObiektu.Any(a => a.kod == Int32.Parse(rekord[1]) && Int32.Parse(a.kod_powiaz) == Int32.Parse(rekord[3])))
                     return false;
 

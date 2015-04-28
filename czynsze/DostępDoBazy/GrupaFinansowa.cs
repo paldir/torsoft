@@ -41,12 +41,12 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public string Waliduj(Enums.Akcja akcja, string[] rekord)
+        public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             string wynik = String.Empty;
             int kod;
 
-            if (akcja == Enums.Akcja.Dodaj)
+            if (akcja == Enumeratory.Akcja.Dodaj)
             {
                 if (rekord[0].Length > 0)
                 {
@@ -64,7 +64,7 @@ namespace czynsze.DostępDoBazy
                     wynik += "Należy podać kod grupy finansowej! <br />";
             }
 
-            if (akcja == Enums.Akcja.Usuń)
+            if (akcja == Enumeratory.Akcja.Usuń)
             {
                 //
                 //TODO
