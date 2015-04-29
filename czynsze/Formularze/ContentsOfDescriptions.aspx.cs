@@ -7,12 +7,12 @@ using System.Web.UI.WebControls;
 
 namespace czynsze.Formularze
 {
-    public partial class ContentsOfDescriptions : Page
+    public partial class ContentsOfDescriptions : Strona
     {
         protected void Page_Load(object sender, EventArgs e)
         {
             const string format = "{0}_{1}";
-            Enumeratory.TreściOpisów mode = GetParamValue<Enumeratory.TreściOpisów>("which");
+            Enumeratory.TreściOpisów mode = PobierzWartośćParametru<Enumeratory.TreściOpisów>("which");
             Hello.SiteMapPath = new List<string>() { "Administracja", "Treści opisów" };
             int numberOfFields;
             int fieldLength;
@@ -61,7 +61,7 @@ namespace czynsze.Formularze
                 DostępDoBazy.Treść contents = db.Treści.FirstOrDefault();
                 string[] fields = new string[numberOfFields];
 
-                if (String.IsNullOrEmpty(GetParamValue<string>("Save")))
+                if (String.IsNullOrEmpty(PobierzWartośćParametru<string>("Save")))
                 {
                     if (contents == null)
                     {
@@ -84,7 +84,7 @@ namespace czynsze.Formularze
                     for (int i = 0; i < fields.Length; i++)
                     {
                         placeOfFields.Controls.Add(new Kontrolki.TextBox("field", String.Format(format, prefix, i + 1), fields[i], Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, fieldLength, 1, true));
-                        AddNewLine(placeOfFields);
+                        DodajNowąLinię(placeOfFields);
                     }
 
                     placeOfButtons.Controls.Add(new Kontrolki.Button("button", "Save", "Zapisz", String.Empty));
@@ -96,7 +96,7 @@ namespace czynsze.Formularze
                     {
                         string property = String.Format(format, prefix, i + 1);
 
-                        contents.GetType().GetProperty(property).SetValue(contents, GetParamValue<string>(property));
+                        contents.GetType().GetProperty(property).SetValue(contents, PobierzWartośćParametru<string>(property));
                     }
 
                     db.SaveChanges();

@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace czynsze.Formularze
 {
-    public partial class Record : Page
+    public partial class Record : Strona
     {
         int id;
         Enumeratory.Akcja action;
@@ -47,11 +47,11 @@ namespace czynsze.Formularze
             List<Kontrolki.Label> labelsOfTabButtons = null;
             List<Control> preview = null;
             //id = Int32.Parse(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))]);
-            id = GetParamValue<int>("id");
+            id = PobierzWartośćParametru<int>("id");
             //action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("action"))]);
-            action = GetParamValue<Enumeratory.Akcja>("action");
+            action = PobierzWartośćParametru<Enumeratory.Akcja>("action");
             //table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))]);
-            table = GetParamValue<Enumeratory.Tabela>("table");
+            table = PobierzWartośćParametru<Enumeratory.Tabela>("table");
             string backUrl = "javascript: Load('" + Request.UrlReferrer + "')";
             Dictionary<bool, string> fromIdEnabledToIdSuffix = new Dictionary<bool, string>()
             {
@@ -1028,7 +1028,7 @@ namespace czynsze.Formularze
                             else
                             {
                                 values = new string[numberOfFields];
-                                values[8] = GetParamValue<string>("additionalId");
+                                values[8] = PobierzWartośćParametru<string>("additionalId");
 
                                 if (turnOvers.Any())
                                     values[0] = (turnOvers.Max(t => t.__record) + 1).ToString();
@@ -1072,7 +1072,7 @@ namespace czynsze.Formularze
 
                 cell.Controls.Add(new LiteralControl("<div class='fieldWithLabel'>"));
                 cell.Controls.Add(new Kontrolki.Label("fieldLabel", controls[i].ID, labels[i], String.Empty));
-                AddNewLine(cell);
+                DodajNowąLinię(cell);
                 cell.Controls.Add(controls[i]);
                 cell.Controls.Add(new LiteralControl("</div>"));
             }
@@ -1085,7 +1085,7 @@ namespace czynsze.Formularze
                 {
                     placeOfPreview.Controls.Add(preview[i]);
                     placeOfPreview.Controls.Add(preview[i + 1]);
-                    AddNewLine(placeOfPreview);
+                    DodajNowąLinię(placeOfPreview);
                 }
 
                 placeOfPreview.Controls.Add(new LiteralControl("</h3>"));

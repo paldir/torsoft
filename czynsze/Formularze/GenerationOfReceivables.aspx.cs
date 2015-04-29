@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace czynsze.Formularze
 {
-    public partial class GenerationOfReceivables : Page
+    public partial class GenerationOfReceivables : Strona
     {
         readonly Func<DostępDoBazy.Należność, bool> receivablesFromCurrentMonth = c => c.data_nal >= new DateTime(Hello.Date.Year, Hello.Date.Month, 1) && c.data_nal <= new DateTime(Hello.Date.Year, Hello.Date.Month, DateTime.DaysInMonth(Hello.Date.Year, Hello.Date.Month));
 
@@ -59,8 +59,8 @@ namespace czynsze.Formularze
         protected void Page_Load(object sender, EventArgs e)
         {
             int daysInMonth = DateTime.DaysInMonth(Hello.Date.Year, Hello.Date.Month);
-            string generationMode = GetParamValue<string>("Generation");
-            string repeatGeneration = GetParamValue<string>("Repeat");
+            string generationMode = PobierzWartośćParametru<string>("Generation");
+            string repeatGeneration = PobierzWartośćParametru<string>("Repeat");
             Hello.SiteMapPath = new List<string>() { "Rozliczenia finansowe", "Generacja należności" };
 
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
@@ -83,22 +83,22 @@ namespace czynsze.Formularze
                             day = 15;
 
                         placeOfDate.Controls.Add(new LiteralControl("Podaj termin płatności: "));
-                        AddNewLine(placeOfDate);
+                        DodajNowąLinię(placeOfDate);
                         placeOfDate.Controls.Add(new Kontrolki.TextBox("field", "year", Hello.Date.Year.ToString(), Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 4, 1, true));
                         placeOfDate.Controls.Add(new LiteralControl("-"));
                         placeOfDate.Controls.Add(new Kontrolki.TextBox("field", "month", Hello.Date.Month.ToString("D2"), Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 2, 1, true));
                         placeOfDate.Controls.Add(new LiteralControl("-"));
                         placeOfDate.Controls.Add(new Kontrolki.TextBox("field", "day", day.ToString("D2"), Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 2, 1, true));
-                        AddNewLine(placeOfGeneration);
+                        DodajNowąLinię(placeOfGeneration);
                         placeOfGeneration.Controls.Add(new Kontrolki.Button("button", "allGeneration", "Generacja całego zestawienia", String.Empty));
-                        AddNewLine(placeOfGeneration);
+                        DodajNowąLinię(placeOfGeneration);
                         placeOfGeneration.Controls.Add(new Kontrolki.Button("button", "fromToGeneration", "Generacja od-do żądanego lokalu", String.Empty));
-                        AddNewLine(placeOfGeneration);
+                        DodajNowąLinię(placeOfGeneration);
                         placeOfGeneration.Controls.Add(new Kontrolki.Label("label", "fromBuilding", "Numer budynku pierwszego lokalu: ", String.Empty));
                         placeOfGeneration.Controls.Add(new Kontrolki.TextBox("field", "fromBuilding", db.AktywneLokale.Min(p => p.kod_lok).ToString(), Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 5, 1, true));
                         placeOfGeneration.Controls.Add(new Kontrolki.Label("label", "fromPlace", " Numer pierwszego lokalu: ", String.Empty));
                         placeOfGeneration.Controls.Add(new Kontrolki.TextBox("field", "fromPlace", db.AktywneLokale.Min(p => p.nr_lok).ToString(), Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 3, 1, true));
-                        AddNewLine(placeOfGeneration);
+                        DodajNowąLinię(placeOfGeneration);
                         placeOfGeneration.Controls.Add(new Kontrolki.Label("label", "toBuilding", "Numer budynku ostatniego lokalu: ", String.Empty));
                         placeOfGeneration.Controls.Add(new Kontrolki.TextBox("field", "toBuilding", db.AktywneLokale.Max(p => p.kod_lok).ToString(), Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 5, 1, true));
                         placeOfGeneration.Controls.Add(new Kontrolki.Label("label", "toPlace", " Numer ostatniego lokalu: ", String.Empty));
@@ -106,19 +106,19 @@ namespace czynsze.Formularze
                     }
                 else
                 {
-                    year = GetParamValue<int>("year");
-                    month = GetParamValue<int>("month");
-                    day = GetParamValue<int>("day");
+                    year = PobierzWartośćParametru<int>("year");
+                    month = PobierzWartośćParametru<int>("month");
+                    day = PobierzWartośćParametru<int>("day");
                     IEnumerable<DostępDoBazy.NależnośćZPierwszegoZbioru> receivablesFrom1stSet;
                     IEnumerable<DostępDoBazy.NależnośćZDrugiegoZbioru> receivablesFrom2ndSet;
                     IEnumerable<DostępDoBazy.NależnośćZTrzeciegoZbioru> receivablesFrom3rdSet;
 
                     if (generationMode.Contains("od-do"))
                     {
-                        fromBuilding = GetParamValue<int>("fromBuilding");
-                        fromPlace = GetParamValue<int>("fromPlace");
-                        toBuilding = GetParamValue<int>("toBuilding");
-                        toPlace = GetParamValue<int>("toPlace");
+                        fromBuilding = PobierzWartośćParametru<int>("fromBuilding");
+                        fromPlace = PobierzWartośćParametru<int>("fromPlace");
+                        toBuilding = PobierzWartośćParametru<int>("toBuilding");
+                        toPlace = PobierzWartośćParametru<int>("toPlace");
 
                         if (fromBuilding > toBuilding)
                         {
@@ -162,7 +162,7 @@ namespace czynsze.Formularze
                     System.Threading.Thread thread = new System.Threading.Thread(() => Generate(fromBuilding, toBuilding, fromPlace, toPlace));
 
                     thread.Start();
-                    Response.Redirect("/Forms/ProgressOfGenerationOfReceivables.aspx");
+                    Response.Redirect("/Formularze/ProgressOfGenerationOfReceivables.aspx");
                 }
             }
         }
@@ -198,7 +198,7 @@ namespace czynsze.Formularze
                             try { new DateTime(year, month, day); }
                             catch (ArgumentOutOfRangeException) { day = this.day; }
 
-                            rentComponentOfPlace.Rozpoznaj_ilosc_and_stawka(out ilosc, out stawka);
+                            rentComponentOfPlace.Rozpoznaj_ilosc_i_stawka(out ilosc, out stawka);
 
                             IEnumerable<DateTime> properStartsOfDates = new List<DateTime?>() { place.dat_od, rentComponentOfPlace.dat_od, rentComponent.data_1 }.Where(d => d.HasValue).Cast<DateTime>();
                             IEnumerable<DateTime> properEndsOfDates = new List<DateTime?>() { place.dat_do, rentComponentOfPlace.dat_do, rentComponent.data_2 }.Where(d => d.HasValue).Cast<DateTime>();

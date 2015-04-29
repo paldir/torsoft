@@ -10,7 +10,7 @@
 namespace czynsze.Formularze {
     
     
-    public partial class ReportConfiguration {
+    public partial class KonfiguracjaRaportu {
         
         /// <summary>
         /// placeOfConfigurationFields control.

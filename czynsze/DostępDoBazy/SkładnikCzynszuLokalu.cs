@@ -42,7 +42,7 @@ namespace czynsze.DostępDoBazy
             decimal ilosc;
             decimal stawka;
 
-            Rozpoznaj_ilosc_and_stawka(out ilosc, out stawka);
+            Rozpoznaj_ilosc_i_stawka(out ilosc, out stawka);
 
             string dat_od = String.Empty;
             string dat_do = String.Empty;
@@ -79,7 +79,7 @@ namespace czynsze.DostępDoBazy
                 dat_do = Convert.ToDateTime(rekord[5]);
         }
 
-        public void Rozpoznaj_ilosc_and_stawka(out decimal ilosc, out decimal stawka)
+        public void Rozpoznaj_ilosc_i_stawka(out decimal ilosc, out decimal stawka)
         {
             SkładnikCzynszu składnikCzynszu;
             Lokal lokal;

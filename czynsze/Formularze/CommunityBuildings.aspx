@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="CommunityBuildings.aspx.cs" Inherits="czynsze.Forms.CommunityBuildings" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="CommunityBuildings.aspx.cs" Inherits="czynsze.Formularze.CommunityBuildings" %>
 
 <!DOCTYPE html>
 

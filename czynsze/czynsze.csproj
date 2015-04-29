@@ -101,11 +101,11 @@
     <Content Include="Formularze\ProgressOfGenerationOfReceivables.aspx" />
     <Content Include="Formularze\Record.aspx" />
     <Content Include="Formularze\RecordValidation.aspx" />
-    <Content Include="Formularze\RentAmount.aspx" />
+    <Content Include="Formularze\KwotaCzynszu.aspx" />
     <Content Include="Formularze\RentComponentsOfPlace.aspx" />
-    <Content Include="Formularze\Report.aspx" />
-    <Content Include="Formularze\ReportConfiguration.aspx" />
-    <Content Include="Formularze\UserValidation.aspx" />
+    <Content Include="Formularze\Raport.aspx" />
+    <Content Include="Formularze\KonfiguracjaRaportu.aspx" />
+    <Content Include="Formularze\WalidacjaUzytkownika.aspx" />
     <Content Include="Images\icon.ico" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\waterMark.bmp" />
@@ -170,12 +170,12 @@
     <Compile Include="Formularze\ProgressOfGenerationOfReceivables.aspx.designer.cs">
       <DependentUpon>ProgressOfGenerationOfReceivables.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Formularze\RentAmount.aspx.cs">
-      <DependentUpon>RentAmount.aspx</DependentUpon>
+    <Compile Include="Formularze\KwotaCzynszu.aspx.cs">
+      <DependentUpon>KwotaCzynszu.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Formularze\RentAmount.aspx.designer.cs">
-      <DependentUpon>RentAmount.aspx</DependentUpon>
+    <Compile Include="Formularze\KwotaCzynszu.aspx.designer.cs">
+      <DependentUpon>KwotaCzynszu.aspx</DependentUpon>
     </Compile>
     <Compile Include="Formularze\RentComponentsOfPlace.aspx.cs">
       <DependentUpon>RentComponentsOfPlace.aspx</DependentUpon>
@@ -276,7 +276,7 @@
     <Compile Include="Formularze\Loading.aspx.designer.cs">
       <DependentUpon>Loading.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Formularze\Page.cs">
+    <Compile Include="Formularze\Strona.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Formularze\Record.aspx.cs">
@@ -293,26 +293,26 @@
     <Compile Include="Formularze\RecordValidation.aspx.designer.cs">
       <DependentUpon>RecordValidation.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Formularze\Report.aspx.cs">
-      <DependentUpon>Report.aspx</DependentUpon>
+    <Compile Include="Formularze\Raport.aspx.cs">
+      <DependentUpon>Raport.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Formularze\Report.aspx.designer.cs">
-      <DependentUpon>Report.aspx</DependentUpon>
+    <Compile Include="Formularze\Raport.aspx.designer.cs">
+      <DependentUpon>Raport.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Formularze\ReportConfiguration.aspx.cs">
-      <DependentUpon>ReportConfiguration.aspx</DependentUpon>
+    <Compile Include="Formularze\KonfiguracjaRaportu.aspx.cs">
+      <DependentUpon>KonfiguracjaRaportu.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Formularze\ReportConfiguration.aspx.designer.cs">
-      <DependentUpon>ReportConfiguration.aspx</DependentUpon>
+    <Compile Include="Formularze\KonfiguracjaRaportu.aspx.designer.cs">
+      <DependentUpon>KonfiguracjaRaportu.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Formularze\UserValidation.aspx.cs">
-      <DependentUpon>UserValidation.aspx</DependentUpon>
+    <Compile Include="Formularze\WalidacjaUzytkownika.aspx.cs">
+      <DependentUpon>WalidacjaUzytkownika.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Formularze\UserValidation.aspx.designer.cs">
-      <DependentUpon>UserValidation.aspx</DependentUpon>
+    <Compile Include="Formularze\WalidacjaUzytkownika.aspx.designer.cs">
+      <DependentUpon>WalidacjaUzytkownika.aspx</DependentUpon>
     </Compile>
     <Compile Include="Logowanie.aspx.cs">
       <DependentUpon>Logowanie.aspx</DependentUpon>

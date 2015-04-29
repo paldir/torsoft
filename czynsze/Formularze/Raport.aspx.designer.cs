@@ -10,7 +10,7 @@
 namespace czynsze.Formularze {
     
     
-    public partial class Report {
+    public partial class Raport {
         
         /// <summary>
         /// form1 control.

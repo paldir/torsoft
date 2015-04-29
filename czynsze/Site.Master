@@ -12,7 +12,7 @@
     </asp:ContentPlaceHolder>
 </head>
 <body onclick="body_onclick(event)">
-    <div class="panel"><span class="panelItem">Sesja wygaśnie za <span id="placeOfMinutes"></span>:<span id="placeOfSeconds"></span></span><span class="panelItem">Tabela rozliczeniowa: <span id="placeOfCurrentSet" runat="server"></span> <a id="buttonOfSetChanging" href="#">Zmień</a></span><span class="panelItem"><span id="placeOfSelectedDate" runat="server"></span> <a id="buttonOfChangingDate" href="#">Zmień</a></span><span class="panelItem">Zalogowany jako: <span id="user" runat="server"></span> <a href="../Login.aspx">Wyloguj</a></span></div>
+    <div class="panel"><span class="panelItem">Sesja wygaśnie za <span id="placeOfMinutes"></span>:<span id="placeOfSeconds"></span></span><span class="panelItem">Tabela rozliczeniowa: <span id="placeOfCurrentSet" runat="server"></span> <a id="buttonOfSetChanging" href="#">Zmień</a></span><span class="panelItem"><span id="placeOfSelectedDate" runat="server"></span> <a id="buttonOfChangingDate" href="#">Zmień</a></span><span class="panelItem">Zalogowany jako: <span id="user" runat="server"></span> <a href="../Logowanie.aspx">Wyloguj</a></span></div>
     <div class="mainMenu">
         <ul class="mainSuperMenu">
             <li class="mainSuperMenuItem">Kartoteki
@@ -105,10 +105,10 @@
                     <li class="mainSubMenuItem pseudoLink">Kwota czynszu
                         <ul class="mainSubSubMenu">
                             <li class="mainSubSubMenuItem">
-                                <a href="javascript: Load('RentAmount.aspx?mode=Current')">Bieżąca</a>
+                                <a href="javascript: Load('KwotaCzynszu.aspx?mode=Current')">Bieżąca</a>
                             </li>
                             <li class="mainSubSubMenuItem">
-                                <a href="javascript: Load('RentAmount.aspx?mode=ForMonth')">Za dany miesiąc</a>
+                                <a href="javascript: Load('KwotaCzynszu.aspx?mode=ForMonth')">Za dany miesiąc</a>
                             </li>
                         </ul>
                     </li>

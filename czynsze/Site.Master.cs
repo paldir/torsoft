@@ -12,7 +12,7 @@ namespace czynsze
         protected void Page_Init(object sender, EventArgs e)
         {   
             if (Session["user"] == null)
-                Response.Redirect("../Login.aspx?reason=" + Enumeratory.PowódPrzeniesieniaNaStronęLogowania.NiezalogowanyLubSesjaWygasła);
+                Response.Redirect("../Logowanie.aspx?reason=" + Enumeratory.PowódPrzeniesieniaNaStronęLogowania.NiezalogowanyLubSesjaWygasła);
         }
 
         protected void Page_Load(object sender, EventArgs e)

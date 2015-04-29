@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="RentComponentsOfPlace.aspx.cs" Inherits="czynsze.Forms.RentComponentsOfPlace" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="RentComponentsOfPlace.aspx.cs" Inherits="czynsze.Formularze.RentComponentsOfPlace" %>
 
 <!DOCTYPE html>
 

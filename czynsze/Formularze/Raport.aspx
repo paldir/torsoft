@@ -1,15 +1,15 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="UserValidation.aspx.cs" Inherits="czynsze.Forms.UserValidation" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Raport.aspx.cs" Inherits="czynsze.Formularze.Raport" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
+    <title>Wydruk</title>
 </head>
 <body>
     <form id="form1" runat="server">
     <div>
-        
+    
     </div>
     </form>
 </body>

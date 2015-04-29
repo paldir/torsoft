@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Record.aspx.cs" Inherits="czynsze.Forms.Record" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Record.aspx.cs" Inherits="czynsze.Formularze.Record" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="../JavaScripts/Record.js"></script>
 </asp:Content>

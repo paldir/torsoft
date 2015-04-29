@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace czynsze.Formularze
 {
-    public partial class RentComponentsOfPlace : Page
+    public partial class RentComponentsOfPlace : Strona
     {
         List<DostępDoBazy.SkładnikCzynszuLokalu> rentComponentsOfPlace
         {
@@ -17,13 +17,13 @@ namespace czynsze.Formularze
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            int kod_lok = GetParamValue<int>("kod_lok");
-            int nr_lok = GetParamValue<int>("nr_lok");
+            int kod_lok = PobierzWartośćParametru<int>("kod_lok");
+            int nr_lok = PobierzWartośćParametru<int>("nr_lok");
             List<string[]> rows = new List<string[]>();
-            string window = GetParamValue<string>("ShowWindow");
-            Enumeratory.Akcja parentAction = GetParamValue<Enumeratory.Akcja>("parentAction");
-            Enumeratory.Akcja childAction = GetParamValue<Enumeratory.Akcja>("ChildAction");
-            int id = GetParamValue<int>("id");
+            string window = PobierzWartośćParametru<string>("ShowWindow");
+            Enumeratory.Akcja parentAction = PobierzWartośćParametru<Enumeratory.Akcja>("parentAction");
+            Enumeratory.Akcja childAction = PobierzWartośćParametru<Enumeratory.Akcja>("ChildAction");
+            int id = PobierzWartośćParametru<int>("id");
             string postBackUrl = "RentComponentsOfPlace.aspx";
             List<int> allComponentsWithAmount;
             List<int> componentsWithAmount = new List<int>();
@@ -41,10 +41,10 @@ namespace czynsze.Formularze
                 {
                     kod_lok.ToString(),
                     nr_lok.ToString(),
-                    GetParamValue<string>("nr_skl"),
-                    GetParamValue<string>("dan_p"),
-                    GetParamValue<string>("dat_od"),
-                    GetParamValue<string>("dat_do")
+                    PobierzWartośćParametru<string>("nr_skl"),
+                    PobierzWartośćParametru<string>("dan_p"),
+                    PobierzWartośćParametru<string>("dat_od"),
+                    PobierzWartośćParametru<string>("dat_do")
                 };
                 
                 switch (childAction)

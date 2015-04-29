@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace czynsze.Formularze
 {
-    public partial class AttributeOfObject : Page
+    public partial class AttributeOfObject : Strona
     {
         List<DostępDoBazy.AtrybutObiektu> attributesOfObject
         {
@@ -18,13 +18,13 @@ namespace czynsze.Formularze
         protected void Page_Load(object sender, EventArgs e)
         {
             //EnumP.AttributeOf attributeOf = (EnumP.AttributeOf)Enum.Parse(typeof(EnumP.AttributeOf), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("attributeOf"))]);
-            Enumeratory.Atrybut attributeOf = GetParamValue<Enumeratory.Atrybut>("attributeOf");
+            Enumeratory.Atrybut attributeOf = PobierzWartośćParametru<Enumeratory.Atrybut>("attributeOf");
             //EnumP.Action action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("action"))]);
-            Enumeratory.Akcja action = GetParamValue<Enumeratory.Akcja>("action");
+            Enumeratory.Akcja action = PobierzWartośćParametru<Enumeratory.Akcja>("action");
             Enumeratory.Akcja childAction = Enumeratory.Akcja.Przeglądaj;
             //int parentId = Int32.Parse(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("parentId"))]);
-            int parentId = GetParamValue<int>("parentId");
-            int id = GetParamValue<int>("id");
+            int parentId = PobierzWartośćParametru<int>("parentId");
+            int id = PobierzWartośćParametru<int>("id");
             string[] record;
             string childActionKey = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("childAction"));
 
@@ -200,7 +200,7 @@ namespace czynsze.Formularze
                                     break;
                             }
 
-                            AddNewLine(placeOfEditingWindow);
+                            DodajNowąLinię(placeOfEditingWindow);
                             placeOfEditingWindow.Controls.Add(new Kontrolki.Button("button", "editchildAction", "Zapisz", postBackUrl));
                             placeOfEditingWindow.Controls.Add(new Kontrolki.Button("button", String.Empty, "Anuluj", postBackUrl));
                         }

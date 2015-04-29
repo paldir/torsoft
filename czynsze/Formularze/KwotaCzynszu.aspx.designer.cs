@@ -10,7 +10,7 @@
 namespace czynsze.Formularze {
     
     
-    public partial class RentAmount {
+    public partial class KwotaCzynszu {
         
         /// <summary>
         /// form control.

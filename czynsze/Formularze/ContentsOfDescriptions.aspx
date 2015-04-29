@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Treści opisów" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ContentsOfDescriptions.aspx.cs" Inherits="czynsze.Forms.ContentsOfDescriptions" %>
+﻿<%@ Page Title="Treści opisów" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ContentsOfDescriptions.aspx.cs" Inherits="czynsze.Formularze.ContentsOfDescriptions" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder" runat="server">

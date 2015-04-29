@@ -1,6 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ReportConfiguration.aspx.cs" Inherits="czynsze.Forms.ReportConfiguration" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="KonfiguracjaRaportu.aspx.cs" Inherits="czynsze.Formularze.KonfiguracjaRaportu" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script src="../JavaScripts/ReportConfiguration.js"></script>
+    <script src="../JavaScripts/raportConfiguration.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder" runat="server">
     <form method="post" target="_blank" runat="server">
@@ -13,10 +13,10 @@
     </form>
     <script>
         <%
-        string key = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("report"));
-        string report = key.Replace("report", String.Empty).Substring(key.LastIndexOf('$') + 1);
+        string key = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("raport"));
+        string raport = key.Replace("raport", String.Empty).Substring(key.LastIndexOf('$') + 1);
 
-            switch (report)
+            switch (raport)
             {
                 case "PlacesInEachBuilding":
                     %>

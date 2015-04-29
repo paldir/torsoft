@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Zmiana miesiąca" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ChangeDate.aspx.cs" Inherits="czynsze.Forms.ChangeDate" %>
+﻿<%@ Page Title="Zmiana miesiąca" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ChangeDate.aspx.cs" Inherits="czynsze.Formularze.ChangeDate" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder" runat="server">

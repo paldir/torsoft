@@ -10,7 +10,7 @@
 namespace czynsze.Formularze {
     
     
-    public partial class UserValidation {
+    public partial class WalidacjaUzytkownika {
         
         /// <summary>
         /// form1 control.

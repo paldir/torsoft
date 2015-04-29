@@ -9,7 +9,7 @@ using System.Web.UI.HtmlControls;
 
 namespace czynsze.Formularze
 {
-    public partial class List : Page
+    public partial class List : Strona
     {
         Enumeratory.Tabela table;
 
@@ -94,13 +94,13 @@ namespace czynsze.Formularze
         protected void Page_Load(object sender, EventArgs e)
         {
             //table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))]);
-            table = GetParamValue<Enumeratory.Tabela>("table");
+            table = PobierzWartośćParametru<Enumeratory.Tabela>("table");
             string postBackUrl = "Record.aspx";
             string heading = null;
             string nodeOfSiteMapPath = null;
             List<string[]> subMenu = null;
             sortable = true;
-            int id = GetParamValue<int>("id");//-1;
+            int id = PobierzWartośćParametru<int>("id");//-1;
 
             //if (Request.Params["id"] != null)
             //  id = (int)Enum.Parse(typeof(int), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("dfsdf"))]);
@@ -161,7 +161,7 @@ namespace czynsze.Formularze
                                     new string[]
                                     {
                                         "Wydruki",
-                                        "<a href='ReportConfiguration.aspx?"+Enumeratory.Raport.LokaleWBudynkach+"report=#'>Lokale w budynkach</a>",
+                                        "<a href='KonfiguracjaRaportu.aspx?"+Enumeratory.Raport.LokaleWBudynkach+"raport=#'>Lokale w budynkach</a>",
                                         "<a href='#'>Kolejny wydruk</a>",
                                         "<a href='#'>I jeszcze jeden</a>"
                                     }
@@ -483,10 +483,10 @@ namespace czynsze.Formularze
                         }
 
                         placeUnderMainTable.Controls.Add(new LiteralControl(summary));
-                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.MiesięczneSumySkładników + "report", "Sumy miesięczne składnika", "ReportConfiguration.aspx"));
-                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.NależnościIObrotyNajemcy + "report", "Wydruk", "ReportConfiguration.aspx"));
-                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.MiesięcznaAnalizaNależnościIObrotów + "report", "Analiza miesięczna", "ReportConfiguration.aspx"));
-                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.SzczegółowaAnalizaNależnościIObrotów + "report", "Analiza szczegółowa", "ReportConfiguration.aspx"));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.MiesięczneSumySkładników + "raport", "Sumy miesięczne składnika", "KonfiguracjaRaportu.aspx"));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.NależnościIObrotyNajemcy + "raport", "Wydruk", "KonfiguracjaRaportu.aspx"));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.MiesięcznaAnalizaNależnościIObrotów + "raport", "Analiza miesięczna", "KonfiguracjaRaportu.aspx"));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.SzczegółowaAnalizaNależnościIObrotów + "raport", "Analiza szczegółowa", "KonfiguracjaRaportu.aspx"));
 
                         break;
 

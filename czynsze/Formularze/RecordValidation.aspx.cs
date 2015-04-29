@@ -9,7 +9,7 @@ using System.Data.Entity;
 
 namespace czynsze.Formularze
 {
-    public partial class RecordValidation : Page
+    public partial class RecordValidation : Strona
     {
         Enumeratory.Tabela table;
         Enumeratory.Akcja action;
@@ -39,9 +39,9 @@ namespace czynsze.Formularze
             string validationResult = null;
             string dbWriteResult = null;
             //table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(t => t.EndsWith("table"))]);
-            table = GetParamValue<Enumeratory.Tabela>("table");
+            table = PobierzWartośćParametru<Enumeratory.Tabela>("table");
             //action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(t => t.EndsWith("action"))]);
-            action = GetParamValue<Enumeratory.Akcja>("action");
+            action = PobierzWartośćParametru<Enumeratory.Akcja>("action");
             string backUrl = "javascript: Load('List.aspx?table=" + table + "')";
             string nominativeCase = String.Empty;
             string genitiveCase = String.Empty;
@@ -68,7 +68,7 @@ namespace czynsze.Formularze
             if (action != Enumeratory.Akcja.Dodaj)
             {
                 //id = Int32.Parse(Request.Params[Request.Params.AllKeys.FirstOrDefault(t => t.EndsWith("id"))]);
-                id = GetParamValue<int>("id");
+                id = PobierzWartośćParametru<int>("id");
 
                 form.Controls.Add(new Kontrolki.HtmlInputHidden("id", id.ToString()));
             }
@@ -90,13 +90,13 @@ namespace czynsze.Formularze
 
                             recordFields = new string[]
                                     {
-                                        GetParamValue<string>("id"),
-                                        GetParamValue<string>("il_miesz"),
-                                        GetParamValue<string>("sp_rozl"),
-                                        GetParamValue<string>("adres"),
-                                        GetParamValue<string>("adres_2"),
-                                        GetParamValue<string>("udzial_w_k"),
-                                        GetParamValue<string>("uwagi")
+                                        PobierzWartośćParametru<string>("id"),
+                                        PobierzWartośćParametru<string>("il_miesz"),
+                                        PobierzWartośćParametru<string>("sp_rozl"),
+                                        PobierzWartośćParametru<string>("adres"),
+                                        PobierzWartośćParametru<string>("adres_2"),
+                                        PobierzWartośćParametru<string>("udzial_w_k"),
+                                        PobierzWartośćParametru<string>("uwagi")
                                     };
 
                             break;
@@ -110,28 +110,28 @@ namespace czynsze.Formularze
 
                             recordFields = new string[]
                             {
-                                GetParamValue<string>("id"),
-                                GetParamValue<string>("kod_lok"),
-                                GetParamValue<string>("nr_lok"),
-                                GetParamValue<string>("kod_typ"),
-                                GetParamValue<string>("adres"),
-                                GetParamValue<string>("adres_2"),
-                                GetParamValue<string>("pow_uzyt"),
-                                GetParamValue<string>("pow_miesz"),
-                                GetParamValue<string>("udzial"),
-                                GetParamValue<string>("dat_od"),
-                                GetParamValue<string>("dat_do"),
-                                GetParamValue<string>("p_1"),
-                                GetParamValue<string>("p_2"),
-                                GetParamValue<string>("p_3"),
-                                GetParamValue<string>("p_4"),
-                                GetParamValue<string>("p_5"),
-                                GetParamValue<string>("p_6"),
-                                GetParamValue<string>("kod_kuch"),
-                                GetParamValue<string>("nr_kontr"),
-                                GetParamValue<string>("il_osob"),
-                                GetParamValue<string>("kod_praw"),
-                                GetParamValue<string>("uwagi")
+                                PobierzWartośćParametru<string>("id"),
+                                PobierzWartośćParametru<string>("kod_lok"),
+                                PobierzWartośćParametru<string>("nr_lok"),
+                                PobierzWartośćParametru<string>("kod_typ"),
+                                PobierzWartośćParametru<string>("adres"),
+                                PobierzWartośćParametru<string>("adres_2"),
+                                PobierzWartośćParametru<string>("pow_uzyt"),
+                                PobierzWartośćParametru<string>("pow_miesz"),
+                                PobierzWartośćParametru<string>("udzial"),
+                                PobierzWartośćParametru<string>("dat_od"),
+                                PobierzWartośćParametru<string>("dat_do"),
+                                PobierzWartośćParametru<string>("p_1"),
+                                PobierzWartośćParametru<string>("p_2"),
+                                PobierzWartośćParametru<string>("p_3"),
+                                PobierzWartośćParametru<string>("p_4"),
+                                PobierzWartośćParametru<string>("p_5"),
+                                PobierzWartośćParametru<string>("p_6"),
+                                PobierzWartośćParametru<string>("kod_kuch"),
+                                PobierzWartośćParametru<string>("nr_kontr"),
+                                PobierzWartośćParametru<string>("il_osob"),
+                                PobierzWartośćParametru<string>("kod_praw"),
+                                PobierzWartośćParametru<string>("uwagi")
                             };
 
                             break;
@@ -153,18 +153,18 @@ namespace czynsze.Formularze
 
                             recordFields = new string[]
                                     {
-                                        GetParamValue<string>("id"),
-                                        GetParamValue<string>("kod_najem"),
-                                        GetParamValue<string>("nazwisko"),
-                                        GetParamValue<string>("imie"),
-                                        GetParamValue<string>("adres_1"),
-                                        GetParamValue<string>("adres_2"),
-                                        GetParamValue<string>("nr_dow"),
-                                        GetParamValue<string>("pesel"),
-                                        GetParamValue<string>("nazwa_z"),
-                                        GetParamValue<string>("e_mail"),
-                                        GetParamValue<string>("l__has"),
-                                        GetParamValue<string>("uwagi")
+                                        PobierzWartośćParametru<string>("id"),
+                                        PobierzWartośćParametru<string>("kod_najem"),
+                                        PobierzWartośćParametru<string>("nazwisko"),
+                                        PobierzWartośćParametru<string>("imie"),
+                                        PobierzWartośćParametru<string>("adres_1"),
+                                        PobierzWartośćParametru<string>("adres_2"),
+                                        PobierzWartośćParametru<string>("nr_dow"),
+                                        PobierzWartośćParametru<string>("pesel"),
+                                        PobierzWartośćParametru<string>("nazwa_z"),
+                                        PobierzWartośćParametru<string>("e_mail"),
+                                        PobierzWartośćParametru<string>("l__has"),
+                                        PobierzWartośćParametru<string>("uwagi")
                                     };
 
                             break;
@@ -185,18 +185,18 @@ namespace czynsze.Formularze
 
                             recordFields = new string[]
                                     {
-                                        GetParamValue<string>("id"),
-                                        GetParamValue<string>("il_bud"),
-                                        GetParamValue<string>("il_miesz"),
-                                        GetParamValue<string>("nazwa_pel"),
-                                        GetParamValue<string>("nazwa_skr"),
-                                        GetParamValue<string>("adres"),
-                                        GetParamValue<string>("adres_2"),
-                                        GetParamValue<string>("nr1_konta"),
-                                        GetParamValue<string>("nr2_konta"),
-                                        GetParamValue<string>("nr3_konta"),
-                                        GetParamValue<string>("sciezka_fk"),
-                                        GetParamValue<string>("uwagi")
+                                        PobierzWartośćParametru<string>("id"),
+                                        PobierzWartośćParametru<string>("il_bud"),
+                                        PobierzWartośćParametru<string>("il_miesz"),
+                                        PobierzWartośćParametru<string>("nazwa_pel"),
+                                        PobierzWartośćParametru<string>("nazwa_skr"),
+                                        PobierzWartośćParametru<string>("adres"),
+                                        PobierzWartośćParametru<string>("adres_2"),
+                                        PobierzWartośćParametru<string>("nr1_konta"),
+                                        PobierzWartośćParametru<string>("nr2_konta"),
+                                        PobierzWartośćParametru<string>("nr3_konta"),
+                                        PobierzWartośćParametru<string>("sciezka_fk"),
+                                        PobierzWartośćParametru<string>("uwagi")
                                     };
 
                             break;
@@ -208,30 +208,30 @@ namespace czynsze.Formularze
 
                             recordFields = new string[]
                                     {
-                                        GetParamValue<string>("id"),
-                                        GetParamValue<string>("nazwa"),
-                                        GetParamValue<string>("rodz_e"),
-                                        GetParamValue<string>("s_zaplat"),
-                                        GetParamValue<string>("stawka"),
-                                        GetParamValue<string>("stawka_inf"),
-                                        GetParamValue<string>("typ_skl"),
-                                        GetParamValue<string>("data_1"),
-                                        GetParamValue<string>("data_2")
+                                        PobierzWartośćParametru<string>("id"),
+                                        PobierzWartośćParametru<string>("nazwa"),
+                                        PobierzWartośćParametru<string>("rodz_e"),
+                                        PobierzWartośćParametru<string>("s_zaplat"),
+                                        PobierzWartośćParametru<string>("stawka"),
+                                        PobierzWartośćParametru<string>("stawka_inf"),
+                                        PobierzWartośćParametru<string>("typ_skl"),
+                                        PobierzWartośćParametru<string>("data_1"),
+                                        PobierzWartośćParametru<string>("data_2")
                                     };
 
                             if (recordFields[3] == "6")
                                 recordFields = recordFields.ToList().Concat(new string[] 
                                         {
-                                            GetParamValue<string>("stawka_00"),
-                                            GetParamValue<string>("stawka_01"),
-                                            GetParamValue<string>("stawka_02"),
-                                            GetParamValue<string>("stawka_03"),
-                                            GetParamValue<string>("stawka_04"),
-                                            GetParamValue<string>("stawka_05"),
-                                            GetParamValue<string>("stawka_06"),
-                                            GetParamValue<string>("stawka_07"),
-                                            GetParamValue<string>("stawka_08"),
-                                            GetParamValue<string>("stawka_09")
+                                            PobierzWartośćParametru<string>("stawka_00"),
+                                            PobierzWartośćParametru<string>("stawka_01"),
+                                            PobierzWartośćParametru<string>("stawka_02"),
+                                            PobierzWartośćParametru<string>("stawka_03"),
+                                            PobierzWartośćParametru<string>("stawka_04"),
+                                            PobierzWartośćParametru<string>("stawka_05"),
+                                            PobierzWartośćParametru<string>("stawka_06"),
+                                            PobierzWartośćParametru<string>("stawka_07"),
+                                            PobierzWartośćParametru<string>("stawka_08"),
+                                            PobierzWartośćParametru<string>("stawka_09")
                                         }).ToArray();
                             else
                                 recordFields = recordFields.ToList().Concat(new string[] { "", "", "", "", "", "", "", "", "", "" }).ToArray();
@@ -245,8 +245,8 @@ namespace czynsze.Formularze
 
                             recordFields = new string[]
                                     {
-                                        GetParamValue<string>("id"),
-                                        GetParamValue<string>("typ_lok")
+                                        PobierzWartośćParametru<string>("id"),
+                                        PobierzWartośćParametru<string>("typ_lok")
                                     };
 
                             break;
@@ -258,8 +258,8 @@ namespace czynsze.Formularze
 
                             recordFields = new string[]
                                     {
-                                        GetParamValue<string>("id"),
-                                        GetParamValue<string>("typ_kuch")
+                                        PobierzWartośćParametru<string>("id"),
+                                        PobierzWartośćParametru<string>("typ_kuch")
                                     };
 
                             break;
@@ -271,8 +271,8 @@ namespace czynsze.Formularze
 
                             recordFields = new string[]
                                     {
-                                        GetParamValue<string>("id"),
-                                        GetParamValue<string>("r_najemcy")
+                                        PobierzWartośćParametru<string>("id"),
+                                        PobierzWartośćParametru<string>("r_najemcy")
                                     };
 
                             break;
@@ -284,8 +284,8 @@ namespace czynsze.Formularze
 
                             recordFields = new string[]
                                     {
-                                        GetParamValue<string>("id"),
-                                        GetParamValue<string>("tyt_prawny")
+                                        PobierzWartośćParametru<string>("id"),
+                                        PobierzWartośćParametru<string>("tyt_prawny")
                                     };
 
                             break;
@@ -297,14 +297,14 @@ namespace czynsze.Formularze
 
                             recordFields = new string[]
                                     {
-                                        GetParamValue<string>("id"),
-                                        GetParamValue<string>("typ_wplat"),
-                                        GetParamValue<string>("rodz_e"),
-                                        GetParamValue<string>("s_rozli"),
-                                        GetParamValue<string>("tn_odset"),
-                                        GetParamValue<string>("nota_odset"),
-                                        GetParamValue<string>("vat"),
-                                        GetParamValue<string>("sww")
+                                        PobierzWartośćParametru<string>("id"),
+                                        PobierzWartośćParametru<string>("typ_wplat"),
+                                        PobierzWartośćParametru<string>("rodz_e"),
+                                        PobierzWartośćParametru<string>("s_rozli"),
+                                        PobierzWartośćParametru<string>("tn_odset"),
+                                        PobierzWartośćParametru<string>("nota_odset"),
+                                        PobierzWartośćParametru<string>("vat"),
+                                        PobierzWartośćParametru<string>("sww")
                                     };
 
                             break;
@@ -316,8 +316,8 @@ namespace czynsze.Formularze
 
                             recordFields = new string[]
                                     {
-                                        GetParamValue<string>("id"),
-                                        GetParamValue<string>("nazwa")
+                                        PobierzWartośćParametru<string>("id"),
+                                        PobierzWartośćParametru<string>("nazwa")
                                     };
 
                             break;
@@ -329,9 +329,9 @@ namespace czynsze.Formularze
 
                             recordFields = new string[]
                                     {
-                                        GetParamValue<string>("id"),
-                                        GetParamValue<string>("k_syn"),
-                                        GetParamValue<string>("nazwa")
+                                        PobierzWartośćParametru<string>("id"),
+                                        PobierzWartośćParametru<string>("k_syn"),
+                                        PobierzWartośćParametru<string>("nazwa")
                                     };
 
                             break;
@@ -343,9 +343,9 @@ namespace czynsze.Formularze
 
                             recordFields = new string[]
                                     {
-                                        GetParamValue<string>("id"),
-                                        GetParamValue<string>("nazwa"),
-                                        GetParamValue<string>("symb_fisk")
+                                        PobierzWartośćParametru<string>("id"),
+                                        PobierzWartośćParametru<string>("nazwa"),
+                                        PobierzWartośćParametru<string>("symb_fisk")
                                     };
 
                             break;
@@ -357,16 +357,16 @@ namespace czynsze.Formularze
 
                             recordFields = new string[]
                                     {
-                                        GetParamValue<string>("id"),
-                                        GetParamValue<string>("nazwa"),
-                                        GetParamValue<string>("nr_str"),
-                                        GetParamValue<string>("jedn"),
-                                        GetParamValue<string>("wartosc"),
-                                        GetParamValue<string>("uwagi"),
-                                        GetParamValue<string>("zb_0"),
-                                        GetParamValue<string>("zb_1"),
-                                        GetParamValue<string>("zb_2"),
-                                        GetParamValue<string>("zb_3"),
+                                        PobierzWartośćParametru<string>("id"),
+                                        PobierzWartośćParametru<string>("nazwa"),
+                                        PobierzWartośćParametru<string>("nr_str"),
+                                        PobierzWartośćParametru<string>("jedn"),
+                                        PobierzWartośćParametru<string>("wartosc"),
+                                        PobierzWartośćParametru<string>("uwagi"),
+                                        PobierzWartośćParametru<string>("zb_0"),
+                                        PobierzWartośćParametru<string>("zb_1"),
+                                        PobierzWartośćParametru<string>("zb_2"),
+                                        PobierzWartośćParametru<string>("zb_3"),
                                     };
 
                             break;
@@ -378,12 +378,12 @@ namespace czynsze.Formularze
 
                             recordFields = new string[]
                                     {
-                                        GetParamValue<string>("id"),
-                                        GetParamValue<string>("symbol"),
-                                        GetParamValue<string>("nazwisko"),
-                                        GetParamValue<string>("imie"),
-                                        GetParamValue<string>("haslo"),
-                                        GetParamValue<string>("haslo2")
+                                        PobierzWartośćParametru<string>("id"),
+                                        PobierzWartośćParametru<string>("symbol"),
+                                        PobierzWartośćParametru<string>("nazwisko"),
+                                        PobierzWartośćParametru<string>("imie"),
+                                        PobierzWartośćParametru<string>("haslo"),
+                                        PobierzWartośćParametru<string>("haslo2")
                                     };
 
                             break;
@@ -394,15 +394,15 @@ namespace czynsze.Formularze
 
                             recordFields = new string[]
                                     {
-                                        GetParamValue<string>("id"),
-                                        GetParamValue<string>("suma"),
-                                        GetParamValue<string>("data_obr"),
-                                        GetParamValue<string>("?"),
-                                        GetParamValue<string>("kod_wplat"),
-                                        GetParamValue<string>("nr_dowodu"),
-                                        GetParamValue<string>("pozycja_d"),
-                                        GetParamValue<string>("uwagi"),
-                                        GetParamValue<string>("nr_kontr")
+                                        PobierzWartośćParametru<string>("id"),
+                                        PobierzWartośćParametru<string>("suma"),
+                                        PobierzWartośćParametru<string>("data_obr"),
+                                        PobierzWartośćParametru<string>("?"),
+                                        PobierzWartośćParametru<string>("kod_wplat"),
+                                        PobierzWartośćParametru<string>("nr_dowodu"),
+                                        PobierzWartośćParametru<string>("pozycja_d"),
+                                        PobierzWartośćParametru<string>("uwagi"),
+                                        PobierzWartośćParametru<string>("nr_kontr")
                                     };
 
                             switch (Hello.CurrentSet)

@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="StyleSheet.css" />
 </head>
 <body>
-    <form id="login" method="post" action="Forms\UserValidation.aspx">
+    <form id="login" method="post" action="Formularze\WalidacjaUzytkownika.aspx">
         <div id="placeOfLogin">
             <span style="position: absolute; left: -3px; top: -20px;" runat="server">System CZYNSZE</span>
             <span id="companyName" style="position: absolute; right: -3px; top: -20px;" runat="server"></span>

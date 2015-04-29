@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="List.aspx.cs" Inherits="czynsze.Forms.List" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="List.aspx.cs" Inherits="czynsze.Formularze.List" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="../JavaScripts/List.js"></script>
 </asp:Content>

@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace czynsze.Formularze
 {
-    public partial class CommunityBuildings : Page
+    public partial class CommunityBuildings : Strona
     {
         List<DostępDoBazy.BudynekWspólnoty> communityBuildings
         {
@@ -17,12 +17,12 @@ namespace czynsze.Formularze
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            int kod = GetParamValue<int>("kod");
+            int kod = PobierzWartośćParametru<int>("kod");
             List<string[]> rows = new List<string[]>();
-            string window = GetParamValue<string>("ShowWindow");
-            Enumeratory.Akcja parentAction = GetParamValue<Enumeratory.Akcja>("parentAction");
-            Enumeratory.Akcja childAction = GetParamValue<Enumeratory.Akcja>("ChildAction");
-            int id = GetParamValue<int>("id");
+            string window = PobierzWartośćParametru<string>("ShowWindow");
+            Enumeratory.Akcja parentAction = PobierzWartośćParametru<Enumeratory.Akcja>("parentAction");
+            Enumeratory.Akcja childAction = PobierzWartośćParametru<Enumeratory.Akcja>("ChildAction");
+            int id = PobierzWartośćParametru<int>("id");
             string postBackUrl = "CommunityBuildings.aspx";
             DostępDoBazy.BudynekWspólnoty currentCommunityBuilding = null;
 
@@ -34,8 +34,8 @@ namespace czynsze.Formularze
                 string[] record = new string[]
                 {
                     kod.ToString(),
-                    GetParamValue<string>("kod_1"),
-                    GetParamValue<string>("uwagi")
+                    PobierzWartośćParametru<string>("kod_1"),
+                    PobierzWartośćParametru<string>("uwagi")
                 };
 
                 switch (childAction)
