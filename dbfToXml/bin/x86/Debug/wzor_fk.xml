@@ -93,12 +93,7 @@
           <KIERUNEK></KIERUNEK>
         </PLATNOSC>
       </PLATNOSCI>
-      <ATRYBUTY>
-        <ATRYBUT>
-          <KOD_ATR></KOD_ATR>
-          <WARTOSC></WARTOSC>
-        </ATRYBUT>
-      </ATRYBUTY>
+
     </REJESTR_SPRZEDAZY_VAT>
   </REJESTRY_SPRZEDAZY_VAT>
   <REJESTRY_ZAKUPU_VAT>

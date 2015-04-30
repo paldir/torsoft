@@ -1,0 +1,1 @@
+C:\Users\paldir\Documents\GitHub\dbfToXmlConverter\dbfToXml\bin\Release\fkml.exe.config

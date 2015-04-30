@@ -18,6 +18,10 @@ namespace dbfToXml
 
         static void Main(string[] args)
         {
+            System.Globalization.CultureInfo infoOKulturze = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+            infoOKulturze.NumberFormat.NumberDecimalSeparator = ".";
+            System.Threading.Thread.CurrentThread.CurrentCulture = infoOKulturze;
+
             switch (args.Length)
             {
                 case 0:
@@ -99,7 +103,8 @@ namespace dbfToXml
                     string napisNumeruFaktury = polaFk[nazwaKolumnyDoJejNumeruFk["nr_fk"]].ToString();
                     int numerFaktury = Int32.Parse(napisNumeruFaktury.Substring(0, napisNumeruFaktury.IndexOf("/")));
 
-                    if (numerFaktury >= numerPierwszejFaktury && numerFaktury <= numerOstatniejFaktury)
+                    //if (numerFaktury >= numerPierwszejFaktury && numerFaktury <= numerOstatniejFaktury)
+                    if (numerFaktury == 11)
                     {
                         string kod, miasto, ulica;
                         double id = (double)polaFk[nazwaKolumnyDoJejNumeruFk["nr_system"]];
@@ -108,6 +113,9 @@ namespace dbfToXml
                         DateTime data = (DateTime)polaFk[nazwaKolumnyDoJejNumeruFk["data"]];
                         string napisDaty = data.ToShortDateString();
                         string napisTerminu = data.AddDays(Convert.ToDouble(polaFk[nazwaKolumnyDoJejNumeruFk["termin"]])).ToShortDateString();
+                        string nip = polaFk[nazwaKolumnyDoJejNumeruFk["nr_ident"]].ToString().Replace("-", String.Empty);
+                        string sposóbPłatności = polaFk[nazwaKolumnyDoJejNumeruFk["spos_zap"]].ToString().ToLower().Replace("em", String.Empty);
+                        string kwota = String.Format("{0:N2}", polaFk[nazwaKolumnyDoJejNumeruFk["wartosc"]]);
 
                         Console.WriteLine("Generowanie XML dla faktury nr {0}.", numerFaktury);
                         AnalizujAdres(String.Format("{0};{1}", polaFk[nazwaKolumnyDoJejNumeruFk["adres1"]], polaFk[nazwaKolumnyDoJejNumeruFk["adres2"]]), out kod, out miasto, out ulica);
@@ -118,7 +126,7 @@ namespace dbfToXml
                         ZapiszWWęźleXml(ref kontrahent, "ulica", ulica, true);
                         ZapiszWWęźleXml(ref kontrahent, "miasto", miasto, true);
                         ZapiszWWęźleXml(ref kontrahent, "kod_pocztowy", kod, true);
-                        ZapiszWWęźleXml(ref kontrahent, "nip", polaFk[nazwaKolumnyDoJejNumeruFk["nr_ident"]], true);
+                        ZapiszWWęźleXml(ref kontrahent, "nip", nip, true);
 
                         wzórKontrahenta.ParentNode.AppendChild(kontrahent);
 
@@ -127,14 +135,13 @@ namespace dbfToXml
                         ZapiszWWęźleXml(ref rejestr, "data_dataobowiazkupodatkowego", napisDaty, true);
                         ZapiszWWęźleXml(ref rejestr, "data_dataprawaodliczenia", napisDaty, true);
                         ZapiszWWęźleXml(ref rejestr, "termin", napisTerminu, true);
-                        ZapiszWWęźleXml(ref rejestr, "forma_platnosci", polaFk[nazwaKolumnyDoJejNumeruFk["spos_zap"]], true);
+                        ZapiszWWęźleXml(ref rejestr, "forma_platnosci", sposóbPłatności, true);
                         ZapiszWWęźleXml(ref rejestr, "numer", napisNumeruFaktury, true);
                         ZapiszWWęźleXml(ref rejestr, "fiskalna", ZamieńBoolNaPolskąNazwę(polaFk[nazwaKolumnyDoJejNumeruFk["fisk"]]), false);
-                        ZapiszWWęźleXml(ref rejestr, "eksport", ZamieńBoolNaPolskąNazwę(polaFk[nazwaKolumnyDoJejNumeruFk["exported"]]), false);
                         ZapiszWWęźleXml(ref rejestr, "data_kursu", napisDaty, true);
                         ZapiszWWęźleXml(ref rejestr, "data_kursu_2", napisDaty, true);
                         ZapiszWWęźleXml(ref rejestr, "podmiot", polaFk[nazwaKolumnyDoJejNumeruFk["indeks_kon"]], true);
-                        ZapiszWWęźleXml(ref rejestr, "nip", polaFk[nazwaKolumnyDoJejNumeruFk["nr_ident"]], true);
+                        ZapiszWWęźleXml(ref rejestr, "nip", nip, true);
                         ZapiszWWęźleXml(ref rejestr, "ulica", ulica, true);
                         ZapiszWWęźleXml(ref rejestr, "miasto", miasto, true);
                         ZapiszWWęźleXml(ref rejestr, "kod_pocztowy", kod, true);
@@ -155,9 +162,9 @@ namespace dbfToXml
                         }
 
                         ZapiszWWęźleXml(ref rejestr, "termin_plat", napisTerminu, true);
-                        ZapiszWWęźleXml(ref rejestr, "forma_platnosci_plat", polaFk[nazwaKolumnyDoJejNumeruFk["spos_zap"]], true);
-                        ZapiszWWęźleXml(ref rejestr, "kwota_plat", polaFk[nazwaKolumnyDoJejNumeruFk["wartosc"]], false);
-                        ZapiszWWęźleXml(ref rejestr, "kwota_pln_plat", polaFk[nazwaKolumnyDoJejNumeruFk["wartosc"]], false);
+                        ZapiszWWęźleXml(ref rejestr, "forma_platnosci_plat", sposóbPłatności, true);
+                        ZapiszWWęźleXml(ref rejestr, "kwota_plat", kwota, false);
+                        ZapiszWWęźleXml(ref rejestr, "kwota_pln_plat", kwota, false);
 
                         wzórRejestru.ParentNode.AppendChild(rejestr);
                     }
@@ -175,7 +182,7 @@ namespace dbfToXml
                 ZapiszWXml("kraj", "Polska", true);
                 ZapiszWXml("finalny", "Nie", false);
                 ZapiszWXml("modul", "Rejestr Vat", false);
-                ZapiszWXml("typ", "Rejestr sprzedaży", false);
+                ZapiszWXml("typ", "Rejestr sprzedazy", false);
                 ZapiszWXml("rejestr", "SPRZEDAŻ", true);
                 ZapiszWXml("korekta", "Nie", false);
                 ZapiszWXml("wewnetrzna", "Nie", false);
@@ -183,7 +190,14 @@ namespace dbfToXml
                 ZapiszWXml("podatnik_czynny", "Tak", false);
                 ZapiszWXml("typ_podmiotu", "kontrahent", true);
                 ZapiszWXml("kierunek", "przychód", false);
-                ZapiszWXml("kod_atr", "SALDEO", false);
+                //ZapiszWXml("kod_atr", "SALDEO", false);
+                ZapiszWXml("nazwa3", String.Empty, true);
+                ZapiszWXml("telefon1", String.Empty, true);
+                ZapiszWXml("email", String.Empty, true);
+                ZapiszWXml("korekta_numer", String.Empty, true);
+                ZapiszWXml("root/rejestry_sprzedazy_vat/rejestr_sprzedazy_vat/eksport", "nie", false);
+                ZapiszWXml("waluta_dok", String.Empty, true);
+                ZapiszWXml("baza_zrd_id", String.Empty, false);
                 #endregion
 
                 wzórKontrahenta.ParentNode.RemoveChild(wzórKontrahenta);
@@ -328,8 +342,8 @@ namespace dbfToXml
         {
             węzełPozycji.ChildNodes[0].InnerText = stawkaVat.ToString();
             węzełPozycji.ChildNodes[1].InnerText = statusVat.Trim();
-            węzełPozycji.ChildNodes[2].InnerText = węzełPozycji.ChildNodes[3].InnerText = węzełPozycji.ChildNodes[4].InnerText = netto.ToString();
-            węzełPozycji.ChildNodes[5].InnerText = węzełPozycji.ChildNodes[6].InnerText = węzełPozycji.ChildNodes[7].InnerText = vat.ToString();
+            węzełPozycji.ChildNodes[2].InnerText = węzełPozycji.ChildNodes[3].InnerText = węzełPozycji.ChildNodes[4].InnerText = String.Format("{0:N2}", netto);
+            węzełPozycji.ChildNodes[5].InnerText = węzełPozycji.ChildNodes[6].InnerText = węzełPozycji.ChildNodes[7].InnerText = String.Format("{0:N2}", vat);
             węzełPozycji.ChildNodes[8].InnerText = rodzajSprzedaży.Trim();
             węzełPozycji.ChildNodes[9].InnerText = ZamieńBoolNaPolskąNazwę(uwzględnionoWProporcji);
 
