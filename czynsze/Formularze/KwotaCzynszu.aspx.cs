@@ -11,7 +11,7 @@ namespace czynsze.Formularze
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Enumeratory.KwotaCzynszu tryb = PobierzWartośćParametru<Enumeratory.KwotaCzynszu>("mode");
+            Enumeratory.KwotaCzynszu tryb = PobierzWartośćParametru<Enumeratory.KwotaCzynszu>("tryb");
             string zakres = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("KwotaCzynszu"));
             Hello.SiteMapPath = new List<string>() { "Raporty", "Kwota czynszu" };
 
@@ -135,7 +135,7 @@ namespace czynsze.Formularze
                             break;
                     }
 
-                    Response.Redirect(String.Format("KonfiguracjaRaportu.aspx?{0}raport=dummy&odBudynku={1}&odLokalu={2}&doBudynku={3}&doLokalu={4}&odWpólnoty={5}&doWspólnoty={6}", raport, kod_1_1, nr1, kod_1_2, nr2, kod1, kod2));
+                    Response.Redirect(String.Format("KonfiguracjaRaportu.aspx?{0}raport=dummy&odBudynku={1}&odLokalu={2}&doBudynku={3}&doLokalu={4}&odWspólnoty={5}&doWspólnoty={6}", raport, kod_1_1, nr1, kod_1_2, nr2, kod1, kod2));
                 }
             }
         }
