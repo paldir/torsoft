@@ -105,10 +105,10 @@
                     <li class="mainSubMenuItem pseudoLink">Kwota czynszu
                         <ul class="mainSubSubMenu">
                             <li class="mainSubSubMenuItem">
-                                <a href="javascript: Load('KwotaCzynszu.aspx?tryb=Bieżąca')">Bieżąca</a>
+                                <a href="javascript: Load('KwotaCzynszu.aspx?tryb=Biezaca')">Bieżąca</a>
                             </li>
                             <li class="mainSubSubMenuItem">
-                                <a href="javascript: Load('KwotaCzynszu.aspx?tryb=ZaDanyMiesiąc')">Za dany miesiąc</a>
+                                <a href="javascript: Load('KwotaCzynszu.aspx?tryb=ZaDanyMiesiac')">Za dany miesiąc</a>
                             </li>
                         </ul>
                     </li>

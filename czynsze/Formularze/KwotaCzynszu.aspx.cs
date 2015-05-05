@@ -17,12 +17,12 @@ namespace czynsze.Formularze
 
             switch (tryb)
             {
-                case Enumeratory.KwotaCzynszu.Bieżąca:
+                case Enumeratory.KwotaCzynszu.Biezaca:
                     Hello.SiteMapPath.Add("Bieżąca");
 
                     break;
 
-                case Enumeratory.KwotaCzynszu.ZaDanyMiesiąc:
+                case Enumeratory.KwotaCzynszu.ZaDanyMiesiac:
                     Hello.SiteMapPath.Add("Za dany miesiąc");
 
                     break;
@@ -43,7 +43,7 @@ namespace czynsze.Formularze
 
                 if (String.IsNullOrEmpty(zakres))
                 {
-                    form.Controls.Add(new Kontrolki.HtmlInputHidden("mode", tryb.ToString()));
+                    form.Controls.Add(new Kontrolki.HtmlInputHidden("tryb", tryb.ToString()));
 
                     placeOfPlaces.Controls.Add(new Kontrolki.Button("button", "wszystkieLokaleKwotaCzynszu", "Zestawienie wszystkich lokali", String.Empty));
                     DodajNowąLinię(placeOfPlaces);
@@ -89,7 +89,7 @@ namespace czynsze.Formularze
                     switch (zakres)
                     {
                         case "wszystkieLokale":
-                            raport = Enumeratory.Raport.BieżącaKwotaCzynszuLokali;
+                            raport = Enumeratory.Raport.KwotaCzynszuLokali;
                             kod_1_1 = minimalnyBudynek;
                             nr1 = minimalnyLokal;
                             kod_1_2 = maksymalnyBudynek;
@@ -98,7 +98,7 @@ namespace czynsze.Formularze
                             break;
 
                         case "odDoLokalu":
-                            raport = Enumeratory.Raport.BieżącaKwotaCzynszuLokali;
+                            raport = Enumeratory.Raport.KwotaCzynszuLokali;
                             kod_1_1 = PobierzWartośćParametru<string>("odLokaluBudynku");
                             nr1 = PobierzWartośćParametru<string>("odLokalu");
                             kod_1_2 = PobierzWartośćParametru<string>("doLokaluBudynku");
@@ -107,33 +107,35 @@ namespace czynsze.Formularze
                             break;
 
                         case "wszystkieBudynki":
-                            raport = Enumeratory.Raport.BieżącaKwotaCzynszuBudynków;
+                            raport = Enumeratory.Raport.KwotaCzynszuBudynków;
                             kod_1_1 = minimalnyBudynek;
                             kod_1_2 = maksymalnyBudynek;
 
                             break;
 
                         case "odDoBudynku":
-                            raport = Enumeratory.Raport.BieżącaKwotaCzynszuBudynków;
+                            raport = Enumeratory.Raport.KwotaCzynszuBudynków;
                             kod_1_1 = PobierzWartośćParametru<string>("odBudynku");
                             kod_1_2 = PobierzWartośćParametru<string>("doBudynku");
 
                             break;
 
                         case "wszystkieWspólnoty":
-                            raport = Enumeratory.Raport.BieżącaKwotaCzynszuWspólnot;
+                            raport = Enumeratory.Raport.KwotaCzynszuWspólnot;
                             kod1 = minimalnaWspólnota;
                             kod2 = maksymalnaWspólnota;
 
                             break;
 
                         case "odDoWspólnoty":
-                            raport = Enumeratory.Raport.BieżącaKwotaCzynszuWspólnot;
+                            raport = Enumeratory.Raport.KwotaCzynszuWspólnot;
                             kod1 = PobierzWartośćParametru<string>("odWpólnoty");
                             kod2 = PobierzWartośćParametru<string>("doWspólnoty");
 
                             break;
                     }
+
+                    Session["trybKwotyCzynszu"] = tryb;
 
                     Response.Redirect(String.Format("KonfiguracjaRaportu.aspx?{0}raport=dummy&odBudynku={1}&odLokalu={2}&doBudynku={3}&doLokalu={4}&odWspólnoty={5}&doWspólnoty={6}", raport, kod_1_1, nr1, kod_1_2, nr2, kod1, kod2));
                 }

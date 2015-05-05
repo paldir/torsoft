@@ -50,9 +50,9 @@ namespace czynsze
             NależnościIObrotyNajemcy,
             MiesięcznaAnalizaNależnościIObrotów,
             SzczegółowaAnalizaNależnościIObrotów,
-            BieżącaKwotaCzynszuLokali,
-            BieżącaKwotaCzynszuBudynków,
-            BieżącaKwotaCzynszuWspólnot
+            KwotaCzynszuLokali,
+            KwotaCzynszuBudynków,
+            KwotaCzynszuWspólnot,
         };
 
         public enum FormatRaportu
@@ -90,8 +90,8 @@ namespace czynsze
 
         public enum KwotaCzynszu
         {
-            Bieżąca,
-            ZaDanyMiesiąc
+            Biezaca,
+            ZaDanyMiesiac
         };
 
         public enum TreściOpisów

@@ -129,10 +129,22 @@ namespace czynsze.Formularze
 
                     break;
 
-                case Enumeratory.Raport.BieżącaKwotaCzynszuLokali:
-                case Enumeratory.Raport.BieżącaKwotaCzynszuBudynków:
-                case Enumeratory.Raport.BieżącaKwotaCzynszuWspólnot:
-                    nagłówek += "(Bieżąca kwota czynszu)";
+                case Enumeratory.Raport.KwotaCzynszuLokali:
+                case Enumeratory.Raport.KwotaCzynszuBudynków:
+                case Enumeratory.Raport.KwotaCzynszuWspólnot:
+                    switch ((Enumeratory.KwotaCzynszu)Convert.ChangeType(Session["trybKwotyCzynszu"], typeof(Enumeratory.KwotaCzynszu)))
+                    {
+                        case Enumeratory.KwotaCzynszu.Biezaca:
+                            nagłówek += "(Bieżąca kwota czynszu)";
+
+                            break;
+
+                        case Enumeratory.KwotaCzynszu.ZaDanyMiesiac:
+                            nagłówek += "(Za dany miesiąc)";
+
+                            break;
+                    }
+
                     identyfikatory[0] = PobierzWartośćParametru<int>("odBudynku");
                     identyfikatory[1] = PobierzWartośćParametru<int>("odLokalu");
                     identyfikatory[2] = PobierzWartośćParametru<int>("doBudynku");
@@ -175,16 +187,16 @@ namespace czynsze.Formularze
             List<string> podpisy = new List<string>();
             string tytuł = null;
 
-            using(DostępDoBazy.CzynszeKontekst db=new DostępDoBazy.CzynszeKontekst())
-            switch (raport)
-            {
-                case Enumeratory.Raport.LokaleWBudynkach:
-                    {
-                        int kod_1_start;
-                        int kod_1_koniec;
-                        List<int> wybraneTypyLokali = new List<int>();
-                        tytuł = "LOKALE W BUDYNKACH";
-                        nagłówki = new List<string>()
+            using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
+                switch (raport)
+                {
+                    case Enumeratory.Raport.LokaleWBudynkach:
+                        {
+                            int kod_1_start;
+                            int kod_1_koniec;
+                            List<int> wybraneTypyLokali = new List<int>();
+                            tytuł = "LOKALE W BUDYNKACH";
+                            nagłówki = new List<string>()
                     {
                         "Numer lokalu",
                         "Typ lokalu",
@@ -193,395 +205,458 @@ namespace czynsze.Formularze
                         "Imię"
                     };
 
-                        try { kod_1_start = Int32.Parse(((TextBox)placeOfConfigurationFields.FindControl("kod_1_start")).Text); }
-                        catch { kod_1_start = 0; }
+                            try { kod_1_start = Int32.Parse(((TextBox)placeOfConfigurationFields.FindControl("kod_1_start")).Text); }
+                            catch { kod_1_start = 0; }
 
-                        try { kod_1_koniec = Int32.Parse(((TextBox)placeOfConfigurationFields.FindControl("kod_1_end")).Text); }
-                        catch { kod_1_koniec = 0; }
+                            try { kod_1_koniec = Int32.Parse(((TextBox)placeOfConfigurationFields.FindControl("kod_1_end")).Text); }
+                            catch { kod_1_koniec = 0; }
 
-                        try
-                        {
-                            foreach (ListItem pozycja in ((CheckBoxList)placeOfConfigurationFields.FindControl("kod_typ")).Items)
-                                if (pozycja.Selected)
-                                    wybraneTypyLokali.Add(Int32.Parse(pozycja.Value));
-                        }
-                        catch { }
-
-                        //using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
-                        {
-                            DostępDoBazy.Lokal.TypesOfPlace = db.TypyLokali.ToList();
-
-                            for (int i = kod_1_start; i <= kod_1_koniec; i++)
+                            try
                             {
-                                DostępDoBazy.Budynek budynek = db.Budynki.Where(b => b.kod_1 == i).FirstOrDefault();
+                                foreach (ListItem pozycja in ((CheckBoxList)placeOfConfigurationFields.FindControl("kod_typ")).Items)
+                                    if (pozycja.Selected)
+                                        wybraneTypyLokali.Add(Int32.Parse(pozycja.Value));
+                            }
+                            catch { }
 
-                                if (budynek != null)
+                            //using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
+                            {
+                                DostępDoBazy.Lokal.TypesOfPlace = db.TypyLokali.ToList();
+
+                                for (int i = kod_1_start; i <= kod_1_koniec; i++)
                                 {
-                                    podpisy.Add("Budynek nr " + budynek.kod_1.ToString() + ", " + budynek.adres + ", " + budynek.adres_2);
-                                    tabele.Add(db.AktywneLokale.Where(p => p.kod_lok == i && wybraneTypyLokali.Contains(p.kod_typ)).OrderBy(p => p.nr_lok).ToList().Select(p => p.WażnePola().ToList().GetRange(2, p.WażnePola().Length - 2).ToArray()).ToList());
+                                    DostępDoBazy.Budynek budynek = db.Budynki.Where(b => b.kod_1 == i).FirstOrDefault();
+
+                                    if (budynek != null)
+                                    {
+                                        podpisy.Add("Budynek nr " + budynek.kod_1.ToString() + ", " + budynek.adres + ", " + budynek.adres_2);
+                                        tabele.Add(db.AktywneLokale.Where(p => p.kod_lok == i && wybraneTypyLokali.Contains(p.kod_typ)).OrderBy(p => p.nr_lok).ToList().Select(p => p.WażnePola().ToList().GetRange(2, p.WażnePola().Length - 2).ToArray()).ToList());
+                                    }
+                                }
+
+                                DostępDoBazy.Lokal.TypesOfPlace = null;
+                            }
+                        }
+
+                        break;
+
+                    case Enumeratory.Raport.MiesięczneSumySkładników:
+                    case Enumeratory.Raport.NależnościIObrotyNajemcy:
+                    case Enumeratory.Raport.MiesięcznaAnalizaNależnościIObrotów:
+                    case Enumeratory.Raport.SzczegółowaAnalizaNależnościIObrotów:
+                        {
+                            tabele = new List<List<string[]>> { new List<string[]>() };
+                            IEnumerable<DostępDoBazy.Należność> należności = null;
+                            IEnumerable<DostępDoBazy.Obrót> obroty = null;
+                            decimal sumaWn, sumaMa;
+                            List<decimal> salda = new List<decimal>();
+                            int nr_kontr = identyfikatory[1];
+
+                            //using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
+                            {
+                                DostępDoBazy.Najemca najemca = db.AktywniNajemcy.FirstOrDefault(t => t.nr_kontr == nr_kontr);
+                                podpisy = new List<string>() { najemca.nazwisko + " " + najemca.imie + "<br />" + najemca.adres_1 + " " + najemca.adres_2 + "<br />" };
+
+                                switch (Hello.CurrentSet)
+                                {
+                                    case Enumeratory.Zbiór.Czynsze:
+                                        należności = db.NależnościZPierwszegoZbioru.Where(r => r.nr_kontr == nr_kontr).ToList().Cast<DostępDoBazy.Należność>();
+                                        obroty = db.ObrotyZPierwszegoZbioru.Where(t => t.nr_kontr == nr_kontr).ToList().Cast<DostępDoBazy.Obrót>();
+
+                                        break;
+
+                                    case Enumeratory.Zbiór.Drugi:
+                                        należności = db.NależnościZDrugiegoZbioru.Where(r => r.nr_kontr == nr_kontr).ToList().Cast<DostępDoBazy.Należność>();
+                                        obroty = db.ObrotyZDrugiegoZbioru.Where(t => t.nr_kontr == nr_kontr).ToList().Cast<DostępDoBazy.Obrót>();
+
+                                        break;
+
+                                    case Enumeratory.Zbiór.Trzeci:
+                                        należności = db.NależnościZTrzeciegoZbioru.Where(r => r.nr_kontr == nr_kontr).ToList().Cast<DostępDoBazy.Należność>();
+                                        obroty = db.ObrotyZTrzeciegoZbioru.Where(t => t.nr_kontr == nr_kontr).ToList().Cast<DostępDoBazy.Obrót>();
+
+                                        break;
+                                }
+
+                                switch (raport)
+                                {
+                                    case Enumeratory.Raport.MiesięczneSumySkładników:
+                                        tytuł = "ZESTAWIENIE ROZLICZEN MIESIECZNYCH ZA ROK 2014";
+                                        nagłówki = new List<string>() { "m-c", "Wartość" };
+
+                                        if (identyfikatory[0] < 0)
+                                        {
+
+                                            int nr_skl = należności.FirstOrDefault(r => r.__record == -1 * identyfikatory[0]).nr_skl;
+                                            podpisy[0] += db.SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == nr_skl).nazwa;
+
+                                            for (int i = 1; i <= 12; i++)
+                                                tabele[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", należności.Where(r => r.nr_skl == nr_skl).ToList().Where(r => r.data_nal.Year == Hello.Date.Year && r.data_nal.Month == i).Sum(r => r.kwota_nal)) });
+                                        }
+                                        else
+                                        {
+                                            int kod_wplat = obroty.FirstOrDefault(t => t.__record == identyfikatory[0]).kod_wplat;
+                                            podpisy[0] += db.RodzajePłatności.FirstOrDefault(t => t.kod_wplat == kod_wplat).typ_wplat;
+
+                                            for (int i = 1; i <= 12; i++)
+                                                tabele[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", obroty.Where(t => t.kod_wplat == kod_wplat).ToList().Where(t => t.data_obr.Year == Hello.Date.Year && t.data_obr.Month == i).Sum(t => t.suma)) });
+                                        }
+
+                                        tabele[0].Add(new string[] { "Razem", String.Format("{0:N2}", tabele[0].Sum(r => Single.Parse(r[1]))) });
+
+                                        break;
+
+                                    case Enumeratory.Raport.NależnościIObrotyNajemcy:
+                                        tytuł = "ZESTAWIENIE NALEZNOSCI I WPLAT";
+                                        nagłówki = new List<string> { "Kwota Wn", "Kwota Ma", "Data", "Operacja" };
+
+                                        foreach (DostępDoBazy.Należność receivable in należności)
+                                        {
+                                            List<string> pola = receivable.WażnePolaDoNależnościIObrotówNajemcy().ToList();
+
+                                            pola.RemoveAt(0);
+
+                                            tabele[0].Add(pola.ToArray());
+                                        }
+
+                                        foreach (DostępDoBazy.Obrót turnover in obroty)
+                                        {
+                                            List<string> pola = turnover.WażnePolaDoNależnościIObrotówNajemcy().ToList();
+
+                                            pola.RemoveAt(0);
+
+                                            tabele[0].Add(pola.ToArray());
+                                        }
+
+                                        tabele[0] = tabele[0].OrderBy(r => DateTime.Parse(r[2])).ToList();
+                                        sumaWn = tabele[0].Sum(r => String.IsNullOrEmpty(r[0]) ? 0 : Decimal.Parse(r[0]));
+                                        sumaMa = tabele[0].Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
+
+                                        tabele[0].Add(new string[] { String.Format("{0:N2}", sumaWn), String.Format("{0:N2}", sumaMa), String.Empty, String.Empty });
+                                        tabele[0].Add(new string[] { "SALDO", String.Format("{0:N2}", sumaMa - sumaWn), String.Empty, String.Empty });
+
+                                        break;
+
+                                    case Enumeratory.Raport.MiesięcznaAnalizaNależnościIObrotów:
+                                        tytuł = "ZESTAWIENIE ROZLICZEN MIESIECZNYCH";
+                                        nagłówki = new List<string>() { "m-c", "suma WN w miesiącu", "suma MA w miesiącu", "saldo w miesiącu", "suma WN narastająco", "suma MA narastająco", "saldo narastająco" };
+                                        List<decimal> kwotyWn = new List<decimal>();
+                                        List<decimal> kwotyMa = new List<decimal>();
+
+                                        for (int i = 1; i <= 12; i++)
+                                        {
+                                            List<string[]> miesięczneNależności = należności.Where(r => r.data_nal.Month == i).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).ToList();
+                                            List<string[]> miesięczneObroty = obroty.Where(t => t.data_obr.Month == i).Select(t => t.WażnePolaDoNależnościIObrotówNajemcy()).ToList();
+                                            sumaWn = miesięczneNależności.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1])) + miesięczneObroty.Sum(t => String.IsNullOrEmpty(t[1]) ? 0 : Decimal.Parse(t[1]));
+                                            sumaMa = miesięczneObroty.Sum(t => String.IsNullOrEmpty(t[2]) ? 0 : Decimal.Parse(t[2]));
+
+                                            kwotyWn.Add(sumaWn);
+                                            kwotyMa.Add(sumaMa);
+                                            salda.Add(sumaMa - sumaWn);
+                                            tabele[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", sumaWn), String.Format("{0:N2}", sumaMa), String.Format("{0:N2}", salda.Last()), String.Format("{0:N2}", kwotyWn.Sum()), String.Format("{0:N2}", kwotyMa.Sum()), String.Format("{0:N2}", salda.Sum()) });
+                                        }
+
+                                        break;
+
+                                    case Enumeratory.Raport.SzczegółowaAnalizaNależnościIObrotów:
+                                        tytuł = "ZESTAWIENIE ROZLICZEN MIESIECZNYCH";
+                                        nagłówki = new List<string>() { "m-c", "Dziennik komornego", "Wpłaty", "Zmniejszenia", "Zwiększenia", "Saldo miesiąca", "Saldo narastająco" };
+                                        string[] nowyWiersz;
+
+                                        for (int i = 1; i <= 12; i++)
+                                        {
+                                            decimal[] suma = new decimal[] { 0, 0, 0, 0 };
+                                            sumaWn = sumaMa = 0;
+
+                                            foreach (DostępDoBazy.Należność należność in należności.Where(r => r.data_nal.Month == i))
+                                            {
+                                                string[] wiersz = należność.WażnePolaDoNależnościIObrotówNajemcy();
+                                                int indeks = db.SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == należność.nr_skl).rodz_e - 1;
+
+                                                if (!String.IsNullOrEmpty(wiersz[1]))
+                                                {
+                                                    decimal kwota = Decimal.Parse(wiersz[1]);
+                                                    suma[indeks] += kwota;
+                                                    sumaWn += kwota;
+                                                }
+                                            }
+
+                                            foreach (DostępDoBazy.Obrót obrót in obroty.Where(t => t.data_obr.Month == i))
+                                            {
+                                                string[] wiersz = obrót.WażnePolaDoNależnościIObrotówNajemcy();
+                                                int indeks = db.RodzajePłatności.FirstOrDefault(t => t.kod_wplat == obrót.kod_wplat).rodz_e - 1;
+
+                                                if (indeks >= 0)
+                                                {
+                                                    decimal kwota;
+
+                                                    if (!String.IsNullOrEmpty(wiersz[1]))
+                                                    {
+                                                        kwota = Decimal.Parse(wiersz[1]);
+                                                        suma[indeks] += kwota;
+                                                        sumaWn += kwota;
+                                                    }
+
+                                                    if (!String.IsNullOrEmpty(wiersz[2]))
+                                                    {
+                                                        kwota = Decimal.Parse(wiersz[2]);
+                                                        suma[indeks] += kwota;
+                                                        sumaMa += kwota;
+                                                    }
+                                                }
+                                            }
+
+                                            salda.Add(sumaMa - sumaWn);
+
+                                            nowyWiersz = new string[7];
+                                            nowyWiersz[0] = i.ToString();
+
+                                            for (int j = 1; j <= 4; j++)
+                                                nowyWiersz[j] = String.Format("{0:N2}", suma[j - 1]);
+
+                                            nowyWiersz[5] = String.Format("{0:N2}", salda.Last());
+                                            nowyWiersz[6] = String.Format("{0:N2}", salda.Sum());
+
+                                            tabele[0].Add(nowyWiersz);
+                                        }
+
+                                        nowyWiersz = new string[7];
+                                        nowyWiersz[0] = "Razem";
+
+                                        for (int i = 1; i < nowyWiersz.Length - 1; i++)
+                                            nowyWiersz[i] = String.Format("{0:N2}", tabele[0].Sum(r => Single.Parse(r[i])));
+
+                                        nowyWiersz[6] = nowyWiersz[5];
+
+                                        tabele[0].Add(nowyWiersz);
+
+                                        break;
                                 }
                             }
-
-                            DostępDoBazy.Lokal.TypesOfPlace = null;
                         }
-                    }
 
-                    break;
+                        break;
 
-                case Enumeratory.Raport.MiesięczneSumySkładników:
-                case Enumeratory.Raport.NależnościIObrotyNajemcy:
-                case Enumeratory.Raport.MiesięcznaAnalizaNależnościIObrotów:
-                case Enumeratory.Raport.SzczegółowaAnalizaNależnościIObrotów:
-                    tabele = new List<List<string[]>> { new List<string[]>() };
-                    IEnumerable<DostępDoBazy.Należność> należności = null;
-                    IEnumerable<DostępDoBazy.Obrót> obroty = null;
-                    decimal sumaWn, sumaMa;
-                    List<decimal> salda = new List<decimal>();
-                    int nr_kontr = identyfikatory[1];
+                    case Enumeratory.Raport.KwotaCzynszuLokali:
+                    case Enumeratory.Raport.KwotaCzynszuBudynków:
+                    case Enumeratory.Raport.KwotaCzynszuWspólnot:
+                        Enumeratory.KwotaCzynszu trybKwotyCzynszu = ((Enumeratory.KwotaCzynszu)Convert.ChangeType(Session["trybKwotyCzynszu"], typeof(Enumeratory.KwotaCzynszu)));
+                        DateTime data = Hello.Date;
+                        DateTime początekMiesiąca = new DateTime(data.Year, data.Month, 1);
+                        DateTime koniecMiesiąca = początekMiesiąca.AddDays(DateTime.DaysInMonth(początekMiesiąca.Year, początekMiesiąca.Month)).AddSeconds(-1);
+                        IEnumerable<DostępDoBazy.NależnośćZPierwszegoZbioru> należnościZaDanyMiesiąc = null;
 
-                    //using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
-                    {
-                        DostępDoBazy.Najemca najemca = db.AktywniNajemcy.FirstOrDefault(t => t.nr_kontr == nr_kontr);
-                        podpisy = new List<string>() { najemca.nazwisko + " " + najemca.imie + "<br />" + najemca.adres_1 + " " + najemca.adres_2 + "<br />" };
-
-                        switch (Hello.CurrentSet)
+                        switch(trybKwotyCzynszu)
                         {
-                            case Enumeratory.Zbiór.Czynsze:
-                                należności = db.NależnościZPierwszegoZbioru.Where(r => r.nr_kontr == nr_kontr).ToList().Cast<DostępDoBazy.Należność>();
-                                obroty = db.ObrotyZPierwszegoZbioru.Where(t => t.nr_kontr == nr_kontr).ToList().Cast<DostępDoBazy.Obrót>();
+                            case Enumeratory.KwotaCzynszu.Biezaca:
+                                tytuł = "BIEZACA KWOTA CZYNSZU";
 
                                 break;
-
-                            case Enumeratory.Zbiór.Drugi:
-                                należności = db.NależnościZDrugiegoZbioru.Where(r => r.nr_kontr == nr_kontr).ToList().Cast<DostępDoBazy.Należność>();
-                                obroty = db.ObrotyZDrugiegoZbioru.Where(t => t.nr_kontr == nr_kontr).ToList().Cast<DostępDoBazy.Obrót>();
-
-                                break;
-
-                            case Enumeratory.Zbiór.Trzeci:
-                                należności = db.NależnościZTrzeciegoZbioru.Where(r => r.nr_kontr == nr_kontr).ToList().Cast<DostępDoBazy.Należność>();
-                                obroty = db.ObrotyZTrzeciegoZbioru.Where(t => t.nr_kontr == nr_kontr).ToList().Cast<DostępDoBazy.Obrót>();
+                            
+                            case Enumeratory.KwotaCzynszu.ZaDanyMiesiac:
+                                tytuł = String.Format("KWOTA CZYNSZU ZA {0} {1}", System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[data.Month - 1].ToString().ToUpper(), data.Year);
+                                należnościZaDanyMiesiąc = db.NależnościZPierwszegoZbioru.Where(n => n.data_nal >= początekMiesiąca && n.data_nal <= koniecMiesiąca);
 
                                 break;
                         }
 
                         switch (raport)
                         {
-                            case Enumeratory.Raport.MiesięczneSumySkładników:
-                                tytuł = "ZESTAWIENIE ROZLICZEN MIESIECZNYCH ZA ROK 2014";
-                                nagłówki = new List<string>() { "m-c", "Wartość" };
+                            case Enumeratory.Raport.KwotaCzynszuLokali:
+                                nagłówki = new List<string>() { "Lp.", "Kod budynku", "Nr lokalu", "Typ lokalu", "Nazwisko", "Imię", "Adres", "Kwota czynszu" };
 
-                                if (identyfikatory[0] < 0)
+                                //using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
                                 {
+                                    int kod1 = identyfikatory[0];
+                                    int nr1 = identyfikatory[1];
+                                    int kod2 = identyfikatory[2];
+                                    int nr2 = identyfikatory[3];
+                                    DostępDoBazy.Lokal.TypesOfPlace = db.TypyLokali.ToList();
+                                    DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
+                                    int indeks = 1;
+                                    decimal ogólnaSuma = 0;
 
-                                    int nr_skl = należności.FirstOrDefault(r => r.__record == -1 * identyfikatory[0]).nr_skl;
-                                    podpisy[0] += db.SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == nr_skl).nazwa;
-
-                                    for (int i = 1; i <= 12; i++)
-                                        tabele[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", należności.Where(r => r.nr_skl == nr_skl).ToList().Where(r => r.data_nal.Year == Hello.Date.Year && r.data_nal.Month == i).Sum(r => r.kwota_nal)) });
-                                }
-                                else
-                                {
-                                    int kod_wplat = obroty.FirstOrDefault(t => t.__record == identyfikatory[0]).kod_wplat;
-                                    podpisy[0] += db.RodzajePłatności.FirstOrDefault(t => t.kod_wplat == kod_wplat).typ_wplat;
-
-                                    for (int i = 1; i <= 12; i++)
-                                        tabele[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", obroty.Where(t => t.kod_wplat == kod_wplat).ToList().Where(t => t.data_obr.Year == Hello.Date.Year && t.data_obr.Month == i).Sum(t => t.suma)) });
-                                }
-
-                                tabele[0].Add(new string[] { "Razem", String.Format("{0:N2}", tabele[0].Sum(r => Single.Parse(r[1]))) });
-
-                                break;
-
-                            case Enumeratory.Raport.NależnościIObrotyNajemcy:
-                                tytuł = "ZESTAWIENIE NALEZNOSCI I WPLAT";
-                                nagłówki = new List<string> { "Kwota Wn", "Kwota Ma", "Data", "Operacja" };
-
-                                foreach (DostępDoBazy.Należność receivable in należności)
-                                {
-                                    List<string> pola = receivable.WażnePolaDoNależnościIObrotówNajemcy().ToList();
-
-                                    pola.RemoveAt(0);
-
-                                    tabele[0].Add(pola.ToArray());
-                                }
-
-                                foreach (DostępDoBazy.Obrót turnover in obroty)
-                                {
-                                    List<string> pola = turnover.WażnePolaDoNależnościIObrotówNajemcy().ToList();
-
-                                    pola.RemoveAt(0);
-
-                                    tabele[0].Add(pola.ToArray());
-                                }
-
-                                tabele[0] = tabele[0].OrderBy(r => DateTime.Parse(r[2])).ToList();
-                                sumaWn = tabele[0].Sum(r => String.IsNullOrEmpty(r[0]) ? 0 : Decimal.Parse(r[0]));
-                                sumaMa = tabele[0].Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
-
-                                tabele[0].Add(new string[] { String.Format("{0:N2}", sumaWn), String.Format("{0:N2}", sumaMa), String.Empty, String.Empty });
-                                tabele[0].Add(new string[] { "SALDO", String.Format("{0:N2}", sumaMa - sumaWn), String.Empty, String.Empty });
-
-                                break;
-
-                            case Enumeratory.Raport.MiesięcznaAnalizaNależnościIObrotów:
-                                tytuł = "ZESTAWIENIE ROZLICZEN MIESIECZNYCH";
-                                nagłówki = new List<string>() { "m-c", "suma WN w miesiącu", "suma MA w miesiącu", "saldo w miesiącu", "suma WN narastająco", "suma MA narastająco", "saldo narastająco" };
-                                List<decimal> kwotyWn = new List<decimal>();
-                                List<decimal> kwotyMa = new List<decimal>();
-
-                                for (int i = 1; i <= 12; i++)
-                                {
-                                    List<string[]> miesięczneNależności = należności.Where(r => r.data_nal.Month == i).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).ToList();
-                                    List<string[]> miesięczneObroty = obroty.Where(t => t.data_obr.Month == i).Select(t => t.WażnePolaDoNależnościIObrotówNajemcy()).ToList();
-                                    sumaWn = miesięczneNależności.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1])) + miesięczneObroty.Sum(t => String.IsNullOrEmpty(t[1]) ? 0 : Decimal.Parse(t[1]));
-                                    sumaMa = miesięczneObroty.Sum(t => String.IsNullOrEmpty(t[2]) ? 0 : Decimal.Parse(t[2]));
-
-                                    kwotyWn.Add(sumaWn);
-                                    kwotyMa.Add(sumaMa);
-                                    salda.Add(sumaMa - sumaWn);
-                                    tabele[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", sumaWn), String.Format("{0:N2}", sumaMa), String.Format("{0:N2}", salda.Last()), String.Format("{0:N2}", kwotyWn.Sum()), String.Format("{0:N2}", kwotyMa.Sum()), String.Format("{0:N2}", salda.Sum()) });
-                                }
-
-                                break;
-
-                            case Enumeratory.Raport.SzczegółowaAnalizaNależnościIObrotów:
-                                tytuł = "ZESTAWIENIE ROZLICZEN MIESIECZNYCH";
-                                nagłówki = new List<string>() { "m-c", "Dziennik komornego", "Wpłaty", "Zmniejszenia", "Zwiększenia", "Saldo miesiąca", "Saldo narastająco" };
-                                string[] nowyWiersz;
-
-                                for (int i = 1; i <= 12; i++)
-                                {
-                                    decimal[] suma = new decimal[] { 0, 0, 0, 0 };
-                                    sumaWn = sumaMa = 0;
-
-                                    foreach (DostępDoBazy.Należność należność in należności.Where(r => r.data_nal.Month == i))
+                                    for (int i = kod1; i <= kod2; i++)
                                     {
-                                        string[] wiersz = należność.WażnePolaDoNależnościIObrotówNajemcy();
-                                        int indeks = db.SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == należność.nr_skl).rodz_e - 1;
+                                        List<DostępDoBazy.AktywnyLokal> aktywneLokale = db.AktywneLokale.Where(p => p.kod_lok == i && p.nr_lok >= nr1 && p.nr_lok <= nr2).OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok).ToList();
+                                        DostępDoBazy.SkładnikCzynszuLokalu.Lokale = aktywneLokale;
+                                        DostępDoBazy.Budynek budynki = db.Budynki.FirstOrDefault(b => b.kod_1 == i);
+                                        List<string[]> tabela = new List<string[]>();
+                                        decimal sumaBudynku = 0;
 
-                                        if (!String.IsNullOrEmpty(wiersz[1]))
+                                        foreach (DostępDoBazy.Lokal lokal in aktywneLokale)
                                         {
-                                            decimal kwota = Decimal.Parse(wiersz[1]);
-                                            suma[indeks] += kwota;
-                                            sumaWn += kwota;
-                                        }
-                                    }
+                                            decimal suma = 0;
 
-                                    foreach (DostępDoBazy.Obrót obrót in obroty.Where(t => t.data_obr.Month == i))
-                                    {
-                                        string[] wiersz = obrót.WażnePolaDoNależnościIObrotówNajemcy();
-                                        int indeks = db.RodzajePłatności.FirstOrDefault(t => t.kod_wplat == obrót.kod_wplat).rodz_e - 1;
-
-                                        if (indeks >= 0)
-                                        {
-                                            decimal kwota;
-
-                                            if (!String.IsNullOrEmpty(wiersz[1]))
+                                            switch (trybKwotyCzynszu)
                                             {
-                                                kwota = Decimal.Parse(wiersz[1]);
-                                                suma[indeks] += kwota;
-                                                sumaWn += kwota;
+                                                case Enumeratory.KwotaCzynszu.Biezaca:
+                                                    foreach (DostępDoBazy.SkładnikCzynszuLokalu składnikCzynszuLokalu in db.SkładnikiCzynszuLokalu.Where(c => c.kod_lok == lokal.kod_lok && c.nr_lok == lokal.nr_lok))
+                                                    {
+                                                        decimal ilosc;
+                                                        decimal stawka;
+
+                                                        składnikCzynszuLokalu.Rozpoznaj_ilosc_i_stawka(out ilosc, out stawka);
+
+                                                        suma += Decimal.Round(ilosc * stawka, 2);
+                                                    }
+
+                                                    break;
+
+                                                case Enumeratory.KwotaCzynszu.ZaDanyMiesiac:
+                                                    foreach (DostępDoBazy.NależnośćZPierwszegoZbioru należność in należnościZaDanyMiesiąc.Where(n => n.kod_lok == lokal.kod_lok && n.nr_lok == lokal.nr_lok))
+                                                        suma += należność.kwota_nal;
+
+                                                    break;
                                             }
 
-                                            if (!String.IsNullOrEmpty(wiersz[2]))
-                                            {
-                                                kwota = Decimal.Parse(wiersz[2]);
-                                                suma[indeks] += kwota;
-                                                sumaMa += kwota;
-                                            }
+                                            tabela.Add(new string[] { indeks.ToString(), lokal.kod_lok.ToString(), lokal.nr_lok.ToString(), lokal.Rozpoznaj_kod_typ(), lokal.nazwisko, lokal.imie, String.Format("{0} {1}", lokal.adres, lokal.adres_2), String.Format("{0:N2}", suma) });
+
+                                            indeks++;
+                                            sumaBudynku += suma;
                                         }
+
+                                        tabela.Add(new string[] { String.Empty, i.ToString(), String.Empty, String.Empty, "<b>RAZEM</b>", "<b>BUDYNEK</b>", String.Format("{0} {1}", budynki.adres, budynki.adres_2), String.Format("{0:N2}", sumaBudynku) });
+                                        tabele.Add(tabela);
+                                        podpisy.Add(String.Empty);
+
+                                        DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
+                                        ogólnaSuma += sumaBudynku;
                                     }
 
-                                    salda.Add(sumaMa - sumaWn);
+                                    DostępDoBazy.Lokal.TypesOfPlace = null;
+                                    DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
 
-                                    nowyWiersz = new string[7];
-                                    nowyWiersz[0] = i.ToString();
-
-                                    for (int j = 1; j <= 4; j++)
-                                        nowyWiersz[j] = String.Format("{0:N2}", suma[j - 1]);
-
-                                    nowyWiersz[5] = String.Format("{0:N2}", salda.Last());
-                                    nowyWiersz[6] = String.Format("{0:N2}", salda.Sum());
-
-                                    tabele[0].Add(nowyWiersz);
+                                    if (tabele.Any())
+                                        tabele.Last().Add(new string[] { String.Empty, String.Empty, String.Empty, String.Empty, "<b>RAZEM</b>", "<b>WSZYSTKIE</b>", "<b>BUDYNKI</b>", String.Format("{0:N2}", ogólnaSuma) });
                                 }
 
-                                nowyWiersz = new string[7];
-                                nowyWiersz[0] = "Razem";
+                                break;
 
-                                for (int i = 1; i < nowyWiersz.Length - 1; i++)
-                                    nowyWiersz[i] = String.Format("{0:N2}", tabele[0].Sum(r => Single.Parse(r[i])));
+                            case Enumeratory.Raport.KwotaCzynszuBudynków:
+                                nagłówki = new List<string>() { "Lp.", "Kod budynku", "Adres", "Kwota czynszu" };
 
-                                nowyWiersz[6] = nowyWiersz[5];
+                                //using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
+                                {
+                                    int kod1 = identyfikatory[0];
+                                    int kod2 = identyfikatory[2];
+                                    decimal sumaGłówna = 0;
+                                    DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
+                                    List<string[]> tabela = new List<string[]>();
 
-                                tabele[0].Add(nowyWiersz);
+                                    for (int i = kod1; i <= kod2; i++)
+                                    {
+                                        DostępDoBazy.Budynek budynek = db.Budynki.FirstOrDefault(b => b.kod_1 == i);
+                                        decimal suma = 0;
+                                        List<DostępDoBazy.AktywnyLokal> aktywneLokale = db.AktywneLokale.Where(p => p.kod_lok == i).ToList();
+                                        DostępDoBazy.SkładnikCzynszuLokalu.Lokale = aktywneLokale;
+
+                                        foreach (DostępDoBazy.AktywnyLokal aktywnyLokal in aktywneLokale)
+                                            switch (trybKwotyCzynszu)
+                                            {
+                                                case Enumeratory.KwotaCzynszu.Biezaca:
+                                                    foreach (DostępDoBazy.SkładnikCzynszuLokalu składnikCzynszuLokalu in db.SkładnikiCzynszuLokalu.Where(c => c.kod_lok == i && c.nr_lok == aktywnyLokal.nr_lok))
+                                                    {
+                                                        decimal ilosc;
+                                                        decimal stawka;
+
+                                                        składnikCzynszuLokalu.Rozpoznaj_ilosc_i_stawka(out ilosc, out stawka);
+
+                                                        suma += Decimal.Round(ilosc * stawka, 2);
+                                                    }
+
+                                                    break;
+
+                                                case Enumeratory.KwotaCzynszu.ZaDanyMiesiac:
+                                                    foreach (DostępDoBazy.NależnośćZPierwszegoZbioru należność in należnościZaDanyMiesiąc.Where(n => n.kod_lok == i && n.nr_lok == aktywnyLokal.nr_lok))
+                                                        suma += należność.kwota_nal;
+
+                                                    break;
+                                            }
+
+                                        sumaGłówna += suma;
+                                        DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
+
+                                        tabela.Add(new string[] { String.Format("{0}", i - kod1 + 1), budynek.kod_1.ToString(), String.Format("{0} {1}", budynek.adres, budynek.adres_2), String.Format("{0:N2}", suma) });
+                                    }
+
+                                    DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
+
+                                    tabela.Add(new string[] { String.Empty, String.Empty, "<b>RAZEM</b>", String.Format("{0:N2}", sumaGłówna) });
+                                    podpisy.Add(String.Empty);
+                                    tabele.Add(tabela);
+                                }
+
+                                break;
+
+                            case Enumeratory.Raport.KwotaCzynszuWspólnot:
+                                nagłówki = new List<string>() { "Lp.", "Kod budynku", "Adres", "Kwota czynszu" };
+
+                                //using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
+                                {
+                                    int kod1 = identyfikatory[4];
+                                    int kod2 = identyfikatory[5];
+                                    decimal sumaOgólna = 0;
+                                    DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
+
+                                    for (int i = kod1; i <= kod2; i++)
+                                    {
+                                        List<DostępDoBazy.BudynekWspólnoty> budynkiWspólnoty = db.BudynkiWspólnot.Where(b => b.kod == i).ToList();
+                                        DostępDoBazy.Wspólnota wspólnota = db.Wspólnoty.FirstOrDefault(w => w.kod == i);
+                                        decimal sumaWspólnoty = 0;
+                                        List<string[]> tabela = new List<string[]>();
+
+                                        foreach (DostępDoBazy.BudynekWspólnoty budynekWspólnoty in budynkiWspólnoty)
+                                        {
+                                            DostępDoBazy.Budynek budynek = db.Budynki.FirstOrDefault(b => b.kod_1 == budynekWspólnoty.kod_1);
+                                            List<DostępDoBazy.AktywnyLokal> aktywneLokale = db.AktywneLokale.Where(p => p.kod_lok == budynek.kod_1).ToList();
+                                            DostępDoBazy.SkładnikCzynszuLokalu.Lokale = aktywneLokale;
+                                            decimal suma = 0;
+
+                                            foreach (DostępDoBazy.AktywnyLokal aktywnyLokal in aktywneLokale)
+                                                switch (trybKwotyCzynszu)
+                                                {
+                                                    case Enumeratory.KwotaCzynszu.Biezaca:
+                                                        foreach (DostępDoBazy.SkładnikCzynszuLokalu składnikCzynszuLokalu in db.SkładnikiCzynszuLokalu.Where(c => c.kod_lok == i && c.nr_lok == aktywnyLokal.nr_lok))
+                                                        {
+                                                            decimal ilosc;
+                                                            decimal stawka;
+
+                                                            składnikCzynszuLokalu.Rozpoznaj_ilosc_i_stawka(out ilosc, out stawka);
+
+                                                            suma += Decimal.Round(ilosc * stawka, 2);
+                                                        }
+
+                                                        break;
+
+                                                    case Enumeratory.KwotaCzynszu.ZaDanyMiesiac:
+                                                        foreach (DostępDoBazy.NależnośćZPierwszegoZbioru należność in należnościZaDanyMiesiąc.Where(n => n.kod_lok == i && n.nr_lok == aktywnyLokal.nr_lok))
+                                                            suma += należność.kwota_nal;
+
+                                                        break;
+                                                }
+
+                                            sumaWspólnoty += suma;
+                                            DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
+
+                                            tabela.Add(new string[] { String.Format("{0}", i - kod1 + 1), budynek.kod_1.ToString(), String.Format("{0} {1}", budynek.adres, budynek.adres_2), String.Format("{0:N2}", suma) });
+                                        }
+
+                                        sumaOgólna += sumaWspólnoty;
+
+                                        tabela.Add(new string[] { String.Empty, String.Empty, "<b>RAZEM</b>", String.Format("{0:N2}", sumaWspólnoty) });
+                                        tabele.Add(tabela);
+                                        podpisy.Add(String.Format("{0} {1} {2}", wspólnota.nazwa_pel, wspólnota.adres, wspólnota.adres_2));
+                                    }
+
+                                    DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
+                                }
 
                                 break;
                         }
-                    }
 
-                    break;
-
-                case Enumeratory.Raport.BieżącaKwotaCzynszuLokali:
-                    tytuł = "BIEZACA KWOTA CZYNSZU";
-                    nagłówki = new List<string>() { "Lp.", "Kod budynku", "Nr lokalu", "Typ lokalu", "Nazwisko", "Imię", "Adres", "Kwota czynszu" };
-
-                    //using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
-                    {
-                        int kod1 = identyfikatory[0];
-                        int nr1 = identyfikatory[1];
-                        int kod2 = identyfikatory[2];
-                        int nr2 = identyfikatory[3];
-                        DostępDoBazy.Lokal.TypesOfPlace = db.TypyLokali.ToList();
-                        DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
-                        int indeks = 1;
-                        decimal ogólnaSuma = 0;
-
-                        for (int i = kod1; i <= kod2; i++)
-                        {
-                            List<DostępDoBazy.AktywnyLokal> aktywneLokale = db.AktywneLokale.Where(p => p.kod_lok == i && p.nr_lok >= nr1 && p.nr_lok <= nr2).OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok).ToList();
-                            DostępDoBazy.SkładnikCzynszuLokalu.Lokale = aktywneLokale;
-                            DostępDoBazy.Budynek budynki = db.Budynki.FirstOrDefault(b => b.kod_1 == i);
-                            List<string[]> tabela = new List<string[]>();
-                            decimal sumaBudynku = 0;
-
-                            foreach (DostępDoBazy.Lokal lokal in aktywneLokale)
-                            {
-                                decimal suma = 0;
-
-                                foreach (DostępDoBazy.SkładnikCzynszuLokalu składnikCzynszuLokalu in db.SkładnikiCzynszuLokalu.Where(c => c.kod_lok == lokal.kod_lok && c.nr_lok == lokal.nr_lok))
-                                {
-                                    decimal ilosc;
-                                    decimal stawka;
-
-                                    składnikCzynszuLokalu.Rozpoznaj_ilosc_i_stawka(out ilosc, out stawka);
-
-                                    suma += Decimal.Round(ilosc * stawka, 2);
-                                }
-
-                                tabela.Add(new string[] { indeks.ToString(), lokal.kod_lok.ToString(), lokal.nr_lok.ToString(), lokal.Rozpoznaj_kod_typ(), lokal.nazwisko, lokal.imie, String.Format("{0} {1}", lokal.adres, lokal.adres_2), String.Format("{0:N2}", suma) });
-
-                                indeks++;
-                                sumaBudynku += suma;
-                            }
-
-                            tabela.Add(new string[] { String.Empty, i.ToString(), String.Empty, String.Empty, "<b>RAZEM</b>", "<b>BUDYNEK</b>", String.Format("{0} {1}", budynki.adres, budynki.adres_2), String.Format("{0:N2}", sumaBudynku) });
-                            tabele.Add(tabela);
-                            podpisy.Add(String.Empty);
-
-                            DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
-                            ogólnaSuma += sumaBudynku;
-                        }
-
-                        DostępDoBazy.Lokal.TypesOfPlace = null;
-                        DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
-
-                        if (tabele.Any())
-                            tabele.Last().Add(new string[] { String.Empty, String.Empty, String.Empty, String.Empty, "<b>RAZEM</b>", "<b>WSZYSTKIE</b>", "<b>BUDYNKI</b>", String.Format("{0:N2}", ogólnaSuma) });
-                    }
-
-                    break;
-
-                case Enumeratory.Raport.BieżącaKwotaCzynszuBudynków:
-                    tytuł = "BIEZACA KWOTA CZYNSZU";
-                    nagłówki = new List<string>() { "Lp.", "Kod budynku", "Adres", "Kwota czynszu" };
-
-                    //using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
-                    {
-                        int kod1 = identyfikatory[0];
-                        int kod2 = identyfikatory[2];
-                        decimal sumaGłówna = 0;
-                        DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
-                        List<string[]> tabela = new List<string[]>();
-
-                        for (int i = kod1; i <= kod2; i++)
-                        {
-                            DostępDoBazy.Budynek budynek = db.Budynki.FirstOrDefault(b => b.kod_1 == i);
-                            decimal suma = 0;
-                            List<DostępDoBazy.AktywnyLokal> aktywneLokale = db.AktywneLokale.Where(p => p.kod_lok == i).ToList();
-                            DostępDoBazy.SkładnikCzynszuLokalu.Lokale = aktywneLokale;
-
-                            foreach (DostępDoBazy.AktywnyLokal aktywnyLokal in aktywneLokale)
-                                foreach (DostępDoBazy.SkładnikCzynszuLokalu składnikCzynszuLokalu in db.SkładnikiCzynszuLokalu.Where(c => c.kod_lok == i && c.nr_lok == aktywnyLokal.nr_lok))
-                                {
-                                    decimal ilosc;
-                                    decimal stawka;
-
-                                    składnikCzynszuLokalu.Rozpoznaj_ilosc_i_stawka(out ilosc, out stawka);
-
-                                    suma += Decimal.Round(ilosc * stawka, 2);
-                                }
-
-                            sumaGłówna += suma;
-                            DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
-
-                            tabela.Add(new string[] { String.Format("{0}", i - kod1 + 1), budynek.kod_1.ToString(), String.Format("{0} {1}", budynek.adres, budynek.adres_2), String.Format("{0:N2}", suma) });
-                        }
-
-                        DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
-
-                        tabela.Add(new string[] { String.Empty, String.Empty, "<b>RAZEM</b>", String.Format("{0:N2}", sumaGłówna) });
-                        podpisy.Add(String.Empty);
-                        tabele.Add(tabela);
-                    }
-
-                    break;
-
-                case Enumeratory.Raport.BieżącaKwotaCzynszuWspólnot:
-                    tytuł = "BIEZACA KWOTA CZYNSZU";
-                    nagłówki = new List<string>() { "Lp.", "Kod budynku", "Adres", "Kwota czynszu" };
-
-                    //using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
-                    {
-                        int kod1 = identyfikatory[4];
-                        int kod2 = identyfikatory[5];
-                        decimal sumaOgólna = 0;
-                        DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
-
-                        for (int i = kod1; i <= kod2; i++)
-                        {
-                            List<DostępDoBazy.BudynekWspólnoty> budynkiWspólnoty = db.BudynkiWspólnot.Where(b => b.kod == i).ToList();
-                            DostępDoBazy.Wspólnota wspólnota = db.Wspólnoty.FirstOrDefault(w => w.kod == i);
-                            decimal sumaWspólnoty = 0;
-                            List<string[]> tabela = new List<string[]>();
-
-                            foreach (DostępDoBazy.BudynekWspólnoty budynekWspólnoty in budynkiWspólnoty)
-                            {
-                                DostępDoBazy.Budynek budynek = db.Budynki.FirstOrDefault(b => b.kod_1 == budynekWspólnoty.kod_1);
-                                List<DostępDoBazy.AktywnyLokal> aktywneLokale = db.AktywneLokale.Where(p => p.kod_lok == budynek.kod_1).ToList();
-                                DostępDoBazy.SkładnikCzynszuLokalu.Lokale = aktywneLokale;
-                                decimal suma = 0;
-
-                                foreach (DostępDoBazy.AktywnyLokal aktywnyLokal in aktywneLokale)
-                                    foreach (DostępDoBazy.SkładnikCzynszuLokalu składnikCzynszuLokalu in db.SkładnikiCzynszuLokalu.Where(c => c.kod_lok == i && c.nr_lok == aktywnyLokal.nr_lok))
-                                    {
-                                        decimal ilosc;
-                                        decimal stawka;
-
-                                        składnikCzynszuLokalu.Rozpoznaj_ilosc_i_stawka(out ilosc, out stawka);
-
-                                        suma += Decimal.Round(ilosc * stawka, 2);
-                                    }
-
-                                sumaWspólnoty += suma;
-                                DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
-
-                                tabela.Add(new string[] { String.Format("{0}", i - kod1 + 1), budynek.kod_1.ToString(), String.Format("{0} {1}", budynek.adres, budynek.adres_2), String.Format("{0:N2}", suma) });
-                            }
-
-                            sumaOgólna += sumaWspólnoty;
-
-                            tabela.Add(new string[] { String.Empty, String.Empty, "<b>RAZEM</b>", String.Format("{0:N2}", sumaWspólnoty) });
-                            tabele.Add(tabela);
-                            podpisy.Add(String.Format("{0} {1} {2}", wspólnota.nazwa_pel, wspólnota.adres, wspólnota.adres_2));
-                        }
-
-                        DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
-                    }
-
-                    break;
-            }
+                        break;
+                }
 
             Session["nagłówki"] = nagłówki;
             Session["tabele"] = tabele;
