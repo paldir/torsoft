@@ -10,7 +10,7 @@
 namespace czynsze.Formularze {
     
     
-    public partial class Hello {
+    public partial class Start {
         
         /// <summary>
         /// company control.

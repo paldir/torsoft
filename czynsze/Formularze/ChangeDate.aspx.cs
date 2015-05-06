@@ -11,13 +11,13 @@ namespace czynsze.Formularze
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Hello.SiteMapPath.Clear();
+            Start.ŚcieżkaStrony.Clear();
 
             Kontrolki.Button button = new Kontrolki.Button("button", "Change", "Zmień", "#");
             button.Click += button_Click;
 
-            placeOfMonth.Controls.Add(new Kontrolki.TextBox("field", "month", Hello.Date.Month.ToString(), Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 2, 1, true));
-            placeOfYear.Controls.Add(new Kontrolki.TextBox("field", "year", Hello.Date.Year.ToString(), Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 4, 1, true));
+            placeOfMonth.Controls.Add(new Kontrolki.TextBox("field", "month", Start.Data.Month.ToString(), Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 2, 1, true));
+            placeOfYear.Controls.Add(new Kontrolki.TextBox("field", "year", Start.Data.Year.ToString(), Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 4, 1, true));
             placeOfButton.Controls.Add(button);
         }
 
@@ -41,10 +41,10 @@ namespace czynsze.Formularze
                 try { day = DateTime.DaysInMonth(year, month); }
                 catch { day = DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month); }
 
-            try { Hello.Date = new DateTime(year, month, day); }
-            catch { Hello.Date = DateTime.Today; }
+            try { Start.Data = new DateTime(year, month, day); }
+            catch { Start.Data = DateTime.Today; }
 
-            Response.Redirect("Hello.aspx");
+            Response.Redirect("Start.aspx");
         }
     }
 }

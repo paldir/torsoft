@@ -117,7 +117,7 @@ namespace czynsze.DostępDoBazy
                     break;
 
                 case 5:
-                    DateTime date = Formularze.Hello.Date;
+                    DateTime date = Formularze.Start.Data;
                     ilosc = DateTime.DaysInMonth(date.Year, date.Month);
 
                     break;

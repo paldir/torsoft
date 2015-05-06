@@ -104,7 +104,7 @@ namespace czynsze.Formularze
 
                     konfiguracja.SetPrintBackground(true);
                     konfiguracja.SetAllowLocalContent(true);
-                    konfiguracja.Header.SetTexts("System CZYNSZE " + ((int)Hello.CurrentSet == 0 ? String.Empty : "(" + Hello.NamesOfSets[(int)Hello.CurrentSet].Trim() + ")") + "\n\n" + Hello.CompanyName, "\n" + tytuł + "\n", "Data: " + DateTime.Today.ToShortDateString() + "\n\nCzas: " + DateTime.Now.ToShortTimeString());
+                    konfiguracja.Header.SetTexts("System CZYNSZE " + ((int)Start.AktywnyZbiór == 0 ? String.Empty : "(" + Start.NazwyZbiorów[(int)Start.AktywnyZbiór].Trim() + ")") + "\n\n" + Start.NazwaFirmy, "\n" + tytuł + "\n", "Data: " + DateTime.Today.ToShortDateString() + "\n\nCzas: " + DateTime.Now.ToShortTimeString());
                     konfiguracja.Header.SetFontName("Arial");
                     konfiguracja.Header.SetFontSize(8);
                     konfiguracja.Footer.SetTexts("Torsoft Torun", String.Empty, "Strona [page] z [topage]");

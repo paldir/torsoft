@@ -27,8 +27,8 @@ namespace czynsze.Formularze
 
             if (walidacjaPomyślna)
             {
-                Session["user"] = użytkownik;
-                Response.Redirect("Hello.aspx");
+                Session["uzytkownik"] = użytkownik;
+                Response.Redirect("Start.aspx");
             }
             else
                 Response.Redirect("../Logowanie.aspx?reason=" + Enumeratory.PowódPrzeniesieniaNaStronęLogowania.NiepoprawneDaneUwierzytelniające);

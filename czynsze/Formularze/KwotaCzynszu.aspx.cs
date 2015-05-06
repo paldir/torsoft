@@ -13,17 +13,17 @@ namespace czynsze.Formularze
         {
             Enumeratory.KwotaCzynszu tryb = PobierzWartośćParametru<Enumeratory.KwotaCzynszu>("tryb");
             string zakres = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("KwotaCzynszu"));
-            Hello.SiteMapPath = new List<string>() { "Raporty", "Kwota czynszu" };
+            Start.ŚcieżkaStrony = new List<string>() { "Raporty", "Kwota czynszu" };
 
             switch (tryb)
             {
                 case Enumeratory.KwotaCzynszu.Biezaca:
-                    Hello.SiteMapPath.Add("Bieżąca");
+                    Start.ŚcieżkaStrony.Add("Bieżąca");
 
                     break;
 
                 case Enumeratory.KwotaCzynszu.ZaDanyMiesiac:
-                    Hello.SiteMapPath.Add("Za dany miesiąc");
+                    Start.ŚcieżkaStrony.Add("Za dany miesiąc");
 
                     break;
 

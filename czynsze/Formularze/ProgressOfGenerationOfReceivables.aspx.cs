@@ -30,7 +30,7 @@ namespace czynsze.Formularze
 
                 info.Controls.Clear();
                 info.Controls.Add(new LiteralControl(String.Format("{0}<br />", message)));
-                info.Controls.Add(new Kontrolki.Button("button", "back", "Powrót do aplikacji", "Hello.aspx"));
+                info.Controls.Add(new Kontrolki.Button("button", "back", "Powrót do aplikacji", "Start.aspx"));
                 updatePanel.Update();
             }
         }

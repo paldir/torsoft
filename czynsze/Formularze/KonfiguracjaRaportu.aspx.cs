@@ -171,12 +171,12 @@ namespace czynsze.Formularze
             generationButton.Click += generationButton_Click;
             Title = nagłówek;
 
-            if (Hello.SiteMapPath.Any())
-                if (!Hello.SiteMapPath.Contains(nagłówek))
+            if (Start.ŚcieżkaStrony.Any())
+                if (!Start.ŚcieżkaStrony.Contains(nagłówek))
                 {
-                    Hello.SiteMapPath[Hello.SiteMapPath.Count - 1] = String.Concat("<a href=\"javascript: Load('" + Request.UrlReferrer.PathAndQuery + "')\">", Hello.SiteMapPath[Hello.SiteMapPath.Count - 1], "</a>");
+                    Start.ŚcieżkaStrony[Start.ŚcieżkaStrony.Count - 1] = String.Concat("<a href=\"javascript: Load('" + Request.UrlReferrer.PathAndQuery + "')\">", Start.ŚcieżkaStrony[Start.ŚcieżkaStrony.Count - 1], "</a>");
 
-                    Hello.SiteMapPath.Add(nagłówek);
+                    Start.ŚcieżkaStrony.Add(nagłówek);
                 }
         }
 
@@ -257,7 +257,7 @@ namespace czynsze.Formularze
                                 DostępDoBazy.Najemca najemca = db.AktywniNajemcy.FirstOrDefault(t => t.nr_kontr == nr_kontr);
                                 podpisy = new List<string>() { najemca.nazwisko + " " + najemca.imie + "<br />" + najemca.adres_1 + " " + najemca.adres_2 + "<br />" };
 
-                                switch (Hello.CurrentSet)
+                                switch (Start.AktywnyZbiór)
                                 {
                                     case Enumeratory.Zbiór.Czynsze:
                                         należności = db.NależnościZPierwszegoZbioru.Where(r => r.nr_kontr == nr_kontr).ToList().Cast<DostępDoBazy.Należność>();
@@ -291,7 +291,7 @@ namespace czynsze.Formularze
                                             podpisy[0] += db.SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == nr_skl).nazwa;
 
                                             for (int i = 1; i <= 12; i++)
-                                                tabele[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", należności.Where(r => r.nr_skl == nr_skl).ToList().Where(r => r.data_nal.Year == Hello.Date.Year && r.data_nal.Month == i).Sum(r => r.kwota_nal)) });
+                                                tabele[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", należności.Where(r => r.nr_skl == nr_skl).ToList().Where(r => r.data_nal.Year == Start.Data.Year && r.data_nal.Month == i).Sum(r => r.kwota_nal)) });
                                         }
                                         else
                                         {
@@ -299,7 +299,7 @@ namespace czynsze.Formularze
                                             podpisy[0] += db.RodzajePłatności.FirstOrDefault(t => t.kod_wplat == kod_wplat).typ_wplat;
 
                                             for (int i = 1; i <= 12; i++)
-                                                tabele[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", obroty.Where(t => t.kod_wplat == kod_wplat).ToList().Where(t => t.data_obr.Year == Hello.Date.Year && t.data_obr.Month == i).Sum(t => t.suma)) });
+                                                tabele[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", obroty.Where(t => t.kod_wplat == kod_wplat).ToList().Where(t => t.data_obr.Year == Start.Data.Year && t.data_obr.Month == i).Sum(t => t.suma)) });
                                         }
 
                                         tabele[0].Add(new string[] { "Razem", String.Format("{0:N2}", tabele[0].Sum(r => Single.Parse(r[1]))) });
@@ -441,7 +441,7 @@ namespace czynsze.Formularze
                     case Enumeratory.Raport.KwotaCzynszuBudynków:
                     case Enumeratory.Raport.KwotaCzynszuWspólnot:
                         Enumeratory.KwotaCzynszu trybKwotyCzynszu = ((Enumeratory.KwotaCzynszu)Convert.ChangeType(Session["trybKwotyCzynszu"], typeof(Enumeratory.KwotaCzynszu)));
-                        DateTime data = Hello.Date;
+                        DateTime data = Start.Data;
                         DateTime początekMiesiąca = new DateTime(data.Year, data.Month, 1);
                         DateTime koniecMiesiąca = początekMiesiąca.AddDays(DateTime.DaysInMonth(początekMiesiąca.Year, początekMiesiąca.Month)).AddSeconds(-1);
                         IEnumerable<DostępDoBazy.NależnośćZPierwszegoZbioru> należnościZaDanyMiesiąc = null;

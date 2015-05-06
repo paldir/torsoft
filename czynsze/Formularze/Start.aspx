@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Strona startowa" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Hello.aspx.cs" Inherits="czynsze.Formularze.Hello" %>
+﻿<%@ Page Title="Strona startowa" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Start.aspx.cs" Inherits="czynsze.Formularze.Start" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">    
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder" runat="server">

@@ -13,7 +13,7 @@ namespace czynsze.Formularze
         {
             const string format = "{0}_{1}";
             Enumeratory.TreściOpisów mode = PobierzWartośćParametru<Enumeratory.TreściOpisów>("which");
-            Hello.SiteMapPath = new List<string>() { "Administracja", "Treści opisów" };
+            Start.ŚcieżkaStrony = new List<string>() { "Administracja", "Treści opisów" };
             int numberOfFields;
             int fieldLength;
             string prefix;
@@ -54,7 +54,7 @@ namespace czynsze.Formularze
                     break;
             }
 
-            Hello.SiteMapPath.Add(heading);
+            Start.ŚcieżkaStrony.Add(heading);
 
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
@@ -88,7 +88,7 @@ namespace czynsze.Formularze
                     }
 
                     placeOfButtons.Controls.Add(new Kontrolki.Button("button", "Save", "Zapisz", String.Empty));
-                    placeOfButtons.Controls.Add(new Kontrolki.Button("button", "Anuluj", "Anuluj", "Hello.aspx"));
+                    placeOfButtons.Controls.Add(new Kontrolki.Button("button", "Anuluj", "Anuluj", "Start.aspx"));
                 }
                 else
                 {
@@ -100,7 +100,7 @@ namespace czynsze.Formularze
                     }
 
                     db.SaveChanges();
-                    Response.Redirect("Hello.aspx");
+                    Response.Redirect("Start.aspx");
                 }
             }
         }

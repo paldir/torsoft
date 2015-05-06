@@ -11,20 +11,20 @@ namespace czynsze.Formularze
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Hello.SiteMapPath.Clear();
+            Start.ŚcieżkaStrony.Clear();
 
             List<string> texts = new List<string>() { "CZYNSZE" };
             List<string> values = new List<string>() { Enumeratory.Zbiór.Czynsze.ToString() };
 
-            if (Hello.NumberOfSets >= 1)
+            if (Start.LiczbaZbiorów >= 1)
             {
-                texts.Add(Hello.NamesOfSets[1]);
+                texts.Add(Start.NazwyZbiorów[1]);
                 values.Add(Enumeratory.Zbiór.Drugi.ToString());
             }
 
-            if (Hello.NumberOfSets == 3)
+            if (Start.LiczbaZbiorów == 3)
             {
-                texts.Add(Hello.NamesOfSets[2]);
+                texts.Add(Start.NazwyZbiorów[2]);
                 values.Add(Enumeratory.Zbiór.Trzeci.ToString());
             }
 
@@ -32,15 +32,15 @@ namespace czynsze.Formularze
             button.Text = "Zmień";
             button.Click += button_Click;
 
-            placeOfRadioButtons.Controls.Add(new Kontrolki.RadioButtonList("list", "numberOfSets", texts, values, Hello.CurrentSet.ToString(), true, false));
+            placeOfRadioButtons.Controls.Add(new Kontrolki.RadioButtonList("list", "numberOfSets", texts, values, Start.AktywnyZbiór.ToString(), true, false));
             placeOfButton.Controls.Add(button);
         }
 
         void button_Click(object sender, EventArgs e)
         {
-            Hello.CurrentSet = (Enumeratory.Zbiór)Enum.Parse(typeof(Enumeratory.Zbiór), ((RadioButtonList)placeOfRadioButtons.FindControl("numberOfSets")).SelectedValue);
+            Start.AktywnyZbiór = (Enumeratory.Zbiór)Enum.Parse(typeof(Enumeratory.Zbiór), ((RadioButtonList)placeOfRadioButtons.FindControl("numberOfSets")).SelectedValue);
 
-            Response.Redirect("Hello.aspx");
+            Response.Redirect("Start.aspx");
         }
     }
 }

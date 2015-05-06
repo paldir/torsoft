@@ -9,7 +9,7 @@ namespace czynsze.Formularze
 {
     public partial class GenerationOfReceivables : Strona
     {
-        readonly Func<DostępDoBazy.Należność, bool> receivablesFromCurrentMonth = c => c.data_nal >= new DateTime(Hello.Date.Year, Hello.Date.Month, 1) && c.data_nal <= new DateTime(Hello.Date.Year, Hello.Date.Month, DateTime.DaysInMonth(Hello.Date.Year, Hello.Date.Month));
+        readonly Func<DostępDoBazy.Należność, bool> receivablesFromCurrentMonth = c => c.data_nal >= new DateTime(Start.Data.Year, Start.Data.Month, 1) && c.data_nal <= new DateTime(Start.Data.Year, Start.Data.Month, DateTime.DaysInMonth(Start.Data.Year, Start.Data.Month));
 
         int year
         {
@@ -58,17 +58,17 @@ namespace czynsze.Formularze
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            int daysInMonth = DateTime.DaysInMonth(Hello.Date.Year, Hello.Date.Month);
+            int daysInMonth = DateTime.DaysInMonth(Start.Data.Year, Start.Data.Month);
             string generationMode = PobierzWartośćParametru<string>("Generation");
             string repeatGeneration = PobierzWartośćParametru<string>("Repeat");
-            Hello.SiteMapPath = new List<string>() { "Rozliczenia finansowe", "Generacja należności" };
+            Start.ŚcieżkaStrony = new List<string>() { "Rozliczenia finansowe", "Generacja należności" };
 
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
                 Func<DostępDoBazy.Należność, bool> receivablesFromRangeOfPlaces = r => r.kod_lok >= fromBuilding && r.kod_lok <= toBuilding && r.nr_lok >= fromPlace && r.nr_lok <= toPlace;
 
                 if (String.IsNullOrEmpty(generationMode))
-                    if (db.Zamknięte.ToList().Exists(c => c.rok == Hello.Date.Year && c.miesiac == Hello.Date.Month && c.z_rok && c.z_mies))
+                    if (db.Zamknięte.ToList().Exists(c => c.rok == Start.Data.Year && c.miesiac == Start.Data.Month && c.z_rok && c.z_mies))
                         form.Controls.Add(new LiteralControl("Miesiąc został już zamknięty."));
                     else
                     {
@@ -84,9 +84,9 @@ namespace czynsze.Formularze
 
                         placeOfDate.Controls.Add(new LiteralControl("Podaj termin płatności: "));
                         DodajNowąLinię(placeOfDate);
-                        placeOfDate.Controls.Add(new Kontrolki.TextBox("field", "year", Hello.Date.Year.ToString(), Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 4, 1, true));
+                        placeOfDate.Controls.Add(new Kontrolki.TextBox("field", "year", Start.Data.Year.ToString(), Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 4, 1, true));
                         placeOfDate.Controls.Add(new LiteralControl("-"));
-                        placeOfDate.Controls.Add(new Kontrolki.TextBox("field", "month", Hello.Date.Month.ToString("D2"), Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 2, 1, true));
+                        placeOfDate.Controls.Add(new Kontrolki.TextBox("field", "month", Start.Data.Month.ToString("D2"), Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 2, 1, true));
                         placeOfDate.Controls.Add(new LiteralControl("-"));
                         placeOfDate.Controls.Add(new Kontrolki.TextBox("field", "day", day.ToString("D2"), Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 2, 1, true));
                         DodajNowąLinię(placeOfGeneration);
@@ -169,7 +169,7 @@ namespace czynsze.Formularze
 
         void Generate(int fromBuilding, int toBuilding, int fromPlace, int toPlace)
         {
-            int daysInMonth = DateTime.DaysInMonth(Hello.Date.Year, Hello.Date.Month);
+            int daysInMonth = DateTime.DaysInMonth(Start.Data.Year, Start.Data.Month);
 
             try
             {
@@ -193,7 +193,7 @@ namespace czynsze.Formularze
                             DostępDoBazy.NależnośćZPierwszegoZbioru receivableFrom1stSet = new DostępDoBazy.NależnośćZPierwszegoZbioru();
 
                             try { new DateTime(year, month, 1); }
-                            catch (ArgumentOutOfRangeException) { month = Hello.Date.Month; }
+                            catch (ArgumentOutOfRangeException) { month = Start.Data.Month; }
 
                             try { new DateTime(year, month, day); }
                             catch (ArgumentOutOfRangeException) { day = this.day; }
@@ -204,8 +204,8 @@ namespace czynsze.Formularze
                             IEnumerable<DateTime> properEndsOfDates = new List<DateTime?>() { place.dat_do, rentComponentOfPlace.dat_do, rentComponent.data_2 }.Where(d => d.HasValue).Cast<DateTime>();
                             //IEnumerable<DateTime> properStartsOfDates = new List<DateTime>() { new DateTime(2015, 1, 1), new DateTime(2015, 2, 5), new DateTime(2015, 2, 18) };
                             //IEnumerable<DateTime> properEndsOfDates = new List<DateTime>() { new DateTime(2015, 12, 3), new DateTime(2015, 9, 12), new DateTime(2015, 4, 20) };
-                            DateTime monthBeggining = new DateTime(Hello.Date.Year, Hello.Date.Month, 1);
-                            DateTime monthEnd = new DateTime(Hello.Date.Year, Hello.Date.Month, daysInMonth);
+                            DateTime monthBeggining = new DateTime(Start.Data.Year, Start.Data.Month, 1);
+                            DateTime monthEnd = new DateTime(Start.Data.Year, Start.Data.Month, daysInMonth);
                             int dayFactor = daysInMonth;
                             DateTime? startDate = properStartsOfDates.Any() ? (DateTime?)properStartsOfDates.Max() : null;
                             DateTime? endDate = properEndsOfDates.Any() ? (DateTime?)properEndsOfDates.Min() : null;
@@ -231,7 +231,7 @@ namespace czynsze.Formularze
 
                             if (dayFactor != 0)
                             {
-                                receivableFrom1stSet.Ustaw(Decimal.Round(ilosc * stawka, 2) * dayFactor / daysInMonth, new DateTime(year, month, day), String.Format("{0} za m-c {1:00}", rentComponent.nazwa.Trim(), Hello.Date.Month), (int)place.nr_kontr, rentComponent.nr_skl, place.kod_lok, place.nr_lok, stawka, ilosc);
+                                receivableFrom1stSet.Ustaw(Decimal.Round(ilosc * stawka, 2) * dayFactor / daysInMonth, new DateTime(year, month, day), String.Format("{0} za m-c {1:00}", rentComponent.nazwa.Trim(), Start.Data.Month), (int)place.nr_kontr, rentComponent.nr_skl, place.kod_lok, place.nr_lok, stawka, ilosc);
                                 db.NależnościZPierwszegoZbioru.Add(receivableFrom1stSet);
                             }
                         }
@@ -244,7 +244,7 @@ namespace czynsze.Formularze
             }
             catch (Exception exception)
             {
-                ErrorOfProcessingOfReceivables = Hello.ExceptionMessage(exception);
+                ErrorOfProcessingOfReceivables = Start.ExceptionMessage(exception);
             }
         }
     }

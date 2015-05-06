@@ -397,7 +397,7 @@ namespace czynsze.Formularze
 
                                 case Enumeratory.Tabela.NieprzeterminowaneNależnościNajemcy:
                                     heading += " (nieprzeterminowane)";
-                                    rows = receivables.Where(r => r.data_nal >= Hello.Date).Select(r => r.WażnePola()).ToList();
+                                    rows = receivables.Where(r => r.data_nal >= Start.Data).Select(r => r.WażnePola()).ToList();
 
                                     break;
                             }
@@ -417,7 +417,7 @@ namespace czynsze.Formularze
                             IEnumerable<DostępDoBazy.Obrót> turnovers = null;
                             heading = nodeOfSiteMapPath = "Należności  i obroty najemcy " + tenant.nazwisko + " " + tenant.imie;
 
-                            switch (Hello.CurrentSet)
+                            switch (Start.AktywnyZbiór)
                             {
                                 case Enumeratory.Zbiór.Czynsze:
                                     receivables = db.NależnościZPierwszegoZbioru.Where(r => r.nr_kontr == id).ToList().Cast<DostępDoBazy.Należność>();
@@ -441,7 +441,7 @@ namespace czynsze.Formularze
                             rows = receivables.Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Select(t => t.WażnePolaDoNależnościIObrotówNajemcy())).OrderBy(r => DateTime.Parse(r[3])).ToList();
                             decimal wnAmount = rows.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
                             decimal maAmount = rows.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Decimal.Parse(r[2]));
-                            List<string[]> rowsOfPastReceivables = receivables.Where(r => r.data_nal < Hello.Date).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Where(t => t.data_obr < Hello.Date).Select(t => t.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
+                            List<string[]> rowsOfPastReceivables = receivables.Where(r => r.data_nal < Start.Data).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Where(t => t.data_obr < Start.Data).Select(t => t.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
                             decimal wnAmountOfPastReceivables = rowsOfPastReceivables.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
                             summary = @"
                                 <table class='additionalTable'>
@@ -491,7 +491,7 @@ namespace czynsze.Formularze
                         break;
 
                     case Enumeratory.Tabela.SaldoNajemcy:
-                        headers = new string[] { "Saldo", "Saldo na dzień " + Hello.Date.ToShortDateString(), "W tym noty odsetkowe" };
+                        headers = new string[] { "Saldo", "Saldo na dzień " + Start.Data.ToShortDateString(), "W tym noty odsetkowe" };
                         sortable = false;
                         indexesOfNumericColumns = new List<int>() { 1, 2, 3 };
                         {
@@ -501,7 +501,7 @@ namespace czynsze.Formularze
                             heading = tenant.nazwisko + " " + tenant.imie + "<br />" + tenant.adres_1 + " " + tenant.adres_2;
                             nodeOfSiteMapPath = "Saldo najemcy " + tenant.nazwisko + " " + tenant.imie;
 
-                            switch (Hello.CurrentSet)
+                            switch (Start.AktywnyZbiór)
                             {
                                 case Enumeratory.Zbiór.Czynsze:
                                     receivables = db.NależnościZPierwszegoZbioru.Where(r => r.nr_kontr == id).ToList().Cast<DostępDoBazy.Należność>();
@@ -525,7 +525,7 @@ namespace czynsze.Formularze
                             List<string[]> rowsOfReceivablesAndTurnovers = receivables.Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Select(t => t.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
                             decimal wnAmount = rowsOfReceivablesAndTurnovers.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
                             decimal maAmount = rowsOfReceivablesAndTurnovers.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Decimal.Parse(r[2]));
-                            List<string[]> rowsOfReceivablesAndTurnoversToDate = receivables.Where(r => r.data_nal <= Hello.Date).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Where(t => t.data_obr <= Hello.Date).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
+                            List<string[]> rowsOfReceivablesAndTurnoversToDate = receivables.Where(r => r.data_nal <= Start.Data).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Where(t => t.data_obr <= Start.Data).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
                             decimal wnAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
                             decimal maAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Decimal.Parse(r[2]));
                             DostępDoBazy.Konfiguracja configuration = db.Konfiguracje.FirstOrDefault();
@@ -546,7 +546,7 @@ namespace czynsze.Formularze
                             DostępDoBazy.Najemca tenant = db.AktywniNajemcy.FirstOrDefault(t => t.nr_kontr == id);
                             heading = nodeOfSiteMapPath = "Obroty najemcy " + tenant.nazwisko + " " + tenant.imie;
 
-                            switch (Hello.CurrentSet)
+                            switch (Start.AktywnyZbiór)
                             {
                                 case Enumeratory.Zbiór.Czynsze:
                                     turnovers = db.ObrotyZPierwszegoZbioru.Where(t => t.nr_kontr == id).ToList().Cast<DostępDoBazy.Obrót>();
@@ -608,25 +608,25 @@ namespace czynsze.Formularze
             {
                 case Enumeratory.Tabela.AktywneLokale:
                 case Enumeratory.Tabela.NieaktywneLokale:
-                    Hello.SiteMapPath = new List<string>() { "Kartoteki", "Lokale" };
+                    Start.ŚcieżkaStrony = new List<string>() { "Kartoteki", "Lokale" };
 
                     break;
 
                 case Enumeratory.Tabela.AktywniNajemcy:
                 case Enumeratory.Tabela.NieaktywniNajemcy:
-                    Hello.SiteMapPath = new List<string>() { "Kartoteki", "Najemcy" };
+                    Start.ŚcieżkaStrony = new List<string>() { "Kartoteki", "Najemcy" };
 
                     break;
 
                 case Enumeratory.Tabela.Budynki:
                 case Enumeratory.Tabela.Wspólnoty:
                 case Enumeratory.Tabela.SkładnikiCzynszu:
-                    Hello.SiteMapPath = new List<string>() { "Kartoteki" };
+                    Start.ŚcieżkaStrony = new List<string>() { "Kartoteki" };
 
                     break;
 
                 case Enumeratory.Tabela.NależnościWedługNajemców:
-                    Hello.SiteMapPath = new List<string>() { "Rozliczenia finansowe", "Należności i obroty" };
+                    Start.ŚcieżkaStrony = new List<string>() { "Rozliczenia finansowe", "Należności i obroty" };
 
                     placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", "turnoversEditing", "Dodaj/usuń obroty", "javascript: Redirect('List.aspx?table=" + Enumeratory.Tabela.ObrotyNajemcy + "')"));
 
@@ -637,14 +637,14 @@ namespace czynsze.Formularze
                 case Enumeratory.Tabela.NależnoścIObrotyNajemcy:
                 case Enumeratory.Tabela.SaldoNajemcy:
                 case Enumeratory.Tabela.ObrotyNajemcy:
-                    if (Hello.SiteMapPath.Count > 2)
+                    if (Start.ŚcieżkaStrony.Count > 2)
                     {
-                        Hello.SiteMapPath.RemoveRange(3, Hello.SiteMapPath.Count - 3);
+                        Start.ŚcieżkaStrony.RemoveRange(3, Start.ŚcieżkaStrony.Count - 3);
 
-                        string node = Hello.SiteMapPath[2].Insert(0, "<a href=\"javascript: Load('List.aspx?table=" + Enumeratory.Tabela.NależnościWedługNajemców + "')\">") + "</a>";
+                        string node = Start.ŚcieżkaStrony[2].Insert(0, "<a href=\"javascript: Load('List.aspx?table=" + Enumeratory.Tabela.NależnościWedługNajemców + "')\">") + "</a>";
 
-                        if (!Hello.SiteMapPath.Contains(node))
-                            Hello.SiteMapPath[2] = node;
+                        if (!Start.ŚcieżkaStrony.Contains(node))
+                            Start.ŚcieżkaStrony[2] = node;
                     }
 
                     break;
@@ -658,18 +658,18 @@ namespace czynsze.Formularze
                 case Enumeratory.Tabela.GrupyFinansowe:
                 case Enumeratory.Tabela.StawkiVat:
                 case Enumeratory.Tabela.Atrybuty:
-                    Hello.SiteMapPath = new List<string>() { "Słowniki" };
+                    Start.ŚcieżkaStrony = new List<string>() { "Słowniki" };
 
                     break;
 
                 case Enumeratory.Tabela.Użytkownicy:
-                    Hello.SiteMapPath = new List<string>() { "Administracja" };
+                    Start.ŚcieżkaStrony = new List<string>() { "Administracja" };
 
                     break;
             }
 
-            if (!Hello.SiteMapPath.Contains(nodeOfSiteMapPath))
-                Hello.SiteMapPath.Add(nodeOfSiteMapPath);
+            if (!Start.ŚcieżkaStrony.Contains(nodeOfSiteMapPath))
+                Start.ŚcieżkaStrony.Add(nodeOfSiteMapPath);
 
             //
             //CXP PART

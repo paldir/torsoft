@@ -1005,7 +1005,7 @@ namespace czynsze.Formularze
                         {
                             IEnumerable<DostępDoBazy.Obrót> turnOvers = null;
 
-                            switch (Hello.CurrentSet)
+                            switch (Start.AktywnyZbiór)
                             {
                                 case Enumeratory.Zbiór.Czynsze:
                                     turnOvers = db.ObrotyZPierwszegoZbioru.ToList().Cast<DostępDoBazy.Obrót>();
@@ -1106,12 +1106,12 @@ namespace czynsze.Formularze
             foreach (Kontrolki.Button button in buttons)
                 placeOfButtons.Controls.Add(button);
 
-            if (Hello.SiteMapPath.Count > 0)
-                if (!Hello.SiteMapPath.Contains(heading))
+            if (Start.ŚcieżkaStrony.Count > 0)
+                if (!Start.ŚcieżkaStrony.Contains(heading))
                 {
-                    Hello.SiteMapPath[Hello.SiteMapPath.Count - 1] = String.Concat("<a href=\"" + backUrl + "\">", Hello.SiteMapPath[Hello.SiteMapPath.Count - 1]) + "</a>";
+                    Start.ŚcieżkaStrony[Start.ŚcieżkaStrony.Count - 1] = String.Concat("<a href=\"" + backUrl + "\">", Start.ŚcieżkaStrony[Start.ŚcieżkaStrony.Count - 1]) + "</a>";
 
-                    Hello.SiteMapPath.Add(heading);
+                    Start.ŚcieżkaStrony.Add(heading);
                 }
         }
     }

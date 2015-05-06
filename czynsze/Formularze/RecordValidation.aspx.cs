@@ -405,7 +405,7 @@ namespace czynsze.Formularze
                                         PobierzWartośćParametru<string>("nr_kontr")
                                     };
 
-                            switch (Hello.CurrentSet)
+                            switch (Start.AktywnyZbiór)
                             {
                                 case Enumeratory.Zbiór.Czynsze:
                                     record = new DostępDoBazy.ObrótZPierwszegoZbioru();
