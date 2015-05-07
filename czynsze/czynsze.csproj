@@ -95,6 +95,7 @@
     <Content Include="Formularze\CommunityBuildings.aspx" />
     <Content Include="Formularze\ContentsOfDescriptions.aspx" />
     <Content Include="Formularze\GenerationOfReceivables.aspx" />
+    <Content Include="Formularze\SkladnikiCzynszu.aspx" />
     <Content Include="Formularze\Start.aspx" />
     <Content Include="Formularze\List.aspx" />
     <Content Include="Formularze\Loading.aspx" />
@@ -184,6 +185,13 @@
     </Compile>
     <Compile Include="Formularze\RentComponentsOfPlace.aspx.designer.cs">
       <DependentUpon>RentComponentsOfPlace.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\SkladnikiCzynszu.aspx.cs">
+      <DependentUpon>SkladnikiCzynszu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\SkladnikiCzynszu.aspx.designer.cs">
+      <DependentUpon>SkladnikiCzynszu.aspx</DependentUpon>
     </Compile>
     <Compile Include="Kontrolki\Button.cs" />
     <Compile Include="Kontrolki\CheckBoxList.cs" />

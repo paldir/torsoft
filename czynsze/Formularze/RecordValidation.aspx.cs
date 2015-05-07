@@ -177,7 +177,7 @@ namespace czynsze.Formularze
 
                             break;
 
-                        case Enumeratory.Tabela.Wspólnoty:
+                        case Enumeratory.Tabela.Wspolnoty:
                             record = new DostępDoBazy.Wspólnota();
                             attributeType = typeof(DostępDoBazy.AtrybutWspólnoty);
                             nominativeCase = "wspólnota";
@@ -201,7 +201,7 @@ namespace czynsze.Formularze
 
                             break;
 
-                        case Enumeratory.Tabela.SkładnikiCzynszu:
+                        case Enumeratory.Tabela.SkladnikiCzynszu:
                             record = new DostępDoBazy.SkładnikCzynszu();
                             nominativeCase = "składnik opłat";
                             genitiveCase = "składnika opłat";
@@ -277,7 +277,7 @@ namespace czynsze.Formularze
 
                             break;
 
-                        case Enumeratory.Tabela.TytułyPrawne:
+                        case Enumeratory.Tabela.TytulyPrawne:
                             record = new DostępDoBazy.TytułPrawny();
                             nominativeCase = "tytuł prawny do lokali";
                             genitiveCase = "tytułu prawnego do lokali";
@@ -290,7 +290,7 @@ namespace czynsze.Formularze
 
                             break;
 
-                        case Enumeratory.Tabela.TypyWpłat:
+                        case Enumeratory.Tabela.TypyWplat:
                             record = new DostępDoBazy.RodzajPłatności();
                             nominativeCase = "rodzaj wpłaty lub wypłaty";
                             genitiveCase = "rodzaju wpłaty lub wypłaty";
@@ -309,7 +309,7 @@ namespace czynsze.Formularze
 
                             break;
 
-                        case Enumeratory.Tabela.GrupySkładnikówCzynszu:
+                        case Enumeratory.Tabela.GrupySkładnikowCzynszu:
                             record = new DostępDoBazy.GrupaSkładnikówCzynszu();
                             nominativeCase = "grupa składników czynszu";
                             genitiveCase = "grupy składników czynszu";
@@ -371,7 +371,7 @@ namespace czynsze.Formularze
 
                             break;
 
-                        case Enumeratory.Tabela.Użytkownicy:
+                        case Enumeratory.Tabela.Uzytkownicy:
                             record = new DostępDoBazy.Użytkownik();
                             nominativeCase = "użytkownik";
                             genitiveCase = "użytkownika";
@@ -473,7 +473,7 @@ namespace czynsze.Formularze
 
                                         break;
 
-                                    case Enumeratory.Tabela.Wspólnoty:
+                                    case Enumeratory.Tabela.Wspolnoty:
                                         foreach(DostępDoBazy.BudynekWspólnoty communityBuilding in communityBuildings)
                                         {
                                             communityBuilding.kod = Int32.Parse(recordFields[0]);
@@ -522,7 +522,7 @@ namespace czynsze.Formularze
 
                                         break;
 
-                                    case Enumeratory.Tabela.Wspólnoty:
+                                    case Enumeratory.Tabela.Wspolnoty:
                                         DostępDoBazy.Wspólnota community = (DostępDoBazy.Wspólnota)record;
 
                                         foreach (DostępDoBazy.BudynekWspólnoty communityBuilding in db.BudynkiWspólnot.Where(c => c.kod == community.kod))
@@ -563,7 +563,7 @@ namespace czynsze.Formularze
 
                                         break;
 
-                                    case Enumeratory.Tabela.Wspólnoty:
+                                    case Enumeratory.Tabela.Wspolnoty:
                                         DostępDoBazy.Wspólnota community = (DostępDoBazy.Wspólnota)record;
 
                                         foreach (DostępDoBazy.BudynekWspólnoty communityBuilding in db.BudynkiWspólnot.Where(c => c.kod == community.kod))

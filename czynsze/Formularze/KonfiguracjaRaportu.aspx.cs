@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 
 using System.Drawing;
+using System.Xml;
 
 namespace czynsze.Formularze
 {
@@ -186,6 +187,7 @@ namespace czynsze.Formularze
             List<string> nagłówki = null;
             List<string> podpisy = new List<string>();
             string tytuł = null;
+            List<string> gotowaDefinicjaHtml = null;
 
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
                 switch (raport)
@@ -446,13 +448,13 @@ namespace czynsze.Formularze
                         DateTime koniecMiesiąca = początekMiesiąca.AddDays(DateTime.DaysInMonth(początekMiesiąca.Year, początekMiesiąca.Month)).AddSeconds(-1);
                         IEnumerable<DostępDoBazy.NależnośćZPierwszegoZbioru> należnościZaDanyMiesiąc = null;
 
-                        switch(trybKwotyCzynszu)
+                        switch (trybKwotyCzynszu)
                         {
                             case Enumeratory.KwotaCzynszu.Biezaca:
                                 tytuł = "BIEZACA KWOTA CZYNSZU";
 
                                 break;
-                            
+
                             case Enumeratory.KwotaCzynszu.ZaDanyMiesiac:
                                 tytuł = String.Format("KWOTA CZYNSZU ZA {0} {1}", System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[data.Month - 1].ToString().ToUpper(), data.Year);
                                 należnościZaDanyMiesiąc = db.NależnościZPierwszegoZbioru.Where(n => n.data_nal >= początekMiesiąca && n.data_nal <= koniecMiesiąca);
@@ -656,6 +658,74 @@ namespace czynsze.Formularze
                         }
 
                         break;
+
+                    case Enumeratory.Raport.SkładnikiCzynszu:
+                        XmlDocument dokument = new XmlDocument();
+                        tytuł = "SKLADNIKI CZYNSZU I OPLAT";
+
+                        dokument.Load(System.IO.Path.Combine(HttpRuntime.AppDomainAppPath, "Formularze", "Szablon.html"));
+
+                        XmlNode druk = dokument.SelectSingleNode(XPathZnajdźElementPoId("druk"));
+                        gotowaDefinicjaHtml = new List<string>();
+                        DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
+                        DostępDoBazy.SkładnikCzynszuLokalu.Lokale = db.AktywneLokale.Where(l => l.kod_lok == 1 && l.nr_lok <= 10).ToList();
+
+                        foreach (DostępDoBazy.AktywnyLokal lokal in DostępDoBazy.SkładnikCzynszuLokalu.Lokale)
+                        {
+                            XmlNode nowyDruk = druk.CloneNode(true);
+                            XmlNode razem = nowyDruk.SelectSingleNode(XPathZnajdźElementPoId("razem"));
+                            XmlNode składnikOpłat = nowyDruk.SelectSingleNode(XPathZnajdźElementPoId("składnikOpłat"));
+                            decimal suma = 0;
+
+                            WypełnijTagXml(nowyDruk, "nazwiskoImię", String.Format("{0} {1}", lokal.nazwisko, lokal.imie));
+                            WypełnijTagXml(nowyDruk, "adres1", lokal.adres);
+                            WypełnijTagXml(nowyDruk, "adres2", lokal.adres_2);
+                            WypełnijTagXml(nowyDruk, "kodLokalu", String.Format("{0} - {1}", lokal.kod_lok, lokal.nr_lok));
+                            WypełnijTagXml(nowyDruk, "powierzchnia", lokal.pow_uzyt);
+                            WypełnijTagXml(nowyDruk, "ilośćOsób", lokal.il_osob);
+
+                            if (db.Treści.Any())
+                            {
+                                DostępDoBazy.Treść treść = db.Treści.FirstOrDefault();
+
+                                for (int i = 1; i <= 15; i++)
+                                {
+                                    string op = typeof(DostępDoBazy.Treść).GetProperty(String.Format("op_{0}", i)).GetValue(treść).ToString();
+
+                                    WypełnijTagXml(nowyDruk, String.Format("op{0}", i), op);
+                                }
+                            }
+
+                            foreach (DostępDoBazy.SkładnikCzynszuLokalu składnikCzynszuLokalu in db.SkładnikiCzynszuLokalu.Where(s => s.kod_lok == lokal.kod_lok && s.nr_lok == lokal.nr_lok).ToList())
+                            {
+                                decimal ilość, stawka;
+                                XmlNode nowySkładnikOpłat = składnikOpłat.CloneNode(true);
+                                DostępDoBazy.SkładnikCzynszu składnikCzynszu = DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu.FirstOrDefault(s => s.nr_skl == składnikCzynszuLokalu.nr_skl);
+
+                                składnikCzynszuLokalu.Rozpoznaj_ilosc_i_stawka(out ilość, out stawka);
+
+                                decimal wartość = Decimal.Round(ilość * stawka, 2);
+                                suma += wartość;
+
+                                WypełnijTagXml(nowySkładnikOpłat, "nazwa", składnikCzynszu.nazwa);
+                                WypełnijTagXml(nowySkładnikOpłat, "stawka", stawka.ToString("N2"));
+                                WypełnijTagXml(nowySkładnikOpłat, "ilość", ilość.ToString("N2"));
+                                WypełnijTagXml(nowySkładnikOpłat, "wartość", wartość.ToString("N2"));
+                                składnikOpłat.ParentNode.InsertBefore(nowySkładnikOpłat, składnikOpłat);
+                            }
+
+                            WypełnijTagXml(nowyDruk, "razem", suma.ToString("N2"));
+                            składnikOpłat.ParentNode.RemoveChild(składnikOpłat);
+                            gotowaDefinicjaHtml.Add(nowyDruk.OuterXml);
+                        }
+
+                        DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
+                        DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
+
+                        using (System.IO.StreamWriter sw = new System.IO.StreamWriter(@"C:\Users\paldir\Desktop\test.html"))
+                            sw.Write(gotowaDefinicjaHtml);
+
+                        break;
                 }
 
             Session["nagłówki"] = nagłówki;
@@ -663,8 +733,20 @@ namespace czynsze.Formularze
             Session["podpisy"] = podpisy;
             Session["format"] = ((RadioButtonList)placeOfConfigurationFields.FindControl("format")).SelectedValue;
             Session["tytuł"] = tytuł;
+            Session["gotowaDefinicjaHtml"] = gotowaDefinicjaHtml;
 
             Response.Redirect("Raport.aspx");
+        }
+
+        static void WypełnijTagXml(XmlNode rodzic, string id, object wartość)
+        {
+            if (wartość != null)
+                rodzic.SelectSingleNode(XPathZnajdźElementPoId(id)).InnerText = wartość.ToString();
+        }
+
+        static string XPathZnajdźElementPoId(string id)
+        {
+            return String.Format("//*[@id='{0}']", id);
         }
     }
 }

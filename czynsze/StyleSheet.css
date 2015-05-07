@@ -477,10 +477,13 @@ input, select, textarea {
 
 /*#region raport*/
 .reportTable {
-    color: black;
-    margin-top: 50px;
     border: 1px solid black;
     border-collapse: collapse;
+}
+
+.reportContent {
+    color: black;
+    margin-top: 50px;
 }
 
     .reportTable .caption {
@@ -496,7 +499,7 @@ input, select, textarea {
         padding: 0px 5px 0px 5px;
     }
 
-    .reportTable .numericCell {
+    .reportContent .numericCell {
         text-align: right;
     }
 

@@ -26,67 +26,95 @@ namespace czynsze.Formularze
             tabele = (List<List<string[]>>)Session["tabele"];
             podpisy = (List<string>)Session["podpisy"];
             tytuł = Session["tytuł"].ToString();
+            object potencjalnaGotowaDefinicjaHtml = Session["gotowaDefinicjaHtml"];
+
+            /*if (potencjalnaGotowaDefinicjaHtml != null)
+                html = potencjalnaGotowaDefinicjaHtml.ToString();*/
 
             switch (format)
             {
                 case Enumeratory.FormatRaportu.Pdf:
                     StringWriter pisarzNapisów = new StringWriter();
-                    decimal kwota;
-                    int numerWiersza = 1;
-                    bool wyjątekNowejStrony;
 
                     using (pisarz = new HtmlTextWriter(pisarzNapisów))
-                        for (int i = 0; i < tabele.Count; i++)
+                        if (potencjalnaGotowaDefinicjaHtml == null)
                         {
-                            List<string[]> tabela = tabele[i];
-                            wyjątekNowejStrony = false;
+                            decimal kwota;
+                            int numerWiersza = 1;
+                            bool wyjątekNowejStrony;
 
-                            GenerujNagłówekTabeli(i);
 
-                            for (int j = 0; j < tabela.Count; j++)
+                            for (int i = 0; i < tabele.Count; i++)
                             {
-                                string[] wiersz = tabela[j];
+                                List<string[]> tabela = tabele[i];
+                                wyjątekNowejStrony = false;
 
-                                pisarz.AddAttribute(HtmlTextWriterAttribute.Id, "row" + numerWiersza.ToString());
-                                pisarz.RenderBeginTag(HtmlTextWriterTag.Tr);
+                                GenerujNagłówekTabeli(i);
 
-                                foreach (string komórka in wiersz)
+                                for (int j = 0; j < tabela.Count; j++)
                                 {
-                                    if (Decimal.TryParse(komórka, out kwota))
-                                        pisarz.AddAttribute(HtmlTextWriterAttribute.Class, "numericCell");
+                                    string[] wiersz = tabela[j];
 
-                                    pisarz.RenderBeginTag(HtmlTextWriterTag.Td);
-                                    pisarz.Write(komórka);
+                                    pisarz.AddAttribute(HtmlTextWriterAttribute.Id, String.Format("row{0}", numerWiersza));
+                                    pisarz.RenderBeginTag(HtmlTextWriterTag.Tr);
+
+                                    foreach (string komórka in wiersz)
+                                    {
+                                        if (Decimal.TryParse(komórka, out kwota))
+                                            pisarz.AddAttribute(HtmlTextWriterAttribute.Class, "numericCell");
+
+                                        pisarz.RenderBeginTag(HtmlTextWriterTag.Td);
+                                        pisarz.Write(komórka);
+                                        pisarz.RenderEndTag();
+                                    }
+
                                     pisarz.RenderEndTag();
+
+                                    if (numerWiersza == 60)
+                                    {
+                                        pisarz.RenderEndTag();
+                                        GenerujNowąStronę();
+
+                                        if (j == tabela.Count - 1)
+                                            wyjątekNowejStrony = true;
+                                        else
+                                            GenerujNagłówekTabeli(i);
+
+                                        numerWiersza = 0;
+                                    }
+
+                                    numerWiersza++;
                                 }
 
-                                pisarz.RenderEndTag();
-
-                                if (numerWiersza == 60)
-                                {
+                                if (!wyjątekNowejStrony)
                                     pisarz.RenderEndTag();
-                                    GenerujNowąStronę();
 
-                                    if (j == tabela.Count - 1)
-                                        wyjątekNowejStrony = true;
-                                    else
-                                        GenerujNagłówekTabeli(i);
-
-                                    numerWiersza = 0;
-                                }
-
-                                numerWiersza++;
+                                /*if (i != tables.Count - 1)
+                                    RenderNewPage();*/
                             }
+                        }
+                        else
+                        {
+                            html = String.Empty;
+                            List<string> sekcjeHtml = (List<string>)potencjalnaGotowaDefinicjaHtml;
 
-                            if (!wyjątekNowejStrony)
-                                pisarz.RenderEndTag();
+                            for (int i = 0; i < sekcjeHtml.Count; i++)
+                            {
+                                if (i % 2 == 0)
+                                {
+                                    pisarz.AddAttribute(HtmlTextWriterAttribute.Class, "reportContent");
+                                    pisarz.RenderBeginTag(HtmlTextWriterTag.Hr);
+                                    pisarz.RenderEndTag();
+                                }
+                                
+                                pisarz.Write(sekcjeHtml[i]);
 
-                            /*if (i != tables.Count - 1)
-                                RenderNewPage();*/
+                                if (i % 2 == 1 && i != sekcjeHtml.Count - 1)
+                                    GenerujNowąStronę();
+                            }
                         }
 
                     html = pisarzNapisów.ToString();
-
                     StreamReader czytacz = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "StyleSheet.css"));
                     string css = czytacz.ReadToEnd();
 
@@ -132,7 +160,7 @@ namespace czynsze.Formularze
                             csv += nagłówek + ";";
 
                         csv += Environment.NewLine;
-                        
+
                         foreach (string[] wiersz in tabele[i])
                         {
                             foreach (string komórka in wiersz)
@@ -157,7 +185,7 @@ namespace czynsze.Formularze
 
         void GenerujNagłówekTabeli(int numerTabeli)
         {
-            pisarz.AddAttribute(HtmlTextWriterAttribute.Class, "reportTable");
+            pisarz.AddAttribute(HtmlTextWriterAttribute.Class, "reportTable reportContent");
             pisarz.RenderBeginTag(HtmlTextWriterTag.Table);
             //writer.RenderBeginTag(HtmlTextWriterTag.Caption);
             pisarz.AddAttribute(HtmlTextWriterAttribute.Class, "caption");

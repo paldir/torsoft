@@ -21,7 +21,7 @@ namespace czynsze.Formularze
 
             switch (mode)
             {
-                case Enumeratory.TreściOpisów.Wpłaty:
+                case Enumeratory.TreściOpisów.Oplaty:
                     numberOfFields = 15;
                     fieldLength = 40;
                     prefix = "op";
@@ -29,7 +29,7 @@ namespace czynsze.Formularze
 
                     break;
 
-                case Enumeratory.TreściOpisów.Książka:
+                case Enumeratory.TreściOpisów.Ksiazka:
                     numberOfFields = 10;
                     fieldLength = 40;
                     prefix = "pu";

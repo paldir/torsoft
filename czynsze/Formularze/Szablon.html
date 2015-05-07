@@ -5,19 +5,20 @@
     <link type="text/css" rel="stylesheet" href="../StyleSheet.css" />
 </head>
 <body>
-    <div>
+    <div id="druk" class="reportContent">
         <table>
             <tr>
+                <td></td>
                 <td>
                     <table>
                         <tr>
-                            <td id="nazwiskoImię">Kowalski Jan</td>
+                            <td id="nazwiskoImię"></td>
                         </tr>
                         <tr>
-                            <td id="ulica">ul. Szosa Lubicka 1/3</td>
+                            <td id="adres1"></td>
                         </tr>
                         <tr>
-                            <td id="miasto">87-100 Toruń</td>
+                            <td id="adres2"></td>
                         </tr>
                     </table>
                 </td>
@@ -25,15 +26,15 @@
                     <table>
                         <tr>
                             <td>Kod lokalu:</td>
-                            <td id="kodLokalu">1 - 5</td>
+                            <td id="kodLokalu"></td>
                         </tr>
                         <tr>
                             <td>Pow. użyt:</td>
-                            <td id="powierzchnia">30,00</td>
+                            <td id="powierzchnia"></td>
                         </tr>
                         <tr>
                             <td>Ilość osób:</td>
-                            <td id="ilośćOsób">3</td>
+                            <td id="ilośćOsób"></td>
                         </tr>
                     </table>
                 </td>
@@ -42,16 +43,53 @@
                 <td id="opis">
                     <table>
                         <tr>
-                            <td>Lorem ipsum dolor</td>
+                            <td id="op1"></td><td>1</td>
                         </tr>
                         <tr>
-                            <td>Ora et labora</td>
+                            <td id="op2"></td><td>2</td>
                         </tr>
                         <tr>
-                            <td>Fides et ratio</td>
+                            <td id="op3"></td><td>3</td>
+                        </tr>
+                        <tr>
+                            <td id="op4"></td><td>4</td>
+                        </tr>
+                        <tr>
+                            <td id="op5"></td><td>5</td>
+                        </tr>
+                        <tr>
+                            <td id="op6"></td><td>6</td>
+                        </tr>
+                        <tr>
+                            <td id="op7"></td><td>7</td>
+                        </tr>
+                        <tr>
+                            <td id="op8"></td><td>8</td>
+                        </tr>
+                        <tr>
+                            <td id="op9"></td><td>9</td>
+                        </tr>
+                        <tr>
+                            <td id="op10"></td><td>10</td>
+                        </tr>
+                        <tr>
+                            <td id="op11"></td><td>11</td>
+                        </tr>
+                        <tr>
+                            <td id="op12"></td><td>12</td>
+                        </tr>
+                        <tr>
+                            <td id="op13"></td><td>13</td>
+                        </tr>
+                        <tr>
+                            <td id="op14"></td><td>14</td>
+                        </tr>
+                        <tr>
+                            <td id="op15"></td><td>15</td>
                         </tr>
                     </table>
                 </td>
+                <td></td>
                 <td>
                     <table>
                         <caption>Składniki opłat</caption>
@@ -64,22 +102,23 @@
                             <th>Wartość</th>
                         </tr>
                         <tr id="składnikOpłat">
-                            <td>Eksploatacja</td>
-                            <td>1,00</td>
+                            <td id="nazwa"></td>
+                            <td id="stawka" class="numericCell"></td>
                             <td>*</td>
-                            <td>30,00</td>
+                            <td id="ilość" class="numericCell"></td>
                             <td>=</td>
-                            <td>30,00</td>
+                            <td id="wartość" class="numericCell"></td>
                         </tr>
                         <tr>
                             <td colspan="4" align="right">RAZEM</td>
                             <td>=</td>
-                            <td>31,00</td>
+                            <td id="razem" class="numericCell"></td>
                         </tr>
                     </table>
                 </td>
             </tr>
         </table>
+        <hr />
     </div>
 </body>
 </html>

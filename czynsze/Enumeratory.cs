@@ -23,22 +23,22 @@ namespace czynsze
             NieaktywneLokale,
             AktywniNajemcy,
             NieaktywniNajemcy,
-            SkładnikiCzynszu,
+            SkladnikiCzynszu,
             TypyLokali,
             TypyKuchni,
             RodzajeNajemcy,
-            TytułyPrawne,
-            Wspólnoty,
-            TypyWpłat,
+            TytulyPrawne,
+            Wspolnoty,
+            TypyWplat,
             StawkiVat,
             Atrybuty,
-            GrupySkładnikówCzynszu,
+            GrupySkładnikowCzynszu,
             GrupyFinansowe,
-            Użytkownicy,
-            NależnościWedługNajemców,
-            WszystkieNależnościNajemcy,
-            NieprzeterminowaneNależnościNajemcy,
-            NależnoścIObrotyNajemcy,
+            Uzytkownicy,
+            NaleznosciWedlugNajemcow,
+            WszystkieNaleznosciNajemcy,
+            NieprzeterminowaneNależnosciNajemcy,
+            NależnoscIObrotyNajemcy,
             SaldoNajemcy,
             ObrotyNajemcy
         };
@@ -53,6 +53,7 @@ namespace czynsze
             KwotaCzynszuLokali,
             KwotaCzynszuBudynków,
             KwotaCzynszuWspólnot,
+            SkładnikiCzynszu
         };
 
         public enum FormatRaportu
@@ -96,8 +97,8 @@ namespace czynsze
 
         public enum TreściOpisów
         {
-            Wpłaty,
-            Książka,
+            Oplaty,
+            Ksiazka,
             Woda
         }
     }

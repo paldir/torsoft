@@ -481,7 +481,7 @@ namespace czynsze.Formularze
 
                         break;
 
-                    case Enumeratory.Tabela.SkładnikiCzynszu:
+                    case Enumeratory.Tabela.SkladnikiCzynszu:
                         Title = "Składnik opłat";
                         numberOfFields = 19;
                         heading += "składnika opłat";
@@ -553,7 +553,7 @@ namespace czynsze.Formularze
 
                         break;
 
-                    case Enumeratory.Tabela.Wspólnoty:
+                    case Enumeratory.Tabela.Wspolnoty:
                         Title = "Wspólnota";
                         numberOfFields = 12;
                         heading += "wspólnoty";
@@ -719,7 +719,7 @@ namespace czynsze.Formularze
 
                         break;
 
-                    case Enumeratory.Tabela.TytułyPrawne:
+                    case Enumeratory.Tabela.TytulyPrawne:
                         Title = "Tytuł prawny do lokali";
                         numberOfFields = 2;
                         heading += "tytułu prawnego do lokali";
@@ -746,7 +746,7 @@ namespace czynsze.Formularze
 
                         break;
 
-                    case Enumeratory.Tabela.TypyWpłat:
+                    case Enumeratory.Tabela.TypyWplat:
                         Title = "Rodzaj wpłaty lub wypłaty";
                         numberOfFields = 8;
                         heading += "rodzaju wpłaty lub wypłaty";
@@ -800,7 +800,7 @@ namespace czynsze.Formularze
 
                         break;
 
-                    case Enumeratory.Tabela.GrupySkładnikówCzynszu:
+                    case Enumeratory.Tabela.GrupySkładnikowCzynszu:
                         Title = "Grupa składników czynszu";
                         numberOfFields = 2;
                         heading += "grupy składników czynszu";
@@ -941,7 +941,7 @@ namespace czynsze.Formularze
 
                         break;
 
-                    case Enumeratory.Tabela.Użytkownicy:
+                    case Enumeratory.Tabela.Uzytkownicy:
                         Title = "Użytkownik";
                         numberOfFields = 6;
                         heading += "użytkownika";

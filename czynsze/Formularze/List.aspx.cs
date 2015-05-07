@@ -113,10 +113,10 @@ namespace czynsze.Formularze
 
                     break;
 
-                case Enumeratory.Tabela.NależnościWedługNajemców:
-                case Enumeratory.Tabela.WszystkieNależnościNajemcy:
-                case Enumeratory.Tabela.NieprzeterminowaneNależnościNajemcy:
-                case Enumeratory.Tabela.NależnoścIObrotyNajemcy:
+                case Enumeratory.Tabela.NaleznosciWedlugNajemcow:
+                case Enumeratory.Tabela.WszystkieNaleznosciNajemcy:
+                case Enumeratory.Tabela.NieprzeterminowaneNależnosciNajemcy:
+                case Enumeratory.Tabela.NależnoscIObrotyNajemcy:
                 case Enumeratory.Tabela.SaldoNajemcy:
 
                     break;
@@ -223,7 +223,7 @@ namespace czynsze.Formularze
 
                         break;
 
-                    case Enumeratory.Tabela.SkładnikiCzynszu:
+                    case Enumeratory.Tabela.SkladnikiCzynszu:
                         heading = nodeOfSiteMapPath = "Składniki opłat";
                         headers = new string[] { "Numer", "Nazwa", "Sposób naliczania", "Typ", "Stawka zł" };
                         indexesOfNumericColumns = new List<int>() { 1, 5 };
@@ -233,7 +233,7 @@ namespace czynsze.Formularze
 
                         break;
 
-                    case Enumeratory.Tabela.Wspólnoty:
+                    case Enumeratory.Tabela.Wspolnoty:
                         heading = nodeOfSiteMapPath = "Wspólnoty";
                         headers = new string[] { "Kod", "Nazwa wspólnoty", "Il. bud.", "Il. miesz." };
                         indexesOfNumericColumns = new List<int>() { 1, 3, 4 };
@@ -273,7 +273,7 @@ namespace czynsze.Formularze
 
                         break;
 
-                    case Enumeratory.Tabela.TytułyPrawne:
+                    case Enumeratory.Tabela.TytulyPrawne:
                         heading = nodeOfSiteMapPath = "Tytuły prawne do lokali";
                         headers = new string[] { "Kod", "Tytuł prawny" };
                         indexesOfNumericColumns = new List<int>() { 1 };
@@ -283,7 +283,7 @@ namespace czynsze.Formularze
 
                         break;
 
-                    case Enumeratory.Tabela.TypyWpłat:
+                    case Enumeratory.Tabela.TypyWplat:
                         heading = nodeOfSiteMapPath = "Rodzaje wpłat i wypłat";
                         headers = new string[] { "Kod", "Rodzaj wpłaty lub wypłaty", "Sposób rozliczania", "Odsetki", "NO" };
                         indexesOfNumericColumns = new List<int>() { 1 };
@@ -293,7 +293,7 @@ namespace czynsze.Formularze
 
                         break;
 
-                    case Enumeratory.Tabela.GrupySkładnikówCzynszu:
+                    case Enumeratory.Tabela.GrupySkładnikowCzynszu:
                         heading = nodeOfSiteMapPath = "Grupy składników czynszu";
                         headers = new string[] { "Kod", "Nazwa grupy" };
                         indexesOfNumericColumns = new List<int>() { 1 };
@@ -332,7 +332,7 @@ namespace czynsze.Formularze
 
                         break;
 
-                    case Enumeratory.Tabela.Użytkownicy:
+                    case Enumeratory.Tabela.Uzytkownicy:
                         heading = nodeOfSiteMapPath = "Użytkownicy";
                         headers = new string[] { "Symbol", "Nazwisko", "Imię" };
 
@@ -341,7 +341,7 @@ namespace czynsze.Formularze
 
                         break;
 
-                    case Enumeratory.Tabela.NależnościWedługNajemców:
+                    case Enumeratory.Tabela.NaleznosciWedlugNajemcow:
                         heading = nodeOfSiteMapPath = "Należności i obroty według najemców";
                         headers = new string[] { "Nazwisko", "Imię", "Kod", "Nr", "Adres najemcy", "Adres lokalu" };
                         sortable = false;
@@ -377,8 +377,8 @@ namespace czynsze.Formularze
 
                         break;
 
-                    case Enumeratory.Tabela.WszystkieNależnościNajemcy:
-                    case Enumeratory.Tabela.NieprzeterminowaneNależnościNajemcy:
+                    case Enumeratory.Tabela.WszystkieNaleznosciNajemcy:
+                    case Enumeratory.Tabela.NieprzeterminowaneNależnosciNajemcy:
                         headers = new string[] { "Kwota należności", "Termin zapłaty", "Uwagi", "Kod lokalu", "Nr lokalu" };
                         sortable = false;
                         indexesOfNumericColumns = new List<int>() { 1, 4, 5 };
@@ -390,12 +390,12 @@ namespace czynsze.Formularze
 
                             switch (table)
                             {
-                                case Enumeratory.Tabela.WszystkieNależnościNajemcy:
+                                case Enumeratory.Tabela.WszystkieNaleznosciNajemcy:
                                     rows = receivables.Select(r => r.WażnePola()).ToList();
 
                                     break;
 
-                                case Enumeratory.Tabela.NieprzeterminowaneNależnościNajemcy:
+                                case Enumeratory.Tabela.NieprzeterminowaneNależnosciNajemcy:
                                     heading += " (nieprzeterminowane)";
                                     rows = receivables.Where(r => r.data_nal >= Start.Data).Select(r => r.WażnePola()).ToList();
 
@@ -405,7 +405,7 @@ namespace czynsze.Formularze
 
                         break;
 
-                    case Enumeratory.Tabela.NależnoścIObrotyNajemcy:
+                    case Enumeratory.Tabela.NależnoscIObrotyNajemcy:
                         headers = new string[] { "Kwota Wn", "Kwota Ma", "Data", "Operacja" };
                         sortable = false;
                         indexesOfNumericColumns = new List<int>() { 1, 2 };
@@ -619,29 +619,29 @@ namespace czynsze.Formularze
                     break;
 
                 case Enumeratory.Tabela.Budynki:
-                case Enumeratory.Tabela.Wspólnoty:
-                case Enumeratory.Tabela.SkładnikiCzynszu:
+                case Enumeratory.Tabela.Wspolnoty:
+                case Enumeratory.Tabela.SkladnikiCzynszu:
                     Start.ŚcieżkaStrony = new List<string>() { "Kartoteki" };
 
                     break;
 
-                case Enumeratory.Tabela.NależnościWedługNajemców:
+                case Enumeratory.Tabela.NaleznosciWedlugNajemcow:
                     Start.ŚcieżkaStrony = new List<string>() { "Rozliczenia finansowe", "Należności i obroty" };
 
                     placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", "turnoversEditing", "Dodaj/usuń obroty", "javascript: Redirect('List.aspx?table=" + Enumeratory.Tabela.ObrotyNajemcy + "')"));
 
                     break;
 
-                case Enumeratory.Tabela.WszystkieNależnościNajemcy:
-                case Enumeratory.Tabela.NieprzeterminowaneNależnościNajemcy:
-                case Enumeratory.Tabela.NależnoścIObrotyNajemcy:
+                case Enumeratory.Tabela.WszystkieNaleznosciNajemcy:
+                case Enumeratory.Tabela.NieprzeterminowaneNależnosciNajemcy:
+                case Enumeratory.Tabela.NależnoscIObrotyNajemcy:
                 case Enumeratory.Tabela.SaldoNajemcy:
                 case Enumeratory.Tabela.ObrotyNajemcy:
                     if (Start.ŚcieżkaStrony.Count > 2)
                     {
                         Start.ŚcieżkaStrony.RemoveRange(3, Start.ŚcieżkaStrony.Count - 3);
 
-                        string node = Start.ŚcieżkaStrony[2].Insert(0, "<a href=\"javascript: Load('List.aspx?table=" + Enumeratory.Tabela.NależnościWedługNajemców + "')\">") + "</a>";
+                        string node = Start.ŚcieżkaStrony[2].Insert(0, "<a href=\"javascript: Load('List.aspx?table=" + Enumeratory.Tabela.NaleznosciWedlugNajemcow + "')\">") + "</a>";
 
                         if (!Start.ŚcieżkaStrony.Contains(node))
                             Start.ŚcieżkaStrony[2] = node;
@@ -652,9 +652,9 @@ namespace czynsze.Formularze
                 case Enumeratory.Tabela.TypyLokali:
                 case Enumeratory.Tabela.TypyKuchni:
                 case Enumeratory.Tabela.RodzajeNajemcy:
-                case Enumeratory.Tabela.TytułyPrawne:
-                case Enumeratory.Tabela.TypyWpłat:
-                case Enumeratory.Tabela.GrupySkładnikówCzynszu:
+                case Enumeratory.Tabela.TytulyPrawne:
+                case Enumeratory.Tabela.TypyWplat:
+                case Enumeratory.Tabela.GrupySkładnikowCzynszu:
                 case Enumeratory.Tabela.GrupyFinansowe:
                 case Enumeratory.Tabela.StawkiVat:
                 case Enumeratory.Tabela.Atrybuty:
@@ -662,7 +662,7 @@ namespace czynsze.Formularze
 
                     break;
 
-                case Enumeratory.Tabela.Użytkownicy:
+                case Enumeratory.Tabela.Uzytkownicy:
                     Start.ŚcieżkaStrony = new List<string>() { "Administracja" };
 
                     break;
