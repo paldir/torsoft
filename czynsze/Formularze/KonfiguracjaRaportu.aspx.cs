@@ -659,7 +659,8 @@ namespace czynsze.Formularze
 
                         break;
 
-                    case Enumeratory.Raport.SkładnikiCzynszu:
+                    case Enumeratory.Raport.SkładnikiCzynszuStawkaZwykła:
+                    case Enumeratory.Raport.SkładnikiCzynszuStawkaInformacyjna:
                         XmlDocument dokument = new XmlDocument();
                         tytuł = "SKLADNIKI CZYNSZU I OPLAT";
 
@@ -668,7 +669,7 @@ namespace czynsze.Formularze
                         XmlNode druk = dokument.SelectSingleNode(XPathZnajdźElementPoId("druk"));
                         gotowaDefinicjaHtml = new List<string>();
                         DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
-                        DostępDoBazy.SkładnikCzynszuLokalu.Lokale = db.AktywneLokale.Where(l => l.kod_lok == 1 && l.nr_lok <= 10).ToList();
+                        DostępDoBazy.SkładnikCzynszuLokalu.Lokale = db.AktywneLokale.OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok).ToList();
 
                         foreach (DostępDoBazy.AktywnyLokal lokal in DostępDoBazy.SkładnikCzynszuLokalu.Lokale)
                         {
@@ -683,6 +684,7 @@ namespace czynsze.Formularze
                             WypełnijTagXml(nowyDruk, "kodLokalu", String.Format("{0} - {1}", lokal.kod_lok, lokal.nr_lok));
                             WypełnijTagXml(nowyDruk, "powierzchnia", lokal.pow_uzyt);
                             WypełnijTagXml(nowyDruk, "ilośćOsób", lokal.il_osob);
+                            WypełnijTagXml(nowyDruk, "data", DateTime.Now.ToShortDateString());
 
                             if (db.Treści.Any())
                             {
@@ -703,6 +705,14 @@ namespace czynsze.Formularze
                                 DostępDoBazy.SkładnikCzynszu składnikCzynszu = DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu.FirstOrDefault(s => s.nr_skl == składnikCzynszuLokalu.nr_skl);
 
                                 składnikCzynszuLokalu.Rozpoznaj_ilosc_i_stawka(out ilość, out stawka);
+
+                                switch(raport)
+                                {
+                                    case Enumeratory.Raport.SkładnikiCzynszuStawkaInformacyjna:
+                                        stawka = składnikCzynszu.stawka_inf;
+
+                                        break;
+                                }
 
                                 decimal wartość = Decimal.Round(ilość * stawka, 2);
                                 suma += wartość;
