@@ -133,7 +133,7 @@ namespace czynsze.Formularze
                 case Enumeratory.Raport.KwotaCzynszuLokali:
                 case Enumeratory.Raport.KwotaCzynszuBudynków:
                 case Enumeratory.Raport.KwotaCzynszuWspólnot:
-                    switch ((Enumeratory.KwotaCzynszu)Convert.ChangeType(Session["trybKwotyCzynszu"], typeof(Enumeratory.KwotaCzynszu)))
+                    switch ((Enumeratory.KwotaCzynszu)Session["trybKwotyCzynszu"])
                     {
                         case Enumeratory.KwotaCzynszu.Biezaca:
                             nagłówek += "(Bieżąca kwota czynszu)";
@@ -152,6 +152,15 @@ namespace czynsze.Formularze
                     identyfikatory[3] = PobierzWartośćParametru<int>("doLokalu");
                     identyfikatory[4] = PobierzWartośćParametru<int>("odWspólnoty");
                     identyfikatory[5] = PobierzWartośćParametru<int>("doWspólnoty");
+
+                    break;
+
+                case Enumeratory.Raport.SkładnikiCzynszuStawkaZwykła:
+                case Enumeratory.Raport.SkładnikiCzynszuStawkaInformacyjna:
+                    identyfikatory[0] = PobierzWartośćParametru<int>("odBudynku");
+                    identyfikatory[1] = PobierzWartośćParametru<int>("odLokalu");
+                    identyfikatory[2] = PobierzWartośćParametru<int>("doBudynku");
+                    identyfikatory[3] = PobierzWartośćParametru<int>("doLokalu");
 
                     break;
             }
@@ -199,13 +208,13 @@ namespace czynsze.Formularze
                             List<int> wybraneTypyLokali = new List<int>();
                             tytuł = "LOKALE W BUDYNKACH";
                             nagłówki = new List<string>()
-                    {
-                        "Numer lokalu",
-                        "Typ lokalu",
-                        "Powierzchnia użytkowa",
-                        "Nazwisko",
-                        "Imię"
-                    };
+                            {
+                                "Numer lokalu",
+                                "Typ lokalu",
+                                "Powierzchnia użytkowa",
+                                "Nazwisko",
+                                "Imię"
+                            };
 
                             try { kod_1_start = Int32.Parse(((TextBox)placeOfConfigurationFields.FindControl("kod_1_start")).Text); }
                             catch { kod_1_start = 0; }
@@ -661,79 +670,85 @@ namespace czynsze.Formularze
 
                     case Enumeratory.Raport.SkładnikiCzynszuStawkaZwykła:
                     case Enumeratory.Raport.SkładnikiCzynszuStawkaInformacyjna:
-                        XmlDocument dokument = new XmlDocument();
-                        tytuł = "SKLADNIKI CZYNSZU I OPLAT";
-
-                        dokument.Load(System.IO.Path.Combine(HttpRuntime.AppDomainAppPath, "Formularze", "Szablon.html"));
-
-                        XmlNode druk = dokument.SelectSingleNode(XPathZnajdźElementPoId("druk"));
-                        gotowaDefinicjaHtml = new List<string>();
-                        DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
-                        DostępDoBazy.SkładnikCzynszuLokalu.Lokale = db.AktywneLokale.OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok).ToList();
-
-                        foreach (DostępDoBazy.AktywnyLokal lokal in DostępDoBazy.SkładnikCzynszuLokalu.Lokale)
                         {
-                            XmlNode nowyDruk = druk.CloneNode(true);
-                            XmlNode razem = nowyDruk.SelectSingleNode(XPathZnajdźElementPoId("razem"));
-                            XmlNode składnikOpłat = nowyDruk.SelectSingleNode(XPathZnajdźElementPoId("składnikOpłat"));
-                            decimal suma = 0;
+                            XmlDocument dokument = new XmlDocument();
+                            tytuł = "SKLADNIKI CZYNSZU I OPLAT";
 
-                            WypełnijTagXml(nowyDruk, "nazwiskoImię", String.Format("{0} {1}", lokal.nazwisko, lokal.imie));
-                            WypełnijTagXml(nowyDruk, "adres1", lokal.adres);
-                            WypełnijTagXml(nowyDruk, "adres2", lokal.adres_2);
-                            WypełnijTagXml(nowyDruk, "kodLokalu", String.Format("{0} - {1}", lokal.kod_lok, lokal.nr_lok));
-                            WypełnijTagXml(nowyDruk, "powierzchnia", lokal.pow_uzyt);
-                            WypełnijTagXml(nowyDruk, "ilośćOsób", lokal.il_osob);
-                            WypełnijTagXml(nowyDruk, "data", DateTime.Now.ToShortDateString());
+                            dokument.Load(System.IO.Path.Combine(HttpRuntime.AppDomainAppPath, "Formularze", "Szablon.html"));
 
-                            if (db.Treści.Any())
+                            XmlNode druk = dokument.SelectSingleNode(XPathZnajdźElementPoId("druk"));
+                            gotowaDefinicjaHtml = new List<string>();
+                            DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
+                            int kod_1_1 = identyfikatory[0];
+                            int nr1 = identyfikatory[1];
+                            int kod_1_2 = identyfikatory[2];
+                            int nr2 = identyfikatory[3];
+                            DostępDoBazy.SkładnikCzynszuLokalu.Lokale = db.AktywneLokale.Where(l => l.kod_lok >= kod_1_1 && l.kod_lok <= kod_1_2 && l.nr_lok >= nr1 && l.nr_lok <= nr2).OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok).ToList();
+
+                            foreach (DostępDoBazy.AktywnyLokal lokal in DostępDoBazy.SkładnikCzynszuLokalu.Lokale)
                             {
-                                DostępDoBazy.Treść treść = db.Treści.FirstOrDefault();
+                                XmlNode nowyDruk = druk.CloneNode(true);
+                                XmlNode razem = nowyDruk.SelectSingleNode(XPathZnajdźElementPoId("razem"));
+                                XmlNode składnikOpłat = nowyDruk.SelectSingleNode(XPathZnajdźElementPoId("składnikOpłat"));
+                                decimal suma = 0;
 
-                                for (int i = 1; i <= 15; i++)
+                                WypełnijTagXml(nowyDruk, "nazwiskoImię", String.Format("{0} {1}", lokal.nazwisko, lokal.imie));
+                                WypełnijTagXml(nowyDruk, "adres1", lokal.adres);
+                                WypełnijTagXml(nowyDruk, "adres2", lokal.adres_2);
+                                WypełnijTagXml(nowyDruk, "kodLokalu", String.Format("{0} - {1}", lokal.kod_lok, lokal.nr_lok));
+                                WypełnijTagXml(nowyDruk, "powierzchnia", lokal.pow_uzyt);
+                                WypełnijTagXml(nowyDruk, "ilośćOsób", lokal.il_osob);
+                                WypełnijTagXml(nowyDruk, "data", DateTime.Now.ToShortDateString());
+
+                                if (db.Treści.Any())
                                 {
-                                    string op = typeof(DostępDoBazy.Treść).GetProperty(String.Format("op_{0}", i)).GetValue(treść).ToString();
+                                    DostępDoBazy.Treść treść = db.Treści.FirstOrDefault();
 
-                                    WypełnijTagXml(nowyDruk, String.Format("op{0}", i), op);
+                                    for (int i = 1; i <= 15; i++)
+                                    {
+                                        string op = typeof(DostępDoBazy.Treść).GetProperty(String.Format("op_{0}", i)).GetValue(treść).ToString();
+
+                                        WypełnijTagXml(nowyDruk, String.Format("op{0}", i), op);
+                                    }
                                 }
+
+                                foreach (DostępDoBazy.SkładnikCzynszuLokalu składnikCzynszuLokalu in db.SkładnikiCzynszuLokalu.Where(s => s.kod_lok == lokal.kod_lok && s.nr_lok == lokal.nr_lok).ToList())
+                                {
+                                    decimal ilość, stawka;
+                                    XmlNode nowySkładnikOpłat = składnikOpłat.CloneNode(true);
+                                    DostępDoBazy.SkładnikCzynszu składnikCzynszu = DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu.FirstOrDefault(s => s.nr_skl == składnikCzynszuLokalu.nr_skl);
+
+                                    składnikCzynszuLokalu.Rozpoznaj_ilosc_i_stawka(out ilość, out stawka);
+
+                                    switch (raport)
+                                    {
+                                        case Enumeratory.Raport.SkładnikiCzynszuStawkaInformacyjna:
+                                            stawka = składnikCzynszu.stawka_inf;
+
+                                            break;
+                                    }
+
+                                    decimal wartość = Decimal.Round(ilość * stawka, 2);
+                                    suma += wartość;
+
+                                    WypełnijTagXml(nowySkładnikOpłat, "nazwa", składnikCzynszu.nazwa);
+                                    WypełnijTagXml(nowySkładnikOpłat, "stawka", stawka.ToString("N2"));
+                                    WypełnijTagXml(nowySkładnikOpłat, "ilość", ilość.ToString("N2"));
+                                    WypełnijTagXml(nowySkładnikOpłat, "wartość", wartość.ToString("N2"));
+                                    składnikOpłat.ParentNode.InsertBefore(nowySkładnikOpłat, składnikOpłat);
+                                }
+
+                                WypełnijTagXml(nowyDruk, "razem", suma.ToString("N2"));
+                                składnikOpłat.ParentNode.RemoveChild(składnikOpłat);
+                                gotowaDefinicjaHtml.Add(nowyDruk.OuterXml);
                             }
 
-                            foreach (DostępDoBazy.SkładnikCzynszuLokalu składnikCzynszuLokalu in db.SkładnikiCzynszuLokalu.Where(s => s.kod_lok == lokal.kod_lok && s.nr_lok == lokal.nr_lok).ToList())
-                            {
-                                decimal ilość, stawka;
-                                XmlNode nowySkładnikOpłat = składnikOpłat.CloneNode(true);
-                                DostępDoBazy.SkładnikCzynszu składnikCzynszu = DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu.FirstOrDefault(s => s.nr_skl == składnikCzynszuLokalu.nr_skl);
+                            DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
+                            DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
 
-                                składnikCzynszuLokalu.Rozpoznaj_ilosc_i_stawka(out ilość, out stawka);
-
-                                switch(raport)
-                                {
-                                    case Enumeratory.Raport.SkładnikiCzynszuStawkaInformacyjna:
-                                        stawka = składnikCzynszu.stawka_inf;
-
-                                        break;
-                                }
-
-                                decimal wartość = Decimal.Round(ilość * stawka, 2);
-                                suma += wartość;
-
-                                WypełnijTagXml(nowySkładnikOpłat, "nazwa", składnikCzynszu.nazwa);
-                                WypełnijTagXml(nowySkładnikOpłat, "stawka", stawka.ToString("N2"));
-                                WypełnijTagXml(nowySkładnikOpłat, "ilość", ilość.ToString("N2"));
-                                WypełnijTagXml(nowySkładnikOpłat, "wartość", wartość.ToString("N2"));
-                                składnikOpłat.ParentNode.InsertBefore(nowySkładnikOpłat, składnikOpłat);
-                            }
-
-                            WypełnijTagXml(nowyDruk, "razem", suma.ToString("N2"));
-                            składnikOpłat.ParentNode.RemoveChild(składnikOpłat);
-                            gotowaDefinicjaHtml.Add(nowyDruk.OuterXml);
+                            using (System.IO.StreamWriter sw = new System.IO.StreamWriter(@"C:\Users\paldir\Desktop\test.html"))
+                                sw.Write(gotowaDefinicjaHtml);
                         }
-
-                        DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
-                        DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
-
-                        using (System.IO.StreamWriter sw = new System.IO.StreamWriter(@"C:\Users\paldir\Desktop\test.html"))
-                            sw.Write(gotowaDefinicjaHtml);
 
                         break;
                 }
