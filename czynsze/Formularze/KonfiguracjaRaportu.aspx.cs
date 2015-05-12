@@ -745,9 +745,6 @@ namespace czynsze.Formularze
 
                             DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
                             DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
-
-                            using (System.IO.StreamWriter sw = new System.IO.StreamWriter(@"C:\Users\paldir\Desktop\test.html"))
-                                sw.Write(gotowaDefinicjaHtml);
                         }
 
                         break;

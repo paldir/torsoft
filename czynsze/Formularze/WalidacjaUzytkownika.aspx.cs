@@ -31,7 +31,7 @@ namespace czynsze.Formularze
                 Response.Redirect("Start.aspx");
             }
             else
-                Response.Redirect("../Logowanie.aspx?reason=" + Enumeratory.PowódPrzeniesieniaNaStronęLogowania.NiepoprawneDaneUwierzytelniające);
+                Response.Redirect("../Logowanie.aspx?przyczyna=" + Enumeratory.PowódPrzeniesieniaNaStronęLogowania.NiepoprawneDaneUwierzytelniajace);
         }
     }
 }

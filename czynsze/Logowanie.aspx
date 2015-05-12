@@ -40,26 +40,26 @@
     </form>
     <script>
         <%
-            string reason = Request.Params["reason"];
+            string przyczyna = Request.Params["przyczyna"];
         
-            if (reason != null)
+            if (przyczyna != null)
             {
                 string message;
 
-                switch (reason)
+                switch (przyczyna)
                 {
-                    case "IncorrectCredentials":
+                    case "NiepoprawneDaneUwierzytelniajace":
                         message = "Musisz podać prawidłową nazwę użytkownika i hasło.";
                         
                         break;
 
-                    case "NotLoggedInOrSessionExpired":
+                    case "NiezalogowanyLubSesjaWygasla":
                         message = "Nie jesteś zalogowany lub Twoja sesja wygasła.";
                         
                         break;
 
                     default:
-                        message = reason;
+                        message = przyczyna;
                         
                         break;
                 }

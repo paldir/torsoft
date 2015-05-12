@@ -79,8 +79,8 @@ namespace czynsze
 
         public enum PowódPrzeniesieniaNaStronęLogowania
         {
-            NiepoprawneDaneUwierzytelniające,
-            NiezalogowanyLubSesjaWygasła
+            NiepoprawneDaneUwierzytelniajace,
+            NiezalogowanyLubSesjaWygasla
         };
 
         public enum Zbiór

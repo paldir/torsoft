@@ -50,7 +50,7 @@ function UpdateCounter(placeOfMinutes, placeOfSeconds) {
     }
 
     if (minutes <= 0 && seconds <= 0)
-        window.location.href = "../Logowanie.aspx?reason=NotLoggedInOrSessionExpired";
+        window.location.href = "../Logowanie.aspx?przyczyna=NiezalogowanyLubSesjaWygasla";
 }
 
 function ShowMenu(item) {
