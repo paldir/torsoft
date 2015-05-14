@@ -16,17 +16,17 @@ namespace czynsze.Formularze
 
         protected void timer_Tick(object sender, EventArgs e)
         {
-            progress.InnerText = String.Format("{0} %", GenerationOfReceivables.ProgressOfProcessingOfReceivables);
+            progress.InnerText = String.Format("{0} %", GeneracjaNaleznosci.PostępPrzetwarzaniaNależności);
 
-            if (GenerationOfReceivables.ProgressOfProcessingOfReceivables == 100 || !String.IsNullOrEmpty(GenerationOfReceivables.ErrorOfProcessingOfReceivables))
+            if (GeneracjaNaleznosci.PostępPrzetwarzaniaNależności == 100 || !String.IsNullOrEmpty(GeneracjaNaleznosci.BłądPrzetwarzaniaNależności))
             {
                 timer.Enabled = false;
                 string message;
 
-                if (GenerationOfReceivables.ProgressOfProcessingOfReceivables == 100)
+                if (GeneracjaNaleznosci.PostępPrzetwarzaniaNależności == 100)
                     message = "Generacja należności zakończona pomyślnie.";
                 else
-                    message = String.Format("{0}<br />Prosimy o kontakt z firmą. ", GenerationOfReceivables.ErrorOfProcessingOfReceivables);
+                    message = String.Format("{0}<br />Prosimy o kontakt z firmą. ", GeneracjaNaleznosci.BłądPrzetwarzaniaNależności);
 
                 info.Controls.Clear();
                 info.Controls.Add(new LiteralControl(String.Format("{0}<br />", message)));

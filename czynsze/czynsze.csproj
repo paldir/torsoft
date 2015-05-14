@@ -94,7 +94,7 @@
     <Content Include="Formularze\ChangeSettlementTable.aspx" />
     <Content Include="Formularze\CommunityBuildings.aspx" />
     <Content Include="Formularze\ContentsOfDescriptions.aspx" />
-    <Content Include="Formularze\GenerationOfReceivables.aspx" />
+    <Content Include="Formularze\GeneracjaNaleznosci.aspx" />
     <Content Include="Formularze\SkladnikiCzynszu.aspx" />
     <Content Include="Formularze\Start.aspx" />
     <Content Include="Formularze\List.aspx" />
@@ -158,12 +158,12 @@
     <Compile Include="Formularze\ContentsOfDescriptions.aspx.designer.cs">
       <DependentUpon>ContentsOfDescriptions.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Formularze\GenerationOfReceivables.aspx.cs">
-      <DependentUpon>GenerationOfReceivables.aspx</DependentUpon>
+    <Compile Include="Formularze\GeneracjaNaleznosci.aspx.cs">
+      <DependentUpon>GeneracjaNaleznosci.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Formularze\GenerationOfReceivables.aspx.designer.cs">
-      <DependentUpon>GenerationOfReceivables.aspx</DependentUpon>
+    <Compile Include="Formularze\GeneracjaNaleznosci.aspx.designer.cs">
+      <DependentUpon>GeneracjaNaleznosci.aspx</DependentUpon>
     </Compile>
     <Compile Include="Formularze\ProgressOfGenerationOfReceivables.aspx.cs">
       <DependentUpon>ProgressOfGenerationOfReceivables.aspx</DependentUpon>

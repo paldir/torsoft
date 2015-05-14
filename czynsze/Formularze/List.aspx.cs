@@ -115,8 +115,8 @@ namespace czynsze.Formularze
 
                 case Enumeratory.Tabela.NaleznosciWedlugNajemcow:
                 case Enumeratory.Tabela.WszystkieNaleznosciNajemcy:
-                case Enumeratory.Tabela.NieprzeterminowaneNależnosciNajemcy:
-                case Enumeratory.Tabela.NależnoscIObrotyNajemcy:
+                case Enumeratory.Tabela.NieprzeterminowaneNaleznosciNajemcy:
+                case Enumeratory.Tabela.NaleznoscIObrotyNajemcy:
                 case Enumeratory.Tabela.SaldoNajemcy:
 
                     break;
@@ -351,13 +351,13 @@ namespace czynsze.Formularze
                             new string[]
                             {
                                 "Należności",
-                                "<a href=\"javascript: Redirect('List.aspx?table=AllReceivablesOfTenant')\">Wszystkie</a>",
-                                "<a href=\"javascript: Redirect('List.aspx?table=NotPastReceivablesOfTenant')\">Nieprzeterminowane</a>"
+                                "<a href=\"javascript: Redirect('List.aspx?table=WszystkieNaleznosciNajemcy')\">Wszystkie</a>",
+                                "<a href=\"javascript: Redirect('List.aspx?table=NieprzeterminowaneNaleznosciNajemcy')\">Nieprzeterminowane</a>"
                             },
                             new string[]
                             {
                                 "Rozliczenia",
-                                "<a href=\"javascript: Redirect('List.aspx?table=ReceivablesAndTurnoversOfTenant')\">Należności i obroty</a>",
+                                "<a href=\"javascript: Redirect('List.aspx?table=NaleznoscIObrotyNajemcy')\">Należności i obroty</a>",
                                 "<a href='#'>Zaległości płatnicze</a>",
                             }
                         };
@@ -373,12 +373,12 @@ namespace czynsze.Formularze
                         list.SelectedIndexChanged += list_SelectedIndexChanged;
 
                         placeOfMainTableButtons.Controls.Add(list);
-                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", "saldo", "Saldo", "javascript: Redirect('List.aspx?table=TenantSaldo')"));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", "saldo", "Saldo", "javascript: Redirect('List.aspx?table=SaldoNajemcy')"));
 
                         break;
 
                     case Enumeratory.Tabela.WszystkieNaleznosciNajemcy:
-                    case Enumeratory.Tabela.NieprzeterminowaneNależnosciNajemcy:
+                    case Enumeratory.Tabela.NieprzeterminowaneNaleznosciNajemcy:
                         headers = new string[] { "Kwota należności", "Termin zapłaty", "Uwagi", "Kod lokalu", "Nr lokalu" };
                         sortable = false;
                         indexesOfNumericColumns = new List<int>() { 1, 4, 5 };
@@ -395,7 +395,7 @@ namespace czynsze.Formularze
 
                                     break;
 
-                                case Enumeratory.Tabela.NieprzeterminowaneNależnosciNajemcy:
+                                case Enumeratory.Tabela.NieprzeterminowaneNaleznosciNajemcy:
                                     heading += " (nieprzeterminowane)";
                                     rows = receivables.Where(r => r.data_nal >= Start.Data).Select(r => r.WażnePola()).ToList();
 
@@ -405,7 +405,7 @@ namespace czynsze.Formularze
 
                         break;
 
-                    case Enumeratory.Tabela.NależnoscIObrotyNajemcy:
+                    case Enumeratory.Tabela.NaleznoscIObrotyNajemcy:
                         headers = new string[] { "Kwota Wn", "Kwota Ma", "Data", "Operacja" };
                         sortable = false;
                         indexesOfNumericColumns = new List<int>() { 1, 2 };
@@ -633,8 +633,8 @@ namespace czynsze.Formularze
                     break;
 
                 case Enumeratory.Tabela.WszystkieNaleznosciNajemcy:
-                case Enumeratory.Tabela.NieprzeterminowaneNależnosciNajemcy:
-                case Enumeratory.Tabela.NależnoscIObrotyNajemcy:
+                case Enumeratory.Tabela.NieprzeterminowaneNaleznosciNajemcy:
+                case Enumeratory.Tabela.NaleznoscIObrotyNajemcy:
                 case Enumeratory.Tabela.SaldoNajemcy:
                 case Enumeratory.Tabela.ObrotyNajemcy:
                     if (Start.ŚcieżkaStrony.Count > 2)

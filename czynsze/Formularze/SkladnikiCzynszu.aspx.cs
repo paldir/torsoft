@@ -19,10 +19,13 @@ namespace czynsze.Formularze
             if (String.IsNullOrEmpty(zakres))
                 using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
                 {
-                    string minimalnyBudynek = (db.Budynki.Any() ? db.Budynki.Min(b => b.kod_1) : 0).ToString();
-                    string minimalnyLokal = (db.AktywneLokale.Any() ? db.AktywneLokale.Min(p => p.nr_lok) : 0).ToString();
-                    string maksymalnyBudynek = (db.Budynki.Any() ? db.Budynki.Max(b => b.kod_1) : 0).ToString();
-                    string maksymalnyLokal = (db.AktywneLokale.Any() ? db.AktywneLokale.Max(p => p.nr_lok) : 0).ToString();
+                    IEnumerable<DostępDoBazy.AktywnyLokal> lokale = db.AktywneLokale.OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok);
+                    DostępDoBazy.AktywnyLokal pierwszyLokal = lokale.First();
+                    DostępDoBazy.AktywnyLokal ostatniLokal = lokale.Last();
+                    string minimalnyBudynek = pierwszyLokal.kod_lok.ToString();
+                    string minimalnyLokal = pierwszyLokal.nr_lok.ToString();
+                    string maksymalnyBudynek = ostatniLokal.kod_lok.ToString();
+                    string maksymalnyLokal = ostatniLokal.nr_lok.ToString();
 
                     pojemnikRadio.Controls.Add(new Kontrolki.Label("label", "stawka", "Wybór stawki: ", String.Empty));
 
@@ -40,28 +43,31 @@ namespace czynsze.Formularze
                         } 
                     }, Enumeratory.Raport.SkładnikiCzynszuStawkaZwykła.ToString(), true, false));
 
+                    List<string[]> lokaleDoListy = new List<string[]>();
+
+                    foreach (DostępDoBazy.AktywnyLokal lokal in lokale)
+                    {
+                        string id = String.Format("{0}-{1}", lokal.kod_lok, lokal.nr_lok);
+
+                        lokaleDoListy.Add(new string[] { id, id, lokal.adres, lokal.adres_2 });
+                    }
+
                     DodajNowąLinię(pojemnikReszty);
-                    pojemnikReszty.Controls.Add(new Kontrolki.Label("label", "odLokaluBudynku", "Numer budynku pierwszego lokalu: ", String.Empty));
-                    pojemnikReszty.Controls.Add(new Kontrolki.TextBox("field", "odLokaluBudynku", minimalnyBudynek, Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 5, 1, true));
-                    pojemnikReszty.Controls.Add(new Kontrolki.Label("label", "odLokalu", " Numer pierwszego lokalu: ", String.Empty));
-                    pojemnikReszty.Controls.Add(new Kontrolki.TextBox("field", "odLokalu", minimalnyLokal, Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 3, 1, true));
+                    pojemnikReszty.Controls.Add(new Kontrolki.Label("label", "odLokalu", "Pierwszy lokal: ", String.Empty));
+                    pojemnikReszty.Controls.Add(new Kontrolki.DropDownList("field", "odLokalu", lokaleDoListy, String.Format("{0}-{1}", minimalnyBudynek, minimalnyLokal), true, false));
                     DodajNowąLinię(pojemnikReszty);
-                    pojemnikReszty.Controls.Add(new Kontrolki.Label("label", "doLokaluBudynku", "Numer budynku ostatniego lokalu: ", String.Empty));
-                    pojemnikReszty.Controls.Add(new Kontrolki.TextBox("field", "doLokaluBudynku", maksymalnyBudynek, Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 5, 1, true));
-                    pojemnikReszty.Controls.Add(new Kontrolki.Label("label", "doLokalu", " Numer ostatniego lokalu: ", String.Empty));
-                    pojemnikReszty.Controls.Add(new Kontrolki.TextBox("field", "doLokalu", maksymalnyLokal, Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 3, 1, true));
+                    pojemnikReszty.Controls.Add(new Kontrolki.Label("label", "doLokalu", "Ostatni lokal: ", String.Empty));
+                    pojemnikReszty.Controls.Add(new Kontrolki.DropDownList("field", "doLokalu", lokaleDoListy, String.Format("{0}-{1}", maksymalnyBudynek, maksymalnyLokal), true, false));
                     DodajNowąLinię(pojemnikReszty);
                     pojemnikReszty.Controls.Add(new Kontrolki.Button("button", "przycisk", "Wybierz", String.Empty));
                 }
             else
             {
                 Enumeratory.Raport raport = PobierzWartośćParametru<Enumeratory.Raport>("stawka");
-                string kod_1_1 = PobierzWartośćParametru<string>("odLokaluBudynku");
-                string nr1 = PobierzWartośćParametru<string>("odLokalu");
-                string kod_1_2 = PobierzWartośćParametru<string>("doLokaluBudynku");
-                string nr2 = PobierzWartośćParametru<string>("doLokalu");
+                string[] odLokalu = PobierzWartośćParametru<string>("odLokalu").Split('-');
+                string[] doLokalu = PobierzWartośćParametru<string>("doLokalu").Split('-');
 
-                Response.Redirect(String.Format("KonfiguracjaRaportu.aspx?{0}raport=dummy&odBudynku={1}&odLokalu={2}&doBudynku={3}&doLokalu={4}", raport, kod_1_1, nr1, kod_1_2, nr2));
+                Response.Redirect(String.Format("KonfiguracjaRaportu.aspx?{0}raport=dummy&odBudynku={1}&odLokalu={2}&doBudynku={3}&doLokalu={4}", raport, odLokalu[0], odLokalu[1], doLokalu[0], doLokalu[1]));
             }
         }
     }

@@ -474,10 +474,14 @@ namespace czynsze.Formularze
                                     DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
                                     int indeks = 1;
                                     decimal ogólnaSuma = 0;
+                                    List<DostępDoBazy.AktywnyLokal> wszystkieLokale = db.AktywneLokale.OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok).ToList();
+                                    int indeksPierwszego = wszystkieLokale.FindIndex(l => l.kod_lok == kod1 && l.nr_lok == nr1);
+                                    int indeksOstatniego = wszystkieLokale.FindLastIndex(l => l.kod_lok == kod2 && l.nr_lok == nr2);
+                                    List<DostępDoBazy.AktywnyLokal> wybraneLokale = wszystkieLokale.GetRange(indeksPierwszego, indeksOstatniego - indeksPierwszego + 1);
 
                                     for (int i = kod1; i <= kod2; i++)
                                     {
-                                        List<DostępDoBazy.AktywnyLokal> aktywneLokale = db.AktywneLokale.Where(p => p.kod_lok == i && p.nr_lok >= nr1 && p.nr_lok <= nr2).OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok).ToList();
+                                        List<DostępDoBazy.AktywnyLokal> aktywneLokale = wybraneLokale.Where(p => p.kod_lok == i).OrderBy(p => p.nr_lok).ToList();
                                         DostępDoBazy.SkładnikCzynszuLokalu.Lokale = aktywneLokale;
                                         DostępDoBazy.Budynek budynki = db.Budynki.FirstOrDefault(b => b.kod_1 == i);
                                         List<string[]> tabela = new List<string[]>();
@@ -671,7 +675,10 @@ namespace czynsze.Formularze
                             int nr1 = identyfikatory[1];
                             int kod_1_2 = identyfikatory[2];
                             int nr2 = identyfikatory[3];
-                            DostępDoBazy.SkładnikCzynszuLokalu.Lokale = db.AktywneLokale.Where(l => l.kod_lok >= kod_1_1 && l.kod_lok <= kod_1_2 && l.nr_lok >= nr1 && l.nr_lok <= nr2).OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok).ToList();
+                            List<DostępDoBazy.AktywnyLokal> wszystkieLokale = db.AktywneLokale.OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok).ToList();
+                            int indeksPierwszego = wszystkieLokale.FindIndex(l => l.kod_lok == kod_1_1 && l.nr_lok == nr1);
+                            int indeksDrugiego = wszystkieLokale.FindLastIndex(l => l.kod_lok == kod_1_2 && l.nr_lok == nr2);
+                            DostępDoBazy.SkładnikCzynszuLokalu.Lokale = wszystkieLokale.GetRange(indeksPierwszego, indeksDrugiego - indeksPierwszego + 1);
 
                             foreach (DostępDoBazy.AktywnyLokal lokal in DostępDoBazy.SkładnikCzynszuLokalu.Lokale)
                             {
