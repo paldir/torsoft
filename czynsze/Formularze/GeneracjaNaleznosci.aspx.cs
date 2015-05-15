@@ -53,6 +53,30 @@ namespace czynsze.Formularze
             set { ViewState["doLokalu"] = value; }
         }
 
+        int minimumBudynków
+        {
+            get { return Convert.ToInt32(ViewState["minimumBudynków"]); }
+            set { ViewState["minimumBudynków"] = value; }
+        }
+
+        int minimumLokali
+        {
+            get { return Convert.ToInt32(ViewState["minimumLokali"]); }
+            set { ViewState["minimumLokali"] = value; }
+        }
+
+        int maksimumBudynków
+        {
+            get { return Convert.ToInt32(ViewState["maksimumBudynków"]); }
+            set { ViewState["maksimumBudynków"] = value; }
+        }
+
+        int maksimumLokali
+        {
+            get { return Convert.ToInt32(ViewState["maksimumLokali"]); }
+            set { ViewState["maksimumLokali"] = value; }
+        }
+
         public static int PostępPrzetwarzaniaNależności { get; private set; }
         public static string BłądPrzetwarzaniaNależności { get; private set; }
 
@@ -66,13 +90,6 @@ namespace czynsze.Formularze
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
                 Func<DostępDoBazy.Należność, bool> należnościZZakresuLokali = r => r.kod_lok >= odBudynku && r.kod_lok <= doBudynku && r.nr_lok >= odLokalu && r.nr_lok <= doLokalu;
-                IEnumerable<DostępDoBazy.AktywnyLokal> wszystkieLokale = db.AktywneLokale.OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok);
-                DostępDoBazy.AktywnyLokal pierwszyLokal = wszystkieLokale.First();
-                DostępDoBazy.AktywnyLokal ostatniLokal = wszystkieLokale.Last();
-                int minimumBudynków = pierwszyLokal.kod_lok;
-                int minimumLokali = pierwszyLokal.nr_lok;
-                int maksimumBudynków = ostatniLokal.kod_lok;
-                int maksimumLokali = ostatniLokal.nr_lok;
 
                 if (String.IsNullOrEmpty(trybGeneracji))
                     if (db.Zamknięte.ToList().Exists(c => c.rok == Start.Data.Year && c.miesiac == Start.Data.Month && c.z_rok && c.z_mies))
@@ -80,6 +97,10 @@ namespace czynsze.Formularze
                     else
                     {
                         dzień = db.Konfiguracje.FirstOrDefault().p_46;
+                        int kod_1_1;
+                        int nr1;
+                        int kod_1_2;
+                        int nr2;
 
                         if (dzień >= 1)
                         {
@@ -88,15 +109,6 @@ namespace czynsze.Formularze
                         }
                         else
                             dzień = 15;
-
-                        List<string[]> lokale = new List<string[]>();
-
-                        foreach (DostępDoBazy.AktywnyLokal lokal in wszystkieLokale)
-                        {
-                            string id = String.Format("{0}-{1}", lokal.kod_lok, lokal.nr_lok);
-
-                            lokale.Add(new string[] { id, id, lokal.adres, lokal.adres_2 });
-                        }
 
                         placeOfDate.Controls.Add(new LiteralControl("Podaj termin płatności: "));
                         DodajNowąLinię(placeOfDate);
@@ -110,11 +122,12 @@ namespace czynsze.Formularze
                         DodajNowąLinię(placeOfGeneration);
                         placeOfGeneration.Controls.Add(new Kontrolki.Button("button", "odDoGeneracja", "Generacja od-do żądanego lokalu", String.Empty));
                         DodajNowąLinię(placeOfGeneration);
-                        placeOfGeneration.Controls.Add(new Kontrolki.Label("label", "odLokalu", "Pierwszy lokal: ", String.Empty));
-                        placeOfGeneration.Controls.Add(new Kontrolki.DropDownList("field", "odLokalu", lokale, String.Format("{0}-{1}", minimumBudynków, minimumLokali), true, false));
-                        DodajNowąLinię(placeOfGeneration);
-                        placeOfGeneration.Controls.Add(new Kontrolki.Label("label", "doLokalu", "Ostatni lokal: ", String.Empty));
-                        placeOfGeneration.Controls.Add(new Kontrolki.DropDownList("field", "doLokalu", lokale, String.Format("{0}-{1}", maksimumBudynków, maksimumLokali), true, false));
+                        DodajWybórLokali(placeOfGeneration, out kod_1_1, out nr1, out kod_1_2, out nr2);
+
+                        minimumBudynków = kod_1_1;
+                        minimumLokali = nr1;
+                        maksimumBudynków = kod_1_2;
+                        maksimumLokali = nr2;
                     }
                 else
                 {

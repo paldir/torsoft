@@ -108,6 +108,7 @@
     <Content Include="Formularze\KonfiguracjaRaportu.aspx" />
     <Content Include="Formularze\Szablon.html" />
     <Content Include="Formularze\WalidacjaUzytkownika.aspx" />
+    <Content Include="Formularze\WykazWgSkladnika.aspx" />
     <Content Include="Images\icon.ico" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\waterMark.bmp" />
@@ -192,6 +193,13 @@
     </Compile>
     <Compile Include="Formularze\SkladnikiCzynszu.aspx.designer.cs">
       <DependentUpon>SkladnikiCzynszu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\WykazWgSkladnika.aspx.cs">
+      <DependentUpon>WykazWgSkladnika.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\WykazWgSkladnika.aspx.designer.cs">
+      <DependentUpon>WykazWgSkladnika.aspx</DependentUpon>
     </Compile>
     <Compile Include="Kontrolki\Button.cs" />
     <Compile Include="Kontrolki\CheckBoxList.cs" />
