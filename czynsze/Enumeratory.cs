@@ -54,7 +54,8 @@ namespace czynsze
             KwotaCzynszuBudynków,
             KwotaCzynszuWspólnot,
             SkładnikiCzynszuStawkaZwykła,
-            SkładnikiCzynszuStawkaInformacyjna
+            SkładnikiCzynszuStawkaInformacyjna,
+            WykazWgSkladnika
         };
 
         public enum FormatRaportu

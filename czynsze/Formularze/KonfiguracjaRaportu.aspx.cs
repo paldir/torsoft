@@ -121,34 +121,50 @@ namespace czynsze.Formularze
                 case Enumeratory.Raport.KwotaCzynszuLokali:
                 case Enumeratory.Raport.KwotaCzynszuBudynków:
                 case Enumeratory.Raport.KwotaCzynszuWspólnot:
-                    switch ((Enumeratory.KwotaCzynszu)Session["trybKwotyCzynszu"])
+                case Enumeratory.Raport.SkładnikiCzynszuStawkaZwykła:
+                case Enumeratory.Raport.SkładnikiCzynszuStawkaInformacyjna:
+                case Enumeratory.Raport.WykazWgSkladnika:
+                    identyfikatory[0] = PobierzWartośćParametru<int>("odBudynku");
+                    identyfikatory[1] = PobierzWartośćParametru<int>("odLokalu");
+                    identyfikatory[2] = PobierzWartośćParametru<int>("doBudynku");
+                    identyfikatory[3] = PobierzWartośćParametru<int>("doLokalu");
+
+                    switch (raport)
                     {
-                        case Enumeratory.KwotaCzynszu.Biezaca:
-                            nagłówek += "(Bieżąca kwota czynszu)";
+                        case Enumeratory.Raport.KwotaCzynszuLokali:
+                        case Enumeratory.Raport.KwotaCzynszuBudynków:
+                        case Enumeratory.Raport.KwotaCzynszuWspólnot:
+                            identyfikatory[4] = PobierzWartośćParametru<int>("odWspólnoty");
+                            identyfikatory[5] = PobierzWartośćParametru<int>("doWspólnoty");
+
+                            switch ((Enumeratory.KwotaCzynszu)Session["trybKwotyCzynszu"])
+                            {
+                                case Enumeratory.KwotaCzynszu.Biezaca:
+                                    nagłówek += "(Bieżąca kwota czynszu)";
+
+                                    break;
+
+                                case Enumeratory.KwotaCzynszu.ZaDanyMiesiac:
+                                    nagłówek += "(Kwota czynszu za dany miesiąc)";
+
+                                    break;
+                            }
 
                             break;
 
-                        case Enumeratory.KwotaCzynszu.ZaDanyMiesiac:
-                            nagłówek += "(Za dany miesiąc)";
+                        case Enumeratory.Raport.SkładnikiCzynszuStawkaZwykła:
+                            nagłówek += "Składniki czynszu - stawka zwykła";
+
+                            break;
+                        case Enumeratory.Raport.SkładnikiCzynszuStawkaInformacyjna:
+                            nagłówek += "Składniki czynszu - stawka informacyjna";
+
+                            break;
+                        case Enumeratory.Raport.WykazWgSkladnika:
+                            nagłówek += "Wykaz wg składnika";
 
                             break;
                     }
-
-                    identyfikatory[0] = PobierzWartośćParametru<int>("odBudynku");
-                    identyfikatory[1] = PobierzWartośćParametru<int>("odLokalu");
-                    identyfikatory[2] = PobierzWartośćParametru<int>("doBudynku");
-                    identyfikatory[3] = PobierzWartośćParametru<int>("doLokalu");
-                    identyfikatory[4] = PobierzWartośćParametru<int>("odWspólnoty");
-                    identyfikatory[5] = PobierzWartośćParametru<int>("doWspólnoty");
-
-                    break;
-
-                case Enumeratory.Raport.SkładnikiCzynszuStawkaZwykła:
-                case Enumeratory.Raport.SkładnikiCzynszuStawkaInformacyjna:
-                    identyfikatory[0] = PobierzWartośćParametru<int>("odBudynku");
-                    identyfikatory[1] = PobierzWartośćParametru<int>("odLokalu");
-                    identyfikatory[2] = PobierzWartośćParametru<int>("doBudynku");
-                    identyfikatory[3] = PobierzWartośćParametru<int>("doLokalu");
 
                     break;
             }
@@ -739,6 +755,25 @@ namespace czynsze.Formularze
                             }
 
                             DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
+                            DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
+                        }
+
+                        break;
+
+                    case Enumeratory.Raport.WykazWgSkladnika:
+                        {
+                            List<string[]> tabela = new List<string[]>();
+                            List<DostępDoBazy.AktywnyLokal> wszystkieLokale = db.AktywneLokale.OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok).ToList();
+                            int indeksPierwszego = wszystkieLokale.FindIndex(l => l.kod_lok == identyfikatory[0] && l.nr_lok == identyfikatory[1]);
+                            int indeksOstatniego = wszystkieLokale.FindIndex(l => l.kod_lok == identyfikatory[2] && l.nr_lok == identyfikatory[3]);
+                            wszystkieLokale = wszystkieLokale.GetRange(indeksPierwszego, indeksOstatniego - indeksPierwszego + 1);
+                            DostępDoBazy.SkładnikCzynszuLokalu.Lokale = wszystkieLokale;
+
+                            foreach(DostępDoBazy.AktywnyLokal lokal in wszystkieLokale)
+                            {
+
+                            }
+
                             DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
                         }
 
