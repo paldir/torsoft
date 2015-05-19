@@ -162,6 +162,7 @@ namespace czynsze.Formularze
                             break;
                         case Enumeratory.Raport.WykazWgSkladnika:
                             nagłówek += "Wykaz wg składnika";
+                            identyfikatory[4] = PobierzWartośćParametru<int>("nrSkladnika");
 
                             break;
                     }
@@ -455,182 +456,121 @@ namespace czynsze.Formularze
                     case Enumeratory.Raport.KwotaCzynszuLokali:
                     case Enumeratory.Raport.KwotaCzynszuBudynków:
                     case Enumeratory.Raport.KwotaCzynszuWspólnot:
-                        Enumeratory.KwotaCzynszu trybKwotyCzynszu = ((Enumeratory.KwotaCzynszu)Convert.ChangeType(Session["trybKwotyCzynszu"], typeof(Enumeratory.KwotaCzynszu)));
-                        DateTime data = Start.Data;
-                        DateTime początekMiesiąca = new DateTime(data.Year, data.Month, 1);
-                        DateTime koniecMiesiąca = początekMiesiąca.AddDays(DateTime.DaysInMonth(początekMiesiąca.Year, początekMiesiąca.Month)).AddSeconds(-1);
-                        IEnumerable<DostępDoBazy.NależnośćZPierwszegoZbioru> należnościZaDanyMiesiąc = null;
-
-                        switch (trybKwotyCzynszu)
                         {
-                            case Enumeratory.KwotaCzynszu.Biezaca:
-                                tytuł = "BIEZACA KWOTA CZYNSZU";
+                            Enumeratory.KwotaCzynszu trybKwotyCzynszu = ((Enumeratory.KwotaCzynszu)Convert.ChangeType(Session["trybKwotyCzynszu"], typeof(Enumeratory.KwotaCzynszu)));
+                            DateTime data = Start.Data;
+                            DateTime początekMiesiąca = new DateTime(data.Year, data.Month, 1);
+                            DateTime koniecMiesiąca = początekMiesiąca.AddDays(DateTime.DaysInMonth(początekMiesiąca.Year, początekMiesiąca.Month)).AddSeconds(-1);
+                            IEnumerable<DostępDoBazy.NależnośćZPierwszegoZbioru> należnościZaDanyMiesiąc = null;
 
-                                break;
+                            switch (trybKwotyCzynszu)
+                            {
+                                case Enumeratory.KwotaCzynszu.Biezaca:
+                                    tytuł = "BIEZACA KWOTA CZYNSZU";
 
-                            case Enumeratory.KwotaCzynszu.ZaDanyMiesiac:
-                                tytuł = String.Format("KWOTA CZYNSZU ZA {0} {1}", System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[data.Month - 1].ToString().ToUpper(), data.Year);
-                                należnościZaDanyMiesiąc = db.NależnościZPierwszegoZbioru.Where(n => n.data_nal >= początekMiesiąca && n.data_nal <= koniecMiesiąca);
+                                    break;
 
-                                break;
-                        }
+                                case Enumeratory.KwotaCzynszu.ZaDanyMiesiac:
+                                    tytuł = String.Format("KWOTA CZYNSZU ZA {0} {1}", System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[data.Month - 1].ToString().ToUpper(), data.Year);
+                                    należnościZaDanyMiesiąc = db.NależnościZPierwszegoZbioru.Where(n => n.data_nal >= początekMiesiąca && n.data_nal <= koniecMiesiąca);
 
-                        switch (raport)
-                        {
-                            case Enumeratory.Raport.KwotaCzynszuLokali:
-                                nagłówki = new List<string>() { "Lp.", "Kod budynku", "Nr lokalu", "Typ lokalu", "Nazwisko", "Imię", "Adres", "Kwota czynszu" };
+                                    break;
+                            }
 
-                                //using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
-                                {
-                                    int kod1 = identyfikatory[0];
-                                    int nr1 = identyfikatory[1];
-                                    int kod2 = identyfikatory[2];
-                                    int nr2 = identyfikatory[3];
-                                    DostępDoBazy.Lokal.TypesOfPlace = db.TypyLokali.ToList();
-                                    DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
-                                    int indeks = 1;
-                                    decimal ogólnaSuma = 0;
-                                    List<DostępDoBazy.AktywnyLokal> wszystkieLokale = db.AktywneLokale.OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok).ToList();
-                                    int indeksPierwszego = wszystkieLokale.FindIndex(l => l.kod_lok == kod1 && l.nr_lok == nr1);
-                                    int indeksOstatniego = wszystkieLokale.FindLastIndex(l => l.kod_lok == kod2 && l.nr_lok == nr2);
-                                    List<DostępDoBazy.AktywnyLokal> wybraneLokale = wszystkieLokale.GetRange(indeksPierwszego, indeksOstatniego - indeksPierwszego + 1);
+                            switch (raport)
+                            {
+                                case Enumeratory.Raport.KwotaCzynszuLokali:
+                                    nagłówki = new List<string>() { "Lp.", "Kod budynku", "Nr lokalu", "Typ lokalu", "Nazwisko", "Imię", "Adres", "Kwota czynszu" };
 
-                                    for (int i = kod1; i <= kod2; i++)
+                                    //using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
                                     {
-                                        List<DostępDoBazy.AktywnyLokal> aktywneLokale = wybraneLokale.Where(p => p.kod_lok == i).OrderBy(p => p.nr_lok).ToList();
-                                        DostępDoBazy.SkładnikCzynszuLokalu.Lokale = aktywneLokale;
-                                        DostępDoBazy.Budynek budynki = db.Budynki.FirstOrDefault(b => b.kod_1 == i);
-                                        List<string[]> tabela = new List<string[]>();
-                                        decimal sumaBudynku = 0;
+                                        int kod1 = identyfikatory[0];
+                                        int nr1 = identyfikatory[1];
+                                        int kod2 = identyfikatory[2];
+                                        int nr2 = identyfikatory[3];
+                                        DostępDoBazy.Lokal.TypesOfPlace = db.TypyLokali.ToList();
+                                        DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
+                                        int indeks = 1;
+                                        decimal ogólnaSuma = 0;
+                                        List<DostępDoBazy.AktywnyLokal> wszystkieLokale = db.AktywneLokale.OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok).ToList();
+                                        int indeksPierwszego = wszystkieLokale.FindIndex(l => l.kod_lok == kod1 && l.nr_lok == nr1);
+                                        int indeksOstatniego = wszystkieLokale.FindLastIndex(l => l.kod_lok == kod2 && l.nr_lok == nr2);
+                                        List<DostępDoBazy.AktywnyLokal> wybraneLokale = wszystkieLokale.GetRange(indeksPierwszego, indeksOstatniego - indeksPierwszego + 1);
 
-                                        foreach (DostępDoBazy.Lokal lokal in aktywneLokale)
+                                        for (int i = kod1; i <= kod2; i++)
                                         {
-                                            decimal suma = 0;
+                                            List<DostępDoBazy.AktywnyLokal> aktywneLokale = wybraneLokale.Where(p => p.kod_lok == i).OrderBy(p => p.nr_lok).ToList();
+                                            DostępDoBazy.SkładnikCzynszuLokalu.Lokale = aktywneLokale;
+                                            DostępDoBazy.Budynek budynki = db.Budynki.FirstOrDefault(b => b.kod_1 == i);
+                                            List<string[]> tabela = new List<string[]>();
+                                            decimal sumaBudynku = 0;
 
-                                            switch (trybKwotyCzynszu)
+                                            foreach (DostępDoBazy.Lokal lokal in aktywneLokale)
                                             {
-                                                case Enumeratory.KwotaCzynszu.Biezaca:
-                                                    foreach (DostępDoBazy.SkładnikCzynszuLokalu składnikCzynszuLokalu in db.SkładnikiCzynszuLokalu.Where(c => c.kod_lok == lokal.kod_lok && c.nr_lok == lokal.nr_lok))
-                                                    {
-                                                        decimal ilosc;
-                                                        decimal stawka;
+                                                decimal suma = 0;
 
-                                                        składnikCzynszuLokalu.Rozpoznaj_ilosc_i_stawka(out ilosc, out stawka);
+                                                switch (trybKwotyCzynszu)
+                                                {
+                                                    case Enumeratory.KwotaCzynszu.Biezaca:
+                                                        foreach (DostępDoBazy.SkładnikCzynszuLokalu składnikCzynszuLokalu in db.SkładnikiCzynszuLokalu.Where(c => c.kod_lok == lokal.kod_lok && c.nr_lok == lokal.nr_lok))
+                                                        {
+                                                            decimal ilosc;
+                                                            decimal stawka;
 
-                                                        suma += Decimal.Round(ilosc * stawka, 2);
-                                                    }
+                                                            składnikCzynszuLokalu.Rozpoznaj_ilosc_i_stawka(out ilosc, out stawka);
 
-                                                    break;
+                                                            suma += Decimal.Round(ilosc * stawka, 2);
+                                                        }
 
-                                                case Enumeratory.KwotaCzynszu.ZaDanyMiesiac:
-                                                    foreach (DostępDoBazy.NależnośćZPierwszegoZbioru należność in należnościZaDanyMiesiąc.Where(n => n.kod_lok == lokal.kod_lok && n.nr_lok == lokal.nr_lok))
-                                                        suma += należność.kwota_nal;
+                                                        break;
 
-                                                    break;
+                                                    case Enumeratory.KwotaCzynszu.ZaDanyMiesiac:
+                                                        foreach (DostępDoBazy.NależnośćZPierwszegoZbioru należność in należnościZaDanyMiesiąc.Where(n => n.kod_lok == lokal.kod_lok && n.nr_lok == lokal.nr_lok))
+                                                            suma += należność.kwota_nal;
+
+                                                        break;
+                                                }
+
+                                                tabela.Add(new string[] { indeks.ToString(), lokal.kod_lok.ToString(), lokal.nr_lok.ToString(), lokal.Rozpoznaj_kod_typ(), lokal.nazwisko, lokal.imie, String.Format("{0} {1}", lokal.adres, lokal.adres_2), String.Format("{0:N2}", suma) });
+
+                                                indeks++;
+                                                sumaBudynku += suma;
                                             }
 
-                                            tabela.Add(new string[] { indeks.ToString(), lokal.kod_lok.ToString(), lokal.nr_lok.ToString(), lokal.Rozpoznaj_kod_typ(), lokal.nazwisko, lokal.imie, String.Format("{0} {1}", lokal.adres, lokal.adres_2), String.Format("{0:N2}", suma) });
+                                            tabela.Add(new string[] { String.Empty, i.ToString(), String.Empty, String.Empty, "<b>RAZEM</b>", "<b>BUDYNEK</b>", String.Format("{0} {1}", budynki.adres, budynki.adres_2), String.Format("{0:N2}", sumaBudynku) });
+                                            tabele.Add(tabela);
+                                            podpisy.Add(String.Empty);
 
-                                            indeks++;
-                                            sumaBudynku += suma;
+                                            DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
+                                            ogólnaSuma += sumaBudynku;
                                         }
 
-                                        tabela.Add(new string[] { String.Empty, i.ToString(), String.Empty, String.Empty, "<b>RAZEM</b>", "<b>BUDYNEK</b>", String.Format("{0} {1}", budynki.adres, budynki.adres_2), String.Format("{0:N2}", sumaBudynku) });
-                                        tabele.Add(tabela);
-                                        podpisy.Add(String.Empty);
+                                        DostępDoBazy.Lokal.TypesOfPlace = null;
+                                        DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
 
-                                        DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
-                                        ogólnaSuma += sumaBudynku;
+                                        if (tabele.Any())
+                                            tabele.Last().Add(new string[] { String.Empty, String.Empty, String.Empty, String.Empty, "<b>RAZEM</b>", "<b>WSZYSTKIE</b>", "<b>BUDYNKI</b>", String.Format("{0:N2}", ogólnaSuma) });
                                     }
 
-                                    DostępDoBazy.Lokal.TypesOfPlace = null;
-                                    DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
+                                    break;
 
-                                    if (tabele.Any())
-                                        tabele.Last().Add(new string[] { String.Empty, String.Empty, String.Empty, String.Empty, "<b>RAZEM</b>", "<b>WSZYSTKIE</b>", "<b>BUDYNKI</b>", String.Format("{0:N2}", ogólnaSuma) });
-                                }
+                                case Enumeratory.Raport.KwotaCzynszuBudynków:
+                                    nagłówki = new List<string>() { "Lp.", "Kod budynku", "Adres", "Kwota czynszu" };
 
-                                break;
-
-                            case Enumeratory.Raport.KwotaCzynszuBudynków:
-                                nagłówki = new List<string>() { "Lp.", "Kod budynku", "Adres", "Kwota czynszu" };
-
-                                //using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
-                                {
-                                    int kod1 = identyfikatory[0];
-                                    int kod2 = identyfikatory[2];
-                                    decimal sumaGłówna = 0;
-                                    DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
-                                    List<string[]> tabela = new List<string[]>();
-
-                                    for (int i = kod1; i <= kod2; i++)
+                                    //using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
                                     {
-                                        DostępDoBazy.Budynek budynek = db.Budynki.FirstOrDefault(b => b.kod_1 == i);
-                                        decimal suma = 0;
-                                        List<DostępDoBazy.AktywnyLokal> aktywneLokale = db.AktywneLokale.Where(p => p.kod_lok == i).ToList();
-                                        DostępDoBazy.SkładnikCzynszuLokalu.Lokale = aktywneLokale;
-
-                                        foreach (DostępDoBazy.AktywnyLokal aktywnyLokal in aktywneLokale)
-                                            switch (trybKwotyCzynszu)
-                                            {
-                                                case Enumeratory.KwotaCzynszu.Biezaca:
-                                                    foreach (DostępDoBazy.SkładnikCzynszuLokalu składnikCzynszuLokalu in db.SkładnikiCzynszuLokalu.Where(c => c.kod_lok == i && c.nr_lok == aktywnyLokal.nr_lok))
-                                                    {
-                                                        decimal ilosc;
-                                                        decimal stawka;
-
-                                                        składnikCzynszuLokalu.Rozpoznaj_ilosc_i_stawka(out ilosc, out stawka);
-
-                                                        suma += Decimal.Round(ilosc * stawka, 2);
-                                                    }
-
-                                                    break;
-
-                                                case Enumeratory.KwotaCzynszu.ZaDanyMiesiac:
-                                                    foreach (DostępDoBazy.NależnośćZPierwszegoZbioru należność in należnościZaDanyMiesiąc.Where(n => n.kod_lok == i && n.nr_lok == aktywnyLokal.nr_lok))
-                                                        suma += należność.kwota_nal;
-
-                                                    break;
-                                            }
-
-                                        sumaGłówna += suma;
-                                        DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
-
-                                        tabela.Add(new string[] { String.Format("{0}", i - kod1 + 1), budynek.kod_1.ToString(), String.Format("{0} {1}", budynek.adres, budynek.adres_2), String.Format("{0:N2}", suma) });
-                                    }
-
-                                    DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
-
-                                    tabela.Add(new string[] { String.Empty, String.Empty, "<b>RAZEM</b>", String.Format("{0:N2}", sumaGłówna) });
-                                    podpisy.Add(String.Empty);
-                                    tabele.Add(tabela);
-                                }
-
-                                break;
-
-                            case Enumeratory.Raport.KwotaCzynszuWspólnot:
-                                nagłówki = new List<string>() { "Lp.", "Kod budynku", "Adres", "Kwota czynszu" };
-
-                                //using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
-                                {
-                                    int kod1 = identyfikatory[4];
-                                    int kod2 = identyfikatory[5];
-                                    decimal sumaOgólna = 0;
-                                    DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
-
-                                    for (int i = kod1; i <= kod2; i++)
-                                    {
-                                        List<DostępDoBazy.BudynekWspólnoty> budynkiWspólnoty = db.BudynkiWspólnot.Where(b => b.kod == i).ToList();
-                                        DostępDoBazy.Wspólnota wspólnota = db.Wspólnoty.FirstOrDefault(w => w.kod == i);
-                                        decimal sumaWspólnoty = 0;
+                                        int kod1 = identyfikatory[0];
+                                        int kod2 = identyfikatory[2];
+                                        decimal sumaGłówna = 0;
+                                        DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
                                         List<string[]> tabela = new List<string[]>();
 
-                                        foreach (DostępDoBazy.BudynekWspólnoty budynekWspólnoty in budynkiWspólnoty)
+                                        for (int i = kod1; i <= kod2; i++)
                                         {
-                                            DostępDoBazy.Budynek budynek = db.Budynki.FirstOrDefault(b => b.kod_1 == budynekWspólnoty.kod_1);
-                                            List<DostępDoBazy.AktywnyLokal> aktywneLokale = db.AktywneLokale.Where(p => p.kod_lok == budynek.kod_1).ToList();
-                                            DostępDoBazy.SkładnikCzynszuLokalu.Lokale = aktywneLokale;
+                                            DostępDoBazy.Budynek budynek = db.Budynki.FirstOrDefault(b => b.kod_1 == i);
                                             decimal suma = 0;
+                                            List<DostępDoBazy.AktywnyLokal> aktywneLokale = db.AktywneLokale.Where(p => p.kod_lok == i).ToList();
+                                            DostępDoBazy.SkładnikCzynszuLokalu.Lokale = aktywneLokale;
 
                                             foreach (DostępDoBazy.AktywnyLokal aktywnyLokal in aktywneLokale)
                                                 switch (trybKwotyCzynszu)
@@ -655,23 +595,86 @@ namespace czynsze.Formularze
                                                         break;
                                                 }
 
-                                            sumaWspólnoty += suma;
+                                            sumaGłówna += suma;
                                             DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
 
                                             tabela.Add(new string[] { String.Format("{0}", i - kod1 + 1), budynek.kod_1.ToString(), String.Format("{0} {1}", budynek.adres, budynek.adres_2), String.Format("{0:N2}", suma) });
                                         }
 
-                                        sumaOgólna += sumaWspólnoty;
+                                        DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
 
-                                        tabela.Add(new string[] { String.Empty, String.Empty, "<b>RAZEM</b>", String.Format("{0:N2}", sumaWspólnoty) });
+                                        tabela.Add(new string[] { String.Empty, String.Empty, "<b>RAZEM</b>", String.Format("{0:N2}", sumaGłówna) });
+                                        podpisy.Add(String.Empty);
                                         tabele.Add(tabela);
-                                        podpisy.Add(String.Format("{0} {1} {2}", wspólnota.nazwa_pel, wspólnota.adres, wspólnota.adres_2));
                                     }
 
-                                    DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
-                                }
+                                    break;
 
-                                break;
+                                case Enumeratory.Raport.KwotaCzynszuWspólnot:
+                                    nagłówki = new List<string>() { "Lp.", "Kod budynku", "Adres", "Kwota czynszu" };
+
+                                    //using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
+                                    {
+                                        int kod1 = identyfikatory[4];
+                                        int kod2 = identyfikatory[5];
+                                        decimal sumaOgólna = 0;
+                                        DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
+
+                                        for (int i = kod1; i <= kod2; i++)
+                                        {
+                                            List<DostępDoBazy.BudynekWspólnoty> budynkiWspólnoty = db.BudynkiWspólnot.Where(b => b.kod == i).ToList();
+                                            DostępDoBazy.Wspólnota wspólnota = db.Wspólnoty.FirstOrDefault(w => w.kod == i);
+                                            decimal sumaWspólnoty = 0;
+                                            List<string[]> tabela = new List<string[]>();
+
+                                            foreach (DostępDoBazy.BudynekWspólnoty budynekWspólnoty in budynkiWspólnoty)
+                                            {
+                                                DostępDoBazy.Budynek budynek = db.Budynki.FirstOrDefault(b => b.kod_1 == budynekWspólnoty.kod_1);
+                                                List<DostępDoBazy.AktywnyLokal> aktywneLokale = db.AktywneLokale.Where(p => p.kod_lok == budynek.kod_1).ToList();
+                                                DostępDoBazy.SkładnikCzynszuLokalu.Lokale = aktywneLokale;
+                                                decimal suma = 0;
+
+                                                foreach (DostępDoBazy.AktywnyLokal aktywnyLokal in aktywneLokale)
+                                                    switch (trybKwotyCzynszu)
+                                                    {
+                                                        case Enumeratory.KwotaCzynszu.Biezaca:
+                                                            foreach (DostępDoBazy.SkładnikCzynszuLokalu składnikCzynszuLokalu in db.SkładnikiCzynszuLokalu.Where(c => c.kod_lok == i && c.nr_lok == aktywnyLokal.nr_lok))
+                                                            {
+                                                                decimal ilosc;
+                                                                decimal stawka;
+
+                                                                składnikCzynszuLokalu.Rozpoznaj_ilosc_i_stawka(out ilosc, out stawka);
+
+                                                                suma += Decimal.Round(ilosc * stawka, 2);
+                                                            }
+
+                                                            break;
+
+                                                        case Enumeratory.KwotaCzynszu.ZaDanyMiesiac:
+                                                            foreach (DostępDoBazy.NależnośćZPierwszegoZbioru należność in należnościZaDanyMiesiąc.Where(n => n.kod_lok == i && n.nr_lok == aktywnyLokal.nr_lok))
+                                                                suma += należność.kwota_nal;
+
+                                                            break;
+                                                    }
+
+                                                sumaWspólnoty += suma;
+                                                DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
+
+                                                tabela.Add(new string[] { String.Format("{0}", i - kod1 + 1), budynek.kod_1.ToString(), String.Format("{0} {1}", budynek.adres, budynek.adres_2), String.Format("{0:N2}", suma) });
+                                            }
+
+                                            sumaOgólna += sumaWspólnoty;
+
+                                            tabela.Add(new string[] { String.Empty, String.Empty, "<b>RAZEM</b>", String.Format("{0:N2}", sumaWspólnoty) });
+                                            tabele.Add(tabela);
+                                            podpisy.Add(String.Format("{0} {1} {2}", wspólnota.nazwa_pel, wspólnota.adres, wspólnota.adres_2));
+                                        }
+
+                                        DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
+                                    }
+
+                                    break;
+                            }
                         }
 
                         break;
@@ -768,13 +771,41 @@ namespace czynsze.Formularze
                             int indeksOstatniego = wszystkieLokale.FindIndex(l => l.kod_lok == identyfikatory[2] && l.nr_lok == identyfikatory[3]);
                             wszystkieLokale = wszystkieLokale.GetRange(indeksPierwszego, indeksOstatniego - indeksPierwszego + 1);
                             DostępDoBazy.SkładnikCzynszuLokalu.Lokale = wszystkieLokale;
+                            int nrSkładnika = identyfikatory[4];
+                            DostępDoBazy.SkładnikCzynszu składnikCzynszu = db.SkładnikiCzynszu.First(s => s.nr_skl == nrSkładnika);
+                            DateTime data = Start.Data;
+                            DateTime początekMiesiąca = data.AddDays(-data.Day + 1);
+                            int rok = data.Year;
+                            int miesiąc = data.Month;
+                            DateTime koniecMiesiąca = new DateTime(rok, miesiąc, DateTime.DaysInMonth(rok, miesiąc));
+                            IEnumerable<DostępDoBazy.NależnośćZPierwszegoZbioru> należnościZBieżącegoMiesiącaDotycząceDanegoSkładnika = db.NależnościZPierwszegoZbioru.Where(n => n.nr_skl == nrSkładnika && n.data_nal >= początekMiesiąca && n.data_nal <= koniecMiesiąca);
+                            nagłówki = new List<string>() { "L.p.", "Kod budynku", "Nr lokalu", "Adres", "Stawka", "Ilość", "Wartość" };
+                            tytuł = "Wykaz wedlug skladnika";
 
-                            foreach(DostępDoBazy.AktywnyLokal lokal in wszystkieLokale)
+                            for (int i = 1; i <= wszystkieLokale.Count; i++)
                             {
+                                DostępDoBazy.Lokal lokal = wszystkieLokale[i - 1];
+                                DostępDoBazy.NależnośćZPierwszegoZbioru należność = należnościZBieżącegoMiesiącaDotycząceDanegoSkładnika.FirstOrDefault(n => n.kod_lok == lokal.kod_lok && n.nr_lok == lokal.nr_lok);
+                                decimal stawka;
+                                decimal ilość;
 
+                                if (należność == null)
+                                    stawka = ilość = 0;
+                                else
+                                {
+                                    stawka = należność.stawka;
+                                    ilość = należność.ilosc;
+                                }
+
+                                decimal wartość = Decimal.Round(stawka * ilość, 2);
+
+                                tabela.Add(new string[] { i.ToString(), lokal.kod_lok.ToString(), lokal.nr_lok.ToString(), String.Format("{0} {1}", lokal.adres, lokal.adres_2), stawka.ToString("N2"), ilość.ToString("N2"), wartość.ToString("N2") });
                             }
 
                             DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
+
+                            tabele.Add(tabela);
+                            podpisy.Add(składnikCzynszu.nazwa);
                         }
 
                         break;
