@@ -153,16 +153,28 @@ namespace czynsze.Formularze
                             break;
 
                         case Enumeratory.Raport.SkładnikiCzynszuStawkaZwykła:
-                            nagłówek += "Składniki czynszu - stawka zwykła";
+                            nagłówek += "(Składniki czynszu - stawka zwykła)";
 
                             break;
                         case Enumeratory.Raport.SkładnikiCzynszuStawkaInformacyjna:
-                            nagłówek += "Składniki czynszu - stawka informacyjna";
+                            nagłówek += "(Składniki czynszu - stawka informacyjna)";
 
                             break;
                         case Enumeratory.Raport.WykazWgSkladnika:
-                            nagłówek += "Wykaz wg składnika";
                             identyfikatory[4] = PobierzWartośćParametru<int>("nrSkladnika");
+
+                            switch((Enumeratory.WykazWedługSkładnika)Convert.ChangeType(Session["trybWykazuWedługSkładnika"], typeof(Enumeratory.WykazWedługSkładnika)))
+                            {
+                                case Enumeratory.WykazWedługSkładnika.Obecny:
+                                    nagłówek += "(Wykaz wg składnika - obecny)";
+
+                                    break;
+
+                                case Enumeratory.WykazWedługSkładnika.HistoriaOgolem:
+                                    nagłówek += "(Wykaz wg składnika - historia ogółem)";
+
+                                    break;
+                            }
 
                             break;
                     }

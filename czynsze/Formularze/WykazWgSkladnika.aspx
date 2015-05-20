@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="WykazWgSkladnika.aspx.cs" Inherits="czynsze.Formularze.WykazWgSkladnika" %>
+﻿<%@ Page Title="Wykaz wg składnika" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="WykazWgSkladnika.aspx.cs" Inherits="czynsze.Formularze.WykazWgSkladnika" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>

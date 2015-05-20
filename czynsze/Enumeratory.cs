@@ -103,5 +103,11 @@ namespace czynsze
             Ksiazka,
             Woda
         }
+
+        public enum WykazWedługSkładnika
+        {
+            Obecny,
+            HistoriaOgolem
+        }
     }
 }
