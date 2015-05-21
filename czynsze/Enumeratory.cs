@@ -107,7 +107,8 @@ namespace czynsze
         public enum WykazWedługSkładnika
         {
             Obecny,
-            HistoriaOgolem
+            HistoriaOgolem,
+            HistoriaSpecyfikacja
         }
     }
 }

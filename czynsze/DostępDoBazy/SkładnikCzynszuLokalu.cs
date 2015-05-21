@@ -59,7 +59,7 @@ namespace czynsze.DostępDoBazy
                 składnikCzynszu.nazwa,
                 stawka.ToString("F2"),
                 ilosc.ToString("F2"),
-                String.Format("{0:N2}", Decimal.Round(stawka*ilosc, 2)),
+                String.Format("{0:N}", Decimal.Round(stawka*ilosc, 2)),
                 dat_od,
                 dat_od
             };

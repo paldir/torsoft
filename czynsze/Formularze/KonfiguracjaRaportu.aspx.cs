@@ -163,7 +163,7 @@ namespace czynsze.Formularze
                         case Enumeratory.Raport.WykazWgSkladnika:
                             identyfikatory[4] = PobierzWartośćParametru<int>("nrSkladnika");
 
-                            switch((Enumeratory.WykazWedługSkładnika)Convert.ChangeType(Session["trybWykazuWedługSkładnika"], typeof(Enumeratory.WykazWedługSkładnika)))
+                            switch((Enumeratory.WykazWedługSkładnika)Convert.ChangeType(Session["trybWykazuWgSkładnika"], typeof(Enumeratory.WykazWedługSkładnika)))
                             {
                                 case Enumeratory.WykazWedługSkładnika.Obecny:
                                     nagłówek += "(Wykaz wg składnika - obecny)";
@@ -319,7 +319,7 @@ namespace czynsze.Formularze
                                             podpisy[0] += db.SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == nr_skl).nazwa;
 
                                             for (int i = 1; i <= 12; i++)
-                                                tabele[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", należności.Where(r => r.nr_skl == nr_skl).ToList().Where(r => r.data_nal.Year == Start.Data.Year && r.data_nal.Month == i).Sum(r => r.kwota_nal)) });
+                                                tabele[0].Add(new string[] { i.ToString(), String.Format("{0:N}", należności.Where(r => r.nr_skl == nr_skl).ToList().Where(r => r.data_nal.Year == Start.Data.Year && r.data_nal.Month == i).Sum(r => r.kwota_nal)) });
                                         }
                                         else
                                         {
@@ -327,10 +327,10 @@ namespace czynsze.Formularze
                                             podpisy[0] += db.RodzajePłatności.FirstOrDefault(t => t.kod_wplat == kod_wplat).typ_wplat;
 
                                             for (int i = 1; i <= 12; i++)
-                                                tabele[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", obroty.Where(t => t.kod_wplat == kod_wplat).ToList().Where(t => t.data_obr.Year == Start.Data.Year && t.data_obr.Month == i).Sum(t => t.suma)) });
+                                                tabele[0].Add(new string[] { i.ToString(), String.Format("{0:N}", obroty.Where(t => t.kod_wplat == kod_wplat).ToList().Where(t => t.data_obr.Year == Start.Data.Year && t.data_obr.Month == i).Sum(t => t.suma)) });
                                         }
 
-                                        tabele[0].Add(new string[] { "Razem", String.Format("{0:N2}", tabele[0].Sum(r => Single.Parse(r[1]))) });
+                                        tabele[0].Add(new string[] { "Razem", String.Format("{0:N}", tabele[0].Sum(r => Single.Parse(r[1]))) });
 
                                         break;
 
@@ -360,8 +360,8 @@ namespace czynsze.Formularze
                                         sumaWn = tabele[0].Sum(r => String.IsNullOrEmpty(r[0]) ? 0 : Decimal.Parse(r[0]));
                                         sumaMa = tabele[0].Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
 
-                                        tabele[0].Add(new string[] { String.Format("{0:N2}", sumaWn), String.Format("{0:N2}", sumaMa), String.Empty, String.Empty });
-                                        tabele[0].Add(new string[] { "SALDO", String.Format("{0:N2}", sumaMa - sumaWn), String.Empty, String.Empty });
+                                        tabele[0].Add(new string[] { String.Format("{0:N}", sumaWn), String.Format("{0:N}", sumaMa), String.Empty, String.Empty });
+                                        tabele[0].Add(new string[] { "SALDO", String.Format("{0:N}", sumaMa - sumaWn), String.Empty, String.Empty });
 
                                         break;
 
@@ -381,7 +381,7 @@ namespace czynsze.Formularze
                                             kwotyWn.Add(sumaWn);
                                             kwotyMa.Add(sumaMa);
                                             salda.Add(sumaMa - sumaWn);
-                                            tabele[0].Add(new string[] { i.ToString(), String.Format("{0:N2}", sumaWn), String.Format("{0:N2}", sumaMa), String.Format("{0:N2}", salda.Last()), String.Format("{0:N2}", kwotyWn.Sum()), String.Format("{0:N2}", kwotyMa.Sum()), String.Format("{0:N2}", salda.Sum()) });
+                                            tabele[0].Add(new string[] { i.ToString(), String.Format("{0:N}", sumaWn), String.Format("{0:N}", sumaMa), String.Format("{0:N}", salda.Last()), String.Format("{0:N}", kwotyWn.Sum()), String.Format("{0:N}", kwotyMa.Sum()), String.Format("{0:N}", salda.Sum()) });
                                         }
 
                                         break;
@@ -440,10 +440,10 @@ namespace czynsze.Formularze
                                             nowyWiersz[0] = i.ToString();
 
                                             for (int j = 1; j <= 4; j++)
-                                                nowyWiersz[j] = String.Format("{0:N2}", suma[j - 1]);
+                                                nowyWiersz[j] = String.Format("{0:N}", suma[j - 1]);
 
-                                            nowyWiersz[5] = String.Format("{0:N2}", salda.Last());
-                                            nowyWiersz[6] = String.Format("{0:N2}", salda.Sum());
+                                            nowyWiersz[5] = String.Format("{0:N}", salda.Last());
+                                            nowyWiersz[6] = String.Format("{0:N}", salda.Sum());
 
                                             tabele[0].Add(nowyWiersz);
                                         }
@@ -452,7 +452,7 @@ namespace czynsze.Formularze
                                         nowyWiersz[0] = "Razem";
 
                                         for (int i = 1; i < nowyWiersz.Length - 1; i++)
-                                            nowyWiersz[i] = String.Format("{0:N2}", tabele[0].Sum(r => Single.Parse(r[i])));
+                                            nowyWiersz[i] = String.Format("{0:N}", tabele[0].Sum(r => Single.Parse(r[i])));
 
                                         nowyWiersz[6] = nowyWiersz[5];
 
@@ -543,13 +543,13 @@ namespace czynsze.Formularze
                                                         break;
                                                 }
 
-                                                tabela.Add(new string[] { indeks.ToString(), lokal.kod_lok.ToString(), lokal.nr_lok.ToString(), lokal.Rozpoznaj_kod_typ(), lokal.nazwisko, lokal.imie, String.Format("{0} {1}", lokal.adres, lokal.adres_2), String.Format("{0:N2}", suma) });
+                                                tabela.Add(new string[] { indeks.ToString(), lokal.kod_lok.ToString(), lokal.nr_lok.ToString(), lokal.Rozpoznaj_kod_typ(), lokal.nazwisko, lokal.imie, String.Format("{0} {1}", lokal.adres, lokal.adres_2), String.Format("{0:N}", suma) });
 
                                                 indeks++;
                                                 sumaBudynku += suma;
                                             }
 
-                                            tabela.Add(new string[] { String.Empty, i.ToString(), String.Empty, String.Empty, "<b>RAZEM</b>", "<b>BUDYNEK</b>", String.Format("{0} {1}", budynki.adres, budynki.adres_2), String.Format("{0:N2}", sumaBudynku) });
+                                            tabela.Add(new string[] { String.Empty, i.ToString(), String.Empty, String.Empty, "<b>RAZEM</b>", "<b>BUDYNEK</b>", String.Format("{0} {1}", budynki.adres, budynki.adres_2), String.Format("{0:N}", sumaBudynku) });
                                             tabele.Add(tabela);
                                             podpisy.Add(String.Empty);
 
@@ -561,7 +561,7 @@ namespace czynsze.Formularze
                                         DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
 
                                         if (tabele.Any())
-                                            tabele.Last().Add(new string[] { String.Empty, String.Empty, String.Empty, String.Empty, "<b>RAZEM</b>", "<b>WSZYSTKIE</b>", "<b>BUDYNKI</b>", String.Format("{0:N2}", ogólnaSuma) });
+                                            tabele.Last().Add(new string[] { String.Empty, String.Empty, String.Empty, String.Empty, "<b>RAZEM</b>", "<b>WSZYSTKIE</b>", "<b>BUDYNKI</b>", String.Format("{0:N}", ogólnaSuma) });
                                     }
 
                                     break;
@@ -610,12 +610,12 @@ namespace czynsze.Formularze
                                             sumaGłówna += suma;
                                             DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
 
-                                            tabela.Add(new string[] { String.Format("{0}", i - kod1 + 1), budynek.kod_1.ToString(), String.Format("{0} {1}", budynek.adres, budynek.adres_2), String.Format("{0:N2}", suma) });
+                                            tabela.Add(new string[] { String.Format("{0}", i - kod1 + 1), budynek.kod_1.ToString(), String.Format("{0} {1}", budynek.adres, budynek.adres_2), String.Format("{0:N}", suma) });
                                         }
 
                                         DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
 
-                                        tabela.Add(new string[] { String.Empty, String.Empty, "<b>RAZEM</b>", String.Format("{0:N2}", sumaGłówna) });
+                                        tabela.Add(new string[] { String.Empty, String.Empty, "<b>RAZEM</b>", String.Format("{0:N}", sumaGłówna) });
                                         podpisy.Add(String.Empty);
                                         tabele.Add(tabela);
                                     }
@@ -672,12 +672,12 @@ namespace czynsze.Formularze
                                                 sumaWspólnoty += suma;
                                                 DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
 
-                                                tabela.Add(new string[] { String.Format("{0}", i - kod1 + 1), budynek.kod_1.ToString(), String.Format("{0} {1}", budynek.adres, budynek.adres_2), String.Format("{0:N2}", suma) });
+                                                tabela.Add(new string[] { String.Format("{0}", i - kod1 + 1), budynek.kod_1.ToString(), String.Format("{0} {1}", budynek.adres, budynek.adres_2), String.Format("{0:N}", suma) });
                                             }
 
                                             sumaOgólna += sumaWspólnoty;
 
-                                            tabela.Add(new string[] { String.Empty, String.Empty, "<b>RAZEM</b>", String.Format("{0:N2}", sumaWspólnoty) });
+                                            tabela.Add(new string[] { String.Empty, String.Empty, "<b>RAZEM</b>", String.Format("{0:N}", sumaWspólnoty) });
                                             tabele.Add(tabela);
                                             podpisy.Add(String.Format("{0} {1} {2}", wspólnota.nazwa_pel, wspólnota.adres, wspólnota.adres_2));
                                         }
@@ -758,13 +758,13 @@ namespace czynsze.Formularze
                                     suma += wartość;
 
                                     WypełnijTagXml(nowySkładnikOpłat, "nazwa", składnikCzynszu.nazwa);
-                                    WypełnijTagXml(nowySkładnikOpłat, "stawka", stawka.ToString("N2"));
-                                    WypełnijTagXml(nowySkładnikOpłat, "ilość", ilość.ToString("N2"));
-                                    WypełnijTagXml(nowySkładnikOpłat, "wartość", wartość.ToString("N2"));
+                                    WypełnijTagXml(nowySkładnikOpłat, "stawka", stawka.ToString("N"));
+                                    WypełnijTagXml(nowySkładnikOpłat, "ilość", ilość.ToString("N"));
+                                    WypełnijTagXml(nowySkładnikOpłat, "wartość", wartość.ToString("N"));
                                     składnikOpłat.ParentNode.InsertBefore(nowySkładnikOpłat, składnikOpłat);
                                 }
 
-                                WypełnijTagXml(nowyDruk, "razem", suma.ToString("N2"));
+                                WypełnijTagXml(nowyDruk, "razem", suma.ToString("N"));
                                 składnikOpłat.ParentNode.RemoveChild(składnikOpłat);
                                 gotowaDefinicjaHtml.Add(nowyDruk.OuterXml);
                             }
@@ -777,47 +777,171 @@ namespace czynsze.Formularze
 
                     case Enumeratory.Raport.WykazWgSkladnika:
                         {
-                            List<string[]> tabela = new List<string[]>();
                             List<DostępDoBazy.AktywnyLokal> wszystkieLokale = db.AktywneLokale.OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok).ToList();
                             int indeksPierwszego = wszystkieLokale.FindIndex(l => l.kod_lok == identyfikatory[0] && l.nr_lok == identyfikatory[1]);
                             int indeksOstatniego = wszystkieLokale.FindIndex(l => l.kod_lok == identyfikatory[2] && l.nr_lok == identyfikatory[3]);
                             wszystkieLokale = wszystkieLokale.GetRange(indeksPierwszego, indeksOstatniego - indeksPierwszego + 1);
-                            DostępDoBazy.SkładnikCzynszuLokalu.Lokale = wszystkieLokale;
                             int nrSkładnika = identyfikatory[4];
                             DostępDoBazy.SkładnikCzynszu składnikCzynszu = db.SkładnikiCzynszu.First(s => s.nr_skl == nrSkładnika);
                             DateTime data = Start.Data;
-                            DateTime początekMiesiąca = data.AddDays(-data.Day + 1);
-                            int rok = data.Year;
-                            int miesiąc = data.Month;
-                            DateTime koniecMiesiąca = new DateTime(rok, miesiąc, DateTime.DaysInMonth(rok, miesiąc));
-                            IEnumerable<DostępDoBazy.NależnośćZPierwszegoZbioru> należnościZBieżącegoMiesiącaDotycząceDanegoSkładnika = db.NależnościZPierwszegoZbioru.Where(n => n.nr_skl == nrSkładnika && n.data_nal >= początekMiesiąca && n.data_nal <= koniecMiesiąca);
-                            nagłówki = new List<string>() { "L.p.", "Kod budynku", "Nr lokalu", "Adres", "Stawka", "Ilość", "Wartość" };
-                            tytuł = "Wykaz wedlug skladnika";
+                            DateTime początekMiesiąca = DateTime.MaxValue;
+                            DateTime koniecMiesiąca = new DateTime(data.Year, data.Month, 1).AddMonths(1).AddSeconds(-1);
+                            IEnumerable<DostępDoBazy.NależnośćZPierwszegoZbioru> należnościDotycząceDanegoSkładnika = db.NależnościZPierwszegoZbioru.Where(n => n.nr_skl == nrSkładnika && n.data_nal <= koniecMiesiąca);
+                            IEnumerable<DostępDoBazy.NależnośćZPierwszegoZbioru> należnościDoAnalizy = null;
+                            nagłówki = new List<string>() { "L.p.", "Kod budynku", "Nr lokalu", "Nazwisko", "Imię", "Adres" };
+                            tytuł = "Wykaz wedlug skladnika ";
+                            Enumeratory.WykazWedługSkładnika tryb = (Enumeratory.WykazWedługSkładnika)Convert.ChangeType(Session["trybWykazuWgSkładnika"], typeof(Enumeratory.WykazWedługSkładnika));
 
-                            for (int i = 1; i <= wszystkieLokale.Count; i++)
+                            switch (tryb)
                             {
-                                DostępDoBazy.Lokal lokal = wszystkieLokale[i - 1];
-                                DostępDoBazy.NależnośćZPierwszegoZbioru należność = należnościZBieżącegoMiesiącaDotycząceDanegoSkładnika.FirstOrDefault(n => n.kod_lok == lokal.kod_lok && n.nr_lok == lokal.nr_lok);
-                                decimal stawka;
-                                decimal ilość;
+                                case Enumeratory.WykazWedługSkładnika.HistoriaOgolem:
+                                case Enumeratory.WykazWedługSkładnika.HistoriaSpecyfikacja:
+                                    string rodzajHistorii = null;
+                                    początekMiesiąca = Convert.ToDateTime(Session["dataWykazuWgSkładnika"]);
+                                    należnościDoAnalizy = należnościDotycząceDanegoSkładnika.Where(n => n.data_nal >= początekMiesiąca);
 
-                                if (należność == null)
-                                    stawka = ilość = 0;
-                                else
-                                {
-                                    stawka = należność.stawka;
-                                    ilość = należność.ilosc;
-                                }
+                                    switch (tryb)
+                                    {
+                                        case Enumeratory.WykazWedługSkładnika.HistoriaOgolem:
+                                            rodzajHistorii = "ogolem";
 
-                                decimal wartość = Decimal.Round(stawka * ilość, 2);
+                                            break;
 
-                                tabela.Add(new string[] { i.ToString(), lokal.kod_lok.ToString(), lokal.nr_lok.ToString(), String.Format("{0} {1}", lokal.adres, lokal.adres_2), stawka.ToString("N2"), ilość.ToString("N2"), wartość.ToString("N2") });
+                                        case Enumeratory.WykazWedługSkładnika.HistoriaSpecyfikacja:
+                                            rodzajHistorii = "specyfikacja";
+
+                                            break;
+                                    }
+
+                                    tytuł += String.Format("({0} od {1:yyyy - MM} do {2:yyyy - MM})", rodzajHistorii, początekMiesiąca, koniecMiesiąca);
+
+                                    break;
+
+                                case Enumeratory.WykazWedługSkładnika.Obecny:
+                                    tytuł += "(Biezacy miesiac)";
+                                    początekMiesiąca = data.AddDays(-data.Day + 1);
+                                    należnościDoAnalizy = należnościDotycząceDanegoSkładnika.Where(n => n.data_nal >= początekMiesiąca);
+
+                                    break;
                             }
 
-                            DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
+                            switch (tryb)
+                            {
+                                case Enumeratory.WykazWedługSkładnika.HistoriaSpecyfikacja:
+                                case Enumeratory.WykazWedługSkładnika.Obecny:
+                                    nagłówki.AddRange(new string[] { "Stawka", "Ilość" });
 
-                            tabele.Add(tabela);
-                            podpisy.Add(składnikCzynszu.nazwa);
+                                    break;
+                            }
+
+                            nagłówki.Add("Wartość");
+
+                            switch (tryb)
+                            {
+                                case Enumeratory.WykazWedługSkładnika.Obecny:
+                                case Enumeratory.WykazWedługSkładnika.HistoriaOgolem:
+                                    {
+                                        List<string[]> tabela = new List<string[]>();
+
+                                        for (int i = 1; i <= wszystkieLokale.Count; i++)
+                                        {
+                                            DostępDoBazy.Lokal lokal = wszystkieLokale[i - 1];
+                                            IEnumerable<DostępDoBazy.NależnośćZPierwszegoZbioru> należnościLokalu = należnościDoAnalizy.Where(n => n.kod_lok == lokal.kod_lok && n.nr_lok == lokal.nr_lok);
+                                            List<string> opcjonalnyKawałekTablicy = null;
+                                            decimal wartość = 0;
+
+                                            switch (tryb)
+                                            {
+                                                case Enumeratory.WykazWedługSkładnika.Obecny:
+                                                    decimal stawka;
+                                                    decimal ilość;
+
+                                                    if (należnościLokalu.Any())
+                                                    {
+                                                        DostępDoBazy.NależnośćZPierwszegoZbioru należność = należnościLokalu.Single();
+                                                        stawka = należność.stawka;
+                                                        ilość = należność.ilosc;
+                                                        wartość = należność.kwota_nal;
+                                                    }
+                                                    else
+                                                    {
+                                                        stawka = 0;
+                                                        ilość = 0;
+                                                    }
+
+                                                    opcjonalnyKawałekTablicy = new List<string>() { stawka.ToString("N"), ilość.ToString("N") };
+
+                                                    break;
+
+                                                case Enumeratory.WykazWedługSkładnika.HistoriaOgolem:
+                                                    opcjonalnyKawałekTablicy = new List<string>();
+
+                                                    if (należnościLokalu.Any())
+                                                        wartość = należnościLokalu.Sum(n => n.kwota_nal);
+
+                                                    break;
+                                            }
+
+                                            tabela.Add(new List<string>() { i.ToString(), lokal.kod_lok.ToString(), lokal.nr_lok.ToString(), lokal.nazwisko, lokal.imie, String.Format("{0} {1}", lokal.adres, lokal.adres_2) }.Concat(opcjonalnyKawałekTablicy).Concat(new string[] { wartość.ToString("N") }).ToArray());
+                                        }
+
+                                        tabele.Add(tabela);
+                                        podpisy.Add(składnikCzynszu.nazwa);
+                                    }
+
+                                    break;
+
+                                case Enumeratory.WykazWedługSkładnika.HistoriaSpecyfikacja:
+                                    {
+                                        List<DateTime> początkiMiesięcy = new List<DateTime>();
+                                        List<DateTime> końceMiesięcy = new List<DateTime>();
+                                        nagłówki = new List<string>() { "L.p.", "Nazwisko", "Imię", "Adres", "Miesiąc", "Stawka", "Ilość", "Wartość" };
+                                        List<string[]> tabela = new List<string[]>();
+
+                                        for (DateTime i = początekMiesiąca; i <= koniecMiesiąca; i = i.AddMonths(1))
+                                        {
+                                            początkiMiesięcy.Add(i);
+                                            końceMiesięcy.Add(i.AddMonths(1).AddSeconds(-1));
+                                        }
+
+                                        for (int i = 1; i <= wszystkieLokale.Count; i++)
+                                        {
+                                            DostępDoBazy.AktywnyLokal lokal = wszystkieLokale[i - 1];
+                                            int kodLokalu = lokal.kod_lok;
+                                            int nrLokalu = lokal.nr_lok;
+                                            IEnumerable<DostępDoBazy.NależnośćZPierwszegoZbioru> należnościLokalu = należnościDoAnalizy.Where(n => n.kod_lok == kodLokalu && n.nr_lok == nrLokalu);
+
+                                            tabela.Add(new string[] { i.ToString(), lokal.nazwisko, lokal.imie, String.Format("{0} {1}", lokal.adres, lokal.adres_2), String.Empty, String.Empty, String.Empty, String.Empty });
+
+                                            for (int j = 0; j < początkiMiesięcy.Count; j++)
+                                            {
+                                                decimal stawka = 0;
+                                                decimal ilość = 0;
+                                                decimal wartość = 0;
+                                                DateTime początek = początkiMiesięcy[j];
+
+                                                if (należnościLokalu.Any())
+                                                {
+                                                    DostępDoBazy.NależnośćZPierwszegoZbioru należność = należnościLokalu.SingleOrDefault(n => n.data_nal >= początek && n.data_nal <= końceMiesięcy[j]);
+
+                                                    if (należność != null)
+                                                    {
+                                                        stawka = należność.stawka;
+                                                        ilość = należność.ilosc;
+                                                        wartość = należność.kwota_nal;
+                                                    }
+                                                }
+
+                                                tabela.Add(new string[] { String.Empty, String.Empty, String.Empty, String.Empty, String.Format("{0:yyyy - MM}", początek), stawka.ToString("N"), ilość.ToString("N"), wartość.ToString("N") });
+                                            }
+                                        }
+
+                                        tabele.Add(tabela);
+                                        podpisy.Add(składnikCzynszu.nazwa);
+                                    }
+
+                                    break;
+                            }
                         }
 
                         break;

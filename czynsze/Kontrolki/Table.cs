@@ -150,7 +150,7 @@ namespace czynsze.Kontrolki
                 if (!cellText.Contains(','))
                     format = "{0:N0}";
                 else
-                    format = "{0:N2}";
+                    format = "{0:N}";
 
                 return String.Format(format, Single.Parse(cellText));
             }

@@ -447,11 +447,11 @@ namespace czynsze.Formularze
                                 <table class='additionalTable'>
                                     <tr>
                                         <td>Suma Wn: </td>
-                                        <td class='numericTableCell'>" + String.Format("{0:N2}", wnAmount) + @"</td>                                                                        
+                                        <td class='numericTableCell'>" + String.Format("{0:N}", wnAmount) + @"</td>                                                                        
                                     </tr>
                                     <tr>
                                         <td>Suma Ma: </td>
-                                        <td class='numericTableCell'>" + String.Format("{0:N2}", maAmount) + @"</td>
+                                        <td class='numericTableCell'>" + String.Format("{0:N}", maAmount) + @"</td>
                                     </tr>
                                     <tr>
                                         <td></td>
@@ -459,17 +459,17 @@ namespace czynsze.Formularze
                                     </tr>
                                     <tr>
                                         <td></td>
-                                        <td class='numericTableCell'>" + String.Format("{0:N2}", maAmount - wnAmount) + @"</td>
+                                        <td class='numericTableCell'>" + String.Format("{0:N}", maAmount - wnAmount) + @"</td>
                                     </tr>
                                 </table>
                                 <table class='additionalTable'>
                                     <tr>
                                         <td>Należności przeterminowane: </td>
-                                        <td class='numericTableCell'>" + String.Format("{0:N2}", wnAmountOfPastReceivables) + @"</td>                                                                        
+                                        <td class='numericTableCell'>" + String.Format("{0:N}", wnAmountOfPastReceivables) + @"</td>                                                                        
                                     </tr>
                                     <tr>
                                         <td>Suma Ma: </td>
-                                        <td class='numericTableCell'>" + String.Format("{0:N2}", maAmount) + @"</td>
+                                        <td class='numericTableCell'>" + String.Format("{0:N}", maAmount) + @"</td>
                                     </tr>
                                     <tr>
                                         <td></td>
@@ -477,7 +477,7 @@ namespace czynsze.Formularze
                                     </tr>
                                     <tr>
                                         <td></td>
-                                        <td class='numericTableCell'>" + String.Format("{0:N2}", maAmount - wnAmountOfPastReceivables) + @"</td>
+                                        <td class='numericTableCell'>" + String.Format("{0:N}", maAmount - wnAmountOfPastReceivables) + @"</td>
                                     </tr>
                                 </table>";
                         }
@@ -532,7 +532,7 @@ namespace czynsze.Formularze
                             List<string[]> rowsOfInterestNotes = turnovers.Where(t => t.kod_wplat == configuration.p_20 || t.kod_wplat == configuration.p_37).Select(t => t.WażnePolaDoNależnościIObrotówNajemcy()).ToList();
                             decimal wnOfInterestNotes = rowsOfInterestNotes.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
                             decimal maOfInterestNotes = rowsOfInterestNotes.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Decimal.Parse(r[2]));
-                            rows = new List<string[]>() { new string[] { String.Empty, String.Format("{0:N2}", maAmount - wnAmount), String.Format("{0:N2}", maAmountToDay - wnAmountToDay), String.Format("{0:N2}", maOfInterestNotes - wnOfInterestNotes) } };
+                            rows = new List<string[]>() { new string[] { String.Empty, String.Format("{0:N}", maAmount - wnAmount), String.Format("{0:N}", maAmountToDay - wnAmountToDay), String.Format("{0:N}", maOfInterestNotes - wnOfInterestNotes) } };
                         }
 
                         break;

@@ -16,7 +16,7 @@ namespace czynsze.Formularze
             Enumeratory.WykazWedługSkładnika tryb = PobierzWartośćParametru<Enumeratory.WykazWedługSkładnika>("tryb");
             string trybTekstowo = null;
 
-            switch(tryb)
+            switch (tryb)
             {
                 case Enumeratory.WykazWedługSkładnika.Obecny:
                     trybTekstowo = "Obecny";
@@ -24,7 +24,12 @@ namespace czynsze.Formularze
                     break;
 
                 case Enumeratory.WykazWedługSkładnika.HistoriaOgolem:
-                    trybTekstowo = "Historia ogółem";
+                    trybTekstowo = "Historia - ogółem";
+
+                    break;
+
+                case Enumeratory.WykazWedługSkładnika.HistoriaSpecyfikacja:
+                    trybTekstowo = "Historia - specyfikacja";
 
                     break;
             }
@@ -49,7 +54,7 @@ namespace czynsze.Formularze
 
                     switch (tryb)
                     {
-
+                        case Enumeratory.WykazWedługSkładnika.HistoriaSpecyfikacja:
                         case Enumeratory.WykazWedługSkładnika.HistoriaOgolem:
 
                             pojemnikReszty.Controls.Add(new LiteralControl("Podaj początek okresu rozliczeniowego: "));
@@ -78,6 +83,7 @@ namespace czynsze.Formularze
                     switch (tryb)
                     {
                         case Enumeratory.WykazWedługSkładnika.HistoriaOgolem:
+                        case Enumeratory.WykazWedługSkładnika.HistoriaSpecyfikacja:
                             DateTime data;
 
                             try

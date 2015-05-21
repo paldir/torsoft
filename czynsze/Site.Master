@@ -121,7 +121,10 @@
                                 <a href="javascript: Load('WykazWgSkladnika.aspx?tryb=Obecny')">Obecny</a>
                             </li>
                             <li class="mainSubSubMenuItem">
-                                <a href="javascript: Load('WykazWgSkladnika.aspx?tryb=HistoriaOgolem')">Historia ogółem</a>
+                                <a href="javascript: Load('WykazWgSkladnika.aspx?tryb=HistoriaSpecyfikacja')">Historia - specyfikacja</a>
+                            </li>
+                            <li class="mainSubSubMenuItem">
+                                <a href="javascript: Load('WykazWgSkladnika.aspx?tryb=HistoriaOgolem')">Historia - ogółem</a>
                             </li>
                         </ul>
                     </li>

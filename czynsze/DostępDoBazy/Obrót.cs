@@ -53,7 +53,7 @@ namespace czynsze.DostępDoBazy
             return new string[] 
             {
                 __record.ToString(),
-                String.Format("{0:N2}", suma),
+                String.Format("{0:N}", suma),
                 data_obr,
                 DateTime.Today.ToShortDateString(),
                 opis,
