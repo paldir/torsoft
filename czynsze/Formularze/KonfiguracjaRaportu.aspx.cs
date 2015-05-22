@@ -14,18 +14,6 @@ namespace czynsze.Formularze
     {
         Enumeratory.Raport raport;
 
-        /*int additionalId
-        {
-            get
-            {
-                if (ViewState["additionalId"] == null)
-                    return 0;
-
-                return Int32.Parse(ViewState["additionalId"]);
-            }
-            set { ViewState["additionalId"] = value; }
-        }*/
-
         int[] identyfikatory
         {
             get
