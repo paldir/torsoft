@@ -7,30 +7,40 @@ using System.Web.UI.WebControls;
 
 namespace czynsze.Formularze
 {
-    public partial class KwotaCzynszu : Strona
+    public partial class Analiza : Strona
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Enumeratory.KwotaCzynszu tryb = PobierzWartośćParametru<Enumeratory.KwotaCzynszu>("tryb");
+            Enumeratory.Analiza rodzaj = PobierzWartośćParametru<Enumeratory.Analiza>("rodzaj");
+            //Enumeratory.KwotaCzynszu tryb = PobierzWartośćParametru<Enumeratory.KwotaCzynszu>("tryb");
             string zakres = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("Wybór"));
-            Start.ŚcieżkaStrony = new List<string>() { "Raporty", "Kwota czynszu" };
+            Start.ŚcieżkaStrony = new List<string>() { "Raporty" };
+            string ogólnyRodzaj = null;
+            string konkretnyRodzaj = null;
 
-            switch (tryb)
+            if (rodzaj.ToString().StartsWith("Naleznosci"))
+                ogólnyRodzaj = "Analizy należności";
+
+            switch (rodzaj)
             {
-                case Enumeratory.KwotaCzynszu.Biezaca:
-                    Start.ŚcieżkaStrony.Add("Bieżąca");
+                case Enumeratory.Analiza.NaleznosciBiezace:
+                    konkretnyRodzaj = "Bieżące";
 
                     break;
 
-                case Enumeratory.KwotaCzynszu.ZaDanyMiesiac:
-                    Start.ŚcieżkaStrony.Add("Za dany miesiąc");
+                case Enumeratory.Analiza.NaleznosciZaDanyMiesiac:
+                    konkretnyRodzaj = "Za dany miesiąc";
 
                     break;
 
-                default:
+                case Enumeratory.Analiza.NaleznosciSzczegolowoMiesiac:
+                    konkretnyRodzaj = "Szczegółowo miesiąc";
 
                     break;
             }
+
+            Start.ŚcieżkaStrony.Add(ogólnyRodzaj);
+            Start.ŚcieżkaStrony.Add(konkretnyRodzaj);
 
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
@@ -44,7 +54,7 @@ namespace czynsze.Formularze
 
                 if (String.IsNullOrEmpty(zakres))
                 {
-                    form.Controls.Add(new Kontrolki.HtmlInputHidden("tryb", tryb.ToString()));
+                    form.Controls.Add(new Kontrolki.HtmlInputHidden("rodzaj", rodzaj.ToString()));
 
                     DodajWybórLokaliBudynkówIWspólnot(placeOfPlaces, placeOfBuildings, placeOfCommunities, out minimalnyBudynek, out minimalnyLokal, out maksymalnyBudynek, out maksymalnyLokal, out minimalnaWspólnota, out maksymalnaWspólnota);
                 }
@@ -54,57 +64,58 @@ namespace czynsze.Formularze
                     int kod_1_1, kod_1_2, nr1, nr2, kod1, kod2;
                     nr1 = nr2 = kod1 = kod2 = 0;
                     Enumeratory.Raport raport = (Enumeratory.Raport)(-1);
+                    Enumeratory.ObiektAnalizy obiektAnalizy = (Enumeratory.ObiektAnalizy)(-1);
                     kod_1_1 = PobierzWartośćParametru<int>("minimalnyBudynek");
                     kod_1_2 = PobierzWartośćParametru<int>("maksymalnyBudynek");
 
                     switch (zakres)
                     {
                         case "wszystkieLokale":
-                            raport = Enumeratory.Raport.KwotaCzynszuLokali;
                             nr1 = PobierzWartośćParametru<int>("minimalnyLokal");
                             nr2 = PobierzWartośćParametru<int>("maksymalnyLokal");
+                            obiektAnalizy = Enumeratory.ObiektAnalizy.Lokale;
 
                             break;
 
                         case "odDoLokalu":
-                            raport = Enumeratory.Raport.KwotaCzynszuLokali;
                             string[] odLokalu = PobierzWartośćParametru<string>("odLokalu").Split('-');
                             string[] doLokalu = PobierzWartośćParametru<string>("doLokalu").Split('-');
                             kod_1_1 = Int32.Parse(odLokalu[0]);
                             nr1 = Int32.Parse(odLokalu[1]);
                             kod_1_2 = Int32.Parse(doLokalu[0]);
                             nr2 = Int32.Parse(doLokalu[1]);
+                            obiektAnalizy = Enumeratory.ObiektAnalizy.Lokale;
 
                             break;
 
                         case "wszystkieBudynki":
-                            raport = Enumeratory.Raport.KwotaCzynszuBudynków;
+                            obiektAnalizy = Enumeratory.ObiektAnalizy.Budynki;
 
                             break;
 
                         case "odDoBudynku":
-                            raport = Enumeratory.Raport.KwotaCzynszuBudynków;
                             kod_1_1 = PobierzWartośćParametru<int>("odBudynku");
                             kod_1_2 = PobierzWartośćParametru<int>("doBudynku");
+                            obiektAnalizy = Enumeratory.ObiektAnalizy.Budynki;
 
                             break;
 
                         case "wszystkieWspólnoty":
-                            raport = Enumeratory.Raport.KwotaCzynszuWspólnot;
                             kod1 = PobierzWartośćParametru<int>("minimalnaWspólnota");
                             kod2 = PobierzWartośćParametru<int>("maksymalnaWspólnota");
+                            obiektAnalizy = Enumeratory.ObiektAnalizy.Wspolnoty;
 
                             break;
 
                         case "odDoWspólnoty":
-                            raport = Enumeratory.Raport.KwotaCzynszuWspólnot;
                             kod1 = PobierzWartośćParametru<int>("odWspólnoty");
                             kod2 = PobierzWartośćParametru<int>("doWspólnoty");
+                            obiektAnalizy = Enumeratory.ObiektAnalizy.Wspolnoty;
 
                             break;
                     }
 
-                    Session["trybKwotyCzynszu"] = tryb;
+                    Session["trybAnalizy"] = rodzaj;
 
                     Response.Redirect(String.Format("KonfiguracjaRaportu.aspx?{0}raport=dummy&odBudynku={1}&odLokalu={2}&doBudynku={3}&doLokalu={4}&odWspólnoty={5}&doWspólnoty={6}", raport, kod_1_1, nr1, kod_1_2, nr2, kod1, kod2));
                 }

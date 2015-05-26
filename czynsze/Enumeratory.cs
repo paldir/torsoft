@@ -50,9 +50,9 @@ namespace czynsze
             NależnościIObrotyNajemcy,
             MiesięcznaAnalizaNależnościIObrotów,
             SzczegółowaAnalizaNależnościIObrotów,
-            KwotaCzynszuLokali,
-            KwotaCzynszuBudynków,
-            KwotaCzynszuWspólnot,
+            NaleznosciBiezaceLokale,
+            NaleznosciBiezaceBudynki,
+            NaleznosciBiezaceWspolnoty,
             SkładnikiCzynszuStawkaZwykła,
             SkładnikiCzynszuStawkaInformacyjna,
             WykazWgSkladnika
@@ -91,11 +91,11 @@ namespace czynsze
             Trzeci
         };
 
-        public enum KwotaCzynszu
+        /*public enum KwotaCzynszu
         {
             Biezaca,
             ZaDanyMiesiac
-        };
+        };*/
 
         public enum TreściOpisów
         {
@@ -109,6 +109,20 @@ namespace czynsze
             Obecny,
             HistoriaOgolem,
             HistoriaSpecyfikacja
+        }
+
+        public enum Analiza
+        {
+            NaleznosciBiezace,
+            NaleznosciZaDanyMiesiac,
+            NaleznosciSzczegolowoMiesiac,
+        }
+
+        public enum ObiektAnalizy
+        {
+            Lokale,
+            Budynki,
+            Wspolnoty
         }
     }
 }

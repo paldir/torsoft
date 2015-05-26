@@ -102,7 +102,7 @@
     <Content Include="Formularze\ProgressOfGenerationOfReceivables.aspx" />
     <Content Include="Formularze\Record.aspx" />
     <Content Include="Formularze\RecordValidation.aspx" />
-    <Content Include="Formularze\KwotaCzynszu.aspx" />
+    <Content Include="Formularze\Analiza.aspx" />
     <Content Include="Formularze\RentComponentsOfPlace.aspx" />
     <Content Include="Formularze\Raport.aspx" />
     <Content Include="Formularze\KonfiguracjaRaportu.aspx" />
@@ -173,12 +173,12 @@
     <Compile Include="Formularze\ProgressOfGenerationOfReceivables.aspx.designer.cs">
       <DependentUpon>ProgressOfGenerationOfReceivables.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Formularze\KwotaCzynszu.aspx.cs">
-      <DependentUpon>KwotaCzynszu.aspx</DependentUpon>
+    <Compile Include="Formularze\Analiza.aspx.cs">
+      <DependentUpon>Analiza.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Formularze\KwotaCzynszu.aspx.designer.cs">
-      <DependentUpon>KwotaCzynszu.aspx</DependentUpon>
+    <Compile Include="Formularze\Analiza.aspx.designer.cs">
+      <DependentUpon>Analiza.aspx</DependentUpon>
     </Compile>
     <Compile Include="Formularze\RentComponentsOfPlace.aspx.cs">
       <DependentUpon>RentComponentsOfPlace.aspx</DependentUpon>

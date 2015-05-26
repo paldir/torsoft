@@ -108,10 +108,13 @@
                     <li class="mainSubMenuItem pseudoLink">Analizy należności
                         <ul class="mainSubSubMenu">
                             <li class="mainSubSubMenuItem">
-                                <a href="javascript: Load('KwotaCzynszu.aspx?tryb=Biezaca')">Bieżące</a>
+                                <a href="javascript: Load('Analiza.aspx?rodzaj=NaleznosciBiezace')">Bieżące</a>
                             </li>
                             <li class="mainSubSubMenuItem">
-                                <a href="javascript: Load('KwotaCzynszu.aspx?tryb=ZaDanyMiesiac')">Za dany miesiąc</a>
+                                <a href="javascript: Load('Analiza.aspx?rodzaj=NaleznosciZaDanyMiesiac')">Za dany miesiąc</a>
+                            </li>
+                            <li class="mainSubSubMenuItem">
+                                <a href="javascript: Load('Analiza.aspx?rodzaj=NaleznosciSzczegolowoMiesiac')">Szczegółowo miesiąc</a>
                             </li>
                         </ul>
                     </li>

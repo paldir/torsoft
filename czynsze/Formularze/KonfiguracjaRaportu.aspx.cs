@@ -106,9 +106,9 @@ namespace czynsze.Formularze
 
                     break;
 
-                case Enumeratory.Raport.KwotaCzynszuLokali:
-                case Enumeratory.Raport.KwotaCzynszuBudynków:
-                case Enumeratory.Raport.KwotaCzynszuWspólnot:
+                case Enumeratory.Raport.NaleznosciBiezaceLokale:
+                case Enumeratory.Raport.NaleznosciBiezaceBudynki:
+                case Enumeratory.Raport.NaleznosciBiezaceWspolnoty:
                 case Enumeratory.Raport.SkładnikiCzynszuStawkaZwykła:
                 case Enumeratory.Raport.SkładnikiCzynszuStawkaInformacyjna:
                 case Enumeratory.Raport.WykazWgSkladnika:
@@ -119,21 +119,21 @@ namespace czynsze.Formularze
 
                     switch (raport)
                     {
-                        case Enumeratory.Raport.KwotaCzynszuLokali:
-                        case Enumeratory.Raport.KwotaCzynszuBudynków:
-                        case Enumeratory.Raport.KwotaCzynszuWspólnot:
+                        case Enumeratory.Raport.NaleznosciBiezaceLokale:
+                        case Enumeratory.Raport.NaleznosciBiezaceBudynki:
+                        case Enumeratory.Raport.NaleznosciBiezaceWspolnoty:
                             identyfikatory[4] = PobierzWartośćParametru<int>("odWspólnoty");
                             identyfikatory[5] = PobierzWartośćParametru<int>("doWspólnoty");
 
-                            switch ((Enumeratory.KwotaCzynszu)Session["trybKwotyCzynszu"])
+                            switch ((Enumeratory.Analiza)Session["trybAnalizy"])
                             {
-                                case Enumeratory.KwotaCzynszu.Biezaca:
-                                    nagłówek += "(Bieżąca kwota czynszu)";
+                                case Enumeratory.Analiza.NaleznosciBiezace:
+                                    nagłówek += "(Bieżące należności)";
 
                                     break;
 
-                                case Enumeratory.KwotaCzynszu.ZaDanyMiesiac:
-                                    nagłówek += "(Kwota czynszu za dany miesiąc)";
+                                case Enumeratory.Analiza.NaleznosciZaDanyMiesiac:
+                                    nagłówek += "(Należności za dany miesiąc)";
 
                                     break;
                             }
@@ -151,7 +151,7 @@ namespace czynsze.Formularze
                         case Enumeratory.Raport.WykazWgSkladnika:
                             identyfikatory[4] = PobierzWartośćParametru<int>("nrSkladnika");
 
-                            switch((Enumeratory.WykazWedługSkładnika)Convert.ChangeType(Session["trybWykazuWgSkładnika"], typeof(Enumeratory.WykazWedługSkładnika)))
+                            switch ((Enumeratory.WykazWedługSkładnika)Convert.ChangeType(Session["trybWykazuWgSkładnika"], typeof(Enumeratory.WykazWedługSkładnika)))
                             {
                                 case Enumeratory.WykazWedługSkładnika.Obecny:
                                     nagłówek += "(Wykaz wg składnika - obecny)";
@@ -203,7 +203,33 @@ namespace czynsze.Formularze
             string tytuł = null;
             List<string> gotowaDefinicjaHtml = null;
 
+
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
+            {
+                IEnumerable<DostępDoBazy.Należność> należności = null;
+                IEnumerable<DostępDoBazy.Obrót> obroty = null;
+
+                switch (Start.AktywnyZbiór)
+                {
+                    case Enumeratory.Zbiór.Czynsze:
+                        należności = db.NależnościZPierwszegoZbioru;
+                        obroty = db.ObrotyZPierwszegoZbioru;
+
+                        break;
+
+                    case Enumeratory.Zbiór.Drugi:
+                        należności = db.NależnościZDrugiegoZbioru;
+                        obroty = db.ObrotyZDrugiegoZbioru;
+
+                        break;
+
+                    case Enumeratory.Zbiór.Trzeci:
+                        należności = db.NależnościZTrzeciegoZbioru;
+                        obroty = db.ObrotyZTrzeciegoZbioru;
+
+                        break;
+                }
+
                 switch (raport)
                 {
                     case Enumeratory.Raport.LokaleWBudynkach:
@@ -262,8 +288,6 @@ namespace czynsze.Formularze
                     case Enumeratory.Raport.SzczegółowaAnalizaNależnościIObrotów:
                         {
                             tabele = new List<List<string[]>> { new List<string[]>() };
-                            IEnumerable<DostępDoBazy.Należność> należności = null;
-                            IEnumerable<DostępDoBazy.Obrót> obroty = null;
                             decimal sumaWn, sumaMa;
                             List<decimal> salda = new List<decimal>();
                             int nr_kontr = identyfikatory[1];
@@ -272,27 +296,8 @@ namespace czynsze.Formularze
                             {
                                 DostępDoBazy.Najemca najemca = db.AktywniNajemcy.FirstOrDefault(t => t.nr_kontr == nr_kontr);
                                 podpisy = new List<string>() { najemca.nazwisko + " " + najemca.imie + "<br />" + najemca.adres_1 + " " + najemca.adres_2 + "<br />" };
-
-                                switch (Start.AktywnyZbiór)
-                                {
-                                    case Enumeratory.Zbiór.Czynsze:
-                                        należności = db.NależnościZPierwszegoZbioru.Where(r => r.nr_kontr == nr_kontr).ToList().Cast<DostępDoBazy.Należność>();
-                                        obroty = db.ObrotyZPierwszegoZbioru.Where(t => t.nr_kontr == nr_kontr).ToList().Cast<DostępDoBazy.Obrót>();
-
-                                        break;
-
-                                    case Enumeratory.Zbiór.Drugi:
-                                        należności = db.NależnościZDrugiegoZbioru.Where(r => r.nr_kontr == nr_kontr).ToList().Cast<DostępDoBazy.Należność>();
-                                        obroty = db.ObrotyZDrugiegoZbioru.Where(t => t.nr_kontr == nr_kontr).ToList().Cast<DostępDoBazy.Obrót>();
-
-                                        break;
-
-                                    case Enumeratory.Zbiór.Trzeci:
-                                        należności = db.NależnościZTrzeciegoZbioru.Where(r => r.nr_kontr == nr_kontr).ToList().Cast<DostępDoBazy.Należność>();
-                                        obroty = db.ObrotyZTrzeciegoZbioru.Where(t => t.nr_kontr == nr_kontr).ToList().Cast<DostępDoBazy.Obrót>();
-
-                                        break;
-                                }
+                                IEnumerable<DostępDoBazy.Należność> należnościNajemcy = należności.Where(r => r.nr_kontr == nr_kontr);
+                                IEnumerable<DostępDoBazy.Obrót> obrotyNajemcy = obroty.Where(r => r.nr_kontr == nr_kontr);
 
                                 switch (raport)
                                 {
@@ -303,19 +308,19 @@ namespace czynsze.Formularze
                                         if (identyfikatory[0] < 0)
                                         {
 
-                                            int nr_skl = należności.FirstOrDefault(r => r.__record == -1 * identyfikatory[0]).nr_skl;
+                                            int nr_skl = należnościNajemcy.FirstOrDefault(r => r.__record == -1 * identyfikatory[0]).nr_skl;
                                             podpisy[0] += db.SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == nr_skl).nazwa;
 
                                             for (int i = 1; i <= 12; i++)
-                                                tabele[0].Add(new string[] { i.ToString(), String.Format("{0:N}", należności.Where(r => r.nr_skl == nr_skl).ToList().Where(r => r.data_nal.Year == Start.Data.Year && r.data_nal.Month == i).Sum(r => r.kwota_nal)) });
+                                                tabele[0].Add(new string[] { i.ToString(), String.Format("{0:N}", należnościNajemcy.Where(r => r.nr_skl == nr_skl).ToList().Where(r => r.data_nal.Year == Start.Data.Year && r.data_nal.Month == i).Sum(r => r.kwota_nal)) });
                                         }
                                         else
                                         {
-                                            int kod_wplat = obroty.FirstOrDefault(t => t.__record == identyfikatory[0]).kod_wplat;
+                                            int kod_wplat = obrotyNajemcy.FirstOrDefault(t => t.__record == identyfikatory[0]).kod_wplat;
                                             podpisy[0] += db.RodzajePłatności.FirstOrDefault(t => t.kod_wplat == kod_wplat).typ_wplat;
 
                                             for (int i = 1; i <= 12; i++)
-                                                tabele[0].Add(new string[] { i.ToString(), String.Format("{0:N}", obroty.Where(t => t.kod_wplat == kod_wplat).ToList().Where(t => t.data_obr.Year == Start.Data.Year && t.data_obr.Month == i).Sum(t => t.suma)) });
+                                                tabele[0].Add(new string[] { i.ToString(), String.Format("{0:N}", obrotyNajemcy.Where(t => t.kod_wplat == kod_wplat).ToList().Where(t => t.data_obr.Year == Start.Data.Year && t.data_obr.Month == i).Sum(t => t.suma)) });
                                         }
 
                                         tabele[0].Add(new string[] { "Razem", String.Format("{0:N}", tabele[0].Sum(r => Single.Parse(r[1]))) });
@@ -326,7 +331,7 @@ namespace czynsze.Formularze
                                         tytuł = "ZESTAWIENIE NALEZNOSCI I WPLAT";
                                         nagłówki = new List<string> { "Kwota Wn", "Kwota Ma", "Data", "Operacja" };
 
-                                        foreach (DostępDoBazy.Należność receivable in należności)
+                                        foreach (DostępDoBazy.Należność receivable in należnościNajemcy)
                                         {
                                             List<string> pola = receivable.WażnePolaDoNależnościIObrotówNajemcy().ToList();
 
@@ -335,7 +340,7 @@ namespace czynsze.Formularze
                                             tabele[0].Add(pola.ToArray());
                                         }
 
-                                        foreach (DostępDoBazy.Obrót turnover in obroty)
+                                        foreach (DostępDoBazy.Obrót turnover in obrotyNajemcy)
                                         {
                                             List<string> pola = turnover.WażnePolaDoNależnościIObrotówNajemcy().ToList();
 
@@ -361,8 +366,8 @@ namespace czynsze.Formularze
 
                                         for (int i = 1; i <= 12; i++)
                                         {
-                                            List<string[]> miesięczneNależności = należności.Where(r => r.data_nal.Month == i).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).ToList();
-                                            List<string[]> miesięczneObroty = obroty.Where(t => t.data_obr.Month == i).Select(t => t.WażnePolaDoNależnościIObrotówNajemcy()).ToList();
+                                            List<string[]> miesięczneNależności = należnościNajemcy.Where(r => r.data_nal.Month == i).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).ToList();
+                                            List<string[]> miesięczneObroty = obrotyNajemcy.Where(t => t.data_obr.Month == i).Select(t => t.WażnePolaDoNależnościIObrotówNajemcy()).ToList();
                                             sumaWn = miesięczneNależności.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1])) + miesięczneObroty.Sum(t => String.IsNullOrEmpty(t[1]) ? 0 : Decimal.Parse(t[1]));
                                             sumaMa = miesięczneObroty.Sum(t => String.IsNullOrEmpty(t[2]) ? 0 : Decimal.Parse(t[2]));
 
@@ -384,7 +389,7 @@ namespace czynsze.Formularze
                                             decimal[] suma = new decimal[] { 0, 0, 0, 0 };
                                             sumaWn = sumaMa = 0;
 
-                                            foreach (DostępDoBazy.Należność należność in należności.Where(r => r.data_nal.Month == i))
+                                            foreach (DostępDoBazy.Należność należność in należnościNajemcy.Where(r => r.data_nal.Month == i))
                                             {
                                                 string[] wiersz = należność.WażnePolaDoNależnościIObrotówNajemcy();
                                                 int indeks = db.SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == należność.nr_skl).rodz_e - 1;
@@ -397,7 +402,7 @@ namespace czynsze.Formularze
                                                 }
                                             }
 
-                                            foreach (DostępDoBazy.Obrót obrót in obroty.Where(t => t.data_obr.Month == i))
+                                            foreach (DostępDoBazy.Obrót obrót in obrotyNajemcy.Where(t => t.data_obr.Month == i))
                                             {
                                                 string[] wiersz = obrót.WażnePolaDoNależnościIObrotówNajemcy();
                                                 int indeks = db.RodzajePłatności.FirstOrDefault(t => t.kod_wplat == obrót.kod_wplat).rodz_e - 1;
@@ -453,33 +458,33 @@ namespace czynsze.Formularze
 
                         break;
 
-                    case Enumeratory.Raport.KwotaCzynszuLokali:
-                    case Enumeratory.Raport.KwotaCzynszuBudynków:
-                    case Enumeratory.Raport.KwotaCzynszuWspólnot:
+                    case Enumeratory.Raport.NaleznosciBiezaceLokale:
+                    case Enumeratory.Raport.NaleznosciBiezaceBudynki:
+                    case Enumeratory.Raport.NaleznosciBiezaceWspolnoty:
                         {
-                            Enumeratory.KwotaCzynszu trybKwotyCzynszu = ((Enumeratory.KwotaCzynszu)Convert.ChangeType(Session["trybKwotyCzynszu"], typeof(Enumeratory.KwotaCzynszu)));
+                            Enumeratory.Analiza rodzajAnalizy = ((Enumeratory.Analiza)Convert.ChangeType(Session["trybAnalizy"], typeof(Enumeratory.Analiza)));
                             DateTime data = Start.Data;
                             DateTime początekMiesiąca = new DateTime(data.Year, data.Month, 1);
                             DateTime koniecMiesiąca = początekMiesiąca.AddDays(DateTime.DaysInMonth(początekMiesiąca.Year, początekMiesiąca.Month)).AddSeconds(-1);
-                            IEnumerable<DostępDoBazy.NależnośćZPierwszegoZbioru> należnościZaDanyMiesiąc = null;
+                            IEnumerable<DostępDoBazy.Należność> należnościZaDanyMiesiąc = null;
 
-                            switch (trybKwotyCzynszu)
+                            switch (rodzajAnalizy)
                             {
-                                case Enumeratory.KwotaCzynszu.Biezaca:
-                                    tytuł = "BIEZACA KWOTA CZYNSZU";
+                                case Enumeratory.Analiza.NaleznosciBiezace:
+                                    tytuł = "BIEZACE NALEZNOSCI";
 
                                     break;
 
-                                case Enumeratory.KwotaCzynszu.ZaDanyMiesiac:
-                                    tytuł = String.Format("KWOTA CZYNSZU ZA {0} {1}", System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[data.Month - 1].ToString().ToUpper(), data.Year);
-                                    należnościZaDanyMiesiąc = db.NależnościZPierwszegoZbioru.Where(n => n.data_nal >= początekMiesiąca && n.data_nal <= koniecMiesiąca);
+                                case Enumeratory.Analiza.NaleznosciZaDanyMiesiac:
+                                    tytuł = String.Format("NALEZNOSCI ZA {0} {1}", System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[data.Month - 1].ToString().ToUpper(), data.Year);
+                                    należnościZaDanyMiesiąc = należności.Where(n => n.data_nal >= początekMiesiąca && n.data_nal <= koniecMiesiąca);
 
                                     break;
                             }
 
                             switch (raport)
                             {
-                                case Enumeratory.Raport.KwotaCzynszuLokali:
+                                case Enumeratory.Raport.NaleznosciBiezaceLokale:
                                     nagłówki = new List<string>() { "Lp.", "Kod budynku", "Nr lokalu", "Typ lokalu", "Nazwisko", "Imię", "Adres", "Kwota czynszu" };
 
                                     //using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
@@ -509,9 +514,9 @@ namespace czynsze.Formularze
                                             {
                                                 decimal suma = 0;
 
-                                                switch (trybKwotyCzynszu)
+                                                switch (rodzajAnalizy)
                                                 {
-                                                    case Enumeratory.KwotaCzynszu.Biezaca:
+                                                    case Enumeratory.Analiza.NaleznosciBiezace:
                                                         foreach (DostępDoBazy.SkładnikCzynszuLokalu składnikCzynszuLokalu in db.SkładnikiCzynszuLokalu.Where(c => c.kod_lok == lokal.kod_lok && c.nr_lok == lokal.nr_lok))
                                                         {
                                                             decimal ilosc;
@@ -524,7 +529,7 @@ namespace czynsze.Formularze
 
                                                         break;
 
-                                                    case Enumeratory.KwotaCzynszu.ZaDanyMiesiac:
+                                                    case Enumeratory.Analiza.NaleznosciZaDanyMiesiac:
                                                         foreach (DostępDoBazy.NależnośćZPierwszegoZbioru należność in należnościZaDanyMiesiąc.Where(n => n.kod_lok == lokal.kod_lok && n.nr_lok == lokal.nr_lok))
                                                             suma += należność.kwota_nal;
 
@@ -554,7 +559,7 @@ namespace czynsze.Formularze
 
                                     break;
 
-                                case Enumeratory.Raport.KwotaCzynszuBudynków:
+                                case Enumeratory.Raport.NaleznosciBiezaceBudynki:
                                     nagłówki = new List<string>() { "Lp.", "Kod budynku", "Adres", "Kwota czynszu" };
 
                                     //using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
@@ -573,9 +578,9 @@ namespace czynsze.Formularze
                                             DostępDoBazy.SkładnikCzynszuLokalu.Lokale = aktywneLokale;
 
                                             foreach (DostępDoBazy.AktywnyLokal aktywnyLokal in aktywneLokale)
-                                                switch (trybKwotyCzynszu)
+                                                switch (rodzajAnalizy)
                                                 {
-                                                    case Enumeratory.KwotaCzynszu.Biezaca:
+                                                    case Enumeratory.Analiza.NaleznosciBiezace:
                                                         foreach (DostępDoBazy.SkładnikCzynszuLokalu składnikCzynszuLokalu in db.SkładnikiCzynszuLokalu.Where(c => c.kod_lok == i && c.nr_lok == aktywnyLokal.nr_lok))
                                                         {
                                                             decimal ilosc;
@@ -588,7 +593,7 @@ namespace czynsze.Formularze
 
                                                         break;
 
-                                                    case Enumeratory.KwotaCzynszu.ZaDanyMiesiac:
+                                                    case Enumeratory.Analiza.NaleznosciZaDanyMiesiac:
                                                         foreach (DostępDoBazy.NależnośćZPierwszegoZbioru należność in należnościZaDanyMiesiąc.Where(n => n.kod_lok == i && n.nr_lok == aktywnyLokal.nr_lok))
                                                             suma += należność.kwota_nal;
 
@@ -610,7 +615,7 @@ namespace czynsze.Formularze
 
                                     break;
 
-                                case Enumeratory.Raport.KwotaCzynszuWspólnot:
+                                case Enumeratory.Raport.NaleznosciBiezaceWspolnoty:
                                     nagłówki = new List<string>() { "Lp.", "Kod budynku", "Adres", "Kwota czynszu" };
 
                                     //using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
@@ -635,9 +640,9 @@ namespace czynsze.Formularze
                                                 decimal suma = 0;
 
                                                 foreach (DostępDoBazy.AktywnyLokal aktywnyLokal in aktywneLokale)
-                                                    switch (trybKwotyCzynszu)
+                                                    switch (rodzajAnalizy)
                                                     {
-                                                        case Enumeratory.KwotaCzynszu.Biezaca:
+                                                        case Enumeratory.Analiza.NaleznosciBiezace:
                                                             foreach (DostępDoBazy.SkładnikCzynszuLokalu składnikCzynszuLokalu in db.SkładnikiCzynszuLokalu.Where(c => c.kod_lok == i && c.nr_lok == aktywnyLokal.nr_lok))
                                                             {
                                                                 decimal ilosc;
@@ -650,7 +655,7 @@ namespace czynsze.Formularze
 
                                                             break;
 
-                                                        case Enumeratory.KwotaCzynszu.ZaDanyMiesiac:
+                                                        case Enumeratory.Analiza.NaleznosciZaDanyMiesiac:
                                                             foreach (DostępDoBazy.NależnośćZPierwszegoZbioru należność in należnościZaDanyMiesiąc.Where(n => n.kod_lok == i && n.nr_lok == aktywnyLokal.nr_lok))
                                                                 suma += należność.kwota_nal;
 
@@ -774,8 +779,8 @@ namespace czynsze.Formularze
                             DateTime data = Start.Data;
                             DateTime początekMiesiąca = DateTime.MaxValue;
                             DateTime koniecMiesiąca = new DateTime(data.Year, data.Month, 1).AddMonths(1).AddSeconds(-1);
-                            IEnumerable<DostępDoBazy.NależnośćZPierwszegoZbioru> należnościDotycząceDanegoSkładnika = db.NależnościZPierwszegoZbioru.Where(n => n.nr_skl == nrSkładnika && n.data_nal <= koniecMiesiąca);
-                            IEnumerable<DostępDoBazy.NależnośćZPierwszegoZbioru> należnościDoAnalizy = null;
+                            IEnumerable<DostępDoBazy.Należność> należnościDotycząceDanegoSkładnika = należności.Where(n => n.nr_skl == nrSkładnika && n.data_nal <= koniecMiesiąca);
+                            IEnumerable<DostępDoBazy.Należność> należnościDoAnalizy = null;
                             nagłówki = new List<string>() { "L.p.", "Kod budynku", "Nr lokalu", "Nazwisko", "Imię", "Adres" };
                             tytuł = "Wykaz wedlug skladnika ";
                             Enumeratory.WykazWedługSkładnika tryb = (Enumeratory.WykazWedługSkładnika)Convert.ChangeType(Session["trybWykazuWgSkładnika"], typeof(Enumeratory.WykazWedługSkładnika));
@@ -834,7 +839,7 @@ namespace czynsze.Formularze
                                         for (int i = 1; i <= wszystkieLokale.Count; i++)
                                         {
                                             DostępDoBazy.Lokal lokal = wszystkieLokale[i - 1];
-                                            IEnumerable<DostępDoBazy.NależnośćZPierwszegoZbioru> należnościLokalu = należnościDoAnalizy.Where(n => n.kod_lok == lokal.kod_lok && n.nr_lok == lokal.nr_lok);
+                                            IEnumerable<DostępDoBazy.Należność> należnościLokalu = należnościDoAnalizy.Where(n => n.kod_lok == lokal.kod_lok && n.nr_lok == lokal.nr_lok);
                                             List<string> opcjonalnyKawałekTablicy = null;
                                             decimal wartość = 0;
 
@@ -846,7 +851,7 @@ namespace czynsze.Formularze
 
                                                     if (należnościLokalu.Any())
                                                     {
-                                                        DostępDoBazy.NależnośćZPierwszegoZbioru należność = należnościLokalu.Single();
+                                                        DostępDoBazy.Należność należność = należnościLokalu.Single();
                                                         stawka = należność.stawka;
                                                         ilość = należność.ilosc;
                                                         wartość = należność.kwota_nal;
@@ -897,7 +902,7 @@ namespace czynsze.Formularze
                                             DostępDoBazy.AktywnyLokal lokal = wszystkieLokale[i - 1];
                                             int kodLokalu = lokal.kod_lok;
                                             int nrLokalu = lokal.nr_lok;
-                                            IEnumerable<DostępDoBazy.NależnośćZPierwszegoZbioru> należnościLokalu = należnościDoAnalizy.Where(n => n.kod_lok == kodLokalu && n.nr_lok == nrLokalu);
+                                            IEnumerable<DostępDoBazy.Należność> należnościLokalu = należnościDoAnalizy.Where(n => n.kod_lok == kodLokalu && n.nr_lok == nrLokalu);
 
                                             tabela.Add(new string[] { i.ToString(), lokal.nazwisko, lokal.imie, String.Format("{0} {1}", lokal.adres, lokal.adres_2), String.Empty, String.Empty, String.Empty, String.Empty });
 
@@ -910,7 +915,7 @@ namespace czynsze.Formularze
 
                                                 if (należnościLokalu.Any())
                                                 {
-                                                    DostępDoBazy.NależnośćZPierwszegoZbioru należność = należnościLokalu.SingleOrDefault(n => n.data_nal >= początek && n.data_nal <= końceMiesięcy[j]);
+                                                    DostępDoBazy.Należność należność = należnościLokalu.SingleOrDefault(n => n.data_nal >= początek && n.data_nal <= końceMiesięcy[j]);
 
                                                     if (należność != null)
                                                     {
@@ -934,6 +939,7 @@ namespace czynsze.Formularze
 
                         break;
                 }
+            }
 
             Session["nagłówki"] = nagłówki;
             Session["tabele"] = tabele;

@@ -10,7 +10,7 @@
 namespace czynsze.Formularze {
     
     
-    public partial class KwotaCzynszu {
+    public partial class Analiza {
         
         /// <summary>
         /// form control.

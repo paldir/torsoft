@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Kwota czynszu" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="KwotaCzynszu.aspx.cs" Inherits="czynsze.Formularze.KwotaCzynszu" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Analiza.aspx.cs" Inherits="czynsze.Formularze.Analiza" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder" runat="server">
