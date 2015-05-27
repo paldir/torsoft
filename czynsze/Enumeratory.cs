@@ -50,12 +50,15 @@ namespace czynsze
             NależnościIObrotyNajemcy,
             MiesięcznaAnalizaNależnościIObrotów,
             SzczegółowaAnalizaNależnościIObrotów,
-            NaleznosciBiezaceLokale,
-            NaleznosciBiezaceBudynki,
-            NaleznosciBiezaceWspolnoty,
+            NaleznosciZaDanyMiesiacLokale,
+            NaleznosciZaDanyMiesiacBudynki,
+            NaleznosciZaDanyMiesiacWspolnoty,
             SkładnikiCzynszuStawkaZwykła,
             SkładnikiCzynszuStawkaInformacyjna,
-            WykazWgSkladnika
+            WykazWgSkladnika,
+            NaleznosciSzczegolowoMiesiacLokale,
+            NaleznosciSzczegolowoMiesiacBudynki,
+            NaleznosciSzczegolowoMiesiacWspolnoty
         };
 
         public enum FormatRaportu

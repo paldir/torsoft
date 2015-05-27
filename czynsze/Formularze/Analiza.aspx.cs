@@ -117,6 +117,16 @@ namespace czynsze.Formularze
 
                     Session["trybAnalizy"] = rodzaj;
 
+                    switch (rodzaj)
+                    {
+                        case Enumeratory.Analiza.NaleznosciBiezace:
+                            rodzaj = Enumeratory.Analiza.NaleznosciZaDanyMiesiac;
+
+                            break;
+                    }
+
+                    raport = (Enumeratory.Raport)Enum.Parse(typeof(Enumeratory.Raport), String.Concat(rodzaj, obiektAnalizy));
+
                     Response.Redirect(String.Format("KonfiguracjaRaportu.aspx?{0}raport=dummy&odBudynku={1}&odLokalu={2}&doBudynku={3}&doLokalu={4}&odWspólnoty={5}&doWspólnoty={6}", raport, kod_1_1, nr1, kod_1_2, nr2, kod1, kod2));
                 }
             }
