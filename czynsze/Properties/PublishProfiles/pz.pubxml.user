@@ -15,7 +15,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/23/2015 13:12:26</publishTime>
     </File>
     <File Include="bin/czynsze.dll">
-      <publishTime>05/21/2015 13:43:21</publishTime>
+      <publishTime>05/28/2015 13:09:32</publishTime>
     </File>
     <File Include="bin/de/Npgsql.resources.dll">
       <publishTime>02/23/2015 13:12:40</publishTime>
@@ -128,6 +128,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Forms/UserValidation.aspx">
       <publishTime>02/23/2015 13:08:28</publishTime>
     </File>
+    <File Include="Formularze/Analiza.aspx">
+      <publishTime>05/26/2015 11:01:40</publishTime>
+    </File>
     <File Include="Formularze/AttributeOfObject.aspx">
       <publishTime>04/29/2015 11:43:09</publishTime>
     </File>
@@ -210,7 +213,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/16/2015 09:56:14</publishTime>
     </File>
     <File Include="JavaScripts/List.js">
-      <publishTime>04/29/2015 11:39:59</publishTime>
+      <publishTime>05/28/2015 12:59:48</publishTime>
     </File>
     <File Include="JavaScripts/Record.js">
       <publishTime>04/16/2015 09:56:14</publishTime>
@@ -261,7 +264,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/16/2014 09:50:06</publishTime>
     </File>
     <File Include="Site.Master">
-      <publishTime>05/21/2015 11:09:07</publishTime>
+      <publishTime>05/26/2015 11:50:05</publishTime>
     </File>
     <File Include="ssleay32.dll">
       <publishTime>04/15/2015 11:27:29</publishTime>
@@ -273,7 +276,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/15/2014 14:26:03</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>05/21/2015 13:43:22</publishTime>
+      <publishTime>05/28/2015 13:09:33</publishTime>
     </File>
     <File Include="wkhtmltox0.dll">
       <publishTime>04/15/2015 11:27:29</publishTime>

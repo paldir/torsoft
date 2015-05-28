@@ -70,7 +70,7 @@ namespace czynsze.Formularze
 
                                     pisarz.RenderEndTag();
 
-                                    if (numerWiersza == 60)
+                                    if (numerWiersza >= 60)
                                     {
                                         pisarz.RenderEndTag();
                                         GenerujNowąStronę();
@@ -91,6 +91,8 @@ namespace czynsze.Formularze
 
                                 /*if (i != tables.Count - 1)
                                     RenderNewPage();*/
+
+                                numerWiersza += 5;
                             }
                         }
                         else
@@ -106,7 +108,7 @@ namespace czynsze.Formularze
                                     pisarz.RenderBeginTag(HtmlTextWriterTag.Hr);
                                     pisarz.RenderEndTag();
                                 }
-                                
+
                                 pisarz.Write(sekcjeHtml[i]);
 
                                 if (i % 2 == 1 && i != sekcjeHtml.Count - 1)

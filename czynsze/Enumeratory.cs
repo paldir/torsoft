@@ -38,7 +38,7 @@ namespace czynsze
             NaleznosciWedlugNajemcow,
             WszystkieNaleznosciNajemcy,
             NieprzeterminowaneNaleznosciNajemcy,
-            NaleznoscIObrotyNajemcy,
+            NaleznosciIObrotyNajemcy,
             SaldoNajemcy,
             ObrotyNajemcy
         };

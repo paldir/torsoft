@@ -116,7 +116,7 @@ namespace czynsze.Formularze
                 case Enumeratory.Tabela.NaleznosciWedlugNajemcow:
                 case Enumeratory.Tabela.WszystkieNaleznosciNajemcy:
                 case Enumeratory.Tabela.NieprzeterminowaneNaleznosciNajemcy:
-                case Enumeratory.Tabela.NaleznoscIObrotyNajemcy:
+                case Enumeratory.Tabela.NaleznosciIObrotyNajemcy:
                 case Enumeratory.Tabela.SaldoNajemcy:
 
                     break;
@@ -357,7 +357,7 @@ namespace czynsze.Formularze
                             new string[]
                             {
                                 "Rozliczenia",
-                                "<a href=\"javascript: Redirect('List.aspx?table=NaleznoscIObrotyNajemcy')\">Należności i obroty</a>",
+                                "<a href=\"javascript: Redirect('List.aspx?table=NaleznosciIObrotyNajemcy')\">Należności i obroty</a>",
                                 "<a href='#'>Zaległości płatnicze</a>",
                             }
                         };
@@ -405,7 +405,7 @@ namespace czynsze.Formularze
 
                         break;
 
-                    case Enumeratory.Tabela.NaleznoscIObrotyNajemcy:
+                    case Enumeratory.Tabela.NaleznosciIObrotyNajemcy:
                         headers = new string[] { "Kwota Wn", "Kwota Ma", "Data", "Operacja" };
                         sortable = false;
                         indexesOfNumericColumns = new List<int>() { 1, 2 };
@@ -634,7 +634,7 @@ namespace czynsze.Formularze
 
                 case Enumeratory.Tabela.WszystkieNaleznosciNajemcy:
                 case Enumeratory.Tabela.NieprzeterminowaneNaleznosciNajemcy:
-                case Enumeratory.Tabela.NaleznoscIObrotyNajemcy:
+                case Enumeratory.Tabela.NaleznosciIObrotyNajemcy:
                 case Enumeratory.Tabela.SaldoNajemcy:
                 case Enumeratory.Tabela.ObrotyNajemcy:
                     if (Start.ŚcieżkaStrony.Count > 2)

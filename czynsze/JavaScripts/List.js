@@ -7,7 +7,7 @@
         document.getElementById("browseaction"),
         document.getElementById("moveaction"),
         document.getElementById("saldo"),
-        document.getElementById("MonthlySumOfComponentraport"),
+        document.getElementById("MiesięczneSumySkładnikówraport"),
         document.getElementById("SumOfTurnoversOnraport"),
         document.getElementById("turnoversEditing")
     ];
