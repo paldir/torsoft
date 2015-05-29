@@ -37,6 +37,11 @@ namespace czynsze.Formularze
                     konkretnyRodzaj = "Szczegółowo miesiąc";
 
                     break;
+
+                case Enumeratory.Analiza.NaleznosciWgEwidencji:
+                    konkretnyRodzaj = "Wg ewidencji";
+
+                    break;
             }
 
             Start.ŚcieżkaStrony.Add(ogólnyRodzaj);

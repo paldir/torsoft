@@ -116,6 +116,9 @@
                             <li class="mainSubSubMenuItem">
                                 <a href="javascript: Load('Analiza.aspx?rodzaj=NaleznosciSzczegolowoMiesiac')">Szczegółowo miesiąc</a>
                             </li>
+                            <li class="mainSubSubMenuItem">
+                                <a href="javascript: Load('Analiza.aspx?rodzaj=NaleznosciWgEwidencji')">Wg ewidencji</a>
+                            </li>
                         </ul>
                     </li>
                     <li class="mainSubMenuItem pseudoLink">Wykaz wg składnika
