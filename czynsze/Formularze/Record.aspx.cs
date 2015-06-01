@@ -779,7 +779,6 @@ namespace czynsze.Formularze
 
                         controls.Add(new Kontrolki.DropDownList("field", "rodz_e", new List<string[]>()
                         {
-                            new string[] {"0", String.Empty},
                             new string[] {"1", "dziennik komornego"},
                             new string[] {"2", "wpłaty"},
                             new string[] {"3", "zmniejszenia"},

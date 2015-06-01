@@ -35,7 +35,7 @@ namespace czynsze.Formularze
             string klucz = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("raport"));
             raport = (Enumeratory.Raport)Enum.Parse(typeof(Enumeratory.Raport), klucz.Replace("raport", String.Empty).Substring(klucz.LastIndexOf('$') + 1));
             klucz = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"));
-            int indeks = Request.UrlReferrer.Query.IndexOf("id");
+            int indeks = Request.UrlReferrer.Query.IndexOf("id=");
 
             if (!String.IsNullOrEmpty(klucz))
                 identyfikatory[0] = PobierzWartośćParametru<int>(klucz);
@@ -115,6 +115,9 @@ namespace czynsze.Formularze
                 case Enumeratory.Raport.NaleznosciSzczegolowoMiesiacLokale:
                 case Enumeratory.Raport.NaleznosciSzczegolowoMiesiacBudynki:
                 case Enumeratory.Raport.NaleznosciSzczegolowoMiesiacWspolnoty:
+                case Enumeratory.Raport.NaleznosciWgEwidencjiLokale:
+                case Enumeratory.Raport.NaleznosciWgEwidencjiBudynki:
+                case Enumeratory.Raport.NaleznosciWgEwidencjiWspolnoty:
                     identyfikatory[0] = PobierzWartośćParametru<int>("odBudynku");
                     identyfikatory[1] = PobierzWartośćParametru<int>("odLokalu");
                     identyfikatory[2] = PobierzWartośćParametru<int>("doBudynku");
@@ -128,6 +131,9 @@ namespace czynsze.Formularze
                         case Enumeratory.Raport.NaleznosciSzczegolowoMiesiacLokale:
                         case Enumeratory.Raport.NaleznosciSzczegolowoMiesiacBudynki:
                         case Enumeratory.Raport.NaleznosciSzczegolowoMiesiacWspolnoty:
+                        case Enumeratory.Raport.NaleznosciWgEwidencjiLokale:
+                        case Enumeratory.Raport.NaleznosciWgEwidencjiBudynki:
+                        case Enumeratory.Raport.NaleznosciWgEwidencjiWspolnoty:
                             identyfikatory[4] = PobierzWartośćParametru<int>("odWspólnoty");
                             identyfikatory[5] = PobierzWartośćParametru<int>("doWspólnoty");
 
@@ -145,6 +151,11 @@ namespace czynsze.Formularze
 
                                 case Enumeratory.Analiza.NaleznosciSzczegolowoMiesiac:
                                     nagłówek += "(Należności za dany miesiąc szczegółowo)";
+
+                                    break;
+
+                                case Enumeratory.Analiza.NaleznosciWgEwidencji:
+                                    nagłówek += "(Należności wg ewidencji)";
 
                                     break;
                             }
@@ -1124,6 +1135,66 @@ namespace czynsze.Formularze
                                             podpisy.Add(wspólnota.nazwa_pel);
                                         }
                                     }
+
+                                    break;
+                            }
+                        }
+
+                        break;
+
+                    case Enumeratory.Raport.NaleznosciWgEwidencjiLokale:
+                    case Enumeratory.Raport.NaleznosciWgEwidencjiBudynki:
+                    case Enumeratory.Raport.NaleznosciWgEwidencjiWspolnoty:
+                        {
+                            DateTime początekMiesiąca = new DateTime(data.Year, data.Month, 1);
+                            DateTime koniecMiesiąca = początekMiesiąca.AddMonths(1).AddSeconds(-1);
+                            List<DostępDoBazy.Należność> należnościZaDanyMiesiąc = należności.Where(n => n.data_nal >= początekMiesiąca && n.data_nal <= koniecMiesiąca).ToList();
+
+                            switch (raport)
+                            {
+                                case Enumeratory.Raport.NaleznosciWgEwidencjiLokale:
+                                    List<DostępDoBazy.AktywnyLokal> lokale = db.AktywneLokale.OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok).ToList();
+                                    int indeksPierwszego = lokale.FindIndex(l => l.kod_lok == identyfikatory[0] && l.nr_lok == identyfikatory[1]);
+                                    int indeksOstatniego = lokale.FindIndex(l => l.kod_lok == identyfikatory[2] && l.nr_lok == identyfikatory[3]);
+                                    List<DostępDoBazy.AktywnyLokal> lokaleDoAnalizy = lokale.GetRange(indeksPierwszego, indeksOstatniego - indeksPierwszego + 1);
+                                    DostępDoBazy.AktywnyLokal pierwszyLokal = lokale.First();
+                                    DostępDoBazy.AktywnyLokal ostatniLokal = lokale.Last();
+                                    nagłówki = new List<string>() { "L.p.", "Kod budynku", "Nr budynku", "Nazwisko", "Imię", "Dziennik komornego", "Wpłaty", "Zmniejszenia", "Zwiększenia", "Ogólna kwota czynszu" };
+                                    int liczbaPorządkowa = 1;
+                                    List<string[]> tabela = new List<string[]>();
+                                    tytuł = String.Format("KWOTA NALEZNOSCI WG RODZAJU EWIDENCJI ZA M-C {0} - {1}", data.Month, data.Year);
+
+                                    for (int i = pierwszyLokal.kod_lok; i <= ostatniLokal.kod_lok; i++)
+                                    {
+                                        DostępDoBazy.Budynek budynek = db.Budynki.First(b => b.kod_1 == i);
+                                        IEnumerable<DostępDoBazy.AktywnyLokal> lokaleBudynku = lokaleDoAnalizy.Where(l => l.kod_lok == i);
+                                        decimal sumaBudynku = 0;
+
+                                        foreach (DostępDoBazy.AktywnyLokal lokal in lokaleBudynku)
+                                        {
+                                            Dictionary<int, decimal> rodzajEwidencjiNaSumę = new Dictionary<int, decimal>() { { 1, 0 }, { 2, 0 }, { 3, 0 }, { 4, 0 } };
+                                            int kodLokalu = lokal.kod_lok;
+                                            int nrLokalu = lokal.nr_lok;
+                                            decimal sumaLokalu = 0;
+
+                                            foreach (DostępDoBazy.Należność należność in należnościZaDanyMiesiąc.Where(n => n.kod_lok == kodLokalu && n.nr_lok == nrLokalu))
+                                            {
+                                                decimal kwota = należność.kwota_nal;
+                                                DostępDoBazy.SkładnikCzynszu składnik = db.SkładnikiCzynszu.Single(s => s.nr_skl == należność.nr_skl);
+                                                rodzajEwidencjiNaSumę[składnik.rodz_e] += kwota;
+                                                sumaLokalu += kwota;
+                                            }
+
+                                            sumaBudynku += sumaLokalu;
+
+                                            tabela.Add(new string[] { liczbaPorządkowa.ToString(), kodLokalu.ToString(), nrLokalu.ToString(), lokal.nazwisko, lokal.imie, rodzajEwidencjiNaSumę[1].ToString("N"), rodzajEwidencjiNaSumę[2].ToString("N"), rodzajEwidencjiNaSumę[3].ToString("N"), rodzajEwidencjiNaSumę[4].ToString("N"), sumaLokalu.ToString("N") });
+
+                                            liczbaPorządkowa++;
+                                        }
+                                    }
+
+                                    tabele.Add(tabela);
+                                    podpisy.Add(String.Empty);
 
                                     break;
                             }
