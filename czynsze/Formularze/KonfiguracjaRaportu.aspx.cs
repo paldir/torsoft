@@ -1165,13 +1165,11 @@ namespace czynsze.Formularze
                                         int liczbaPorządkowa = 1;
                                         List<string[]> tabela = new List<string[]>();
                                         Dictionary<int, decimal> rodzajEwidencjiNaSumęOgólną = new Dictionary<int, decimal>() { { 1, 0 }, { 2, 0 }, { 3, 0 }, { 4, 0 } };
-                                        decimal sumaOgólna = 0;
 
                                         for (int i = pierwszyLokal.kod_lok; i <= ostatniLokal.kod_lok; i++)
                                         {
                                             DostępDoBazy.Budynek budynek = db.Budynki.First(b => b.kod_1 == i);
                                             IEnumerable<DostępDoBazy.AktywnyLokal> lokaleBudynku = lokaleDoAnalizy.Where(l => l.kod_lok == i);
-                                            decimal sumaBudynku = 0;
                                             int kodLokalu = budynek.kod_1;
                                             Dictionary<int, decimal> rodzajEwidencjiNaSumęBudynku = new Dictionary<int, decimal>() { { 1, 0 }, { 2, 0 }, { 3, 0 }, { 4, 0 } };
 
@@ -1179,36 +1177,30 @@ namespace czynsze.Formularze
                                             {
                                                 Dictionary<int, decimal> rodzajEwidencjiNaSumę = new Dictionary<int, decimal>() { { 1, 0 }, { 2, 0 }, { 3, 0 }, { 4, 0 } };
                                                 int nrLokalu = lokal.nr_lok;
-                                                decimal sumaLokalu = 0;
 
                                                 foreach (DostępDoBazy.Należność należność in należnościZaDanyMiesiąc.Where(n => n.kod_lok == kodLokalu && n.nr_lok == nrLokalu))
                                                 {
                                                     decimal kwota = należność.kwota_nal;
                                                     DostępDoBazy.SkładnikCzynszu składnik = db.SkładnikiCzynszu.Single(s => s.nr_skl == należność.nr_skl);
                                                     rodzajEwidencjiNaSumę[składnik.rodz_e] += kwota;
-                                                    sumaLokalu += kwota;
                                                 }
-
-                                                sumaBudynku += sumaLokalu;
 
                                                 foreach (int klucz in rodzajEwidencjiNaSumę.Keys)
                                                     rodzajEwidencjiNaSumęBudynku[klucz] += rodzajEwidencjiNaSumę[klucz];
 
-                                                tabela.Add(new string[] { liczbaPorządkowa.ToString(), kodLokalu.ToString(), nrLokalu.ToString(), lokal.nazwisko, lokal.imie, rodzajEwidencjiNaSumę[1].ToString("N"), rodzajEwidencjiNaSumę[2].ToString("N"), rodzajEwidencjiNaSumę[3].ToString("N"), rodzajEwidencjiNaSumę[4].ToString("N"), sumaLokalu.ToString("N") });
+                                                tabela.Add(new string[] { liczbaPorządkowa.ToString(), kodLokalu.ToString(), nrLokalu.ToString(), lokal.nazwisko, lokal.imie, rodzajEwidencjiNaSumę[1].ToString("N"), rodzajEwidencjiNaSumę[2].ToString("N"), rodzajEwidencjiNaSumę[3].ToString("N"), rodzajEwidencjiNaSumę[4].ToString("N"), rodzajEwidencjiNaSumę.Values.Sum().ToString("N") });
 
                                                 liczbaPorządkowa++;
                                             }
 
-                                            tabela.Add(new string[] { String.Empty, kodLokalu.ToString(), String.Empty, "<b>RAZEM</b>", "BUDYNEK", rodzajEwidencjiNaSumęBudynku[1].ToString("N"), rodzajEwidencjiNaSumęBudynku[2].ToString("N"), rodzajEwidencjiNaSumęBudynku[3].ToString("N"), rodzajEwidencjiNaSumęBudynku[4].ToString("N"), sumaBudynku.ToString("N") });
+                                            tabela.Add(new string[] { String.Empty, kodLokalu.ToString(), String.Empty, "<b>RAZEM</b>", "BUDYNEK", rodzajEwidencjiNaSumęBudynku[1].ToString("N"), rodzajEwidencjiNaSumęBudynku[2].ToString("N"), rodzajEwidencjiNaSumęBudynku[3].ToString("N"), rodzajEwidencjiNaSumęBudynku[4].ToString("N"), rodzajEwidencjiNaSumęBudynku.Values.Sum().ToString("N") });
                                             tabela.Add(new string[] { ".", String.Empty, String.Empty, String.Empty, String.Empty, String.Empty, String.Empty, String.Empty, String.Empty, String.Empty });
 
                                             foreach (int klucz in rodzajEwidencjiNaSumęBudynku.Keys)
                                                 rodzajEwidencjiNaSumęOgólną[klucz] += rodzajEwidencjiNaSumęBudynku[klucz];
-
-                                            sumaOgólna += sumaBudynku;
                                         }
 
-                                        tabela.Add(new string[] { String.Empty, String.Empty, String.Empty, "<b>RAZEM ZAKRES LOKALI</b>", String.Format("{0}-{1} - {2}-{3}", pierwszyLokal.kod_lok, pierwszyLokal.nr_lok, ostatniLokal.kod_lok, ostatniLokal.nr_lok), rodzajEwidencjiNaSumęOgólną[1].ToString("N"), rodzajEwidencjiNaSumęOgólną[2].ToString("N"), rodzajEwidencjiNaSumęOgólną[3].ToString("N"), rodzajEwidencjiNaSumęOgólną[4].ToString("N"), sumaOgólna.ToString("N") });
+                                        tabela.Add(new string[] { String.Empty, String.Empty, String.Empty, "<b>RAZEM ZAKRES LOKALI</b>", String.Format("{0}-{1} - {2}-{3}", pierwszyLokal.kod_lok, pierwszyLokal.nr_lok, ostatniLokal.kod_lok, ostatniLokal.nr_lok), rodzajEwidencjiNaSumęOgólną[1].ToString("N"), rodzajEwidencjiNaSumęOgólną[2].ToString("N"), rodzajEwidencjiNaSumęOgólną[3].ToString("N"), rodzajEwidencjiNaSumęOgólną[4].ToString("N"), rodzajEwidencjiNaSumęOgólną.Values.Sum().ToString("N") });
                                         tabele.Add(tabela);
                                         podpisy.Add(String.Empty);
                                     }
@@ -1222,11 +1214,11 @@ namespace czynsze.Formularze
                                         int liczbaPorządkowa = 1;
                                         List<string[]> tabela = new List<string[]>();
                                         nagłówki = new List<string>() { "L.p.", "Kod budynku", "Adres", "Dziennik komornego", "Wpłaty", "Zmniejszenia", "Zwiększenia", "Ogólna kwota czynszu" };
+                                        Dictionary<int, decimal> rodzajEwidencjiNaSumęOgólną = new Dictionary<int, decimal>() { { 1, 0 }, { 2, 0 }, { 3, 0 }, { 4, 0 } };
 
                                         for (int i = kodPierwszego; i <= kodOstatniego; i++)
                                         {
                                             Dictionary<int, decimal> rodzajEwidencjiNaSumęBudynku = new Dictionary<int, decimal>() { { 1, 0 }, { 2, 0 }, { 3, 0 }, { 4, 0 } };
-                                            decimal sumaBudynku = 0;
                                             DostępDoBazy.Budynek budynek = db.Budynki.Single(b => b.kod_1 == i);
 
                                             foreach (DostępDoBazy.Należność należność in należnościZaDanyMiesiąc.Where(n => n.kod_lok == i))
@@ -1234,17 +1226,25 @@ namespace czynsze.Formularze
                                                 decimal kwota = należność.kwota_nal;
                                                 DostępDoBazy.SkładnikCzynszu składnik = db.SkładnikiCzynszu.Single(s => s.nr_skl == należność.nr_skl);
                                                 rodzajEwidencjiNaSumęBudynku[składnik.rodz_e] += kwota;
-                                                sumaBudynku += kwota;
                                             }
 
-                                            tabela.Add(new string[] { liczbaPorządkowa.ToString(), i.ToString(), String.Format("{0} {1}", budynek.adres, budynek.adres_2), rodzajEwidencjiNaSumęBudynku[1].ToString("N"), rodzajEwidencjiNaSumęBudynku[2].ToString("N"), rodzajEwidencjiNaSumęBudynku[3].ToString("N"), rodzajEwidencjiNaSumęBudynku[4].ToString("N"), sumaBudynku.ToString("N") });
+                                            tabela.Add(new string[] { liczbaPorządkowa.ToString(), i.ToString(), String.Format("{0} {1}", budynek.adres, budynek.adres_2), rodzajEwidencjiNaSumęBudynku[1].ToString("N"), rodzajEwidencjiNaSumęBudynku[2].ToString("N"), rodzajEwidencjiNaSumęBudynku[3].ToString("N"), rodzajEwidencjiNaSumęBudynku[4].ToString("N"), rodzajEwidencjiNaSumęBudynku.Values.Sum().ToString("N") });
+
+                                            foreach (int klucz in rodzajEwidencjiNaSumęBudynku.Keys)
+                                                rodzajEwidencjiNaSumęOgólną[klucz] += rodzajEwidencjiNaSumęBudynku[klucz];
 
                                             liczbaPorządkowa++;
                                         }
 
+                                        tabela.Add(new string[] { ".", String.Empty, String.Empty, String.Empty, String.Empty, String.Empty, String.Empty, String.Empty });
+                                        tabela.Add(new string[] { String.Empty, String.Empty, String.Format("RAZEM BUDYNKI {0} - {1}", kodPierwszego, kodOstatniego), rodzajEwidencjiNaSumęOgólną[1].ToString("N"), rodzajEwidencjiNaSumęOgólną[2].ToString("N"), rodzajEwidencjiNaSumęOgólną[3].ToString("N"), rodzajEwidencjiNaSumęOgólną[4].ToString("N"), rodzajEwidencjiNaSumęOgólną.Values.Sum().ToString("N") });
                                         tabele.Add(tabela);
                                         podpisy.Add(String.Empty);
                                     }
+
+                                    break;
+
+                                case Enumeratory.Raport.NaleznosciWgEwidencjiWspolnoty:
 
                                     break;
                             }
