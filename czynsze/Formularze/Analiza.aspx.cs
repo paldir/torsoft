@@ -42,6 +42,11 @@ namespace czynsze.Formularze
                     konkretnyRodzaj = "Wg ewidencji";
 
                     break;
+
+                case Enumeratory.Analiza.NaleznosciWgGrupSkladniki:
+                    konkretnyRodzaj = "Wg grup - składniki";
+
+                    break;
             }
 
             Start.ŚcieżkaStrony.Add(ogólnyRodzaj);

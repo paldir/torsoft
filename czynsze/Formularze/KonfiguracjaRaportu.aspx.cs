@@ -118,6 +118,9 @@ namespace czynsze.Formularze
                 case Enumeratory.Raport.NaleznosciWgEwidencjiLokale:
                 case Enumeratory.Raport.NaleznosciWgEwidencjiBudynki:
                 case Enumeratory.Raport.NaleznosciWgEwidencjiWspolnoty:
+                case Enumeratory.Raport.NaleznosciWgGrupSkladnikiLokale:
+                case Enumeratory.Raport.NaleznosciWgGrupSkladnikiBudynki:
+                case Enumeratory.Raport.NaleznosciWgGrupSkladnikiWspolnoty:
                     identyfikatory[0] = PobierzWartośćParametru<int>("odBudynku");
                     identyfikatory[1] = PobierzWartośćParametru<int>("odLokalu");
                     identyfikatory[2] = PobierzWartośćParametru<int>("doBudynku");
@@ -134,6 +137,9 @@ namespace czynsze.Formularze
                         case Enumeratory.Raport.NaleznosciWgEwidencjiLokale:
                         case Enumeratory.Raport.NaleznosciWgEwidencjiBudynki:
                         case Enumeratory.Raport.NaleznosciWgEwidencjiWspolnoty:
+                        case Enumeratory.Raport.NaleznosciWgGrupSkladnikiLokale:
+                        case Enumeratory.Raport.NaleznosciWgGrupSkladnikiBudynki:
+                        case Enumeratory.Raport.NaleznosciWgGrupSkladnikiWspolnoty:
                             identyfikatory[4] = PobierzWartośćParametru<int>("odWspólnoty");
                             identyfikatory[5] = PobierzWartośćParametru<int>("doWspólnoty");
 
@@ -156,6 +162,11 @@ namespace czynsze.Formularze
 
                                 case Enumeratory.Analiza.NaleznosciWgEwidencji:
                                     nagłówek += "(Należności wg ewidencji)";
+
+                                    break;
+
+                                case Enumeratory.Analiza.NaleznosciWgGrupSkladniki:
+                                    nagłówek += "(Należności wg grup - składniki)";
 
                                     break;
                             }
@@ -1157,7 +1168,7 @@ namespace czynsze.Formularze
                             DateTime początekMiesiąca = new DateTime(data.Year, data.Month, 1);
                             DateTime koniecMiesiąca = początekMiesiąca.AddMonths(1).AddSeconds(-1);
                             List<DostępDoBazy.Należność> należnościZaDanyMiesiąc = należności.Where(n => n.data_nal >= początekMiesiąca && n.data_nal <= koniecMiesiąca).ToList();
-                            tytuł = String.Format("KWOTA NALEZNOSCI WG RODZAJU EWIDENCJI ZA M-C {0:2} - {1}", data.Month, data.Year);
+                            tytuł = String.Format("KWOTA NALEZNOSCI WG RODZAJU EWIDENCJI ZA M-C {0:D2} - {1}", data.Month, data.Year);
                             Dictionary<int, decimal> słownikWzorcowy = new Dictionary<int, decimal>() { { 1, 0 }, { 2, 0 }, { 3, 0 }, { 4, 0 } };
 
                             switch (raport)
@@ -1302,6 +1313,39 @@ namespace czynsze.Formularze
 
                                         tabele.Last().Add(new string[] { String.Empty, String.Empty, String.Format("RAZEM WSPÓLNOTY {0} - {1}", numerPierwszej, numerOstatniej), rodzajEwidencjiNaSumęOgólną[1].ToString("N"), rodzajEwidencjiNaSumęOgólną[2].ToString("N"), rodzajEwidencjiNaSumęOgólną[3].ToString("N"), rodzajEwidencjiNaSumęOgólną[4].ToString("N"), rodzajEwidencjiNaSumęOgólną.Values.Sum().ToString("N") });
                                     }
+
+                                    break;
+                            }
+                        }
+
+                        break;
+
+                    case Enumeratory.Raport.NaleznosciWgGrupSkladnikiLokale:
+                    case Enumeratory.Raport.NaleznosciWgGrupSkladnikiBudynki:
+                    case Enumeratory.Raport.NaleznosciWgGrupSkladnikiWspolnoty:
+                        {
+                            DateTime początekMiesiąca = new DateTime(data.Year, data.Month, 1);
+                            DateTime koniecMiesiąca = początekMiesiąca.AddMonths(1).AddSeconds(-1);
+                            List<DostępDoBazy.Należność> należnościZaDanyMiesiąc = należności.Where(n => n.data_nal >= początekMiesiąca && n.data_nal <= koniecMiesiąca).ToList();
+                            tytuł = String.Format("ANALIZA NALEZNOSCI WG GRUP CZYNSZOWYCH ZA M-C {0:D2} - {1}", data.Month, data.Year);
+
+                            switch (raport)
+                            {
+                                case Enumeratory.Raport.NaleznosciWgGrupSkladnikiLokale:
+                                    List<DostępDoBazy.AktywnyLokal> wszystkieLokale = db.AktywneLokale.OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok).ToList();
+                                    int indeksPierwszego = wszystkieLokale.FindIndex(l => l.kod_lok == identyfikatory[0] && l.nr_lok == identyfikatory[2]);
+                                    int indeksOstatniego = wszystkieLokale.FindIndex(l => l.kod_lok == identyfikatory[1] && l.nr_lok == identyfikatory[3]);
+                                    IEnumerable<DostępDoBazy.AktywnyLokal> lokaleDoAnalizy = wszystkieLokale.GetRange(indeksPierwszego, indeksOstatniego - indeksPierwszego + 1);
+
+
+
+                                    break;
+
+                                case Enumeratory.Raport.NaleznosciWgGrupSkladnikiBudynki:
+
+                                    break;
+
+                                case Enumeratory.Raport.NaleznosciWgGrupSkladnikiWspolnoty:
 
                                     break;
                             }

@@ -61,7 +61,10 @@ namespace czynsze
             NaleznosciSzczegolowoMiesiacWspolnoty,
             NaleznosciWgEwidencjiLokale,
             NaleznosciWgEwidencjiBudynki,
-            NaleznosciWgEwidencjiWspolnoty
+            NaleznosciWgEwidencjiWspolnoty,
+            NaleznosciWgGrupSkladnikiLokale,
+            NaleznosciWgGrupSkladnikiBudynki,
+            NaleznosciWgGrupSkladnikiWspolnoty
         };
 
         public enum FormatRaportu
@@ -122,7 +125,8 @@ namespace czynsze
             NaleznosciBiezace,
             NaleznosciZaDanyMiesiac,
             NaleznosciSzczegolowoMiesiac,
-            NaleznosciWgEwidencji
+            NaleznosciWgEwidencji,
+            NaleznosciWgGrupSkladniki
         }
 
         public enum ObiektAnalizy
