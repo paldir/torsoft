@@ -1326,8 +1326,9 @@ namespace czynsze.Formularze
                         {
                             DateTime początekMiesiąca = new DateTime(data.Year, data.Month, 1);
                             DateTime koniecMiesiąca = początekMiesiąca.AddMonths(1).AddSeconds(-1);
-                            List<DostępDoBazy.Należność> należnościZaDanyMiesiąc = należności.Where(n => n.data_nal >= początekMiesiąca && n.data_nal <= koniecMiesiąca).ToList();
                             tytuł = String.Format("ANALIZA NALEZNOSCI WG GRUP CZYNSZOWYCH ZA M-C {0:D2} - {1}", data.Month, data.Year);
+                            List<int> grupySkładnikówCzynszu = (List<int>)Session["grupySkładnikówCzynszu"];
+                            List<DostępDoBazy.Należność> należnościZaDanyMiesiąc = należności.Where(n => n.data_nal >= początekMiesiąca && n.data_nal <= koniecMiesiąca).ToList();
 
                             switch (raport)
                             {
@@ -1336,8 +1337,29 @@ namespace czynsze.Formularze
                                     int indeksPierwszego = wszystkieLokale.FindIndex(l => l.kod_lok == identyfikatory[0] && l.nr_lok == identyfikatory[2]);
                                     int indeksOstatniego = wszystkieLokale.FindIndex(l => l.kod_lok == identyfikatory[1] && l.nr_lok == identyfikatory[3]);
                                     IEnumerable<DostępDoBazy.AktywnyLokal> lokaleDoAnalizy = wszystkieLokale.GetRange(indeksPierwszego, indeksOstatniego - indeksPierwszego + 1);
+                                    DostępDoBazy.AktywnyLokal pierwszy = lokaleDoAnalizy.First();
+                                    DostępDoBazy.AktywnyLokal ostatni = lokaleDoAnalizy.Last();
 
+                                    for (int i = pierwszy.kod_lok; i <= ostatni.kod_lok; i++)
+                                    {
+                                        IEnumerable<DostępDoBazy.AktywnyLokal> lokaleBudynku = lokaleDoAnalizy.Where(l => l.kod_lok == i);
 
+                                        if (lokaleBudynku.Any())
+                                        {
+                                            DostępDoBazy.Budynek budynek = db.Budynki.Single(b => b.kod_1 == i);
+                                            IEnumerable<DostępDoBazy.Należność> należnościBudynku=należnościZaDanyMiesiąc.Where(n=>n.kod_lok==i);
+
+                                            foreach(DostępDoBazy.AktywnyLokal lokal in lokaleBudynku)
+                                            {
+                                                IEnumerable<DostępDoBazy.Należność> należnościLokalu=należnościBudynku.Where(n=>n.nr_lok==lokal.nr_lok);
+                                                
+                                                    foreach(DostępDoBazy.Należność należność in należnościLokalu)
+                                                    {
+                                                        DostępDoBazy.SkładnikCzynszu składnik=db.SkładnikiCzynszu.Single(s=>s.nr_skl==nal)
+                                                    }
+                                            }
+                                        }
+                                    }
 
                                     break;
 

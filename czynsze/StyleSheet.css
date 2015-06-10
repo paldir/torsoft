@@ -343,6 +343,11 @@ input, select, textarea {
     border: solid 1px dodgerblue;
     padding: 5px;
 }
+
+.resultWindow .special
+{
+    text-align: left;
+}
 /*#endregion*/
 
 /*#region znak wodny*/

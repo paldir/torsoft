@@ -11,49 +11,61 @@ namespace czynsze.Formularze
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Enumeratory.Analiza rodzaj = PobierzWartośćParametru<Enumeratory.Analiza>("rodzaj");
-            //Enumeratory.KwotaCzynszu tryb = PobierzWartośćParametru<Enumeratory.KwotaCzynszu>("tryb");
-            string zakres = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("Wybór"));
-            Start.ŚcieżkaStrony = new List<string>() { "Raporty" };
-            string ogólnyRodzaj = null;
-            string konkretnyRodzaj = null;
-
-            if (rodzaj.ToString().StartsWith("Naleznosci"))
-                ogólnyRodzaj = "Analizy należności";
-
-            switch (rodzaj)
-            {
-                case Enumeratory.Analiza.NaleznosciBiezace:
-                    konkretnyRodzaj = "Bieżące";
-
-                    break;
-
-                case Enumeratory.Analiza.NaleznosciZaDanyMiesiac:
-                    konkretnyRodzaj = "Za dany miesiąc";
-
-                    break;
-
-                case Enumeratory.Analiza.NaleznosciSzczegolowoMiesiac:
-                    konkretnyRodzaj = "Szczegółowo miesiąc";
-
-                    break;
-
-                case Enumeratory.Analiza.NaleznosciWgEwidencji:
-                    konkretnyRodzaj = "Wg ewidencji";
-
-                    break;
-
-                case Enumeratory.Analiza.NaleznosciWgGrupSkladniki:
-                    konkretnyRodzaj = "Wg grup - składniki";
-
-                    break;
-            }
-
-            Start.ŚcieżkaStrony.Add(ogólnyRodzaj);
-            Start.ŚcieżkaStrony.Add(konkretnyRodzaj);
-
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
+                Enumeratory.Analiza rodzaj = PobierzWartośćParametru<Enumeratory.Analiza>("rodzaj");
+                //Enumeratory.KwotaCzynszu tryb = PobierzWartośćParametru<Enumeratory.KwotaCzynszu>("tryb");
+                string zakres = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("Wybór"));
+                Start.ŚcieżkaStrony = new List<string>() { "Raporty" };
+                string ogólnyRodzaj = null;
+                string konkretnyRodzaj = null;
+
+                if (rodzaj.ToString().StartsWith("Naleznosci"))
+                    ogólnyRodzaj = "Analizy należności";
+
+                switch (rodzaj)
+                {
+                    case Enumeratory.Analiza.NaleznosciBiezace:
+                        konkretnyRodzaj = "Bieżące";
+
+                        break;
+
+                    case Enumeratory.Analiza.NaleznosciZaDanyMiesiac:
+                        konkretnyRodzaj = "Za dany miesiąc";
+
+                        break;
+
+                    case Enumeratory.Analiza.NaleznosciSzczegolowoMiesiac:
+                        konkretnyRodzaj = "Szczegółowo miesiąc";
+
+                        break;
+
+                    case Enumeratory.Analiza.NaleznosciWgEwidencji:
+                        konkretnyRodzaj = "Wg ewidencji";
+
+                        break;
+
+                    case Enumeratory.Analiza.NaleznosciWgGrupSkladniki:
+                        konkretnyRodzaj = "Wg grup - składniki";
+                        List<string> id = new List<string>();
+                        List<string> nazwy = new List<string>();
+
+                        placeOfOthers.Controls.Add(new Kontrolki.Label("kontrolka", "grupyCzynszu", "Grupy składników czynszu: ", String.Empty));
+
+                        foreach (DostępDoBazy.GrupaSkładnikówCzynszu grupa in db.GrupySkładnikówCzynszu.OrderBy(g => g.kod))
+                        {
+                            id.Add(grupa.kod.ToString());
+                            nazwy.Add(grupa.nazwa);
+                        }
+
+                        placeOfOthers.Controls.Add(new Kontrolki.CheckBoxList("kontrolka", "grupyCzynszu", nazwy, id, id, true));
+
+                        break;
+                }
+
+                Start.ŚcieżkaStrony.Add(ogólnyRodzaj);
+                Start.ŚcieżkaStrony.Add(konkretnyRodzaj);
+
                 IEnumerable<DostępDoBazy.AktywnyLokal> wszystkieLokale = db.AktywneLokale.OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok);
                 int minimalnyBudynek;
                 int minimalnyLokal;
@@ -131,6 +143,21 @@ namespace czynsze.Formularze
                     {
                         case Enumeratory.Analiza.NaleznosciBiezace:
                             rodzaj = Enumeratory.Analiza.NaleznosciZaDanyMiesiac;
+
+                            break;
+
+                        case Enumeratory.Analiza.NaleznosciWgGrupSkladniki:
+                            List<int> wybraneGrupy = new List<int>();
+
+                            for (int i = 0; i < db.GrupySkładnikówCzynszu.Count(); i++)
+                            {
+                                string numer = PobierzWartośćParametru<string>(String.Format("grupyCzynszu_{0}", i));
+
+                                if (!String.IsNullOrEmpty(numer))
+                                    wybraneGrupy.Add(Int32.Parse(numer));
+                            }
+
+                            Session["grupySkładnikówCzynszu"] = wybraneGrupy;
 
                             break;
                     }

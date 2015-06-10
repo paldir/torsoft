@@ -10,6 +10,8 @@
                 <div id="placeOfBuildings" runat="server"></div>
                 <hr />
                 <div id="placeOfCommunities" runat="server"></div>
+                <hr />
+                <div id="placeOfOthers" class="special" runat="server"></div>
             </form>
         </div>
     </div>
