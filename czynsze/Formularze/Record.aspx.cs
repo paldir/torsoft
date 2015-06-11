@@ -483,7 +483,7 @@ namespace czynsze.Formularze
 
                     case Enumeratory.Tabela.SkladnikiCzynszu:
                         Title = "Składnik opłat";
-                        numberOfFields = 19;
+                        numberOfFields = 20;
                         heading += "składnika opłat";
                         columnSwitching = new List<int> { 0, 6, 9 };
                         labels = new string[]
@@ -497,6 +497,7 @@ namespace czynsze.Formularze
                             "Typ składnika: ",
                             "Początek okresu naliczania: ",
                             "Koniec okresu naliczania: ",
+                            "Grupa składników czynszu: ",
                             "Przedziały za osobę (dotyczy sposoby naliczania &quot;za osobę - przedziały&quot): "
                         };
 
@@ -520,6 +521,7 @@ namespace czynsze.Formularze
                         controls.Add(new Kontrolki.DropDownList("field", "typ_skl", new List<string[]> { new string[] { "0", "stały" }, new string[] { "1", "zmienny" } }, values[6], globalEnabled, false));
                         controls.Add(new Kontrolki.TextBox("field", "data_1", values[7], Kontrolki.TextBox.TextBoxMode.Data, 10, 1, globalEnabled));
                         controls.Add(new Kontrolki.TextBox("field", "data_2", values[8], Kontrolki.TextBox.TextBoxMode.Data, 10, 1, globalEnabled));
+                        controls.Add(new Kontrolki.DropDownList("field", "kod", db.GrupySkładnikówCzynszu.OrderBy(g => g.kod).ToList().Select(g => new string[] { g.kod.ToString(), g.kod.ToString(), g.nazwa }).ToList(), values[9], globalEnabled, false));
 
                         Table interval = new Table();
                         TableHeaderRow headerRow = new TableHeaderRow();
@@ -544,7 +546,7 @@ namespace czynsze.Formularze
 
                             tableCell = new TableCell();
 
-                            tableCell.Controls.Add(new Kontrolki.TextBox("field", "stawka_0" + i.ToString(), values[i + 9], Kontrolki.TextBox.TextBoxMode.LiczbaNiecałkowita, 10, 1, globalEnabled));
+                            tableCell.Controls.Add(new Kontrolki.TextBox("field", "stawka_0" + i.ToString(), values[i + 10], Kontrolki.TextBox.TextBoxMode.LiczbaNiecałkowita, 10, 1, globalEnabled));
                             tableRow.Cells.Add(tableCell);
                             interval.Rows.Add(tableRow);
                         }

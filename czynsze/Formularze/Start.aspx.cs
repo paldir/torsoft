@@ -20,7 +20,7 @@ namespace czynsze.Formularze
         {
             company.InnerText = NazwaFirmy;
             user.InnerText = Session["uzytkownik"].ToString();
-            month.InnerText = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[Data.Month - 1].ToString() + " " + Data.Year.ToString();
+            month.InnerText = String.Format(" USTAWIONEGO NA PAŁĘ W CELACH TESTOWYCH {0} {1}", System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[Data.Month - 1], Data.Year);
         }
 
         public static string ExceptionMessage(Exception wyjątek)

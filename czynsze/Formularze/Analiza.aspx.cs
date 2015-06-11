@@ -66,6 +66,8 @@ namespace czynsze.Formularze
                 Start.ŚcieżkaStrony.Add(ogólnyRodzaj);
                 Start.ŚcieżkaStrony.Add(konkretnyRodzaj);
 
+                Title = String.Format("{0} - {1}", ogólnyRodzaj, konkretnyRodzaj);
+
                 IEnumerable<DostępDoBazy.AktywnyLokal> wszystkieLokale = db.AktywneLokale.OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok);
                 int minimalnyBudynek;
                 int minimalnyLokal;

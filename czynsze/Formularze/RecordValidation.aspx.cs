@@ -216,7 +216,8 @@ namespace czynsze.Formularze
                                         PobierzWartośćParametru<string>("stawka_inf"),
                                         PobierzWartośćParametru<string>("typ_skl"),
                                         PobierzWartośćParametru<string>("data_1"),
-                                        PobierzWartośćParametru<string>("data_2")
+                                        PobierzWartośćParametru<string>("data_2"),
+                                        PobierzWartośćParametru<string>("kod")
                                     };
 
                             if (recordFields[3] == "6")

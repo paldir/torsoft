@@ -38,6 +38,9 @@ namespace czynsze.DostępDoBazy
         [Column("data_2")]
         public Nullable<DateTime> data_2 { get; set; }
 
+        [Column("kod")]
+        public int kod { get; set; }
+
         [Column("stawka_00")]
         public decimal stawka_00 { get; set; }
 
@@ -150,6 +153,7 @@ namespace czynsze.DostępDoBazy
                 typ_skl.ToString(), 
                 data_1,
                 data_2,
+                kod.ToString(),
                 stawka_00.ToString("F2"),
                 stawka_01.ToString("F2"),
                 stawka_02.ToString("F2"),
@@ -190,16 +194,16 @@ namespace czynsze.DostępDoBazy
                 wynik += CzynszeKontekst.WalidujFloat("Stawka do korespondencji", ref rekord[5]);
                 wynik += CzynszeKontekst.WalidujDatę("Początek okresu naliczania", ref rekord[7]);
                 wynik += CzynszeKontekst.WalidujDatę("Koniec okresu naliczania", ref rekord[8]);
-                wynik += CzynszeKontekst.WalidujFloat("Stawka za zero osób", ref rekord[9]);
-                wynik += CzynszeKontekst.WalidujFloat("Stawka za jedną osobę", ref rekord[10]);
-                wynik += CzynszeKontekst.WalidujFloat("Stawka za dwie osoby", ref rekord[11]);
-                wynik += CzynszeKontekst.WalidujFloat("Stawka za trzy osoby", ref rekord[12]);
-                wynik += CzynszeKontekst.WalidujFloat("Stawka za cztery osoby", ref rekord[13]);
-                wynik += CzynszeKontekst.WalidujFloat("Stawka za pięć osób", ref rekord[14]);
-                wynik += CzynszeKontekst.WalidujFloat("Stawka za sześć osób", ref rekord[15]);
-                wynik += CzynszeKontekst.WalidujFloat("Stawka za siedem osób", ref rekord[16]);
-                wynik += CzynszeKontekst.WalidujFloat("Stawka za osiem osób", ref rekord[17]);
-                wynik += CzynszeKontekst.WalidujFloat("Stawka za dziewięć osób", ref rekord[18]);
+                wynik += CzynszeKontekst.WalidujFloat("Stawka za zero osób", ref rekord[10]);
+                wynik += CzynszeKontekst.WalidujFloat("Stawka za jedną osobę", ref rekord[11]);
+                wynik += CzynszeKontekst.WalidujFloat("Stawka za dwie osoby", ref rekord[12]);
+                wynik += CzynszeKontekst.WalidujFloat("Stawka za trzy osoby", ref rekord[13]);
+                wynik += CzynszeKontekst.WalidujFloat("Stawka za cztery osoby", ref rekord[14]);
+                wynik += CzynszeKontekst.WalidujFloat("Stawka za pięć osób", ref rekord[15]);
+                wynik += CzynszeKontekst.WalidujFloat("Stawka za sześć osób", ref rekord[16]);
+                wynik += CzynszeKontekst.WalidujFloat("Stawka za siedem osób", ref rekord[17]);
+                wynik += CzynszeKontekst.WalidujFloat("Stawka za osiem osób", ref rekord[18]);
+                wynik += CzynszeKontekst.WalidujFloat("Stawka za dziewięć osób", ref rekord[19]);
             }
             else
             {
@@ -229,16 +233,17 @@ namespace czynsze.DostępDoBazy
             if (!String.IsNullOrEmpty(rekord[8]))
                 data_2 = Convert.ToDateTime(rekord[8]);
 
-            stawka_00 = Decimal.Parse(rekord[9]);
-            stawka_01 = Decimal.Parse(rekord[10]);
-            stawka_02 = Decimal.Parse(rekord[11]);
-            stawka_03 = Decimal.Parse(rekord[12]);
-            stawka_04 = Decimal.Parse(rekord[13]);
-            stawka_05 = Decimal.Parse(rekord[14]);
-            stawka_06 = Decimal.Parse(rekord[15]);
-            stawka_07 = Decimal.Parse(rekord[16]);
-            stawka_08 = Decimal.Parse(rekord[17]);
-            stawka_09 = Decimal.Parse(rekord[18]);
+            kod = Int32.Parse(rekord[9]);
+            stawka_00 = Decimal.Parse(rekord[10]);
+            stawka_01 = Decimal.Parse(rekord[11]);
+            stawka_02 = Decimal.Parse(rekord[12]);
+            stawka_03 = Decimal.Parse(rekord[13]);
+            stawka_04 = Decimal.Parse(rekord[14]);
+            stawka_05 = Decimal.Parse(rekord[15]);
+            stawka_06 = Decimal.Parse(rekord[16]);
+            stawka_07 = Decimal.Parse(rekord[17]);
+            stawka_08 = Decimal.Parse(rekord[18]);
+            stawka_09 = Decimal.Parse(rekord[19]);
         }
     }
 }

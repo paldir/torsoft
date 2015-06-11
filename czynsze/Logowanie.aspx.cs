@@ -20,7 +20,8 @@ namespace czynsze
                 Formularze.Start.NazwyZbiorów = new string[] { "CZYNSZE", db.Konfiguracje.FirstOrDefault().nazwa_2zb, db.Konfiguracje.FirstOrDefault().nazwa_3zb };
             }
 
-            Formularze.Start.Data = DateTime.Today;
+            //Formularze.Start.Data = DateTime.Today;
+            Formularze.Start.Data = new DateTime(2014, 8, 1);
             Formularze.Start.ŚcieżkaStrony = new List<string>();
             Formularze.Start.AktywnyZbiór = Enumeratory.Zbiór.Czynsze;
 
