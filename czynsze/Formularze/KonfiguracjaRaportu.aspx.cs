@@ -294,7 +294,6 @@ namespace czynsze.Formularze
                             }
                             catch { }
 
-                            //using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
                             {
                                 DostępDoBazy.Lokal.TypesOfPlace = db.TypyLokali.ToList();
 
