@@ -46,7 +46,7 @@ namespace czynsze.Formularze
                         break;
 
                     case Enumeratory.Analiza.NaleznosciWgGrupSkladniki:
-                        konkretnyRodzaj = "Wg grup - składniki";
+                    case Enumeratory.Analiza.NaleznosciWgGrupSumy:
                         List<string> id = new List<string>();
                         List<string> nazwy = new List<string>();
 
@@ -59,6 +59,19 @@ namespace czynsze.Formularze
                         }
 
                         placeOfOthers.Controls.Add(new Kontrolki.CheckBoxList("kontrolka", "grupyCzynszu", nazwy, id, id, true));
+
+                        switch (rodzaj)
+                        {
+                            case Enumeratory.Analiza.NaleznosciWgGrupSkladniki:
+                                konkretnyRodzaj = "Wg grup - składniki";
+
+                                break;
+
+                            case Enumeratory.Analiza.NaleznosciWgGrupSumy:
+                                konkretnyRodzaj = "Wg grup - sumy";
+
+                                break;
+                        }
 
                         break;
                 }
@@ -149,6 +162,7 @@ namespace czynsze.Formularze
                             break;
 
                         case Enumeratory.Analiza.NaleznosciWgGrupSkladniki:
+                        case Enumeratory.Analiza.NaleznosciWgGrupSumy:
                             List<int> wybraneGrupy = new List<int>();
 
                             for (int i = 0; i < db.GrupySkładnikówCzynszu.Count(); i++)
