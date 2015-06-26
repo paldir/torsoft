@@ -10,7 +10,7 @@
 namespace czynsze.Formularze {
     
     
-    public partial class ChangeDate {
+    public partial class ZmianaDaty {
         
         /// <summary>
         /// placeOfYear control.

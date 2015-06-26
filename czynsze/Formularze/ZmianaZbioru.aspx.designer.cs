@@ -10,7 +10,7 @@
 namespace czynsze.Formularze {
     
     
-    public partial class ChangeSettlementTable {
+    public partial class ZmianaZbioru {
         
         /// <summary>
         /// placeOfRadioButtons control.

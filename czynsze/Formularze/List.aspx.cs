@@ -44,7 +44,7 @@ namespace czynsze.Formularze
             get
             {
                 if (ViewState["sortOrder"] == null)
-                    return Enumeratory.PorządekSortowania.Rosnąco;
+                    return Enumeratory.PorządekSortowania.Rosnaco;
                 else
                     return (Enumeratory.PorządekSortowania)Enum.Parse(typeof(Enumeratory.PorządekSortowania), ViewState["sortOrder"].ToString());
             }
@@ -386,7 +386,7 @@ namespace czynsze.Formularze
                         {
                             DostępDoBazy.Najemca tenant = db.AktywniNajemcy.FirstOrDefault(t => t.nr_kontr == id);
                             heading = nodeOfSiteMapPath = "Należności najemcy " + tenant.nazwisko + " " + tenant.imie;
-                            List<DostępDoBazy.NależnośćZPierwszegoZbioru> receivables = db.NależnościZPierwszegoZbioru.Where(r => r.nr_kontr == id).OrderBy(r => r.data_nal).ToList();
+                            List<DostępDoBazy.NależnośćZPierwszegoZbioru> receivables = db.NależnościZPierwszegoZbioru.Where(r => r.nr_kontr == id).OrderBy(r => r.Data).ToList();
 
                             switch (table)
                             {
@@ -397,7 +397,7 @@ namespace czynsze.Formularze
 
                                 case Enumeratory.Tabela.NieprzeterminowaneNaleznosciNajemcy:
                                     heading += " (nieprzeterminowane)";
-                                    rows = receivables.Where(r => r.data_nal >= Start.Data).Select(r => r.WażnePola()).ToList();
+                                    rows = receivables.Where(r => r.Data >= Start.Data).Select(r => r.WażnePola()).ToList();
 
                                     break;
                             }
@@ -441,7 +441,7 @@ namespace czynsze.Formularze
                             rows = receivables.Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Select(t => t.WażnePolaDoNależnościIObrotówNajemcy())).OrderBy(r => DateTime.Parse(r[3])).ToList();
                             decimal wnAmount = rows.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
                             decimal maAmount = rows.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Decimal.Parse(r[2]));
-                            List<string[]> rowsOfPastReceivables = receivables.Where(r => r.data_nal < Start.Data).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Where(t => t.data_obr < Start.Data).Select(t => t.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
+                            List<string[]> rowsOfPastReceivables = receivables.Where(r => r.Data < Start.Data).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Where(t => t.Data < Start.Data).Select(t => t.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
                             decimal wnAmountOfPastReceivables = rowsOfPastReceivables.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
                             summary = @"
                                 <table class='additionalTable'>
@@ -483,10 +483,10 @@ namespace czynsze.Formularze
                         }
 
                         placeUnderMainTable.Controls.Add(new LiteralControl(summary));
-                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.MiesięczneSumySkładników + "raport", "Sumy miesięczne składnika", "KonfiguracjaRaportu.aspx"));
-                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.NależnościIObrotyNajemcy + "raport", "Wydruk", "KonfiguracjaRaportu.aspx"));
-                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.MiesięcznaAnalizaNależnościIObrotów + "raport", "Analiza miesięczna", "KonfiguracjaRaportu.aspx"));
-                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.SzczegółowaAnalizaNależnościIObrotów + "raport", "Analiza szczegółowa", "KonfiguracjaRaportu.aspx"));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.MiesieczneSumySkladnikow + "raport", "Sumy miesięczne składnika", "KonfiguracjaRaportu.aspx"));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.NaleznosciIObrotyNajemcy + "raport", "Wydruk", "KonfiguracjaRaportu.aspx"));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.MiesiecznaAnalizaNaleznosciIObrotow + "raport", "Analiza miesięczna", "KonfiguracjaRaportu.aspx"));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.SzczegolowaAnalizaNaleznosciIObrotow + "raport", "Analiza szczegółowa", "KonfiguracjaRaportu.aspx"));
 
                         break;
 
@@ -525,7 +525,7 @@ namespace czynsze.Formularze
                             List<string[]> rowsOfReceivablesAndTurnovers = receivables.Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Select(t => t.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
                             decimal wnAmount = rowsOfReceivablesAndTurnovers.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
                             decimal maAmount = rowsOfReceivablesAndTurnovers.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Decimal.Parse(r[2]));
-                            List<string[]> rowsOfReceivablesAndTurnoversToDate = receivables.Where(r => r.data_nal <= Start.Data).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Where(t => t.data_obr <= Start.Data).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
+                            List<string[]> rowsOfReceivablesAndTurnoversToDate = receivables.Where(r => r.Data <= Start.Data).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Where(t => t.Data <= Start.Data).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
                             decimal wnAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
                             decimal maAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Decimal.Parse(r[2]));
                             DostępDoBazy.Konfiguracja configuration = db.Konfiguracje.FirstOrDefault();
@@ -564,7 +564,7 @@ namespace czynsze.Formularze
                                     break;
                             }
 
-                            rows = turnovers.OrderBy(t => t.data_obr).Select(t => t.WażnePola()).ToList();
+                            rows = turnovers.OrderBy(t => t.Data).Select(t => t.WażnePola()).ToList();
 
                             placeOfMainTableButtons.Controls.Add(new Kontrolki.HtmlInputHidden("additionalId", id.ToString()));
                         }
@@ -719,19 +719,19 @@ namespace czynsze.Formularze
 
             switch (sortOrder)
             {
-                case Enumeratory.PorządekSortowania.Rosnąco:
+                case Enumeratory.PorządekSortowania.Rosnaco:
                     try { rows = rows.OrderBy(r => Single.Parse(r[columnNumber])).ToList(); }
                     catch { rows = rows.OrderBy(r => r[columnNumber]).ToList(); }
 
-                    sortOrder = Enumeratory.PorządekSortowania.Malejąco;
+                    sortOrder = Enumeratory.PorządekSortowania.Malejaco;
 
                     break;
 
-                case Enumeratory.PorządekSortowania.Malejąco:
+                case Enumeratory.PorządekSortowania.Malejaco:
                     try { rows = rows.OrderByDescending(r => Single.Parse(r[columnNumber])).ToList(); }
                     catch { rows = rows.OrderByDescending(r => r[columnNumber]).ToList(); }
 
-                    sortOrder = Enumeratory.PorządekSortowania.Rosnąco;
+                    sortOrder = Enumeratory.PorządekSortowania.Rosnaco;
 
                     break;
             }

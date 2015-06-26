@@ -15,10 +15,10 @@ namespace czynsze.DostępDoBazy
         public override int __record { get; set; }
 
         [Column("suma")]
-        public override decimal suma { get; set; }
+        public override decimal Kwota { get; set; }
 
         [Column("data_obr")]
-        public override DateTime data_obr { get; set; }
+        public override DateTime Data { get; set; }
 
         [Column("opis")]
         public override string opis { get; set; }

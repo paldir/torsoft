@@ -46,15 +46,15 @@ namespace czynsze
         public enum Raport
         {
             LokaleWBudynkach,
-            MiesięczneSumySkładników,
-            NależnościIObrotyNajemcy,
-            MiesięcznaAnalizaNależnościIObrotów,
-            SzczegółowaAnalizaNależnościIObrotów,
+            MiesieczneSumySkladnikow,
+            NaleznosciIObrotyNajemcy,
+            MiesiecznaAnalizaNaleznosciIObrotow,
+            SzczegolowaAnalizaNaleznosciIObrotow,
             NaleznosciZaDanyMiesiacLokale,
             NaleznosciZaDanyMiesiacBudynki,
             NaleznosciZaDanyMiesiacWspolnoty,
-            SkładnikiCzynszuStawkaZwykła,
-            SkładnikiCzynszuStawkaInformacyjna,
+            SkladnikiCzynszuStawkaZwykla,
+            SkladnikiCzynszuStawkaInformacyjna,
             WykazWgSkladnika,
             NaleznosciSzczegolowoMiesiacLokale,
             NaleznosciSzczegolowoMiesiacBudynki,
@@ -78,8 +78,8 @@ namespace czynsze
 
         public enum PorządekSortowania
         {
-            Rosnąco,
-            Malejąco
+            Rosnaco,
+            Malejaco
         };
 
         public enum Atrybut
@@ -130,7 +130,13 @@ namespace czynsze
             NaleznosciSzczegolowoMiesiac,
             NaleznosciWgEwidencji,
             NaleznosciWgGrupSkladniki,
-            NaleznosciWgGrupSumy
+            NaleznosciWgGrupSumy,
+            ObrotyBiezace,
+            ObrotyZaDanyMiesiac,
+            ObrotySzczegolowoMiesiac,
+            ObrotyWgEwidencji,
+            ObrotyWgGrupSkladniki,
+            ObrotyWgGrupSumy
         }
 
         public enum ObiektAnalizy

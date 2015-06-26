@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ProgressOfGenerationOfReceivables.aspx.cs" Inherits="czynsze.Formularze.ProgressOfGenerationOfReceivables" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PostepGeneracjiNaleznosci.aspx.cs" Inherits="czynsze.Formularze.PostepGeneracjiNaleznosci" %>
 
 <!DOCTYPE html>
 

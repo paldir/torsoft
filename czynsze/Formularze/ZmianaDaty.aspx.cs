@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace czynsze.Formularze
 {
-    public partial class ChangeDate : System.Web.UI.Page
+    public partial class ZmianaDaty : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

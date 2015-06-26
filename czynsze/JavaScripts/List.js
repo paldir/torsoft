@@ -7,14 +7,14 @@
         document.getElementById("browseaction"),
         document.getElementById("moveaction"),
         document.getElementById("saldo"),
-        document.getElementById("MiesięczneSumySkładnikówraport"),
+        document.getElementById("MiesieczneSumySkladnikowraport"),
         document.getElementById("SumOfTurnoversOnraport"),
         document.getElementById("turnoversEditing")
     ];
 
     switch (table) {
-        case "InactivePlaces":
-        case "InactiveTenants":
+        case "NieaktywneLokale":
+        case "NieaktywniNajemcy":
             inactive = true;
             //buttons[buttons.length] = getElementById("addaction");
 

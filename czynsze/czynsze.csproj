@@ -90,16 +90,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Formularze\AttributeOfObject.aspx" />
-    <Content Include="Formularze\ChangeDate.aspx" />
-    <Content Include="Formularze\ChangeSettlementTable.aspx" />
+    <Content Include="Formularze\ZmianaDaty.aspx" />
+    <Content Include="Formularze\ZmianaZbioru.aspx" />
     <Content Include="Formularze\CommunityBuildings.aspx" />
     <Content Include="Formularze\ContentsOfDescriptions.aspx" />
     <Content Include="Formularze\GeneracjaNaleznosci.aspx" />
     <Content Include="Formularze\SkladnikiCzynszu.aspx" />
     <Content Include="Formularze\Start.aspx" />
     <Content Include="Formularze\List.aspx" />
-    <Content Include="Formularze\Loading.aspx" />
-    <Content Include="Formularze\ProgressOfGenerationOfReceivables.aspx" />
+    <Content Include="Formularze\Ladowanie.aspx" />
+    <Content Include="Formularze\PostepGeneracjiNaleznosci.aspx" />
     <Content Include="Formularze\Record.aspx" />
     <Content Include="Formularze\RecordValidation.aspx" />
     <Content Include="Formularze\Analiza.aspx" />
@@ -143,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DostępDoBazy\BudynekWspólnoty.cs" />
+    <Compile Include="DostępDoBazy\IPozycjaDoAnalizy.cs" />
     <Compile Include="DostępDoBazy\Zamknięty.cs" />
     <Compile Include="DostępDoBazy\Treść.cs" />
     <Compile Include="Formularze\CommunityBuildings.aspx.cs">
@@ -166,12 +167,12 @@
     <Compile Include="Formularze\GeneracjaNaleznosci.aspx.designer.cs">
       <DependentUpon>GeneracjaNaleznosci.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Formularze\ProgressOfGenerationOfReceivables.aspx.cs">
-      <DependentUpon>ProgressOfGenerationOfReceivables.aspx</DependentUpon>
+    <Compile Include="Formularze\PostepGeneracjiNaleznosci.aspx.cs">
+      <DependentUpon>PostepGeneracjiNaleznosci.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Formularze\ProgressOfGenerationOfReceivables.aspx.designer.cs">
-      <DependentUpon>ProgressOfGenerationOfReceivables.aspx</DependentUpon>
+    <Compile Include="Formularze\PostepGeneracjiNaleznosci.aspx.designer.cs">
+      <DependentUpon>PostepGeneracjiNaleznosci.aspx</DependentUpon>
     </Compile>
     <Compile Include="Formularze\Analiza.aspx.cs">
       <DependentUpon>Analiza.aspx</DependentUpon>
@@ -258,19 +259,19 @@
     <Compile Include="Formularze\AttributeOfObject.aspx.designer.cs">
       <DependentUpon>AttributeOfObject.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Formularze\ChangeDate.aspx.cs">
-      <DependentUpon>ChangeDate.aspx</DependentUpon>
+    <Compile Include="Formularze\ZmianaDaty.aspx.cs">
+      <DependentUpon>ZmianaDaty.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Formularze\ChangeDate.aspx.designer.cs">
-      <DependentUpon>ChangeDate.aspx</DependentUpon>
+    <Compile Include="Formularze\ZmianaDaty.aspx.designer.cs">
+      <DependentUpon>ZmianaDaty.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Formularze\ChangeSettlementTable.aspx.cs">
-      <DependentUpon>ChangeSettlementTable.aspx</DependentUpon>
+    <Compile Include="Formularze\ZmianaZbioru.aspx.cs">
+      <DependentUpon>ZmianaZbioru.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Formularze\ChangeSettlementTable.aspx.designer.cs">
-      <DependentUpon>ChangeSettlementTable.aspx</DependentUpon>
+    <Compile Include="Formularze\ZmianaZbioru.aspx.designer.cs">
+      <DependentUpon>ZmianaZbioru.aspx</DependentUpon>
     </Compile>
     <Compile Include="Formularze\Start.aspx.cs">
       <DependentUpon>Start.aspx</DependentUpon>
@@ -286,12 +287,12 @@
     <Compile Include="Formularze\List.aspx.designer.cs">
       <DependentUpon>List.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Formularze\Loading.aspx.cs">
-      <DependentUpon>Loading.aspx</DependentUpon>
+    <Compile Include="Formularze\Ladowanie.aspx.cs">
+      <DependentUpon>Ladowanie.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Formularze\Loading.aspx.designer.cs">
-      <DependentUpon>Loading.aspx</DependentUpon>
+    <Compile Include="Formularze\Ladowanie.aspx.designer.cs">
+      <DependentUpon>Ladowanie.aspx</DependentUpon>
     </Compile>
     <Compile Include="Formularze\Strona.cs">
       <SubType>ASPXCodeBehind</SubType>

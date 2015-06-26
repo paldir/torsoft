@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Zmiana tabeli rozliczeniowej" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ChangeSettlementTable.aspx.cs" Inherits="czynsze.Formularze.ChangeSettlementTable" %>
+﻿<%@ Page Title="Zmiana tabeli rozliczeniowej" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ZmianaZbioru.aspx.cs" Inherits="czynsze.Formularze.ZmianaZbioru" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder" runat="server">

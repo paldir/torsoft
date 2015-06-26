@@ -10,7 +10,7 @@
 namespace czynsze.Formularze {
     
     
-    public partial class ProgressOfGenerationOfReceivables {
+    public partial class PostepGeneracjiNaleznosci {
         
         /// <summary>
         /// form1 control.

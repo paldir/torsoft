@@ -9,7 +9,7 @@ namespace czynsze.Formularze
 {
     public partial class GeneracjaNaleznosci : Strona
     {
-        readonly Func<DostępDoBazy.Należność, bool> należnościZBieżącegoMiesiącaFunc = c => c.data_nal >= new DateTime(Start.Data.Year, Start.Data.Month, 1) && c.data_nal <= new DateTime(Start.Data.Year, Start.Data.Month, DateTime.DaysInMonth(Start.Data.Year, Start.Data.Month));
+        readonly Func<DostępDoBazy.Należność, bool> należnościZBieżącegoMiesiącaFunc = c => c.Data >= new DateTime(Start.Data.Year, Start.Data.Month, 1) && c.Data <= new DateTime(Start.Data.Year, Start.Data.Month, DateTime.DaysInMonth(Start.Data.Year, Start.Data.Month));
 
         int rok
         {
@@ -192,7 +192,7 @@ namespace czynsze.Formularze
                     System.Threading.Thread thread = new System.Threading.Thread(() => Generate(odBudynku, doBudynku, odLokalu, doLokalu));
 
                     thread.Start();
-                    Response.Redirect("/Formularze/ProgressOfGenerationOfReceivables.aspx");
+                    Response.Redirect("/Formularze/PostepGeneracjiNaleznosci.aspx");
                 }
             }
         }

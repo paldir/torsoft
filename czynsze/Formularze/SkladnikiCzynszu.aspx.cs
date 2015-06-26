@@ -30,15 +30,15 @@ namespace czynsze.Formularze
                     {
                         new string[] 
                         { 
-                            Enumeratory.Raport.SkładnikiCzynszuStawkaZwykła.ToString(), 
+                            Enumeratory.Raport.SkladnikiCzynszuStawkaZwykla.ToString(), 
                             "Stawka" 
                         }, 
                         new string[] 
                         { 
-                            Enumeratory.Raport.SkładnikiCzynszuStawkaInformacyjna.ToString(), 
+                            Enumeratory.Raport.SkladnikiCzynszuStawkaInformacyjna.ToString(), 
                             "Stawka informacyjna" 
                         } 
-                    }, Enumeratory.Raport.SkładnikiCzynszuStawkaZwykła.ToString(), true, false));
+                    }, Enumeratory.Raport.SkladnikiCzynszuStawkaZwykla.ToString(), true, false));
 
 
                     DodajNowąLinię(pojemnikReszty);

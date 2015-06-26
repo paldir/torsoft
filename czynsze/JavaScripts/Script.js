@@ -2,7 +2,7 @@
     var buttonOfChangingDate = document.getElementById("buttonOfChangingDate");
 
     if (buttonOfChangingDate != null) {
-        buttonOfChangingDate.onclick = function () { buttonOfPanelItem_click("ChangeDate.aspx"); }
+        buttonOfChangingDate.onclick = function () { buttonOfPanelItem_click("ZmianaDaty.aspx"); }
     }
 
     var placeOfMinutes = document.getElementById("placeOfMinutes");
@@ -18,7 +18,7 @@
     var buttonOfSetChanging = document.getElementById("buttonOfSetChanging");
 
     if (buttonOfSetChanging != null)
-        buttonOfSetChanging.onclick = function () { buttonOfPanelItem_click("ChangeSettlementTable.aspx"); }
+        buttonOfSetChanging.onclick = function () { buttonOfPanelItem_click("ZmianaZbioru.aspx"); }
 }
 
 function buttonOfPanelItem_click(href) {
@@ -134,7 +134,7 @@ function ChangeRow(rowId, inactive, buttons, subMenu) {
 }
 
 function Load(href) {
-    window.location.href = "Loading.aspx?href=*" + href + "*";
+    window.location.href = "Ladowanie.aspx?href=*" + href + "*";
 }
 
 function FinishLoading() {

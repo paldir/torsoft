@@ -11,7 +11,7 @@ namespace czynsze.Formularze
 {
 
 
-    public partial class Loading
+    public partial class Ladowanie
     {
     }
 }
