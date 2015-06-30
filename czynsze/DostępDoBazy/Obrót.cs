@@ -19,7 +19,7 @@ namespace czynsze.DostępDoBazy
 
         public abstract int nr_kontr { get; set; }
 
-        public abstract int kod_wplat { get; set; }
+        public abstract int ZewnętrzneId { get; set; }
 
         public abstract string nr_dowodu { get; set; }
 
@@ -85,7 +85,7 @@ namespace czynsze.DostępDoBazy
             string data_obr = null;
 
             using (CzynszeKontekst db = new CzynszeKontekst())
-                typ = db.RodzajePłatności.FirstOrDefault(t => t.kod_wplat == kod_wplat);
+                typ = db.RodzajePłatności.FirstOrDefault(t => t.Id == ZewnętrzneId);
 
             switch (typ.s_rozli)
             {
@@ -159,7 +159,7 @@ namespace czynsze.DostępDoBazy
                 Kwota.ToString(),
                 data_obr,
                 DateTime.Today.ToShortDateString(),
-                kod_wplat.ToString(),
+                ZewnętrzneId.ToString(),
                 nr_dowodu.Trim(),
                 pozycja_d.ToString(),
                 uwagi.Trim(),
@@ -176,14 +176,14 @@ namespace czynsze.DostępDoBazy
                 Data = Convert.ToDateTime(rekord[2]);
 
             //data_NO = record[3];
-            kod_wplat = Int32.Parse(rekord[4]);
+            ZewnętrzneId = Int32.Parse(rekord[4]);
             nr_dowodu = rekord[5];
             pozycja_d = Int32.Parse(rekord[6]);
             uwagi = rekord[7];
             nr_kontr = Int32.Parse(rekord[8]);
 
             using (CzynszeKontekst db = new CzynszeKontekst())
-                opis = db.RodzajePłatności.FirstOrDefault(t => t.kod_wplat == kod_wplat).typ_wplat;
+                opis = db.RodzajePłatności.FirstOrDefault(t => t.Id == ZewnętrzneId).Nazwa;
         }
 
         public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)

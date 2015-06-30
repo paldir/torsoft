@@ -229,7 +229,7 @@ namespace czynsze.Formularze
                         indexesOfNumericColumns = new List<int>() { 1, 5 };
 
                         if (!IsPostBack)
-                            rows = db.SkładnikiCzynszu.OrderBy(c => c.nr_skl).ToList().Select(c => c.WażnePola()).ToList();
+                            rows = db.SkładnikiCzynszu.OrderBy(c => c.Id).ToList().Select(c => c.WażnePola()).ToList();
 
                         break;
 
@@ -289,7 +289,7 @@ namespace czynsze.Formularze
                         indexesOfNumericColumns = new List<int>() { 1 };
 
                         if (!IsPostBack)
-                            rows = db.RodzajePłatności.OrderBy(t => t.kod_wplat).ToList().Select(t => t.WażnePola()).ToList();
+                            rows = db.RodzajePłatności.OrderBy(t => t.Id).ToList().Select(t => t.WażnePola()).ToList();
 
                         break;
 
@@ -529,7 +529,7 @@ namespace czynsze.Formularze
                             decimal wnAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
                             decimal maAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Decimal.Parse(r[2]));
                             DostępDoBazy.Konfiguracja configuration = db.Konfiguracje.FirstOrDefault();
-                            List<string[]> rowsOfInterestNotes = turnovers.Where(t => t.kod_wplat == configuration.p_20 || t.kod_wplat == configuration.p_37).Select(t => t.WażnePolaDoNależnościIObrotówNajemcy()).ToList();
+                            List<string[]> rowsOfInterestNotes = turnovers.Where(t => t.ZewnętrzneId == configuration.p_20 || t.ZewnętrzneId == configuration.p_37).Select(t => t.WażnePolaDoNależnościIObrotówNajemcy()).ToList();
                             decimal wnOfInterestNotes = rowsOfInterestNotes.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
                             decimal maOfInterestNotes = rowsOfInterestNotes.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Decimal.Parse(r[2]));
                             rows = new List<string[]>() { new string[] { String.Empty, String.Format("{0:N}", maAmount - wnAmount), String.Format("{0:N}", maAmountToDay - wnAmountToDay), String.Format("{0:N}", maOfInterestNotes - wnOfInterestNotes) } };

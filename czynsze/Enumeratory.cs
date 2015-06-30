@@ -67,7 +67,22 @@ namespace czynsze
             NaleznosciWgGrupSkladnikiWspolnoty,
             NaleznosciWgGrupSumyLokale,
             NaleznosciWgGrupSumyBudynki,
-            NaleznosciWgGrupSumyWspolnoty
+            NaleznosciWgGrupSumyWspolnoty,
+            ObrotyZaDanyMiesiacLokale,
+            ObrotyZaDanyMiesiacBudynki,
+            ObrotyZaDanyMiesiacWspolnoty,
+            ObrotySzczegolowoMiesiacLokale,
+            ObrotySzczegolowoMiesiacBudynki,
+            ObrotySzczegolowoMiesiacWspolnoty,
+            ObrotyWgEwidencjiLokale,
+            ObrotyWgEwidencjiBudynki,
+            ObrotyWgEwidencjiWspolnoty,
+            ObrotyWgGrupSkladnikiLokale,
+            ObrotyWgGrupSkladnikiBudynki,
+            ObrotyWgGrupSkladnikiWspolnoty,
+            ObrotyWgGrupSumyLokale,
+            ObrotyWgGrupSumyBudynki,
+            ObrotyWgGrupSumyWspolnoty
         };
 
         public enum FormatRaportu

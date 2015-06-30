@@ -27,7 +27,7 @@ namespace czynsze.DostępDoBazy
         public override int nr_kontr { get; set; }
 
         [Column("kod_wplat")]
-        public override int kod_wplat { get; set; }
+        public override int ZewnętrzneId { get; set; }
 
         [Column("nr_dowodu")]
         public override string nr_dowodu { get; set; }

@@ -127,6 +127,28 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="mainSubMenuItem pseudoLink">Analizy obrotów
+                        <ul class="mainSubSubMenu">
+                            <li class="mainSubSubMenuItem">
+                                <a href="javascript: Load('Analiza.aspx?rodzaj=ObrotyBiezace')">Bieżące</a>
+                            </li>
+                            <li class="mainSubSubMenuItem">
+                                <a href="javascript: Load('Analiza.aspx?rodzaj=ObrotyZaDanyMiesiac')">Za dany miesiąc</a>
+                            </li>
+                            <li class="mainSubSubMenuItem">
+                                <a href="javascript: Load('Analiza.aspx?rodzaj=ObrotySzczegolowoMiesiac')">Szczegółowo miesiąc</a>
+                            </li>
+                            <li class="mainSubSubMenuItem">
+                                <a href="javascript: Load('Analiza.aspx?rodzaj=ObrotyWgEwidencji')">Wg ewidencji</a>
+                            </li>
+                            <li class="mainSubSubMenuItem">
+                                <a href="javascript: Load('Analiza.aspx?rodzaj=ObrotyWgGrupSkladniki')">Wg grup - składniki</a>
+                            </li>
+                            <li class="mainSubSubMenuItem">
+                                <a href="javascript: Load('Analiza.aspx?rodzaj=ObrotyWgGrupSumy')">Wg grup - sumy</a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="mainSubMenuItem pseudoLink">Wykaz wg składnika
                         <ul class="mainSubSubMenu">
                             <li class="mainSubSubMenuItem">

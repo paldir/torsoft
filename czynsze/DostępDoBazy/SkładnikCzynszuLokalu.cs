@@ -37,7 +37,7 @@ namespace czynsze.DostępDoBazy
             SkładnikCzynszu składnikCzynszu;
 
             using (CzynszeKontekst db = new CzynszeKontekst())
-                składnikCzynszu = db.SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == nr_skl);
+                składnikCzynszu = db.SkładnikiCzynszu.FirstOrDefault(c => c.Id == nr_skl);
 
             decimal ilosc;
             decimal stawka;
@@ -56,7 +56,7 @@ namespace czynsze.DostępDoBazy
             return new string[]
             {
                 nr_skl.ToString(),
-                składnikCzynszu.nazwa,
+                składnikCzynszu.Nazwa,
                 stawka.ToString("F2"),
                 ilosc.ToString("F2"),
                 String.Format("{0:N}", Decimal.Round(stawka*ilosc, 2)),
@@ -84,7 +84,7 @@ namespace czynsze.DostępDoBazy
             SkładnikCzynszu składnikCzynszu;
             Lokal lokal;
 
-            składnikCzynszu = SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == nr_skl);
+            składnikCzynszu = SkładnikiCzynszu.FirstOrDefault(c => c.Id == nr_skl);
             lokal = Lokale.FirstOrDefault(p => p.kod_lok == kod_lok && p.nr_lok == nr_lok);
 
             if (lokal == null)

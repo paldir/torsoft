@@ -33,7 +33,7 @@ namespace czynsze.DostępDoBazy
         public override int nr_kontr { get; set; }
 
         [Column("nr_skl")]
-        public override int nr_skl { get; set; }
+        public override int ZewnętrzneId { get; set; }
 
         [Column("stawka")]
         public override decimal Stawka { get; set; }

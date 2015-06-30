@@ -23,7 +23,7 @@ namespace czynsze.DostępDoBazy
 
         public abstract int nr_kontr { get; set; }
 
-        public abstract int nr_skl { get; set; }
+        public abstract int ZewnętrzneId { get; set; }
 
         public abstract decimal Stawka { get; set; }
 
@@ -60,7 +60,7 @@ namespace czynsze.DostępDoBazy
             this.Data = data_nal;
             this.opis = opis;
             this.nr_kontr = nr_kontr;
-            this.nr_skl = nr_skl;
+            this.ZewnętrzneId = nr_skl;
             this.kod_lok = kod_lok;
             this.nr_lok = nr_lok;
             this.Stawka = stawka;

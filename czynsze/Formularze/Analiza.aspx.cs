@@ -19,34 +19,43 @@ namespace czynsze.Formularze
                 Start.ŚcieżkaStrony = new List<string>() { "Raporty" };
                 string ogólnyRodzaj = null;
                 string konkretnyRodzaj = null;
+                string rodzajNapis = rodzaj.ToString();
 
-                if (rodzaj.ToString().StartsWith("Naleznosci"))
+                if (rodzajNapis.StartsWith("Naleznosci"))
                     ogólnyRodzaj = "Analizy należności";
+                else if (rodzajNapis.StartsWith("Obroty"))
+                    ogólnyRodzaj = "Analizy obrotów";
 
                 switch (rodzaj)
                 {
                     case Enumeratory.Analiza.NaleznosciBiezace:
+                    case Enumeratory.Analiza.ObrotyBiezace:
                         konkretnyRodzaj = "Bieżące";
 
                         break;
 
                     case Enumeratory.Analiza.NaleznosciZaDanyMiesiac:
+                    case Enumeratory.Analiza.ObrotyZaDanyMiesiac:
                         konkretnyRodzaj = "Za dany miesiąc";
 
                         break;
 
                     case Enumeratory.Analiza.NaleznosciSzczegolowoMiesiac:
+                    case Enumeratory.Analiza.ObrotySzczegolowoMiesiac:
                         konkretnyRodzaj = "Szczegółowo miesiąc";
 
                         break;
 
                     case Enumeratory.Analiza.NaleznosciWgEwidencji:
+                    case Enumeratory.Analiza.ObrotyWgEwidencji:
                         konkretnyRodzaj = "Wg ewidencji";
 
                         break;
 
                     case Enumeratory.Analiza.NaleznosciWgGrupSkladniki:
                     case Enumeratory.Analiza.NaleznosciWgGrupSumy:
+                    case Enumeratory.Analiza.ObrotyWgGrupSkladniki:
+                    case Enumeratory.Analiza.ObrotyWgGrupSumy:
                         List<string> id = new List<string>();
                         List<string> nazwy = new List<string>();
 
@@ -157,12 +166,15 @@ namespace czynsze.Formularze
                     switch (rodzaj)
                     {
                         case Enumeratory.Analiza.NaleznosciBiezace:
+                        case Enumeratory.Analiza.ObrotyBiezace:
                             rodzaj = Enumeratory.Analiza.NaleznosciZaDanyMiesiac;
 
                             break;
 
                         case Enumeratory.Analiza.NaleznosciWgGrupSkladniki:
                         case Enumeratory.Analiza.NaleznosciWgGrupSumy:
+                        case Enumeratory.Analiza.ObrotyWgGrupSkladniki:
+                        case Enumeratory.Analiza.ObrotyWgGrupSumy:
                             List<int> wybraneGrupy = new List<int>();
 
                             for (int i = 0; i < db.GrupySkładnikówCzynszu.Count(); i++)

@@ -9,13 +9,13 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DostępDoBazy
 {
     [Table("czynsz", Schema = "public")]
-    public class SkładnikCzynszu : IRekord
+    public class SkładnikCzynszu : IRekord, IInformacjeOPozycji
     {
         [Key, Column("nr_skl"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
-        public int nr_skl { get; set; }
+        public int Id { get; set; }
 
         [Column("nazwa")]
-        public string nazwa { get; set; }
+        public string Nazwa { get; set; }
 
         [Column("s_zaplat")]
         public int s_zaplat { get; set; }
@@ -109,9 +109,9 @@ namespace czynsze.DostępDoBazy
         {
             return new string[]
             {
-                nr_skl.ToString(), 
-                nr_skl.ToString(), 
-                nazwa, 
+                Id.ToString(), 
+                Id.ToString(), 
+                Nazwa, 
                 Rozpoznaj_s_zaplat(), 
                 Rozpoznaj_typ_skl(), 
                 stawka.ToString("F2") 
@@ -122,9 +122,9 @@ namespace czynsze.DostępDoBazy
         {
             return new string[]
             {
-                nr_skl.ToString(),
-                nr_skl.ToString(),
-                nazwa
+                Id.ToString(),
+                Id.ToString(),
+                Nazwa
             };
         }
 
@@ -144,8 +144,8 @@ namespace czynsze.DostępDoBazy
 
             return new string[]
             {
-                nr_skl.ToString(),
-                nazwa.Trim(),
+                Id.ToString(),
+                Nazwa.Trim(),
                 rodz_e.ToString(),
                 s_zaplat.ToString(),
                 stawka.ToString("F2"),
@@ -180,7 +180,7 @@ namespace czynsze.DostępDoBazy
                         id = Int32.Parse(rekord[0]);
 
                         using (CzynszeKontekst db = new CzynszeKontekst())
-                            if (db.SkładnikiCzynszu.Any(c => c.nr_skl == id))
+                            if (db.SkładnikiCzynszu.Any(c => c.Id == id))
                                 wynik += "Numer składnika jest już używany! <br />";
                     }
                     catch { wynik += "Numer składnika musi być liczbą całkowitą! <br />"; }
@@ -219,8 +219,8 @@ namespace czynsze.DostępDoBazy
 
         public void Ustaw(string[] rekord)
         {
-            nr_skl = Int32.Parse(rekord[0]);
-            nazwa = rekord[1];
+            Id = Int32.Parse(rekord[0]);
+            Nazwa = rekord[1];
             rodz_e = Int32.Parse(rekord[2]);
             s_zaplat = Int32.Parse(rekord[3]);
             stawka = Decimal.Parse(rekord[4]);

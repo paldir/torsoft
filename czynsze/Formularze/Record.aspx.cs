@@ -504,7 +504,7 @@ namespace czynsze.Formularze
                         if (values == null)
                         {
                             if (action != Enumeratory.Akcja.Dodaj)
-                                values = db.SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == id).WszystkiePola();
+                                values = db.SkładnikiCzynszu.FirstOrDefault(c => c.Id == id).WszystkiePola();
                             else
                                 values = new string[numberOfFields];
                         }
@@ -768,7 +768,7 @@ namespace czynsze.Formularze
                         if (values == null)
                         {
                             if (action != Enumeratory.Akcja.Dodaj)
-                                values = db.RodzajePłatności.FirstOrDefault(t => t.kod_wplat == id).WszystkiePola();
+                                values = db.RodzajePłatności.FirstOrDefault(t => t.Id == id).WszystkiePola();
                             else
                                 values = new string[numberOfFields];
                         }
