@@ -11,97 +11,99 @@ namespace czynsze.Formularze
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Start.ŚcieżkaStrony = new List<string>() { "Raporty", "Wykaz wg składnika" };
-            string przycisk = PobierzWartośćParametru<string>("przycisk");
-            Enumeratory.WykazWedługSkładnika tryb = PobierzWartośćParametru<Enumeratory.WykazWedługSkładnika>("tryb");
-            string trybTekstowo = null;
-
-            switch (tryb)
-            {
-                case Enumeratory.WykazWedługSkładnika.Obecny:
-                    trybTekstowo = "Obecny";
-
-                    break;
-
-                case Enumeratory.WykazWedługSkładnika.HistoriaOgolem:
-                    trybTekstowo = "Historia - ogółem";
-
-                    break;
-
-                case Enumeratory.WykazWedługSkładnika.HistoriaSpecyfikacja:
-                    trybTekstowo = "Historia - specyfikacja";
-
-                    break;
-            }
-
-            Start.ŚcieżkaStrony.Add(trybTekstowo);
-
-            Title += String.Format(" ({0})", trybTekstowo);
-
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
-                if (String.IsNullOrEmpty(przycisk))
+                Start.ŚcieżkaStrony = new List<string>() { "Raporty", "Wykaz wg składnika" };
+                string przycisk = PobierzWartośćParametru<string>("przycisk");
+                Enumeratory.WykazWedługSkładnika tryb = PobierzWartośćParametru<Enumeratory.WykazWedługSkładnika>("tryb");
+                string trybTekstowo = null;
+
+                switch (tryb)
                 {
-                    int minimalnyBudynek;
-                    int minimalnyLokal;
-                    int maksymalnyBudynek;
-                    int maksymalnyLokal;
-                    List<DostępDoBazy.SkładnikCzynszu> składnikiCzynszu = db.SkładnikiCzynszu.OrderBy(s => s.Id).ToList();
+                    case Enumeratory.WykazWedługSkładnika.Obecny:
+                        trybTekstowo = "Obecny";
 
-                    pojemnikSkladnika.Controls.Add(new Kontrolki.Label("label", "składnik", "Składnik: ", String.Empty));
-                    pojemnikSkladnika.Controls.Add(new Kontrolki.DropDownList("field", "składnik", składnikiCzynszu.Select(s => s.WażnePolaDoRozwijanejListy()).ToList(), składnikiCzynszu.First().Id.ToString(), true, false));
-                    DodajNowąLinię(pojemnikReszty);
+                        break;
 
-                    switch (tryb)
-                    {
-                        case Enumeratory.WykazWedługSkładnika.HistoriaSpecyfikacja:
-                        case Enumeratory.WykazWedługSkładnika.HistoriaOgolem:
+                    case Enumeratory.WykazWedługSkładnika.HistoriaOgolem:
+                        trybTekstowo = "Historia - ogółem";
 
-                            pojemnikReszty.Controls.Add(new LiteralControl("Podaj początek okresu rozliczeniowego: "));
-                            DodajNowąLinię(pojemnikReszty);
-                            pojemnikReszty.Controls.Add(new Kontrolki.Label("label", "rok", "Rok: ", String.Empty));
-                            pojemnikReszty.Controls.Add(new Kontrolki.TextBox("field", "rok", String.Empty, Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 4, 1, true));
-                            pojemnikReszty.Controls.Add(new Kontrolki.Label("field", "miesiąc", " Miesiąc: ", String.Empty));
-                            pojemnikReszty.Controls.Add(new Kontrolki.TextBox("field", "miesiąc", String.Empty, Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 2, 1, true));
-                            DodajNowąLinię(pojemnikReszty);
-                            DodajNowąLinię(pojemnikReszty);
+                        break;
 
-                            break;
-                    }
+                    case Enumeratory.WykazWedługSkładnika.HistoriaSpecyfikacja:
+                        trybTekstowo = "Historia - specyfikacja";
 
-                    DodajWybórLokali(pojemnikReszty, out minimalnyBudynek, out minimalnyLokal, out maksymalnyBudynek, out maksymalnyLokal);
-                    DodajNowąLinię(pojemnikReszty);
-                    pojemnikReszty.Controls.Add(new Kontrolki.Button("button", "przycisk", "Wybierz", String.Empty));
+                        break;
                 }
-                else
+
+                Start.ŚcieżkaStrony.Add(trybTekstowo);
+
+                Title += String.Format(" ({0})", trybTekstowo);
+
                 {
-                    string[] pierwszyLokal = PobierzWartośćParametru<string>("odLokalu").Split('-');
-                    string[] ostatniLokal = PobierzWartośćParametru<string>("doLokalu").Split('-');
-                    int nrSkładnika = PobierzWartośćParametru<int>("składnik");
-                    Session["trybWykazuWgSkładnika"] = tryb;
-
-                    switch (tryb)
+                    if (String.IsNullOrEmpty(przycisk))
                     {
-                        case Enumeratory.WykazWedługSkładnika.HistoriaOgolem:
-                        case Enumeratory.WykazWedługSkładnika.HistoriaSpecyfikacja:
-                            DateTime data;
+                        int minimalnyBudynek;
+                        int minimalnyLokal;
+                        int maksymalnyBudynek;
+                        int maksymalnyLokal;
+                        List<DostępDoBazy.SkładnikCzynszu> składnikiCzynszu = db.SkładnikiCzynszu.OrderBy(s => s.Id).ToList();
 
-                            try
-                            {
-                                data = new DateTime(PobierzWartośćParametru<int>("rok"), PobierzWartośćParametru<int>("miesiąc"), 1);
-                            }
-                            catch
-                            {
-                                DateTime dziś = Start.Data;
-                                data = new DateTime(dziś.Year, dziś.Month, 1);
-                            }
+                        pojemnikSkladnika.Controls.Add(new Kontrolki.Label("label", "składnik", "Składnik: ", String.Empty));
+                        pojemnikSkladnika.Controls.Add(new Kontrolki.DropDownList("field", "składnik", składnikiCzynszu.Select(s => s.WażnePolaDoRozwijanejListy()).ToList(), składnikiCzynszu.First().Id.ToString(), true, false));
+                        DodajNowąLinię(pojemnikReszty);
 
-                            Session["dataWykazuWgSkładnika"] = data;
+                        switch (tryb)
+                        {
+                            case Enumeratory.WykazWedługSkładnika.HistoriaSpecyfikacja:
+                            case Enumeratory.WykazWedługSkładnika.HistoriaOgolem:
 
-                            break;
+                                pojemnikReszty.Controls.Add(new LiteralControl("Podaj początek okresu rozliczeniowego: "));
+                                DodajNowąLinię(pojemnikReszty);
+                                pojemnikReszty.Controls.Add(new Kontrolki.Label("label", "rok", "Rok: ", String.Empty));
+                                pojemnikReszty.Controls.Add(new Kontrolki.TextBox("field", "rok", String.Empty, Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 4, 1, true));
+                                pojemnikReszty.Controls.Add(new Kontrolki.Label("field", "miesiąc", " Miesiąc: ", String.Empty));
+                                pojemnikReszty.Controls.Add(new Kontrolki.TextBox("field", "miesiąc", String.Empty, Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 2, 1, true));
+                                DodajNowąLinię(pojemnikReszty);
+                                DodajNowąLinię(pojemnikReszty);
+
+                                break;
+                        }
+
+                        DodajWybórLokali(pojemnikReszty, out minimalnyBudynek, out minimalnyLokal, out maksymalnyBudynek, out maksymalnyLokal);
+                        DodajNowąLinię(pojemnikReszty);
+                        pojemnikReszty.Controls.Add(new Kontrolki.Button("button", "przycisk", "Wybierz", String.Empty));
                     }
+                    else
+                    {
+                        string[] pierwszyLokal = PobierzWartośćParametru<string>("odLokalu").Split('-');
+                        string[] ostatniLokal = PobierzWartośćParametru<string>("doLokalu").Split('-');
+                        int nrSkładnika = PobierzWartośćParametru<int>("składnik");
+                        Session["trybWykazuWgSkładnika"] = tryb;
 
-                    Response.Redirect(String.Format("KonfiguracjaRaportu.aspx?{0}raport=dummy&odBudynku={1}&odLokalu={2}&doBudynku={3}&doLokalu={4}&nrSkladnika={5}", Enumeratory.Raport.WykazWgSkladnika, pierwszyLokal[0], pierwszyLokal[1], ostatniLokal[0], ostatniLokal[1], nrSkładnika));
+                        switch (tryb)
+                        {
+                            case Enumeratory.WykazWedługSkładnika.HistoriaOgolem:
+                            case Enumeratory.WykazWedługSkładnika.HistoriaSpecyfikacja:
+                                DateTime data;
+
+                                try
+                                {
+                                    data = new DateTime(PobierzWartośćParametru<int>("rok"), PobierzWartośćParametru<int>("miesiąc"), 1);
+                                }
+                                catch
+                                {
+                                    DateTime dziś = Start.Data;
+                                    data = new DateTime(dziś.Year, dziś.Month, 1);
+                                }
+
+                                Session["dataWykazuWgSkładnika"] = data;
+
+                                break;
+                        }
+
+                        Response.Redirect(String.Format("KonfiguracjaRaportu.aspx?{0}raport=dummy&odBudynku={1}&odLokalu={2}&doBudynku={3}&doLokalu={4}&nrSkladnika={5}", Enumeratory.Raport.WykazWgSkladnika, pierwszyLokal[0], pierwszyLokal[1], ostatniLokal[0], ostatniLokal[1], nrSkładnika));
+                    }
                 }
             }
         }

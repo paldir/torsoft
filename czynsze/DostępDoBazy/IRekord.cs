@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace czynsze.DostępDoBazy
 {
-    public interface IRekord
+    interface IRekord
     {
         void Ustaw(string[] rekord);
         string Waliduj(Enumeratory.Akcja akcja, string[] rekord);

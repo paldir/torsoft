@@ -13,25 +13,25 @@ namespace czynsze.Formularze
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string użytkownik = Request.Params["uzytkownik"];
-            string hasło = Request.Params["haslo"];
-            bool walidacjaPomyślna = false;
-            DostępDoBazy.Użytkownik wybranyUżytkownik;
-
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
-                wybranyUżytkownik = db.Użytkownicy.FirstOrDefault(u => u.uzytkownik == użytkownik);
-
-            if (wybranyUżytkownik != null)
-                if (Enumerable.SequenceEqual(Encoding.UTF8.GetBytes(hasło), Encoding.UTF8.GetBytes(wybranyUżytkownik.haslo.Trim()).Select(b => (byte)(b - 10)).ToArray()))
-                    walidacjaPomyślna = true;
-
-            if (walidacjaPomyślna)
             {
-                Session["uzytkownik"] = użytkownik;
-                Response.Redirect("Start.aspx");
+                string użytkownik = Request.Params["uzytkownik"];
+                string hasło = Request.Params["haslo"];
+                bool walidacjaPomyślna = false;
+                DostępDoBazy.Użytkownik wybranyUżytkownik = db.Użytkownicy.FirstOrDefault(u => u.uzytkownik == użytkownik);
+
+                if (wybranyUżytkownik != null)
+                    if (Enumerable.SequenceEqual(Encoding.UTF8.GetBytes(hasło), Encoding.UTF8.GetBytes(wybranyUżytkownik.haslo.Trim()).Select(b => (byte)(b - 10)).ToArray()))
+                        walidacjaPomyślna = true;
+
+                if (walidacjaPomyślna)
+                {
+                    Session["uzytkownik"] = użytkownik;
+                    Response.Redirect("Start.aspx");
+                }
+                else
+                    Response.Redirect("../Logowanie.aspx?przyczyna=" + Enumeratory.PowódPrzeniesieniaNaStronęLogowania.NiepoprawneDaneUwierzytelniajace);
             }
-            else
-                Response.Redirect("../Logowanie.aspx?przyczyna=" + Enumeratory.PowódPrzeniesieniaNaStronęLogowania.NiepoprawneDaneUwierzytelniajace);
         }
     }
 }

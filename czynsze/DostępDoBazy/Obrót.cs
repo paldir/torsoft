@@ -11,15 +11,15 @@ namespace czynsze.DostępDoBazy
 
         public abstract int __record { get; set; }
 
-        public abstract decimal Kwota { get; set; }
+        public abstract decimal suma { get; set; }
 
-        public abstract DateTime Data { get; set; }
+        public abstract DateTime data_obr { get; set; }
 
         public abstract string opis { get; set; }
 
         public abstract int nr_kontr { get; set; }
 
-        public abstract int ZewnętrzneId { get; set; }
+        public abstract int kod_wplat { get; set; }
 
         public abstract string nr_dowodu { get; set; }
 
@@ -27,16 +27,42 @@ namespace czynsze.DostępDoBazy
 
         public abstract string uwagi { get; set; }
 
+        public DateTime Data
+        {
+            get { return data_obr; }
+        }
+
+        public decimal Kwota
+        {
+            get { return suma; }
+        }
+
         public decimal Ilość
         {
             get { return 0; }
-            set { }
         }
 
         public decimal Stawka
         {
             get { return 0; }
-            set { }
+        }
+
+        public int IdInformacji
+        {
+            get { return kod_wplat; }
+        }
+
+        DostępDoBazy.AktywnyLokal _lokal;
+
+        public int[] KodLokalu
+        {
+            get
+            {
+                if (_lokal == null)
+                    return null;
+                else
+                    return new int[] { _lokal.kod_lok, _lokal.nr_lok };
+            }
         }
 
         //public static Dictionary<Enums.SettlementTable, List<Turnover>> SettlementTableToListOfTurnovers { get; private set; }
@@ -55,17 +81,23 @@ namespace czynsze.DostępDoBazy
             }
         }*/
 
+        public Obrót()
+        {
+            using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
+                _lokal = db.AktywneLokale.FirstOrDefault(l => l.nr_kontr == nr_kontr);
+        }
+
         public string[] WażnePola()
         {
             string data_obr = null;
 
-            if (this.Data != null)
-                data_obr = String.Format(DostępDoBazy.CzynszeKontekst.FormatDaty, this.Data);
-            
+            if (this.data_obr != null)
+                data_obr = String.Format(DostępDoBazy.CzynszeKontekst.FormatDaty, this.data_obr);
+
             return new string[] 
             {
                 __record.ToString(),
-                String.Format("{0:N}", Kwota),
+                String.Format("{0:N}", suma),
                 data_obr,
                 DateTime.Today.ToShortDateString(),
                 opis,
@@ -85,7 +117,7 @@ namespace czynsze.DostępDoBazy
             string data_obr = null;
 
             using (CzynszeKontekst db = new CzynszeKontekst())
-                typ = db.RodzajePłatności.FirstOrDefault(t => t.Id == ZewnętrzneId);
+                typ = db.RodzajePłatności.FirstOrDefault(t => t.Id == kod_wplat);
 
             switch (typ.s_rozli)
             {
@@ -118,7 +150,7 @@ namespace czynsze.DostępDoBazy
                     break;
             }
 
-            string suma = (this.Kwota * mnożnik).ToString("F2");
+            string suma = (this.suma * mnożnik).ToString("F2");
 
             switch (konto)
             {
@@ -133,8 +165,8 @@ namespace czynsze.DostępDoBazy
                     break;
             }
 
-            if (this.Data != null)
-                data_obr = String.Format(DostępDoBazy.CzynszeKontekst.FormatDaty, this.Data);
+            if (this.data_obr != null)
+                data_obr = String.Format(DostępDoBazy.CzynszeKontekst.FormatDaty, this.data_obr);
 
             return new string[]
             {
@@ -150,16 +182,16 @@ namespace czynsze.DostępDoBazy
         {
             string data_obr = null;
 
-            if (this.Data != null)
-                data_obr = String.Format(DostępDoBazy.CzynszeKontekst.FormatDaty, this.Data);
-            
+            if (this.data_obr != null)
+                data_obr = String.Format(DostępDoBazy.CzynszeKontekst.FormatDaty, this.data_obr);
+
             return new string[]
             {
                 __record.ToString(),
-                Kwota.ToString(),
+                suma.ToString(),
                 data_obr,
                 DateTime.Today.ToShortDateString(),
-                ZewnętrzneId.ToString(),
+                kod_wplat.ToString(),
                 nr_dowodu.Trim(),
                 pozycja_d.ToString(),
                 uwagi.Trim(),
@@ -170,20 +202,20 @@ namespace czynsze.DostępDoBazy
         public void Ustaw(string[] rekord)
         {
             __record = Int32.Parse(rekord[0]);
-            Kwota = Decimal.Parse(rekord[1]);
+            suma = Decimal.Parse(rekord[1]);
 
             if (!String.IsNullOrEmpty(rekord[2]))
-                Data = Convert.ToDateTime(rekord[2]);
+                data_obr = Convert.ToDateTime(rekord[2]);
 
             //data_NO = record[3];
-            ZewnętrzneId = Int32.Parse(rekord[4]);
+            kod_wplat = Int32.Parse(rekord[4]);
             nr_dowodu = rekord[5];
             pozycja_d = Int32.Parse(rekord[6]);
             uwagi = rekord[7];
             nr_kontr = Int32.Parse(rekord[8]);
 
             using (CzynszeKontekst db = new CzynszeKontekst())
-                opis = db.RodzajePłatności.FirstOrDefault(t => t.Id == ZewnętrzneId).Nazwa;
+                opis = db.RodzajePłatności.FirstOrDefault(t => t.Id == kod_wplat).Nazwa;
         }
 
         public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)

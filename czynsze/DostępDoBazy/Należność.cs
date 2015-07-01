@@ -11,9 +11,9 @@ namespace czynsze.DostępDoBazy
 
         public abstract int __record { get; set; }
 
-        public abstract decimal Kwota { get; set; }
+        public abstract decimal kwota_nal { get; set; }
 
-        public abstract DateTime Data { get; set; }
+        public abstract DateTime data_nal { get; set; }
 
         public abstract string opis { get; set; }
 
@@ -23,19 +23,49 @@ namespace czynsze.DostępDoBazy
 
         public abstract int nr_kontr { get; set; }
 
-        public abstract int ZewnętrzneId { get; set; }
+        public abstract int nr_skl { get; set; }
 
-        public abstract decimal Stawka { get; set; }
+        public abstract decimal stawka { get; set; }
 
-        public abstract decimal Ilość { get; set; }
+        public abstract decimal ilosc { get; set; }
 
+        public DateTime Data
+        {
+            get { return data_nal; }
+        }
+
+        public decimal Kwota
+        {
+            get { return kwota_nal; }
+        }
+
+        public decimal Ilość
+        {
+            get { return ilosc; }
+        }
+
+        public decimal Stawka
+        {
+            get { return stawka; }
+        }
+
+        public int IdInformacji
+        {
+            get { return nr_skl; }
+        }
+
+        public int[] KodLokalu
+        {
+            get { return new int[] { kod_lok, nr_lok }; }
+        }
+            
         public string[] WażnePola()
         {
             return new string[]
             {
                 __record.ToString(),
-                Kwota.ToString("F2"),
-                String.Format(DostępDoBazy.CzynszeKontekst.FormatDaty, Data),
+                kwota_nal.ToString("F2"),
+                String.Format(DostępDoBazy.CzynszeKontekst.FormatDaty, data_nal),
                 opis,
                 kod_lok.ToString(),
                 nr_lok.ToString()
@@ -47,24 +77,24 @@ namespace czynsze.DostępDoBazy
             return new string[]
             {
                 (-1*__record).ToString(),
-                Kwota.ToString("F2"),
+                kwota_nal.ToString("F2"),
                 String.Empty,
-                String.Format(DostępDoBazy.CzynszeKontekst.FormatDaty, Data),
+                String.Format(DostępDoBazy.CzynszeKontekst.FormatDaty, data_nal),
                 opis
             };
         }
 
         public void Ustaw(decimal kwota_nal, DateTime data_nal, string opis, int nr_kontr, int nr_skl, int kod_lok, int nr_lok, decimal stawka, decimal ilosc)
         {
-            this.Kwota = kwota_nal;
-            this.Data = data_nal;
+            this.kwota_nal = kwota_nal;
+            this.data_nal = data_nal;
             this.opis = opis;
             this.nr_kontr = nr_kontr;
-            this.ZewnętrzneId = nr_skl;
+            this.nr_skl = nr_skl;
             this.kod_lok = kod_lok;
             this.nr_lok = nr_lok;
-            this.Stawka = stawka;
-            this.Ilość = ilosc;
+            this.stawka = stawka;
+            this.ilosc = ilosc;
         }
     }
 }

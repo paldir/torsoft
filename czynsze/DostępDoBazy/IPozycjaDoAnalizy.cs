@@ -7,10 +7,11 @@ namespace czynsze.DostępDoBazy
 {
     interface IPozycjaDoAnalizy
     {
-        DateTime Data { get; set; }
-        decimal Kwota { get; set; }
-        decimal Ilość { get; set; }
-        decimal Stawka { get; set; }
-        int ZewnętrzneId { get; set; }
+        DateTime Data { get; }
+        decimal Kwota { get; }
+        decimal Ilość { get; }
+        decimal Stawka { get; }
+        int IdInformacji { get; }
+        int[] KodLokalu { get; }
     }
 }

@@ -33,81 +33,82 @@ namespace czynsze.Formularze
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            bool globalEnabled = false;
-            bool idEnabled = false;
-            string[] values = (string[])Session["values"];
-            int numberOfFields = 0;
-            string[] labels = null;
-            string heading = null;
-            List<Kontrolki.Button> buttons = new List<Kontrolki.Button>();
-            List<Control> controls = new List<Control>();
-            List<int> columnSwitching = null;
-            List<Kontrolki.HtmlIframe> tabs = null;
-            List<Kontrolki.HtmlInputRadioButton> tabButtons = null;
-            List<Kontrolki.Label> labelsOfTabButtons = null;
-            List<Control> preview = null;
-            //id = Int32.Parse(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))]);
-            id = PobierzWartośćParametru<int>("id");
-            //action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("action"))]);
-            action = PobierzWartośćParametru<Enumeratory.Akcja>("action");
-            //table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))]);
-            table = PobierzWartośćParametru<Enumeratory.Tabela>("table");
-            string backUrl = "javascript: Load('" + Request.UrlReferrer + "')";
-            Dictionary<bool, string> fromIdEnabledToIdSuffix = new Dictionary<bool, string>()
+            using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
+            {
+                bool globalEnabled = false;
+                bool idEnabled = false;
+                string[] values = (string[])Session["values"];
+                int numberOfFields = 0;
+                string[] labels = null;
+                string heading = null;
+                List<Kontrolki.Button> buttons = new List<Kontrolki.Button>();
+                List<Control> controls = new List<Control>();
+                List<int> columnSwitching = null;
+                List<Kontrolki.HtmlIframe> tabs = null;
+                List<Kontrolki.HtmlInputRadioButton> tabButtons = null;
+                List<Kontrolki.Label> labelsOfTabButtons = null;
+                List<Control> preview = null;
+                //id = Int32.Parse(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))]);
+                id = PobierzWartośćParametru<int>("id");
+                //action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("action"))]);
+                action = PobierzWartośćParametru<Enumeratory.Akcja>("action");
+                //table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))]);
+                table = PobierzWartośćParametru<Enumeratory.Tabela>("table");
+                string backUrl = "javascript: Load('" + Request.UrlReferrer + "')";
+                Dictionary<bool, string> fromIdEnabledToIdSuffix = new Dictionary<bool, string>()
             {
                 {true, String.Empty},
                 {false, "_disabled"}
             };
 
-            switch (action)
-            {
-                case Enumeratory.Akcja.Dodaj:
-                    globalEnabled = idEnabled = true;
-                    heading = "Dodawanie ";
+                switch (action)
+                {
+                    case Enumeratory.Akcja.Dodaj:
+                        globalEnabled = idEnabled = true;
+                        heading = "Dodawanie ";
 
-                    buttons.Add(new Kontrolki.Button("buttons", "Save", "Zapisz", "RecordValidation.aspx"));
-                    buttons.Add(new Kontrolki.Button("buttons", "Cancel", "Anuluj", backUrl));
+                        buttons.Add(new Kontrolki.Button("buttons", "Save", "Zapisz", "RecordValidation.aspx"));
+                        buttons.Add(new Kontrolki.Button("buttons", "Cancel", "Anuluj", backUrl));
 
-                    break;
+                        break;
 
-                case Enumeratory.Akcja.Edytuj:
-                    globalEnabled = true;
-                    idEnabled = false;
-                    heading = "Edycja ";
+                    case Enumeratory.Akcja.Edytuj:
+                        globalEnabled = true;
+                        idEnabled = false;
+                        heading = "Edycja ";
 
-                    buttons.Add(new Kontrolki.Button("buttons", "Save", "Zapisz", "RecordValidation.aspx"));
-                    buttons.Add(new Kontrolki.Button("buttons", "Cancel", "Anuluj", backUrl));
+                        buttons.Add(new Kontrolki.Button("buttons", "Save", "Zapisz", "RecordValidation.aspx"));
+                        buttons.Add(new Kontrolki.Button("buttons", "Cancel", "Anuluj", backUrl));
 
-                    break;
+                        break;
 
-                case Enumeratory.Akcja.Usuń:
-                    globalEnabled = idEnabled = false;
-                    heading = "Usuwanie ";
+                    case Enumeratory.Akcja.Usuń:
+                        globalEnabled = idEnabled = false;
+                        heading = "Usuwanie ";
 
-                    buttons.Add(new Kontrolki.Button("buttons", "Delete", "Usuń", "RecordValidation.aspx"));
-                    buttons.Add(new Kontrolki.Button("buttons", "Cancel", "Anuluj", backUrl));
+                        buttons.Add(new Kontrolki.Button("buttons", "Delete", "Usuń", "RecordValidation.aspx"));
+                        buttons.Add(new Kontrolki.Button("buttons", "Cancel", "Anuluj", backUrl));
 
-                    break;
+                        break;
 
-                case Enumeratory.Akcja.Przeglądaj:
-                    globalEnabled = idEnabled = false;
-                    heading = "Przeglądanie ";
+                    case Enumeratory.Akcja.Przeglądaj:
+                        globalEnabled = idEnabled = false;
+                        heading = "Przeglądanie ";
 
-                    buttons.Add(new Kontrolki.Button("buttons", "Back", "Powrót", backUrl));
+                        buttons.Add(new Kontrolki.Button("buttons", "Back", "Powrót", backUrl));
 
-                    break;
+                        break;
 
-                case Enumeratory.Akcja.Przenieś:
-                    globalEnabled = idEnabled = false;
-                    heading = "Przenoszenie ";
+                    case Enumeratory.Akcja.Przenieś:
+                        globalEnabled = idEnabled = false;
+                        heading = "Przenoszenie ";
 
-                    buttons.Add(new Kontrolki.Button("buttons", "Move", "Przenieś", "RecordValidation.aspx"));
-                    buttons.Add(new Kontrolki.Button("buttons", "Cancel", "Anuluj", backUrl));
+                        buttons.Add(new Kontrolki.Button("buttons", "Move", "Przenieś", "RecordValidation.aspx"));
+                        buttons.Add(new Kontrolki.Button("buttons", "Cancel", "Anuluj", backUrl));
 
-                    break;
-            }
+                        break;
+                }
 
-            using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
                 switch (table)
                 {
                     case Enumeratory.Tabela.Budynki:
@@ -165,7 +166,7 @@ namespace czynsze.Formularze
                             new LiteralControl("Adres cd.: "),
                             new Kontrolki.Label("previewLabel", String.Empty, values[4], "adres_2_preview")
                         };
-                        
+
                         if (!idEnabled)
                             form.Controls.Add(new Kontrolki.HtmlInputHidden("id", id.ToString()));
 
@@ -325,7 +326,7 @@ namespace czynsze.Formularze
                             form.Controls.Add(new Kontrolki.HtmlInputHidden("nr_lok", values[2]));
                         }
 
-                        controls.Add(new Kontrolki.DropDownList("field", "kod_lok"+fromIdEnabledToIdSuffix[idEnabled], db.Budynki.ToList().OrderBy(b => b.kod_1).Select(b => b.WażnePola()).ToList(), values[1], idEnabled, false));
+                        controls.Add(new Kontrolki.DropDownList("field", "kod_lok" + fromIdEnabledToIdSuffix[idEnabled], db.Budynki.ToList().OrderBy(b => b.kod_1).Select(b => b.WażnePola()).ToList(), values[1], idEnabled, false));
                         controls.Add(new Kontrolki.TextBox("field", "nr_lok" + fromIdEnabledToIdSuffix[idEnabled], values[2], Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 3, 1, idEnabled));
                         controls.Add(new Kontrolki.DropDownList("field", "kod_typ", db.TypyLokali.ToList().Select(t => t.WażnePolaDoRozwijanejListy()).ToList(), values[3], globalEnabled, false));
                         controls.Add(new Kontrolki.TextBox("field", "adres", values[4], Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 30, 1, globalEnabled));
@@ -1056,64 +1057,65 @@ namespace czynsze.Formularze
                         break;
                 }
 
-            placeOfHeading.Controls.Add(new LiteralControl("<h2>" + heading + "</h2>"));
-            form.Controls.Add(new Kontrolki.HtmlInputHidden("action", action.ToString()));
-            form.Controls.Add(new Kontrolki.HtmlInputHidden("table", table.ToString()));
+                placeOfHeading.Controls.Add(new LiteralControl("<h2>" + heading + "</h2>"));
+                form.Controls.Add(new Kontrolki.HtmlInputHidden("action", action.ToString()));
+                form.Controls.Add(new Kontrolki.HtmlInputHidden("table", table.ToString()));
 
-            Control cell = null;
-            int columnIndex = -1;
+                Control cell = null;
+                int columnIndex = -1;
 
-            for (int i = 0; i < controls.Count; i++)
-            {
-                if (columnSwitching.Contains(i))
+                for (int i = 0; i < controls.Count; i++)
                 {
-                    columnIndex++;
-                    cell = formRow.FindControl("column" + columnIndex.ToString());
+                    if (columnSwitching.Contains(i))
+                    {
+                        columnIndex++;
+                        cell = formRow.FindControl("column" + columnIndex.ToString());
+                    }
+
+                    cell.Controls.Add(new LiteralControl("<div class='fieldWithLabel'>"));
+                    cell.Controls.Add(new Kontrolki.Label("fieldLabel", controls[i].ID, labels[i], String.Empty));
+                    DodajNowąLinię(cell);
+                    cell.Controls.Add(controls[i]);
+                    cell.Controls.Add(new LiteralControl("</div>"));
                 }
 
-                cell.Controls.Add(new LiteralControl("<div class='fieldWithLabel'>"));
-                cell.Controls.Add(new Kontrolki.Label("fieldLabel", controls[i].ID, labels[i], String.Empty));
-                DodajNowąLinię(cell);
-                cell.Controls.Add(controls[i]);
-                cell.Controls.Add(new LiteralControl("</div>"));
+                if (preview != null)
+                {
+                    placeOfPreview.Controls.Add(new LiteralControl("<h3>"));
+
+                    for (int i = 0; i < preview.Count; i += 2)
+                    {
+                        placeOfPreview.Controls.Add(preview[i]);
+                        placeOfPreview.Controls.Add(preview[i + 1]);
+                        DodajNowąLinię(placeOfPreview);
+                    }
+
+                    placeOfPreview.Controls.Add(new LiteralControl("</h3>"));
+                }
+
+                if (tabButtons != null)
+                {
+                    for (int i = 0; i < tabButtons.Count; i++)
+                    {
+                        placeOfTabButtons.Controls.Add(tabButtons[i]);
+                        placeOfTabButtons.Controls.Add(labelsOfTabButtons[i]);
+                    }
+
+                    foreach (Kontrolki.HtmlIframe tab in tabs)
+                        placeOfTabs.Controls.Add(tab);
+                }
+
+                foreach (Kontrolki.Button button in buttons)
+                    placeOfButtons.Controls.Add(button);
+
+                if (Start.ŚcieżkaStrony.Count > 0)
+                    if (!Start.ŚcieżkaStrony.Contains(heading))
+                    {
+                        Start.ŚcieżkaStrony[Start.ŚcieżkaStrony.Count - 1] = String.Concat("<a href=\"" + backUrl + "\">", Start.ŚcieżkaStrony[Start.ŚcieżkaStrony.Count - 1]) + "</a>";
+
+                        Start.ŚcieżkaStrony.Add(heading);
+                    }
             }
-
-            if (preview != null)
-            {
-                placeOfPreview.Controls.Add(new LiteralControl("<h3>"));
-
-                for (int i = 0; i < preview.Count; i += 2)
-                {
-                    placeOfPreview.Controls.Add(preview[i]);
-                    placeOfPreview.Controls.Add(preview[i + 1]);
-                    DodajNowąLinię(placeOfPreview);
-                }
-
-                placeOfPreview.Controls.Add(new LiteralControl("</h3>"));
-            }
-
-            if (tabButtons != null)
-            {
-                for (int i = 0; i < tabButtons.Count; i++)
-                {
-                    placeOfTabButtons.Controls.Add(tabButtons[i]);
-                    placeOfTabButtons.Controls.Add(labelsOfTabButtons[i]);
-                }
-
-                foreach (Kontrolki.HtmlIframe tab in tabs)
-                    placeOfTabs.Controls.Add(tab);
-            }
-
-            foreach (Kontrolki.Button button in buttons)
-                placeOfButtons.Controls.Add(button);
-
-            if (Start.ŚcieżkaStrony.Count > 0)
-                if (!Start.ŚcieżkaStrony.Contains(heading))
-                {
-                    Start.ŚcieżkaStrony[Start.ŚcieżkaStrony.Count - 1] = String.Concat("<a href=\"" + backUrl + "\">", Start.ŚcieżkaStrony[Start.ŚcieżkaStrony.Count - 1]) + "</a>";
-
-                    Start.ŚcieżkaStrony.Add(heading);
-                }
         }
     }
 }

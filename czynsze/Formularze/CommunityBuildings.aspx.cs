@@ -17,112 +17,111 @@ namespace czynsze.Formularze
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            int kod = PobierzWartośćParametru<int>("kod");
-            List<string[]> rows = new List<string[]>();
-            string window = PobierzWartośćParametru<string>("ShowWindow");
-            Enumeratory.Akcja parentAction = PobierzWartośćParametru<Enumeratory.Akcja>("parentAction");
-            Enumeratory.Akcja childAction = PobierzWartośćParametru<Enumeratory.Akcja>("ChildAction");
-            int id = PobierzWartośćParametru<int>("id");
-            string postBackUrl = "CommunityBuildings.aspx";
-            DostępDoBazy.BudynekWspólnoty currentCommunityBuilding = null;
-
-            if (id != 0)
-                currentCommunityBuilding = communityBuildings.ElementAt(id - 1);
-
-            if ((int)childAction != 0)
+            using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
-                string[] record = new string[]
+                int kod = PobierzWartośćParametru<int>("kod");
+                List<string[]> rows = new List<string[]>();
+                string window = PobierzWartośćParametru<string>("ShowWindow");
+                Enumeratory.Akcja parentAction = PobierzWartośćParametru<Enumeratory.Akcja>("parentAction");
+                Enumeratory.Akcja childAction = PobierzWartośćParametru<Enumeratory.Akcja>("ChildAction");
+                int id = PobierzWartośćParametru<int>("id");
+                string postBackUrl = "CommunityBuildings.aspx";
+                DostępDoBazy.BudynekWspólnoty currentCommunityBuilding = null;
+
+                if (id != 0)
+                    currentCommunityBuilding = communityBuildings.ElementAt(id - 1);
+
+                if ((int)childAction != 0)
+                {
+                    string[] record = new string[]
                 {
                     kod.ToString(),
                     PobierzWartośćParametru<string>("kod_1"),
                     PobierzWartośćParametru<string>("uwagi")
                 };
 
-                switch (childAction)
-                {
-                    case Enumeratory.Akcja.Dodaj:
-                        DostępDoBazy.BudynekWspólnoty communityBuilding = new DostępDoBazy.BudynekWspólnoty();
+                    switch (childAction)
+                    {
+                        case Enumeratory.Akcja.Dodaj:
+                            DostępDoBazy.BudynekWspólnoty communityBuilding = new DostępDoBazy.BudynekWspólnoty();
 
-                        communityBuilding.Ustaw(record);
-                        communityBuildings.Add(communityBuilding);
+                            communityBuilding.Ustaw(record);
+                            communityBuildings.Add(communityBuilding);
 
-                        break;
+                            break;
 
-                    case Enumeratory.Akcja.Edytuj:
-                        currentCommunityBuilding.Ustaw(record);
+                        case Enumeratory.Akcja.Edytuj:
+                            currentCommunityBuilding.Ustaw(record);
 
-                        break;
+                            break;
 
-                    case Enumeratory.Akcja.Usuń:
-                        communityBuildings.Remove(currentCommunityBuilding);
+                        case Enumeratory.Akcja.Usuń:
+                            communityBuildings.Remove(currentCommunityBuilding);
 
-                        break;
+                            break;
+                    }
                 }
-            }
 
-            for (int i = 0; i < communityBuildings.Count; i++)
-            {
-                string index = (i + 1).ToString();
-
-                rows.Add(new string[] { index, index }.Concat(communityBuildings.ElementAt(i).WażnePola()).ToArray());
-            }
-
-            ViewState["id"] = id;
-
-            form.Controls.Add(new Kontrolki.HtmlInputHidden("parentAction", parentAction.ToString()));
-            form.Controls.Add(new Kontrolki.HtmlInputHidden("kod", kod.ToString()));
-
-            if (window == null)
-                switch (parentAction)
+                for (int i = 0; i < communityBuildings.Count; i++)
                 {
-                    case Enumeratory.Akcja.Dodaj:
-                    case Enumeratory.Akcja.Edytuj:
-                        placeOfButtons.Controls.Add(new Kontrolki.Button("button", "addShowWindow", "Dodaj", postBackUrl));
-                        placeOfButtons.Controls.Add(new Kontrolki.Button("button", "removeChildAction", "Usuń", postBackUrl));
-                        placeOfButtons.Controls.Add(new Kontrolki.Button("button", "editShowWindow", "Edytuj", postBackUrl));
+                    string index = (i + 1).ToString();
 
-                        break;
+                    rows.Add(new string[] { index, index }.Concat(communityBuildings.ElementAt(i).WażnePola()).ToArray());
                 }
-            else
-            {
-                string firstLabel;
-                Control firstControl;
-                string comments;
-                string textOfSaveButton;
 
-                if (window == "Dodaj")
-                {
-                    firstLabel = "Nowy budynek: ";
-                    textOfSaveButton = "Dodaj";
-                    comments = String.Empty;
+                ViewState["id"] = id;
 
-                    using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
-                        firstControl = new Kontrolki.DropDownList("field", "kod_1", db.Budynki.OrderBy(b => b.kod_1).ToList().Select(b => b.WażnePola()).ToList(), String.Empty, true, false);
-                }
+                form.Controls.Add(new Kontrolki.HtmlInputHidden("parentAction", parentAction.ToString()));
+                form.Controls.Add(new Kontrolki.HtmlInputHidden("kod", kod.ToString()));
+
+                if (window == null)
+                    switch (parentAction)
+                    {
+                        case Enumeratory.Akcja.Dodaj:
+                        case Enumeratory.Akcja.Edytuj:
+                            placeOfButtons.Controls.Add(new Kontrolki.Button("button", "addShowWindow", "Dodaj", postBackUrl));
+                            placeOfButtons.Controls.Add(new Kontrolki.Button("button", "removeChildAction", "Usuń", postBackUrl));
+                            placeOfButtons.Controls.Add(new Kontrolki.Button("button", "editShowWindow", "Edytuj", postBackUrl));
+
+                            break;
+                    }
                 else
                 {
-                    firstLabel = "Budynek: ";
-                    textOfSaveButton = "Edytuj";
-                    comments = currentCommunityBuilding.uwagi.Trim();
+                    string firstLabel;
+                    Control firstControl;
+                    string comments;
+                    string textOfSaveButton;
 
-                    using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
+                    if (window == "Dodaj")
+                    {
+                        firstLabel = "Nowy budynek: ";
+                        textOfSaveButton = "Dodaj";
+                        comments = String.Empty;
+                        firstControl = new Kontrolki.DropDownList("field", "kod_1", db.Budynki.OrderBy(b => b.kod_1).ToList().Select(b => b.WażnePola()).ToList(), String.Empty, true, false);
+                    }
+                    else
+                    {
+                        firstLabel = "Budynek: ";
+                        textOfSaveButton = "Edytuj";
+                        comments = currentCommunityBuilding.uwagi.Trim();
                         firstControl = new Kontrolki.TextBox("field", "budynek", db.Budynki.FirstOrDefault(b => b.kod_1 == currentCommunityBuilding.kod_1).kod_1.ToString(), Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 30, 1, false);
 
-                    form.Controls.Add(new Kontrolki.HtmlInputHidden("kod_1", currentCommunityBuilding.kod_1.ToString()));
-                    form.Controls.Add(new Kontrolki.HtmlInputHidden("id", id.ToString()));
+                        form.Controls.Add(new Kontrolki.HtmlInputHidden("kod_1", currentCommunityBuilding.kod_1.ToString()));
+                        form.Controls.Add(new Kontrolki.HtmlInputHidden("id", id.ToString()));
+                    }
+
+                    placeOfNewBuilding.Controls.Add(new Kontrolki.Label("label", "kod_1", firstLabel, String.Empty));
+
+                    //using (DostępDoBazy.Czynsze_Entities db = new DostępDoBazy.Czynsze_Entities())
+                    placeOfNewBuilding.Controls.Add(firstControl);
+                    placeOfComments.Controls.Add(new Kontrolki.Label("field", "uwagi", "Uwagi: ", String.Empty));
+                    placeOfComments.Controls.Add(new Kontrolki.TextBox("field", "uwagi", comments, Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 30, 1, true));
+                    placeOfButtonsOfWindow.Controls.Add(new Kontrolki.Button("button", "saveChildAction", textOfSaveButton, postBackUrl));
+                    placeOfButtonsOfWindow.Controls.Add(new Kontrolki.Button("button", String.Empty, "Anuluj", postBackUrl));
                 }
 
-                placeOfNewBuilding.Controls.Add(new Kontrolki.Label("label", "kod_1", firstLabel, String.Empty));
-
-                //using (DostępDoBazy.Czynsze_Entities db = new DostępDoBazy.Czynsze_Entities())
-                placeOfNewBuilding.Controls.Add(firstControl);
-                placeOfComments.Controls.Add(new Kontrolki.Label("field", "uwagi", "Uwagi: ", String.Empty));
-                placeOfComments.Controls.Add(new Kontrolki.TextBox("field", "uwagi", comments, Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 30, 1, true));
-                placeOfButtonsOfWindow.Controls.Add(new Kontrolki.Button("button", "saveChildAction", textOfSaveButton, postBackUrl));
-                placeOfButtonsOfWindow.Controls.Add(new Kontrolki.Button("button", String.Empty, "Anuluj", postBackUrl));
+                placeOfTable.Controls.Add(new Kontrolki.Table("mainTable tabTable", rows, new string[] { "Lp.", "Nr budynku", "Adres", "Uwagi" }, false, String.Empty, new List<int>() { 1, 2 }, new List<int>()));
             }
-
-            placeOfTable.Controls.Add(new Kontrolki.Table("mainTable tabTable", rows, new string[] { "Lp.", "Nr budynku", "Adres", "Uwagi" }, false, String.Empty, new List<int>() { 1, 2 }, new List<int>()));
         }
     }
 }

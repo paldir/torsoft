@@ -93,44 +93,45 @@ namespace czynsze.Formularze
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            //table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))]);
-            table = PobierzWartośćParametru<Enumeratory.Tabela>("table");
-            string postBackUrl = "Record.aspx";
-            string heading = null;
-            string nodeOfSiteMapPath = null;
-            List<string[]> subMenu = null;
-            sortable = true;
-            int id = PobierzWartośćParametru<int>("id");//-1;
-
-            //if (Request.Params["id"] != null)
-            //  id = (int)Enum.Parse(typeof(int), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("dfsdf"))]);
-
-            switch (table)
-            {
-                case Enumeratory.Tabela.NieaktywneLokale:
-                case Enumeratory.Tabela.NieaktywniNajemcy:
-                    placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "browseaction", "Przeglądaj", postBackUrl));
-
-                    break;
-
-                case Enumeratory.Tabela.NaleznosciWedlugNajemcow:
-                case Enumeratory.Tabela.WszystkieNaleznosciNajemcy:
-                case Enumeratory.Tabela.NieprzeterminowaneNaleznosciNajemcy:
-                case Enumeratory.Tabela.NaleznosciIObrotyNajemcy:
-                case Enumeratory.Tabela.SaldoNajemcy:
-
-                    break;
-
-                default:
-                    placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "addaction", "Dodaj", postBackUrl));
-                    placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "editaction", "Edytuj", postBackUrl));
-                    placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "deleteaction", "Usuń", postBackUrl));
-                    placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "browseaction", "Przeglądaj", postBackUrl));
-
-                    break;
-            }
-
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
+            {
+                //table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))]);
+                table = PobierzWartośćParametru<Enumeratory.Tabela>("table");
+                string postBackUrl = "Record.aspx";
+                string heading = null;
+                string nodeOfSiteMapPath = null;
+                List<string[]> subMenu = null;
+                sortable = true;
+                int id = PobierzWartośćParametru<int>("id");//-1;
+
+                //if (Request.Params["id"] != null)
+                //  id = (int)Enum.Parse(typeof(int), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("dfsdf"))]);
+
+                switch (table)
+                {
+                    case Enumeratory.Tabela.NieaktywneLokale:
+                    case Enumeratory.Tabela.NieaktywniNajemcy:
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "browseaction", "Przeglądaj", postBackUrl));
+
+                        break;
+
+                    case Enumeratory.Tabela.NaleznosciWedlugNajemcow:
+                    case Enumeratory.Tabela.WszystkieNaleznosciNajemcy:
+                    case Enumeratory.Tabela.NieprzeterminowaneNaleznosciNajemcy:
+                    case Enumeratory.Tabela.NaleznosciIObrotyNajemcy:
+                    case Enumeratory.Tabela.SaldoNajemcy:
+
+                        break;
+
+                    default:
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "addaction", "Dodaj", postBackUrl));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "editaction", "Edytuj", postBackUrl));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "deleteaction", "Usuń", postBackUrl));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "browseaction", "Przeglądaj", postBackUrl));
+
+                        break;
+                }
+
                 switch (table)
                 {
                     case Enumeratory.Tabela.Budynki:
@@ -386,7 +387,7 @@ namespace czynsze.Formularze
                         {
                             DostępDoBazy.Najemca tenant = db.AktywniNajemcy.FirstOrDefault(t => t.nr_kontr == id);
                             heading = nodeOfSiteMapPath = "Należności najemcy " + tenant.nazwisko + " " + tenant.imie;
-                            List<DostępDoBazy.NależnośćZPierwszegoZbioru> receivables = db.NależnościZPierwszegoZbioru.Where(r => r.nr_kontr == id).OrderBy(r => r.Data).ToList();
+                            List<DostępDoBazy.NależnośćZPierwszegoZbioru> receivables = db.NależnościZPierwszegoZbioru.Where(r => r.nr_kontr == id).OrderBy(r => r.data_nal).ToList();
 
                             switch (table)
                             {
@@ -397,7 +398,7 @@ namespace czynsze.Formularze
 
                                 case Enumeratory.Tabela.NieprzeterminowaneNaleznosciNajemcy:
                                     heading += " (nieprzeterminowane)";
-                                    rows = receivables.Where(r => r.Data >= Start.Data).Select(r => r.WażnePola()).ToList();
+                                    rows = receivables.Where(r => r.data_nal >= Start.Data).Select(r => r.WażnePola()).ToList();
 
                                     break;
                             }
@@ -441,7 +442,7 @@ namespace czynsze.Formularze
                             rows = receivables.Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Select(t => t.WażnePolaDoNależnościIObrotówNajemcy())).OrderBy(r => DateTime.Parse(r[3])).ToList();
                             decimal wnAmount = rows.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
                             decimal maAmount = rows.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Decimal.Parse(r[2]));
-                            List<string[]> rowsOfPastReceivables = receivables.Where(r => r.Data < Start.Data).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Where(t => t.Data < Start.Data).Select(t => t.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
+                            List<string[]> rowsOfPastReceivables = receivables.Where(r => r.data_nal < Start.Data).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Where(t => t.data_obr < Start.Data).Select(t => t.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
                             decimal wnAmountOfPastReceivables = rowsOfPastReceivables.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
                             summary = @"
                                 <table class='additionalTable'>
@@ -525,11 +526,11 @@ namespace czynsze.Formularze
                             List<string[]> rowsOfReceivablesAndTurnovers = receivables.Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Select(t => t.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
                             decimal wnAmount = rowsOfReceivablesAndTurnovers.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
                             decimal maAmount = rowsOfReceivablesAndTurnovers.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Decimal.Parse(r[2]));
-                            List<string[]> rowsOfReceivablesAndTurnoversToDate = receivables.Where(r => r.Data <= Start.Data).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Where(t => t.Data <= Start.Data).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
+                            List<string[]> rowsOfReceivablesAndTurnoversToDate = receivables.Where(r => r.data_nal <= Start.Data).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Where(t => t.data_obr <= Start.Data).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
                             decimal wnAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
                             decimal maAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Decimal.Parse(r[2]));
                             DostępDoBazy.Konfiguracja configuration = db.Konfiguracje.FirstOrDefault();
-                            List<string[]> rowsOfInterestNotes = turnovers.Where(t => t.ZewnętrzneId == configuration.p_20 || t.ZewnętrzneId == configuration.p_37).Select(t => t.WażnePolaDoNależnościIObrotówNajemcy()).ToList();
+                            List<string[]> rowsOfInterestNotes = turnovers.Where(t => t.kod_wplat == configuration.p_20 || t.kod_wplat == configuration.p_37).Select(t => t.WażnePolaDoNależnościIObrotówNajemcy()).ToList();
                             decimal wnOfInterestNotes = rowsOfInterestNotes.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
                             decimal maOfInterestNotes = rowsOfInterestNotes.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Decimal.Parse(r[2]));
                             rows = new List<string[]>() { new string[] { String.Empty, String.Format("{0:N}", maAmount - wnAmount), String.Format("{0:N}", maAmountToDay - wnAmountToDay), String.Format("{0:N}", maOfInterestNotes - wnOfInterestNotes) } };
@@ -564,7 +565,7 @@ namespace czynsze.Formularze
                                     break;
                             }
 
-                            rows = turnovers.OrderBy(t => t.Data).Select(t => t.WażnePola()).ToList();
+                            rows = turnovers.OrderBy(t => t.data_obr).Select(t => t.WażnePola()).ToList();
 
                             placeOfMainTableButtons.Controls.Add(new Kontrolki.HtmlInputHidden("additionalId", id.ToString()));
                         }
@@ -572,127 +573,127 @@ namespace czynsze.Formularze
                         break;
                 }
 
-            placeOfHeading.Controls.Add(new LiteralControl("<h2>" + heading + "</h2>"));
-            placeOfMainTableButtons.Controls.Add(new Kontrolki.HtmlInputHidden("table", table.ToString()));
+                placeOfHeading.Controls.Add(new LiteralControl("<h2>" + heading + "</h2>"));
+                placeOfMainTableButtons.Controls.Add(new Kontrolki.HtmlInputHidden("table", table.ToString()));
 
-            if (subMenu != null)
-            {
-                Kontrolki.HtmlGenericControl superUl = new Kontrolki.HtmlGenericControl("ul", "superMenu");
-
-                foreach (string[] items in subMenu)
+                if (subMenu != null)
                 {
-                    Kontrolki.HtmlGenericControl superLi = new Kontrolki.HtmlGenericControl("li", String.Empty);
-                    Kontrolki.HtmlGenericControl subUl = new Kontrolki.HtmlGenericControl("ul", "subMenu");
+                    Kontrolki.HtmlGenericControl superUl = new Kontrolki.HtmlGenericControl("ul", "superMenu");
 
-                    superLi.Controls.Add(new LiteralControl(items[0]));
-
-                    for (int i = 1; i < items.Length; i++)
+                    foreach (string[] items in subMenu)
                     {
-                        Kontrolki.HtmlGenericControl subLi = new Kontrolki.HtmlGenericControl("li", String.Empty);
+                        Kontrolki.HtmlGenericControl superLi = new Kontrolki.HtmlGenericControl("li", String.Empty);
+                        Kontrolki.HtmlGenericControl subUl = new Kontrolki.HtmlGenericControl("ul", "subMenu");
 
-                        subLi.Controls.Add(new LiteralControl(items[i]));
-                        subUl.Controls.Add(subLi);
+                        superLi.Controls.Add(new LiteralControl(items[0]));
+
+                        for (int i = 1; i < items.Length; i++)
+                        {
+                            Kontrolki.HtmlGenericControl subLi = new Kontrolki.HtmlGenericControl("li", String.Empty);
+
+                            subLi.Controls.Add(new LiteralControl(items[i]));
+                            subUl.Controls.Add(subLi);
+                        }
+
+                        superLi.Controls.Add(subUl);
+                        superUl.Controls.Add(superLi);
                     }
 
-                    superLi.Controls.Add(subUl);
-                    superUl.Controls.Add(superLi);
+                    placeOfMainTableButtons.Controls.Add(superUl);
                 }
 
-                placeOfMainTableButtons.Controls.Add(superUl);
-            }
+                Title = heading;
+                Session["values"] = null;
 
-            Title = heading;
-            Session["values"] = null;
+                switch (table)
+                {
+                    case Enumeratory.Tabela.AktywneLokale:
+                    case Enumeratory.Tabela.NieaktywneLokale:
+                        Start.ŚcieżkaStrony = new List<string>() { "Kartoteki", "Lokale" };
 
-            switch (table)
-            {
-                case Enumeratory.Tabela.AktywneLokale:
-                case Enumeratory.Tabela.NieaktywneLokale:
-                    Start.ŚcieżkaStrony = new List<string>() { "Kartoteki", "Lokale" };
+                        break;
 
-                    break;
+                    case Enumeratory.Tabela.AktywniNajemcy:
+                    case Enumeratory.Tabela.NieaktywniNajemcy:
+                        Start.ŚcieżkaStrony = new List<string>() { "Kartoteki", "Najemcy" };
 
-                case Enumeratory.Tabela.AktywniNajemcy:
-                case Enumeratory.Tabela.NieaktywniNajemcy:
-                    Start.ŚcieżkaStrony = new List<string>() { "Kartoteki", "Najemcy" };
+                        break;
 
-                    break;
+                    case Enumeratory.Tabela.Budynki:
+                    case Enumeratory.Tabela.Wspolnoty:
+                    case Enumeratory.Tabela.SkladnikiCzynszu:
+                        Start.ŚcieżkaStrony = new List<string>() { "Kartoteki" };
 
-                case Enumeratory.Tabela.Budynki:
-                case Enumeratory.Tabela.Wspolnoty:
-                case Enumeratory.Tabela.SkladnikiCzynszu:
-                    Start.ŚcieżkaStrony = new List<string>() { "Kartoteki" };
+                        break;
 
-                    break;
+                    case Enumeratory.Tabela.NaleznosciWedlugNajemcow:
+                        Start.ŚcieżkaStrony = new List<string>() { "Rozliczenia finansowe", "Należności i obroty" };
 
-                case Enumeratory.Tabela.NaleznosciWedlugNajemcow:
-                    Start.ŚcieżkaStrony = new List<string>() { "Rozliczenia finansowe", "Należności i obroty" };
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", "turnoversEditing", "Dodaj/usuń obroty", "javascript: Redirect('List.aspx?table=" + Enumeratory.Tabela.ObrotyNajemcy + "')"));
 
-                    placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", "turnoversEditing", "Dodaj/usuń obroty", "javascript: Redirect('List.aspx?table=" + Enumeratory.Tabela.ObrotyNajemcy + "')"));
+                        break;
 
-                    break;
-
-                case Enumeratory.Tabela.WszystkieNaleznosciNajemcy:
-                case Enumeratory.Tabela.NieprzeterminowaneNaleznosciNajemcy:
-                case Enumeratory.Tabela.NaleznosciIObrotyNajemcy:
-                case Enumeratory.Tabela.SaldoNajemcy:
-                case Enumeratory.Tabela.ObrotyNajemcy:
-                    if (Start.ŚcieżkaStrony.Count > 2)
-                    {
-                        Start.ŚcieżkaStrony.RemoveRange(3, Start.ŚcieżkaStrony.Count - 3);
-
-                        string node = Start.ŚcieżkaStrony[2].Insert(0, "<a href=\"javascript: Load('List.aspx?table=" + Enumeratory.Tabela.NaleznosciWedlugNajemcow + "')\">") + "</a>";
-
-                        if (!Start.ŚcieżkaStrony.Contains(node))
-                            Start.ŚcieżkaStrony[2] = node;
-                    }
-
-                    break;
-
-                case Enumeratory.Tabela.TypyLokali:
-                case Enumeratory.Tabela.TypyKuchni:
-                case Enumeratory.Tabela.RodzajeNajemcy:
-                case Enumeratory.Tabela.TytulyPrawne:
-                case Enumeratory.Tabela.TypyWplat:
-                case Enumeratory.Tabela.GrupySkładnikowCzynszu:
-                case Enumeratory.Tabela.GrupyFinansowe:
-                case Enumeratory.Tabela.StawkiVat:
-                case Enumeratory.Tabela.Atrybuty:
-                    Start.ŚcieżkaStrony = new List<string>() { "Słowniki" };
-
-                    break;
-
-                case Enumeratory.Tabela.Uzytkownicy:
-                    Start.ŚcieżkaStrony = new List<string>() { "Administracja" };
-
-                    break;
-            }
-
-            if (!Start.ŚcieżkaStrony.Contains(nodeOfSiteMapPath))
-                Start.ŚcieżkaStrony.Add(nodeOfSiteMapPath);
-
-            //
-            //CXP PART
-            //
-            switch (table)
-            {
-                case Enumeratory.Tabela.AktywneLokale:
-                case Enumeratory.Tabela.NieaktywneLokale:
-                    using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
-                    {
-                        try
+                    case Enumeratory.Tabela.WszystkieNaleznosciNajemcy:
+                    case Enumeratory.Tabela.NieprzeterminowaneNaleznosciNajemcy:
+                    case Enumeratory.Tabela.NaleznosciIObrotyNajemcy:
+                    case Enumeratory.Tabela.SaldoNajemcy:
+                    case Enumeratory.Tabela.ObrotyNajemcy:
+                        if (Start.ŚcieżkaStrony.Count > 2)
                         {
-                            //db.Database.ExecuteSqlCommand("DROP TABLE skl_cz_tmp");
-                            db.Database.ExecuteSqlCommand("DROP TABLE pliki_tmp");
-                        }
-                        catch { }
-                    }
+                            Start.ŚcieżkaStrony.RemoveRange(3, Start.ŚcieżkaStrony.Count - 3);
 
-                    break;
+                            string node = Start.ŚcieżkaStrony[2].Insert(0, "<a href=\"javascript: Load('List.aspx?table=" + Enumeratory.Tabela.NaleznosciWedlugNajemcow + "')\">") + "</a>";
+
+                            if (!Start.ŚcieżkaStrony.Contains(node))
+                                Start.ŚcieżkaStrony[2] = node;
+                        }
+
+                        break;
+
+                    case Enumeratory.Tabela.TypyLokali:
+                    case Enumeratory.Tabela.TypyKuchni:
+                    case Enumeratory.Tabela.RodzajeNajemcy:
+                    case Enumeratory.Tabela.TytulyPrawne:
+                    case Enumeratory.Tabela.TypyWplat:
+                    case Enumeratory.Tabela.GrupySkładnikowCzynszu:
+                    case Enumeratory.Tabela.GrupyFinansowe:
+                    case Enumeratory.Tabela.StawkiVat:
+                    case Enumeratory.Tabela.Atrybuty:
+                        Start.ŚcieżkaStrony = new List<string>() { "Słowniki" };
+
+                        break;
+
+                    case Enumeratory.Tabela.Uzytkownicy:
+                        Start.ŚcieżkaStrony = new List<string>() { "Administracja" };
+
+                        break;
+                }
+
+                if (!Start.ŚcieżkaStrony.Contains(nodeOfSiteMapPath))
+                    Start.ŚcieżkaStrony.Add(nodeOfSiteMapPath);
+
+                //
+                //CXP PART
+                //
+                switch (table)
+                {
+                    case Enumeratory.Tabela.AktywneLokale:
+                    case Enumeratory.Tabela.NieaktywneLokale:
+                        {
+                            try
+                            {
+                                //db.Database.ExecuteSqlCommand("DROP TABLE skl_cz_tmp");
+                                db.Database.ExecuteSqlCommand("DROP TABLE pliki_tmp");
+                            }
+                            catch { }
+                        }
+
+                        break;
+                }
+                //
+                //TO DUMP BEHIND THE WALL
+                //
             }
-            //
-            //TO DUMP BEHIND THE WALL
-            //
         }
 
         protected override void CreateChildControls()

@@ -44,6 +44,17 @@ namespace czynsze.DostępDoBazy
         public DbSet<Treść> Treści { get; set; }
 
         public const string FormatDaty = "{0:yyyy-MM-dd}";
+        //public static CzynszeKontekst BazaDanych = new CzynszeKontekst();
+
+        /*static readonly Destruktor _destruktor = new Destruktor();
+
+        class Destruktor
+        {
+            ~Destruktor()
+            {
+                BazaDanych.Dispose();
+            }
+        }*/
         
         public static string WalidujInt(string nazwa, ref string całkowita)
         {

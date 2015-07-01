@@ -17,16 +17,14 @@ namespace czynsze.Formularze
             Start.ŚcieżkaStrony = new List<string>() { "Raporty", "Składniki czynszu" };
 
             if (String.IsNullOrEmpty(zakres))
-                using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
-                {
-                    int minimalnyBudynek;
-                    int minimalnyLokal;
-                    int maksymalnyBudynek;
-                    int maksymalnyLokal;
+            {
+                int minimalnyBudynek;
+                int minimalnyLokal;
+                int maksymalnyBudynek;
+                int maksymalnyLokal;
 
-                    pojemnikRadio.Controls.Add(new Kontrolki.Label("label", "stawka", "Wybór stawki: ", String.Empty));
-
-                    pojemnikRadio.Controls.Add(new Kontrolki.DropDownList("field", "stawka", new List<string[]> 
+                pojemnikRadio.Controls.Add(new Kontrolki.Label("label", "stawka", "Wybór stawki: ", String.Empty));
+                pojemnikRadio.Controls.Add(new Kontrolki.DropDownList("field", "stawka", new List<string[]> 
                     {
                         new string[] 
                         { 
@@ -41,11 +39,11 @@ namespace czynsze.Formularze
                     }, Enumeratory.Raport.SkladnikiCzynszuStawkaZwykla.ToString(), true, false));
 
 
-                    DodajNowąLinię(pojemnikReszty);
-                    DodajWybórLokali(pojemnikReszty, out minimalnyBudynek, out minimalnyLokal, out maksymalnyBudynek, out maksymalnyLokal);
-                    DodajNowąLinię(pojemnikReszty);
-                    pojemnikReszty.Controls.Add(new Kontrolki.Button("button", "przycisk", "Wybierz", String.Empty));
-                }
+                DodajNowąLinię(pojemnikReszty);
+                DodajWybórLokali(pojemnikReszty, out minimalnyBudynek, out minimalnyLokal, out maksymalnyBudynek, out maksymalnyLokal);
+                DodajNowąLinię(pojemnikReszty);
+                pojemnikReszty.Controls.Add(new Kontrolki.Button("button", "przycisk", "Wybierz", String.Empty));
+            }
             else
             {
                 Enumeratory.Raport raport = PobierzWartośćParametru<Enumeratory.Raport>("stawka");
