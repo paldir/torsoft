@@ -54,9 +54,14 @@ namespace czynsze.DostępDoBazy
             get { return nr_skl; }
         }
 
-        public int[] KodLokalu
+        public int KodBudynku
         {
-            get { return new int[] { kod_lok, nr_lok }; }
+            get { return kod_lok; }
+        }
+
+        public int NrLokalu
+        {
+            get { return nr_lok; }
         }
             
         public string[] WażnePola()

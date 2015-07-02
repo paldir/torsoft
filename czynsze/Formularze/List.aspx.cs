@@ -230,7 +230,7 @@ namespace czynsze.Formularze
                         indexesOfNumericColumns = new List<int>() { 1, 5 };
 
                         if (!IsPostBack)
-                            rows = db.SkładnikiCzynszu.OrderBy(c => c.Id).ToList().Select(c => c.WażnePola()).ToList();
+                            rows = db.SkładnikiCzynszu.OrderBy(c => c.nr_skl).ToList().Select(c => c.WażnePola()).ToList();
 
                         break;
 
@@ -290,7 +290,7 @@ namespace czynsze.Formularze
                         indexesOfNumericColumns = new List<int>() { 1 };
 
                         if (!IsPostBack)
-                            rows = db.RodzajePłatności.OrderBy(t => t.Id).ToList().Select(t => t.WażnePola()).ToList();
+                            rows = db.RodzajePłatności.OrderBy(t => t.kod_wplat).ToList().Select(t => t.WażnePola()).ToList();
 
                         break;
 

@@ -17,36 +17,36 @@ namespace czynsze.Formularze
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            //EnumP.AttributeOf attributeOf = (EnumP.AttributeOf)Enum.Parse(typeof(EnumP.AttributeOf), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("attributeOf"))]);
-            Enumeratory.Atrybut attributeOf = PobierzWartośćParametru<Enumeratory.Atrybut>("attributeOf");
-            //EnumP.Action action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("action"))]);
-            Enumeratory.Akcja action = PobierzWartośćParametru<Enumeratory.Akcja>("action");
-            Enumeratory.Akcja childAction = Enumeratory.Akcja.Przeglądaj;
-            //int parentId = Int32.Parse(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("parentId"))]);
-            int parentId = PobierzWartośćParametru<int>("parentId");
-            int id = PobierzWartośćParametru<int>("id");
-            string[] record;
-            string childActionKey = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("childAction"));
-
-            /*if (Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))] != null)
-                id = Int32.Parse(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))]);*/
-
-            if (childActionKey != null)
-            {
-                if (childActionKey.Contains("add"))
-                    childAction = (Enumeratory.Akcja)Enum.Parse(typeof(Enumeratory.Akcja), Request.Params[childActionKey].Replace("Zapisz", "Dodaj"));
-                else
-                    if (childActionKey.Contains("edit"))
-                        childAction = (Enumeratory.Akcja)Enum.Parse(typeof(Enumeratory.Akcja), Request.Params[childActionKey].Replace("Zapisz", "Edytuj"));
-                    else
-                        childAction = (Enumeratory.Akcja)Enum.Parse(typeof(Enumeratory.Akcja), Request.Params[childActionKey]);
-            }
-
-            List<string[]> rows = null;
-            List<string[]> rowsOfDropDown = null;
-
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
+                //EnumP.AttributeOf attributeOf = (EnumP.AttributeOf)Enum.Parse(typeof(EnumP.AttributeOf), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("attributeOf"))]);
+                Enumeratory.Atrybut attributeOf = PobierzWartośćParametru<Enumeratory.Atrybut>("attributeOf");
+                //EnumP.Action action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("action"))]);
+                Enumeratory.Akcja action = PobierzWartośćParametru<Enumeratory.Akcja>("action");
+                Enumeratory.Akcja childAction = Enumeratory.Akcja.Przeglądaj;
+                //int parentId = Int32.Parse(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("parentId"))]);
+                int parentId = PobierzWartośćParametru<int>("parentId");
+                int id = PobierzWartośćParametru<int>("id");
+                string[] record;
+                string childActionKey = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("childAction"));
+
+                /*if (Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))] != null)
+                    id = Int32.Parse(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))]);*/
+
+                if (childActionKey != null)
+                {
+                    if (childActionKey.Contains("add"))
+                        childAction = (Enumeratory.Akcja)Enum.Parse(typeof(Enumeratory.Akcja), Request.Params[childActionKey].Replace("Zapisz", "Dodaj"));
+                    else
+                        if (childActionKey.Contains("edit"))
+                            childAction = (Enumeratory.Akcja)Enum.Parse(typeof(Enumeratory.Akcja), Request.Params[childActionKey].Replace("Zapisz", "Edytuj"));
+                        else
+                            childAction = (Enumeratory.Akcja)Enum.Parse(typeof(Enumeratory.Akcja), Request.Params[childActionKey]);
+                }
+
+                List<string[]> rows = null;
+                List<string[]> rowsOfDropDown = null;
+
                 switch (childAction)
                 {
                     case Enumeratory.Akcja.Dodaj:

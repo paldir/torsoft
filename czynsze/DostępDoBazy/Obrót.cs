@@ -54,16 +54,27 @@ namespace czynsze.DostępDoBazy
 
         DostępDoBazy.AktywnyLokal _lokal;
 
-        public int[] KodLokalu
+        public int KodBudynku
         {
             get
             {
-                if (_lokal == null)
-                    return null;
-                else
-                    return new int[] { _lokal.kod_lok, _lokal.nr_lok };
+                UstawLokal();
+
+                return _lokal.kod_lok;
             }
         }
+
+        public int NrLokalu
+        {
+            get
+            {
+                UstawLokal();
+
+                return _lokal.nr_lok;
+            }
+        }
+
+        public static DostępDoBazy.CzynszeKontekst BazaDanych { get; set; }
 
         //public static Dictionary<Enums.SettlementTable, List<Turnover>> SettlementTableToListOfTurnovers { get; private set; }
 
@@ -80,12 +91,6 @@ namespace czynsze.DostępDoBazy
                 SettlementTableToListOfTurnovers.Add(Enums.SettlementTable.ThirdSet, new Czynsze_Entities().turnoversFor14From3rdSet.ToList().Cast<DostępDoBazy.Turnover>().ToList());
             }
         }*/
-
-        public Obrót()
-        {
-            using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
-                _lokal = db.AktywneLokale.FirstOrDefault(l => l.nr_kontr == nr_kontr);
-        }
 
         public string[] WażnePola()
         {
@@ -117,7 +122,7 @@ namespace czynsze.DostępDoBazy
             string data_obr = null;
 
             using (CzynszeKontekst db = new CzynszeKontekst())
-                typ = db.RodzajePłatności.FirstOrDefault(t => t.Id == kod_wplat);
+                typ = db.RodzajePłatności.FirstOrDefault(t => t.kod_wplat == kod_wplat);
 
             switch (typ.s_rozli)
             {
@@ -215,7 +220,7 @@ namespace czynsze.DostępDoBazy
             nr_kontr = Int32.Parse(rekord[8]);
 
             using (CzynszeKontekst db = new CzynszeKontekst())
-                opis = db.RodzajePłatności.FirstOrDefault(t => t.Id == kod_wplat).Nazwa;
+                opis = db.RodzajePłatności.FirstOrDefault(t => t.kod_wplat == kod_wplat).typ_wplat;
         }
 
         public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
@@ -231,6 +236,18 @@ namespace czynsze.DostępDoBazy
             }
 
             return wynik;
+        }
+
+        void UstawLokal()
+        {
+            if (_lokal == null)
+                _lokal = BazaDanych.AktywneLokale.FirstOrDefault(l => l.nr_kontr == nr_kontr);
+
+            if (_lokal == null)
+            {
+                _lokal = new AktywnyLokal();
+                _lokal.kod_lok = _lokal.nr_lok = 0;
+            }
         }
     }
 }

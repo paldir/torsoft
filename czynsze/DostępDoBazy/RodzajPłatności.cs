@@ -12,10 +12,10 @@ namespace czynsze.DostępDoBazy
     public class RodzajPłatności : IRekord, IInformacjeOPozycji
     {
         [Key, Column("kod_wplat"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
-        public int Id { get; set; }
+        public int kod_wplat { get; set; }
 
         [Column("typ_wplat")]
-        public string Nazwa { get; set; }
+        public string typ_wplat { get; set; }
 
         [Column("s_rozli")]
         public int s_rozli { get; set; }
@@ -34,6 +34,21 @@ namespace czynsze.DostępDoBazy
 
         [Column("sww")]
         public string sww { get; set; }
+
+        public int Id
+        {
+            get { return kod_wplat; }
+        }
+
+        public string Nazwa
+        {
+            get { return typ_wplat; }
+        }
+
+        public int RodzajEwidencji
+        {
+            get { return rodz_e; }
+        }
 
         string Rozpoznaj_s_rozli()
         {
@@ -80,9 +95,9 @@ namespace czynsze.DostępDoBazy
         {
             return new string[]
             {
-                Id.ToString(),
-                Id.ToString(),
-                Nazwa,
+                kod_wplat.ToString(),
+                kod_wplat.ToString(),
+                typ_wplat,
                 Rozpoznaj_s_rozli(),
                 Rozpoznaj_tn_odset(),
                 Rozpoznaj_nota_odset()
@@ -93,8 +108,8 @@ namespace czynsze.DostępDoBazy
         {
             return new string[]
             {
-                Id.ToString(),
-                Nazwa.Trim(),
+                kod_wplat.ToString(),
+                typ_wplat.Trim(),
                 rodz_e.ToString(),
                 s_rozli.ToString(),
                 tn_odset.ToString(),
@@ -106,8 +121,8 @@ namespace czynsze.DostępDoBazy
 
         public void Ustaw(string[] record)
         {
-            Id = Int32.Parse(record[0]);
-            Nazwa = record[1];
+            kod_wplat = Int32.Parse(record[0]);
+            typ_wplat = record[1];
             rodz_e = Int32.Parse(record[2]);
             s_rozli = Int32.Parse(record[3]);
             tn_odset = Int32.Parse(record[4]);
@@ -131,7 +146,7 @@ namespace czynsze.DostępDoBazy
                             kod_wplat = Int32.Parse(record[0]);
 
                             using (CzynszeKontekst db = new CzynszeKontekst())
-                                if (db.RodzajePłatności.Any(t => t.Id == kod_wplat))
+                                if (db.RodzajePłatności.Any(t => t.kod_wplat == kod_wplat))
                                     result += "Istnieje już rodzaj wpłaty lub wypłaty o podanym kodzie! <br />";
                         }
                         catch { result += "Kod rodzaju wpłaty lub wypłaty musi być liczbą całkowitą! <br />"; }
@@ -158,9 +173,9 @@ namespace czynsze.DostępDoBazy
         {
             return new string[]
             {
-                Id.ToString(),
-                Id.ToString(),
-                Nazwa
+                kod_wplat.ToString(),
+                kod_wplat.ToString(),
+                typ_wplat
             };
         }
     }

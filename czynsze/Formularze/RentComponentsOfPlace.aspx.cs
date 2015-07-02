@@ -34,7 +34,7 @@ namespace czynsze.Formularze
                 if (id != 0)
                     currentRentComponent = rentComponentsOfPlace.ElementAt(id - 1);
 
-                allComponentsWithAmount = db.SkładnikiCzynszu.Where(c => c.s_zaplat == 2).Select(c => c.Id).ToList();
+                allComponentsWithAmount = db.SkładnikiCzynszu.Where(c => c.s_zaplat == 2).Select(c => c.nr_skl).ToList();
 
                 if ((int)childAction != 0)
                 {
@@ -121,7 +121,7 @@ namespace czynsze.Formularze
                         firstLabel = "Nowy składnik: ";
                         amount = String.Empty;
                         textOfSaveButton = "Dodaj";
-                        firstControl = new Kontrolki.DropDownList("field", "nr_skl", db.SkładnikiCzynszu.OrderBy(c => c.Id).ToList().Select(c => c.WażnePolaDoRozwijanejListy()).ToList(), String.Empty, true, false);
+                        firstControl = new Kontrolki.DropDownList("field", "nr_skl", db.SkładnikiCzynszu.OrderBy(c => c.nr_skl).ToList().Select(c => c.WażnePolaDoRozwijanejListy()).ToList(), String.Empty, true, false);
                     }
                     else
                     {
@@ -135,7 +135,7 @@ namespace czynsze.Formularze
                         if (currentRentComponent.dat_do != null)
                             dat_do = String.Format("{0:yyyy-MM-dd}", currentRentComponent.dat_do);
 
-                        firstControl = new Kontrolki.TextBox("field", "nazwa", db.SkładnikiCzynszu.FirstOrDefault(c => c.Id == currentRentComponent.nr_skl).Nazwa, Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 30, 1, false);
+                        firstControl = new Kontrolki.TextBox("field", "nazwa", db.SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == currentRentComponent.nr_skl).nazwa, Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 30, 1, false);
 
                         form.Controls.Add(new Kontrolki.HtmlInputHidden("nr_skl", currentRentComponent.nr_skl.ToString()));
                         form.Controls.Add(new Kontrolki.HtmlInputHidden("id", id.ToString()));

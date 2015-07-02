@@ -12,6 +12,7 @@ namespace czynsze.DostępDoBazy
         decimal Ilość { get; }
         decimal Stawka { get; }
         int IdInformacji { get; }
-        int[] KodLokalu { get; }
+        int KodBudynku { get; }
+        int NrLokalu { get; }
     }
 }
