@@ -11,7 +11,7 @@ namespace czynsze.Formularze
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            using(DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
+            using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
                 Enumeratory.Analiza rodzaj = PobierzWartośćParametru<Enumeratory.Analiza>("rodzaj");
                 //Enumeratory.KwotaCzynszu tryb = PobierzWartośćParametru<Enumeratory.KwotaCzynszu>("tryb");
@@ -25,29 +25,33 @@ namespace czynsze.Formularze
                     ogólnyRodzaj = "Analizy należności";
                 else if (rodzajNapis.StartsWith("Obroty"))
                     ogólnyRodzaj = "Analizy obrotów";
+                else if (rodzajNapis.StartsWith("Ogolem"))
+                    ogólnyRodzaj = "Analizy ogółem";
 
                 switch (rodzaj)
                 {
                     case Enumeratory.Analiza.NaleznosciBiezace:
-                    case Enumeratory.Analiza.ObrotyBiezace:
                         konkretnyRodzaj = "Bieżące";
 
                         break;
 
                     case Enumeratory.Analiza.NaleznosciZaDanyMiesiac:
                     case Enumeratory.Analiza.ObrotyZaDanyMiesiac:
+                    case Enumeratory.Analiza.OgolemZaDanyMiesiac:
                         konkretnyRodzaj = "Za dany miesiąc";
 
                         break;
 
                     case Enumeratory.Analiza.NaleznosciSzczegolowoMiesiac:
                     case Enumeratory.Analiza.ObrotySzczegolowoMiesiac:
+                    case Enumeratory.Analiza.OgolemSzczegolowoMiesiac:
                         konkretnyRodzaj = "Szczegółowo miesiąc";
 
                         break;
 
                     case Enumeratory.Analiza.NaleznosciWgEwidencji:
                     case Enumeratory.Analiza.ObrotyWgEwidencji:
+                    case Enumeratory.Analiza.OgolemWgEwidencji:
                         konkretnyRodzaj = "Wg ewidencji";
 
                         break;
@@ -56,6 +60,8 @@ namespace czynsze.Formularze
                     case Enumeratory.Analiza.NaleznosciWgGrupSumy:
                     case Enumeratory.Analiza.ObrotyWgGrupSkladniki:
                     case Enumeratory.Analiza.ObrotyWgGrupSumy:
+                    case Enumeratory.Analiza.OgolemWgGrupSkladniki:
+                    case Enumeratory.Analiza.OgolemWgGrupSumy:
                         List<string> id = new List<string>();
                         List<string> nazwy = new List<string>();
 
@@ -166,7 +172,6 @@ namespace czynsze.Formularze
                     switch (rodzaj)
                     {
                         case Enumeratory.Analiza.NaleznosciBiezace:
-                        case Enumeratory.Analiza.ObrotyBiezace:
                             rodzaj = Enumeratory.Analiza.NaleznosciZaDanyMiesiac;
 
                             break;
@@ -175,6 +180,8 @@ namespace czynsze.Formularze
                         case Enumeratory.Analiza.NaleznosciWgGrupSumy:
                         case Enumeratory.Analiza.ObrotyWgGrupSkladniki:
                         case Enumeratory.Analiza.ObrotyWgGrupSumy:
+                        case Enumeratory.Analiza.OgolemWgGrupSkladniki:
+                        case Enumeratory.Analiza.OgolemWgGrupSumy:
                             List<int> wybraneGrupy = new List<int>();
 
                             for (int i = 0; i < db.GrupySkładnikówCzynszu.Count(); i++)

@@ -37,7 +37,7 @@ namespace czynsze.DostępDoBazy
 
         public int Id
         {
-            get { return kod_wplat; }
+            get { return -kod_wplat; }
         }
 
         public string Nazwa

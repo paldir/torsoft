@@ -144,7 +144,7 @@
   <ItemGroup>
     <Compile Include="DostępDoBazy\BudynekWspólnoty.cs" />
     <Compile Include="DostępDoBazy\IInformacjeOPozycji.cs" />
-    <Compile Include="DostępDoBazy\IPozycjaDoAnalizy.cs" />
+    <Compile Include="DostępDoBazy\PozycjaDoAnalizy.cs" />
     <Compile Include="DostępDoBazy\Zamknięty.cs" />
     <Compile Include="DostępDoBazy\Treść.cs" />
     <Compile Include="Formularze\CommunityBuildings.aspx.cs">

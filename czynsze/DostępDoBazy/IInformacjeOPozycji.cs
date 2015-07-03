@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace czynsze.DostępDoBazy
 {
-    interface IInformacjeOPozycji
+    public interface IInformacjeOPozycji
     {
         int Id { get; }
         string Nazwa { get; }

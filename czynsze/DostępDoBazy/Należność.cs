@@ -5,7 +5,7 @@ using System.Web;
 
 namespace czynsze.DostępDoBazy
 {
-    public abstract class Należność : IPozycjaDoAnalizy
+    public abstract class Należność : PozycjaDoAnalizy
     {
         public const string Rok = "14";
 
@@ -29,37 +29,48 @@ namespace czynsze.DostępDoBazy
 
         public abstract decimal ilosc { get; set; }
 
-        public DateTime Data
+        public override DateTime Data
         {
             get { return data_nal; }
         }
 
-        public decimal Kwota
+        public override decimal Kwota
         {
-            get { return kwota_nal; }
+            get
+            {
+                switch (Informacje.RodzajEwidencji)
+                {
+                    case 2:
+                    case 3:
+                        return -kwota_nal;
+
+                    default:
+                        return kwota_nal;
+                }
+            }
         }
 
-        public decimal Ilość
+        public override decimal Ilość
         {
             get { return ilosc; }
         }
 
-        public decimal Stawka
+        public override decimal Stawka
         {
             get { return stawka; }
         }
 
-        public int IdInformacji
+        public override int IdInformacji
         {
             get { return nr_skl; }
         }
 
-        public int KodBudynku
+        public override int KodBudynku
         {
             get { return kod_lok; }
         }
 
-        public int NrLokalu
+        public override int NrLokalu
         {
             get { return nr_lok; }
         }

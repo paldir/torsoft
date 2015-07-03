@@ -82,7 +82,22 @@ namespace czynsze
             ObrotyWgGrupSkladnikiWspolnoty,
             ObrotyWgGrupSumyLokale,
             ObrotyWgGrupSumyBudynki,
-            ObrotyWgGrupSumyWspolnoty
+            ObrotyWgGrupSumyWspolnoty,
+            OgolemZaDanyMiesiacLokale,
+            OgolemZaDanyMiesiacBudynki,
+            OgolemZaDanyMiesiacWspolnoty,
+            OgolemSzczegolowoMiesiacLokale,
+            OgolemSzczegolowoMiesiacBudynki,
+            OgolemSzczegolowoMiesiacWspolnoty,
+            OgolemWgEwidencjiLokale,
+            OgolemWgEwidencjiBudynki,
+            OgolemWgEwidencjiWspolnoty,
+            OgolemWgGrupSkladnikiLokale,
+            OgolemWgGrupSkladnikiBudynki,
+            OgolemWgGrupSkladnikiWspolnoty,
+            OgolemWgGrupSumyLokale,
+            OgolemWgGrupSumyBudynki,
+            OgolemWgGrupSumyWspolnoty
         };
 
         public enum FormatRaportu
@@ -146,12 +161,16 @@ namespace czynsze
             NaleznosciWgEwidencji,
             NaleznosciWgGrupSkladniki,
             NaleznosciWgGrupSumy,
-            ObrotyBiezace,
             ObrotyZaDanyMiesiac,
             ObrotySzczegolowoMiesiac,
             ObrotyWgEwidencji,
             ObrotyWgGrupSkladniki,
-            ObrotyWgGrupSumy
+            ObrotyWgGrupSumy,
+            OgolemZaDanyMiesiac,
+            OgolemSzczegolowoMiesiac,
+            OgolemWgEwidencji,
+            OgolemWgGrupSkladniki,
+            OgolemWgGrupSumy
         }
 
         public enum ObiektAnalizy

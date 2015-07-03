@@ -5,7 +5,7 @@ using System.Web;
 
 namespace czynsze.DostępDoBazy
 {
-    public abstract class Obrót : IRekord, IPozycjaDoAnalizy
+    public abstract class Obrót : PozycjaDoAnalizy, IRekord
     {
         public const string Rok = "14";
 
@@ -27,34 +27,45 @@ namespace czynsze.DostępDoBazy
 
         public abstract string uwagi { get; set; }
 
-        public DateTime Data
+        public override DateTime Data
         {
             get { return data_obr; }
         }
 
-        public decimal Kwota
+        public override decimal Kwota
         {
-            get { return suma; }
+            get
+            {
+                switch (Informacje.RodzajEwidencji)
+                {
+                    case 2:
+                    case 3:
+                        return -suma;
+
+                    default:
+                        return suma;
+                }
+            }
         }
 
-        public decimal Ilość
+        public override decimal Ilość
         {
             get { return 0; }
         }
 
-        public decimal Stawka
+        public override decimal Stawka
         {
             get { return 0; }
         }
 
-        public int IdInformacji
+        public override int IdInformacji
         {
-            get { return kod_wplat; }
+            get { return -kod_wplat; }
         }
 
         DostępDoBazy.AktywnyLokal _lokal;
 
-        public int KodBudynku
+        public override int KodBudynku
         {
             get
             {
@@ -64,7 +75,7 @@ namespace czynsze.DostępDoBazy
             }
         }
 
-        public int NrLokalu
+        public override int NrLokalu
         {
             get
             {
