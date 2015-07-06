@@ -140,7 +140,7 @@ namespace czynsze.Formularze
                         indexesOfNumericColumns = new List<int>() { 1 };
 
                         if (!IsPostBack)
-                            rows = db.Budynki.OrderBy(b => b.kod_1).ToList().Select(b => b.WażnePola()).ToList();
+                            rows = db.Budynki.AsEnumerable<DostępDoBazy.Budynek>().OrderBy(b => b.kod_1).Select(b => b.WażnePola()).ToList();
 
                         break;
 
@@ -169,7 +169,7 @@ namespace czynsze.Formularze
                                 };
 
                                 if (!IsPostBack)
-                                    places = db.AktywneLokale.ToList().Cast<DostępDoBazy.Lokal>();
+                                    places = db.AktywneLokale.AsEnumerable<DostępDoBazy.Lokal>();
 
                                 break;
 
@@ -177,7 +177,7 @@ namespace czynsze.Formularze
                                 heading += " (nieaktywne)";
 
                                 if (!IsPostBack)
-                                    places = db.NieaktywneLokale.ToList().Cast<DostępDoBazy.Lokal>();
+                                    places = db.NieaktywneLokale.AsEnumerable<DostępDoBazy.Lokal>();
 
                                 break;
                         }
@@ -206,7 +206,7 @@ namespace czynsze.Formularze
                                 heading += " (aktywni)";
 
                                 if (!IsPostBack)
-                                    tenants = db.AktywniNajemcy.ToList().Cast<DostępDoBazy.Najemca>();
+                                    tenants = db.AktywniNajemcy.AsEnumerable<DostępDoBazy.Najemca>();
 
                                 break;
 
@@ -214,7 +214,7 @@ namespace czynsze.Formularze
                                 heading += " (nieaktywni)";
 
                                 if (!IsPostBack)
-                                    tenants = db.NieaktywniNajemcy.ToList().Cast<DostępDoBazy.Najemca>();
+                                    tenants = db.NieaktywniNajemcy.AsEnumerable<DostępDoBazy.Najemca>();
 
                                 break;
                         }
@@ -230,7 +230,7 @@ namespace czynsze.Formularze
                         indexesOfNumericColumns = new List<int>() { 1, 5 };
 
                         if (!IsPostBack)
-                            rows = db.SkładnikiCzynszu.OrderBy(c => c.nr_skl).ToList().Select(c => c.WażnePola()).ToList();
+                            rows = db.SkładnikiCzynszu.AsEnumerable<DostępDoBazy.SkładnikCzynszu>().OrderBy(c => c.nr_skl).Select(c => c.WażnePola()).ToList();
 
                         break;
 
@@ -240,7 +240,7 @@ namespace czynsze.Formularze
                         indexesOfNumericColumns = new List<int>() { 1, 3, 4 };
 
                         if (!IsPostBack)
-                            rows = db.Wspólnoty.OrderBy(c => c.kod).ToList().Select(c => c.WażnePola()).ToList();
+                            rows = db.Wspólnoty.AsEnumerable<DostępDoBazy.Wspólnota>().OrderBy(c => c.kod).Select(c => c.WażnePola()).ToList();
 
                         break;
 
@@ -250,7 +250,7 @@ namespace czynsze.Formularze
                         indexesOfNumericColumns = new List<int>() { 1 };
 
                         if (!IsPostBack)
-                            rows = db.TypyLokali.OrderBy(t => t.kod_typ).ToList().Select(t => t.WażnePola()).ToList();
+                            rows = db.TypyLokali.AsEnumerable<DostępDoBazy.TypLokalu>().OrderBy(t => t.kod_typ).Select(t => t.WażnePola()).ToList();
 
                         break;
 
@@ -260,7 +260,7 @@ namespace czynsze.Formularze
                         indexesOfNumericColumns = new List<int>() { 1 };
 
                         if (!IsPostBack)
-                            rows = db.TypyKuchni.OrderBy(t => t.kod_kuch).ToList().Select(t => t.WażnePola()).ToList();
+                            rows = db.TypyKuchni.AsEnumerable<DostępDoBazy.TypKuchni>().OrderBy(t => t.kod_kuch).Select(t => t.WażnePola()).ToList();
 
                         break;
 
@@ -270,7 +270,7 @@ namespace czynsze.Formularze
                         indexesOfNumericColumns = new List<int>() { 1 };
 
                         if (!IsPostBack)
-                            rows = db.TypyNajemców.OrderBy(t => t.kod_najem).ToList().Select(t => t.WażnePola()).ToList();
+                            rows = db.TypyNajemców.AsEnumerable<DostępDoBazy.TypNajemcy>().OrderBy(t => t.kod_najem).Select(t => t.WażnePola()).ToList();
 
                         break;
 
@@ -280,7 +280,7 @@ namespace czynsze.Formularze
                         indexesOfNumericColumns = new List<int>() { 1 };
 
                         if (!IsPostBack)
-                            rows = db.TytułyPrawne.OrderBy(t => t.kod_praw).ToList().Select(t => t.WażnePola()).ToList();
+                            rows = db.TytułyPrawne.AsEnumerable<DostępDoBazy.TytułPrawny>().OrderBy(t => t.kod_praw).Select(t => t.WażnePola()).ToList();
 
                         break;
 
@@ -290,7 +290,7 @@ namespace czynsze.Formularze
                         indexesOfNumericColumns = new List<int>() { 1 };
 
                         if (!IsPostBack)
-                            rows = db.RodzajePłatności.OrderBy(t => t.kod_wplat).ToList().Select(t => t.WażnePola()).ToList();
+                            rows = db.RodzajePłatności.AsEnumerable<DostępDoBazy.RodzajPłatności>().OrderBy(t => t.kod_wplat).Select(t => t.WażnePola()).ToList();
 
                         break;
 
@@ -300,7 +300,7 @@ namespace czynsze.Formularze
                         indexesOfNumericColumns = new List<int>() { 1 };
 
                         if (!IsPostBack)
-                            rows = db.GrupySkładnikówCzynszu.OrderBy(g => g.kod).ToList().Select(t => t.WażnePola()).ToList();
+                            rows = db.GrupySkładnikówCzynszu.AsEnumerable<DostępDoBazy.GrupaSkładnikówCzynszu>().OrderBy(g => g.kod).Select(t => t.WażnePola()).ToList();
 
                         break;
 
@@ -310,7 +310,7 @@ namespace czynsze.Formularze
                         indexesOfNumericColumns = new List<int>() { 1 };
 
                         if (!IsPostBack)
-                            rows = db.GrupyFinansowe.OrderBy(g => g.kod).ToList().Select(g => g.WażnePola()).ToList();
+                            rows = db.GrupyFinansowe.AsEnumerable<DostępDoBazy.GrupaFinansowa>().OrderBy(g => g.kod).Select(g => g.WażnePola()).ToList();
 
                         break;
 
@@ -319,7 +319,7 @@ namespace czynsze.Formularze
                         headers = new string[] { "Oznaczenie stawki", "Symbol fiskalny" };
 
                         if (!IsPostBack)
-                            rows = db.StawkiVat.OrderBy(r => r.symb_fisk).ToList().Select(r => r.WażnePola()).ToList();
+                            rows = db.StawkiVat.AsEnumerable<DostępDoBazy.StawkaVat>().OrderBy(r => r.symb_fisk).Select(r => r.WażnePola()).ToList();
 
                         break;
 
@@ -329,7 +329,7 @@ namespace czynsze.Formularze
                         indexesOfNumericColumns = new List<int>() { 1 };
 
                         if (!IsPostBack)
-                            rows = db.Atrybuty.OrderBy(a => a.kod).ToList().Select(a => a.WażnePola()).ToList();
+                            rows = db.Atrybuty.AsEnumerable<DostępDoBazy.Atrybut>().OrderBy(a => a.kod).Select(a => a.WażnePola()).ToList();
 
                         break;
 
@@ -338,7 +338,7 @@ namespace czynsze.Formularze
                         headers = new string[] { "Symbol", "Nazwisko", "Imię" };
 
                         if (!IsPostBack)
-                            rows = db.Użytkownicy.OrderBy(u => u.symbol).ToList().Select(u => u.WażnePola()).ToList();
+                            rows = db.Użytkownicy.AsEnumerable<DostępDoBazy.Użytkownik>().OrderBy(u => u.symbol).Select(u => u.WażnePola()).ToList();
 
                         break;
 
@@ -366,7 +366,7 @@ namespace czynsze.Formularze
                         if (!IsPostBack)
                         {
                             DostępDoBazy.Najemca.Places = db.AktywneLokale.ToList();
-                            rows = db.AktywniNajemcy.OrderBy(t => t.nazwisko).ThenBy(t => t.imie).ToList().Select(t => t.ZLokalem()).ToList();
+                            rows = db.AktywniNajemcy.AsEnumerable<DostępDoBazy.AktywnyNajemca>().OrderBy(t => t.nazwisko).ThenBy(t => t.imie).Select(t => t.ZLokalem()).ToList();
                             DostępDoBazy.Najemca.Places = null;
                         }
 
@@ -421,20 +421,20 @@ namespace czynsze.Formularze
                             switch (Start.AktywnyZbiór)
                             {
                                 case Enumeratory.Zbiór.Czynsze:
-                                    receivables = db.NależnościZPierwszegoZbioru.Where(r => r.nr_kontr == id).ToList().Cast<DostępDoBazy.Należność>();
-                                    turnovers = db.ObrotyZPierwszegoZbioru.Where(t => t.nr_kontr == id).ToList().Cast<DostępDoBazy.Obrót>();
+                                    receivables = db.NależnościZPierwszegoZbioru.Where(r => r.nr_kontr == id).AsEnumerable<DostępDoBazy.Należność>();
+                                    turnovers = db.ObrotyZPierwszegoZbioru.Where(t => t.nr_kontr == id).AsEnumerable<DostępDoBazy.Obrót>();
 
                                     break;
 
                                 case Enumeratory.Zbiór.Drugi:
-                                    receivables = db.NależnościZDrugiegoZbioru.Where(r => r.nr_kontr == id).ToList().Cast<DostępDoBazy.Należność>();
-                                    turnovers = db.ObrotyZDrugiegoZbioru.Where(t => t.nr_kontr == id).ToList().Cast<DostępDoBazy.Obrót>();
+                                    receivables = db.NależnościZDrugiegoZbioru.Where(r => r.nr_kontr == id).AsEnumerable<DostępDoBazy.Należność>();
+                                    turnovers = db.ObrotyZDrugiegoZbioru.Where(t => t.nr_kontr == id).AsEnumerable<DostępDoBazy.Obrót>();
 
                                     break;
 
                                 case Enumeratory.Zbiór.Trzeci:
-                                    receivables = db.NależnościZTrzeciegoZbioru.Where(r => r.nr_kontr == id).ToList().Cast<DostępDoBazy.Należność>();
-                                    turnovers = db.ObrotyZTrzeciegoZbioru.Where(t => t.nr_kontr == id).ToList().Cast<DostępDoBazy.Obrót>();
+                                    receivables = db.NależnościZTrzeciegoZbioru.Where(r => r.nr_kontr == id).AsEnumerable<DostępDoBazy.Należność>();
+                                    turnovers = db.ObrotyZTrzeciegoZbioru.Where(t => t.nr_kontr == id).AsEnumerable<DostępDoBazy.Obrót>();
 
                                     break;
                             }
@@ -505,20 +505,20 @@ namespace czynsze.Formularze
                             switch (Start.AktywnyZbiór)
                             {
                                 case Enumeratory.Zbiór.Czynsze:
-                                    receivables = db.NależnościZPierwszegoZbioru.Where(r => r.nr_kontr == id).ToList().Cast<DostępDoBazy.Należność>();
-                                    turnovers = db.ObrotyZPierwszegoZbioru.Where(r => r.nr_kontr == id).ToList().Cast<DostępDoBazy.Obrót>();
+                                    receivables = db.NależnościZPierwszegoZbioru.Where(r => r.nr_kontr == id).AsEnumerable<DostępDoBazy.Należność>();
+                                    turnovers = db.ObrotyZPierwszegoZbioru.Where(r => r.nr_kontr == id).AsEnumerable<DostępDoBazy.Obrót>();
 
                                     break;
 
                                 case Enumeratory.Zbiór.Drugi:
-                                    receivables = db.NależnościZDrugiegoZbioru.Where(r => r.nr_kontr == id).ToList().Cast<DostępDoBazy.Należność>();
-                                    turnovers = db.ObrotyZDrugiegoZbioru.Where(r => r.nr_kontr == id).ToList().Cast<DostępDoBazy.Obrót>();
+                                    receivables = db.NależnościZDrugiegoZbioru.Where(r => r.nr_kontr == id).AsEnumerable<DostępDoBazy.Należność>();
+                                    turnovers = db.ObrotyZDrugiegoZbioru.Where(r => r.nr_kontr == id).AsEnumerable<DostępDoBazy.Obrót>();
 
                                     break;
 
                                 case Enumeratory.Zbiór.Trzeci:
-                                    receivables = db.NależnościZTrzeciegoZbioru.Where(r => r.nr_kontr == id).ToList().Cast<DostępDoBazy.Należność>();
-                                    turnovers = db.ObrotyZTrzeciegoZbioru.Where(r => r.nr_kontr == id).ToList().Cast<DostępDoBazy.Obrót>();
+                                    receivables = db.NależnościZTrzeciegoZbioru.Where(r => r.nr_kontr == id).AsEnumerable<DostępDoBazy.Należność>();
+                                    turnovers = db.ObrotyZTrzeciegoZbioru.Where(r => r.nr_kontr == id).AsEnumerable<DostępDoBazy.Obrót>();
 
                                     break;
                             }
@@ -550,17 +550,17 @@ namespace czynsze.Formularze
                             switch (Start.AktywnyZbiór)
                             {
                                 case Enumeratory.Zbiór.Czynsze:
-                                    turnovers = db.ObrotyZPierwszegoZbioru.Where(t => t.nr_kontr == id).ToList().Cast<DostępDoBazy.Obrót>();
+                                    turnovers = db.ObrotyZPierwszegoZbioru.Where(t => t.nr_kontr == id).AsEnumerable<DostępDoBazy.Obrót>();
 
                                     break;
 
                                 case Enumeratory.Zbiór.Drugi:
-                                    turnovers = db.ObrotyZDrugiegoZbioru.Where(t => t.nr_kontr == id).ToList().Cast<DostępDoBazy.Obrót>();
+                                    turnovers = db.ObrotyZDrugiegoZbioru.Where(t => t.nr_kontr == id).AsEnumerable<DostępDoBazy.Obrót>();
 
                                     break;
 
                                 case Enumeratory.Zbiór.Trzeci:
-                                    turnovers = db.ObrotyZTrzeciegoZbioru.Where(t => t.nr_kontr == id).ToList().Cast<DostępDoBazy.Obrót>();
+                                    turnovers = db.ObrotyZTrzeciegoZbioru.Where(t => t.nr_kontr == id).AsEnumerable<DostępDoBazy.Obrót>();
 
                                     break;
                             }

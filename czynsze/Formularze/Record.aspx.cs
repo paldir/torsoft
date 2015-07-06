@@ -233,7 +233,7 @@ namespace czynsze.Formularze
                             {
                                 values = new string[numberOfFields];
 
-                                IEnumerable<DostępDoBazy.Lokal> places = db.AktywneLokale.ToList().Cast<DostępDoBazy.Lokal>().Concat(db.NieaktywneLokale.ToList().Cast<DostępDoBazy.Lokal>());
+                                IEnumerable<DostępDoBazy.Lokal> places = db.AktywneLokale.AsEnumerable<DostępDoBazy.Lokal>().Concat(db.NieaktywneLokale.AsEnumerable<DostępDoBazy.Lokal>());
 
                                 if (places.Any())
                                     values[0] = (places.Max(p => p.nr_system) + 1).ToString();
@@ -328,7 +328,7 @@ namespace czynsze.Formularze
 
                         controls.Add(new Kontrolki.DropDownList("field", "kod_lok" + fromIdEnabledToIdSuffix[idEnabled], db.Budynki.ToList().OrderBy(b => b.kod_1).Select(b => b.WażnePola()).ToList(), values[1], idEnabled, false));
                         controls.Add(new Kontrolki.TextBox("field", "nr_lok" + fromIdEnabledToIdSuffix[idEnabled], values[2], Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 3, 1, idEnabled));
-                        controls.Add(new Kontrolki.DropDownList("field", "kod_typ", db.TypyLokali.ToList().Select(t => t.WażnePolaDoRozwijanejListy()).ToList(), values[3], globalEnabled, false));
+                        controls.Add(new Kontrolki.DropDownList("field", "kod_typ", db.TypyLokali.AsEnumerable<DostępDoBazy.TypLokalu>().Select(t => t.WażnePolaDoRozwijanejListy()).ToList(), values[3], globalEnabled, false));
                         controls.Add(new Kontrolki.TextBox("field", "adres", values[4], Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 30, 1, globalEnabled));
                         controls.Add(new Kontrolki.TextBox("field", "adres_2", values[5], Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 30, 1, globalEnabled));
                         controls.Add(new Kontrolki.TextBox("field", "pow_uzyt", values[6], Kontrolki.TextBox.TextBoxMode.LiczbaNiecałkowita, 8, 1, globalEnabled));
@@ -342,10 +342,10 @@ namespace czynsze.Formularze
                         controls.Add(new Kontrolki.TextBox("field", "p_4", values[14], Kontrolki.TextBox.TextBoxMode.LiczbaNiecałkowita, 5, 1, globalEnabled));
                         controls.Add(new Kontrolki.TextBox("field", "p_5", values[15], Kontrolki.TextBox.TextBoxMode.LiczbaNiecałkowita, 5, 1, globalEnabled));
                         controls.Add(new Kontrolki.TextBox("field", "p_6", values[16], Kontrolki.TextBox.TextBoxMode.LiczbaNiecałkowita, 5, 1, globalEnabled));
-                        controls.Add(new Kontrolki.DropDownList("field", "kod_kuch", db.TypyKuchni.ToList().Select(t => t.WażnePolaDoRozwijanejListy()).ToList(), values[17], globalEnabled, false));
-                        controls.Add(new Kontrolki.DropDownList("field", "nr_kontr", db.AktywniNajemcy.OrderBy(t => t.nazwisko).ToList().Select(t => t.WażnePola().ToList().GetRange(1, 4).ToArray()).ToList(), values[18], globalEnabled, true));
+                        controls.Add(new Kontrolki.DropDownList("field", "kod_kuch", db.TypyKuchni.AsEnumerable<DostępDoBazy.TypKuchni>().Select(t => t.WażnePolaDoRozwijanejListy()).ToList(), values[17], globalEnabled, false));
+                        controls.Add(new Kontrolki.DropDownList("field", "nr_kontr", db.AktywniNajemcy.AsEnumerable<DostępDoBazy.AktywnyNajemca>().OrderBy(t => t.nazwisko).Select(t => t.WażnePola().ToList().GetRange(1, 4).ToArray()).ToList(), values[18], globalEnabled, true));
                         controls.Add(new Kontrolki.TextBox("field", "il_osob", values[19], Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 3, 1, globalEnabled));
-                        controls.Add(new Kontrolki.DropDownList("field", "kod_praw", db.TytułyPrawne.ToList().Select(t => t.WażnePolaDoRozwijanejListy()).ToList(), values[20], globalEnabled, false));
+                        controls.Add(new Kontrolki.DropDownList("field", "kod_praw", db.TytułyPrawne.AsEnumerable<DostępDoBazy.TytułPrawny>().Select(t => t.WażnePolaDoRozwijanejListy()).ToList(), values[20], globalEnabled, false));
                         controls.Add(new Kontrolki.TextBox("field", "uwagi", values[21], Kontrolki.TextBox.TextBoxMode.KilkaLinii, 240, 4, globalEnabled));
 
                         //
@@ -421,7 +421,7 @@ namespace czynsze.Formularze
                             else
                             {
                                 values = new string[numberOfFields];
-                                IEnumerable<DostępDoBazy.Najemca> tenants = db.AktywniNajemcy.ToList().Cast<DostępDoBazy.Najemca>().Concat(db.NieaktywniNajemcy.Cast<DostępDoBazy.Najemca>());
+                                IEnumerable<DostępDoBazy.Najemca> tenants = db.AktywniNajemcy.AsEnumerable<DostępDoBazy.Najemca>().Concat(db.NieaktywniNajemcy.Cast<DostępDoBazy.Najemca>());
 
                                 if (tenants.Any())
                                     values[0] = (tenants.Max(t => t.nr_kontr) + 1).ToString();
@@ -468,7 +468,7 @@ namespace czynsze.Formularze
 
                         controls.Add(new Kontrolki.TextBox("field", "nr_kontr_disabled", values[0], Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 6, 1, false));
                         placeOfButtons.Controls.Add(new Kontrolki.HtmlInputHidden("id", values[0]));
-                        controls.Add(new Kontrolki.DropDownList("field", "kod_najem", db.TypyNajemców.ToList().Select(t => t.WażnePolaDoRozwijanejListy()).ToList(), values[1], globalEnabled, false));
+                        controls.Add(new Kontrolki.DropDownList("field", "kod_najem", db.TypyNajemców.AsEnumerable<DostępDoBazy.TypNajemcy>().Select(t => t.WażnePolaDoRozwijanejListy()).ToList(), values[1], globalEnabled, false));
                         controls.Add(new Kontrolki.TextBox("field", "nazwisko", values[2], Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 25, 1, globalEnabled));
                         controls.Add(new Kontrolki.TextBox("field", "imie", values[3], Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 25, 1, globalEnabled));
                         controls.Add(new Kontrolki.TextBox("field", "adres_1", values[4], Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 30, 1, globalEnabled));
@@ -522,7 +522,7 @@ namespace czynsze.Formularze
                         controls.Add(new Kontrolki.DropDownList("field", "typ_skl", new List<string[]> { new string[] { "0", "stały" }, new string[] { "1", "zmienny" } }, values[6], globalEnabled, false));
                         controls.Add(new Kontrolki.TextBox("field", "data_1", values[7], Kontrolki.TextBox.TextBoxMode.Data, 10, 1, globalEnabled));
                         controls.Add(new Kontrolki.TextBox("field", "data_2", values[8], Kontrolki.TextBox.TextBoxMode.Data, 10, 1, globalEnabled));
-                        controls.Add(new Kontrolki.DropDownList("field", "kod", db.GrupySkładnikówCzynszu.OrderBy(g => g.kod).ToList().Select(g => new string[] { g.kod.ToString(), g.kod.ToString(), g.nazwa }).ToList(), values[9], globalEnabled, false));
+                        controls.Add(new Kontrolki.DropDownList("field", "kod", db.GrupySkładnikówCzynszu.AsEnumerable<DostępDoBazy.GrupaSkładnikówCzynszu>().OrderBy(g => g.kod).Select(g => new string[] { g.kod.ToString(), g.kod.ToString(), g.nazwa }).ToList(), values[9], globalEnabled, false));
 
                         Table interval = new Table();
                         TableHeaderRow headerRow = new TableHeaderRow();
@@ -619,7 +619,7 @@ namespace czynsze.Formularze
 
                         tabs = new List<Kontrolki.HtmlIframe>()
                         {
-                            new Kontrolki.HtmlIframe("tab", "budynki_tab", "CommunityBuildings.aspx?kod="+id.ToString()+"&parentAction="+action.ToString(), "hidden"),
+                            new Kontrolki.HtmlIframe("tab", "budynki_tab", "BudynkiWspólnoty.aspx?kod="+id.ToString()+"&parentAction="+action.ToString(), "hidden"),
                             new Kontrolki.HtmlIframe("tab", "cechy_tab", "AttributeOfObject.aspx?attributeOf="+Enumeratory.Atrybut.Wspólnoty+"&parentId="+id.ToString()+"&action="+action.ToString()+"&childAction=Przeglądaj", "hidden")
                         };
 
@@ -751,15 +751,16 @@ namespace czynsze.Formularze
 
                     case Enumeratory.Tabela.TypyWplat:
                         Title = "Rodzaj wpłaty lub wypłaty";
-                        numberOfFields = 8;
+                        numberOfFields = 9;
                         heading += "rodzaju wpłaty lub wypłaty";
-                        columnSwitching = new List<int>() { 0, 4 };
+                        columnSwitching = new List<int>() { 0, 5 };
                         labels = new string[]
                         {
                             "Kod: ",
                             "Rodzaj wpłaty lub wypłaty: ",
                             "Rodzaj ewidencji: ",
                             "Sposób rozliczenia: ",
+                            "Grupa składników czynszu: ",
                             "Czy naliczać odsetki? ",
                             "Czy liczyć odsetki na nocie? ",
                             "VAT: ",
@@ -795,10 +796,11 @@ namespace czynsze.Formularze
                             new string[] {"3", "Zwrot"}
                         }, values[3], globalEnabled, false));
 
-                        controls.Add(new Kontrolki.RadioButtonList("field", "tn_odset", new List<string>() { "Nie", "Tak" }, new List<string>() { "0", "1" }, values[4], globalEnabled, false));
-                        controls.Add(new Kontrolki.RadioButtonList("field", "nota_odset", new List<string>() { "Nie", "Tak" }, new List<string>() { "0", "1" }, values[5], globalEnabled, false));
-                        controls.Add(new Kontrolki.DropDownList("field", "vat", db.StawkiVat.ToList().Select(r => r.WażnePolaDoRozwijanejListy()).ToList(), values[6], globalEnabled, false));
-                        controls.Add(new Kontrolki.TextBox("field", "sww", values[7], Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 10, 1, globalEnabled));
+                        controls.Add(new Kontrolki.DropDownList("field", "kod", db.GrupySkładnikówCzynszu.AsEnumerable<DostępDoBazy.GrupaSkładnikówCzynszu>().Select(g => new string[] { g.kod.ToString(), g.nazwa }).ToList(), values[4], true, true));
+                        controls.Add(new Kontrolki.RadioButtonList("field", "tn_odset", new List<string>() { "Nie", "Tak" }, new List<string>() { "0", "1" }, values[5], globalEnabled, false));
+                        controls.Add(new Kontrolki.RadioButtonList("field", "nota_odset", new List<string>() { "Nie", "Tak" }, new List<string>() { "0", "1" }, values[6], globalEnabled, false));
+                        controls.Add(new Kontrolki.DropDownList("field", "vat", db.StawkiVat.AsEnumerable<DostępDoBazy.StawkaVat>().Select(r => r.WażnePolaDoRozwijanejListy()).ToList(), values[7], globalEnabled, false));
+                        controls.Add(new Kontrolki.TextBox("field", "sww", values[8], Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 10, 1, globalEnabled));
 
                         break;
 
@@ -1010,17 +1012,17 @@ namespace czynsze.Formularze
                             switch (Start.AktywnyZbiór)
                             {
                                 case Enumeratory.Zbiór.Czynsze:
-                                    turnOvers = db.ObrotyZPierwszegoZbioru.ToList().Cast<DostępDoBazy.Obrót>();
+                                    turnOvers = db.ObrotyZPierwszegoZbioru.AsEnumerable<DostępDoBazy.Obrót>();
 
                                     break;
 
                                 case Enumeratory.Zbiór.Drugi:
-                                    turnOvers = db.ObrotyZDrugiegoZbioru.ToList().Cast<DostępDoBazy.Obrót>();
+                                    turnOvers = db.ObrotyZDrugiegoZbioru.AsEnumerable<DostępDoBazy.Obrót>();
 
                                     break;
 
                                 case Enumeratory.Zbiór.Trzeci:
-                                    turnOvers = db.ObrotyZTrzeciegoZbioru.ToList().Cast<DostępDoBazy.Obrót>();
+                                    turnOvers = db.ObrotyZTrzeciegoZbioru.AsEnumerable<DostępDoBazy.Obrót>();
 
                                     break;
                             }

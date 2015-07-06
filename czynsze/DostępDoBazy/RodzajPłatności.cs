@@ -20,6 +20,9 @@ namespace czynsze.DostępDoBazy
         [Column("s_rozli")]
         public int s_rozli { get; set; }
 
+        [Column("kod")]
+        public int kod { get; set; }
+
         [Column("tn_odset")]
         public int tn_odset { get; set; }
 
@@ -48,6 +51,11 @@ namespace czynsze.DostępDoBazy
         public int RodzajEwidencji
         {
             get { return rodz_e; }
+        }
+
+        public int Grupa
+        {
+            get { return kod; }
         }
 
         string Rozpoznaj_s_rozli()
@@ -112,6 +120,7 @@ namespace czynsze.DostępDoBazy
                 typ_wplat.Trim(),
                 rodz_e.ToString(),
                 s_rozli.ToString(),
+                kod.ToString(),
                 tn_odset.ToString(),
                 nota_odset.ToString(),
                 vat.Trim(),
@@ -125,10 +134,11 @@ namespace czynsze.DostępDoBazy
             typ_wplat = record[1];
             rodz_e = Int32.Parse(record[2]);
             s_rozli = Int32.Parse(record[3]);
-            tn_odset = Int32.Parse(record[4]);
-            nota_odset = Int32.Parse(record[5]);
-            vat = record[6];
-            sww = record[7];
+            kod = Int32.Parse(record[4]);
+            tn_odset = Int32.Parse(record[5]);
+            nota_odset = Int32.Parse(record[6]);
+            vat = record[7];
+            sww = record[8];
         }
 
         public string Waliduj(Enumeratory.Akcja action, string[] record)

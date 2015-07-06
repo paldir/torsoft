@@ -97,9 +97,9 @@ namespace czynsze.DostępDoBazy
 
             using (Czynsze_Entities db = new Czynsze_Entities())
             {
-                SettlementTableToListOfTurnovers.Add(Enums.SettlementTable.Czynsze, new Czynsze_Entities().turnoversFor14.ToList().Cast<DostępDoBazy.Turnover>().ToList());
-                SettlementTableToListOfTurnovers.Add(Enums.SettlementTable.SecondSet, new Czynsze_Entities().turnoversFor14From2ndSet.ToList().Cast<DostępDoBazy.Turnover>().ToList());
-                SettlementTableToListOfTurnovers.Add(Enums.SettlementTable.ThirdSet, new Czynsze_Entities().turnoversFor14From3rdSet.ToList().Cast<DostępDoBazy.Turnover>().ToList());
+                SettlementTableToListOfTurnovers.Add(Enums.SettlementTable.Czynsze, new Czynsze_Entities().turnoversFor14.AsEnumerable<DostępDoBazy.Turnover>().ToList());
+                SettlementTableToListOfTurnovers.Add(Enums.SettlementTable.SecondSet, new Czynsze_Entities().turnoversFor14From2ndSet.AsEnumerable<DostępDoBazy.Turnover>().ToList());
+                SettlementTableToListOfTurnovers.Add(Enums.SettlementTable.ThirdSet, new Czynsze_Entities().turnoversFor14From3rdSet.AsEnumerable<DostępDoBazy.Turnover>().ToList());
             }
         }*/
 

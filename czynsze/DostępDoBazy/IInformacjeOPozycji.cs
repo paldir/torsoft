@@ -11,5 +11,6 @@ namespace czynsze.DostępDoBazy
         int Id { get; }
         string Nazwa { get; }
         int RodzajEwidencji { get; }
+        int Grupa { get; }
     }
 }

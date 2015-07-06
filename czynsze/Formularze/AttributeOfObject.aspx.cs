@@ -135,26 +135,27 @@ namespace czynsze.Formularze
                 }
 
                 rows = attributesOfObject.Select(a => a.WażnePola()).ToList();
+                IEnumerable<DostępDoBazy.Atrybut> atrybuty = db.Atrybuty.AsEnumerable<DostępDoBazy.Atrybut>();
 
                 switch (attributeOf)
                 {
                     case Enumeratory.Atrybut.Budynku:
-                        rowsOfDropDown = db.Atrybuty.Where(a => a.zb_b == "X").ToList().Select(a => a.WażnePolaDoRozwijanejListy()).ToList();
+                        rowsOfDropDown = atrybuty.Where(a => a.zb_b == "X").Select(a => a.WażnePolaDoRozwijanejListy()).ToList();
 
                         break;
 
                     case Enumeratory.Atrybut.Wspólnoty:
-                        rowsOfDropDown = db.Atrybuty.Where(a => a.zb_s == "X").ToList().Select(a => a.WażnePolaDoRozwijanejListy()).ToList();
+                        rowsOfDropDown = atrybuty.Where(a => a.zb_s == "X").Select(a => a.WażnePolaDoRozwijanejListy()).ToList();
 
                         break;
 
                     case Enumeratory.Atrybut.Lokalu:
-                        rowsOfDropDown = db.Atrybuty.Where(a => a.zb_l == "X").ToList().Select(a => a.WażnePolaDoRozwijanejListy()).ToList();
+                        rowsOfDropDown = atrybuty.Where(a => a.zb_l == "X").Select(a => a.WażnePolaDoRozwijanejListy()).ToList();
 
                         break;
 
                     case Enumeratory.Atrybut.Najemcy:
-                        rowsOfDropDown = db.Atrybuty.Where(a => a.zb_n == "X").ToList().Select(a => a.WażnePolaDoRozwijanejListy()).ToList();
+                        rowsOfDropDown = atrybuty.Where(a => a.zb_n == "X").Select(a => a.WażnePolaDoRozwijanejListy()).ToList();
 
                         break;
                 }

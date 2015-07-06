@@ -86,6 +86,11 @@ namespace czynsze.DostępDoBazy
             get { return rodz_e; }
         }
 
+        public int Grupa
+        {
+            get { return kod; }
+        }
+
         string Rozpoznaj_s_zaplat()
         {
             switch (s_zaplat)

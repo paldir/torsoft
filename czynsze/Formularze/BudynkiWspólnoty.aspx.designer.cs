@@ -10,7 +10,7 @@
 namespace czynsze.Formularze {
     
     
-    public partial class CommunityBuildings {
+    public partial class BudynkiWspólnoty {
         
         /// <summary>
         /// form control.

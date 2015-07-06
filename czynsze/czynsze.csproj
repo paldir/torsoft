@@ -92,7 +92,7 @@
     <Content Include="Formularze\AttributeOfObject.aspx" />
     <Content Include="Formularze\ZmianaDaty.aspx" />
     <Content Include="Formularze\ZmianaZbioru.aspx" />
-    <Content Include="Formularze\CommunityBuildings.aspx" />
+    <Content Include="Formularze\BudynkiWspólnoty.aspx" />
     <Content Include="Formularze\ContentsOfDescriptions.aspx" />
     <Content Include="Formularze\GeneracjaNaleznosci.aspx" />
     <Content Include="Formularze\SkladnikiCzynszu.aspx" />
@@ -147,12 +147,12 @@
     <Compile Include="DostępDoBazy\PozycjaDoAnalizy.cs" />
     <Compile Include="DostępDoBazy\Zamknięty.cs" />
     <Compile Include="DostępDoBazy\Treść.cs" />
-    <Compile Include="Formularze\CommunityBuildings.aspx.cs">
-      <DependentUpon>CommunityBuildings.aspx</DependentUpon>
+    <Compile Include="Formularze\BudynkiWspólnoty.aspx.cs">
+      <DependentUpon>BudynkiWspólnoty.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Formularze\CommunityBuildings.aspx.designer.cs">
-      <DependentUpon>CommunityBuildings.aspx</DependentUpon>
+    <Compile Include="Formularze\BudynkiWspólnoty.aspx.designer.cs">
+      <DependentUpon>BudynkiWspólnoty.aspx</DependentUpon>
     </Compile>
     <Compile Include="Formularze\ContentsOfDescriptions.aspx.cs">
       <DependentUpon>ContentsOfDescriptions.aspx</DependentUpon>

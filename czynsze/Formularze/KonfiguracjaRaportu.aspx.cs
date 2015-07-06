@@ -369,7 +369,7 @@ namespace czynsze.Formularze
                 {
                     IEnumerable<DostępDoBazy.Należność> należności = null;
                     IEnumerable<DostępDoBazy.Obrót> obroty = null;
-                    IEnumerable<DostępDoBazy.PozycjaDoAnalizy> pozycje = null;
+                    List<DostępDoBazy.PozycjaDoAnalizy> pozycje = null;
                     List<DostępDoBazy.IInformacjeOPozycji> informacjeOPozycjach = null;
                     string napisRaportu = _raport.ToString();
                     ObiektRaportu obiektRaportu = (ObiektRaportu)(-1);
@@ -407,17 +407,17 @@ namespace czynsze.Formularze
                                 switch (obiektRaportu)
                                 {
                                     case ObiektRaportu.NALEZNOSCI:
-                                        pozycje = db.NależnościZPierwszegoZbioru;
+                                        pozycje = db.NależnościZPierwszegoZbioru.AsEnumerable<DostępDoBazy.PozycjaDoAnalizy>().ToList();
 
                                         break;
 
                                     case ObiektRaportu.OBROTY:
-                                        pozycje = db.ObrotyZPierwszegoZbioru;
+                                        pozycje = db.ObrotyZPierwszegoZbioru.AsEnumerable<DostępDoBazy.PozycjaDoAnalizy>().ToList();
 
                                         break;
 
                                     case ObiektRaportu.OGOLEM:
-                                        pozycje = Enumerable.Concat<DostępDoBazy.PozycjaDoAnalizy>(db.NależnościZPierwszegoZbioru, db.ObrotyZPierwszegoZbioru);
+                                        pozycje = Enumerable.Concat<DostępDoBazy.PozycjaDoAnalizy>(db.NależnościZPierwszegoZbioru, db.ObrotyZPierwszegoZbioru).ToList();
 
                                         break;
                                 }
@@ -434,17 +434,17 @@ namespace czynsze.Formularze
                                 switch (obiektRaportu)
                                 {
                                     case ObiektRaportu.NALEZNOSCI:
-                                        pozycje = db.NależnościZDrugiegoZbioru;
+                                        pozycje = db.NależnościZDrugiegoZbioru.AsEnumerable<DostępDoBazy.PozycjaDoAnalizy>().ToList();
 
                                         break;
 
                                     case ObiektRaportu.OBROTY:
-                                        pozycje = db.ObrotyZDrugiegoZbioru;
+                                        pozycje = db.ObrotyZDrugiegoZbioru.AsEnumerable<DostępDoBazy.PozycjaDoAnalizy>().ToList();
 
                                         break;
 
                                     case ObiektRaportu.OGOLEM:
-                                        pozycje = Enumerable.Concat<DostępDoBazy.PozycjaDoAnalizy>(db.NależnościZDrugiegoZbioru, db.ObrotyZDrugiegoZbioru);
+                                        pozycje = Enumerable.Concat<DostępDoBazy.PozycjaDoAnalizy>(db.NależnościZDrugiegoZbioru, db.ObrotyZDrugiegoZbioru).ToList();
 
                                         break;
                                 }
@@ -461,17 +461,17 @@ namespace czynsze.Formularze
                                 switch (obiektRaportu)
                                 {
                                     case ObiektRaportu.NALEZNOSCI:
-                                        pozycje = db.NależnościZTrzeciegoZbioru;
+                                        pozycje = db.NależnościZTrzeciegoZbioru.AsEnumerable<DostępDoBazy.PozycjaDoAnalizy>().ToList();
 
                                         break;
 
                                     case ObiektRaportu.OBROTY:
-                                        pozycje = db.ObrotyZTrzeciegoZbioru;
+                                        pozycje = db.ObrotyZTrzeciegoZbioru.AsEnumerable<DostępDoBazy.PozycjaDoAnalizy>().ToList();
 
                                         break;
 
                                     case ObiektRaportu.OGOLEM:
-                                        pozycje = Enumerable.Concat<DostępDoBazy.PozycjaDoAnalizy>(db.NależnościZTrzeciegoZbioru, db.ObrotyZTrzeciegoZbioru);
+                                        pozycje = Enumerable.Concat<DostępDoBazy.PozycjaDoAnalizy>(db.NależnościZTrzeciegoZbioru, db.ObrotyZTrzeciegoZbioru).ToList();
 
                                         break;
                                 }
@@ -485,8 +485,22 @@ namespace czynsze.Formularze
                     }
 
                     if (pozycje != null)
+                    {
+                        List<DostępDoBazy.PozycjaDoAnalizy> pozycjeDoUsunięcia = new List<DostępDoBazy.PozycjaDoAnalizy>();
+
                         foreach (DostępDoBazy.PozycjaDoAnalizy pozycja in pozycje)
-                            pozycja.Informacje = informacjeOPozycjach.Single(i => i.Id == pozycja.IdInformacji);
+                        {
+                            DostępDoBazy.IInformacjeOPozycji informacja = informacjeOPozycjach.SingleOrDefault(i => i.Id == pozycja.IdInformacji);
+
+                            if (informacja == null)
+                                pozycjeDoUsunięcia.Add(pozycja);
+                            else
+                                pozycja.Informacje = informacjeOPozycjach.Single(i => i.Id == pozycja.IdInformacji);
+                        }
+
+                        foreach (DostępDoBazy.PozycjaDoAnalizy pozycja in pozycjeDoUsunięcia)
+                            pozycje.Remove(pozycja);
+                    }
 
                     switch (_raport)
                     {
@@ -529,7 +543,7 @@ namespace czynsze.Formularze
                                         if (budynek != null)
                                         {
                                             podpisy.Add("Budynek nr " + budynek.kod_1.ToString() + ", " + budynek.adres + ", " + budynek.adres_2);
-                                            tabele.Add(db.AktywneLokale.Where(p => p.kod_lok == i && wybraneTypyLokali.Contains(p.kod_typ)).OrderBy(p => p.nr_lok).ToList().Select(p => p.WażnePola().ToList().GetRange(2, p.WażnePola().Length - 2).ToArray()).ToList());
+                                            tabele.Add(db.AktywneLokale.Where(p => p.kod_lok == i && wybraneTypyLokali.Contains(p.kod_typ)).OrderBy(p => p.nr_lok).Select(p => p.WażnePola().ToList().GetRange(2, p.WażnePola().Length - 2).ToArray()).ToList());
                                         }
                                     }
 
@@ -1609,37 +1623,43 @@ namespace czynsze.Formularze
                         case Enumeratory.Raport.ObrotyWgGrupSumyLokale:
                         case Enumeratory.Raport.ObrotyWgGrupSumyBudynki:
                         case Enumeratory.Raport.ObrotyWgGrupSumyWspolnoty:
+                        case Enumeratory.Raport.OgolemWgGrupSkladnikiLokale:
+                        case Enumeratory.Raport.OgolemWgGrupSkladnikiBudynki:
+                        case Enumeratory.Raport.OgolemWgGrupSkladnikiWspolnoty:
+                        case Enumeratory.Raport.OgolemWgGrupSumyLokale:
+                        case Enumeratory.Raport.OgolemWgGrupSumyBudynki:
+                        case Enumeratory.Raport.OgolemWgGrupSumyWspolnoty:
                             {
                                 DateTime początekMiesiąca = new DateTime(data.Year, data.Month, 1);
                                 DateTime koniecMiesiąca = początekMiesiąca.AddMonths(1).AddSeconds(-1);
                                 tytuł = String.Format("{0} - ANALIZA WG GRUP CZYNSZOWYCH ZA M-C {1:D2} - {2}", obiektRaportu, data.Month, data.Year);
                                 List<int> grupySkładnikówCzynszu = (List<int>)Session["grupySkładnikówCzynszu"];
-                                List<DostępDoBazy.Należność> należnościZaDanyMiesiąc = należności.Where(n => n.data_nal >= początekMiesiąca && n.data_nal <= koniecMiesiąca).ToList();
-                                List<DostępDoBazy.SkładnikCzynszu> składnikiCzynszuZWybranychGrup = db.SkładnikiCzynszu.Where(s => grupySkładnikówCzynszu.Contains(s.kod)).ToList();
-                                IEnumerable<int> numerySkładnikówCzynszuZWybranychGrup = składnikiCzynszuZWybranychGrup.Select(s => s.nr_skl);
-                                IEnumerable<DostępDoBazy.Należność> należnościDoAnalizy = należnościZaDanyMiesiąc.OrderBy(n => n.nr_skl);
-                                List<DostępDoBazy.GrupaSkładnikówCzynszu> wybraneGrupySkładnikówCzynszu = grupySkładnikówCzynszu.Select(g => db.GrupySkładnikówCzynszu.Single(gs => gs.kod == g)).ToList();
-                                Dictionary<int, List<DostępDoBazy.Należność>> numerGrupyNaNależności = new Dictionary<int, List<DostępDoBazy.Należność>>();
+
+                                grupySkładnikówCzynszu.Sort();
+
+                                List<DostępDoBazy.PozycjaDoAnalizy> pozycjeZaDanyMiesiąc = pozycje.Where(n => n.Data >= początekMiesiąca && n.Data <= koniecMiesiąca).ToList();
+                                Dictionary<int, List<DostępDoBazy.PozycjaDoAnalizy>> numerGrupyNaPozycje = new Dictionary<int, List<DostępDoBazy.PozycjaDoAnalizy>>();
+                                List<DostępDoBazy.GrupaSkładnikówCzynszu> wybraneGrupy = new List<DostępDoBazy.GrupaSkładnikówCzynszu>();
 
                                 foreach (int grupa in grupySkładnikówCzynszu)
-                                    numerGrupyNaNależności.Add(grupa, new List<DostępDoBazy.Należność>());
-
-                                foreach (DostępDoBazy.Należność należność in należnościDoAnalizy)
                                 {
-                                    int numerSkładnika = należność.nr_skl;
+                                    numerGrupyNaPozycje.Add(grupa, new List<DostępDoBazy.PozycjaDoAnalizy>());
+                                    wybraneGrupy.Add(db.GrupySkładnikówCzynszu.Single(g => g.kod == grupa));
+                                }
 
-                                    if (numerySkładnikówCzynszuZWybranychGrup.Contains(numerSkładnika))
-                                    {
-                                        DostępDoBazy.SkładnikCzynszu składnik = składnikiCzynszuZWybranychGrup.Single(s => s.nr_skl == numerSkładnika);
+                                foreach (DostępDoBazy.PozycjaDoAnalizy pozycja in pozycjeZaDanyMiesiąc)
+                                {
+                                    int numerGrupy = pozycja.Informacje.Grupa;
 
-                                        numerGrupyNaNależności[składnik.kod].Add(należność);
-                                    }
+                                    if (numerGrupyNaPozycje.ContainsKey(numerGrupy))
+                                        numerGrupyNaPozycje[numerGrupy].Add(pozycja);
                                 }
 
                                 switch (_raport)
                                 {
                                     case Enumeratory.Raport.NaleznosciWgGrupSkladnikiLokale:
                                     case Enumeratory.Raport.ObrotyWgGrupSkladnikiLokale:
+                                    case Enumeratory.Raport.OgolemWgGrupSkladnikiLokale:
                                         {
                                             List<DostępDoBazy.AktywnyLokal> wszystkieLokale = db.AktywneLokale.OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok).ToList();
                                             int indeksPierwszego = wszystkieLokale.FindIndex(l => l.kod_lok == identyfikatory[0] && l.nr_lok == identyfikatory[1]);
@@ -1668,28 +1688,28 @@ namespace czynsze.Formularze
                                                         decimal sumaLokalu = 0;
                                                         List<string[]> podTabela = new List<string[]>();
 
-                                                        for (int j = 0; j < numerGrupyNaNależności.Count; j++)
+                                                        for (int j = 0; j < numerGrupyNaPozycje.Count; j++)
                                                         {
-                                                            KeyValuePair<int, List<DostępDoBazy.Należność>> para = numerGrupyNaNależności.ElementAt(j);
-                                                            IEnumerable<DostępDoBazy.Należność> należnościLokalu = para.Value.Where(n => n.kod_lok == i && n.nr_lok == numerLokalu);
-                                                            DostępDoBazy.GrupaSkładnikówCzynszu grupa = wybraneGrupySkładnikówCzynszu[j];
+                                                            KeyValuePair<int, List<DostępDoBazy.PozycjaDoAnalizy>> para = numerGrupyNaPozycje.ElementAt(j);
+                                                            IEnumerable<DostępDoBazy.PozycjaDoAnalizy> pozycjeLokalu = para.Value.Where(n => n.KodBudynku == i && n.NrLokalu == numerLokalu);
+                                                            DostępDoBazy.GrupaSkładnikówCzynszu informacjeOGrupie = wybraneGrupy[j];
                                                             decimal sumaGrupy = 0;
                                                             decimal sumaStawek = 0;
 
-                                                            foreach (DostępDoBazy.Należność należność in należnościLokalu)
+                                                            foreach (DostępDoBazy.PozycjaDoAnalizy pozycja in pozycjeLokalu)
                                                             {
-                                                                DostępDoBazy.SkładnikCzynszu składnik = składnikiCzynszuZWybranychGrup.Single(s => s.nr_skl == należność.nr_skl);
-                                                                decimal kwota = należność.kwota_nal;
-                                                                decimal stawka = należność.stawka;
+                                                                DostępDoBazy.IInformacjeOPozycji informacje = pozycja.Informacje;
+                                                                decimal kwota = pozycja.Kwota;
+                                                                decimal stawka = pozycja.Stawka;
                                                                 sumaGrupy += kwota;
                                                                 sumaStawek += stawka;
 
-                                                                podTabela.Add(new string[] { String.Empty, String.Empty, String.Empty, String.Empty, składnik.nazwa, grupa.nazwa, należność.ilosc.ToString("N"), stawka.ToString("N"), kwota.ToString("N") });
+                                                                podTabela.Add(new string[] { String.Empty, String.Empty, String.Empty, String.Empty, informacje.Nazwa, informacjeOGrupie.nazwa, pozycja.Ilość.ToString("N"), stawka.ToString("N"), kwota.ToString("N") });
                                                             }
 
                                                             sumaLokalu += sumaGrupy;
 
-                                                            podTabela.Add(new string[] { String.Empty, String.Empty, String.Empty, String.Empty, "RAZEM", grupa.nazwa, String.Empty, sumaStawek.ToString("N"), sumaGrupy.ToString("N") });
+                                                            podTabela.Add(new string[] { String.Empty, String.Empty, String.Empty, String.Empty, "RAZEM", informacjeOGrupie.nazwa, String.Empty, sumaStawek.ToString("N"), sumaGrupy.ToString("N") });
                                                             podTabela.Add(PustaLinia(liczbaKolumn));
                                                         }
 
@@ -1720,6 +1740,7 @@ namespace czynsze.Formularze
 
                                     case Enumeratory.Raport.NaleznosciWgGrupSkladnikiBudynki:
                                     case Enumeratory.Raport.ObrotyWgGrupSkladnikiBudynki:
+                                    case Enumeratory.Raport.OgolemWgGrupSkladnikiBudynki:
                                         {
                                             int numerPierwszego = identyfikatory[0];
                                             int numerOstatniego = identyfikatory[2];
@@ -1734,17 +1755,17 @@ namespace czynsze.Formularze
                                                 decimal sumaBudynku = 0;
                                                 List<string[]> podTabela = new List<string[]>();
 
-                                                for (int j = 0; j < numerGrupyNaNależności.Count; j++)
+                                                for (int j = 0; j < numerGrupyNaPozycje.Count; j++)
                                                 {
-                                                    KeyValuePair<int, List<DostępDoBazy.Należność>> paraGrupaNależności = numerGrupyNaNależności.ElementAt(j);
-                                                    string nazwaGrupy = wybraneGrupySkładnikówCzynszu[j].nazwa;
-                                                    IEnumerable<DostępDoBazy.Należność> należnościBudynku = paraGrupaNależności.Value.Where(n => n.kod_lok == i);
+                                                    KeyValuePair<int, List<DostępDoBazy.PozycjaDoAnalizy>> paraGrupaPozycje = numerGrupyNaPozycje.ElementAt(j);
+                                                    string nazwaGrupy = wybraneGrupy[j].nazwa;
+                                                    IEnumerable<DostępDoBazy.PozycjaDoAnalizy> pozycjeBudynku = paraGrupaPozycje.Value.Where(n => n.KodBudynku == i);
                                                     Dictionary<int, decimal> numerSkładnikaNaSumę = new Dictionary<int, decimal>();
 
-                                                    foreach (DostępDoBazy.Należność należność in należnościBudynku)
+                                                    foreach (DostępDoBazy.PozycjaDoAnalizy pozycja in pozycjeBudynku)
                                                     {
-                                                        int numerSkładnika = należność.nr_skl;
-                                                        decimal kwota = należność.kwota_nal;
+                                                        int numerSkładnika = pozycja.Informacje.Id;
+                                                        decimal kwota = pozycja.Kwota;
 
                                                         if (numerSkładnikaNaSumę.ContainsKey(numerSkładnika))
                                                             numerSkładnikaNaSumę[numerSkładnika] += kwota;
@@ -1754,9 +1775,9 @@ namespace czynsze.Formularze
 
                                                     foreach (KeyValuePair<int, decimal> paraSkładnikSuma in numerSkładnikaNaSumę)
                                                     {
-                                                        DostępDoBazy.SkładnikCzynszu składnik = składnikiCzynszuZWybranychGrup.Single(s => s.nr_skl == paraSkładnikSuma.Key);
+                                                        DostępDoBazy.IInformacjeOPozycji składnik = informacjeOPozycjach.Single(s => s.Id == paraSkładnikSuma.Key);
 
-                                                        podTabela.Add(new string[] { String.Empty, String.Empty, String.Empty, składnik.nazwa, nazwaGrupy, paraSkładnikSuma.Value.ToString("N") });
+                                                        podTabela.Add(new string[] { String.Empty, String.Empty, String.Empty, składnik.Nazwa, nazwaGrupy, paraSkładnikSuma.Value.ToString("N") });
                                                     }
 
                                                     decimal sumaGrupy = numerSkładnikaNaSumę.Values.Sum();
@@ -1781,6 +1802,7 @@ namespace czynsze.Formularze
 
                                     case Enumeratory.Raport.NaleznosciWgGrupSkladnikiWspolnoty:
                                     case Enumeratory.Raport.ObrotyWgGrupSkladnikiWspolnoty:
+                                    case Enumeratory.Raport.OgolemWgGrupSkladnikiWspolnoty:
                                         {
                                             int indeksPierwszej = identyfikatory[4];
                                             int indeksOstatniej = identyfikatory[5];
@@ -1803,17 +1825,17 @@ namespace czynsze.Formularze
                                                         decimal sumaBudynku = 0;
                                                         List<string[]> podTabela = new List<string[]>();
 
-                                                        for (int j = 0; j < numerGrupyNaNależności.Count; j++)
+                                                        for (int j = 0; j < numerGrupyNaPozycje.Count; j++)
                                                         {
-                                                            KeyValuePair<int, List<DostępDoBazy.Należność>> paraGrupaNależności = numerGrupyNaNależności.ElementAt(j);
-                                                            string nazwaGrupy = wybraneGrupySkładnikówCzynszu[j].nazwa;
-                                                            IEnumerable<DostępDoBazy.Należność> należnościBudynku = paraGrupaNależności.Value.Where(n => n.kod_lok == i);
+                                                            KeyValuePair<int, List<DostępDoBazy.PozycjaDoAnalizy>> paraGrupaNaPozycje = numerGrupyNaPozycje.ElementAt(j);
+                                                            string nazwaGrupy = wybraneGrupy[j].nazwa;
+                                                            IEnumerable<DostępDoBazy.PozycjaDoAnalizy> pozycjeBudynku = paraGrupaNaPozycje.Value.Where(n => n.KodBudynku == i);
                                                             Dictionary<int, decimal> numerSkładnikaNaSumę = new Dictionary<int, decimal>();
 
-                                                            foreach (DostępDoBazy.Należność należność in należnościBudynku)
+                                                            foreach (DostępDoBazy.PozycjaDoAnalizy pozycja in pozycjeBudynku)
                                                             {
-                                                                int numerSkładnika = należność.nr_skl;
-                                                                decimal kwota = należność.kwota_nal;
+                                                                int numerSkładnika = pozycja.Informacje.Id;
+                                                                decimal kwota = pozycja.Kwota;
 
                                                                 if (numerSkładnikaNaSumę.ContainsKey(numerSkładnika))
                                                                     numerSkładnikaNaSumę[numerSkładnika] += kwota;
@@ -1823,9 +1845,9 @@ namespace czynsze.Formularze
 
                                                             foreach (KeyValuePair<int, decimal> paraSkładnikSuma in numerSkładnikaNaSumę)
                                                             {
-                                                                DostępDoBazy.SkładnikCzynszu składnik = składnikiCzynszuZWybranychGrup.Single(s => s.nr_skl == paraSkładnikSuma.Key);
+                                                                DostępDoBazy.IInformacjeOPozycji informacja = informacjeOPozycjach.Single(s => s.Id == paraSkładnikSuma.Key);
 
-                                                                podTabela.Add(new string[] { String.Empty, String.Empty, String.Empty, składnik.nazwa, nazwaGrupy, paraSkładnikSuma.Value.ToString("N") });
+                                                                podTabela.Add(new string[] { String.Empty, String.Empty, String.Empty, informacja.Nazwa, nazwaGrupy, paraSkładnikSuma.Value.ToString("N") });
                                                             }
 
                                                             decimal sumaGrupy = numerSkładnikaNaSumę.Values.Sum();
@@ -1851,6 +1873,7 @@ namespace czynsze.Formularze
 
                                     case Enumeratory.Raport.NaleznosciWgGrupSumyLokale:
                                     case Enumeratory.Raport.ObrotyWgGrupSumyLokale:
+                                    case Enumeratory.Raport.OgolemWgGrupSumyLokale:
                                         {
                                             List<DostępDoBazy.AktywnyLokal> wszystkieLokale = db.AktywneLokale.OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok).ToList();
                                             int indeksPierwszego = wszystkieLokale.FindIndex(l => l.kod_lok == identyfikatory[0] && l.nr_lok == identyfikatory[1]);
@@ -1879,18 +1902,18 @@ namespace czynsze.Formularze
                                                         decimal sumaLokalu = 0;
                                                         List<string[]> podTabela = new List<string[]>();
 
-                                                        for (int j = 0; j < numerGrupyNaNależności.Count; j++)
+                                                        for (int j = 0; j < numerGrupyNaPozycje.Count; j++)
                                                         {
-                                                            KeyValuePair<int, List<DostępDoBazy.Należność>> para = numerGrupyNaNależności.ElementAt(j);
-                                                            IEnumerable<DostępDoBazy.Należność> należnościLokalu = para.Value.Where(n => n.kod_lok == i && n.nr_lok == numerLokalu);
-                                                            DostępDoBazy.GrupaSkładnikówCzynszu grupa = wybraneGrupySkładnikówCzynszu[j];
+                                                            KeyValuePair<int, List<DostępDoBazy.PozycjaDoAnalizy>> para = numerGrupyNaPozycje.ElementAt(j);
+                                                            IEnumerable<DostępDoBazy.PozycjaDoAnalizy> pozycjeLokalu = para.Value.Where(n => n.KodBudynku == i && n.NrLokalu == numerLokalu);
+                                                            DostępDoBazy.GrupaSkładnikówCzynszu grupa = wybraneGrupy[j];
                                                             decimal sumaKwot = 0;
                                                             decimal sumaIlości = 0;
 
-                                                            foreach (DostępDoBazy.Należność należność in należnościLokalu)
+                                                            foreach (DostępDoBazy.PozycjaDoAnalizy pozycja in pozycjeLokalu)
                                                             {
-                                                                sumaIlości += należność.ilosc;
-                                                                sumaKwot += należność.kwota_nal;
+                                                                sumaIlości += pozycja.Ilość;
+                                                                sumaKwot += pozycja.Kwota;
                                                             }
 
                                                             sumaLokalu += sumaKwot;
@@ -1924,6 +1947,7 @@ namespace czynsze.Formularze
 
                                     case Enumeratory.Raport.NaleznosciWgGrupSumyBudynki:
                                     case Enumeratory.Raport.ObrotyWgGrupSumyBudynki:
+                                    case Enumeratory.Raport.OgolemWgGrupSumyBudynki:
                                         {
                                             nagłówki = new List<string>() { "Liczba porządkowa", "Kod budynku", "Adres", "Grupa", "Ilość", "Kwota" };
                                             int kodPierwszego = identyfikatory[0];
@@ -1938,18 +1962,18 @@ namespace czynsze.Formularze
                                                     List<string[]> podTabela = new List<string[]>();
                                                     decimal sumaBudynku = 0;
 
-                                                    for (int j = 0; j < numerGrupyNaNależności.Count; j++)
+                                                    for (int j = 0; j < numerGrupyNaPozycje.Count; j++)
                                                     {
-                                                        KeyValuePair<int, List<DostępDoBazy.Należność>> para = numerGrupyNaNależności.ElementAt(j);
-                                                        IEnumerable<DostępDoBazy.Należność> należnościBudynku = para.Value.Where(n => n.kod_lok == i);
-                                                        DostępDoBazy.GrupaSkładnikówCzynszu grupa = wybraneGrupySkładnikówCzynszu[j];
+                                                        KeyValuePair<int, List<DostępDoBazy.PozycjaDoAnalizy>> para = numerGrupyNaPozycje.ElementAt(j);
+                                                        IEnumerable<DostępDoBazy.PozycjaDoAnalizy> pozycjeBudynku = para.Value.Where(n => n.KodBudynku == i);
+                                                        DostępDoBazy.GrupaSkładnikówCzynszu grupa = wybraneGrupy[j];
                                                         decimal sumaKwot = 0;
                                                         decimal sumaIlości = 0;
 
-                                                        foreach (DostępDoBazy.Należność należność in należnościBudynku)
+                                                        foreach (DostępDoBazy.PozycjaDoAnalizy pozycja in pozycjeBudynku)
                                                         {
-                                                            sumaIlości += należność.ilosc;
-                                                            sumaKwot += należność.kwota_nal;
+                                                            sumaIlości += pozycja.Ilość;
+                                                            sumaKwot += pozycja.Kwota;
                                                         }
 
                                                         sumaBudynku += sumaKwot;
@@ -1970,6 +1994,7 @@ namespace czynsze.Formularze
 
                                     case Enumeratory.Raport.NaleznosciWgGrupSumyWspolnoty:
                                     case Enumeratory.Raport.ObrotyWgGrupSumyWspolnoty:
+                                    case Enumeratory.Raport.OgolemWgGrupSumyWspolnoty:
                                         {
                                             nagłówki = new List<string>() { "Liczba porządkowa", "Kod budynku", "Adres", "Grupa", "Ilość", "Kwota" };
                                             int kodPierwszej = identyfikatory[4];
@@ -1992,18 +2017,18 @@ namespace czynsze.Formularze
                                                         List<string[]> podTabela = new List<string[]>();
                                                         decimal sumaBudynku = 0;
 
-                                                        for (int j = 0; j < numerGrupyNaNależności.Count; j++)
+                                                        for (int j = 0; j < numerGrupyNaPozycje.Count; j++)
                                                         {
-                                                            KeyValuePair<int, List<DostępDoBazy.Należność>> para = numerGrupyNaNależności.ElementAt(j);
-                                                            IEnumerable<DostępDoBazy.Należność> należnościBudynku = para.Value.Where(n => n.kod_lok == i);
-                                                            DostępDoBazy.GrupaSkładnikówCzynszu grupa = wybraneGrupySkładnikówCzynszu[j];
+                                                            KeyValuePair<int, List<DostępDoBazy.PozycjaDoAnalizy>> para = numerGrupyNaPozycje.ElementAt(j);
+                                                            IEnumerable<DostępDoBazy.PozycjaDoAnalizy> pozycjeBudynku = para.Value.Where(n => n.KodBudynku == i);
+                                                            DostępDoBazy.GrupaSkładnikówCzynszu grupa = wybraneGrupy[j];
                                                             decimal sumaKwot = 0;
                                                             decimal sumaIlości = 0;
 
-                                                            foreach (DostępDoBazy.Należność należność in należnościBudynku)
+                                                            foreach (DostępDoBazy.PozycjaDoAnalizy pozycja in pozycjeBudynku)
                                                             {
-                                                                sumaIlości += należność.ilosc;
-                                                                sumaKwot += należność.kwota_nal;
+                                                                sumaIlości += pozycja.Ilość;
+                                                                sumaKwot += pozycja.Kwota;
                                                             }
 
                                                             sumaBudynku += sumaKwot;

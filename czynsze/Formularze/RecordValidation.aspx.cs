@@ -303,6 +303,7 @@ namespace czynsze.Formularze
                                         PobierzWartośćParametru<string>("typ_wplat"),
                                         PobierzWartośćParametru<string>("rodz_e"),
                                         PobierzWartośćParametru<string>("s_rozli"),
+                                        PobierzWartośćParametru<string>("kod"),
                                         PobierzWartośćParametru<string>("tn_odset"),
                                         PobierzWartośćParametru<string>("nota_odset"),
                                         PobierzWartośćParametru<string>("vat"),

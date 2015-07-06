@@ -121,7 +121,7 @@ namespace czynsze.Formularze
                         firstLabel = "Nowy składnik: ";
                         amount = String.Empty;
                         textOfSaveButton = "Dodaj";
-                        firstControl = new Kontrolki.DropDownList("field", "nr_skl", db.SkładnikiCzynszu.OrderBy(c => c.nr_skl).ToList().Select(c => c.WażnePolaDoRozwijanejListy()).ToList(), String.Empty, true, false);
+                        firstControl = new Kontrolki.DropDownList("field", "nr_skl", db.SkładnikiCzynszu.AsEnumerable<DostępDoBazy.SkładnikCzynszu>().OrderBy(c => c.nr_skl).Select(c => c.WażnePolaDoRozwijanejListy()).ToList(), String.Empty, true, false);
                     }
                     else
                     {
