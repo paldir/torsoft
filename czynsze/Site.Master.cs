@@ -8,9 +8,9 @@ using System.Web.UI.WebControls;
 namespace czynsze
 {
     public partial class Site : System.Web.UI.MasterPage
-    {        
+    {
         protected void Page_Init(object sender, EventArgs e)
-        {   
+        {
             if (Session["uzytkownik"] == null)
                 Response.Redirect("../Logowanie.aspx?przyczyna=" + Enumeratory.PowódPrzeniesieniaNaStronęLogowania.NiezalogowanyLubSesjaWygasla);
         }
@@ -26,7 +26,7 @@ namespace czynsze
             if (Formularze.Start.ŚcieżkaStrony.Any())
                 placeOfSiteMapPath.InnerHtml = placeOfSiteMapPath.InnerHtml.Remove(placeOfSiteMapPath.InnerHtml.Length - 3);
 
-            placeOfSelectedDate.InnerHtml = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[Formularze.Start.Data.Month - 1].ToString() + " " + Formularze.Start.Data.Year.ToString();
+            placeOfSelectedDate.InnerHtml = DostępDoBazy.CzynszeKontekst.NumerMiesiącaNaNazwęZPolskimiZnakami[Formularze.Start.Data.Month].ToString() + " " + Formularze.Start.Data.Year.ToString();
             placeOfCurrentSet.InnerHtml = Formularze.Start.NazwyZbiorów[(int)Formularze.Start.AktywnyZbiór];
         }
     }

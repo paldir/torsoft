@@ -10,7 +10,7 @@
 namespace czynsze.Formularze {
     
     
-    public partial class ContentsOfDescriptions {
+    public partial class TresciOpisow {
         
         /// <summary>
         /// form control.

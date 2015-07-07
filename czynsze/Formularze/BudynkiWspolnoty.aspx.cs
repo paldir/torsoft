@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace czynsze.Formularze
 {
-    public partial class BudynkiWspólnoty : Strona
+    public partial class BudynkiWspolnoty : Strona
     {
         List<DostępDoBazy.BudynekWspólnoty> _budynkiWspólnoty
         {
@@ -25,7 +25,7 @@ namespace czynsze.Formularze
                 Enumeratory.Akcja akcjaRodzica = PobierzWartośćParametru<Enumeratory.Akcja>("parentAction");
                 Enumeratory.Akcja akcjaDziecka = PobierzWartośćParametru<Enumeratory.Akcja>("ChildAction");
                 int id = PobierzWartośćParametru<int>("id");
-                string url = "BudynkiWspólnoty.aspx";
+                string url = "BudynkiWspolnoty.aspx";
                 DostępDoBazy.BudynekWspólnoty obecnyBudynekWspólnoty = null;
 
                 if (id != 0)

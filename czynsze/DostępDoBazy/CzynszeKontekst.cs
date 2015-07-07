@@ -55,7 +55,7 @@ namespace czynsze.DostępDoBazy
                 BazaDanych.Dispose();
             }
         }*/
-        
+
         public static string WalidujInt(string nazwa, ref string całkowita)
         {
             string wynik = "";
@@ -94,5 +94,37 @@ namespace czynsze.DostępDoBazy
 
             return wynik;
         }
+
+        public static readonly Dictionary<int, string> NumerMiesiącaNaNazwęBezPolskichZnaków = new Dictionary<int, string>()
+        {
+            {1, "styczen"},
+            {2, "luty"},
+            {3, "marzec"},
+            {4, "kwiecien"},
+            {5, "maj"},
+            {6, "czerwiec"},
+            {7, "lipiec"},
+            {8, "sierpien"},
+            {9, "wrzesien"},
+            {10, "pazdziernik"},
+            {11, "listopad"},
+            {12, "grudzien"}
+        };
+
+        public static readonly Dictionary<int, string> NumerMiesiącaNaNazwęZPolskimiZnakami = new Dictionary<int, string>()
+        {
+            {1, "styczeń"},
+            {2, "luty"},
+            {3, "marzec"},
+            {4, "kwiecień"},
+            {5, "maj"},
+            {6, "czerwiec"},
+            {7, "lipiec"},
+            {8, "sierpień"},
+            {9, "wrzesień"},
+            {10, "październik"},
+            {11, "listopad"},
+            {12, "grudzień"}
+        };
     }
 }

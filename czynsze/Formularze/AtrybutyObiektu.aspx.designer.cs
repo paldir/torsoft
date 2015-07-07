@@ -10,7 +10,7 @@
 namespace czynsze.Formularze {
     
     
-    public partial class BudynkiWspólnoty {
+    public partial class AtrybutyObiektu {
         
         /// <summary>
         /// form control.
@@ -40,30 +40,21 @@ namespace czynsze.Formularze {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl placeOfTable;
         
         /// <summary>
-        /// placeOfNewBuilding control.
+        /// placeOfNewAttribute control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl placeOfNewBuilding;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl placeOfNewAttribute;
         
         /// <summary>
-        /// placeOfComments control.
+        /// placeOfEditingWindow control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl placeOfComments;
-        
-        /// <summary>
-        /// placeOfButtonsOfWindow control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl placeOfButtonsOfWindow;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl placeOfEditingWindow;
     }
 }

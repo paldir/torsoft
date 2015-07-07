@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AttributeOfObject.aspx.cs" Inherits="czynsze.Formularze.AttributeOfObject" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AtrybutyObiektu.aspx.cs" Inherits="czynsze.Formularze.AtrybutyObiektu" %>
 
 <!DOCTYPE html>
 

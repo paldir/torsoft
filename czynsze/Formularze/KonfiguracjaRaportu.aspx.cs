@@ -754,7 +754,7 @@ namespace czynsze.Formularze
                                     case Enumeratory.Analiza.NaleznosciZaDanyMiesiac:
                                     case Enumeratory.Analiza.ObrotyZaDanyMiesiac:
                                     case Enumeratory.Analiza.OgolemZaDanyMiesiac:
-                                        tytuł = String.Format("{0} ZA {1} {2}", obiektRaportu, System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.MonthNames[data.Month - 1].ToString().ToUpper(), data.Year);
+                                        tytuł = String.Format("{0} ZA {1} {2}", obiektRaportu, DostępDoBazy.CzynszeKontekst.NumerMiesiącaNaNazwęBezPolskichZnaków[data.Month].ToUpper(), data.Year);
                                         pozycjeZaDanyMiesiąc = pozycje.Where(p => p.Data >= początekMiesiąca && p.Data <= koniecMiesiąca).ToList();
 
                                         break;
@@ -1357,7 +1357,7 @@ namespace czynsze.Formularze
                                                         nrSkładnikaNaSumę.Add(nrSkładnika, kwota);
                                                 }
 
-                                                foreach (KeyValuePair<int, decimal> składnik in nrSkładnikaNaSumę.OrderBy(p => p.Key))
+                                                foreach (KeyValuePair<int, decimal> składnik in nrSkładnikaNaSumę)
                                                 {
                                                     DostępDoBazy.IInformacjeOPozycji informacja = informacjeOPozycjach.Single(n => n.Id == składnik.Key);
                                                     decimal kwota = składnik.Value;
@@ -1413,7 +1413,7 @@ namespace czynsze.Formularze
                                                             nrSkładnikaNaSumę.Add(nrSkładnika, kwota);
                                                     }
 
-                                                    foreach (KeyValuePair<int, decimal> składnik in nrSkładnikaNaSumę.OrderBy(p => p.Key))
+                                                    foreach (KeyValuePair<int, decimal> składnik in nrSkładnikaNaSumę)
                                                     {
                                                         DostępDoBazy.IInformacjeOPozycji informacje = informacjeOPozycjach.Single(s => s.Id == składnik.Key);
                                                         decimal kwota = składnik.Value;

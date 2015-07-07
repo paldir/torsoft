@@ -141,7 +141,7 @@ namespace czynsze.Formularze
 
                         tabs = new List<Kontrolki.HtmlIframe>()
                         {
-                            new Kontrolki.HtmlIframe("tab", "cechy_tab", "AttributeOfObject.aspx?attributeOf="+Enumeratory.Atrybut.Budynku+"&parentId="+id.ToString()+"&action="+action.ToString()+"&childAction=Przeglądaj", "hidden")
+                            new Kontrolki.HtmlIframe("tab", "cechy_tab", "AtrybutyObiektu.aspx?attributeOf="+Enumeratory.Atrybut.Budynku+"&parentId="+id.ToString()+"&action="+action.ToString()+"&childAction=Przeglądaj", "hidden")
                         };
 
                         if (values == null)
@@ -312,8 +312,8 @@ namespace czynsze.Formularze
                         tabs = new List<Kontrolki.HtmlIframe>()
                         {
                             //new Kontrolki.HtmlIframe("tab", "skladnikiCzynszu_tab", "/czynsze1/SkladnikiCzynszuLokalu.cxp?parentAction="+parentAction+"&kod_lok="+values[1]+"&nr_lok="+values[2], "hidden"),
-                            new Kontrolki.HtmlIframe("tab", "skladnikiCzynszu_tab", "RentComponentsOfPlace.aspx?parentAction="+action.ToString()+"&kod_lok="+values[1]+"&nr_lok="+values[2], "hidden"),
-                            new Kontrolki.HtmlIframe("tab", "cechy_tab", "AttributeOfObject.aspx?attributeOf="+Enumeratory.Atrybut.Lokalu+"&parentId="+id.ToString()+"&action="+action.ToString()+"&childAction=Przeglądaj", "hidden"),
+                            new Kontrolki.HtmlIframe("tab", "skladnikiCzynszu_tab", "SkladnikiCzynszuLokalu.aspx?parentAction="+action.ToString()+"&kod_lok="+values[1]+"&nr_lok="+values[2], "hidden"),
+                            new Kontrolki.HtmlIframe("tab", "cechy_tab", "AtrybutyObiektu.aspx?attributeOf="+Enumeratory.Atrybut.Lokalu+"&parentId="+id.ToString()+"&action="+action.ToString()+"&childAction=Przeglądaj", "hidden"),
                             new Kontrolki.HtmlIframe("tab", "dokumenty_tab", "/czynsze1/PlikiNajemcy.cxp?parentAction="+parentAction+"&nr_system="+values[0], "hidden")
                         };
 
@@ -463,7 +463,7 @@ namespace czynsze.Formularze
 
                         tabs = new List<Kontrolki.HtmlIframe>()
                         {
-                            new Kontrolki.HtmlIframe("tab", "cechy_tab", "AttributeOfObject.aspx?attributeOf="+Enumeratory.Atrybut.Najemcy+"&parentId="+id.ToString()+"&action="+action.ToString()+"&childAction=Przeglądaj", "hidden")
+                            new Kontrolki.HtmlIframe("tab", "cechy_tab", "AtrybutyObiektu.aspx?attributeOf="+Enumeratory.Atrybut.Najemcy+"&parentId="+id.ToString()+"&action="+action.ToString()+"&childAction=Przeglądaj", "hidden")
                         };
 
                         controls.Add(new Kontrolki.TextBox("field", "nr_kontr_disabled", values[0], Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 6, 1, false));
@@ -619,8 +619,8 @@ namespace czynsze.Formularze
 
                         tabs = new List<Kontrolki.HtmlIframe>()
                         {
-                            new Kontrolki.HtmlIframe("tab", "budynki_tab", "BudynkiWspólnoty.aspx?kod="+id.ToString()+"&parentAction="+action.ToString(), "hidden"),
-                            new Kontrolki.HtmlIframe("tab", "cechy_tab", "AttributeOfObject.aspx?attributeOf="+Enumeratory.Atrybut.Wspólnoty+"&parentId="+id.ToString()+"&action="+action.ToString()+"&childAction=Przeglądaj", "hidden")
+                            new Kontrolki.HtmlIframe("tab", "budynki_tab", "BudynkiWspolnoty.aspx?kod="+id.ToString()+"&parentAction="+action.ToString(), "hidden"),
+                            new Kontrolki.HtmlIframe("tab", "cechy_tab", "AtrybutyObiektu.aspx?attributeOf="+Enumeratory.Atrybut.Wspólnoty+"&parentId="+id.ToString()+"&action="+action.ToString()+"&childAction=Przeglądaj", "hidden")
                         };
 
                         if (!idEnabled)

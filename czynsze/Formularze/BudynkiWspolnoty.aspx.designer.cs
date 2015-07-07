@@ -10,7 +10,7 @@
 namespace czynsze.Formularze {
     
     
-    public partial class AttributeOfObject {
+    public partial class BudynkiWspolnoty {
         
         /// <summary>
         /// form control.
@@ -40,21 +40,30 @@ namespace czynsze.Formularze {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl placeOfTable;
         
         /// <summary>
-        /// placeOfNewAttribute control.
+        /// placeOfNewBuilding control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl placeOfNewAttribute;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl placeOfNewBuilding;
         
         /// <summary>
-        /// placeOfEditingWindow control.
+        /// placeOfComments control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl placeOfEditingWindow;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl placeOfComments;
+        
+        /// <summary>
+        /// placeOfButtonsOfWindow control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl placeOfButtonsOfWindow;
     }
 }

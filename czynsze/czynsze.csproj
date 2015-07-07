@@ -89,11 +89,11 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Formularze\AttributeOfObject.aspx" />
+    <Content Include="Formularze\AtrybutyObiektu.aspx" />
     <Content Include="Formularze\ZmianaDaty.aspx" />
     <Content Include="Formularze\ZmianaZbioru.aspx" />
-    <Content Include="Formularze\BudynkiWspólnoty.aspx" />
-    <Content Include="Formularze\ContentsOfDescriptions.aspx" />
+    <Content Include="Formularze\BudynkiWspolnoty.aspx" />
+    <Content Include="Formularze\TresciOpisow.aspx" />
     <Content Include="Formularze\GeneracjaNaleznosci.aspx" />
     <Content Include="Formularze\SkladnikiCzynszu.aspx" />
     <Content Include="Formularze\Start.aspx" />
@@ -103,7 +103,7 @@
     <Content Include="Formularze\Record.aspx" />
     <Content Include="Formularze\RecordValidation.aspx" />
     <Content Include="Formularze\Analiza.aspx" />
-    <Content Include="Formularze\RentComponentsOfPlace.aspx" />
+    <Content Include="Formularze\SkladnikiCzynszuLokalu.aspx" />
     <Content Include="Formularze\Raport.aspx" />
     <Content Include="Formularze\KonfiguracjaRaportu.aspx" />
     <Content Include="Formularze\Szablon.html" />
@@ -147,19 +147,19 @@
     <Compile Include="DostępDoBazy\PozycjaDoAnalizy.cs" />
     <Compile Include="DostępDoBazy\Zamknięty.cs" />
     <Compile Include="DostępDoBazy\Treść.cs" />
-    <Compile Include="Formularze\BudynkiWspólnoty.aspx.cs">
-      <DependentUpon>BudynkiWspólnoty.aspx</DependentUpon>
+    <Compile Include="Formularze\BudynkiWspolnoty.aspx.cs">
+      <DependentUpon>BudynkiWspolnoty.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Formularze\BudynkiWspólnoty.aspx.designer.cs">
-      <DependentUpon>BudynkiWspólnoty.aspx</DependentUpon>
+    <Compile Include="Formularze\BudynkiWspolnoty.aspx.designer.cs">
+      <DependentUpon>BudynkiWspolnoty.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Formularze\ContentsOfDescriptions.aspx.cs">
-      <DependentUpon>ContentsOfDescriptions.aspx</DependentUpon>
+    <Compile Include="Formularze\TresciOpisow.aspx.cs">
+      <DependentUpon>TresciOpisow.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Formularze\ContentsOfDescriptions.aspx.designer.cs">
-      <DependentUpon>ContentsOfDescriptions.aspx</DependentUpon>
+    <Compile Include="Formularze\TresciOpisow.aspx.designer.cs">
+      <DependentUpon>TresciOpisow.aspx</DependentUpon>
     </Compile>
     <Compile Include="Formularze\GeneracjaNaleznosci.aspx.cs">
       <DependentUpon>GeneracjaNaleznosci.aspx</DependentUpon>
@@ -182,12 +182,12 @@
     <Compile Include="Formularze\Analiza.aspx.designer.cs">
       <DependentUpon>Analiza.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Formularze\RentComponentsOfPlace.aspx.cs">
-      <DependentUpon>RentComponentsOfPlace.aspx</DependentUpon>
+    <Compile Include="Formularze\SkladnikiCzynszuLokalu.aspx.cs">
+      <DependentUpon>SkladnikiCzynszuLokalu.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Formularze\RentComponentsOfPlace.aspx.designer.cs">
-      <DependentUpon>RentComponentsOfPlace.aspx</DependentUpon>
+    <Compile Include="Formularze\SkladnikiCzynszuLokalu.aspx.designer.cs">
+      <DependentUpon>SkladnikiCzynszuLokalu.aspx</DependentUpon>
     </Compile>
     <Compile Include="Formularze\SkladnikiCzynszu.aspx.cs">
       <DependentUpon>SkladnikiCzynszu.aspx</DependentUpon>
@@ -253,12 +253,12 @@
     <Compile Include="DostępDoBazy\Użytkownik.cs" />
     <Compile Include="DostępDoBazy\StawkaVat.cs" />
     <Compile Include="Enumeratory.cs" />
-    <Compile Include="Formularze\AttributeOfObject.aspx.cs">
-      <DependentUpon>AttributeOfObject.aspx</DependentUpon>
+    <Compile Include="Formularze\AtrybutyObiektu.aspx.cs">
+      <DependentUpon>AtrybutyObiektu.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Formularze\AttributeOfObject.aspx.designer.cs">
-      <DependentUpon>AttributeOfObject.aspx</DependentUpon>
+    <Compile Include="Formularze\AtrybutyObiektu.aspx.designer.cs">
+      <DependentUpon>AtrybutyObiektu.aspx</DependentUpon>
     </Compile>
     <Compile Include="Formularze\ZmianaDaty.aspx.cs">
       <DependentUpon>ZmianaDaty.aspx</DependentUpon>

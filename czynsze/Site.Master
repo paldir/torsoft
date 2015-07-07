@@ -191,13 +191,13 @@
                     <li class="mainSubMenuItem pseudoLink">Treści opisów
                         <ul class="mainSubSubMenu">
                             <li class="mainSubSubMenuItem">
-                                <a href="javascript: Load('ContentsOfDescriptions.aspx?which=Oplaty')">Opłaty</a>
+                                <a href="javascript: Load('TresciOpisow.aspx?which=Oplaty')">Opłaty</a>
                             </li>
                             <li class="mainSubSubMenuItem">
-                                <a href="javascript: Load('ContentsOfDescriptions.aspx?which=Ksiazka')">Książeczka</a>
+                                <a href="javascript: Load('TresciOpisow.aspx?which=Ksiazka')">Książeczka</a>
                             </li>
                             <li class="mainSubSubMenuItem">
-                                <a href="javascript: Load('ContentsOfDescriptions.aspx?which=Woda')">Woda</a>
+                                <a href="javascript: Load('TresciOpisow.aspx?which=Woda')">Woda</a>
                             </li>
                         </ul>
                     </li>

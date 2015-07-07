@@ -10,7 +10,7 @@
 namespace czynsze.Formularze {
     
     
-    public partial class RentComponentsOfPlace {
+    public partial class SkladnikiCzynszuLokalu {
         
         /// <summary>
         /// form control.
