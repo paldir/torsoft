@@ -810,7 +810,7 @@ namespace czynsze.Formularze
 
                                                                     składnikCzynszuLokalu.Rozpoznaj_ilosc_i_stawka(out ilosc, out stawka);
 
-                                                                    suma += Decimal.Round(ilosc * stawka, 2);
+                                                                    suma += Decimal.Round(ilosc * stawka, 2, MidpointRounding.AwayFromZero);
                                                                 }
 
                                                                 break;
@@ -882,7 +882,7 @@ namespace czynsze.Formularze
 
                                                                 składnikCzynszuLokalu.Rozpoznaj_ilosc_i_stawka(out ilosc, out stawka);
 
-                                                                suma += Decimal.Round(ilosc * stawka, 2);
+                                                                suma += Decimal.Round(ilosc * stawka, 2, MidpointRounding.AwayFromZero);
                                                             }
 
                                                             break;
@@ -953,7 +953,7 @@ namespace czynsze.Formularze
 
                                                                     składnikCzynszuLokalu.Rozpoznaj_ilosc_i_stawka(out ilosc, out stawka);
 
-                                                                    suma += Decimal.Round(ilosc * stawka, 2);
+                                                                    suma += Decimal.Round(ilosc * stawka, 2, MidpointRounding.AwayFromZero);
                                                                 }
 
                                                                 break;
@@ -1053,7 +1053,7 @@ namespace czynsze.Formularze
                                                 break;
                                         }
 
-                                        decimal wartość = Decimal.Round(ilość * stawka, 2);
+                                        decimal wartość = Decimal.Round(ilość * stawka, 2, MidpointRounding.AwayFromZero);
                                         suma += wartość;
 
                                         WypełnijTagXml(nowySkładnikOpłat, "nazwa", składnikCzynszu.nazwa);

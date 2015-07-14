@@ -270,7 +270,7 @@ namespace czynsze.Formularze
 
                                 if (mnożnikDniWMiesiącu != 0)
                                 {
-                                    należność1.Ustaw(Decimal.Round(ilosc * stawka, 2) * mnożnikDniWMiesiącu / ilośćDniWMiesiącu, new DateTime(rok, miesiąc, dzień), String.Format("{0} za m-c {1:00}", składnikCzynszu.nazwa.Trim(), Start.Data.Month), (int)lokal.nr_kontr, składnikCzynszu.nr_skl, lokal.kod_lok, lokal.nr_lok, stawka, ilosc);
+                                    należność1.Ustaw(Decimal.Round(ilosc * stawka, 2, MidpointRounding.AwayFromZero) * mnożnikDniWMiesiącu / ilośćDniWMiesiącu, new DateTime(rok, miesiąc, dzień), String.Format("{0} za m-c {1:00}", składnikCzynszu.nazwa.Trim(), Start.Data.Month), (int)lokal.nr_kontr, składnikCzynszu.nr_skl, lokal.kod_lok, lokal.nr_lok, stawka, ilosc);
                                     db.NależnościZPierwszegoZbioru.Add(należność1);
                                 }
                             }

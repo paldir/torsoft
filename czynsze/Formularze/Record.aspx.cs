@@ -246,8 +246,8 @@ namespace czynsze.Formularze
                             attributesOfObject = new List<DostępDoBazy.AtrybutObiektu>();
                             rentComponentsOfPlace = new List<DostępDoBazy.SkładnikCzynszuLokalu>();
 
-                            attributesOfObject.AddRange(db.AtrybutyLokali.ToList().Where(a => Int32.Parse(a.kod_powiaz) == id));
-                            rentComponentsOfPlace.AddRange(db.SkładnikiCzynszuLokalu.ToList().Where(c => c.kod_lok == Int32.Parse(values[1]) && c.nr_lok == Int32.Parse(values[2])));
+                            attributesOfObject.AddRange(db.AtrybutyLokali.AsEnumerable<DostępDoBazy.AtrybutLokalu>().Where(a => Int32.Parse(a.kod_powiaz) == id));
+                            rentComponentsOfPlace.AddRange(db.SkładnikiCzynszuLokalu.AsEnumerable<DostępDoBazy.SkładnikCzynszuLokalu>().Where(c => c.kod_lok == Int32.Parse(values[1]) && c.nr_lok == Int32.Parse(values[2])));
                         }
 
                         tabButtons = new List<Kontrolki.HtmlInputRadioButton>()

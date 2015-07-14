@@ -53,13 +53,15 @@ namespace czynsze.DostępDoBazy
             if (this.dat_do.HasValue)
                 dat_do = this.dat_do.Value.ToShortDateString();
 
+            decimal kwota = Decimal.Round(stawka * ilosc, 2, MidpointRounding.AwayFromZero);
+
             return new string[]
             {
                 nr_skl.ToString(),
                 składnikCzynszu.nazwa,
                 stawka.ToString("F2"),
                 ilosc.ToString("F2"),
-                String.Format("{0:N}", Decimal.Round(stawka*ilosc, 2)),
+                String.Format("{0:N}", kwota),
                 dat_od,
                 dat_od
             };
