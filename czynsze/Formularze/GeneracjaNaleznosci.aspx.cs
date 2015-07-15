@@ -135,7 +135,7 @@ namespace czynsze.Formularze
                         rok = PobierzWartośćParametru<int>("rok");
                         miesiąc = PobierzWartośćParametru<int>("miesiąc");
                         dzień = PobierzWartośćParametru<int>("dzień");
-                        List<DostępDoBazy.NależnośćZPierwszegoZbioru> należności1;
+                        List<DostępDoBazy.Należność1> należności1;
                         //IEnumerable<DostępDoBazy.NależnośćZDrugiegoZbioru> należności2;
                         //IEnumerable<DostępDoBazy.NależnośćZTrzeciegoZbioru> należności3;
 
@@ -160,7 +160,7 @@ namespace czynsze.Formularze
                                 doLokalu = maksimumLokali;
                             }
 
-                            należności1 = db.NależnościZPierwszegoZbioru.OrderBy(n => n.kod_lok).ThenBy(n => n.nr_lok).ToList();
+                            należności1 = db.Należności1.OrderBy(n => n.kod_lok).ThenBy(n => n.nr_lok).ToList();
                             int indeksPierwszej = należności1.FindIndex(n => n.kod_lok == odBudynku && n.nr_lok == odLokalu);
                             int indeksOstatniej = należności1.FindLastIndex(n => n.kod_lok == doBudynku && n.nr_lok == doLokalu);
                             należności1 = należności1.GetRange(indeksPierwszej, indeksOstatniej - indeksPierwszej + 1);
@@ -173,7 +173,7 @@ namespace czynsze.Formularze
                             doBudynku = maksimumBudynków;
                             odLokalu = minimumLokali;
                             doLokalu = maksimumLokali;
-                            należności1 = db.NależnościZPierwszegoZbioru.ToList();
+                            należności1 = db.Należności1.ToList();
                             //należności2 = db.NależnościZDrugiegoZbioru;
                             //należności3 = db.NależnościZTrzeciegoZbioru;
                         }
@@ -215,21 +215,21 @@ namespace czynsze.Formularze
                         int liczbaAktywnychLokali = aktywneLokale.Count;
                         DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
                         DostępDoBazy.SkładnikCzynszuLokalu.Lokale = aktywneLokale;
-                        IEnumerable<DostępDoBazy.NależnośćZPierwszegoZbioru> należnościZBieżącegoMiesiąca = db.NależnościZPierwszegoZbioru.Where(należnościZBieżącegoMiesiącaFunc).Cast<DostępDoBazy.NależnośćZPierwszegoZbioru>();
+                        IEnumerable<DostępDoBazy.Należność1> należnościZBieżącegoMiesiąca = db.Należności1.Where(należnościZBieżącegoMiesiącaFunc).Cast<DostępDoBazy.Należność1>();
 
                         for (int i = 0; i < liczbaAktywnychLokali; i++)
                         {
                             DostępDoBazy.AktywnyLokal lokal = aktywneLokale[i];
                             PostępPrzetwarzaniaNależności = i * 100 / liczbaAktywnychLokali;
 
-                            db.NależnościZPierwszegoZbioru.RemoveRange(należnościZBieżącegoMiesiąca.Where(r => r.kod_lok == lokal.kod_lok && r.nr_lok == lokal.nr_lok));
+                            db.Należności1.RemoveRange(należnościZBieżącegoMiesiąca.Where(r => r.kod_lok == lokal.kod_lok && r.nr_lok == lokal.nr_lok));
 
                             foreach (DostępDoBazy.SkładnikCzynszuLokalu składnikCzynszuLokalu in db.SkładnikiCzynszuLokalu.Where(c => c.kod_lok == lokal.kod_lok && c.nr_lok == lokal.nr_lok).ToList())
                             {
                                 DostępDoBazy.SkładnikCzynszu składnikCzynszu = db.SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == składnikCzynszuLokalu.nr_skl);
                                 decimal ilosc = 0;
                                 decimal stawka = składnikCzynszu.stawka;
-                                DostępDoBazy.NależnośćZPierwszegoZbioru należność1 = new DostępDoBazy.NależnośćZPierwszegoZbioru();
+                                DostępDoBazy.Należność1 należność1 = new DostępDoBazy.Należność1();
 
                                 try { new DateTime(rok, miesiąc, 1); }
                                 catch (ArgumentOutOfRangeException) { miesiąc = Start.Data.Month; }
@@ -271,7 +271,7 @@ namespace czynsze.Formularze
                                 if (mnożnikDniWMiesiącu != 0)
                                 {
                                     należność1.Ustaw(Decimal.Round(ilosc * stawka, 2, MidpointRounding.AwayFromZero) * mnożnikDniWMiesiącu / ilośćDniWMiesiącu, new DateTime(rok, miesiąc, dzień), String.Format("{0} za m-c {1:00}", składnikCzynszu.nazwa.Trim(), Start.Data.Month), (int)lokal.nr_kontr, składnikCzynszu.nr_skl, lokal.kod_lok, lokal.nr_lok, stawka, ilosc);
-                                    db.NależnościZPierwszegoZbioru.Add(należność1);
+                                    db.Należności1.Add(należność1);
                                 }
                             }
                         }

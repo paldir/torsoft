@@ -1012,17 +1012,17 @@ namespace czynsze.Formularze
                             switch (Start.AktywnyZbiór)
                             {
                                 case Enumeratory.Zbiór.Czynsze:
-                                    turnOvers = db.ObrotyZPierwszegoZbioru.AsEnumerable<DostępDoBazy.Obrót>();
+                                    turnOvers = db.Obroty1.AsEnumerable<DostępDoBazy.Obrót>();
 
                                     break;
 
                                 case Enumeratory.Zbiór.Drugi:
-                                    turnOvers = db.ObrotyZDrugiegoZbioru.AsEnumerable<DostępDoBazy.Obrót>();
+                                    turnOvers = db.Obroty2.AsEnumerable<DostępDoBazy.Obrót>();
 
                                     break;
 
                                 case Enumeratory.Zbiór.Trzeci:
-                                    turnOvers = db.ObrotyZTrzeciegoZbioru.AsEnumerable<DostępDoBazy.Obrót>();
+                                    turnOvers = db.Obroty3.AsEnumerable<DostępDoBazy.Obrót>();
 
                                     break;
                             }

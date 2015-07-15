@@ -3,29 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
 namespace czynsze.DostępDoBazy
 {
     public abstract class Obrót : PozycjaDoAnalizy, IRekord
     {
-        public const string Rok = "14";
+        public const string Rok = "15";
 
-        public abstract int __record { get; set; }
+        [Key, Column("__record")]
+        public int __record { get; set; }
 
-        public abstract decimal suma { get; set; }
+        [Column("suma")]
+        public decimal suma { get; set; }
 
-        public abstract DateTime data_obr { get; set; }
+        [Column("data_obr")]
+        public DateTime data_obr { get; set; }
 
-        public abstract string opis { get; set; }
+        [Column("opis")]
+        public string opis { get; set; }
 
-        public abstract int nr_kontr { get; set; }
+        [Column("nr_kontr")]
+        public int nr_kontr { get; set; }
 
-        public abstract int kod_wplat { get; set; }
+        [Column("kod_wplat")]
+        public int kod_wplat { get; set; }
 
-        public abstract string nr_dowodu { get; set; }
+        [Column("nr_dowodu")]
+        public string nr_dowodu { get; set; }
 
-        public abstract int pozycja_d { get; set; }
+        [Column("pozycja_d")]
+        public int pozycja_d { get; set; }
 
-        public abstract string uwagi { get; set; }
+        [Column("uwagi")]
+        public string uwagi { get; set; }
 
         public override DateTime Data
         {

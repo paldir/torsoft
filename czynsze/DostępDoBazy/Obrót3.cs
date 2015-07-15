@@ -4,14 +4,13 @@ using System.Linq;
 using System.Web;
 
 using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 
 namespace czynsze.DostępDoBazy
 {
-    [Table("obr_" + Obrót.Rok + "__", Schema = "public")]
-    public class ObrótZPierwszegoZbioru : Obrót
+    [Table("obm_" + Obrót.Rok + "__", Schema = "public")]
+    public class Obrót3 : Obrót
     {
-        [Key, Column("__record")]
+        /*[Key, Column("__record")]
         public override int __record { get; set; }
 
         [Column("suma")]
@@ -36,6 +35,6 @@ namespace czynsze.DostępDoBazy
         public override int pozycja_d { get; set; }
 
         [Column("uwagi")]
-        public override string uwagi { get; set; }
+        public override string uwagi { get; set; }*/
     }
 }

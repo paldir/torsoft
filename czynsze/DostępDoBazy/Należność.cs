@@ -3,31 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
 namespace czynsze.DostępDoBazy
 {
     public abstract class Należność : PozycjaDoAnalizy
     {
-        public const string Rok = "14";
+        public const string Rok = "15";
 
-        public abstract int __record { get; set; }
+        [Key, Column("__record")]
+        public int __record { get; set; }
 
-        public abstract decimal kwota_nal { get; set; }
+        [Column("kwota_nal")]
+        public decimal kwota_nal { get; set; }
 
-        public abstract DateTime data_nal { get; set; }
+        [Column("data_nal")]
+        public DateTime data_nal { get; set; }
 
-        public abstract string opis { get; set; }
+        [Column("opis")]
+        public string opis { get; set; }
 
-        public abstract int kod_lok { get; set; }
+        [Column("kod_lok")]
+        public int kod_lok { get; set; }
 
-        public abstract int nr_lok { get; set; }
+        [Column("nr_lok")]
+        public int nr_lok { get; set; }
 
-        public abstract int nr_kontr { get; set; }
+        [Column("nr_kontr")]
+        public int nr_kontr { get; set; }
 
-        public abstract int nr_skl { get; set; }
+        [Column("nr_skl")]
+        public int nr_skl { get; set; }
 
-        public abstract decimal stawka { get; set; }
+        [Column("stawka")]
+        public decimal stawka { get; set; }
 
-        public abstract decimal ilosc { get; set; }
+        [Column("ilosc")]
+        public decimal ilosc { get; set; }
 
         public override DateTime Data
         {

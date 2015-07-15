@@ -170,7 +170,7 @@ namespace czynsze.DostępDoBazy
                     kod_wplat = Int32.Parse(record[0]);
 
                     using (CzynszeKontekst db = new CzynszeKontekst())
-                        if (db.ObrotyZPierwszegoZbioru.Any(t => t.kod_wplat == kod_wplat) || db.ObrotyZDrugiegoZbioru.Any(t => t.kod_wplat == kod_wplat) || db.ObrotyZTrzeciegoZbioru.Any(t => t.kod_wplat == kod_wplat))
+                        if (db.Obroty1.Any(t => t.kod_wplat == kod_wplat) || db.Obroty2.Any(t => t.kod_wplat == kod_wplat) || db.Obroty3.Any(t => t.kod_wplat == kod_wplat))
                             result += "Nie można usunąć typu wpłaty lub wypłaty, jeśli jest on używany! <br />";
 
                     break;

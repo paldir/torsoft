@@ -407,24 +407,24 @@ namespace czynsze.Formularze
                                 switch (obiektRaportu)
                                 {
                                     case ObiektRaportu.NALEZNOSCI:
-                                        pozycje = db.NależnościZPierwszegoZbioru.AsEnumerable<DostępDoBazy.PozycjaDoAnalizy>().ToList();
+                                        pozycje = db.Należności1.AsEnumerable<DostępDoBazy.PozycjaDoAnalizy>().ToList();
 
                                         break;
 
                                     case ObiektRaportu.OBROTY:
-                                        pozycje = db.ObrotyZPierwszegoZbioru.AsEnumerable<DostępDoBazy.PozycjaDoAnalizy>().ToList();
+                                        pozycje = db.Obroty1.AsEnumerable<DostępDoBazy.PozycjaDoAnalizy>().ToList();
 
                                         break;
 
                                     case ObiektRaportu.OGOLEM:
-                                        pozycje = Enumerable.Concat<DostępDoBazy.PozycjaDoAnalizy>(db.NależnościZPierwszegoZbioru, db.ObrotyZPierwszegoZbioru).ToList();
+                                        pozycje = Enumerable.Concat<DostępDoBazy.PozycjaDoAnalizy>(db.Należności1, db.Obroty1).ToList();
 
                                         break;
                                 }
                             else
                             {
-                                należności = db.NależnościZPierwszegoZbioru;
-                                obroty = db.ObrotyZPierwszegoZbioru;
+                                należności = db.Należności1;
+                                obroty = db.Obroty1;
                             }
 
                             break;
@@ -434,24 +434,24 @@ namespace czynsze.Formularze
                                 switch (obiektRaportu)
                                 {
                                     case ObiektRaportu.NALEZNOSCI:
-                                        pozycje = db.NależnościZDrugiegoZbioru.AsEnumerable<DostępDoBazy.PozycjaDoAnalizy>().ToList();
+                                        pozycje = db.Należności2.AsEnumerable<DostępDoBazy.PozycjaDoAnalizy>().ToList();
 
                                         break;
 
                                     case ObiektRaportu.OBROTY:
-                                        pozycje = db.ObrotyZDrugiegoZbioru.AsEnumerable<DostępDoBazy.PozycjaDoAnalizy>().ToList();
+                                        pozycje = db.Obroty2.AsEnumerable<DostępDoBazy.PozycjaDoAnalizy>().ToList();
 
                                         break;
 
                                     case ObiektRaportu.OGOLEM:
-                                        pozycje = Enumerable.Concat<DostępDoBazy.PozycjaDoAnalizy>(db.NależnościZDrugiegoZbioru, db.ObrotyZDrugiegoZbioru).ToList();
+                                        pozycje = Enumerable.Concat<DostępDoBazy.PozycjaDoAnalizy>(db.Należności2, db.Obroty2).ToList();
 
                                         break;
                                 }
                             else
                             {
-                                należności = db.NależnościZDrugiegoZbioru;
-                                obroty = db.ObrotyZDrugiegoZbioru;
+                                należności = db.Należności2;
+                                obroty = db.Obroty2;
                             }
 
                             break;
@@ -461,24 +461,24 @@ namespace czynsze.Formularze
                                 switch (obiektRaportu)
                                 {
                                     case ObiektRaportu.NALEZNOSCI:
-                                        pozycje = db.NależnościZTrzeciegoZbioru.AsEnumerable<DostępDoBazy.PozycjaDoAnalizy>().ToList();
+                                        pozycje = db.Należności3.AsEnumerable<DostępDoBazy.PozycjaDoAnalizy>().ToList();
 
                                         break;
 
                                     case ObiektRaportu.OBROTY:
-                                        pozycje = db.ObrotyZTrzeciegoZbioru.AsEnumerable<DostępDoBazy.PozycjaDoAnalizy>().ToList();
+                                        pozycje = db.Obroty3.AsEnumerable<DostępDoBazy.PozycjaDoAnalizy>().ToList();
 
                                         break;
 
                                     case ObiektRaportu.OGOLEM:
-                                        pozycje = Enumerable.Concat<DostępDoBazy.PozycjaDoAnalizy>(db.NależnościZTrzeciegoZbioru, db.ObrotyZTrzeciegoZbioru).ToList();
+                                        pozycje = Enumerable.Concat<DostępDoBazy.PozycjaDoAnalizy>(db.Należności3, db.Obroty3).ToList();
 
                                         break;
                                 }
                             else
                             {
-                                należności = db.NależnościZTrzeciegoZbioru;
-                                obroty = db.ObrotyZTrzeciegoZbioru;
+                                należności = db.Należności3;
+                                obroty = db.Obroty3;
                             }
 
                             break;

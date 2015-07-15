@@ -4,14 +4,13 @@ using System.Linq;
 using System.Web;
 
 using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 
 namespace czynsze.DostępDoBazy
 {
-    [Table("nam_" + Należność.Rok + "__", Schema = "public")]
-    public class NależnośćZTrzeciegoZbioru : Należność
+    [Table("nak_" + Należność.Rok + "__", Schema = "public")]
+    public class Należność2 : Należność
     {
-        [Key, Column("__record")]
+        /*[Key, Column("__record")]
         public override int __record { get; set; }
 
         [Column("kwota_nal")]
@@ -39,6 +38,6 @@ namespace czynsze.DostępDoBazy
         public override decimal stawka { get; set; }
 
         [Column("ilosc")]
-        public override decimal ilosc { get; set; }
+        public override decimal ilosc { get; set; }*/
     }
 }

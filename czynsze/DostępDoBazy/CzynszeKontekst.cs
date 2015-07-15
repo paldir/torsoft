@@ -33,12 +33,12 @@ namespace czynsze.DostępDoBazy
         public DbSet<GrupaSkładnikówCzynszu> GrupySkładnikówCzynszu { get; set; }
         public DbSet<GrupaFinansowa> GrupyFinansowe { get; set; }
         public DbSet<NieaktywnyNajemca> NieaktywniNajemcy { get; set; }
-        public DbSet<NależnośćZPierwszegoZbioru> NależnościZPierwszegoZbioru { get; set; }
-        public DbSet<ObrótZPierwszegoZbioru> ObrotyZPierwszegoZbioru { get; set; }
-        public DbSet<NależnośćZDrugiegoZbioru> NależnościZDrugiegoZbioru { get; set; }
-        public DbSet<ObrótZDrugiegoZbioru> ObrotyZDrugiegoZbioru { get; set; }
-        public DbSet<NależnośćZTrzeciegoZbioru> NależnościZTrzeciegoZbioru { get; set; }
-        public DbSet<ObrótZTrzeciegoZbioru> ObrotyZTrzeciegoZbioru { get; set; }
+        public DbSet<Należność1> Należności1 { get; set; }
+        public DbSet<Obrót1> Obroty1 { get; set; }
+        public DbSet<Należność2> Należności2 { get; set; }
+        public DbSet<Obrót2> Obroty2 { get; set; }
+        public DbSet<Należność3> Należności3 { get; set; }
+        public DbSet<Obrót3> Obroty3 { get; set; }
         public DbSet<Zamknięty> Zamknięte { get; set; }
         public DbSet<BudynekWspólnoty> BudynkiWspólnot { get; set; }
         public DbSet<Treść> Treści { get; set; }

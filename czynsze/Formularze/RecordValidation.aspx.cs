@@ -411,17 +411,17 @@ namespace czynsze.Formularze
                                 switch (Start.AktywnyZbiór)
                                 {
                                     case Enumeratory.Zbiór.Czynsze:
-                                        record = new DostępDoBazy.ObrótZPierwszegoZbioru();
+                                        record = new DostępDoBazy.Obrót1();
 
                                         break;
 
                                     case Enumeratory.Zbiór.Drugi:
-                                        record = new DostępDoBazy.ObrótZDrugiegoZbioru();
+                                        record = new DostępDoBazy.Obrót2();
 
                                         break;
 
                                     case Enumeratory.Zbiór.Trzeci:
-                                        record = new DostępDoBazy.ObrótZTrzeciegoZbioru();
+                                        record = new DostępDoBazy.Obrót3();
 
                                         break;
                                 }
