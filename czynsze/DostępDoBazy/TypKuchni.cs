@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DostępDoBazy
 {
     [Table("typ_kuch", Schema = "public")]
-    public class TypKuchni : IRekord
+    public class TypKuchni : IRekord, IRekordWyświetlanyWTabeli
     {
         [Key, Column("kod_kuch"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int kod_kuch { get; set; }
@@ -26,7 +26,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public string[] WażnePola()
+        public string[] PolaDoTabeli()
         {
             return new string[] 
             { 

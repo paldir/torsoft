@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Formularze\AtrybutyObiektu.aspx" />
+    <Content Include="Formularze\NaleznosciIObrotyNajemcy.aspx" />
     <Content Include="Formularze\ZmianaDaty.aspx" />
     <Content Include="Formularze\ZmianaZbioru.aspx" />
     <Content Include="Formularze\BudynkiWspolnoty.aspx" />
@@ -144,6 +145,7 @@
   <ItemGroup>
     <Compile Include="DostępDoBazy\BudynekWspólnoty.cs" />
     <Compile Include="DostępDoBazy\IInformacjeOPozycji.cs" />
+    <Compile Include="DostępDoBazy\IRekordWyświetlanyWTabeli.cs" />
     <Compile Include="DostępDoBazy\PozycjaDoAnalizy.cs" />
     <Compile Include="DostępDoBazy\Zamknięty.cs" />
     <Compile Include="DostępDoBazy\Treść.cs" />
@@ -153,6 +155,13 @@
     </Compile>
     <Compile Include="Formularze\BudynkiWspolnoty.aspx.designer.cs">
       <DependentUpon>BudynkiWspolnoty.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\NaleznosciIObrotyNajemcy.aspx.cs">
+      <DependentUpon>NaleznosciIObrotyNajemcy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\NaleznosciIObrotyNajemcy.aspx.designer.cs">
+      <DependentUpon>NaleznosciIObrotyNajemcy.aspx</DependentUpon>
     </Compile>
     <Compile Include="Formularze\TresciOpisow.aspx.cs">
       <DependentUpon>TresciOpisow.aspx</DependentUpon>

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace czynsze.DostępDoBazy
 {
-    public abstract class Lokal : IRekord
+    public abstract class Lokal : IRekord, IRekordWyświetlanyWTabeli
     {
         public abstract int nr_system { get; set; }
 
@@ -63,7 +63,7 @@ namespace czynsze.DostępDoBazy
 
         public static List<TypLokalu> TypesOfPlace { get; set; }
         
-        public string[] WażnePola()
+        public string[] PolaDoTabeli()
         {
 
 

@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DostępDoBazy
 {
     [Table("tyt_praw", Schema = "public")]
-    public class TytułPrawny : IRekord
+    public class TytułPrawny : IRekord, IRekordWyświetlanyWTabeli
     {
         [Key, Column("kod_praw"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int kod_praw { get; set; }
@@ -26,7 +26,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public string[] WażnePola()
+        public string[] PolaDoTabeli()
         {
             return new string[] 
             { 

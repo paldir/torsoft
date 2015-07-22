@@ -10,7 +10,7 @@ using System.Text;
 namespace czynsze.DostępDoBazy
 {
     [Table("fk_tuz", Schema = "public")]
-    public class Użytkownik : IRekord
+    public class Użytkownik : IRekord, IRekordWyświetlanyWTabeli
     {
         [Key, Column("__record")]
         public int __record { get; set; }
@@ -30,7 +30,7 @@ namespace czynsze.DostępDoBazy
         [Column("haslo")]
         public string haslo { get; set; }
 
-        public string[] WażnePola()
+        public string[] PolaDoTabeli()
         {
             return new string[]
             {

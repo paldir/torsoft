@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DostępDoBazy
 {
     [Table("budynki", Schema = "public")]
-    public class Budynek : IRekord
+    public class Budynek : IRekord, IRekordWyświetlanyWTabeli
     {
         [Key, Column("kod_1"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int kod_1 { get; set; }
@@ -113,7 +113,7 @@ namespace czynsze.DostępDoBazy
             return wynik;
         }
 
-        public string[] WażnePola()
+        public string[] PolaDoTabeli()
         {
             return new string[] 
             { 

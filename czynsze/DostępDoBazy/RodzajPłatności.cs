@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DostępDoBazy
 {
     [Table("t_wplat", Schema = "public")]
-    public class RodzajPłatności : IRekord, IInformacjeOPozycji
+    public class RodzajPłatności : IRekord, IInformacjeOPozycji, IRekordWyświetlanyWTabeli
     {
         [Key, Column("kod_wplat"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int kod_wplat { get; set; }
@@ -99,7 +99,7 @@ namespace czynsze.DostępDoBazy
             }
         }
 
-        public string[] WażnePola()
+        public string[] PolaDoTabeli()
         {
             return new string[]
             {

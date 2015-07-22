@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace czynsze.DostępDoBazy
 {
-    public abstract class Obrót : PozycjaDoAnalizy, IRekord
+    public abstract class Obrót : PozycjaDoAnalizy, IRekord, IRekordWyświetlanyWTabeli
     {
         public const string Rok = "15";
 
@@ -115,7 +115,7 @@ namespace czynsze.DostępDoBazy
             }
         }*/
 
-        public string[] WażnePola()
+        public string[] PolaDoTabeli()
         {
             string data_obr = null;
 

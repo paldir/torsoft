@@ -326,7 +326,7 @@ namespace czynsze.Formularze
                             form.Controls.Add(new Kontrolki.HtmlInputHidden("nr_lok", values[2]));
                         }
 
-                        controls.Add(new Kontrolki.DropDownList("field", "kod_lok" + fromIdEnabledToIdSuffix[idEnabled], db.Budynki.ToList().OrderBy(b => b.kod_1).Select(b => b.WażnePola()).ToList(), values[1], idEnabled, false));
+                        controls.Add(new Kontrolki.DropDownList("field", "kod_lok" + fromIdEnabledToIdSuffix[idEnabled], db.Budynki.ToList().OrderBy(b => b.kod_1).Select(b => b.PolaDoTabeli()).ToList(), values[1], idEnabled, false));
                         controls.Add(new Kontrolki.TextBox("field", "nr_lok" + fromIdEnabledToIdSuffix[idEnabled], values[2], Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 3, 1, idEnabled));
                         controls.Add(new Kontrolki.DropDownList("field", "kod_typ", db.TypyLokali.AsEnumerable<DostępDoBazy.TypLokalu>().Select(t => t.WażnePolaDoRozwijanejListy()).ToList(), values[3], globalEnabled, false));
                         controls.Add(new Kontrolki.TextBox("field", "adres", values[4], Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 30, 1, globalEnabled));
@@ -343,7 +343,7 @@ namespace czynsze.Formularze
                         controls.Add(new Kontrolki.TextBox("field", "p_5", values[15], Kontrolki.TextBox.TextBoxMode.LiczbaNiecałkowita, 5, 1, globalEnabled));
                         controls.Add(new Kontrolki.TextBox("field", "p_6", values[16], Kontrolki.TextBox.TextBoxMode.LiczbaNiecałkowita, 5, 1, globalEnabled));
                         controls.Add(new Kontrolki.DropDownList("field", "kod_kuch", db.TypyKuchni.AsEnumerable<DostępDoBazy.TypKuchni>().Select(t => t.WażnePolaDoRozwijanejListy()).ToList(), values[17], globalEnabled, false));
-                        controls.Add(new Kontrolki.DropDownList("field", "nr_kontr", db.AktywniNajemcy.AsEnumerable<DostępDoBazy.AktywnyNajemca>().OrderBy(t => t.nazwisko).Select(t => t.WażnePola().ToList().GetRange(1, 4).ToArray()).ToList(), values[18], globalEnabled, true));
+                        controls.Add(new Kontrolki.DropDownList("field", "nr_kontr", db.AktywniNajemcy.AsEnumerable<DostępDoBazy.AktywnyNajemca>().OrderBy(t => t.nazwisko).Select(t => t.PolaDoTabeli().ToList().GetRange(1, 4).ToArray()).ToList(), values[18], globalEnabled, true));
                         controls.Add(new Kontrolki.TextBox("field", "il_osob", values[19], Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 3, 1, globalEnabled));
                         controls.Add(new Kontrolki.DropDownList("field", "kod_praw", db.TytułyPrawne.AsEnumerable<DostępDoBazy.TytułPrawny>().Select(t => t.WażnePolaDoRozwijanejListy()).ToList(), values[20], globalEnabled, false));
                         controls.Add(new Kontrolki.TextBox("field", "uwagi", values[21], Kontrolki.TextBox.TextBoxMode.KilkaLinii, 240, 4, globalEnabled));

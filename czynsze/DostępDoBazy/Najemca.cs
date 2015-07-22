@@ -5,7 +5,7 @@ using System.Web;
 
 namespace czynsze.DostępDoBazy
 {
-    public abstract class Najemca : IRekord
+    public abstract class Najemca : IRekord, IRekordWyświetlanyWTabeli
     {
         public abstract int nr_kontr { get; set; }
 
@@ -33,9 +33,9 @@ namespace czynsze.DostępDoBazy
 
         public abstract string uwagi_2 { get; set; }
 
-        public static List<AktywnyLokal> Places { get; set; }
+        public static List<AktywnyLokal> AktywneLokale { get; set; }
 
-        public string[] WażnePola()
+        public string[] PolaDoTabeli()
         {
             return new string[] 
             { 
@@ -114,7 +114,7 @@ namespace czynsze.DostępDoBazy
 
             //using (DostępDoBazy.Czynsze_Entities db = new Czynsze_Entities())
             {
-                DostępDoBazy.Lokal place = Places.FirstOrDefault(p => p.nr_kontr == nr_kontr);
+                DostępDoBazy.Lokal place = AktywneLokale.FirstOrDefault(p => p.nr_kontr == nr_kontr);
 
                 if (place == null)
                     kod = nr = lokal = "0";

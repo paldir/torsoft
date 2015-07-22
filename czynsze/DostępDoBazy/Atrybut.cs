@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DostępDoBazy
 {
     [Table("cechy", Schema = "public")]
-    public class Atrybut : IRekord
+    public class Atrybut : IRekord, IRekordWyświetlanyWTabeli
     {
         [Key, Column("kod"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int kod { get; set; }
@@ -44,7 +44,7 @@ namespace czynsze.DostępDoBazy
         [Column("uwagi")]
         public string uwagi { get; set; }
 
-        public string[] WażnePola()
+        public string[] PolaDoTabeli()
         {
             return new string[]
             {

@@ -57,7 +57,7 @@ namespace czynsze.Formularze
                             int numerPierwszegoBudynku, numerOstatniegoBudynku;
                             Kontrolki.HtmlGenericControl pierwszyBudynek = new Kontrolki.HtmlGenericControl("div", "control");
                             Kontrolki.HtmlGenericControl drugiBudynek = new Kontrolki.HtmlGenericControl("div", "control");
-                            List<string[]> budynki = db.Budynki.ToList().OrderBy(b => b.kod_1).Select(b => b.WażnePola()).ToList();
+                            List<string[]> budynki = db.Budynki.ToList().OrderBy(b => b.kod_1).Select(b => b.PolaDoTabeli()).ToList();
 
                             if (db.Budynki.Any())
                             {
@@ -543,7 +543,7 @@ namespace czynsze.Formularze
                                         if (budynek != null)
                                         {
                                             podpisy.Add("Budynek nr " + budynek.kod_1.ToString() + ", " + budynek.adres + ", " + budynek.adres_2);
-                                            tabele.Add(db.AktywneLokale.Where(p => p.kod_lok == i && wybraneTypyLokali.Contains(p.kod_typ)).OrderBy(p => p.nr_lok).Select(p => p.WażnePola().ToList().GetRange(2, p.WażnePola().Length - 2).ToArray()).ToList());
+                                            tabele.Add(db.AktywneLokale.Where(p => p.kod_lok == i && wybraneTypyLokali.Contains(p.kod_typ)).OrderBy(p => p.nr_lok).Select(p => p.PolaDoTabeli().ToList().GetRange(2, p.PolaDoTabeli().Length - 2).ToArray()).ToList());
                                         }
                                     }
 

@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace czynsze.DostępDoBazy
 {
-    public abstract class Należność : PozycjaDoAnalizy
+    public abstract class Należność : PozycjaDoAnalizy, IRekordWyświetlanyWTabeli
     {
         public const string Rok = "15";
 
@@ -88,7 +88,7 @@ namespace czynsze.DostępDoBazy
             get { return nr_lok; }
         }
             
-        public string[] WażnePola()
+        public string[] PolaDoTabeli()
         {
             return new string[]
             {

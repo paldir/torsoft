@@ -83,7 +83,7 @@ namespace czynsze.Formularze
                 {
                     string indeks = (i + 1).ToString();
 
-                    wiersze.Add(new string[] { indeks, indeks }.Concat(_składnikiCzynszuLokalu.ElementAt(i).WażnePola()).ToArray());
+                    wiersze.Add(new string[] { indeks, indeks }.Concat(_składnikiCzynszuLokalu.ElementAt(i).PolaDoTabeli()).ToArray());
                 }
 
                 DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
