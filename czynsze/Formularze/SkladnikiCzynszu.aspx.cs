@@ -14,7 +14,8 @@ namespace czynsze.Formularze
         protected void Page_Load(object sender, EventArgs e)
         {
             string zakres = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("przycisk"));
-            Start.ŚcieżkaStrony = new List<string>() { "Raporty", "Składniki czynszu" };
+            //Start.ŚcieżkaStrony = new List<string>() { "Raporty", "Składniki czynszu" };
+            Start.ŚcieżkaStrony = new ŚcieżkaStrony(new ElementŚcieżkiStrony("Raporty"), new ElementŚcieżkiStrony("Składniki czynszu", Request.Url.PathAndQuery));
 
             if (String.IsNullOrEmpty(zakres))
             {

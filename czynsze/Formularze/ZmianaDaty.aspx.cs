@@ -11,7 +11,7 @@ namespace czynsze.Formularze
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Start.ŚcieżkaStrony.Clear();
+            Start.ŚcieżkaStrony.Wyczyść();
 
             Kontrolki.Button button = new Kontrolki.Button("button", "Change", "Zmień", "#");
             button.Click += button_Click;

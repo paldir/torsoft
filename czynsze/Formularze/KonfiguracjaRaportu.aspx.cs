@@ -344,13 +344,13 @@ namespace czynsze.Formularze
                 generationButton.Click += generationButton_Click;
                 Title = nagłówek;
 
-                if (Start.ŚcieżkaStrony.Any())
+                /*if (Start.ŚcieżkaStrony.Any())
                     if (!Start.ŚcieżkaStrony.Contains(nagłówek))
                     {
-                        Start.ŚcieżkaStrony[Start.ŚcieżkaStrony.Count - 1] = String.Concat("<a href=\"javascript: Load('" + Request.UrlReferrer.PathAndQuery + "')\">", Start.ŚcieżkaStrony[Start.ŚcieżkaStrony.Count - 1], "</a>");
+                        Start.ŚcieżkaStrony[Start.ŚcieżkaStrony.Count - 1] = String.Concat("<a href=\"javascript: Load('" + Request.UrlReferrer.PathAndQuery + "')\">", Start.ŚcieżkaStrony[Start.ŚcieżkaStrony.Count - 1], "</a>");*/
 
-                        Start.ŚcieżkaStrony.Add(nagłówek);
-                    }
+                        Start.ŚcieżkaStrony.Dodaj(nagłówek);
+                    //}
             }
         }
 

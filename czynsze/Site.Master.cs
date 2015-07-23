@@ -20,10 +20,27 @@ namespace czynsze
             user.InnerText = Session["uzytkownik"].ToString();
             placeOfSiteMapPath.InnerHtml = String.Empty;
 
-            foreach (string siteMapNode in Formularze.Start.ŚcieżkaStrony)
+            /*foreach (string siteMapNode in Formularze.Start.ŚcieżkaStrony)
                 placeOfSiteMapPath.InnerHtml += siteMapNode + " > ";
 
             if (Formularze.Start.ŚcieżkaStrony.Any())
+                placeOfSiteMapPath.InnerHtml = placeOfSiteMapPath.InnerHtml.Remove(placeOfSiteMapPath.InnerHtml.Length - 3);*/
+
+            foreach (ElementŚcieżkiStrony element in Formularze.Start.ŚcieżkaStrony.Elementy)
+            {
+                string węzeł;
+                string link = element.Link;
+                string etykieta = element.Etykieta;
+
+                if (link == null)
+                    węzeł = etykieta;
+                else
+                    węzeł = String.Format("<a href=\"{0}\">{1}</a>", link, etykieta);
+
+                placeOfSiteMapPath.InnerText += String.Format("{0} > ", węzeł);
+            }
+
+            if (Formularze.Start.ŚcieżkaStrony.Elementy.Any())
                 placeOfSiteMapPath.InnerHtml = placeOfSiteMapPath.InnerHtml.Remove(placeOfSiteMapPath.InnerHtml.Length - 3);
 
             placeOfSelectedDate.InnerHtml = DostępDoBazy.CzynszeKontekst.NumerMiesiącaNaNazwęZPolskimiZnakami[Formularze.Start.Data.Month].ToString() + " " + Formularze.Start.Data.Year.ToString();

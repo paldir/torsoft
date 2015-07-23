@@ -21,7 +21,7 @@ namespace czynsze
             }
 
             Formularze.Start.Data = DateTime.Today;
-            Formularze.Start.ŚcieżkaStrony = new List<string>();
+            Formularze.Start.ŚcieżkaStrony = new ŚcieżkaStrony();
             Formularze.Start.AktywnyZbiór = Enumeratory.Zbiór.Czynsze;
 
             Response.Redirect("Formularze/WalidacjaUzytkownika.aspx?uzytkownik=admin&haslo=a");

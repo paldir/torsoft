@@ -13,7 +13,8 @@ namespace czynsze.Formularze
         {
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
-                Start.ŚcieżkaStrony = new List<string>() { "Raporty", "Wykaz wg składnika" };
+                //Start.ŚcieżkaStrony = new List<string>() { "Raporty", "Wykaz wg składnika" };
+                Start.ŚcieżkaStrony = new czynsze.ŚcieżkaStrony("Raporty", "Wykaz wg składnika");
                 string przycisk = PobierzWartośćParametru<string>("przycisk");
                 Enumeratory.WykazWedługSkładnika tryb = PobierzWartośćParametru<Enumeratory.WykazWedługSkładnika>("tryb");
                 string trybTekstowo = null;
@@ -36,7 +37,7 @@ namespace czynsze.Formularze
                         break;
                 }
 
-                Start.ŚcieżkaStrony.Add(trybTekstowo);
+                Start.ŚcieżkaStrony.Dodaj(trybTekstowo, Request.Url.PathAndQuery);
 
                 Title += String.Format(" ({0})", trybTekstowo);
 

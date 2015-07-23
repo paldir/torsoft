@@ -13,7 +13,7 @@ namespace czynsze.Formularze
     {
         public static string NazwaFirmy { get; set; }
         public static DateTime Data { get; set; }
-        public static List<string> ŚcieżkaStrony { get; set; }
+        public static ŚcieżkaStrony ŚcieżkaStrony { get; set; }
         public static int LiczbaZbiorów { get; set; }
         public static Enumeratory.Zbiór AktywnyZbiór { get; set; }
         public static string[] NazwyZbiorów { get; set; }

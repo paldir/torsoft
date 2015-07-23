@@ -9,6 +9,8 @@ namespace czynsze.Formularze
 {
     public class Strona : System.Web.UI.Page
     {
+        protected static ŚcieżkaStrony ŚcieżkaStrony { get; set; }
+        
         public T PobierzWartośćParametru<T>(string klucz)
         {
             string wartość = Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith(klucz))];

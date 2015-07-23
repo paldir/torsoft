@@ -16,14 +16,14 @@ namespace czynsze.Formularze
             List<int> indexesOfNumericColumns = new List<int>() { 1, 2 };
             string summary;
             int id = PobierzWartośćParametru<int>("id");
-            string heading, nodeOfSiteMapPath;
+            string nagłówek;
 
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
                 DostępDoBazy.Najemca tenant = db.AktywniNajemcy.FirstOrDefault(t => t.nr_kontr == id);
                 IEnumerable<DostępDoBazy.Należność> receivables = null;
                 IEnumerable<DostępDoBazy.Obrót> turnovers = null;
-                heading = nodeOfSiteMapPath = "Należności  i obroty najemcy " + tenant.nazwisko + " " + tenant.imie;
+                nagłówek = Title = "Należności  i obroty najemcy " + tenant.nazwisko + " " + tenant.imie;
 
                 switch (Start.AktywnyZbiór)
                 {
@@ -98,10 +98,10 @@ namespace czynsze.Formularze
             miejscePrzycisków.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.MiesiecznaAnalizaNaleznosciIObrotow + "raport", "Analiza miesięczna", "KonfiguracjaRaportu.aspx"));
             miejscePrzycisków.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.SzczegolowaAnalizaNaleznosciIObrotow + "raport", "Analiza szczegółowa", "KonfiguracjaRaportu.aspx"));
 
-            if (Start.ŚcieżkaStrony.Count > 3)
-                Start.ŚcieżkaStrony.RemoveRange(3, Start.ŚcieżkaStrony.Count - 3);
+            /*if (Start.ŚcieżkaStrony.Count > 3)
+                Start.ŚcieżkaStrony.RemoveRange(3, Start.ŚcieżkaStrony.Count - 3);*/
 
-            Start.ŚcieżkaStrony.Add(nodeOfSiteMapPath);
+            /*Start.ŚcieżkaStrony.Add(nagłówek);*/
         }
     }
 }

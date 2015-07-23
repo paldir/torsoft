@@ -87,7 +87,8 @@ namespace czynsze.Formularze
                 int ilośćDniWMiesiącu = DateTime.DaysInMonth(Start.Data.Year, Start.Data.Month);
                 string trybGeneracji = PobierzWartośćParametru<string>("Generacja");
                 string powtarzanieGeneracji = PobierzWartośćParametru<string>("Powtarzanie");
-                Start.ŚcieżkaStrony = new List<string>() { "Rozliczenia finansowe", "Generacja należności" };
+                //Start.ŚcieżkaStrony = new List<string>() { "Rozliczenia finansowe", "Generacja należności" };
+                Start.ŚcieżkaStrony = new czynsze.ŚcieżkaStrony("Rozliczenia finansowe", "Generacja należności");
 
                 {
                     Func<DostępDoBazy.Należność, bool> należnościZZakresuLokali = r => r.kod_lok >= odBudynku && r.kod_lok <= doBudynku && r.nr_lok >= odLokalu && r.nr_lok <= doLokalu;

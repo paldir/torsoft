@@ -11,7 +11,7 @@ namespace czynsze.Formularze
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Start.ŚcieżkaStrony.Clear();
+            Start.ŚcieżkaStrony.Wyczyść();
 
             List<string> texts = new List<string>() { "CZYNSZE" };
             List<string> values = new List<string>() { Enumeratory.Zbiór.Czynsze.ToString() };

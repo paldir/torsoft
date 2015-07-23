@@ -91,6 +91,7 @@
   <ItemGroup>
     <Content Include="Formularze\AtrybutyObiektu.aspx" />
     <Content Include="Formularze\NaleznosciIObrotyNajemcy.aspx" />
+    <Content Include="Formularze\SaldoNajemcy.aspx" />
     <Content Include="Formularze\ZmianaDaty.aspx" />
     <Content Include="Formularze\ZmianaZbioru.aspx" />
     <Content Include="Formularze\BudynkiWspolnoty.aspx" />
@@ -149,6 +150,7 @@
     <Compile Include="DostępDoBazy\PozycjaDoAnalizy.cs" />
     <Compile Include="DostępDoBazy\Zamknięty.cs" />
     <Compile Include="DostępDoBazy\Treść.cs" />
+    <Compile Include="ElementŚcieżkiStrony.cs" />
     <Compile Include="Formularze\BudynkiWspolnoty.aspx.cs">
       <DependentUpon>BudynkiWspolnoty.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -162,6 +164,13 @@
     </Compile>
     <Compile Include="Formularze\NaleznosciIObrotyNajemcy.aspx.designer.cs">
       <DependentUpon>NaleznosciIObrotyNajemcy.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\SaldoNajemcy.aspx.cs">
+      <DependentUpon>SaldoNajemcy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\SaldoNajemcy.aspx.designer.cs">
+      <DependentUpon>SaldoNajemcy.aspx</DependentUpon>
     </Compile>
     <Compile Include="Formularze\TresciOpisow.aspx.cs">
       <DependentUpon>TresciOpisow.aspx</DependentUpon>
@@ -349,6 +358,13 @@
     <Compile Include="Logowanie.aspx.designer.cs">
       <DependentUpon>Logowanie.aspx</DependentUpon>
     </Compile>
+    <Compile Include="NiebieskieOkno.master.cs">
+      <DependentUpon>NiebieskieOkno.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NiebieskieOkno.master.designer.cs">
+      <DependentUpon>NiebieskieOkno.master</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
@@ -357,10 +373,12 @@
     <Compile Include="Site.Master.designer.cs">
       <DependentUpon>Site.Master</DependentUpon>
     </Compile>
+    <Compile Include="ŚcieżkaStrony.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="Site.Master" />
+    <Content Include="NiebieskieOkno.master" />
     <None Include="Properties\PublishProfiles\pz.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

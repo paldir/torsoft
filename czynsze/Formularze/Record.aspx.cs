@@ -1110,13 +1110,13 @@ namespace czynsze.Formularze
                 foreach (Kontrolki.Button button in buttons)
                     placeOfButtons.Controls.Add(button);
 
-                if (Start.ŚcieżkaStrony.Count > 0)
+                /*if (Start.ŚcieżkaStrony.Count > 0)
                     if (!Start.ŚcieżkaStrony.Contains(heading))
                     {
-                        Start.ŚcieżkaStrony[Start.ŚcieżkaStrony.Count - 1] = String.Concat("<a href=\"" + backUrl + "\">", Start.ŚcieżkaStrony[Start.ŚcieżkaStrony.Count - 1]) + "</a>";
+                        Start.ŚcieżkaStrony[Start.ŚcieżkaStrony.Count - 1] = String.Concat("<a href=\"" + backUrl + "\">", Start.ŚcieżkaStrony[Start.ŚcieżkaStrony.Count - 1]) + "</a>";*/
 
-                        Start.ŚcieżkaStrony.Add(heading);
-                    }
+                Start.ŚcieżkaStrony.Dodaj(heading);
+                //}
             }
         }
     }

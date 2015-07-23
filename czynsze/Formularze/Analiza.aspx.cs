@@ -16,7 +16,8 @@ namespace czynsze.Formularze
                 Enumeratory.Analiza rodzaj = PobierzWartośćParametru<Enumeratory.Analiza>("rodzaj");
                 //Enumeratory.KwotaCzynszu tryb = PobierzWartośćParametru<Enumeratory.KwotaCzynszu>("tryb");
                 string zakres = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("Wybór"));
-                Start.ŚcieżkaStrony = new List<string>() { "Raporty" };
+                //Start.ŚcieżkaStrony = new List<string>() { "Raporty" };
+                Start.ŚcieżkaStrony = new czynsze.ŚcieżkaStrony("Raporty");
                 string ogólnyRodzaj = null;
                 string konkretnyRodzaj = null;
                 string rodzajNapis = rodzaj.ToString();
@@ -91,8 +92,8 @@ namespace czynsze.Formularze
                         break;
                 }
 
-                Start.ŚcieżkaStrony.Add(ogólnyRodzaj);
-                Start.ŚcieżkaStrony.Add(konkretnyRodzaj);
+                Start.ŚcieżkaStrony.Dodaj(ogólnyRodzaj);
+                Start.ŚcieżkaStrony.Dodaj(konkretnyRodzaj, Request.Url.PathAndQuery);
 
                 Title = String.Format("{0} - {1}", ogólnyRodzaj, konkretnyRodzaj);
 

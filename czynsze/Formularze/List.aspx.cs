@@ -121,7 +121,6 @@ namespace czynsze.Formularze
                     case Enumeratory.Tabela.NaleznosciWedlugNajemcow:
                     case Enumeratory.Tabela.WszystkieNaleznosciNajemcy:
                     case Enumeratory.Tabela.NieprzeterminowaneNaleznosciNajemcy:
-                    case Enumeratory.Tabela.SaldoNajemcy:
 
                         break;
 
@@ -375,7 +374,7 @@ namespace czynsze.Formularze
                         list.SelectedIndexChanged += list_SelectedIndexChanged;
 
                         placeOfMainTableButtons.Controls.Add(list);
-                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", "saldo", "Saldo", "javascript: Redirect('List.aspx?table=SaldoNajemcy')"));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", "saldo", "Saldo", "javascript: Redirect('SaldoNajemcy.aspx?dummy=dummy')"));
 
                         break;
 
@@ -406,55 +405,6 @@ namespace czynsze.Formularze
                         }
 
                         break;
-
-                    /*
-
-                    case Enumeratory.Tabela.SaldoNajemcy:
-                        headers = new string[] { "Saldo", "Saldo na dzień " + Start.Data.ToShortDateString(), "W tym noty odsetkowe" };
-                        sortable = false;
-                        indexesOfNumericColumns = new List<int>() { 1, 2, 3 };
-                        {
-                            IEnumerable<DostępDoBazy.Należność> receivables = null;
-                            IEnumerable<DostępDoBazy.Obrót> turnovers = null;
-                            DostępDoBazy.Najemca tenant = db.AktywniNajemcy.FirstOrDefault(t => t.nr_kontr == id);
-                            heading = tenant.nazwisko + " " + tenant.imie + "<br />" + tenant.adres_1 + " " + tenant.adres_2;
-                            nodeOfSiteMapPath = "Saldo najemcy " + tenant.nazwisko + " " + tenant.imie;
-
-                            switch (Start.AktywnyZbiór)
-                            {
-                                case Enumeratory.Zbiór.Czynsze:
-                                    receivables = db.Należności1.Where(r => r.nr_kontr == id).AsEnumerable<DostępDoBazy.Należność>();
-                                    turnovers = db.Obroty1.Where(r => r.nr_kontr == id).AsEnumerable<DostępDoBazy.Obrót>();
-
-                                    break;
-
-                                case Enumeratory.Zbiór.Drugi:
-                                    receivables = db.Należności2.Where(r => r.nr_kontr == id).AsEnumerable<DostępDoBazy.Należność>();
-                                    turnovers = db.Obroty2.Where(r => r.nr_kontr == id).AsEnumerable<DostępDoBazy.Obrót>();
-
-                                    break;
-
-                                case Enumeratory.Zbiór.Trzeci:
-                                    receivables = db.Należności3.Where(r => r.nr_kontr == id).AsEnumerable<DostępDoBazy.Należność>();
-                                    turnovers = db.Obroty3.Where(r => r.nr_kontr == id).AsEnumerable<DostępDoBazy.Obrót>();
-
-                                    break;
-                            }
-
-                            List<string[]> rowsOfReceivablesAndTurnovers = receivables.Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Select(t => t.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
-                            decimal wnAmount = rowsOfReceivablesAndTurnovers.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
-                            decimal maAmount = rowsOfReceivablesAndTurnovers.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Decimal.Parse(r[2]));
-                            List<string[]> rowsOfReceivablesAndTurnoversToDate = receivables.Where(r => r.data_nal <= Start.Data).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Where(t => t.data_obr <= Start.Data).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
-                            decimal wnAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
-                            decimal maAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Decimal.Parse(r[2]));
-                            DostępDoBazy.Konfiguracja configuration = db.Konfiguracje.FirstOrDefault();
-                            List<string[]> rowsOfInterestNotes = turnovers.Where(t => t.kod_wplat == configuration.p_20 || t.kod_wplat == configuration.p_37).Select(t => t.WażnePolaDoNależnościIObrotówNajemcy()).ToList();
-                            decimal wnOfInterestNotes = rowsOfInterestNotes.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
-                            decimal maOfInterestNotes = rowsOfInterestNotes.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Decimal.Parse(r[2]));
-                            _rekordyTabeli = new List<string[]>() { new string[] { String.Empty, String.Format("{0:N}", maAmount - wnAmount), String.Format("{0:N}", maAmountToDay - wnAmountToDay), String.Format("{0:N}", maOfInterestNotes - wnOfInterestNotes) } };
-                        }
-
-                        break;*/
 
                     case Enumeratory.Tabela.ObrotyNajemcy:
                         headers = new string[] { "Kwota", "Data", "Data NO", "Operacja", "Nr dowodu", "Pozycja", "Uwagi" };
@@ -533,30 +483,31 @@ namespace czynsze.Formularze
 
                 Title = heading;
                 Session["values"] = null;
+                string url = Request.Url.PathAndQuery;
 
                 switch (table)
                 {
                     case Enumeratory.Tabela.AktywneLokale:
                     case Enumeratory.Tabela.NieaktywneLokale:
-                        Start.ŚcieżkaStrony = new List<string>() { "Kartoteki", "Lokale" };
+                        Start.ŚcieżkaStrony = new ŚcieżkaStrony(new ElementŚcieżkiStrony("Kartoteki"), new ElementŚcieżkiStrony("Lokale", url));
 
                         break;
 
                     case Enumeratory.Tabela.AktywniNajemcy:
                     case Enumeratory.Tabela.NieaktywniNajemcy:
-                        Start.ŚcieżkaStrony = new List<string>() { "Kartoteki", "Najemcy" };
+                        Start.ŚcieżkaStrony = new ŚcieżkaStrony(new ElementŚcieżkiStrony("Kartoteki"), new ElementŚcieżkiStrony("Najemcy", url));
 
                         break;
 
                     case Enumeratory.Tabela.Budynki:
                     case Enumeratory.Tabela.Wspolnoty:
                     case Enumeratory.Tabela.SkladnikiCzynszu:
-                        Start.ŚcieżkaStrony = new List<string>() { "Kartoteki" };
+                        Start.ŚcieżkaStrony = new ŚcieżkaStrony("Kartoteki");
 
                         break;
 
                     case Enumeratory.Tabela.NaleznosciWedlugNajemcow:
-                        Start.ŚcieżkaStrony = new List<string>() { "Rozliczenia finansowe", "Należności i obroty" };
+                        Start.ŚcieżkaStrony = new ŚcieżkaStrony(new ElementŚcieżkiStrony("Rozliczenia finansowe"), new ElementŚcieżkiStrony("Należności i obroty", url));
 
                         placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", "turnoversEditing", "Dodaj/usuń obroty", "javascript: Redirect('List.aspx?table=" + Enumeratory.Tabela.ObrotyNajemcy + "')"));
 
@@ -564,9 +515,8 @@ namespace czynsze.Formularze
 
                     case Enumeratory.Tabela.WszystkieNaleznosciNajemcy:
                     case Enumeratory.Tabela.NieprzeterminowaneNaleznosciNajemcy:
-                    case Enumeratory.Tabela.SaldoNajemcy:
                     case Enumeratory.Tabela.ObrotyNajemcy:
-                        if (Start.ŚcieżkaStrony.Count > 2)
+                        /*if (Start.ŚcieżkaStrony.Count > 2)
                         {
                             Start.ŚcieżkaStrony.RemoveRange(3, Start.ŚcieżkaStrony.Count - 3);
 
@@ -574,7 +524,8 @@ namespace czynsze.Formularze
 
                             if (!Start.ŚcieżkaStrony.Contains(node))
                                 Start.ŚcieżkaStrony[2] = node;
-                        }
+                        }*/
+                        throw new Exception();
 
                         break;
 
@@ -587,18 +538,18 @@ namespace czynsze.Formularze
                     case Enumeratory.Tabela.GrupyFinansowe:
                     case Enumeratory.Tabela.StawkiVat:
                     case Enumeratory.Tabela.Atrybuty:
-                        Start.ŚcieżkaStrony = new List<string>() { "Słowniki" };
+                        Start.ŚcieżkaStrony = new ŚcieżkaStrony("Słowniki");
 
                         break;
 
                     case Enumeratory.Tabela.Uzytkownicy:
-                        Start.ŚcieżkaStrony = new List<string>() { "Administracja" };
+                        Start.ŚcieżkaStrony = new ŚcieżkaStrony("Administracja");
 
                         break;
                 }
 
-                if (!Start.ŚcieżkaStrony.Contains(nodeOfSiteMapPath))
-                    Start.ŚcieżkaStrony.Add(nodeOfSiteMapPath);
+                //if (!Start.ŚcieżkaStrony.Contains(nodeOfSiteMapPath))
+                    Start.ŚcieżkaStrony.Dodaj(nodeOfSiteMapPath);
 
                 //
                 //CXP PART
