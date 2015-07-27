@@ -28,8 +28,12 @@ namespace czynsze
 
         public void Dodaj(string etykieta, string link = null)
         {
-            if (!_etykiety.Contains(etykieta))
+            int indeksEtykietyPierwszejDoUsunięcia = _etykiety.ToList().IndexOf(etykieta) + 1;
+
+            if (indeksEtykietyPierwszejDoUsunięcia == 0)
                 Elementy.Add(new ElementŚcieżkiStrony(etykieta, link));
+            else
+                Elementy.RemoveRange(indeksEtykietyPierwszejDoUsunięcia, Elementy.Count - indeksEtykietyPierwszejDoUsunięcia);
         }
 
         public void Wyczyść()

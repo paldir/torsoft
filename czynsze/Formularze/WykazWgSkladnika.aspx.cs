@@ -37,7 +37,7 @@ namespace czynsze.Formularze
                         break;
                 }
 
-                Start.ŚcieżkaStrony.Dodaj(trybTekstowo, Request.Url.PathAndQuery);
+                Start.ŚcieżkaStrony.Dodaj(trybTekstowo, ŚcieżkaIQuery);
 
                 Title += String.Format(" ({0})", trybTekstowo);
 
@@ -48,7 +48,7 @@ namespace czynsze.Formularze
                         int minimalnyLokal;
                         int maksymalnyBudynek;
                         int maksymalnyLokal;
-                        List<DostępDoBazy.SkładnikCzynszu> składnikiCzynszu = db.SkładnikiCzynszu.OrderBy(s => s.nr_skl).ToList();
+                        Lista<DostępDoBazy.SkładnikCzynszu> składnikiCzynszu = db.SkładnikiCzynszu.OrderBy(s => s.nr_skl).ToList();
 
                         pojemnikSkladnika.Controls.Add(new Kontrolki.Label("label", "składnik", "Składnik: ", String.Empty));
                         pojemnikSkladnika.Controls.Add(new Kontrolki.DropDownList("field", "składnik", składnikiCzynszu.Select(s => s.WażnePolaDoRozwijanejListy()).ToList(), składnikiCzynszu.First().nr_skl.ToString(), true, false));

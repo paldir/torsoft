@@ -35,9 +35,9 @@ namespace czynsze
                 if (link == null)
                     węzeł = etykieta;
                 else
-                    węzeł = String.Format("<a href=\"{0}\">{1}</a>", link, etykieta);
+                    węzeł = String.Format("<a href='{0}'>{1}</a>", link, etykieta);
 
-                placeOfSiteMapPath.InnerText += String.Format("{0} > ", węzeł);
+                placeOfSiteMapPath.InnerHtml += String.Format("{0} > ", węzeł);
             }
 
             if (Formularze.Start.ŚcieżkaStrony.Elementy.Any())

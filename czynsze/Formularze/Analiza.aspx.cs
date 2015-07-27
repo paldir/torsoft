@@ -63,8 +63,8 @@ namespace czynsze.Formularze
                     case Enumeratory.Analiza.ObrotyWgGrupSumy:
                     case Enumeratory.Analiza.OgolemWgGrupSkladniki:
                     case Enumeratory.Analiza.OgolemWgGrupSumy:
-                        List<string> id = new List<string>();
-                        List<string> nazwy = new List<string>();
+                        Lista<string> id = new List<string>();
+                        Lista<string> nazwy = new List<string>();
 
                         placeOfOthers.Controls.Add(new Kontrolki.Label("kontrolka", "grupyCzynszu", "Grupy składników czynszu: ", String.Empty));
 
@@ -79,11 +79,15 @@ namespace czynsze.Formularze
                         switch (rodzaj)
                         {
                             case Enumeratory.Analiza.NaleznosciWgGrupSkladniki:
+                            case Enumeratory.Analiza.ObrotyWgGrupSkladniki:
+                            case Enumeratory.Analiza.OgolemWgGrupSkladniki:
                                 konkretnyRodzaj = "Wg grup - składniki";
 
                                 break;
 
                             case Enumeratory.Analiza.NaleznosciWgGrupSumy:
+                            case Enumeratory.Analiza.ObrotyWgGrupSumy:
+                            case Enumeratory.Analiza.OgolemWgGrupSumy:
                                 konkretnyRodzaj = "Wg grup - sumy";
 
                                 break;
@@ -93,7 +97,7 @@ namespace czynsze.Formularze
                 }
 
                 Start.ŚcieżkaStrony.Dodaj(ogólnyRodzaj);
-                Start.ŚcieżkaStrony.Dodaj(konkretnyRodzaj, Request.Url.PathAndQuery);
+                Start.ŚcieżkaStrony.Dodaj(konkretnyRodzaj, ŚcieżkaIQuery);
 
                 Title = String.Format("{0} - {1}", ogólnyRodzaj, konkretnyRodzaj);
 
@@ -183,7 +187,7 @@ namespace czynsze.Formularze
                         case Enumeratory.Analiza.ObrotyWgGrupSumy:
                         case Enumeratory.Analiza.OgolemWgGrupSkladniki:
                         case Enumeratory.Analiza.OgolemWgGrupSumy:
-                            List<int> wybraneGrupy = new List<int>();
+                            Lista<int> wybraneGrupy = new List<int>();
 
                             for (int i = 0; i < db.GrupySkładnikówCzynszu.Count(); i++)
                             {

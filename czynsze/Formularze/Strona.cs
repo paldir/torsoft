@@ -7,21 +7,23 @@ using System.Web.UI;
 
 namespace czynsze.Formularze
 {
-    public class Strona : System.Web.UI.Page
+    public abstract class Strona : System.Web.UI.Page
     {
         protected static ŚcieżkaStrony ŚcieżkaStrony { get; set; }
-        
-        public T PobierzWartośćParametru<T>(string klucz)
+        protected string ŚcieżkaIQuery { get { return Request.Url.PathAndQuery; } }
+
+        protected T PobierzWartośćParametru<T>(string klucz)
         {
             string wartość = Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith(klucz))];
+            Type typ = typeof(T);
 
             if (wartość == null)
                 return default(T);
 
-            if (typeof(T).IsEnum)
-                return (T)Enum.Parse(typeof(T), wartość);
+            if (typ.IsEnum)
+                return (T)Enum.Parse(typ, wartość);
             else
-                return (T)Convert.ChangeType(wartość, typeof(T));
+                return (T)Convert.ChangeType(wartość, typ);
         }
 
         public static void DodajNowąLinię(Control pojemnik)
@@ -40,7 +42,7 @@ namespace czynsze.Formularze
                 minimalnyLokal = pierwszyLokal.nr_lok;
                 maksymalnyBudynek = ostatniLokal.kod_lok;
                 maksymalnyLokal = ostatniLokal.nr_lok;
-                List<string[]> lokaleDoListy = new List<string[]>();
+                Lista<string[]> lokaleDoListy = new List<string[]>();
 
                 foreach (DostępDoBazy.AktywnyLokal lokal in lokale)
                 {
@@ -61,8 +63,8 @@ namespace czynsze.Formularze
         {
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
-                List<string[]> budynki = db.Budynki.AsEnumerable<DostępDoBazy.Budynek>().OrderBy(b => b.kod_1).Select(b => new string[] { b.kod_1.ToString(), b.kod_1.ToString(), b.adres, b.adres_2 }).ToList();
-                List<string[]> wspólnoty = db.Wspólnoty.AsEnumerable<DostępDoBazy.Wspólnota>().OrderBy(w => w.kod).Select(w => new string[] { w.kod.ToString(), w.kod.ToString(), w.nazwa_skr, w.adres, w.adres_2 }).ToList();
+                Lista<string[]> budynki = db.Budynki.AsEnumerable<DostępDoBazy.Budynek>().OrderBy(b => b.kod_1).Select(b => new string[] { b.kod_1.ToString(), b.kod_1.ToString(), b.adres, b.adres_2 }).ToList();
+                Lista<string[]> wspólnoty = db.Wspólnoty.AsEnumerable<DostępDoBazy.Wspólnota>().OrderBy(w => w.kod).Select(w => new string[] { w.kod.ToString(), w.kod.ToString(), w.nazwa_skr, w.adres, w.adres_2 }).ToList();
                 minimalnaWspólnota = (db.Wspólnoty.Any() ? db.Wspólnoty.Min(c => c.kod) : 0);
                 maksymalnaWspólnota = (db.Wspólnoty.Any() ? db.Wspólnoty.Max(c => c.kod) : 0);
 

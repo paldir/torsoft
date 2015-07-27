@@ -136,7 +136,7 @@ namespace czynsze.Formularze
                         rok = PobierzWartośćParametru<int>("rok");
                         miesiąc = PobierzWartośćParametru<int>("miesiąc");
                         dzień = PobierzWartośćParametru<int>("dzień");
-                        List<DostępDoBazy.Należność1> należności1;
+                        Lista<DostępDoBazy.Należność1> należności1;
                         //IEnumerable<DostępDoBazy.NależnośćZDrugiegoZbioru> należności2;
                         //IEnumerable<DostępDoBazy.NależnośćZTrzeciegoZbioru> należności3;
 
@@ -209,7 +209,7 @@ namespace czynsze.Formularze
                 try
                 {
                     {
-                        List<DostępDoBazy.AktywnyLokal> aktywneLokale = db.AktywneLokale.OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok).ToList();
+                        Lista<DostępDoBazy.AktywnyLokal> aktywneLokale = db.AktywneLokale.OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok).ToList();
                         int indeksPierwszego = aktywneLokale.FindIndex(l => l.kod_lok == odBudynku && l.nr_lok == odLokalu);
                         int indeksOstatniego = aktywneLokale.FindLastIndex(l => l.kod_lok == doBudynku && l.nr_lok == doLokalu);
                         aktywneLokale = aktywneLokale.GetRange(indeksPierwszego, indeksOstatniego - indeksPierwszego + 1);

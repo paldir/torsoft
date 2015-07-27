@@ -9,9 +9,9 @@ using System.Web.UI.HtmlControls;
 
 namespace czynsze.Formularze
 {
-    public partial class List : Strona
+    public partial class Lista : Strona
     {
-        Enumeratory.Tabela table;
+        Enumeratory.Tabela _tabela;
 
         List<string[]> _wiersze
         {
@@ -28,7 +28,7 @@ namespace czynsze.Formularze
             set { ViewState["wiersze"] = value; }
         }
 
-        string[] headers
+        string[] _nagłówki
         {
             get
             {
@@ -41,7 +41,7 @@ namespace czynsze.Formularze
             set { ViewState["headers"] = value; }
         }
 
-        Enumeratory.PorządekSortowania sortOrder
+        Enumeratory.PorządekSortowania _porządekSortowania
         {
             get
             {
@@ -54,7 +54,7 @@ namespace czynsze.Formularze
             set { ViewState["sortOrder"] = value; }
         }
 
-        bool sortable
+        bool _sortowalna
         {
             get
             {
@@ -67,7 +67,7 @@ namespace czynsze.Formularze
             set { ViewState["sortable"] = value; }
         }
 
-        List<int> indexesOfNumericColumns
+        List<int> _indeksyKolumnNumerycznych
         {
             get
             {
@@ -80,7 +80,7 @@ namespace czynsze.Formularze
             set { ViewState["indexesOfNumericColumns"] = value; }
         }
 
-        List<int> indexesOfColumnsWithSummary
+        List<int> _indeksyKolumnZPodsumowaniem
         {
             get
             {
@@ -98,23 +98,23 @@ namespace czynsze.Formularze
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
                 //table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))]);
-                table = PobierzWartośćParametru<Enumeratory.Tabela>("table");
-                string postBackUrl = "Record.aspx";
-                string heading;
-                string nodeOfSiteMapPath;
-                List<string[]> subMenu = null;
-                sortable = true;
+                _tabela = PobierzWartośćParametru<Enumeratory.Tabela>("table");
+                string url = "Record.aspx";
+                string nagłówek;
+                string węzełŚcieżkiStrony;
+                Lista<string[]> podMenu = null;
+                _sortowalna = true;
                 int id = PobierzWartośćParametru<int>("id");//-1;
                 IEnumerable<DostępDoBazy.IRekordWyświetlanyWTabeli> rekordyTabeli = null;
 
                 //if (Request.Params["id"] != null)
                 //  id = (int)Enum.Parse(typeof(int), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("dfsdf"))]);
 
-                switch (table)
+                switch (_tabela)
                 {
                     case Enumeratory.Tabela.NieaktywneLokale:
                     case Enumeratory.Tabela.NieaktywniNajemcy:
-                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "browseaction", "Przeglądaj", postBackUrl));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "browseaction", "Przeglądaj", url));
 
                         break;
 
@@ -125,20 +125,20 @@ namespace czynsze.Formularze
                         break;
 
                     default:
-                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "addaction", "Dodaj", postBackUrl));
-                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "editaction", "Edytuj", postBackUrl));
-                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "deleteaction", "Usuń", postBackUrl));
-                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "browseaction", "Przeglądaj", postBackUrl));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "addaction", "Dodaj", url));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "editaction", "Edytuj", url));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "deleteaction", "Usuń", url));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "browseaction", "Przeglądaj", url));
 
                         break;
                 }
 
-                switch (table)
+                switch (_tabela)
                 {
                     case Enumeratory.Tabela.Budynki:
-                        heading = nodeOfSiteMapPath = "Budynki";
-                        headers = new string[] { "Kod", "Adres", "Adres cd." };
-                        indexesOfNumericColumns = new List<int>() { 1 };
+                        nagłówek = węzełŚcieżkiStrony = "Budynki";
+                        _nagłówki = new string[] { "Kod", "Adres", "Adres cd." };
+                        _indeksyKolumnNumerycznych = new List<int>() { 1 };
 
                         if (!IsPostBack)
                             rekordyTabeli = db.Budynki.OrderBy(b => b.kod_1);
@@ -147,18 +147,18 @@ namespace czynsze.Formularze
 
                     case Enumeratory.Tabela.AktywneLokale:
                     case Enumeratory.Tabela.NieaktywneLokale:
-                        heading = nodeOfSiteMapPath = "Lokale";
-                        headers = new string[] { "Kod budynku", "Numer lokalu", "Typ lokalu", "Powierzchnia użytkowa", "Nazwisko", "Imię" };
-                        indexesOfNumericColumns = new List<int>() { 1, 2, 4 };
-                        IEnumerable<DostępDoBazy.Lokal> places = null;
+                        nagłówek = "Lokale";
+                        _nagłówki = new string[] { "Kod budynku", "Numer lokalu", "Typ lokalu", "Powierzchnia użytkowa", "Nazwisko", "Imię" };
+                        _indeksyKolumnNumerycznych = new List<int>() { 1, 2, 4 };
+                        IEnumerable<DostępDoBazy.Lokal> lokale = null;
 
-                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "moveaction", "Przenieś", postBackUrl));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "moveaction", "Przenieś", url));
 
-                        switch (table)
+                        switch (_tabela)
                         {
                             case Enumeratory.Tabela.AktywneLokale:
-                                heading += " (aktywne)";
-                                subMenu = new List<string[]>()
+                                nagłówek += " (aktywne)";
+                                podMenu = new List<string[]>()
                                 {
                                     new string[]
                                     {
@@ -170,64 +170,68 @@ namespace czynsze.Formularze
                                 };
 
                                 if (!IsPostBack)
-                                    places = db.AktywneLokale;
+                                    lokale = db.AktywneLokale;
 
                                 break;
 
                             case Enumeratory.Tabela.NieaktywneLokale:
-                                heading += " (nieaktywne)";
+                                nagłówek += " (nieaktywne)";
 
                                 if (!IsPostBack)
-                                    places = db.NieaktywneLokale;
+                                    lokale = db.NieaktywneLokale;
 
                                 break;
                         }
 
-                        if (places != null)
+                        węzełŚcieżkiStrony = nagłówek;
+
+                        if (lokale != null)
                         {
-                            DostępDoBazy.Lokal.TypesOfPlace = db.TypyLokali.ToList();
-                            rekordyTabeli = places.OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok);
+                            DostępDoBazy.Lokal.TypyLokali = db.TypyLokali.ToList();
+                            rekordyTabeli = lokale.OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok);
                         }
 
                         break;
 
                     case Enumeratory.Tabela.AktywniNajemcy:
                     case Enumeratory.Tabela.NieaktywniNajemcy:
-                        heading = nodeOfSiteMapPath = "Najemcy";
-                        headers = new string[] { "Numer kontrolny", "Nazwisko", "Imię", "Adres", "Adres cd." };
-                        indexesOfNumericColumns = new List<int>() { 1 };
-                        IEnumerable<DostępDoBazy.Najemca> tenants = null;
+                        nagłówek = "Najemcy";
+                        _nagłówki = new string[] { "Numer kontrolny", "Nazwisko", "Imię", "Adres", "Adres cd." };
+                        _indeksyKolumnNumerycznych = new List<int>() { 1 };
+                        IEnumerable<DostępDoBazy.Najemca> najemcy = null;
 
-                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "moveaction", "Przenieś", postBackUrl));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "moveaction", "Przenieś", url));
 
-                        switch (table)
+                        switch (_tabela)
                         {
                             case Enumeratory.Tabela.AktywniNajemcy:
-                                heading += " (aktywni)";
+                                nagłówek += " (aktywni)";
 
                                 if (!IsPostBack)
-                                    tenants = db.AktywniNajemcy;
+                                    najemcy = db.AktywniNajemcy;
 
                                 break;
 
                             case Enumeratory.Tabela.NieaktywniNajemcy:
-                                heading += " (nieaktywni)";
+                                nagłówek += " (nieaktywni)";
 
                                 if (!IsPostBack)
-                                    tenants = db.NieaktywniNajemcy;
+                                    najemcy = db.NieaktywniNajemcy;
 
                                 break;
                         }
 
-                        if (tenants != null)
-                            rekordyTabeli = tenants.OrderBy(t => t.nazwisko).ThenBy(t => t.imie);
+                        węzełŚcieżkiStrony = nagłówek;
+
+                        if (najemcy != null)
+                            rekordyTabeli = najemcy.OrderBy(t => t.nazwisko).ThenBy(t => t.imie);
 
                         break;
 
                     case Enumeratory.Tabela.SkladnikiCzynszu:
-                        heading = nodeOfSiteMapPath = "Składniki opłat";
-                        headers = new string[] { "Numer", "Nazwa", "Sposób naliczania", "Typ", "Stawka zł" };
-                        indexesOfNumericColumns = new List<int>() { 1, 5 };
+                        nagłówek = węzełŚcieżkiStrony = "Składniki opłat";
+                        _nagłówki = new string[] { "Numer", "Nazwa", "Sposób naliczania", "Typ", "Stawka zł" };
+                        _indeksyKolumnNumerycznych = new List<int>() { 1, 5 };
 
                         if (!IsPostBack)
                             rekordyTabeli = db.SkładnikiCzynszu.OrderBy(c => c.nr_skl);
@@ -235,9 +239,9 @@ namespace czynsze.Formularze
                         break;
 
                     case Enumeratory.Tabela.Wspolnoty:
-                        heading = nodeOfSiteMapPath = "Wspólnoty";
-                        headers = new string[] { "Kod", "Nazwa wspólnoty", "Il. bud.", "Il. miesz." };
-                        indexesOfNumericColumns = new List<int>() { 1, 3, 4 };
+                        nagłówek = węzełŚcieżkiStrony = "Wspólnoty";
+                        _nagłówki = new string[] { "Kod", "Nazwa wspólnoty", "Il. bud.", "Il. miesz." };
+                        _indeksyKolumnNumerycznych = new List<int>() { 1, 3, 4 };
 
                         if (!IsPostBack)
                             rekordyTabeli = db.Wspólnoty.OrderBy(c => c.kod);
@@ -245,9 +249,9 @@ namespace czynsze.Formularze
                         break;
 
                     case Enumeratory.Tabela.TypyLokali:
-                        heading = nodeOfSiteMapPath = "Typy lokali";
-                        headers = new string[] { "Kod", "Typ lokalu" };
-                        indexesOfNumericColumns = new List<int>() { 1 };
+                        nagłówek = węzełŚcieżkiStrony = "Typy lokali";
+                        _nagłówki = new string[] { "Kod", "Typ lokalu" };
+                        _indeksyKolumnNumerycznych = new List<int>() { 1 };
 
                         if (!IsPostBack)
                             rekordyTabeli = db.TypyLokali.OrderBy(t => t.kod_typ);
@@ -255,9 +259,9 @@ namespace czynsze.Formularze
                         break;
 
                     case Enumeratory.Tabela.TypyKuchni:
-                        heading = nodeOfSiteMapPath = "Rodzaje kuchni";
-                        headers = new string[] { "Kod", "Rodzaj kuchni" };
-                        indexesOfNumericColumns = new List<int>() { 1 };
+                        nagłówek = węzełŚcieżkiStrony = "Rodzaje kuchni";
+                        _nagłówki = new string[] { "Kod", "Rodzaj kuchni" };
+                        _indeksyKolumnNumerycznych = new List<int>() { 1 };
 
                         if (!IsPostBack)
                             rekordyTabeli = db.TypyKuchni.OrderBy(t => t.kod_kuch);
@@ -265,9 +269,9 @@ namespace czynsze.Formularze
                         break;
 
                     case Enumeratory.Tabela.RodzajeNajemcy:
-                        heading = nodeOfSiteMapPath = "Rodzaje najemców";
-                        headers = new string[] { "Kod", "Rodzaj najemcy" };
-                        indexesOfNumericColumns = new List<int>() { 1 };
+                        nagłówek = węzełŚcieżkiStrony = "Rodzaje najemców";
+                        _nagłówki = new string[] { "Kod", "Rodzaj najemcy" };
+                        _indeksyKolumnNumerycznych = new List<int>() { 1 };
 
                         if (!IsPostBack)
                             rekordyTabeli = db.TypyNajemców.OrderBy(t => t.kod_najem);
@@ -275,9 +279,9 @@ namespace czynsze.Formularze
                         break;
 
                     case Enumeratory.Tabela.TytulyPrawne:
-                        heading = nodeOfSiteMapPath = "Tytuły prawne do lokali";
-                        headers = new string[] { "Kod", "Tytuł prawny" };
-                        indexesOfNumericColumns = new List<int>() { 1 };
+                        nagłówek = węzełŚcieżkiStrony = "Tytuły prawne do lokali";
+                        _nagłówki = new string[] { "Kod", "Tytuł prawny" };
+                        _indeksyKolumnNumerycznych = new List<int>() { 1 };
 
                         if (!IsPostBack)
                             rekordyTabeli = db.TytułyPrawne.OrderBy(t => t.kod_praw);
@@ -285,9 +289,9 @@ namespace czynsze.Formularze
                         break;
 
                     case Enumeratory.Tabela.TypyWplat:
-                        heading = nodeOfSiteMapPath = "Rodzaje wpłat i wypłat";
-                        headers = new string[] { "Kod", "Rodzaj wpłaty lub wypłaty", "Sposób rozliczania", "Odsetki", "NO" };
-                        indexesOfNumericColumns = new List<int>() { 1 };
+                        nagłówek = węzełŚcieżkiStrony = "Rodzaje wpłat i wypłat";
+                        _nagłówki = new string[] { "Kod", "Rodzaj wpłaty lub wypłaty", "Sposób rozliczania", "Odsetki", "NO" };
+                        _indeksyKolumnNumerycznych = new List<int>() { 1 };
 
                         if (!IsPostBack)
                             rekordyTabeli = db.RodzajePłatności.OrderBy(t => t.kod_wplat);
@@ -295,9 +299,9 @@ namespace czynsze.Formularze
                         break;
 
                     case Enumeratory.Tabela.GrupySkładnikowCzynszu:
-                        heading = nodeOfSiteMapPath = "Grupy składników czynszu";
-                        headers = new string[] { "Kod", "Nazwa grupy" };
-                        indexesOfNumericColumns = new List<int>() { 1 };
+                        nagłówek = węzełŚcieżkiStrony = "Grupy składników czynszu";
+                        _nagłówki = new string[] { "Kod", "Nazwa grupy" };
+                        _indeksyKolumnNumerycznych = new List<int>() { 1 };
 
                         if (!IsPostBack)
                             rekordyTabeli = db.GrupySkładnikówCzynszu.OrderBy(g => g.kod);
@@ -305,9 +309,9 @@ namespace czynsze.Formularze
                         break;
 
                     case Enumeratory.Tabela.GrupyFinansowe:
-                        heading = nodeOfSiteMapPath = "Grupy finansowe";
-                        headers = new string[] { "Kod", "Konto", "Nazwa grupy" };
-                        indexesOfNumericColumns = new List<int>() { 1 };
+                        nagłówek = węzełŚcieżkiStrony = "Grupy finansowe";
+                        _nagłówki = new string[] { "Kod", "Konto", "Nazwa grupy" };
+                        _indeksyKolumnNumerycznych = new List<int>() { 1 };
 
                         if (!IsPostBack)
                             rekordyTabeli = db.GrupyFinansowe.OrderBy(g => g.kod);
@@ -315,8 +319,8 @@ namespace czynsze.Formularze
                         break;
 
                     case Enumeratory.Tabela.StawkiVat:
-                        heading = nodeOfSiteMapPath = "Stawki VAT";
-                        headers = new string[] { "Oznaczenie stawki", "Symbol fiskalny" };
+                        nagłówek = węzełŚcieżkiStrony = "Stawki VAT";
+                        _nagłówki = new string[] { "Oznaczenie stawki", "Symbol fiskalny" };
 
                         if (!IsPostBack)
                             rekordyTabeli = db.StawkiVat.OrderBy(r => r.symb_fisk);
@@ -324,9 +328,9 @@ namespace czynsze.Formularze
                         break;
 
                     case Enumeratory.Tabela.Atrybuty:
-                        heading = nodeOfSiteMapPath = "Cechy obiektów";
-                        headers = new string[] { "Kod", "Nazwa", "N/C", "L.", "N.", "B.", "Wsp." };
-                        indexesOfNumericColumns = new List<int>() { 1 };
+                        nagłówek = węzełŚcieżkiStrony = "Cechy obiektów";
+                        _nagłówki = new string[] { "Kod", "Nazwa", "N/C", "L.", "N.", "B.", "Wsp." };
+                        _indeksyKolumnNumerycznych = new List<int>() { 1 };
 
                         if (!IsPostBack)
                             rekordyTabeli = db.Atrybuty.OrderBy(a => a.kod);
@@ -334,8 +338,8 @@ namespace czynsze.Formularze
                         break;
 
                     case Enumeratory.Tabela.Uzytkownicy:
-                        heading = nodeOfSiteMapPath = "Użytkownicy";
-                        headers = new string[] { "Symbol", "Nazwisko", "Imię" };
+                        nagłówek = węzełŚcieżkiStrony = "Użytkownicy";
+                        _nagłówki = new string[] { "Symbol", "Nazwisko", "Imię" };
 
                         if (!IsPostBack)
                             rekordyTabeli = db.Użytkownicy.OrderBy(u => u.symbol);
@@ -343,17 +347,17 @@ namespace czynsze.Formularze
                         break;
 
                     case Enumeratory.Tabela.NaleznosciWedlugNajemcow:
-                        heading = nodeOfSiteMapPath = "Należności i obroty według najemców";
-                        headers = new string[] { "Numer kontrolny", "Nazwisko", "Imię", "Adres", "Adres cd." };
-                        sortable = false;
-                        indexesOfNumericColumns = new List<int>();// { 3, 4 };
-                        subMenu = new List<string[]>()
+                        nagłówek = węzełŚcieżkiStrony = "Należności i obroty według najemców";
+                        _nagłówki = new string[] { "Numer kontrolny", "Nazwisko", "Imię", "Adres", "Adres cd." };
+                        _sortowalna = false;
+                        _indeksyKolumnNumerycznych = new List<int>();// { 3, 4 };
+                        podMenu = new List<string[]>()
                         {
                             new string[]
                             {
                                 "Należności",
-                                "<a href=\"javascript: Redirect('List.aspx?table=WszystkieNaleznosciNajemcy')\">Wszystkie</a>",
-                                "<a href=\"javascript: Redirect('List.aspx?table=NieprzeterminowaneNaleznosciNajemcy')\">Nieprzeterminowane</a>"
+                                "<a href=\"javascript: Redirect('Lista.aspx?table=WszystkieNaleznosciNajemcy')\">Wszystkie</a>",
+                                "<a href=\"javascript: Redirect('Lista.aspx?table=NieprzeterminowaneNaleznosciNajemcy')\">Nieprzeterminowane</a>"
                             },
                             new string[]
                             {
@@ -370,70 +374,72 @@ namespace czynsze.Formularze
                             DostępDoBazy.Najemca.AktywneLokale = null;
                         }
 
-                        Kontrolki.RadioButtonList list = new Kontrolki.RadioButtonList("list", "by", new List<string> { "wg nazwiska", "wg kodu lokalu" }, new List<string> { "nazwisko", "kod" }, "nazwisko", true, true);
-                        list.SelectedIndexChanged += list_SelectedIndexChanged;
+                        Kontrolki.RadioButtonList lista = new Kontrolki.RadioButtonList("list", "by", new List<string> { "wg nazwiska", "wg kodu lokalu" }, new List<string> { "nazwisko", "kod" }, "nazwisko", true, true);
+                        lista.SelectedIndexChanged += list_SelectedIndexChanged;
 
-                        placeOfMainTableButtons.Controls.Add(list);
+                        placeOfMainTableButtons.Controls.Add(lista);
                         placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", "saldo", "Saldo", "javascript: Redirect('SaldoNajemcy.aspx?dummy=dummy')"));
 
                         break;
 
                     case Enumeratory.Tabela.WszystkieNaleznosciNajemcy:
                     case Enumeratory.Tabela.NieprzeterminowaneNaleznosciNajemcy:
-                        headers = new string[] { "Kwota należności", "Termin zapłaty", "Uwagi", "Kod lokalu", "Nr lokalu" };
-                        sortable = false;
-                        indexesOfNumericColumns = new List<int>() { 1, 4, 5 };
-                        indexesOfColumnsWithSummary = new List<int>() { 1 };
+                        _nagłówki = new string[] { "Kwota należności", "Termin zapłaty", "Uwagi", "Kod lokalu", "Nr lokalu" };
+                        _sortowalna = false;
+                        _indeksyKolumnNumerycznych = new List<int>() { 1, 4, 5 };
+                        _indeksyKolumnZPodsumowaniem = new List<int>() { 1 };
                         {
-                            DostępDoBazy.Najemca tenant = db.AktywniNajemcy.FirstOrDefault(t => t.nr_kontr == id);
-                            heading = nodeOfSiteMapPath = "Należności najemcy " + tenant.nazwisko + " " + tenant.imie;
-                            List<DostępDoBazy.Należność1> receivables = db.Należności1.Where(r => r.nr_kontr == id).OrderBy(r => r.data_nal).ToList();
+                            DostępDoBazy.Najemca najemca = db.AktywniNajemcy.FirstOrDefault(t => t.nr_kontr == id);
+                            nagłówek = String.Format("Należności najemcy {0} {1}", najemca.nazwisko, najemca.imie);
+                            Lista<DostępDoBazy.Należność1> należności = db.Należności1.Where(r => r.nr_kontr == id).OrderBy(r => r.data_nal).ToList();
 
-                            switch (table)
+                            switch (_tabela)
                             {
                                 case Enumeratory.Tabela.WszystkieNaleznosciNajemcy:
-                                    rekordyTabeli = receivables;
+                                    rekordyTabeli = należności;
 
                                     break;
 
                                 case Enumeratory.Tabela.NieprzeterminowaneNaleznosciNajemcy:
-                                    heading += " (nieprzeterminowane)";
-                                    rekordyTabeli = receivables.Where(r => r.data_nal >= Start.Data);
+                                    nagłówek += " (nieprzeterminowane)";
+                                    rekordyTabeli = należności.Where(r => r.data_nal >= Start.Data);
 
                                     break;
                             }
+
+                            węzełŚcieżkiStrony = nagłówek;
                         }
 
                         break;
 
                     case Enumeratory.Tabela.ObrotyNajemcy:
-                        headers = new string[] { "Kwota", "Data", "Data NO", "Operacja", "Nr dowodu", "Pozycja", "Uwagi" };
-                        sortable = false;
-                        indexesOfNumericColumns = new List<int>() { 1, 6 };
+                        _nagłówki = new string[] { "Kwota", "Data", "Data NO", "Operacja", "Nr dowodu", "Pozycja", "Uwagi" };
+                        _sortowalna = false;
+                        _indeksyKolumnNumerycznych = new List<int>() { 1, 6 };
                         {
-                            IEnumerable<DostępDoBazy.Obrót> turnovers = null;
-                            DostępDoBazy.Najemca tenant = db.AktywniNajemcy.FirstOrDefault(t => t.nr_kontr == id);
-                            heading = nodeOfSiteMapPath = "Obroty najemcy " + tenant.nazwisko + " " + tenant.imie;
+                            IEnumerable<DostępDoBazy.Obrót> obroty = null;
+                            DostępDoBazy.Najemca najemca = db.AktywniNajemcy.FirstOrDefault(t => t.nr_kontr == id);
+                            nagłówek = węzełŚcieżkiStrony = "Obroty najemcy " + najemca.nazwisko + " " + najemca.imie;
 
                             switch (Start.AktywnyZbiór)
                             {
                                 case Enumeratory.Zbiór.Czynsze:
-                                    turnovers = db.Obroty1.Where(t => t.nr_kontr == id);
+                                    obroty = db.Obroty1;
 
                                     break;
 
                                 case Enumeratory.Zbiór.Drugi:
-                                    turnovers = db.Obroty2.Where(t => t.nr_kontr == id);
+                                    obroty = db.Obroty2;
 
                                     break;
 
                                 case Enumeratory.Zbiór.Trzeci:
-                                    turnovers = db.Obroty3.Where(t => t.nr_kontr == id);
+                                    obroty = db.Obroty3;
 
                                     break;
                             }
 
-                            rekordyTabeli = turnovers.OrderBy(t => t.data_obr);
+                            rekordyTabeli = obroty.Where(t => t.nr_kontr == id).OrderBy(t => t.data_obr);
 
                             placeOfMainTableButtons.Controls.Add(new Kontrolki.HtmlInputHidden("additionalId", id.ToString()));
                         }
@@ -441,8 +447,8 @@ namespace czynsze.Formularze
                         break;
 
                     default:
-                        heading = null;
-                        nodeOfSiteMapPath = null;
+                        nagłówek = null;
+                        węzełŚcieżkiStrony = null;
 
                         break;
                 }
@@ -450,52 +456,51 @@ namespace czynsze.Formularze
                 if (!IsPostBack)
                     _wiersze = rekordyTabeli.Select(r => r.PolaDoTabeli()).ToList();
 
-                DostępDoBazy.Lokal.TypesOfPlace = null;
+                DostępDoBazy.Lokal.TypyLokali = null;
 
-                placeOfHeading.Controls.Add(new LiteralControl("<h2>" + heading + "</h2>"));
-                placeOfMainTableButtons.Controls.Add(new Kontrolki.HtmlInputHidden("table", table.ToString()));
+                placeOfHeading.Controls.Add(new LiteralControl("<h2>" + nagłówek + "</h2>"));
+                placeOfMainTableButtons.Controls.Add(new Kontrolki.HtmlInputHidden("table", _tabela.ToString()));
 
-                if (subMenu != null)
+                if (podMenu != null)
                 {
-                    Kontrolki.HtmlGenericControl superUl = new Kontrolki.HtmlGenericControl("ul", "superMenu");
+                    Kontrolki.HtmlGenericControl nadUl = new Kontrolki.HtmlGenericControl("ul", "superMenu");
 
-                    foreach (string[] items in subMenu)
+                    foreach (string[] items in podMenu)
                     {
-                        Kontrolki.HtmlGenericControl superLi = new Kontrolki.HtmlGenericControl("li", String.Empty);
-                        Kontrolki.HtmlGenericControl subUl = new Kontrolki.HtmlGenericControl("ul", "subMenu");
+                        Kontrolki.HtmlGenericControl nadLi = new Kontrolki.HtmlGenericControl("li", String.Empty);
+                        Kontrolki.HtmlGenericControl podUl = new Kontrolki.HtmlGenericControl("ul", "subMenu");
 
-                        superLi.Controls.Add(new LiteralControl(items[0]));
+                        nadLi.Controls.Add(new LiteralControl(items[0]));
 
                         for (int i = 1; i < items.Length; i++)
                         {
-                            Kontrolki.HtmlGenericControl subLi = new Kontrolki.HtmlGenericControl("li", String.Empty);
+                            Kontrolki.HtmlGenericControl podLi = new Kontrolki.HtmlGenericControl("li", String.Empty);
 
-                            subLi.Controls.Add(new LiteralControl(items[i]));
-                            subUl.Controls.Add(subLi);
+                            podLi.Controls.Add(new LiteralControl(items[i]));
+                            podUl.Controls.Add(podLi);
                         }
 
-                        superLi.Controls.Add(subUl);
-                        superUl.Controls.Add(superLi);
+                        nadLi.Controls.Add(podUl);
+                        nadUl.Controls.Add(nadLi);
                     }
 
-                    placeOfMainTableButtons.Controls.Add(superUl);
+                    placeOfMainTableButtons.Controls.Add(nadUl);
                 }
 
-                Title = heading;
+                Title = nagłówek;
                 Session["values"] = null;
-                string url = Request.Url.PathAndQuery;
 
-                switch (table)
+                switch (_tabela)
                 {
                     case Enumeratory.Tabela.AktywneLokale:
                     case Enumeratory.Tabela.NieaktywneLokale:
-                        Start.ŚcieżkaStrony = new ŚcieżkaStrony(new ElementŚcieżkiStrony("Kartoteki"), new ElementŚcieżkiStrony("Lokale", url));
+                        Start.ŚcieżkaStrony = new ŚcieżkaStrony("Kartoteki", "Lokale");
 
                         break;
 
                     case Enumeratory.Tabela.AktywniNajemcy:
                     case Enumeratory.Tabela.NieaktywniNajemcy:
-                        Start.ŚcieżkaStrony = new ŚcieżkaStrony(new ElementŚcieżkiStrony("Kartoteki"), new ElementŚcieżkiStrony("Najemcy", url));
+                        Start.ŚcieżkaStrony = new ŚcieżkaStrony("Kartoteki", "Najemcy");
 
                         break;
 
@@ -507,25 +512,15 @@ namespace czynsze.Formularze
                         break;
 
                     case Enumeratory.Tabela.NaleznosciWedlugNajemcow:
-                        Start.ŚcieżkaStrony = new ŚcieżkaStrony(new ElementŚcieżkiStrony("Rozliczenia finansowe"), new ElementŚcieżkiStrony("Należności i obroty", url));
+                        Start.ŚcieżkaStrony = new ŚcieżkaStrony("Rozliczenia finansowe", "Należności i obroty");
 
-                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", "turnoversEditing", "Dodaj/usuń obroty", "javascript: Redirect('List.aspx?table=" + Enumeratory.Tabela.ObrotyNajemcy + "')"));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("button", "turnoversEditing", "Dodaj/usuń obroty", "javascript: Redirect('Lista.aspx?table=" + Enumeratory.Tabela.ObrotyNajemcy + "')"));
 
                         break;
 
                     case Enumeratory.Tabela.WszystkieNaleznosciNajemcy:
                     case Enumeratory.Tabela.NieprzeterminowaneNaleznosciNajemcy:
                     case Enumeratory.Tabela.ObrotyNajemcy:
-                        /*if (Start.ŚcieżkaStrony.Count > 2)
-                        {
-                            Start.ŚcieżkaStrony.RemoveRange(3, Start.ŚcieżkaStrony.Count - 3);
-
-                            string node = Start.ŚcieżkaStrony[2].Insert(0, "<a href=\"javascript: Load('List.aspx?table=" + Enumeratory.Tabela.NaleznosciWedlugNajemcow + "')\">") + "</a>";
-
-                            if (!Start.ŚcieżkaStrony.Contains(node))
-                                Start.ŚcieżkaStrony[2] = node;
-                        }*/
-                        throw new Exception();
 
                         break;
 
@@ -549,12 +544,12 @@ namespace czynsze.Formularze
                 }
 
                 //if (!Start.ŚcieżkaStrony.Contains(nodeOfSiteMapPath))
-                    Start.ŚcieżkaStrony.Dodaj(nodeOfSiteMapPath);
+                Start.ŚcieżkaStrony.Dodaj(węzełŚcieżkiStrony, ŚcieżkaIQuery);
 
                 //
                 //CXP PART
                 //
-                switch (table)
+                switch (_tabela)
                 {
                     case Enumeratory.Tabela.AktywneLokale:
                     case Enumeratory.Tabela.NieaktywneLokale:
@@ -583,35 +578,35 @@ namespace czynsze.Formularze
 
         void CreateMainTable()
         {
-            Kontrolki.Table mainTable = new Kontrolki.Table("mainTable", _wiersze.ToList(), headers, sortable, String.Empty, indexesOfNumericColumns, indexesOfColumnsWithSummary);
+            Kontrolki.Table głównaTabela = new Kontrolki.Table("mainTable", _wiersze.ToList(), _nagłówki, _sortowalna, String.Empty, _indeksyKolumnNumerycznych, _indeksyKolumnZPodsumowaniem);
 
-            if (sortable)
-                foreach (TableCell cell in mainTable.Rows[0].Cells)
-                    ((Kontrolki.LinkButton)cell.Controls[0]).Click += LinkButtonOfColumn_Click;
+            if (_sortowalna)
+                foreach (TableCell komórka in głównaTabela.Rows[0].Cells)
+                    ((Kontrolki.LinkButton)komórka.Controls[0]).Click += LinkButtonOfColumn_Click;
 
             placeOfMainTable.Controls.Clear();
-            placeOfMainTable.Controls.Add(mainTable);
+            placeOfMainTable.Controls.Add(głównaTabela);
         }
 
         void LinkButtonOfColumn_Click(object sender, EventArgs e)
         {
-            int columnNumber = Int32.Parse(((Kontrolki.LinkButton)sender).ID.Replace("column", String.Empty)) + 1;
+            int numerKolumny = Int32.Parse(((Kontrolki.LinkButton)sender).ID.Replace("column", String.Empty)) + 1;
 
-            switch (sortOrder)
+            switch (_porządekSortowania)
             {
                 case Enumeratory.PorządekSortowania.Rosnaco:
-                    try { _wiersze = _wiersze.OrderByDescending(r => Single.Parse(r[columnNumber])).ToList(); }
-                    catch { _wiersze = _wiersze.OrderByDescending(r => r[columnNumber]).ToList(); }
+                    try { _wiersze = _wiersze.OrderByDescending(r => Single.Parse(r[numerKolumny])).ToList(); }
+                    catch { _wiersze = _wiersze.OrderByDescending(r => r[numerKolumny]).ToList(); }
 
-                    sortOrder = Enumeratory.PorządekSortowania.Malejaco;
+                    _porządekSortowania = Enumeratory.PorządekSortowania.Malejaco;
 
                     break;
 
                 case Enumeratory.PorządekSortowania.Malejaco:
-                    try { _wiersze = _wiersze.OrderBy(r => Single.Parse(r[columnNumber])).ToList(); }
-                    catch { _wiersze = _wiersze.OrderBy(r => r[columnNumber]).ToList(); }
+                    try { _wiersze = _wiersze.OrderBy(r => Single.Parse(r[numerKolumny])).ToList(); }
+                    catch { _wiersze = _wiersze.OrderBy(r => r[numerKolumny]).ToList(); }
 
-                    sortOrder = Enumeratory.PorządekSortowania.Rosnaco;
+                    _porządekSortowania = Enumeratory.PorządekSortowania.Rosnaco;
 
                     break;
             }
@@ -621,9 +616,9 @@ namespace czynsze.Formularze
 
         void list_SelectedIndexChanged(object sender, EventArgs e)
         {
-            RadioButtonList list = (RadioButtonList)sender;
+            RadioButtonList lista = (RadioButtonList)sender;
 
-            switch (list.SelectedValue)
+            switch (lista.SelectedValue)
             {
                 case "nazwisko":
                     _wiersze = _wiersze.OrderBy(r => r[1]).ThenBy(r => r[2]).ToList();

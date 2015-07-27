@@ -44,7 +44,7 @@ namespace czynsze.Formularze
                 table = PobierzWartośćParametru<Enumeratory.Tabela>("table");
                 //action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(t => t.EndsWith("action"))]);
                 action = PobierzWartośćParametru<Enumeratory.Akcja>("action");
-                string backUrl = "javascript: Load('List.aspx?table=" + table + "')";
+                string backUrl = "javascript: Load('Lista.aspx?table=" + table + "')";
                 string nominativeCase = String.Empty;
                 string genitiveCase = String.Empty;
                 DostępDoBazy.IRekord record = null;

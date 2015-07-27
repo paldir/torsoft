@@ -99,7 +99,7 @@
     <Content Include="Formularze\GeneracjaNaleznosci.aspx" />
     <Content Include="Formularze\SkladnikiCzynszu.aspx" />
     <Content Include="Formularze\Start.aspx" />
-    <Content Include="Formularze\List.aspx" />
+    <Content Include="Formularze\Lista.aspx" />
     <Content Include="Formularze\Ladowanie.aspx" />
     <Content Include="Formularze\PostepGeneracjiNaleznosci.aspx" />
     <Content Include="Formularze\Record.aspx" />
@@ -299,12 +299,12 @@
     <Compile Include="Formularze\Start.aspx.designer.cs">
       <DependentUpon>Start.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Formularze\List.aspx.cs">
-      <DependentUpon>List.aspx</DependentUpon>
+    <Compile Include="Formularze\Lista.aspx.cs">
+      <DependentUpon>Lista.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Formularze\List.aspx.designer.cs">
-      <DependentUpon>List.aspx</DependentUpon>
+    <Compile Include="Formularze\Lista.aspx.designer.cs">
+      <DependentUpon>Lista.aspx</DependentUpon>
     </Compile>
     <Compile Include="Formularze\Ladowanie.aspx.cs">
       <DependentUpon>Ladowanie.aspx</DependentUpon>

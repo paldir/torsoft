@@ -44,8 +44,8 @@ namespace czynsze.Formularze
                             akcjaDziecka = (Enumeratory.Akcja)Enum.Parse(typeof(Enumeratory.Akcja), Request.Params[kluczAkcjiDziecka]);
                 }
 
-                List<string[]> wiersze = null;
-                List<string[]> wierszeRozwijanejListy = null;
+                Lista<string[]> wiersze = null;
+                Lista<string[]> wierszeRozwijanejListy = null;
 
                 switch (akcjaDziecka)
                 {

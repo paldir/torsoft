@@ -61,7 +61,7 @@ namespace czynsze.DostępDoBazy
 
         public abstract string uwagi_4 { get; set; }
 
-        public static List<TypLokalu> TypesOfPlace { get; set; }
+        public static List<TypLokalu> TypyLokali { get; set; }
         
         public string[] PolaDoTabeli()
         {
@@ -81,7 +81,7 @@ namespace czynsze.DostępDoBazy
 
         public string Rozpoznaj_kod_typ()
         {
-            TypLokalu typLokalu = TypesOfPlace.FirstOrDefault(t => t.kod_typ == this.kod_typ);
+            TypLokalu typLokalu = TypyLokali.FirstOrDefault(t => t.kod_typ == this.kod_typ);
 
             if (typLokalu == null)
                 return String.Empty;

@@ -11,7 +11,7 @@ namespace czynsze.Formularze
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            List<int> indexesOfNumericColumns = new List<int>() { 1, 2, 3 };
+            Lista<int> indexesOfNumericColumns = new List<int>() { 1, 2, 3 };
             int id = PobierzWartośćParametru<int>("id");
             string nagłówek;
 
@@ -43,14 +43,14 @@ namespace czynsze.Formularze
                         break;
                 }
 
-                List<string[]> rowsOfReceivablesAndTurnovers = receivables.Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Select(t => t.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
+                Lista<string[]> rowsOfReceivablesAndTurnovers = receivables.Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Select(t => t.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
                 decimal wnAmount = rowsOfReceivablesAndTurnovers.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
                 decimal maAmount = rowsOfReceivablesAndTurnovers.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Decimal.Parse(r[2]));
-                List<string[]> rowsOfReceivablesAndTurnoversToDate = receivables.Where(r => r.data_nal <= Start.Data).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Where(t => t.data_obr <= Start.Data).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
+                Lista<string[]> rowsOfReceivablesAndTurnoversToDate = receivables.Where(r => r.data_nal <= Start.Data).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Where(t => t.data_obr <= Start.Data).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
                 decimal wnAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
                 decimal maAmountToDay = rowsOfReceivablesAndTurnoversToDate.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Decimal.Parse(r[2]));
                 DostępDoBazy.Konfiguracja configuration = db.Konfiguracje.FirstOrDefault();
-                List<string[]> rowsOfInterestNotes = turnovers.Where(t => t.kod_wplat == configuration.p_20 || t.kod_wplat == configuration.p_37).Select(t => t.WażnePolaDoNależnościIObrotówNajemcy()).ToList();
+                Lista<string[]> rowsOfInterestNotes = turnovers.Where(t => t.kod_wplat == configuration.p_20 || t.kod_wplat == configuration.p_37).Select(t => t.WażnePolaDoNależnościIObrotówNajemcy()).ToList();
                 decimal wnOfInterestNotes = rowsOfInterestNotes.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
                 decimal maOfInterestNotes = rowsOfInterestNotes.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Decimal.Parse(r[2]));
                 dzień.InnerText = DateTime.Now.ToShortDateString();
@@ -58,7 +58,7 @@ namespace czynsze.Formularze
                 saldoNaDzień.InnerText = (maAmountToDay - wnAmountToDay).ToString("N");
                 noty.InnerText = (maOfInterestNotes - wnOfInterestNotes).ToString("N");
 
-               // Start.ŚcieżkaStrony.Add(nagłówek);
+                Start.ŚcieżkaStrony.Dodaj(nagłówek, ŚcieżkaIQuery);
             }
         }
     }
