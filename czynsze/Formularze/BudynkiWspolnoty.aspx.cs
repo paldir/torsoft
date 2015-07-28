@@ -20,7 +20,7 @@ namespace czynsze.Formularze
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
                 int kod = PobierzWartośćParametru<int>("kod");
-                Lista<string[]> wiersze = new List<string[]>();
+                List<string[]> wiersze = new List<string[]>();
                 string okno = PobierzWartośćParametru<string>("ShowWindow");
                 Enumeratory.Akcja akcjaRodzica = PobierzWartośćParametru<Enumeratory.Akcja>("parentAction");
                 Enumeratory.Akcja akcjaDziecka = PobierzWartośćParametru<Enumeratory.Akcja>("ChildAction");

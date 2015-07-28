@@ -46,7 +46,7 @@ namespace czynsze.Formularze
 
                             for (int i = 0; i < tabele.Count; i++)
                             {
-                                Lista<string[]> tabela = tabele[i];
+                                List<string[]> tabela = tabele[i];
                                 wyjątekNowejStrony = false;
 
                                 GenerujNagłówekTabeli(i);
@@ -98,7 +98,7 @@ namespace czynsze.Formularze
                         else
                         {
                             html = String.Empty;
-                            Lista<string> sekcjeHtml = (List<string>)potencjalnaGotowaDefinicjaHtml;
+                            List<string> sekcjeHtml = (List<string>)potencjalnaGotowaDefinicjaHtml;
 
                             for (int i = 0; i < sekcjeHtml.Count; i++)
                             {

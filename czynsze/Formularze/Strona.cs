@@ -9,7 +9,6 @@ namespace czynsze.Formularze
 {
     public abstract class Strona : System.Web.UI.Page
     {
-        protected static ŚcieżkaStrony ŚcieżkaStrony { get; set; }
         protected string ŚcieżkaIQuery { get { return Request.Url.PathAndQuery; } }
 
         protected T PobierzWartośćParametru<T>(string klucz)
@@ -42,7 +41,7 @@ namespace czynsze.Formularze
                 minimalnyLokal = pierwszyLokal.nr_lok;
                 maksymalnyBudynek = ostatniLokal.kod_lok;
                 maksymalnyLokal = ostatniLokal.nr_lok;
-                Lista<string[]> lokaleDoListy = new List<string[]>();
+                List<string[]> lokaleDoListy = new List<string[]>();
 
                 foreach (DostępDoBazy.AktywnyLokal lokal in lokale)
                 {
@@ -63,8 +62,8 @@ namespace czynsze.Formularze
         {
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
-                Lista<string[]> budynki = db.Budynki.AsEnumerable<DostępDoBazy.Budynek>().OrderBy(b => b.kod_1).Select(b => new string[] { b.kod_1.ToString(), b.kod_1.ToString(), b.adres, b.adres_2 }).ToList();
-                Lista<string[]> wspólnoty = db.Wspólnoty.AsEnumerable<DostępDoBazy.Wspólnota>().OrderBy(w => w.kod).Select(w => new string[] { w.kod.ToString(), w.kod.ToString(), w.nazwa_skr, w.adres, w.adres_2 }).ToList();
+                List<string[]> budynki = db.Budynki.AsEnumerable<DostępDoBazy.Budynek>().OrderBy(b => b.kod_1).Select(b => new string[] { b.kod_1.ToString(), b.kod_1.ToString(), b.adres, b.adres_2 }).ToList();
+                List<string[]> wspólnoty = db.Wspólnoty.AsEnumerable<DostępDoBazy.Wspólnota>().OrderBy(w => w.kod).Select(w => new string[] { w.kod.ToString(), w.kod.ToString(), w.nazwa_skr, w.adres, w.adres_2 }).ToList();
                 minimalnaWspólnota = (db.Wspólnoty.Any() ? db.Wspólnoty.Min(c => c.kod) : 0);
                 maksymalnaWspólnota = (db.Wspólnoty.Any() ? db.Wspólnoty.Max(c => c.kod) : 0);
 

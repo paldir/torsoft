@@ -7,8 +7,14 @@ using System.Web.UI.WebControls;
 
 namespace czynsze.Kontrolki
 {
-    public class DropDownList : System.Web.UI.WebControls.DropDownList
+    public class DropDownList : System.Web.UI.WebControls.DropDownList, IKontrolkaZWartością
     {
+        public string Wartość
+        {
+            get { return SelectedValue; }
+            set { SelectedValue = value; }
+        }
+        
         public DropDownList(string klasaCss, string id, List<string[]> wiersze, string wybranaWartość, bool włączone, bool dodaćPustąPozycję)
         {
             CssClass = klasaCss;

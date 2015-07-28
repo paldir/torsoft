@@ -5,10 +5,18 @@ using System.Web;
 
 namespace czynsze.Kontrolki
 {
-    public class TextBox : System.Web.UI.WebControls.TextBox
+    public class TextBox : System.Web.UI.WebControls.TextBox, IKontrolkaZWartością
     {
         public enum TextBoxMode { PojedynczaLinia, KilkaLinii, Data, LiczbaCałkowita, LiczbaNiecałkowita, Hasło };
-        
+
+        public string Wartość
+        {
+            get { return Text; }
+            set { Text = value; }
+        }
+
+        public TextBox() { }
+
         public TextBox(string klasaCss, string id, string tekst, TextBoxMode tryb, int długośćMaksymalna, int liczbaWierszy, bool włączony)
         {
             CssClass = klasaCss;
@@ -44,7 +52,7 @@ namespace czynsze.Kontrolki
 
                     break;
             }
-            
+
             MaxLength = długośćMaksymalna; Columns = długośćMaksymalna / liczbaWierszy;
             Rows = liczbaWierszy;
             Enabled = włączony;

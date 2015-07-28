@@ -13,7 +13,7 @@ namespace czynsze.Formularze
         {
             string[] headers = new string[] { "Kwota Wn", "Kwota Ma", "Data", "Operacja" };
             bool sortable = false;
-            Lista<int> indexesOfNumericColumns = new List<int>() { 1, 2 };
+            List<int> indexesOfNumericColumns = new List<int>() { 1, 2 };
             string summary;
             int id = PobierzWartośćParametru<int>("id");
             string nagłówek;
@@ -46,10 +46,10 @@ namespace czynsze.Formularze
                         break;
                 }
 
-                Lista<string[]> rekordyTabeli = receivables.Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Select(t => t.WażnePolaDoNależnościIObrotówNajemcy())).OrderBy(r => DateTime.Parse(r[3])).ToList();
+                List<string[]> rekordyTabeli = receivables.Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Select(t => t.WażnePolaDoNależnościIObrotówNajemcy())).OrderBy(r => DateTime.Parse(r[3])).ToList();
                 decimal wnAmount = rekordyTabeli.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
                 decimal maAmount = rekordyTabeli.Sum(r => String.IsNullOrEmpty(r[2]) ? 0 : Decimal.Parse(r[2]));
-                Lista<string[]> rowsOfPastReceivables = receivables.Where(r => r.data_nal < Start.Data).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Where(t => t.data_obr < Start.Data).Select(t => t.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
+                List<string[]> rowsOfPastReceivables = receivables.Where(r => r.data_nal < Start.Data).Select(r => r.WażnePolaDoNależnościIObrotówNajemcy()).Concat(turnovers.Where(t => t.data_obr < Start.Data).Select(t => t.WażnePolaDoNależnościIObrotówNajemcy())).ToList();
                 decimal wnAmountOfPastReceivables = rowsOfPastReceivables.Sum(r => String.IsNullOrEmpty(r[1]) ? 0 : Decimal.Parse(r[1]));
                 summary = @"
                                 <table class='additionalTable'>
@@ -97,10 +97,6 @@ namespace czynsze.Formularze
             miejscePrzycisków.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.NaleznosciIObrotyNajemcy + "raport", "Wydruk", "KonfiguracjaRaportu.aspx"));
             miejscePrzycisków.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.MiesiecznaAnalizaNaleznosciIObrotow + "raport", "Analiza miesięczna", "KonfiguracjaRaportu.aspx"));
             miejscePrzycisków.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.SzczegolowaAnalizaNaleznosciIObrotow + "raport", "Analiza szczegółowa", "KonfiguracjaRaportu.aspx"));
-
-            /*if (Start.ŚcieżkaStrony.Count > 3)
-                Start.ŚcieżkaStrony.RemoveRange(3, Start.ŚcieżkaStrony.Count - 3);*/
-
             Start.ŚcieżkaStrony.Dodaj(nagłówek, ŚcieżkaIQuery);
         }
     }

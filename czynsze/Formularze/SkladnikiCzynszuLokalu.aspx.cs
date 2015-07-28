@@ -21,14 +21,14 @@ namespace czynsze.Formularze
             {
                 int kod_lok = PobierzWartośćParametru<int>("kod_lok");
                 int nr_lok = PobierzWartośćParametru<int>("nr_lok");
-                Lista<string[]> wiersze = new List<string[]>();
+                List<string[]> wiersze = new List<string[]>();
                 string okno = PobierzWartośćParametru<string>("ShowWindow");
                 Enumeratory.Akcja akcjaRodzica = PobierzWartośćParametru<Enumeratory.Akcja>("parentAction");
                 Enumeratory.Akcja akcjaDziecka = PobierzWartośćParametru<Enumeratory.Akcja>("ChildAction");
                 int id = PobierzWartośćParametru<int>("id");
                 string url = "SkladnikiCzynszuLokalu.aspx";
-                Lista<int> wszystkieSkładnikiZWartością;
-                Lista<int> składnikiZWartością = new List<int>();
+                List<int> wszystkieSkładnikiZWartością;
+                List<int> składnikiZWartością = new List<int>();
                 DostępDoBazy.SkładnikCzynszuLokalu obecnySkładnik = null;
 
                 if (id != 0)

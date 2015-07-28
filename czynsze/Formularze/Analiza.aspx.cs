@@ -16,7 +16,6 @@ namespace czynsze.Formularze
                 Enumeratory.Analiza rodzaj = PobierzWartośćParametru<Enumeratory.Analiza>("rodzaj");
                 //Enumeratory.KwotaCzynszu tryb = PobierzWartośćParametru<Enumeratory.KwotaCzynszu>("tryb");
                 string zakres = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("Wybór"));
-                //Start.ŚcieżkaStrony = new List<string>() { "Raporty" };
                 Start.ŚcieżkaStrony = new czynsze.ŚcieżkaStrony("Raporty");
                 string ogólnyRodzaj = null;
                 string konkretnyRodzaj = null;
@@ -63,8 +62,8 @@ namespace czynsze.Formularze
                     case Enumeratory.Analiza.ObrotyWgGrupSumy:
                     case Enumeratory.Analiza.OgolemWgGrupSkladniki:
                     case Enumeratory.Analiza.OgolemWgGrupSumy:
-                        Lista<string> id = new List<string>();
-                        Lista<string> nazwy = new List<string>();
+                        List<string> id = new List<string>();
+                        List<string> nazwy = new List<string>();
 
                         placeOfOthers.Controls.Add(new Kontrolki.Label("kontrolka", "grupyCzynszu", "Grupy składników czynszu: ", String.Empty));
 
@@ -187,7 +186,7 @@ namespace czynsze.Formularze
                         case Enumeratory.Analiza.ObrotyWgGrupSumy:
                         case Enumeratory.Analiza.OgolemWgGrupSkladniki:
                         case Enumeratory.Analiza.OgolemWgGrupSumy:
-                            Lista<int> wybraneGrupy = new List<int>();
+                            List<int> wybraneGrupy = new List<int>();
 
                             for (int i = 0; i < db.GrupySkładnikówCzynszu.Count(); i++)
                             {

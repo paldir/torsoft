@@ -102,7 +102,7 @@ namespace czynsze.Formularze
                 string url = "Record.aspx";
                 string nagłówek;
                 string węzełŚcieżkiStrony;
-                Lista<string[]> podMenu = null;
+                List<string[]> podMenu = null;
                 _sortowalna = true;
                 int id = PobierzWartośćParametru<int>("id");//-1;
                 IEnumerable<DostępDoBazy.IRekordWyświetlanyWTabeli> rekordyTabeli = null;
@@ -391,7 +391,7 @@ namespace czynsze.Formularze
                         {
                             DostępDoBazy.Najemca najemca = db.AktywniNajemcy.FirstOrDefault(t => t.nr_kontr == id);
                             nagłówek = String.Format("Należności najemcy {0} {1}", najemca.nazwisko, najemca.imie);
-                            Lista<DostępDoBazy.Należność1> należności = db.Należności1.Where(r => r.nr_kontr == id).OrderBy(r => r.data_nal).ToList();
+                            List<DostępDoBazy.Należność1> należności = db.Należności1.Where(r => r.nr_kontr == id).OrderBy(r => r.data_nal).ToList();
 
                             switch (_tabela)
                             {
@@ -543,7 +543,6 @@ namespace czynsze.Formularze
                         break;
                 }
 
-                //if (!Start.ŚcieżkaStrony.Contains(nodeOfSiteMapPath))
                 Start.ŚcieżkaStrony.Dodaj(węzełŚcieżkiStrony, ŚcieżkaIQuery);
 
                 //

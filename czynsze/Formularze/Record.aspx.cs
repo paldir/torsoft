@@ -41,13 +41,13 @@ namespace czynsze.Formularze
                 int numberOfFields = 0;
                 string[] labels = null;
                 string heading = null;
-                Lista<Kontrolki.Button> buttons = new List<Kontrolki.Button>();
-                Lista<Control> controls = new List<Control>();
-                Lista<int> columnSwitching = null;
-                Lista<Kontrolki.HtmlIframe> tabs = null;
-                Lista<Kontrolki.HtmlInputRadioButton> tabButtons = null;
-                Lista<Kontrolki.Label> labelsOfTabButtons = null;
-                Lista<Control> preview = null;
+                List<Kontrolki.Button> buttons = new List<Kontrolki.Button>();
+                List<Control> controls = new List<Control>();
+                List<int> columnSwitching = null;
+                List<Kontrolki.HtmlIframe> tabs = null;
+                List<Kontrolki.HtmlInputRadioButton> tabButtons = null;
+                List<Kontrolki.Label> labelsOfTabButtons = null;
+                List<Control> preview = null;
                 //id = Int32.Parse(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"))]);
                 id = PobierzWartośćParametru<int>("id");
                 //action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("action"))]);
@@ -927,7 +927,7 @@ namespace czynsze.Formularze
                         controls.Add(new Kontrolki.TextBox("field", "wartosc", values[4], Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 25, 1, globalEnabled));
                         controls.Add(new Kontrolki.TextBox("field", "uwagi", values[5], Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 30, 1, globalEnabled));
 
-                        Lista<string> selectedValues = new List<string>();
+                        List<string> selectedValues = new List<string>();
 
                         if (values[6] == "X")
                             selectedValues.Add("l");
@@ -1047,7 +1047,7 @@ namespace czynsze.Formularze
                         controls.Add(new Kontrolki.TextBox("field", "data_obr", values[2], Kontrolki.TextBox.TextBoxMode.Data, 10, 1, globalEnabled));
                         controls.Add(new Kontrolki.TextBox("field", "?", values[3], Kontrolki.TextBox.TextBoxMode.Data, 10, 1, globalEnabled));
 
-                        Lista<DostępDoBazy.RodzajPłatności> typesOfPayment = db.RodzajePłatności.ToList();
+                        List<DostępDoBazy.RodzajPłatności> typesOfPayment = db.RodzajePłatności.ToList();
 
                         //controls.Add(new Kontrolki.RadioButtonList("field", "kod_wplat", typesOfPayment.Select(t => t.typ_wplat).ToList(), typesOfPayment.Select(t => t.kod_wplat.ToString()).ToList(), values[4], globalEnabled, false));
                         controls.Add(new Kontrolki.DropDownList("field", "kod_wplat", typesOfPayment.Select(t => t.ImportantFieldsForDropdown()).ToList(), values[4], globalEnabled, false));
@@ -1110,13 +1110,7 @@ namespace czynsze.Formularze
                 foreach (Kontrolki.Button button in buttons)
                     placeOfButtons.Controls.Add(button);
 
-                /*if (Start.ŚcieżkaStrony.Count > 0)
-                    if (!Start.ŚcieżkaStrony.Contains(heading))
-                    {
-                        Start.ŚcieżkaStrony[Start.ŚcieżkaStrony.Count - 1] = String.Concat("<a href=\"" + backUrl + "\">", Start.ŚcieżkaStrony[Start.ŚcieżkaStrony.Count - 1]) + "</a>";*/
-
                 Start.ŚcieżkaStrony.Dodaj(heading);
-                //}
             }
         }
     }

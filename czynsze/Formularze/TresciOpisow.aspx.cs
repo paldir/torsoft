@@ -15,7 +15,6 @@ namespace czynsze.Formularze
             {
                 const string format = "{0}_{1}";
                 Enumeratory.TreściOpisów tryb = PobierzWartośćParametru<Enumeratory.TreściOpisów>("which");
-                //Start.ŚcieżkaStrony = new List<string>() { "Administracja", "Treści opisów" };
                 Start.ŚcieżkaStrony = new czynsze.ŚcieżkaStrony("Administracja", "Treści opisów");
                 int liczbaPól;
                 int długośćPola;

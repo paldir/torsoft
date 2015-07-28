@@ -15,7 +15,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/23/2015 13:12:26</publishTime>
     </File>
     <File Include="bin/czynsze.dll">
-      <publishTime>07/03/2015 14:32:14</publishTime>
+      <publishTime>07/28/2015 11:06:57</publishTime>
     </File>
     <File Include="bin/de/Npgsql.resources.dll">
       <publishTime>02/23/2015 13:12:40</publishTime>
@@ -129,10 +129,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/23/2015 13:08:28</publishTime>
     </File>
     <File Include="Formularze/Analiza.aspx">
-      <publishTime>06/10/2015 13:14:02</publishTime>
+      <publishTime>07/23/2015 11:25:14</publishTime>
+    </File>
+    <File Include="Formularze/AtrybutyObiektu.aspx">
+      <publishTime>07/07/2015 08:55:56</publishTime>
     </File>
     <File Include="Formularze/AttributeOfObject.aspx">
       <publishTime>04/29/2015 11:43:09</publishTime>
+    </File>
+    <File Include="Formularze/BudynkiWspolnoty.aspx">
+      <publishTime>07/07/2015 08:44:17</publishTime>
     </File>
     <File Include="Formularze/ChangeDate.aspx">
       <publishTime>04/29/2015 11:43:09</publishTime>
@@ -147,7 +153,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/29/2015 11:43:08</publishTime>
     </File>
     <File Include="Formularze/GeneracjaNaleznosci.aspx">
-      <publishTime>05/14/2015 12:37:27</publishTime>
+      <publishTime>07/23/2015 12:11:53</publishTime>
     </File>
     <File Include="Formularze/GenerationOfReceivables.aspx">
       <publishTime>04/29/2015 11:43:08</publishTime>
@@ -164,8 +170,14 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Formularze/List.aspx">
       <publishTime>04/29/2015 11:43:08</publishTime>
     </File>
+    <File Include="Formularze/Lista.aspx">
+      <publishTime>07/27/2015 10:49:40</publishTime>
+    </File>
     <File Include="Formularze/Loading.aspx">
       <publishTime>04/29/2015 11:43:08</publishTime>
+    </File>
+    <File Include="Formularze/NaleznosciIObrotyNajemcy.aspx">
+      <publishTime>07/22/2015 12:47:53</publishTime>
     </File>
     <File Include="Formularze/PostepGeneracjiNaleznosci.aspx">
       <publishTime>06/26/2015 13:33:25</publishTime>
@@ -180,13 +192,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/29/2015 11:43:08</publishTime>
     </File>
     <File Include="Formularze/RecordValidation.aspx">
-      <publishTime>04/29/2015 11:43:07</publishTime>
+      <publishTime>07/23/2015 12:11:53</publishTime>
     </File>
     <File Include="Formularze/RentComponentsOfPlace.aspx">
       <publishTime>04/29/2015 11:43:07</publishTime>
     </File>
+    <File Include="Formularze/SaldoNajemcy.aspx">
+      <publishTime>07/23/2015 13:19:05</publishTime>
+    </File>
     <File Include="Formularze/SkladnikiCzynszu.aspx">
-      <publishTime>05/12/2015 10:48:33</publishTime>
+      <publishTime>07/23/2015 12:11:53</publishTime>
+    </File>
+    <File Include="Formularze/SkladnikiCzynszuLokalu.aspx">
+      <publishTime>07/07/2015 08:48:36</publishTime>
     </File>
     <File Include="Formularze/Start.aspx">
       <publishTime>05/06/2015 11:39:15</publishTime>
@@ -194,11 +212,14 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Formularze/Szablon.html">
       <publishTime>05/08/2015 13:27:44</publishTime>
     </File>
+    <File Include="Formularze/TresciOpisow.aspx">
+      <publishTime>07/23/2015 12:11:52</publishTime>
+    </File>
     <File Include="Formularze/WalidacjaUzytkownika.aspx">
       <publishTime>04/29/2015 11:30:58</publishTime>
     </File>
     <File Include="Formularze/WykazWgSkladnika.aspx">
-      <publishTime>05/20/2015 11:44:08</publishTime>
+      <publishTime>07/23/2015 12:11:52</publishTime>
     </File>
     <File Include="Formularze/ZmianaDaty.aspx">
       <publishTime>06/26/2015 13:27:32</publishTime>
@@ -228,7 +249,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/26/2015 13:24:59</publishTime>
     </File>
     <File Include="JavaScripts/Record.js">
-      <publishTime>04/16/2015 09:56:14</publishTime>
+      <publishTime>07/27/2015 11:59:06</publishTime>
     </File>
     <File Include="JavaScripts/RecordValidation.js">
       <publishTime>10/08/2014 12:43:52</publishTime>
@@ -260,6 +281,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="mingwm10.dll">
       <publishTime>04/15/2015 11:27:29</publishTime>
     </File>
+    <File Include="NiebieskieOkno.master">
+      <publishTime>07/23/2015 11:23:53</publishTime>
+    </File>
     <File Include="packages.config">
       <publishTime>04/16/2015 09:56:14</publishTime>
     </File>
@@ -276,7 +300,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/16/2014 09:50:06</publishTime>
     </File>
     <File Include="Site.Master">
-      <publishTime>07/03/2015 09:33:54</publishTime>
+      <publishTime>07/27/2015 11:59:15</publishTime>
     </File>
     <File Include="ssleay32.dll">
       <publishTime>04/15/2015 11:27:29</publishTime>
@@ -288,7 +312,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/15/2014 14:26:03</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>07/03/2015 14:31:42</publishTime>
+      <publishTime>07/28/2015 11:06:58</publishTime>
     </File>
     <File Include="wkhtmltox0.dll">
       <publishTime>04/15/2015 11:27:29</publishTime>

@@ -13,8 +13,8 @@ namespace czynsze.Formularze
         {
             Start.ŚcieżkaStrony.Wyczyść();
 
-            Lista<string> texts = new List<string>() { "CZYNSZE" };
-            Lista<string> values = new List<string>() { Enumeratory.Zbiór.Czynsze.ToString() };
+            List<string> texts = new List<string>() { "CZYNSZE" };
+            List<string> values = new List<string>() { Enumeratory.Zbiór.Czynsze.ToString() };
 
             if (Start.LiczbaZbiorów >= 1)
             {

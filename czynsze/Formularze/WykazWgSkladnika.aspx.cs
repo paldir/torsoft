@@ -13,7 +13,6 @@ namespace czynsze.Formularze
         {
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
-                //Start.ŚcieżkaStrony = new List<string>() { "Raporty", "Wykaz wg składnika" };
                 Start.ŚcieżkaStrony = new czynsze.ŚcieżkaStrony("Raporty", "Wykaz wg składnika");
                 string przycisk = PobierzWartośćParametru<string>("przycisk");
                 Enumeratory.WykazWedługSkładnika tryb = PobierzWartośćParametru<Enumeratory.WykazWedługSkładnika>("tryb");
@@ -48,7 +47,7 @@ namespace czynsze.Formularze
                         int minimalnyLokal;
                         int maksymalnyBudynek;
                         int maksymalnyLokal;
-                        Lista<DostępDoBazy.SkładnikCzynszu> składnikiCzynszu = db.SkładnikiCzynszu.OrderBy(s => s.nr_skl).ToList();
+                        List<DostępDoBazy.SkładnikCzynszu> składnikiCzynszu = db.SkładnikiCzynszu.OrderBy(s => s.nr_skl).ToList();
 
                         pojemnikSkladnika.Controls.Add(new Kontrolki.Label("label", "składnik", "Składnik: ", String.Empty));
                         pojemnikSkladnika.Controls.Add(new Kontrolki.DropDownList("field", "składnik", składnikiCzynszu.Select(s => s.WażnePolaDoRozwijanejListy()).ToList(), składnikiCzynszu.First().nr_skl.ToString(), true, false));
