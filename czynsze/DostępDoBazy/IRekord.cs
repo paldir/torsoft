@@ -11,5 +11,6 @@ namespace czynsze.DostępDoBazy
         void Ustaw(string[] rekord);
         string Waliduj(Enumeratory.Akcja akcja, string[] rekord);
         string[] WszystkiePola();
+        string[] PolaDoTabeli();
     }
 }

@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DostępDoBazy
 {
     [Table("budynki", Schema = "public")]
-    public class Budynek : IRekord, IRekordWyświetlanyWTabeli
+    public class Budynek : IRekord
     {
         [Key, Column("kod_1"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int kod_1 { get; set; }
@@ -27,7 +27,7 @@ namespace czynsze.DostępDoBazy
         public int sp_rozl { get; set; }
 
         [Column("udzial_w_k")]
-        public decimal udzial_w_k { get; set; }
+        public float udzial_w_k { get; set; }
 
         [Column("uwagi_1")]
         public string uwagi_1 { get; set; }
@@ -54,7 +54,7 @@ namespace czynsze.DostępDoBazy
             sp_rozl = Int32.Parse(rekord[2]);
             adres = rekord[3];
             adres_2 = rekord[4];
-            udzial_w_k = Decimal.Parse(rekord[5]);
+            udzial_w_k = Single.Parse(rekord[5]);
 
             rekord[6] = rekord[6].PadRight(420);
 

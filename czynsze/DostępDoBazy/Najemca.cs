@@ -5,7 +5,7 @@ using System.Web;
 
 namespace czynsze.DostępDoBazy
 {
-    public abstract class Najemca : IRekord, IRekordWyświetlanyWTabeli
+    public abstract class Najemca : IRekord
     {
         public abstract int nr_kontr { get; set; }
 

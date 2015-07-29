@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DostępDoBazy
 {
     [Table("cechy", Schema = "public")]
-    public class Atrybut : IRekord, IRekordWyświetlanyWTabeli
+    public class Atrybut : IRekord
     {
         [Key, Column("kod"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int kod { get; set; }

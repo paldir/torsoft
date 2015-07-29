@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace czynsze.DostępDoBazy
 {
-    public abstract class Należność : PozycjaDoAnalizy, IRekordWyświetlanyWTabeli
+    public abstract class Należność : PozycjaDoAnalizy, IRekord
     {
         public const string Rok = "15";
 
@@ -40,7 +40,7 @@ namespace czynsze.DostępDoBazy
         public decimal stawka { get; set; }
 
         [Column("ilosc")]
-        public decimal ilosc { get; set; }
+        public float ilosc { get; set; }
 
         public override DateTime Data
         {
@@ -63,7 +63,7 @@ namespace czynsze.DostępDoBazy
             }
         }
 
-        public override decimal Ilość
+        public override float Ilość
         {
             get { return ilosc; }
         }
@@ -87,7 +87,22 @@ namespace czynsze.DostępDoBazy
         {
             get { return nr_lok; }
         }
-            
+
+        public void Ustaw(string[] rekord)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
+        {
+            return String.Empty;
+        }
+
+        public string[] WszystkiePola()
+        {
+            throw new InvalidOperationException();
+        }
+
         public string[] PolaDoTabeli()
         {
             return new string[]
@@ -113,7 +128,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public void Ustaw(decimal kwota_nal, DateTime data_nal, string opis, int nr_kontr, int nr_skl, int kod_lok, int nr_lok, decimal stawka, decimal ilosc)
+        public void Ustaw(decimal kwota_nal, DateTime data_nal, string opis, int nr_kontr, int nr_skl, int kod_lok, int nr_lok, decimal stawka, float ilosc)
         {
             this.kwota_nal = kwota_nal;
             this.data_nal = data_nal;

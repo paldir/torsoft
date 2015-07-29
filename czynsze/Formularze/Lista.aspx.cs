@@ -105,7 +105,7 @@ namespace czynsze.Formularze
                 List<string[]> podMenu = null;
                 _sortowalna = true;
                 int id = PobierzWartośćParametru<int>("id");//-1;
-                IEnumerable<DostępDoBazy.IRekordWyświetlanyWTabeli> rekordyTabeli = null;
+                IEnumerable<DostępDoBazy.IRekord> rekordyTabeli = null;
 
                 //if (Request.Params["id"] != null)
                 //  id = (int)Enum.Parse(typeof(int), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("dfsdf"))]);

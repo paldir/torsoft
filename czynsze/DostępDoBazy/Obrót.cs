@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace czynsze.DostępDoBazy
 {
-    public abstract class Obrót : PozycjaDoAnalizy, IRekord, IRekordWyświetlanyWTabeli
+    public abstract class Obrót : PozycjaDoAnalizy, IRekord
     {
         public const string Rok = "15";
 
@@ -60,7 +60,7 @@ namespace czynsze.DostępDoBazy
             }
         }
 
-        public override decimal Ilość
+        public override float Ilość
         {
             get { return 0; }
         }

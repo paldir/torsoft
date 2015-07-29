@@ -24,7 +24,7 @@ namespace czynsze.DostępDoBazy
         public override int kod_typ { get; set; }
 
         [Column("pow_uzyt")]
-        public override decimal pow_uzyt { get; set; }
+        public override float pow_uzyt { get; set; }
 
         [Column("nazwisko")]
         public override string nazwisko { get; set; }
@@ -39,10 +39,10 @@ namespace czynsze.DostępDoBazy
         public override string adres_2 { get; set; }
 
         [Column("pow_miesz")]
-        public override decimal pow_miesz { get; set; }
+        public override float pow_miesz { get; set; }
 
         [Column("udzial")]
-        public override decimal udzial { get; set; }
+        public override float udzial { get; set; }
 
         [Column("dat_od")]
         public override Nullable<DateTime> dat_od { get; set; }
@@ -51,22 +51,22 @@ namespace czynsze.DostępDoBazy
         public override Nullable<DateTime> dat_do { get; set; }
 
         [Column("p_1")]
-        public override decimal p_1 { get; set; }
+        public override float p_1 { get; set; }
 
         [Column("p_2")]
-        public override decimal p_2 { get; set; }
+        public override float p_2 { get; set; }
 
         [Column("p_3")]
-        public override decimal p_3 { get; set; }
+        public override float p_3 { get; set; }
 
         [Column("p_4")]
-        public override decimal p_4 { get; set; }
+        public override float p_4 { get; set; }
 
         [Column("p_5")]
-        public override decimal p_5 { get; set; }
+        public override float p_5 { get; set; }
 
         [Column("p_6")]
-        public override decimal p_6 { get; set; }
+        public override float p_6 { get; set; }
 
         [Column("kod_kuch")]
         public override Nullable<int> kod_kuch { get; set; }

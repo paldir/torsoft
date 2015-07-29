@@ -1074,10 +1074,12 @@ namespace czynsze.Formularze
                         cell = formRow.FindControl("column" + columnIndex.ToString());
                     }
 
+                    Control kontrolka = controls[i];
+
                     cell.Controls.Add(new LiteralControl("<div class='fieldWithLabel'>"));
-                    cell.Controls.Add(new Kontrolki.Label("fieldLabel", controls[i].ID, labels[i], String.Empty));
+                    cell.Controls.Add(new Kontrolki.Label("fieldLabel", kontrolka.ID, labels[i], String.Empty));
                     DodajNowąLinię(cell);
-                    cell.Controls.Add(controls[i]);
+                    cell.Controls.Add(kontrolka);
                     cell.Controls.Add(new LiteralControl("</div>"));
                 }
 

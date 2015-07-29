@@ -227,7 +227,7 @@ namespace czynsze.Formularze
                             foreach (DostępDoBazy.SkładnikCzynszuLokalu składnikCzynszuLokalu in db.SkładnikiCzynszuLokalu.Where(c => c.kod_lok == lokal.kod_lok && c.nr_lok == lokal.nr_lok).ToList())
                             {
                                 DostępDoBazy.SkładnikCzynszu składnikCzynszu = db.SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == składnikCzynszuLokalu.nr_skl);
-                                decimal ilosc = 0;
+                                float ilosc = 0;
                                 decimal stawka = składnikCzynszu.stawka;
                                 DostępDoBazy.Należność1 należność1 = new DostępDoBazy.Należność1();
 
@@ -270,7 +270,7 @@ namespace czynsze.Formularze
 
                                 if (mnożnikDniWMiesiącu != 0)
                                 {
-                                    należność1.Ustaw(Decimal.Round(ilosc * stawka, 2, MidpointRounding.AwayFromZero) * mnożnikDniWMiesiącu / ilośćDniWMiesiącu, new DateTime(rok, miesiąc, dzień), String.Format("{0} za m-c {1:00}", składnikCzynszu.nazwa.Trim(), Start.Data.Month), (int)lokal.nr_kontr, składnikCzynszu.nr_skl, lokal.kod_lok, lokal.nr_lok, stawka, ilosc);
+                                    należność1.Ustaw(Decimal.Round(Convert.ToDecimal(ilosc) * stawka, 2, MidpointRounding.AwayFromZero) * mnożnikDniWMiesiącu / ilośćDniWMiesiącu, new DateTime(rok, miesiąc, dzień), String.Format("{0} za m-c {1:00}", składnikCzynszu.nazwa.Trim(), Start.Data.Month), (int)lokal.nr_kontr, składnikCzynszu.nr_skl, lokal.kod_lok, lokal.nr_lok, stawka, ilosc);
                                     db.Należności1.Add(należność1);
                                 }
                             }

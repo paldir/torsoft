@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DostępDoBazy
 {
     [Table("tyt_praw", Schema = "public")]
-    public class TytułPrawny : IRekord, IRekordWyświetlanyWTabeli
+    public class TytułPrawny : IRekord
     {
         [Key, Column("kod_praw"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int kod_praw { get; set; }

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace czynsze.DostępDoBazy
 {
-    public abstract class Lokal : IRekord, IRekordWyświetlanyWTabeli
+    public abstract class Lokal : IRekord
     {
         public abstract int nr_system { get; set; }
 
@@ -15,7 +15,7 @@ namespace czynsze.DostępDoBazy
 
         public abstract int kod_typ { get; set; }
 
-        public abstract decimal pow_uzyt { get; set; }
+        public abstract float pow_uzyt { get; set; }
 
         public abstract string nazwisko { get; set; }
 
@@ -25,25 +25,25 @@ namespace czynsze.DostępDoBazy
 
         public abstract string adres_2 { get; set; }
 
-        public abstract decimal pow_miesz { get; set; }
+        public abstract float pow_miesz { get; set; }
 
-        public abstract decimal udzial { get; set; }
+        public abstract float udzial { get; set; }
 
         public abstract Nullable<DateTime> dat_od { get; set; }
 
         public abstract Nullable<DateTime> dat_do { get; set; }
 
-        public abstract decimal p_1 { get; set; }
+        public abstract float p_1 { get; set; }
 
-        public abstract decimal p_2 { get; set; }
+        public abstract float p_2 { get; set; }
 
-        public abstract decimal p_3 { get; set; }
+        public abstract float p_3 { get; set; }
 
-        public abstract decimal p_4 { get; set; }
+        public abstract float p_4 { get; set; }
 
-        public abstract decimal p_5 { get; set; }
+        public abstract float p_5 { get; set; }
 
-        public abstract decimal p_6 { get; set; }
+        public abstract float p_6 { get; set; }
 
         public abstract Nullable<int> kod_kuch { get; set; }
 
@@ -138,9 +138,9 @@ namespace czynsze.DostępDoBazy
             kod_typ = Int32.Parse(rekord[3]);
             adres = rekord[4];
             adres_2 = rekord[5];
-            pow_uzyt = Decimal.Parse(rekord[6]);
-            pow_miesz = Decimal.Parse(rekord[7]);
-            udzial = Decimal.Parse(rekord[8]);
+            pow_uzyt = Single.Parse(rekord[6]);
+            pow_miesz = Single.Parse(rekord[7]);
+            udzial = Single.Parse(rekord[8]);
 
             if (rekord[9] != null)
                 dat_od = Convert.ToDateTime(rekord[9]);
@@ -148,12 +148,12 @@ namespace czynsze.DostępDoBazy
             if (rekord[10] != null)
                 dat_do = Convert.ToDateTime(rekord[10]);
 
-            p_1 = Decimal.Parse(rekord[11]);
-            p_2 = Decimal.Parse(rekord[12]);
-            p_3 = Decimal.Parse(rekord[13]);
-            p_4 = Decimal.Parse(rekord[14]);
-            p_5 = Decimal.Parse(rekord[15]);
-            p_6 = Decimal.Parse(rekord[16]);
+            p_1 = Single.Parse(rekord[11]);
+            p_2 = Single.Parse(rekord[12]);
+            p_3 = Single.Parse(rekord[13]);
+            p_4 = Single.Parse(rekord[14]);
+            p_5 = Single.Parse(rekord[15]);
+            p_6 = Single.Parse(rekord[16]);
             kod_kuch = Int32.Parse(rekord[17]);
             nr_kontr = Int32.Parse(rekord[18]);
 

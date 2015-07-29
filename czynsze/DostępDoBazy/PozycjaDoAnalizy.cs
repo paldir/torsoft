@@ -9,7 +9,7 @@ namespace czynsze.DostępDoBazy
     {
         public abstract DateTime Data { get; }
         public abstract decimal Kwota { get; }
-        public abstract decimal Ilość { get; }
+        public abstract float Ilość { get; }
         public abstract decimal Stawka { get; }
         public abstract int IdInformacji { get; }
         public abstract int KodBudynku { get; }

@@ -21,7 +21,7 @@ namespace czynsze.DostępDoBazy
         public int nr_skl { get; set; }
 
         [Column("dan_p")]
-        public decimal dan_p { get; set; }
+        public float dan_p { get; set; }
 
         [Column("dat_od")]
         public Nullable<DateTime> dat_od { get; set; }
@@ -39,7 +39,7 @@ namespace czynsze.DostępDoBazy
             using (CzynszeKontekst db = new CzynszeKontekst())
                 składnikCzynszu = db.SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == nr_skl);
 
-            decimal ilosc;
+            float ilosc;
             decimal stawka;
 
             Rozpoznaj_ilosc_i_stawka(out ilosc, out stawka);
@@ -53,7 +53,7 @@ namespace czynsze.DostępDoBazy
             if (this.dat_do.HasValue)
                 dat_do = this.dat_do.Value.ToShortDateString();
 
-            decimal kwota = Decimal.Round(stawka * ilosc, 2, MidpointRounding.AwayFromZero);
+            decimal kwota = Decimal.Round(stawka * Convert.ToDecimal(ilosc), 2, MidpointRounding.AwayFromZero);
 
             return new string[]
             {
@@ -72,7 +72,7 @@ namespace czynsze.DostępDoBazy
             kod_lok = Int32.Parse(rekord[0]);
             nr_lok = Int32.Parse(rekord[1]);
             nr_skl = Int32.Parse(rekord[2]);
-            dan_p = Decimal.Parse(rekord[3]);
+            dan_p = Single.Parse(rekord[3]);
 
             if (rekord[4] != null)
                 dat_od = Convert.ToDateTime(rekord[4]);
@@ -81,7 +81,7 @@ namespace czynsze.DostępDoBazy
                 dat_do = Convert.ToDateTime(rekord[5]);
         }
 
-        public void Rozpoznaj_ilosc_i_stawka(out decimal ilosc, out decimal stawka)
+        public void Rozpoznaj_ilosc_i_stawka(out float ilosc, out decimal stawka)
         {
             SkładnikCzynszu składnikCzynszu;
             Lokal lokal;
@@ -109,7 +109,8 @@ namespace czynsze.DostępDoBazy
                     break;
 
                 case 3:
-                    ilosc = (decimal)lokal.il_osob;
+                    int? ilośćOsób=lokal.il_osob;
+                    ilosc = ilośćOsób.HasValue ? ilośćOsób.Value : 0;
 
                     break;
 

@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DostępDoBazy
 {
     [Table("grup_cz", Schema = "public")]
-    public class GrupaSkładnikówCzynszu : IRekord, IRekordWyświetlanyWTabeli
+    public class GrupaSkładnikówCzynszu : IRekord
     {
         [Key, Column("kod"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int kod { get; set; }

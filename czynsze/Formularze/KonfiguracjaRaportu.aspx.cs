@@ -799,12 +799,12 @@ namespace czynsze.Formularze
                                                             case Enumeratory.Analiza.NaleznosciBiezace:
                                                                 foreach (DostępDoBazy.SkładnikCzynszuLokalu składnikCzynszuLokalu in db.SkładnikiCzynszuLokalu.Where(c => c.kod_lok == kodLokalu && c.nr_lok == nrLokalu))
                                                                 {
-                                                                    decimal ilosc;
+                                                                    float ilosc;
                                                                     decimal stawka;
 
                                                                     składnikCzynszuLokalu.Rozpoznaj_ilosc_i_stawka(out ilosc, out stawka);
 
-                                                                    suma += Decimal.Round(ilosc * stawka, 2, MidpointRounding.AwayFromZero);
+                                                                    suma += Decimal.Round(Convert.ToDecimal(ilosc) * stawka, 2, MidpointRounding.AwayFromZero);
                                                                 }
 
                                                                 break;
@@ -871,12 +871,12 @@ namespace czynsze.Formularze
                                                         case Enumeratory.Analiza.NaleznosciBiezace:
                                                             foreach (DostępDoBazy.SkładnikCzynszuLokalu składnikCzynszuLokalu in db.SkładnikiCzynszuLokalu.Where(c => c.kod_lok == i))
                                                             {
-                                                                decimal ilosc;
+                                                                float ilosc;
                                                                 decimal stawka;
 
                                                                 składnikCzynszuLokalu.Rozpoznaj_ilosc_i_stawka(out ilosc, out stawka);
 
-                                                                suma += Decimal.Round(ilosc * stawka, 2, MidpointRounding.AwayFromZero);
+                                                                suma += Decimal.Round(Convert.ToDecimal(ilosc) * stawka, 2, MidpointRounding.AwayFromZero);
                                                             }
 
                                                             break;
@@ -942,12 +942,12 @@ namespace czynsze.Formularze
                                                             case Enumeratory.Analiza.NaleznosciBiezace:
                                                                 foreach (DostępDoBazy.SkładnikCzynszuLokalu składnikCzynszuLokalu in db.SkładnikiCzynszuLokalu.Where(c => c.kod_lok == kodBudynku))
                                                                 {
-                                                                    decimal ilosc;
+                                                                    float ilosc;
                                                                     decimal stawka;
 
                                                                     składnikCzynszuLokalu.Rozpoznaj_ilosc_i_stawka(out ilosc, out stawka);
 
-                                                                    suma += Decimal.Round(ilosc * stawka, 2, MidpointRounding.AwayFromZero);
+                                                                    suma += Decimal.Round(Convert.ToDecimal(ilosc) * stawka, 2, MidpointRounding.AwayFromZero);
                                                                 }
 
                                                                 break;
@@ -1033,7 +1033,8 @@ namespace czynsze.Formularze
 
                                     foreach (DostępDoBazy.SkładnikCzynszuLokalu składnikCzynszuLokalu in db.SkładnikiCzynszuLokalu.Where(s => s.kod_lok == lokal.kod_lok && s.nr_lok == lokal.nr_lok).ToList())
                                     {
-                                        decimal ilość, stawka;
+                                        decimal stawka;
+                                        float ilość;
                                         XmlNode nowySkładnikOpłat = składnikOpłat.CloneNode(true);
                                         DostępDoBazy.SkładnikCzynszu składnikCzynszu = DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu.FirstOrDefault(s => s.nr_skl == składnikCzynszuLokalu.nr_skl);
 
@@ -1047,7 +1048,7 @@ namespace czynsze.Formularze
                                                 break;
                                         }
 
-                                        decimal wartość = Decimal.Round(ilość * stawka, 2, MidpointRounding.AwayFromZero);
+                                        decimal wartość = Decimal.Round(Convert.ToDecimal(ilość) * stawka, 2, MidpointRounding.AwayFromZero);
                                         suma += wartość;
 
                                         WypełnijTagXml(nowySkładnikOpłat, "nazwa", składnikCzynszu.nazwa);
@@ -1146,7 +1147,7 @@ namespace czynsze.Formularze
                                                 {
                                                     case Enumeratory.WykazWedługSkładnika.Obecny:
                                                         decimal stawka;
-                                                        decimal ilość;
+                                                        float ilość;
 
                                                         if (należnościLokalu.Any())
                                                         {
@@ -1208,7 +1209,7 @@ namespace czynsze.Formularze
                                                 for (int j = 0; j < początkiMiesięcy.Count; j++)
                                                 {
                                                     decimal stawka = 0;
-                                                    decimal ilość = 0;
+                                                    float ilość = 0;
                                                     decimal wartość = 0;
                                                     DateTime początek = początkiMiesięcy[j];
 
@@ -1902,7 +1903,7 @@ namespace czynsze.Formularze
                                                             IEnumerable<DostępDoBazy.PozycjaDoAnalizy> pozycjeLokalu = para.Value.Where(n => n.KodBudynku == i && n.NrLokalu == numerLokalu);
                                                             DostępDoBazy.GrupaSkładnikówCzynszu grupa = wybraneGrupy[j];
                                                             decimal sumaKwot = 0;
-                                                            decimal sumaIlości = 0;
+                                                            float sumaIlości = 0;
 
                                                             foreach (DostępDoBazy.PozycjaDoAnalizy pozycja in pozycjeLokalu)
                                                             {
@@ -1962,7 +1963,7 @@ namespace czynsze.Formularze
                                                         IEnumerable<DostępDoBazy.PozycjaDoAnalizy> pozycjeBudynku = para.Value.Where(n => n.KodBudynku == i);
                                                         DostępDoBazy.GrupaSkładnikówCzynszu grupa = wybraneGrupy[j];
                                                         decimal sumaKwot = 0;
-                                                        decimal sumaIlości = 0;
+                                                        float sumaIlości = 0;
 
                                                         foreach (DostępDoBazy.PozycjaDoAnalizy pozycja in pozycjeBudynku)
                                                         {
@@ -2017,7 +2018,7 @@ namespace czynsze.Formularze
                                                             IEnumerable<DostępDoBazy.PozycjaDoAnalizy> pozycjeBudynku = para.Value.Where(n => n.KodBudynku == i);
                                                             DostępDoBazy.GrupaSkładnikówCzynszu grupa = wybraneGrupy[j];
                                                             decimal sumaKwot = 0;
-                                                            decimal sumaIlości = 0;
+                                                            float sumaIlości = 0;
 
                                                             foreach (DostępDoBazy.PozycjaDoAnalizy pozycja in pozycjeBudynku)
                                                             {

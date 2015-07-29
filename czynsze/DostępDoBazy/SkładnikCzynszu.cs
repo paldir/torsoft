@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DostępDoBazy
 {
     [Table("czynsz", Schema = "public")]
-    public class SkładnikCzynszu : IRekord, IInformacjeOPozycji, IRekordWyświetlanyWTabeli
+    public class SkładnikCzynszu : IRekord, IInformacjeOPozycji
     {
         [Key, Column("nr_skl"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int nr_skl { get; set; }

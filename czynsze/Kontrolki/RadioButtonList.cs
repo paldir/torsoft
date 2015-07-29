@@ -5,8 +5,14 @@ using System.Web;
 
 namespace czynsze.Kontrolki
 {
-    public class RadioButtonList : System.Web.UI.WebControls.RadioButtonList
+    public class RadioButtonList : System.Web.UI.WebControls.RadioButtonList, IKontrolkaZWartością
     {
+        public string Wartość
+        {
+            get { return SelectedValue; }
+            set { SelectedValue = value; }
+        }
+
         public RadioButtonList(string klasaCss, string id, List<string> tekst, List<string> wartości, string wybranaWartość, bool włączony, bool automatycznyPostBack)
         {
             CssClass = klasaCss;

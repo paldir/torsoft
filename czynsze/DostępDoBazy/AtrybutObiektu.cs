@@ -14,7 +14,7 @@ namespace czynsze.DostępDoBazy
 
         public abstract string kod_powiaz { get; set; }
 
-        public abstract decimal wartosc_n { get; set; }
+        public abstract float wartosc_n { get; set; }
 
         public abstract string wartosc_s { get; set; }
 
@@ -56,7 +56,7 @@ namespace czynsze.DostępDoBazy
                 switch (db.Atrybuty.FirstOrDefault(a => a.kod == kod).nr_str)
                 {
                     case "N":
-                        wartosc_n = Decimal.Parse(rekord[2]);
+                        wartosc_n = Single.Parse(rekord[2]);
 
                         break;
 

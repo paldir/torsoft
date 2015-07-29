@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DostępDoBazy
 {
     [Table("t_wplat", Schema = "public")]
-    public class RodzajPłatności : IRekord, IInformacjeOPozycji, IRekordWyświetlanyWTabeli
+    public class RodzajPłatności : IRekord, IInformacjeOPozycji
     {
         [Key, Column("kod_wplat"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int kod_wplat { get; set; }

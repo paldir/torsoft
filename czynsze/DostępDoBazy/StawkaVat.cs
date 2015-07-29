@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DostępDoBazy
 {
     [Table("vat", Schema = "public")]
-    public class StawkaVat : IRekord, IRekordWyświetlanyWTabeli
+    public class StawkaVat : IRekord
     {
         [Key, Column("__record")]
         public int __record { get; set; }

@@ -21,7 +21,7 @@ namespace czynsze.DostępDoBazy
         public override string kod_powiaz { get; set; }
 
         [Column("wartosc_n")]
-        public override decimal wartosc_n { get; set; }
+        public override float wartosc_n { get; set; }
 
         [Column("wartosc_s")]
         public override string wartosc_s { get; set; }
