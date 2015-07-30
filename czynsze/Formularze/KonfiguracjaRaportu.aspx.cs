@@ -67,10 +67,10 @@ namespace czynsze.Formularze
                             else
                                 numerPierwszegoBudynku = numerOstatniegoBudynku = 0;
 
-                            pierwszyBudynek.Controls.Add(new Kontrolki.TextBox("field", "kod_1_start", numerPierwszegoBudynku.ToString(), Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 5, 1, true));
-                            pierwszyBudynek.Controls.Add(new Kontrolki.DropDownList("field", "kod_1_start_dropdown", budynki, numerPierwszegoBudynku.ToString(), true, false));
-                            drugiBudynek.Controls.Add(new Kontrolki.TextBox("field", "kod_1_end", numerOstatniegoBudynku.ToString(), Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 5, 1, true));
-                            drugiBudynek.Controls.Add(new Kontrolki.DropDownList("field", "kod_1_end_dropdown", budynki, numerOstatniegoBudynku.ToString(), true, false));
+                            pierwszyBudynek.Controls.Add(new Kontrolki.TextBox("field", "kod_1_start", Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 5, 1, true, numerPierwszegoBudynku.ToString()));
+                            pierwszyBudynek.Controls.Add(new Kontrolki.DropDownList("field", "kod_1_start_dropdown", budynki, true, false, numerPierwszegoBudynku.ToString()));
+                            drugiBudynek.Controls.Add(new Kontrolki.TextBox("field", "kod_1_end", Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 5, 1, true, numerOstatniegoBudynku.ToString()));
+                            drugiBudynek.Controls.Add(new Kontrolki.DropDownList("field", "kod_1_end_dropdown", budynki, true, false, numerOstatniegoBudynku.ToString()));
 
                             kontrolki = new List<Control>()
                             {
@@ -329,7 +329,7 @@ namespace czynsze.Formularze
                 }
 
                 placeOfConfigurationFields.Controls.Add(new LiteralControl("<h2>" + nagłówek + "</h2>"));
-                kontrolki.Add(new Kontrolki.RadioButtonList("list", "format", new List<string>() { "PDF", "CSV" }, new List<string>() { Enumeratory.FormatRaportu.Pdf.ToString(), Enumeratory.FormatRaportu.Csv.ToString() }, Enumeratory.FormatRaportu.Pdf.ToString(), true, false));
+                kontrolki.Add(new Kontrolki.RadioButtonList("list", "format", new List<string>() { "PDF", "CSV" }, new List<string>() { Enumeratory.FormatRaportu.Pdf.ToString(), Enumeratory.FormatRaportu.Csv.ToString() }, true, false, Enumeratory.FormatRaportu.Pdf.ToString()));
                 etykiety.Add("Format: ");
 
                 for (int i = 0; i < kontrolki.Count; i++)
@@ -484,12 +484,12 @@ namespace czynsze.Formularze
 
                         foreach (DostępDoBazy.PozycjaDoAnalizy pozycja in pozycje)
                         {
-                            DostępDoBazy.IInformacjeOPozycji informacja = informacjeOPozycjach.SingleOrDefault(i => i.Id == pozycja.IdInformacji);
+                            DostępDoBazy.IInformacjeOPozycji informacja = informacjeOPozycjach.SingleOrDefault(i => i.id == pozycja.IdInformacji);
 
                             if (informacja == null)
                                 pozycjeDoUsunięcia.Add(pozycja);
                             else
-                                pozycja.Informacje = informacjeOPozycjach.Single(i => i.Id == pozycja.IdInformacji);
+                                pozycja.Informacje = informacjeOPozycjach.Single(i => i.id == pozycja.IdInformacji);
                         }
 
                         foreach (DostępDoBazy.PozycjaDoAnalizy pozycja in pozycjeDoUsunięcia)
@@ -1354,7 +1354,7 @@ namespace czynsze.Formularze
 
                                                 foreach (KeyValuePair<int, decimal> składnik in nrSkładnikaNaSumę)
                                                 {
-                                                    DostępDoBazy.IInformacjeOPozycji informacja = informacjeOPozycjach.Single(n => n.Id == składnik.Key);
+                                                    DostępDoBazy.IInformacjeOPozycji informacja = informacjeOPozycjach.Single(n => n.id == składnik.Key);
                                                     decimal kwota = składnik.Value;
                                                     sumaBudynku += kwota;
 
@@ -1410,7 +1410,7 @@ namespace czynsze.Formularze
 
                                                     foreach (KeyValuePair<int, decimal> składnik in nrSkładnikaNaSumę)
                                                     {
-                                                        DostępDoBazy.IInformacjeOPozycji informacje = informacjeOPozycjach.Single(s => s.Id == składnik.Key);
+                                                        DostępDoBazy.IInformacjeOPozycji informacje = informacjeOPozycjach.Single(s => s.id == składnik.Key);
                                                         decimal kwota = składnik.Value;
                                                         sumaBudynku += kwota;
 
@@ -1759,7 +1759,7 @@ namespace czynsze.Formularze
 
                                                     foreach (DostępDoBazy.PozycjaDoAnalizy pozycja in pozycjeBudynku)
                                                     {
-                                                        int numerSkładnika = pozycja.Informacje.Id;
+                                                        int numerSkładnika = pozycja.Informacje.id;
                                                         decimal kwota = pozycja.Kwota;
 
                                                         if (numerSkładnikaNaSumę.ContainsKey(numerSkładnika))
@@ -1770,7 +1770,7 @@ namespace czynsze.Formularze
 
                                                     foreach (KeyValuePair<int, decimal> paraSkładnikSuma in numerSkładnikaNaSumę)
                                                     {
-                                                        DostępDoBazy.IInformacjeOPozycji składnik = informacjeOPozycjach.Single(s => s.Id == paraSkładnikSuma.Key);
+                                                        DostępDoBazy.IInformacjeOPozycji składnik = informacjeOPozycjach.Single(s => s.id == paraSkładnikSuma.Key);
 
                                                         podTabela.Add(new string[] { String.Empty, String.Empty, String.Empty, składnik.Nazwa, nazwaGrupy, paraSkładnikSuma.Value.ToString("N") });
                                                     }
@@ -1829,7 +1829,7 @@ namespace czynsze.Formularze
 
                                                             foreach (DostępDoBazy.PozycjaDoAnalizy pozycja in pozycjeBudynku)
                                                             {
-                                                                int numerSkładnika = pozycja.Informacje.Id;
+                                                                int numerSkładnika = pozycja.Informacje.id;
                                                                 decimal kwota = pozycja.Kwota;
 
                                                                 if (numerSkładnikaNaSumę.ContainsKey(numerSkładnika))
@@ -1840,7 +1840,7 @@ namespace czynsze.Formularze
 
                                                             foreach (KeyValuePair<int, decimal> paraSkładnikSuma in numerSkładnikaNaSumę)
                                                             {
-                                                                DostępDoBazy.IInformacjeOPozycji informacja = informacjeOPozycjach.Single(s => s.Id == paraSkładnikSuma.Key);
+                                                                DostępDoBazy.IInformacjeOPozycji informacja = informacjeOPozycjach.Single(s => s.id == paraSkładnikSuma.Key);
 
                                                                 podTabela.Add(new string[] { String.Empty, String.Empty, String.Empty, informacja.Nazwa, nazwaGrupy, paraSkładnikSuma.Value.ToString("N") });
                                                             }

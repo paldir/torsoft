@@ -17,6 +17,8 @@ namespace czynsze.DostępDoBazy
         [Column("tyt_prawny")]
         public string tyt_prawny { get; set; }
 
+        public int id { get { return kod_praw; } }
+
         public string[] WażnePolaDoRozwijanejListy()
         {
             return new string[] 

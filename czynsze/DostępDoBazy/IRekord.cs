@@ -8,6 +8,8 @@ namespace czynsze.DostępDoBazy
 {
     interface IRekord
     {
+        int id { get; }
+
         void Ustaw(string[] rekord);
         string Waliduj(Enumeratory.Akcja akcja, string[] rekord);
         string[] WszystkiePola();

@@ -17,11 +17,10 @@ namespace czynsze.Kontrolki
 
         public TextBox() { }
 
-        public TextBox(string klasaCss, string id, string tekst, TextBoxMode tryb, int długośćMaksymalna, int liczbaWierszy, bool włączony)
+        public TextBox(string klasaCss, string id, TextBoxMode tryb, int długośćMaksymalna, int liczbaWierszy, bool włączony)
         {
             CssClass = klasaCss;
             ID = id;
-            Text = tekst;
 
             switch (tryb)
             {
@@ -56,6 +55,12 @@ namespace czynsze.Kontrolki
             MaxLength = długośćMaksymalna; Columns = długośćMaksymalna / liczbaWierszy;
             Rows = liczbaWierszy;
             Enabled = włączony;
+        }
+
+        public TextBox(string klasaCss, string id, TextBoxMode tryb, int długośćMaksymalna, int liczbaWierszy, bool włączony, string tekst)
+            : this(klasaCss, id, tryb, długośćMaksymalna, liczbaWierszy, włączony)
+        {
+            Text = tekst;
         }
     }
 }

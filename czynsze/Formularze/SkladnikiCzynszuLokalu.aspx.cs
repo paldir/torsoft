@@ -121,7 +121,7 @@ namespace czynsze.Formularze
                         pierwszaEtykieta = "Nowy składnik: ";
                         wartość = String.Empty;
                         tekstPrzyciskuZapisu = "Dodaj";
-                        pierwszaKontrolka = new Kontrolki.DropDownList("field", "nr_skl", db.SkładnikiCzynszu.AsEnumerable<DostępDoBazy.SkładnikCzynszu>().OrderBy(c => c.nr_skl).Select(c => c.WażnePolaDoRozwijanejListy()).ToList(), String.Empty, true, false);
+                        pierwszaKontrolka = new Kontrolki.DropDownList("field", "nr_skl", db.SkładnikiCzynszu.AsEnumerable<DostępDoBazy.SkładnikCzynszu>().OrderBy(c => c.nr_skl).Select(c => c.WażnePolaDoRozwijanejListy()).ToList(), true, false);
                     }
                     else
                     {
@@ -135,7 +135,7 @@ namespace czynsze.Formularze
                         if (obecnySkładnik.dat_do != null)
                             dat_do = String.Format("{0:yyyy-MM-dd}", obecnySkładnik.dat_do);
 
-                        pierwszaKontrolka = new Kontrolki.TextBox("field", "nazwa", db.SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == obecnySkładnik.nr_skl).nazwa, Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 30, 1, false);
+                        pierwszaKontrolka = new Kontrolki.TextBox("field", "nazwa", Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 30, 1, false, db.SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == obecnySkładnik.nr_skl).nazwa);
 
                         form.Controls.Add(new Kontrolki.HtmlInputHidden("nr_skl", obecnySkładnik.nr_skl.ToString()));
                         form.Controls.Add(new Kontrolki.HtmlInputHidden("id", id.ToString()));
@@ -145,11 +145,11 @@ namespace czynsze.Formularze
                     placeOfNewComponent.Controls.Add(pierwszaKontrolka);
 
                     placeOfAmount.Controls.Add(new Kontrolki.Label("label", "dan_p", "Ilość: ", String.Empty));
-                    placeOfAmount.Controls.Add(new Kontrolki.TextBox("field", "dan_p", wartość, Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 15, 1, true));
+                    placeOfAmount.Controls.Add(new Kontrolki.TextBox("field", "dan_p", Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 15, 1, true, wartość));
                     placeOfDate.Controls.Add(new Kontrolki.Label("label", "dat_od", "Zakres dat: ", String.Empty));
-                    placeOfDate.Controls.Add(new Kontrolki.TextBox("field", "dat_od", dat_od, Kontrolki.TextBox.TextBoxMode.Data, 10, 1, true));
+                    placeOfDate.Controls.Add(new Kontrolki.TextBox("field", "dat_od", Kontrolki.TextBox.TextBoxMode.Data, 10, 1, true, dat_od));
                     placeOfDate.Controls.Add(new Kontrolki.Label("label", "dat_do", " - ", String.Empty));
-                    placeOfDate.Controls.Add(new Kontrolki.TextBox("field", "dat_do", dat_do, Kontrolki.TextBox.TextBoxMode.Data, 10, 1, true));
+                    placeOfDate.Controls.Add(new Kontrolki.TextBox("field", "dat_do", Kontrolki.TextBox.TextBoxMode.Data, 10, 1, true, dat_do));
                     placeOfButtonsOfWindow.Controls.Add(new Kontrolki.Button("button", "saveChildAction", tekstPrzyciskuZapisu, url));
                     placeOfButtonsOfWindow.Controls.Add(new Kontrolki.Button("button", String.Empty, "Anuluj", url));
                 }

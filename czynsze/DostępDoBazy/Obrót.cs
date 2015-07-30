@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace czynsze.DostępDoBazy
 {
-    public abstract class Obrót : PozycjaDoAnalizy, IRekord
+    public class Obrót : PozycjaDoAnalizy, IRekord
     {
         public const string Rok = "15";
 
@@ -38,6 +38,8 @@ namespace czynsze.DostępDoBazy
 
         [Column("uwagi")]
         public string uwagi { get; set; }
+
+        public int id { get { return __record; } }
 
         public override DateTime Data
         {

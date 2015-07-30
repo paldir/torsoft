@@ -14,8 +14,8 @@ namespace czynsze.Kontrolki
             get { return SelectedValue; }
             set { SelectedValue = value; }
         }
-        
-        public DropDownList(string klasaCss, string id, List<string[]> wiersze, string wybranaWartość, bool włączone, bool dodaćPustąPozycję)
+
+        public DropDownList(string klasaCss, string id, List<string[]> wiersze, bool włączone, bool dodaćPustąPozycję)
         {
             CssClass = klasaCss;
             ID = id;
@@ -36,7 +36,11 @@ namespace czynsze.Kontrolki
 
                 Items.Add(new ListItem(tekst, wartość));
             }
+        }
 
+        public DropDownList(string klasaCss, string id, List<string[]> wiersze, bool włączone, bool dodaćPustąPozycję, string wybranaWartość)
+            : this(klasaCss, id, wiersze, włączone, dodaćPustąPozycję)
+        {
             SelectedValue = wybranaWartość;
         }
     }

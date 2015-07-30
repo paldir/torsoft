@@ -61,6 +61,8 @@ namespace czynsze.DostępDoBazy
 
         public abstract string uwagi_4 { get; set; }
 
+        public int id { get { return nr_system; } }
+
         public static List<TypLokalu> TypyLokali { get; set; }
         
         public string[] PolaDoTabeli()

@@ -17,6 +17,8 @@ namespace czynsze.DostępDoBazy
         [Column("typ_lok")]
         public string typ_lok { get; set; }
 
+        public int id { get { return kod_typ; } }
+
         public string[] WażnePolaDoRozwijanejListy()
         {
             return new string[] 

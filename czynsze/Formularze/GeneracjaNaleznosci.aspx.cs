@@ -113,11 +113,11 @@ namespace czynsze.Formularze
 
                             placeOfDate.Controls.Add(new LiteralControl("Podaj termin płatności: "));
                             DodajNowąLinię(placeOfDate);
-                            placeOfDate.Controls.Add(new Kontrolki.TextBox("field", "rok", Start.Data.Year.ToString(), Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 4, 1, true));
+                            placeOfDate.Controls.Add(new Kontrolki.TextBox("field", "rok", Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 4, 1, true, Start.Data.Year.ToString()));
                             placeOfDate.Controls.Add(new LiteralControl("-"));
-                            placeOfDate.Controls.Add(new Kontrolki.TextBox("field", "miesiąc", Start.Data.Month.ToString("D2"), Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 2, 1, true));
+                            placeOfDate.Controls.Add(new Kontrolki.TextBox("field", "miesiąc", Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 2, 1, true, Start.Data.Month.ToString("D2")));
                             placeOfDate.Controls.Add(new LiteralControl("-"));
-                            placeOfDate.Controls.Add(new Kontrolki.TextBox("field", "dzień", dzień.ToString("D2"), Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 2, 1, true));
+                            placeOfDate.Controls.Add(new Kontrolki.TextBox("field", "dzień", Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 2, 1, true, dzień.ToString("D2")));
                             DodajNowąLinię(placeOfGeneration);
                             placeOfGeneration.Controls.Add(new Kontrolki.Button("button", "wszystkieGeneracja", "Generacja całego zestawienia", String.Empty));
                             DodajNowąLinię(placeOfGeneration);

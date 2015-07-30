@@ -8,7 +8,7 @@ namespace czynsze.DostępDoBazy
 {
     public interface IInformacjeOPozycji
     {
-        int Id { get; }
+        int id { get; }
         string Nazwa { get; }
         int RodzajEwidencji { get; }
         int Grupa { get; }

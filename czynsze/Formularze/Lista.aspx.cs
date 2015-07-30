@@ -374,7 +374,7 @@ namespace czynsze.Formularze
                             DostępDoBazy.Najemca.AktywneLokale = null;
                         }
 
-                        Kontrolki.RadioButtonList lista = new Kontrolki.RadioButtonList("list", "by", new List<string> { "wg nazwiska", "wg kodu lokalu" }, new List<string> { "nazwisko", "kod" }, "nazwisko", true, true);
+                        Kontrolki.RadioButtonList lista = new Kontrolki.RadioButtonList("list", "by", new List<string> { "wg nazwiska", "wg kodu lokalu" }, new List<string> { "nazwisko", "kod" }, true, true, "nazwisko");
                         lista.SelectedIndexChanged += list_SelectedIndexChanged;
 
                         placeOfMainTableButtons.Controls.Add(lista);

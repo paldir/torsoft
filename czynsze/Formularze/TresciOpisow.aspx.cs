@@ -84,7 +84,7 @@ namespace czynsze.Formularze
 
                         for (int i = 0; i < pola.Length; i++)
                         {
-                            placeOfFields.Controls.Add(new Kontrolki.TextBox("field", String.Format(format, prefiks, i + 1), pola[i], Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, długośćPola, 1, true));
+                            placeOfFields.Controls.Add(new Kontrolki.TextBox("field", String.Format(format, prefiks, i + 1), Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, długośćPola, 1, true, pola[i]));
                             DodajNowąLinię(placeOfFields);
                         }
 

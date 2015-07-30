@@ -36,7 +36,7 @@ namespace czynsze.Formularze
                             Enumeratory.Raport.SkladnikiCzynszuStawkaInformacyjna.ToString(), 
                             "Stawka informacyjna" 
                         } 
-                    }, Enumeratory.Raport.SkladnikiCzynszuStawkaZwykla.ToString(), true, false));
+                    }, true, false, Enumeratory.Raport.SkladnikiCzynszuStawkaZwykla.ToString()));
 
 
                 DodajNowąLinię(pojemnikReszty);

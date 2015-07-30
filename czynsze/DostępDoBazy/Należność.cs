@@ -42,6 +42,8 @@ namespace czynsze.DostępDoBazy
         [Column("ilosc")]
         public float ilosc { get; set; }
 
+        public int id { get { return __record; } }
+
         public override DateTime Data
         {
             get { return data_nal; }

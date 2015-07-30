@@ -47,6 +47,13 @@ namespace czynsze.DostępDoBazy
         [Column("uwagi_6")]
         public string uwagi_6 { get; set; }
 
+        public string uwagi
+        {
+            get { return String.Concat(uwagi_1, uwagi_2, uwagi_3, uwagi_4, uwagi_5, uwagi_6).Trim(); }
+        }
+
+        public int id { get { return kod_1; } }
+
         public void Ustaw(string[] rekord)
         {
             kod_1 = Int32.Parse(rekord[0]);
@@ -56,14 +63,7 @@ namespace czynsze.DostępDoBazy
             adres_2 = rekord[4];
             udzial_w_k = Single.Parse(rekord[5]);
 
-            rekord[6] = rekord[6].PadRight(420);
-
-            uwagi_1 = rekord[6].Substring(0, 70).Trim();
-            uwagi_2 = rekord[6].Substring(70, 70).Trim();
-            uwagi_3 = rekord[6].Substring(140, 70).Trim();
-            uwagi_4 = rekord[6].Substring(210, 70).Trim();
-            uwagi_5 = rekord[6].Substring(280, 70).Trim();
-            uwagi_6 = rekord[6].Substring(350).Trim();
+            RozparcelujUwagi(rekord[6]);
         }
 
         public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
@@ -134,8 +134,19 @@ namespace czynsze.DostępDoBazy
                 adres.Trim(), 
                 adres_2.Trim(), 
                 udzial_w_k.ToString(), 
-                String.Concat(uwagi_1.Trim(), uwagi_2.Trim(), uwagi_3.Trim(), uwagi_4.Trim(), uwagi_5.Trim(), uwagi_6.Trim()) 
+                uwagi.Trim()
             };
+        }
+
+        void RozparcelujUwagi(string uwagi)
+        {
+            string wartość = uwagi.PadRight(420);
+            uwagi_1 = wartość.Substring(0, 70).Trim();
+            uwagi_2 = wartość.Substring(70, 70).Trim();
+            uwagi_3 = wartość.Substring(140, 70).Trim();
+            uwagi_4 = wartość.Substring(210, 70).Trim();
+            uwagi_5 = wartość.Substring(280, 70).Trim();
+            uwagi_6 = wartość.Substring(350).Trim();
         }
     }
 }

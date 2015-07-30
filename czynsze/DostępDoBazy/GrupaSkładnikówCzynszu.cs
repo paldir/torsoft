@@ -17,6 +17,8 @@ namespace czynsze.DostępDoBazy
         [Column("nazwa")]
         public string nazwa { get; set; }
 
+        public int id { get { return kod; } }
+
         public string[] PolaDoTabeli()
         {
             return new string[]

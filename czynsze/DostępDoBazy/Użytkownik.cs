@@ -30,6 +30,8 @@ namespace czynsze.DostępDoBazy
         [Column("haslo")]
         public string haslo { get; set; }
 
+        public int id { get { return __record; } }
+
         public string[] PolaDoTabeli()
         {
             return new string[]

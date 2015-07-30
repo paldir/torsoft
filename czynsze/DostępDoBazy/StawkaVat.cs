@@ -20,6 +20,8 @@ namespace czynsze.DostępDoBazy
         [Column("symb_fisk")]
         public string symb_fisk { get; set; }
 
+        public int id { get { return __record; } }
+
         public string[] PolaDoTabeli()
         {
             return new string[]

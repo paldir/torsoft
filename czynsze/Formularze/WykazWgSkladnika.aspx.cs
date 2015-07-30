@@ -50,7 +50,7 @@ namespace czynsze.Formularze
                         List<DostępDoBazy.SkładnikCzynszu> składnikiCzynszu = db.SkładnikiCzynszu.OrderBy(s => s.nr_skl).ToList();
 
                         pojemnikSkladnika.Controls.Add(new Kontrolki.Label("label", "składnik", "Składnik: ", String.Empty));
-                        pojemnikSkladnika.Controls.Add(new Kontrolki.DropDownList("field", "składnik", składnikiCzynszu.Select(s => s.WażnePolaDoRozwijanejListy()).ToList(), składnikiCzynszu.First().nr_skl.ToString(), true, false));
+                        pojemnikSkladnika.Controls.Add(new Kontrolki.DropDownList("field", "składnik", składnikiCzynszu.Select(s => s.WażnePolaDoRozwijanejListy()).ToList(), true, false, składnikiCzynszu.First().nr_skl.ToString()));
                         DodajNowąLinię(pojemnikReszty);
 
                         switch (tryb)
@@ -61,9 +61,9 @@ namespace czynsze.Formularze
                                 pojemnikReszty.Controls.Add(new LiteralControl("Podaj początek okresu rozliczeniowego: "));
                                 DodajNowąLinię(pojemnikReszty);
                                 pojemnikReszty.Controls.Add(new Kontrolki.Label("label", "rok", "Rok: ", String.Empty));
-                                pojemnikReszty.Controls.Add(new Kontrolki.TextBox("field", "rok", String.Empty, Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 4, 1, true));
+                                pojemnikReszty.Controls.Add(new Kontrolki.TextBox("field", "rok", Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 4, 1, true));
                                 pojemnikReszty.Controls.Add(new Kontrolki.Label("field", "miesiąc", " Miesiąc: ", String.Empty));
-                                pojemnikReszty.Controls.Add(new Kontrolki.TextBox("field", "miesiąc", String.Empty, Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 2, 1, true));
+                                pojemnikReszty.Controls.Add(new Kontrolki.TextBox("field", "miesiąc", Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 2, 1, true));
                                 DodajNowąLinię(pojemnikReszty);
                                 DodajNowąLinię(pojemnikReszty);
 

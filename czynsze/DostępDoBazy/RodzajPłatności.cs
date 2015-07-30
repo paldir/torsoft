@@ -38,7 +38,7 @@ namespace czynsze.DostępDoBazy
         [Column("sww")]
         public string sww { get; set; }
 
-        public int Id
+        public int id
         {
             get { return -kod_wplat; }
         }

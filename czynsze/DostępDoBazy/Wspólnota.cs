@@ -62,6 +62,10 @@ namespace czynsze.DostępDoBazy
         [Column("uwagi_6")]
         public string uwagi_6 { get; set; }
 
+        public int id { get { return kod; } }
+
+        public string uwagi { get { return String.Concat(uwagi_1, uwagi_2, uwagi_3, uwagi_4, uwagi_5, uwagi_6).Trim(); } }
+
         public string[] PolaDoTabeli()
         {
             return new string[]

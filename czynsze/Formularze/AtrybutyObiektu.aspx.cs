@@ -178,18 +178,18 @@ namespace czynsze.Formularze
 
                             placeOfEditingWindow.Controls.Add(new Kontrolki.HtmlInputHidden("id_edit", atrybutyObiektu.__record.ToString()));
                             placeOfEditingWindow.Controls.Add(new Kontrolki.Label("label", "nazwa", "Nazwa: ", String.Empty));
-                            placeOfEditingWindow.Controls.Add(new Kontrolki.TextBox("field", "nazwa", atrybut.nazwa, Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 20, 1, false));
+                            placeOfEditingWindow.Controls.Add(new Kontrolki.TextBox("field", "nazwa", Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 20, 1, false, atrybut.nazwa));
                             placeOfEditingWindow.Controls.Add(new Kontrolki.Label("label", "wartosc_edit", "<br />Wartość: ", String.Empty));
 
                             switch (atrybut.nr_str)
                             {
                                 case "N":
-                                    placeOfEditingWindow.Controls.Add(new Kontrolki.TextBox("field", "wartosc_edit", atrybutyObiektu.wartosc_n.ToString("F2"), Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 16, 1, true));
+                                    placeOfEditingWindow.Controls.Add(new Kontrolki.TextBox("field", "wartosc_edit", Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 16, 1, true, atrybutyObiektu.wartosc_n.ToString("F2")));
 
                                     break;
 
                                 case "C":
-                                    placeOfEditingWindow.Controls.Add(new Kontrolki.TextBox("field", "wartosc_edit", atrybutyObiektu.wartosc_s.Trim(), Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 25, 1, true));
+                                    placeOfEditingWindow.Controls.Add(new Kontrolki.TextBox("field", "wartosc_edit", Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 25, 1, true, atrybutyObiektu.wartosc_s.Trim()));
 
                                     break;
                             }
@@ -202,9 +202,9 @@ namespace czynsze.Formularze
                             if (Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("showAddingWindow"))] != null)
                             {
                                 placeOfNewAttribute.Controls.Add(new Kontrolki.Label("label", "kod", "Nowa cecha: ", String.Empty));
-                                placeOfNewAttribute.Controls.Add(new Kontrolki.DropDownList("field", "kod", wierszeRozwijanejListy, String.Empty, true, false));
+                                placeOfNewAttribute.Controls.Add(new Kontrolki.DropDownList("field", "kod", wierszeRozwijanejListy, true, false));
                                 placeOfNewAttribute.Controls.Add(new Kontrolki.Label("label", "wartosc", "<br />Wartość: ", String.Empty));
-                                placeOfNewAttribute.Controls.Add(new Kontrolki.TextBox("field", "wartosc", String.Empty, Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 25, 1, true));
+                                placeOfNewAttribute.Controls.Add(new Kontrolki.TextBox("field", "wartosc", Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 25, 1, true));
                                 placeOfNewAttribute.Controls.Add(new LiteralControl("<span id='unit'></span>"));
                                 placeOfEditingWindow.Controls.Add(new Kontrolki.Button("button", "addchildAction", "Zapisz", url));
                                 placeOfEditingWindow.Controls.Add(new Kontrolki.Button("button", String.Empty, "Anuluj", url));

@@ -17,6 +17,8 @@ namespace czynsze.DostępDoBazy
         [Column("r_najemcy")]
         public string r_najemcy { get; set; }
 
+        public int id { get { return kod_najem; } }
+
         public string[] WażnePolaDoRozwijanejListy()
         {
             return new string[] 

@@ -44,6 +44,8 @@ namespace czynsze.DostępDoBazy
         [Column("uwagi")]
         public string uwagi { get; set; }
 
+        public int id { get { return kod; } }
+
         public string[] PolaDoTabeli()
         {
             return new string[]

@@ -51,10 +51,10 @@ namespace czynsze.Formularze
                 }
 
                 pojemnik.Controls.Add(new Kontrolki.Label("label", "odLokalu", "Pierwszy lokal: ", String.Empty));
-                pojemnik.Controls.Add(new Kontrolki.DropDownList("field", "odLokalu", lokaleDoListy, String.Format("{0}-{1}", minimalnyBudynek, minimalnyLokal), true, false));
+                pojemnik.Controls.Add(new Kontrolki.DropDownList("field", "odLokalu", lokaleDoListy, true, false, String.Format("{0}-{1}", minimalnyBudynek, minimalnyLokal)));
                 DodajNowąLinię(pojemnik);
                 pojemnik.Controls.Add(new Kontrolki.Label("label", "doLokalu", "Ostatni lokal: ", String.Empty));
-                pojemnik.Controls.Add(new Kontrolki.DropDownList("field", "doLokalu", lokaleDoListy, String.Format("{0}-{1}", maksymalnyBudynek, maksymalnyLokal), true, false));
+                pojemnik.Controls.Add(new Kontrolki.DropDownList("field", "doLokalu", lokaleDoListy, true, false, String.Format("{0}-{1}", maksymalnyBudynek, maksymalnyLokal)));
             }
         }
 
@@ -80,10 +80,10 @@ namespace czynsze.Formularze
                 pojemnikBudynków.Controls.Add(new Kontrolki.Button("button", "odDoBudynkuWybór", "Od-do żądanego budynku", String.Empty));
                 DodajNowąLinię(pojemnikBudynków);
                 pojemnikBudynków.Controls.Add(new Kontrolki.Label("label", "odBudynku", "Pierwszy budynek: ", String.Empty));
-                pojemnikBudynków.Controls.Add(new Kontrolki.DropDownList("field", "odBudynku", budynki, minimalnyBudynek.ToString(), true, false));
+                pojemnikBudynków.Controls.Add(new Kontrolki.DropDownList("field", "odBudynku", budynki, true, false, minimalnyBudynek.ToString()));
                 DodajNowąLinię(pojemnikBudynków);
                 pojemnikBudynków.Controls.Add(new Kontrolki.Label("label", "doBudynku", "Ostatni budynek: ", String.Empty));
-                pojemnikBudynków.Controls.Add(new Kontrolki.DropDownList("field", "doBudynku", budynki, maksymalnyBudynek.ToString(), true, false));
+                pojemnikBudynków.Controls.Add(new Kontrolki.DropDownList("field", "doBudynku", budynki, true, false, maksymalnyBudynek.ToString()));
                 pojemnikBudynków.Controls.Add(new Kontrolki.HtmlInputHidden("minimalnyBudynek", minimalnyBudynek.ToString()));
                 pojemnikBudynków.Controls.Add(new Kontrolki.HtmlInputHidden("maksymalnyBudynek", maksymalnyBudynek.ToString()));
 
@@ -92,10 +92,10 @@ namespace czynsze.Formularze
                 pojemnikWspólnot.Controls.Add(new Kontrolki.Button("button", "odDoWspólnotyWybór", "Od-do żądanej wspólnoty", String.Empty));
                 DodajNowąLinię(pojemnikWspólnot);
                 pojemnikWspólnot.Controls.Add(new Kontrolki.Label("label", "odWspólnoty", "Pierwsza wspólnota: ", String.Empty));
-                pojemnikWspólnot.Controls.Add(new Kontrolki.DropDownList("field", "odWspólnoty", wspólnoty, minimalnaWspólnota.ToString(), true, false));
+                pojemnikWspólnot.Controls.Add(new Kontrolki.DropDownList("field", "odWspólnoty", wspólnoty, true, false, minimalnaWspólnota.ToString()));
                 DodajNowąLinię(pojemnikWspólnot);
                 pojemnikWspólnot.Controls.Add(new Kontrolki.Label("label", "doWspólnoty", "Ostatnia wspólnota: ", String.Empty));
-                pojemnikWspólnot.Controls.Add(new Kontrolki.DropDownList("field", "doWspólnoty", wspólnoty, maksymalnaWspólnota.ToString(), true, false));
+                pojemnikWspólnot.Controls.Add(new Kontrolki.DropDownList("field", "doWspólnoty", wspólnoty, true, false, maksymalnaWspólnota.ToString()));
                 pojemnikWspólnot.Controls.Add(new Kontrolki.HtmlInputHidden("minimalnaWspólnota", minimalnaWspólnota.ToString()));
                 pojemnikWspólnot.Controls.Add(new Kontrolki.HtmlInputHidden("maksymalnaWspólnota", maksymalnaWspólnota.ToString()));
             }

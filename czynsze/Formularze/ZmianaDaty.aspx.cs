@@ -16,8 +16,8 @@ namespace czynsze.Formularze
             Kontrolki.Button button = new Kontrolki.Button("button", "Change", "Zmień", "#");
             button.Click += button_Click;
 
-            placeOfMonth.Controls.Add(new Kontrolki.TextBox("field", "month", Start.Data.Month.ToString(), Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 2, 1, true));
-            placeOfYear.Controls.Add(new Kontrolki.TextBox("field", "year", Start.Data.Year.ToString(), Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 4, 1, true));
+            placeOfMonth.Controls.Add(new Kontrolki.TextBox("field", "month", Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 2, 1, true, Start.Data.Month.ToString()));
+            placeOfYear.Controls.Add(new Kontrolki.TextBox("field", "year", Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 4, 1, true, Start.Data.Year.ToString()));
             placeOfButton.Controls.Add(button);
         }
 

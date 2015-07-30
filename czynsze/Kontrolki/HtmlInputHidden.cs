@@ -7,10 +7,10 @@ namespace czynsze.Kontrolki
 {
     public class HtmlInputHidden : System.Web.UI.HtmlControls.HtmlInputHidden
     {
-        public HtmlInputHidden(string id, string wartość)
+        public HtmlInputHidden(string id, object wartość)
         {
             ID = id;
-            Value = wartość;
+            Value = wartość.ToString();
         }
     }
 }

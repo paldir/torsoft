@@ -17,6 +17,8 @@ namespace czynsze.DostępDoBazy
         [Column("typ_kuch")]
         public string typ_kuch { get; set; }
 
+        public int id { get { return kod_kuch; } }
+
         public string[] WażnePolaDoRozwijanejListy()
         {
             return new string[] 

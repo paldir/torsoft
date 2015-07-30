@@ -97,14 +97,14 @@ namespace czynsze.Formularze
                         pierwszaEtykieta = "Nowy budynek: ";
                         tekstPrzyciskuZapisywania = "Dodaj";
                         komentarze = String.Empty;
-                        pierwszaKontrolka = new Kontrolki.DropDownList("field", "kod_1", db.Budynki.AsEnumerable<DostępDoBazy.Budynek>().OrderBy(b => b.kod_1).Select(b => b.PolaDoTabeli()).ToList(), String.Empty, true, false);
+                        pierwszaKontrolka = new Kontrolki.DropDownList("field", "kod_1", db.Budynki.AsEnumerable<DostępDoBazy.Budynek>().OrderBy(b => b.kod_1).Select(b => b.PolaDoTabeli()).ToList(), true, false);
                     }
                     else
                     {
                         pierwszaEtykieta = "Budynek: ";
                         tekstPrzyciskuZapisywania = "Edytuj";
                         komentarze = obecnyBudynekWspólnoty.uwagi.Trim();
-                        pierwszaKontrolka = new Kontrolki.TextBox("field", "budynek", db.Budynki.FirstOrDefault(b => b.kod_1 == obecnyBudynekWspólnoty.kod_1).kod_1.ToString(), Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 30, 1, false);
+                        pierwszaKontrolka = new Kontrolki.TextBox("field", "budynek", Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 30, 1, false, db.Budynki.FirstOrDefault(b => b.kod_1 == obecnyBudynekWspólnoty.kod_1).kod_1.ToString());
 
                         form.Controls.Add(new Kontrolki.HtmlInputHidden("kod_1", obecnyBudynekWspólnoty.kod_1.ToString()));
                         form.Controls.Add(new Kontrolki.HtmlInputHidden("id", id.ToString()));
@@ -115,7 +115,7 @@ namespace czynsze.Formularze
                     //using (DostępDoBazy.Czynsze_Entities db = new DostępDoBazy.Czynsze_Entities())
                     placeOfNewBuilding.Controls.Add(pierwszaKontrolka);
                     placeOfComments.Controls.Add(new Kontrolki.Label("field", "uwagi", "Uwagi: ", String.Empty));
-                    placeOfComments.Controls.Add(new Kontrolki.TextBox("field", "uwagi", komentarze, Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 30, 1, true));
+                    placeOfComments.Controls.Add(new Kontrolki.TextBox("field", "uwagi", Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 30, 1, true, komentarze));
                     placeOfButtonsOfWindow.Controls.Add(new Kontrolki.Button("button", "saveChildAction", tekstPrzyciskuZapisywania, url));
                     placeOfButtonsOfWindow.Controls.Add(new Kontrolki.Button("button", String.Empty, "Anuluj", url));
                 }

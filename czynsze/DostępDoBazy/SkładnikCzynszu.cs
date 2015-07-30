@@ -71,7 +71,7 @@ namespace czynsze.DostępDoBazy
         [Column("stawka_09")]
         public decimal stawka_09 { get; set; }
 
-        public int Id
+        public int id
         {
             get { return nr_skl; }
         }

@@ -20,6 +20,8 @@ namespace czynsze.DostępDoBazy
         [Column("k_syn")]
         public string k_syn { get; set; }
 
+        public int id { get { return kod; } }
+
         public string[] PolaDoTabeli()
         {
             return new string[]

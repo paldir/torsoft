@@ -33,6 +33,10 @@ namespace czynsze.DostępDoBazy
 
         public abstract string uwagi_2 { get; set; }
 
+        public int id { get { return nr_kontr; } }
+
+        public string uwagi { get { return String.Concat(uwagi_1, uwagi_2).Trim(); } }
+
         public static List<AktywnyLokal> AktywneLokale { get; set; }
 
         public string[] PolaDoTabeli()
