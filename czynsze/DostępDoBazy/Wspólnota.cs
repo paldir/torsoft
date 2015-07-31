@@ -12,36 +12,47 @@ namespace czynsze.DostępDoBazy
     public class Wspólnota : IRekord
     {
         [Key, Column("kod"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
+        [PrzyjaznaNazwaPola("kod wspólnoty")]
         public int kod { get; set; }
 
         [Column("nazwa_skr")]
+        [PrzyjaznaNazwaPola("nazwa skrócona")]
         public string nazwa_skr { get; set; }
 
         [Column("il_bud")]
+        [PrzyjaznaNazwaPola("ilość budynków")]
         public int il_bud { get; set; }
 
         [Column("il_miesz")]
+        [PrzyjaznaNazwaPola("ilości lokali")]
         public int il_miesz { get; set; }
 
         [Column("nazwa_pel")]
+        [PrzyjaznaNazwaPola("nazwa pełna")]
         public string nazwa_pel { get; set; }
 
         [Column("adres")]
+        [PrzyjaznaNazwaPola("adres")]
         public string adres { get; set; }
 
         [Column("adres_2")]
+        [PrzyjaznaNazwaPola("adres cd.")]
         public string adres_2 { get; set; }
 
         [Column("nr1_konta")]
+        [PrzyjaznaNazwaPola("nr konta 1")]
         public string nr1_konta { get; set; }
 
         [Column("nr2_konta")]
+        [PrzyjaznaNazwaPola("nr konta 2")]
         public string nr2_konta { get; set; }
 
         [Column("nr3_konta")]
+        [PrzyjaznaNazwaPola("nr konta 3")]
         public string nr3_konta { get; set; }
 
         [Column("sciezka_fk")]
+        [PrzyjaznaNazwaPola("ścieżka do F-K")]
         public string sciezka_fk { get; set; }
 
         [Column("uwagi_1")]
@@ -62,9 +73,14 @@ namespace czynsze.DostępDoBazy
         [Column("uwagi_6")]
         public string uwagi_6 { get; set; }
 
+        [PrzyjaznaNazwaPola("kod wspólnoty")]
         public int id { get { return kod; } }
 
-        public string uwagi { get { return String.Concat(uwagi_1, uwagi_2, uwagi_3, uwagi_4, uwagi_5, uwagi_6).Trim(); } }
+        [PrzyjaznaNazwaPola("uwagi")]
+        public string uwagi 
+        { 
+            get { return String.Concat(uwagi_1, uwagi_2, uwagi_3, uwagi_4, uwagi_5, uwagi_6).Trim(); } 
+        }
 
         public string[] PolaDoTabeli()
         {

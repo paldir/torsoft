@@ -12,14 +12,18 @@ namespace czynsze.DostępDoBazy
     public class GrupaFinansowa : IRekord
     {
         [Key, Column("kod"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
+        [PrzyjaznaNazwaPola("kod")]
         public int kod { get; set; }
 
         [Column("nazwa")]
+        [PrzyjaznaNazwaPola("nazwa grupy finansowej")]
         public string nazwa { get; set; }
 
         [Column("k_syn")]
+        [PrzyjaznaNazwaPola("konto FK")]
         public string k_syn { get; set; }
 
+        [PrzyjaznaNazwaPola("kod")]
         public int id { get { return kod; } }
 
         public string[] PolaDoTabeli()

@@ -484,12 +484,12 @@ namespace czynsze.Formularze
 
                         foreach (DostępDoBazy.PozycjaDoAnalizy pozycja in pozycje)
                         {
-                            DostępDoBazy.IInformacjeOPozycji informacja = informacjeOPozycjach.SingleOrDefault(i => i.id == pozycja.IdInformacji);
+                            DostępDoBazy.IInformacjeOPozycji informacja = informacjeOPozycjach.SingleOrDefault(i => i.IdInformacji == pozycja.IdInformacji);
 
                             if (informacja == null)
                                 pozycjeDoUsunięcia.Add(pozycja);
                             else
-                                pozycja.Informacje = informacjeOPozycjach.Single(i => i.id == pozycja.IdInformacji);
+                                pozycja.Informacje = informacjeOPozycjach.Single(i => i.IdInformacji == pozycja.IdInformacji);
                         }
 
                         foreach (DostępDoBazy.PozycjaDoAnalizy pozycja in pozycjeDoUsunięcia)
@@ -1354,7 +1354,7 @@ namespace czynsze.Formularze
 
                                                 foreach (KeyValuePair<int, decimal> składnik in nrSkładnikaNaSumę)
                                                 {
-                                                    DostępDoBazy.IInformacjeOPozycji informacja = informacjeOPozycjach.Single(n => n.id == składnik.Key);
+                                                    DostępDoBazy.IInformacjeOPozycji informacja = informacjeOPozycjach.Single(n => n.IdInformacji == składnik.Key);
                                                     decimal kwota = składnik.Value;
                                                     sumaBudynku += kwota;
 
@@ -1410,7 +1410,7 @@ namespace czynsze.Formularze
 
                                                     foreach (KeyValuePair<int, decimal> składnik in nrSkładnikaNaSumę)
                                                     {
-                                                        DostępDoBazy.IInformacjeOPozycji informacje = informacjeOPozycjach.Single(s => s.id == składnik.Key);
+                                                        DostępDoBazy.IInformacjeOPozycji informacje = informacjeOPozycjach.Single(s => s.IdInformacji == składnik.Key);
                                                         decimal kwota = składnik.Value;
                                                         sumaBudynku += kwota;
 
@@ -1759,7 +1759,7 @@ namespace czynsze.Formularze
 
                                                     foreach (DostępDoBazy.PozycjaDoAnalizy pozycja in pozycjeBudynku)
                                                     {
-                                                        int numerSkładnika = pozycja.Informacje.id;
+                                                        int numerSkładnika = pozycja.Informacje.IdInformacji;
                                                         decimal kwota = pozycja.Kwota;
 
                                                         if (numerSkładnikaNaSumę.ContainsKey(numerSkładnika))
@@ -1770,7 +1770,7 @@ namespace czynsze.Formularze
 
                                                     foreach (KeyValuePair<int, decimal> paraSkładnikSuma in numerSkładnikaNaSumę)
                                                     {
-                                                        DostępDoBazy.IInformacjeOPozycji składnik = informacjeOPozycjach.Single(s => s.id == paraSkładnikSuma.Key);
+                                                        DostępDoBazy.IInformacjeOPozycji składnik = informacjeOPozycjach.Single(s => s.IdInformacji == paraSkładnikSuma.Key);
 
                                                         podTabela.Add(new string[] { String.Empty, String.Empty, String.Empty, składnik.Nazwa, nazwaGrupy, paraSkładnikSuma.Value.ToString("N") });
                                                     }
@@ -1829,7 +1829,7 @@ namespace czynsze.Formularze
 
                                                             foreach (DostępDoBazy.PozycjaDoAnalizy pozycja in pozycjeBudynku)
                                                             {
-                                                                int numerSkładnika = pozycja.Informacje.id;
+                                                                int numerSkładnika = pozycja.Informacje.IdInformacji;
                                                                 decimal kwota = pozycja.Kwota;
 
                                                                 if (numerSkładnikaNaSumę.ContainsKey(numerSkładnika))
@@ -1840,7 +1840,7 @@ namespace czynsze.Formularze
 
                                                             foreach (KeyValuePair<int, decimal> paraSkładnikSuma in numerSkładnikaNaSumę)
                                                             {
-                                                                DostępDoBazy.IInformacjeOPozycji informacja = informacjeOPozycjach.Single(s => s.id == paraSkładnikSuma.Key);
+                                                                DostępDoBazy.IInformacjeOPozycji informacja = informacjeOPozycjach.Single(s => s.IdInformacji == paraSkładnikSuma.Key);
 
                                                                 podTabela.Add(new string[] { String.Empty, String.Empty, String.Empty, informacja.Nazwa, nazwaGrupy, paraSkładnikSuma.Value.ToString("N") });
                                                             }

@@ -15,9 +15,11 @@ namespace czynsze.DostępDoBazy
         public int __record { get; set; }
 
         [Column("nazwa")]
+        [PrzyjaznaNazwaPola("oznaczenie stawki")]
         public string nazwa { get; set; }
 
         [Column("symb_fisk")]
+        [PrzyjaznaNazwaPola("symbol fiskalny")]
         public string symb_fisk { get; set; }
 
         public int id { get { return __record; } }

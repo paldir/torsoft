@@ -12,11 +12,14 @@ namespace czynsze.DostępDoBazy
     public class TypLokalu : IRekord
     {
         [Key, Column("kod_typ"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
+        [PrzyjaznaNazwaPola("kod")]
         public int kod_typ { get; set; }
 
         [Column("typ_lok")]
+        [PrzyjaznaNazwaPola("typ lokalu")]
         public string typ_lok { get; set; }
 
+        [PrzyjaznaNazwaPola("kod")]
         public int id { get { return kod_typ; } }
 
         public string[] WażnePolaDoRozwijanejListy()

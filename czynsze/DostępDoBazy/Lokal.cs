@@ -9,48 +9,70 @@ namespace czynsze.DostępDoBazy
     {
         public abstract int nr_system { get; set; }
 
+        [PrzyjaznaNazwaPola("budynek")]
         public abstract int kod_lok { get; set; }
 
+        [PrzyjaznaNazwaPola("nr lokalu")]
         public abstract int nr_lok { get; set; }
 
+        [PrzyjaznaNazwaPola("typ")]
         public abstract int kod_typ { get; set; }
 
+        [PrzyjaznaNazwaPola("powierzchnia użytkowa")]
         public abstract float pow_uzyt { get; set; }
 
+        [PrzyjaznaNazwaPola("nazwisko")]
         public abstract string nazwisko { get; set; }
 
+        [PrzyjaznaNazwaPola("imię")]
         public abstract string imie { get; set; }
 
+        [PrzyjaznaNazwaPola("adres")]
         public abstract string adres { get; set; }
 
+        [PrzyjaznaNazwaPola("adres cd.")]
         public abstract string adres_2 { get; set; }
 
+        [PrzyjaznaNazwaPola("powierzchnia mieszkalna")]
         public abstract float pow_miesz { get; set; }
 
+        [PrzyjaznaNazwaPola("udział")]
         public abstract float udzial { get; set; }
 
+        [PrzyjaznaNazwaPola("początek zakresu dat")]
         public abstract Nullable<DateTime> dat_od { get; set; }
 
+        [PrzyjaznaNazwaPola("koniec zakresu dat")]
         public abstract Nullable<DateTime> dat_do { get; set; }
 
+        [PrzyjaznaNazwaPola("powierzchnia I pokoju")]
         public abstract float p_1 { get; set; }
 
+        [PrzyjaznaNazwaPola("powierzchnia II pokoju")]
         public abstract float p_2 { get; set; }
 
+        [PrzyjaznaNazwaPola("powierzchnia III pokoju")]
         public abstract float p_3 { get; set; }
 
+        [PrzyjaznaNazwaPola("powierzchnia IV pokoju")]
         public abstract float p_4 { get; set; }
 
+        [PrzyjaznaNazwaPola("powierzchnia V pokoju")]
         public abstract float p_5 { get; set; }
 
+        [PrzyjaznaNazwaPola("powierzchnia VI pokoju")]
         public abstract float p_6 { get; set; }
 
+        [PrzyjaznaNazwaPola("typ kuchni")]
         public abstract Nullable<int> kod_kuch { get; set; }
 
+        [PrzyjaznaNazwaPola("najemca")]
         public abstract Nullable<int> nr_kontr { get; set; }
 
+        [PrzyjaznaNazwaPola("ilość osób")]
         public abstract Nullable<int> il_osob { get; set; }
 
+        [PrzyjaznaNazwaPola("tytuł prawny do lokalu")]
         public abstract Nullable<int> kod_praw { get; set; }
 
         public abstract string uwagi_1 { get; set; }
@@ -61,10 +83,19 @@ namespace czynsze.DostępDoBazy
 
         public abstract string uwagi_4 { get; set; }
 
-        public int id { get { return nr_system; } }
+        [PrzyjaznaNazwaPola("uwagi")]
+        public string uwagi 
+        { 
+            get { return String.Concat(uwagi_1, uwagi_2, uwagi_3, uwagi_4).Trim(); } 
+        }
+
+        public int id 
+        { 
+            get { return nr_system; } 
+        }
 
         public static List<TypLokalu> TypyLokali { get; set; }
-        
+
         public string[] PolaDoTabeli()
         {
 

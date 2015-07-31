@@ -959,7 +959,7 @@ namespace czynsze.Formularze
                             {
                                 rekord = new DostępDoBazy.Atrybut();
                                 atrybut = rekord as DostępDoBazy.Atrybut;
-                                atrybut.jedn = "N";
+                                atrybut.nr_str = "N";
                                 atrybut.zb_b = atrybut.zb_l = atrybut.zb_n = atrybut.zb_s = "X";
                             }
                         }
@@ -1135,30 +1135,37 @@ namespace czynsze.Formularze
 
                     Control kontrolka = controls[i];
                     string idKontrolki = kontrolka.ID;
+                    string etykieta = String.Empty;
 
                     if (!String.IsNullOrEmpty(idKontrolki))
                     {
-                        PropertyInfo właściwość = właściwościDoUstawienia.Single(w => w.Name == idKontrolki.Replace("_disabled", String.Empty));
-                        object wartość = właściwość.GetValue(rekord);
+                        PropertyInfo właściwość = właściwościDoUstawienia.SingleOrDefault(w => w.Name == idKontrolki.Replace("_disabled", String.Empty));
 
-                        if (wartość != null)
+                        if (właściwość != null)
                         {
-                            string wartośćDoZapisania;
-                            Type typWartości = wartość.GetType();
+                            object wartość = właściwość.GetValue(rekord);
+                            etykieta = właściwość.GetCustomAttribute<DostępDoBazy.PrzyjaznaNazwaPolaAttribute>(true).Nazwa;
+                            etykieta = String.Concat(Char.ToUpper(etykieta[0]), etykieta.Substring(1), ": ");
 
-                            if (typWartości == typeof(decimal))
-                                wartośćDoZapisania = Convert.ToDecimal(wartość).ToString("N");
-                            else if (typWartości == typeof(DateTime))
-                                wartośćDoZapisania = Convert.ToDateTime(wartość).ToShortDateString();
-                            else
-                                wartośćDoZapisania = wartość.ToString();
+                            if (wartość != null)
+                            {
+                                string wartośćDoZapisania;
+                                Type typWartości = wartość.GetType();
 
-                            (kontrolka as Kontrolki.IKontrolkaZWartością).Wartość = wartośćDoZapisania.Trim();
+                                if (typWartości == typeof(decimal))
+                                    wartośćDoZapisania = Convert.ToDecimal(wartość).ToString("N");
+                                else if (typWartości == typeof(DateTime))
+                                    wartośćDoZapisania = Convert.ToDateTime(wartość).ToShortDateString();
+                                else
+                                    wartośćDoZapisania = wartość.ToString();
+
+                                (kontrolka as Kontrolki.IKontrolkaZWartością).Wartość = wartośćDoZapisania.Trim();
+                            }
                         }
                     }
 
                     cell.Controls.Add(new LiteralControl("<div class='fieldWithLabel'>"));
-                    cell.Controls.Add(new Kontrolki.Label("fieldLabel", kontrolka.ID, labels[i], String.Empty));
+                    cell.Controls.Add(new Kontrolki.Label("fieldLabel", kontrolka.ID, etykieta, String.Empty));
                     DodajNowąLinię(cell);
                     cell.Controls.Add(kontrolka);
                     cell.Controls.Add(new LiteralControl("</div>"));

@@ -12,15 +12,19 @@ namespace czynsze.DostępDoBazy
     public class Atrybut : IRekord
     {
         [Key, Column("kod"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
+        [PrzyjaznaNazwaPola("kod")]
         public int kod { get; set; }
 
         [Column("nazwa")]
+        [PrzyjaznaNazwaPola("nazwa")]
         public string nazwa { get; set; }
 
         [Column("nr_str")]
+        [PrzyjaznaNazwaPola("numeryczna/charakter")]
         public string nr_str { get; set; }
 
         [Column("zb_l")]
+        [PrzyjaznaNazwaPola("dotyczy")]
         public string zb_l { get; set; }
 
         [Column("zb_n")]
@@ -32,18 +36,39 @@ namespace czynsze.DostępDoBazy
         [Column("zb_s")]
         public string zb_s { get; set; }
 
+        [PrzyjaznaNazwaPola("dotyczy")]
+        public string zb 
+        {
+            get { return null; } 
+        }
+
         [Column("jedn")]
+        [PrzyjaznaNazwaPola("jednostka miary")]
         public string jedn { get; set; }
 
         [Column("wartosc_n")]
-        public decimal wartosc_n { get; set; }
+        public float wartosc_n { get; set; }
 
         [Column("wartosc_s")]
         public string wartosc_s { get; set; }
 
+        [PrzyjaznaNazwaPola("wartość domyślna")]
+        public string wartosc
+        {
+            get
+            {
+                if (nr_str == "N")
+                    return wartosc_n.ToString();
+                else
+                    return wartosc_s;
+            }
+        }
+
         [Column("uwagi")]
+        [PrzyjaznaNazwaPola("uwagi")]
         public string uwagi { get; set; }
 
+        [PrzyjaznaNazwaPola("kod")]
         public int id { get { return kod; } }
 
         public string[] PolaDoTabeli()
@@ -112,7 +137,7 @@ namespace czynsze.DostępDoBazy
             switch (nr_str)
             {
                 case "N":
-                    wartosc_n = Decimal.Parse(record[4]);
+                    wartosc_n = Single.Parse(record[4]);
 
                     break;
 

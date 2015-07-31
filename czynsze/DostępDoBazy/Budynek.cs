@@ -12,21 +12,27 @@ namespace czynsze.DostępDoBazy
     public class Budynek : IRekord
     {
         [Key, Column("kod_1"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
+        [PrzyjaznaNazwaPola("kod budynku")]
         public int kod_1 { get; set; }
 
         [Column("adres")]
+        [PrzyjaznaNazwaPola("adres")]
         public string adres { get; set; }
 
         [Column("adres_2")]
+        [PrzyjaznaNazwaPola("adres cd.")]
         public string adres_2 { get; set; }
 
         [Column("il_miesz")]
+        [PrzyjaznaNazwaPola("ilość mieszkań")]
         public int il_miesz { get; set; }
 
         [Column("sp_rozl")]
+        [PrzyjaznaNazwaPola("sposób rozliczania")]
         public int sp_rozl { get; set; }
 
         [Column("udzial_w_k")]
+        [PrzyjaznaNazwaPola("udział w koszt.")]
         public float udzial_w_k { get; set; }
 
         [Column("uwagi_1")]
@@ -47,11 +53,13 @@ namespace czynsze.DostępDoBazy
         [Column("uwagi_6")]
         public string uwagi_6 { get; set; }
 
+        [PrzyjaznaNazwaPola("uwagi")]
         public string uwagi
         {
             get { return String.Concat(uwagi_1, uwagi_2, uwagi_3, uwagi_4, uwagi_5, uwagi_6).Trim(); }
         }
 
+        [PrzyjaznaNazwaPola("kod budynku")]
         public int id { get { return kod_1; } }
 
         public void Ustaw(string[] rekord)

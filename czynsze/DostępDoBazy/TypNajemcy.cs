@@ -12,11 +12,14 @@ namespace czynsze.DostępDoBazy
     public class TypNajemcy : IRekord
     {
         [Key, Column("kod_najem"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
+        [PrzyjaznaNazwaPola("kod")]
         public int kod_najem { get; set; }
 
         [Column("r_najemcy")]
+        [PrzyjaznaNazwaPola("rodzaj najemcy")]
         public string r_najemcy { get; set; }
 
+        [PrzyjaznaNazwaPola("kod")]
         public int id { get { return kod_najem; } }
 
         public string[] WażnePolaDoRozwijanejListy()
