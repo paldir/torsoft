@@ -15,11 +15,11 @@ namespace czynsze.DostępDoBazy
         [PrzyjaznaNazwaPola("kod budynku")]
         public int kod_1 { get; set; }
 
-        [Column("adres")]
+        //[Column("adres")]
         [PrzyjaznaNazwaPola("adres")]
         public string adres { get; set; }
 
-        [Column("adres_2")]
+        //[Column("adres_2")]
         [PrzyjaznaNazwaPola("adres cd.")]
         public string adres_2 { get; set; }
 

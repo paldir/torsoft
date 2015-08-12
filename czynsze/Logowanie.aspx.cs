@@ -24,7 +24,14 @@ namespace czynsze
             Formularze.Start.ŚcieżkaStrony = new ŚcieżkaStrony();
             Formularze.Start.AktywnyZbiór = Enumeratory.Zbiór.Czynsze;
 
-            Response.Redirect("Formularze/WalidacjaUzytkownika.aspx?uzytkownik=admin&haslo=a");
+            //Response.Redirect("Formularze/WalidacjaUzytkownika.aspx?uzytkownik=admin&haslo=a");
+
+            using(DostępDoBazy.CzynszeKontekst db=new DostępDoBazy.CzynszeKontekst())
+            {
+
+                db.Database.Initialize(false);
+                
+            }
         }
     }
 }

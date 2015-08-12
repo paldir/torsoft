@@ -94,94 +94,100 @@ namespace czynsze.DostępDoBazy
                     lokal = db.NieaktywneLokale.FirstOrDefault(p => p.kod_lok == kod_lok && p.nr_lok == nr_lok);
 
             ilosc = 0;
-            stawka = składnikCzynszu.stawka;
 
-            switch (składnikCzynszu.s_zaplat)
+            if (lokal == null)
+                stawka = 0;
+            else
             {
-                case 1:
-                    ilosc = lokal.pow_uzyt;
+                stawka = składnikCzynszu.stawka;
 
-                    break;
+                switch (składnikCzynszu.s_zaplat)
+                {
+                    case 1:
+                        ilosc = lokal.pow_uzyt;
 
-                case 2:
-                    ilosc = dan_p;
+                        break;
 
-                    break;
+                    case 2:
+                        ilosc = dan_p;
 
-                case 3:
-                    int? ilośćOsób=lokal.il_osob;
-                    ilosc = ilośćOsób.HasValue ? ilośćOsób.Value : 0;
+                        break;
 
-                    break;
+                    case 3:
+                        int? ilośćOsób = lokal.il_osob;
+                        ilosc = ilośćOsób.HasValue ? ilośćOsób.Value : 0;
 
-                case 4:
-                    ilosc = 1;
+                        break;
 
-                    break;
+                    case 4:
+                        ilosc = 1;
 
-                case 5:
-                    DateTime date = Formularze.Start.Data;
-                    ilosc = DateTime.DaysInMonth(date.Year, date.Month);
+                        break;
 
-                    break;
+                    case 5:
+                        DateTime date = Formularze.Start.Data;
+                        ilosc = DateTime.DaysInMonth(date.Year, date.Month);
 
-                case 6:
-                    ilosc = 1;
+                        break;
 
-                    switch (lokal.il_osob)
-                    {
-                        case 0:
-                            stawka = składnikCzynszu.stawka_00;
+                    case 6:
+                        ilosc = 1;
 
-                            break;
+                        switch (lokal.il_osob)
+                        {
+                            case 0:
+                                stawka = składnikCzynszu.stawka_00;
 
-                        case 1:
-                            stawka = składnikCzynszu.stawka_01;
+                                break;
 
-                            break;
+                            case 1:
+                                stawka = składnikCzynszu.stawka_01;
 
-                        case 2:
-                            stawka = składnikCzynszu.stawka_02;
+                                break;
 
-                            break;
+                            case 2:
+                                stawka = składnikCzynszu.stawka_02;
 
-                        case 3:
-                            stawka = składnikCzynszu.stawka_03;
+                                break;
 
-                            break;
+                            case 3:
+                                stawka = składnikCzynszu.stawka_03;
 
-                        case 4:
-                            stawka = składnikCzynszu.stawka_04;
+                                break;
 
-                            break;
+                            case 4:
+                                stawka = składnikCzynszu.stawka_04;
 
-                        case 5:
-                            stawka = składnikCzynszu.stawka_05;
+                                break;
 
-                            break;
+                            case 5:
+                                stawka = składnikCzynszu.stawka_05;
 
-                        case 6:
-                            stawka = składnikCzynszu.stawka_06;
+                                break;
 
-                            break;
+                            case 6:
+                                stawka = składnikCzynszu.stawka_06;
 
-                        case 7:
-                            stawka = składnikCzynszu.stawka_07;
+                                break;
 
-                            break;
+                            case 7:
+                                stawka = składnikCzynszu.stawka_07;
 
-                        case 8:
-                            stawka = składnikCzynszu.stawka_08;
+                                break;
 
-                            break;
+                            case 8:
+                                stawka = składnikCzynszu.stawka_08;
 
-                        default:
-                            stawka = składnikCzynszu.stawka_09;
+                                break;
 
-                            break;
-                    }
+                            default:
+                                stawka = składnikCzynszu.stawka_09;
 
-                    break;
+                                break;
+                        }
+
+                        break;
+                }
             }
         }
 

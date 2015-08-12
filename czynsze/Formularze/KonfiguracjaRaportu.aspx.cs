@@ -785,8 +785,18 @@ namespace czynsze.Formularze
                                                     DostępDoBazy.SkładnikCzynszuLokalu.Lokale = aktywneLokale;
                                                     DostępDoBazy.Budynek budynek = db.Budynki.Single(b => b.kod_1 == i);
                                                     List<string[]> tabela = new List<string[]>();
-                                                    List<DostępDoBazy.PozycjaDoAnalizy> pozycjeBudynku = pozycjeZaDanyMiesiąc.Where(p => p.KodBudynku == i).ToList();
+                                                    List<DostępDoBazy.PozycjaDoAnalizy> pozycjeBudynku = null;
                                                     decimal sumaBudynku = 0;
+
+                                                    switch(rodzajAnalizy)
+                                                    {
+                                                        case Enumeratory.Analiza.NaleznosciZaDanyMiesiac:
+                                                        case Enumeratory.Analiza.ObrotyZaDanyMiesiac:
+                                                        case Enumeratory.Analiza.OgolemZaDanyMiesiac:
+                                                            pozycjeBudynku = pozycjeZaDanyMiesiąc.Where(p => p.KodBudynku == i).ToList();
+
+                                                            break;
+                                                    }
 
                                                     foreach (DostępDoBazy.Lokal lokal in aktywneLokale)
                                                     {
@@ -1286,10 +1296,16 @@ namespace czynsze.Formularze
                                                     int nrLok = lokal.nr_lok;
                                                     IEnumerable<DostępDoBazy.PozycjaDoAnalizy> pozycjeLokalu = pozycjeZaDanyMiesiąc.Where(p => p.KodBudynku == kodLok && p.NrLokalu == nrLok);
                                                     decimal suma = 0;
-                                                    DostępDoBazy.TypLokalu typLokalu = db.TypyLokali.First(t => t.kod_typ == lokal.kod_typ);
+                                                    DostępDoBazy.TypLokalu typLokalu = db.TypyLokali.SingleOrDefault(t => t.kod_typ == lokal.kod_typ);
+                                                    string nazwaTypuLokalu;
+
+                                                    if (typLokalu == null)
+                                                        nazwaTypuLokalu = String.Empty;
+                                                    else
+                                                        nazwaTypuLokalu = typLokalu.typ_lok;
 
                                                     tabela.Add(new string[] { i.ToString(), kodLok.ToString(), nrLok.ToString(), lokal.nazwisko, lokal.imie, String.Format("{0} {1}", lokal.adres, lokal.adres_2), String.Empty, String.Empty, String.Empty });
-                                                    tabela.Add(new string[] { String.Empty, String.Empty, String.Empty, typLokalu.typ_lok, String.Empty, String.Empty, String.Empty, String.Empty, String.Empty });
+                                                    tabela.Add(new string[] { String.Empty, String.Empty, String.Empty, nazwaTypuLokalu, String.Empty, String.Empty, String.Empty, String.Empty, String.Empty });
 
                                                     foreach (DostępDoBazy.PozycjaDoAnalizy pozycja in pozycjeLokalu)
                                                     {

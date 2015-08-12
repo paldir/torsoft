@@ -187,7 +187,7 @@ namespace czynsze.DostępDoBazy
             p_4 = Single.Parse(rekord[14]);
             p_5 = Single.Parse(rekord[15]);
             p_6 = Single.Parse(rekord[16]);
-            kod_kuch = Int32.Parse(rekord[17]);
+            kod_kuch = null;
             nr_kontr = Int32.Parse(rekord[18]);
 
             using (CzynszeKontekst db = new CzynszeKontekst())

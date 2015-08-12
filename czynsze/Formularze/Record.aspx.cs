@@ -389,14 +389,17 @@ namespace czynsze.Formularze
                             {
                                 case Enumeratory.Akcja.Dodaj:
                                     //db.Database.ExecuteSqlCommand("CREATE TABLE skl_cz_tmp AS SELECT * FROM skl_cz WHERE 1=2");
-                                    db.Database.ExecuteSqlCommand("CREATE TABLE pliki_tmp AS SELECT * FROM pliki WHERE 1=2");
+                                    //db.Database.ExecuteSqlCommand("CREATE TABLE pliki_tmp AS SELECT * FROM pliki WHERE 1=2");
+                                    db.Database.ExecuteSqlCommand("CREATE TABLE pliki_tmp(nr_system numeric(14,0),id numeric(14,0) NOT NULL,plik text,nazwa_pliku character(100),opis character(100), PRIMARY KEY (id))WITH (OIDS=FALSE)");
 
                                     break;
 
                                 default:
                                     //db.Database.ExecuteSqlCommand("CREATE TABLE skl_cz_tmp AS SELECT * FROM skl_cz WHERE kod_lok=" + values[1] + " AND nr_lok=" + values[2]);
-                                    db.Database.ExecuteSqlCommand(String.Format("CREATE TABLE pliki_tmp AS SELECT * FROM pliki WHERE nr_system={0}", nrSystem));
-
+                                    //db.Database.ExecuteSqlCommand(String.Format("CREATE TABLE pliki_tmp AS SELECT * FROM pliki WHERE nr_system={0}", nrSystem));
+                                    db.Database.ExecuteSqlCommand("CREATE TABLE pliki_tmp(nr_system numeric(14,0),id numeric(14,0) NOT NULL,plik text,nazwa_pliku character(100),opis character(100), PRIMARY KEY (id))WITH (OIDS=FALSE)");
+                                    db.Database.ExecuteSqlCommand(String.Format("INSERT INTO pliki_tmp SELECT * FROM pliki WHERE nr_system={0}", nrSystem));
+                                    
                                     break;
                             }
                         }
