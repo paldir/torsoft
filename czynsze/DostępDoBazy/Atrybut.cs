@@ -11,29 +11,23 @@ namespace czynsze.DostępDoBazy
     [Table("cechy", Schema = "public")]
     public class Atrybut : IRekord
     {
-        [Key, Column("kod"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
+        [Key, DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         [PrzyjaznaNazwaPola("kod")]
         public int kod { get; set; }
 
-        [Column("nazwa")]
         [PrzyjaznaNazwaPola("nazwa")]
         public string nazwa { get; set; }
 
-        [Column("nr_str")]
         [PrzyjaznaNazwaPola("numeryczna/charakter")]
         public string nr_str { get; set; }
 
-        [Column("zb_l")]
         [PrzyjaznaNazwaPola("dotyczy")]
         public string zb_l { get; set; }
 
-        [Column("zb_n")]
         public string zb_n { get; set; }
 
-        [Column("zb_b")]
         public string zb_b { get; set; }
 
-        [Column("zb_s")]
         public string zb_s { get; set; }
 
         [PrzyjaznaNazwaPola("dotyczy")]
@@ -42,17 +36,15 @@ namespace czynsze.DostępDoBazy
             get { return null; } 
         }
 
-        [Column("jedn")]
         [PrzyjaznaNazwaPola("jednostka miary")]
         public string jedn { get; set; }
 
-        [Column("wartosc_n")]
-        public float wartosc_n { get; set; }
+        float wartosc_n { get; set; }
 
-        [Column("wartosc_s")]
-        public string wartosc_s { get; set; }
+        string wartosc_s { get; set; }
 
         [PrzyjaznaNazwaPola("wartość domyślna")]
+        [NotMapped]
         public string wartosc
         {
             get
@@ -62,9 +54,16 @@ namespace czynsze.DostępDoBazy
                 else
                     return wartosc_s;
             }
+
+            set
+            {
+                if (nr_str == "N")
+                    wartosc_n = Single.Parse(value);
+                else
+                    wartosc_s = value;
+            }
         }
 
-        [Column("uwagi")]
         [PrzyjaznaNazwaPola("uwagi")]
         public string uwagi { get; set; }
 
@@ -97,22 +96,7 @@ namespace czynsze.DostępDoBazy
 
         public string[] WszystkiePola()
         {
-            string wartosc = String.Empty;
-
-            switch (nr_str)
-            {
-                case "N":
-                    wartosc = wartosc_n.ToString("F2");
-
-                    break;
-
-                case "C":
-                    wartosc = wartosc_s.Trim();
-
-                    break;
-            }
-
-            return new string[]
+           return new string[]
             {
                 kod.ToString(),
                 nazwa.Trim(),
@@ -133,20 +117,7 @@ namespace czynsze.DostępDoBazy
             nazwa = record[1];
             nr_str = record[2];
             jedn = record[3];
-
-            switch (nr_str)
-            {
-                case "N":
-                    wartosc_n = Single.Parse(record[4]);
-
-                    break;
-
-                case "C":
-                    wartosc_s = record[4];
-
-                    break;
-            }
-
+            wartosc = record[4];
             uwagi = record[5];
             zb_l = record[6];
             zb_n = record[7];

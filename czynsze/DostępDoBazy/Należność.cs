@@ -10,36 +10,25 @@ namespace czynsze.DostępDoBazy
 {
     public abstract class Należność : PozycjaDoAnalizy, IRekord
     {
-        public const string Rok = "15";
-
-        [Key, Column("__record")]
+        [Key]
         public int __record { get; set; }
 
-        [Column("kwota_nal")]
         public decimal kwota_nal { get; set; }
 
-        [Column("data_nal")]
         public DateTime data_nal { get; set; }
 
-        [Column("opis")]
         public string opis { get; set; }
 
-        [Column("kod_lok")]
         public int kod_lok { get; set; }
 
-        [Column("nr_lok")]
         public int nr_lok { get; set; }
 
-        [Column("nr_kontr")]
         public int nr_kontr { get; set; }
 
-        [Column("nr_skl")]
         public int nr_skl { get; set; }
 
-        [Column("stawka")]
         public decimal stawka { get; set; }
 
-        [Column("ilosc")]
         public float ilosc { get; set; }
 
         public int id { get { return __record; } }

@@ -31,8 +31,15 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="text-align: center">
+                    <td style="text-align: center">
                         <img src="Images/logo.png" />
+                    </td>
+                    <td>
+                        <b>TORSOFT Jan Konieczny</b><br />
+                        Biuro: 87-100 Toruń, ul. Lubicka 23/1<br />
+                        tel. 56 6591441<br />
+                        email: <a href="mailto:biuro@torsoft.pl">biuro@torsoft.pl</a><br />
+                        <a href="http://www.torsoft.pl/">http://www.torsoft.pl/</a>
                     </td>
                 </tr>
             </table>
@@ -40,33 +47,33 @@
     </form>
     <script>
         <%
-            string przyczyna = Request.Params["przyczyna"];
-        
-            if (przyczyna != null)
+        string przyczyna = Request.Params["przyczyna"];
+
+        if (przyczyna != null)
+        {
+            string message;
+
+            switch (przyczyna)
             {
-                string message;
+                case "NiepoprawneDaneUwierzytelniajace":
+                    message = "Musisz podać prawidłową nazwę użytkownika i hasło.";
 
-                switch (przyczyna)
-                {
-                    case "NiepoprawneDaneUwierzytelniajace":
-                        message = "Musisz podać prawidłową nazwę użytkownika i hasło.";
-                        
-                        break;
+                    break;
 
-                    case "NiezalogowanyLubSesjaWygasla":
-                        message = "Nie jesteś zalogowany lub Twoja sesja wygasła.";
-                        
-                        break;
+                case "NiezalogowanyLubSesjaWygasla":
+                    message = "Nie jesteś zalogowany lub Twoja sesja wygasła.";
 
-                    default:
-                        message = przyczyna;
-                        
-                        break;
-                }
+                    break;
+
+                default:
+                    message = przyczyna;
+
+                    break;
+            }
                 
                 %>
-                    alert('<%=message%>');
-                <%
+        alert('<%=message%>');
+        <%
             }
         %>
     </script>

@@ -3,51 +3,66 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
 namespace czynsze.DostępDoBazy
 {
-    public abstract class Najemca : IRekord
+    public class Najemca : IRekord
     {
         [PrzyjaznaNazwaPola("nr kontr.")]
-        public abstract int nr_kontr { get; set; }
+        [Key, DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
+        public int nr_kontr { get; set; }
 
         [PrzyjaznaNazwaPola("nazwisko")]
-        public abstract string nazwisko { get; set; }
+        public string nazwisko { get; set; }
 
         [PrzyjaznaNazwaPola("imię")]
-        public abstract string imie { get; set; }
+        public string imie { get; set; }
 
         [PrzyjaznaNazwaPola("adres")]
-        public abstract string adres_1 { get; set; }
+        public string adres_1 { get; set; }
 
         [PrzyjaznaNazwaPola("adres cd.")]
-        public abstract string adres_2 { get; set; }
+        public string adres_2 { get; set; }
 
         [PrzyjaznaNazwaPola("najemca")]
-        public abstract int kod_najem { get; set; }
+        public int kod_najem { get; set; }
 
         [PrzyjaznaNazwaPola("nr dowodu osobistego")]
-        public abstract string nr_dow { get; set; }
+        public string nr_dow { get; set; }
 
         [PrzyjaznaNazwaPola("pesel")]
-        public abstract string pesel { get; set; }
+        public string pesel { get; set; }
 
         [PrzyjaznaNazwaPola("zakład pracy")]
-        public abstract string nazwa_z { get; set; }
+        public string nazwa_z { get; set; }
 
         [PrzyjaznaNazwaPola("login/e-mail")]
-        public abstract string e_mail { get; set; }
+        public string e_mail { get; set; }
 
         [PrzyjaznaNazwaPola("hasło")]
-        public abstract string l__has { get; set; }
+        public string l__has { get; set; }
 
-        public abstract string uwagi_1 { get; set; }
+        string uwagi_1 { get; set; }
 
-        public abstract string uwagi_2 { get; set; }
+        string uwagi_2 { get; set; }
 
         public int id { get { return nr_kontr; } }
 
         [PrzyjaznaNazwaPola("uwagi")]
-        public string uwagi { get { return String.Concat(uwagi_1, uwagi_2).Trim(); } }
+        [NotMapped]
+        public string uwagi
+        {
+            get { return String.Concat(uwagi_1, uwagi_2).Trim(); }
+
+            set
+            {
+                string uwagi = value.PadRight(120);
+                uwagi_1 = uwagi.Substring(0, 60).Trim();
+                uwagi_2 = uwagi.Substring(60, 60).Trim();
+            }
+        }
 
         public static List<AktywnyLokal> AktywneLokale { get; set; }
 
@@ -79,7 +94,7 @@ namespace czynsze.DostępDoBazy
                 nazwa_z.Trim(), 
                 e_mail.Trim(), 
                 l__has.Trim(), 
-                String.Concat(uwagi_1.Trim(), uwagi_2.Trim()) 
+                uwagi
             };
         }
 
@@ -115,11 +130,7 @@ namespace czynsze.DostępDoBazy
             nazwa_z = rekord[8];
             e_mail = rekord[9];
             l__has = rekord[10];
-
-            rekord[11] = rekord[11].PadRight(120);
-
-            uwagi_1 = rekord[11].Substring(0, 60).Trim();
-            uwagi_2 = rekord[11].Substring(60, 60).Trim();
+            uwagi = rekord[11];
         }
 
         public string[] ZLokalem()

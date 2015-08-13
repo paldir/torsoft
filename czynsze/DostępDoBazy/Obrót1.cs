@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace czynsze.DostępDoBazy
 {
-    [Table("obr_" + Obrót.Rok + "__", Schema = "public")]
+    //[Table("obr_" + Obrót.Rok + "__", Schema = "public")]
     public class Obrót1 : Obrót
     {
         /*[Key, Column("__record")]

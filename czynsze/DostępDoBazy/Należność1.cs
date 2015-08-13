@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace czynsze.DostępDoBazy
 {
-    [Table("nal_" + Należność.Rok + "__", Schema = "public")]
+    //[Table("nal_" + Należność.Rok + "__", Schema = "public")]
     public class Należność1 : Należność
     {
         /*[Key, Column("__record")]

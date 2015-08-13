@@ -11,7 +11,7 @@ namespace czynsze.DostępDoBazy
     [Table("najemcy", Schema="public")]
     public class AktywnyNajemca : Najemca
     {
-        [Key, Column("nr_kontr"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
+        /*[Key, Column("nr_kontr"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public override int nr_kontr { get; set; }
 
         [Column("nazwisko")]
@@ -48,6 +48,6 @@ namespace czynsze.DostępDoBazy
         public override string uwagi_1 { get; set; }
 
         [Column("uwagi_2")]
-        public override string uwagi_2 { get; set; }
+        public override string uwagi_2 { get; set; }*/
     }
 }

@@ -10,33 +10,23 @@ namespace czynsze.DostępDoBazy
 {
     public class Obrót : PozycjaDoAnalizy, IRekord
     {
-        public const string Rok = "15";
-
-        [Key, Column("__record")]
+        [Key]
         public int __record { get; set; }
 
-        [Column("suma")]
         public decimal suma { get; set; }
 
-        [Column("data_obr")]
         public DateTime data_obr { get; set; }
 
-        [Column("opis")]
         public string opis { get; set; }
 
-        [Column("nr_kontr")]
         public int nr_kontr { get; set; }
 
-        [Column("kod_wplat")]
         public int kod_wplat { get; set; }
 
-        [Column("nr_dowodu")]
         public string nr_dowodu { get; set; }
 
-        [Column("pozycja_d")]
         public int pozycja_d { get; set; }
 
-        [Column("uwagi")]
         public string uwagi { get; set; }
 
         public int id { get { return __record; } }

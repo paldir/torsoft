@@ -15,48 +15,49 @@ namespace czynsze.DostępDoBazy
         [PrzyjaznaNazwaPola("kod budynku")]
         public int kod_1 { get; set; }
 
-        //[Column("adres")]
         [PrzyjaznaNazwaPola("adres")]
         public string adres { get; set; }
 
-        //[Column("adres_2")]
         [PrzyjaznaNazwaPola("adres cd.")]
         public string adres_2 { get; set; }
 
-        [Column("il_miesz")]
         [PrzyjaznaNazwaPola("ilość mieszkań")]
         public int il_miesz { get; set; }
 
-        [Column("sp_rozl")]
         [PrzyjaznaNazwaPola("sposób rozliczania")]
         public int sp_rozl { get; set; }
 
-        [Column("udzial_w_k")]
         [PrzyjaznaNazwaPola("udział w koszt.")]
         public float udzial_w_k { get; set; }
 
-        [Column("uwagi_1")]
-        public string uwagi_1 { get; set; }
+        string uwagi_1 { get; set; }
 
-        [Column("uwagi_2")]
-        public string uwagi_2 { get; set; }
+        string uwagi_2 { get; set; }
 
-        [Column("uwagi_3")]
-        public string uwagi_3 { get; set; }
+        string uwagi_3 { get; set; }
 
-        [Column("uwagi_4")]
-        public string uwagi_4 { get; set; }
+        string uwagi_4 { get; set; }
 
-        [Column("uwagi_5")]
-        public string uwagi_5 { get; set; }
+        string uwagi_5 { get; set; }
 
-        [Column("uwagi_6")]
-        public string uwagi_6 { get; set; }
+        string uwagi_6 { get; set; }
 
         [PrzyjaznaNazwaPola("uwagi")]
+        [NotMapped]
         public string uwagi
         {
             get { return String.Concat(uwagi_1, uwagi_2, uwagi_3, uwagi_4, uwagi_5, uwagi_6).Trim(); }
+
+            set
+            {
+                string wartość = value.PadRight(420);
+                uwagi_1 = wartość.Substring(0, 70).Trim();
+                uwagi_2 = wartość.Substring(70, 70).Trim();
+                uwagi_3 = wartość.Substring(140, 70).Trim();
+                uwagi_4 = wartość.Substring(210, 70).Trim();
+                uwagi_5 = wartość.Substring(280, 70).Trim();
+                uwagi_6 = wartość.Substring(350).Trim();
+            }
         }
 
         [PrzyjaznaNazwaPola("kod budynku")]
@@ -70,8 +71,7 @@ namespace czynsze.DostępDoBazy
             adres = rekord[3];
             adres_2 = rekord[4];
             udzial_w_k = Single.Parse(rekord[5]);
-
-            RozparcelujUwagi(rekord[6]);
+            uwagi = rekord[6];
         }
 
         public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
@@ -144,17 +144,6 @@ namespace czynsze.DostępDoBazy
                 udzial_w_k.ToString(), 
                 uwagi.Trim()
             };
-        }
-
-        void RozparcelujUwagi(string uwagi)
-        {
-            string wartość = uwagi.PadRight(420);
-            uwagi_1 = wartość.Substring(0, 70).Trim();
-            uwagi_2 = wartość.Substring(70, 70).Trim();
-            uwagi_3 = wartość.Substring(140, 70).Trim();
-            uwagi_4 = wartość.Substring(210, 70).Trim();
-            uwagi_5 = wartość.Substring(280, 70).Trim();
-            uwagi_6 = wartość.Substring(350).Trim();
         }
     }
 }

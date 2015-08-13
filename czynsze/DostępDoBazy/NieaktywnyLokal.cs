@@ -11,7 +11,7 @@ namespace czynsze.DostępDoBazy
     [Table("lokale_a", Schema = "public")]
     public class NieaktywnyLokal : Lokal
     {
-        [Key, Column("nr_system"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
+        /*[Key, Column("nr_system"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public override int nr_system { get; set; }
 
         [Column("kod_lok")]
@@ -90,6 +90,6 @@ namespace czynsze.DostępDoBazy
         public override string uwagi_3 { get; set; }
 
         [Column("uwagi_4")]
-        public override string uwagi_4 { get; set; }
+        public override string uwagi_4 { get; set; }*/
     }
 }
