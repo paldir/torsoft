@@ -10,8 +10,8 @@ namespace czynsze.DostępDoBazy
 {
     public class CzynszeKontekst : DbContext
     {
-        public CzynszeKontekst() : base(nameOrConnectionString: "czynsze_connectionString") { }
-        public CzynszeKontekst(System.Data.Entity.Infrastructure.DbCompiledModel model) : base("czynsze_connectionString", model) { }
+        CzynszeKontekst(object o) : base(nameOrConnectionString: "czynsze_connectionString") { }
+        public CzynszeKontekst() : base("czynsze_connectionString", _model) { }
         public DbSet<Budynek> Budynki { get; set; }
         public DbSet<AktywnyLokal> AktywneLokale { get; set; }
         public DbSet<NieaktywnyLokal> NieaktywneLokale { get; set; }
@@ -45,8 +45,22 @@ namespace czynsze.DostępDoBazy
         public DbSet<BudynekWspólnoty> BudynkiWspólnot { get; set; }
         public DbSet<Treść> Treści { get; set; }
 
+        static System.Data.Entity.Infrastructure.DbCompiledModel _model;
         public const string FormatDaty = "{0:yyyy-MM-dd}";
-        //public static CzynszeKontekst BazaDanych = new CzynszeKontekst();
+        static int _rok;
+        public static int Rok
+        {
+            get { return _rok; }
+
+            set
+            {
+                int _poprzedniRok = _rok;
+                _rok = value % 1000;
+
+                if (_rok != _poprzedniRok)
+                    AktualizujModel();
+            }
+        }
 
         /*static readonly Destruktor _destruktor = new Destruktor();
 
@@ -58,39 +72,60 @@ namespace czynsze.DostępDoBazy
             }
         }*/
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        /*protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            DodajNależnościIObroty(DateTime.Today.Year % 1000, modelBuilder);
 
-            int rok = DateTime.Today.Year % 1000;
+            using (CzynszeKontekst db = new CzynszeKontekst(new object()))
+                _model = modelBuilder.Build(db.Database.Connection).Compile();
+        }*/
 
-            modelBuilder.Entity<Należność1>().ToTable(String.Concat("nal_", rok, "__"), "public");
-            modelBuilder.Entity<Należność2>().ToTable(String.Concat("nak_", rok, "__"), "public");
-            modelBuilder.Entity<Należność3>().ToTable(String.Concat("nam_", rok, "__"), "public");
-            modelBuilder.Entity<Obrót1>().ToTable(String.Concat("obr_", rok, "__"), "public");
-            modelBuilder.Entity<Obrót2>().ToTable(String.Concat("obk_", rok, "__"), "public");
-            modelBuilder.Entity<Obrót3>().ToTable(String.Concat("obm_", rok, "__"), "public");
+        static CzynszeKontekst()
+        {
+            Rok = DateTime.Today.Year;
         }
 
-        public static void ZmieńRok(int rok)
+        static void AktualizujModel()
         {
-            rok = rok % 1000;
-
-            DbModelBuilder _budowniczyModelu = new DbModelBuilder();
+            DbModelBuilder budowniczyModelu = new DbModelBuilder();
             Type typKonfiguracjiTypuEncji = typeof(System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<>);
             MethodInfo metodaDodawaniaKonfiguracji = typeof(System.Data.Entity.ModelConfiguration.Configuration.ConfigurationRegistrar).GetMethods().First(m => m.Name == "Add");
+            Type typOgólnyDbSet = typeof(DbSet<>).GetGenericTypeDefinition();
+            List<PropertyInfo> właściwościTypuDbSet = new List<PropertyInfo>();
 
-            foreach (var tmp in typeof(DostępDoBazy.CzynszeKontekst).GetProperties().Where(w => w.PropertyType.IsGenericType))
+            foreach (PropertyInfo właściwość in typeof(CzynszeKontekst).GetProperties())
             {
-                Type typEncji = tmp.PropertyType.GetGenericArguments().Single();
-                Type ogólnyKonfiguracjiTypuEncji = typKonfiguracjiTypuEncji.MakeGenericType(typEncji);
-                object konfiguracjaTypuEncji = Activator.CreateInstance(ogólnyKonfiguracjiTypuEncji);
+                Type typWłaściwości = właściwość.PropertyType;
+
+                if (typWłaściwości.IsGenericType && typWłaściwości.GetGenericTypeDefinition() == typOgólnyDbSet)
+                    właściwościTypuDbSet.Add(właściwość);
+            }
+
+            foreach (PropertyInfo właściwośćDbSet in właściwościTypuDbSet)
+            {
+                Type typEncji = właściwośćDbSet.PropertyType.GetGenericArguments().Single();
+                Type ogólnyTypKonfiguracjiTypuEncji = typKonfiguracjiTypuEncji.MakeGenericType(typEncji);
+                object konfiguracjaTypuEncji = Activator.CreateInstance(ogólnyTypKonfiguracjiTypuEncji);
                 MethodInfo ogólnaMetodaDodawaniaKonfiguracji = metodaDodawaniaKonfiguracji.MakeGenericMethod(typEncji);
 
-                ogólnaMetodaDodawaniaKonfiguracji.Invoke(_budowniczyModelu.Configurations, new object[] { konfiguracjaTypuEncji });
-
-                //_budowniczyModelu.Configurations.Add(new System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<DostępDoBazy.Budynek>());
+                ogólnaMetodaDodawaniaKonfiguracji.Invoke(budowniczyModelu.Configurations, new object[] { konfiguracjaTypuEncji });
             }
+
+            DodajNależnościIObroty(budowniczyModelu);
+
+            using (CzynszeKontekst db = new CzynszeKontekst(new object()))
+                _model = budowniczyModelu.Build(db.Database.Connection).Compile();
+        }
+
+        static void DodajNależnościIObroty(DbModelBuilder budowniczyModelu)
+        {
+            budowniczyModelu.Entity<Należność1>().ToTable(String.Concat("nal_", Rok, "__"), "public");
+            budowniczyModelu.Entity<Należność2>().ToTable(String.Concat("nak_", Rok, "__"), "public");
+            budowniczyModelu.Entity<Należność3>().ToTable(String.Concat("nam_", Rok, "__"), "public");
+            budowniczyModelu.Entity<Obrót1>().ToTable(String.Concat("obr_", Rok, "__"), "public");
+            budowniczyModelu.Entity<Obrót2>().ToTable(String.Concat("obk_", Rok, "__"), "public");
+            budowniczyModelu.Entity<Obrót3>().ToTable(String.Concat("obm_", Rok, "__"), "public");
         }
 
         public static string WalidujInt(string nazwa, ref string całkowita)

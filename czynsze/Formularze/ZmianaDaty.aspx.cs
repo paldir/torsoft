@@ -44,6 +44,8 @@ namespace czynsze.Formularze
             try { Start.Data = new DateTime(year, month, day); }
             catch { Start.Data = DateTime.Today; }
 
+            DostępDoBazy.CzynszeKontekst.Rok = year;
+
             Response.Redirect("Start.aspx");
         }
     }
