@@ -11,16 +11,20 @@ namespace czynsze.DostępDoBazy
     [Table("tyt_praw", Schema = "public")]
     public class TytułPrawny : IRekord
     {
-        [Key, Column("kod_praw"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
+        [Key, DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         [PrzyjaznaNazwaPola("kod")]
         public int kod_praw { get; set; }
 
-        [Column("tyt_prawny")]
         [PrzyjaznaNazwaPola("tytuł prawny")]
         public string tyt_prawny { get; set; }
 
         [PrzyjaznaNazwaPola("kod")]
-        public int id { get { return kod_praw; } }
+        [NotMapped]
+        public int id
+        {
+            get { return kod_praw; }
+            set { kod_praw = value; }
+        }
 
         public string[] WażnePolaDoRozwijanejListy()
         {

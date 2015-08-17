@@ -103,9 +103,11 @@ namespace czynsze.DostępDoBazy
             }
         }
 
+        [NotMapped]
         public int id
         {
             get { return nr_system; }
+            set { nr_system = value; }
         }
 
         public static List<TypLokalu> TypyLokali { get; set; }

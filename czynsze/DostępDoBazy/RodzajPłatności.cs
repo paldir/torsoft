@@ -11,46 +11,40 @@ namespace czynsze.DostępDoBazy
     [Table("t_wplat", Schema = "public")]
     public class RodzajPłatności : IRekord, IInformacjeOPozycji
     {
-        [Key, Column("kod_wplat"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
+        [Key, DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         [PrzyjaznaNazwaPola("kod")]
         public int kod_wplat { get; set; }
 
-        [Column("typ_wplat")]
         [PrzyjaznaNazwaPola("rodzaj wpłaty lub wypłaty")]
         public string typ_wplat { get; set; }
 
-        [Column("s_rozli")]
         [PrzyjaznaNazwaPola("sposób rozliczenia")]
         public int s_rozli { get; set; }
 
-        [Column("kod")]
         [PrzyjaznaNazwaPola("grupa składników czynszu")]
         public int kod { get; set; }
 
-        [Column("tn_odset")]
         [PrzyjaznaNazwaPola("czy naliczać odsetki")]
         public int tn_odset { get; set; }
 
-        [Column("nota_odset")]
         [PrzyjaznaNazwaPola("czy liczyć odsetki na nocie")]
         public int nota_odset { get; set; }
 
-        [Column("rodz_e")]
         [PrzyjaznaNazwaPola("rodzaj ewidencji")]
         public int rodz_e { get; set; }
 
-        [Column("vat")]
         [PrzyjaznaNazwaPola("VAT")]
         public string vat { get; set; }
 
-        [Column("sww")]
         [PrzyjaznaNazwaPola("SWW")]
         public string sww { get; set; }
 
         [PrzyjaznaNazwaPola("kod")]
-        public int id 
+        [NotMapped]
+        public int id
         {
             get { return kod_wplat; }
+            set { kod_wplat = value; }
         }
 
         public int IdInformacji

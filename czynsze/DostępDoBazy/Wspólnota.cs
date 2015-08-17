@@ -11,75 +11,76 @@ namespace czynsze.DostępDoBazy
     [Table("wspol", Schema = "public")]
     public class Wspólnota : IRekord
     {
-        [Key, Column("kod"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
+        [Key, DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         [PrzyjaznaNazwaPola("kod wspólnoty")]
         public int kod { get; set; }
 
-        [Column("nazwa_skr")]
         [PrzyjaznaNazwaPola("nazwa skrócona")]
         public string nazwa_skr { get; set; }
 
-        [Column("il_bud")]
         [PrzyjaznaNazwaPola("ilość budynków")]
         public int il_bud { get; set; }
 
-        [Column("il_miesz")]
         [PrzyjaznaNazwaPola("ilości lokali")]
         public int il_miesz { get; set; }
 
-        [Column("nazwa_pel")]
         [PrzyjaznaNazwaPola("nazwa pełna")]
         public string nazwa_pel { get; set; }
 
-        [Column("adres")]
         [PrzyjaznaNazwaPola("adres")]
         public string adres { get; set; }
 
-        [Column("adres_2")]
         [PrzyjaznaNazwaPola("adres cd.")]
         public string adres_2 { get; set; }
 
-        [Column("nr1_konta")]
         [PrzyjaznaNazwaPola("nr konta 1")]
         public string nr1_konta { get; set; }
 
-        [Column("nr2_konta")]
         [PrzyjaznaNazwaPola("nr konta 2")]
         public string nr2_konta { get; set; }
 
-        [Column("nr3_konta")]
         [PrzyjaznaNazwaPola("nr konta 3")]
         public string nr3_konta { get; set; }
 
-        [Column("sciezka_fk")]
         [PrzyjaznaNazwaPola("ścieżka do F-K")]
         public string sciezka_fk { get; set; }
 
-        [Column("uwagi_1")]
         public string uwagi_1 { get; set; }
 
-        [Column("uwagi_2")]
         public string uwagi_2 { get; set; }
 
-        [Column("uwagi_3")]
         public string uwagi_3 { get; set; }
 
-        [Column("uwagi_4")]
         public string uwagi_4 { get; set; }
 
-        [Column("uwagi_5")]
         public string uwagi_5 { get; set; }
 
-        [Column("uwagi_6")]
         public string uwagi_6 { get; set; }
 
         [PrzyjaznaNazwaPola("kod wspólnoty")]
-        public int id { get { return kod; } }
+        [NotMapped]
+        public int id
+        {
+            get { return kod; }
+            set { kod = value; }
+        }
 
         [PrzyjaznaNazwaPola("uwagi")]
-        public string uwagi 
-        { 
-            get { return String.Concat(uwagi_1, uwagi_2, uwagi_3, uwagi_4, uwagi_5, uwagi_6).Trim(); } 
+        [NotMapped]
+        public string uwagi
+        {
+            get { return String.Concat(uwagi_1, uwagi_2, uwagi_3, uwagi_4, uwagi_5, uwagi_6).Trim(); }
+
+            set
+            {
+                string uwagi = value.PadRight(420);
+                uwagi_1 = uwagi.Substring(0, 70).Trim();
+                uwagi_2 = uwagi.Substring(70, 70).Trim();
+                uwagi_3 = uwagi.Substring(140, 70).Trim();
+                uwagi_4 = uwagi.Substring(210, 70).Trim();
+                uwagi_5 = uwagi.Substring(280, 70).Trim();
+                uwagi_6 = uwagi.Substring(350).Trim();
+            }
         }
 
         public string[] PolaDoTabeli()
@@ -109,7 +110,7 @@ namespace czynsze.DostępDoBazy
                 nr2_konta.Trim(),
                 nr3_konta.Trim(),
                 sciezka_fk.Trim(),
-                String.Concat(uwagi_1.Trim(), uwagi_2.Trim(), uwagi_3.Trim(), uwagi_4.Trim(), uwagi_5.Trim(), uwagi_6.Trim())
+                uwagi
             };
         }
 
@@ -126,15 +127,7 @@ namespace czynsze.DostępDoBazy
             nr2_konta = rekord[8];
             nr3_konta = rekord[9];
             sciezka_fk = rekord[10];
-
-            rekord[11] = rekord[11].PadRight(420);
-
-            uwagi_1 = rekord[11].Substring(0, 70).Trim();
-            uwagi_2 = rekord[11].Substring(70, 70).Trim();
-            uwagi_3 = rekord[11].Substring(140, 70).Trim();
-            uwagi_4 = rekord[11].Substring(210, 70).Trim();
-            uwagi_5 = rekord[11].Substring(280, 70).Trim();
-            uwagi_6 = rekord[11].Substring(350).Trim();
+            uwagi = rekord[11];
         }
 
         public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)

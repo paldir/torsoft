@@ -11,16 +11,20 @@ namespace czynsze.DostępDoBazy
     [Table("typ_lok", Schema = "public")]
     public class TypLokalu : IRekord
     {
-        [Key, Column("kod_typ"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
+        [Key, DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         [PrzyjaznaNazwaPola("kod")]
         public int kod_typ { get; set; }
 
-        [Column("typ_lok")]
         [PrzyjaznaNazwaPola("typ lokalu")]
         public string typ_lok { get; set; }
 
         [PrzyjaznaNazwaPola("kod")]
-        public int id { get { return kod_typ; } }
+        [NotMapped]
+        public int id 
+        { 
+            get { return kod_typ; }
+            set { kod_typ = value; }
+        }
 
         public string[] WażnePolaDoRozwijanejListy()
         {

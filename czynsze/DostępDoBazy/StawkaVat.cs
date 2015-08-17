@@ -11,18 +11,21 @@ namespace czynsze.DostępDoBazy
     [Table("vat", Schema = "public")]
     public class StawkaVat : IRekord
     {
-        [Key, Column("__record")]
+        [Key]
         public int __record { get; set; }
 
-        [Column("nazwa")]
         [PrzyjaznaNazwaPola("oznaczenie stawki")]
         public string nazwa { get; set; }
 
-        [Column("symb_fisk")]
         [PrzyjaznaNazwaPola("symbol fiskalny")]
         public string symb_fisk { get; set; }
 
-        public int id { get { return __record; } }
+        [NotMapped]
+        public int id
+        {
+            get { return __record; }
+            set { __record = value; }
+        }
 
         public string[] PolaDoTabeli()
         {

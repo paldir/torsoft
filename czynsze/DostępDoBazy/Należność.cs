@@ -31,7 +31,12 @@ namespace czynsze.DostępDoBazy
 
         public float ilosc { get; set; }
 
-        public int id { get { return __record; } }
+        [NotMapped]
+        public int id 
+        {
+            get { return __record; }
+            set { __record = value; }
+        }
 
         public override DateTime Data
         {

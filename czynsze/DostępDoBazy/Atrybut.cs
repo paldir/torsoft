@@ -21,7 +21,6 @@ namespace czynsze.DostępDoBazy
         [PrzyjaznaNazwaPola("numeryczna/charakter")]
         public string nr_str { get; set; }
 
-        [PrzyjaznaNazwaPola("dotyczy")]
         public string zb_l { get; set; }
 
         public string zb_n { get; set; }
@@ -68,7 +67,12 @@ namespace czynsze.DostępDoBazy
         public string uwagi { get; set; }
 
         [PrzyjaznaNazwaPola("kod")]
-        public int id { get { return kod; } }
+        [NotMapped]
+        public int id
+        {
+            get { return kod; }
+            set { kod = value; }
+        }
 
         public string[] PolaDoTabeli()
         {

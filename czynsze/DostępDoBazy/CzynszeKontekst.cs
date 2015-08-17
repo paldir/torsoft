@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Reflection;
 
 namespace czynsze.DostępDoBazy
@@ -45,7 +46,7 @@ namespace czynsze.DostępDoBazy
         public DbSet<BudynekWspólnoty> BudynkiWspólnot { get; set; }
         public DbSet<Treść> Treści { get; set; }
 
-        static System.Data.Entity.Infrastructure.DbCompiledModel _model;
+        static DbCompiledModel _model;
         public const string FormatDaty = "{0:yyyy-MM-dd}";
         static int _rok;
         public static int Rok
@@ -84,6 +85,20 @@ namespace czynsze.DostępDoBazy
         static CzynszeKontekst()
         {
             Rok = DateTime.Today.Year;
+        }
+
+        public override int SaveChanges()
+        {
+            IEnumerable<DbEntityEntry> pozycjeModyfikowanychEncji = ChangeTracker.Entries().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
+            int kod = base.SaveChanges();
+            List<string> modyfikowaneTabele=new List<string>();
+
+            foreach(DbEntityEntry zmodyfikowanaEncja in pozycjeModyfikowanychEncji)
+            {
+
+            }
+
+            return kod;
         }
 
         static void AktualizujModel()

@@ -11,16 +11,20 @@ namespace czynsze.DostępDoBazy
     [Table("grup_cz", Schema = "public")]
     public class GrupaSkładnikówCzynszu : IRekord
     {
-        [Key, Column("kod"), DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
+        [Key, DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         [PrzyjaznaNazwaPola("kod")]
         public int kod { get; set; }
 
-        [Column("nazwa")]
         [PrzyjaznaNazwaPola("nazwa grupy składników czynszu")]
         public string nazwa { get; set; }
 
         [PrzyjaznaNazwaPola("kod")]
-        public int id { get { return kod; } }
+        [NotMapped]
+        public int id
+        {
+            get { return kod; }
+            set { kod = value; }
+        }
 
         public string[] PolaDoTabeli()
         {

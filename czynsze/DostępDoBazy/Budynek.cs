@@ -61,7 +61,12 @@ namespace czynsze.DostępDoBazy
         }
 
         [PrzyjaznaNazwaPola("kod budynku")]
-        public int id { get { return kod_1; } }
+        [NotMapped]
+        public int id
+        {
+            get { return kod_1; }
+            set { kod_1 = value; }
+        }
 
         public void Ustaw(string[] rekord)
         {

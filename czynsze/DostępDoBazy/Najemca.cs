@@ -48,7 +48,12 @@ namespace czynsze.DostępDoBazy
 
         string uwagi_2 { get; set; }
 
-        public int id { get { return nr_kontr; } }
+        [NotMapped]
+        public int id
+        {
+            get { return nr_kontr; }
+            set { nr_kontr = value; }
+        }
 
         [PrzyjaznaNazwaPola("uwagi")]
         [NotMapped]

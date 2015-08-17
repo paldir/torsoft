@@ -12,25 +12,25 @@ namespace czynsze.DostępDoBazy
     [Table("fk_tuz", Schema = "public")]
     public class Użytkownik : IRekord
     {
-        [Key, Column("__record")]
+        [Key]
         public int __record { get; set; }
 
-        [Column("symbol")]
         public string symbol { get; set; }
 
-        [Column("nazwisko")]
         public string nazwisko { get; set; }
 
-        [Column("imie")]
         public string imie { get; set; }
 
-        [Column("uzytkownik")]
         public string uzytkownik { get; set; }
 
-        [Column("haslo")]
         public string haslo { get; set; }
 
-        public int id { get { return __record; } }
+        [NotMapped]
+        public int id
+        {
+            get { return __record; }
+            set { __record = value; }
+        }
 
         public string[] PolaDoTabeli()
         {
