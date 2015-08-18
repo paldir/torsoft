@@ -6,6 +6,10 @@ using System.Web;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Reflection;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml;
+using System.IO;
+using System.Diagnostics;
 
 namespace czynsze.DostępDoBazy
 {
@@ -48,6 +52,7 @@ namespace czynsze.DostępDoBazy
 
         static DbCompiledModel _model;
         public const string FormatDaty = "{0:yyyy-MM-dd}";
+        static Dictionary<Type, string> _typEncjiNaNazwęTabeli;
         static int _rok;
         public static int Rok
         {
@@ -90,12 +95,45 @@ namespace czynsze.DostępDoBazy
         public override int SaveChanges()
         {
             IEnumerable<DbEntityEntry> pozycjeModyfikowanychEncji = ChangeTracker.Entries().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
-            int kod = base.SaveChanges();
-            List<string> modyfikowaneTabele=new List<string>();
+            List<string> modyfikowaneTabele = new List<string>();
+            Type typAtrybutuTabeli = typeof(TableAttribute);
 
-            foreach(DbEntityEntry zmodyfikowanaEncja in pozycjeModyfikowanychEncji)
+            foreach (DbEntityEntry modyfikowanaEncja in pozycjeModyfikowanychEncji)
             {
+                Type typEncji = modyfikowanaEncja.Entity.GetType();
+                string nazwaTabeli;
 
+                if (Attribute.IsDefined(typEncji, typAtrybutuTabeli))
+                    nazwaTabeli = (Attribute.GetCustomAttribute(typEncji, typAtrybutuTabeli) as TableAttribute).Name;
+                else
+                    nazwaTabeli = _typEncjiNaNazwęTabeli[typEncji];
+
+                if (!modyfikowaneTabele.Contains(nazwaTabeli))
+                    modyfikowaneTabele.Add(nazwaTabeli);
+            }
+
+            int kod = base.SaveChanges();
+            XmlDocument upsize = new XmlDocument();
+
+            upsize.Load(Path.Combine(System.Web.Configuration.WebConfigurationManager.AppSettings["ścieżkaCzynszeUpsize"], "czynsze.upsize"));
+
+            foreach (string nazwaTabeli in modyfikowaneTabele)
+            {
+                XmlNodeList węzłyIndeksów = upsize.SelectSingleNode(String.Format("/config/table[@name='{0}']", nazwaTabeli)).SelectNodes("order");
+                List<string> listaArgumentów = new List<string>() { nazwaTabeli };
+
+                if (węzłyIndeksów.Count != 0)
+                {
+                    foreach (XmlNode węzełIndeksu in węzłyIndeksów)
+                        listaArgumentów.Add(Path.GetFileNameWithoutExtension(węzełIndeksu.InnerText));
+
+                    string argumenty = String.Join(" ", listaArgumentów);
+
+                    using (Process proces = Process.Start(new ProcessStartInfo("NaprawaIndeksow.exe", argumenty)))
+                    {
+                        proces.WaitForExit();
+                    }
+                }
             }
 
             return kod;
@@ -135,12 +173,31 @@ namespace czynsze.DostępDoBazy
 
         static void DodajNależnościIObroty(DbModelBuilder budowniczyModelu)
         {
-            budowniczyModelu.Entity<Należność1>().ToTable(String.Concat("nal_", Rok, "__"), "public");
-            budowniczyModelu.Entity<Należność2>().ToTable(String.Concat("nak_", Rok, "__"), "public");
-            budowniczyModelu.Entity<Należność3>().ToTable(String.Concat("nam_", Rok, "__"), "public");
-            budowniczyModelu.Entity<Obrót1>().ToTable(String.Concat("obr_", Rok, "__"), "public");
-            budowniczyModelu.Entity<Obrót2>().ToTable(String.Concat("obk_", Rok, "__"), "public");
-            budowniczyModelu.Entity<Obrót3>().ToTable(String.Concat("obm_", Rok, "__"), "public");
+            List<string> nazwyTabel = new List<string>();
+
+            nazwyTabel.Add(String.Concat("nal_", Rok, "__"));
+            nazwyTabel.Add(String.Concat("nak_", Rok, "__"));
+            nazwyTabel.Add(String.Concat("nam_", Rok, "__"));
+            nazwyTabel.Add(String.Concat("obr_", Rok, "__"));
+            nazwyTabel.Add(String.Concat("obk_", Rok, "__"));
+            nazwyTabel.Add(String.Concat("obm_", Rok, "__"));
+
+
+            budowniczyModelu.Entity<Należność1>().ToTable(nazwyTabel[0], "public");
+            budowniczyModelu.Entity<Należność2>().ToTable(nazwyTabel[1], "public");
+            budowniczyModelu.Entity<Należność3>().ToTable(nazwyTabel[2], "public");
+            budowniczyModelu.Entity<Obrót1>().ToTable(nazwyTabel[3], "public");
+            budowniczyModelu.Entity<Obrót2>().ToTable(nazwyTabel[4], "public");
+            budowniczyModelu.Entity<Obrót3>().ToTable(nazwyTabel[5], "public");
+
+            _typEncjiNaNazwęTabeli = new Dictionary<Type, string>();
+
+            _typEncjiNaNazwęTabeli.Add(typeof(Należność1), nazwyTabel[0]);
+            _typEncjiNaNazwęTabeli.Add(typeof(Należność2), nazwyTabel[1]);
+            _typEncjiNaNazwęTabeli.Add(typeof(Należność3), nazwyTabel[2]);
+            _typEncjiNaNazwęTabeli.Add(typeof(Obrót1), nazwyTabel[3]);
+            _typEncjiNaNazwęTabeli.Add(typeof(Obrót2), nazwyTabel[4]);
+            _typEncjiNaNazwęTabeli.Add(typeof(Obrót3), nazwyTabel[5]);
         }
 
         public static string WalidujInt(string nazwa, ref string całkowita)
