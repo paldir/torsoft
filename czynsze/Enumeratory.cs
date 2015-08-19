@@ -44,10 +44,10 @@ namespace czynsze
         public enum Raport
         {
             LokaleWBudynkach,
-            MiesieczneSumySkladnikow,
+            SumyMiesięczneSkładnika,
             NaleznosciIObrotyNajemcy,
-            MiesiecznaAnalizaNaleznosciIObrotow,
-            SzczegolowaAnalizaNaleznosciIObrotow,
+            AnalizaMiesięczna,
+            AnalizaSzczegółowa,
             NaleznosciZaDanyMiesiacLokale,
             NaleznosciZaDanyMiesiacBudynki,
             NaleznosciZaDanyMiesiacWspolnoty,

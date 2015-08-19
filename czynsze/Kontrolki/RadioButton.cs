@@ -13,5 +13,10 @@ namespace czynsze.Kontrolki
             ID = id;
             GroupName = nazwaGrupy;
         }
+
+        protected override void Render(System.Web.UI.HtmlTextWriter writer)
+        {
+            base.Render(new PisarzTekstuHtml(writer, ID));
+        }
     }
 }

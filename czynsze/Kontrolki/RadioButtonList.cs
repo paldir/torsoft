@@ -29,5 +29,10 @@ namespace czynsze.Kontrolki
         {
             SelectedValue = wybranaWartość;
         }
+
+        protected override void Render(System.Web.UI.HtmlTextWriter writer)
+        {
+            base.Render(new PisarzTekstuHtml(writer, ID));
+        }
     }
 }

@@ -62,5 +62,10 @@ namespace czynsze.Kontrolki
         {
             Text = tekst;
         }
+
+        protected override void Render(System.Web.UI.HtmlTextWriter writer)
+        {
+            base.Render(new PisarzTekstuHtml(writer, ID));
+        }
     }
 }

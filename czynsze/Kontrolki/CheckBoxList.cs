@@ -26,5 +26,10 @@ namespace czynsze.Kontrolki
                     pozycja.Selected = true;
             }
         }
+
+        protected override void Render(System.Web.UI.HtmlTextWriter writer)
+        {
+            base.Render(new PisarzTekstuHtml(writer, ID));
+        }
     }
 }

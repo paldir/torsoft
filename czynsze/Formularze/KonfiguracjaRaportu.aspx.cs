@@ -37,7 +37,8 @@ namespace czynsze.Formularze
                 List<string> etykiety = new List<string>();
                 string nagłówek = "Konfiguracja wydruku ";
                 string klucz = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("raport"));
-                _raport = (Enumeratory.Raport)Enum.Parse(typeof(Enumeratory.Raport), klucz.Replace("raport", String.Empty).Substring(klucz.LastIndexOf('$') + 1));
+                //_raport = (Enumeratory.Raport)Enum.Parse(typeof(Enumeratory.Raport), klucz.Replace("raport", String.Empty).Substring(klucz.LastIndexOf('$') + 1));
+                _raport = PobierzWartośćParametru<Enumeratory.Raport>("raport");
                 klucz = Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id"));
                 int indeks = Request.UrlReferrer.Query.IndexOf("id=");
 
@@ -89,7 +90,7 @@ namespace czynsze.Formularze
 
                         break;
 
-                    case Enumeratory.Raport.MiesieczneSumySkladnikow:
+                    case Enumeratory.Raport.SumyMiesięczneSkładnika:
                         nagłówek += "(Sumy miesięczne składnika)";
 
                         break;
@@ -99,12 +100,12 @@ namespace czynsze.Formularze
 
                         break;
 
-                    case Enumeratory.Raport.MiesiecznaAnalizaNaleznosciIObrotow:
+                    case Enumeratory.Raport.AnalizaMiesięczna:
                         nagłówek += "(Analiza miesięczna)";
 
                         break;
 
-                    case Enumeratory.Raport.SzczegolowaAnalizaNaleznosciIObrotow:
+                    case Enumeratory.Raport.AnalizaSzczegółowa:
                         nagłówek += "(Analiza szczegółowa)";
 
                         break;
@@ -547,10 +548,10 @@ namespace czynsze.Formularze
 
                             break;
 
-                        case Enumeratory.Raport.MiesieczneSumySkladnikow:
+                        case Enumeratory.Raport.SumyMiesięczneSkładnika:
                         case Enumeratory.Raport.NaleznosciIObrotyNajemcy:
-                        case Enumeratory.Raport.MiesiecznaAnalizaNaleznosciIObrotow:
-                        case Enumeratory.Raport.SzczegolowaAnalizaNaleznosciIObrotow:
+                        case Enumeratory.Raport.AnalizaMiesięczna:
+                        case Enumeratory.Raport.AnalizaSzczegółowa:
                             {
                                 tabele = new List<List<string[]>> { new List<string[]>() };
                                 decimal sumaWn, sumaMa;
@@ -566,7 +567,7 @@ namespace czynsze.Formularze
 
                                     switch (_raport)
                                     {
-                                        case Enumeratory.Raport.MiesieczneSumySkladnikow:
+                                        case Enumeratory.Raport.SumyMiesięczneSkładnika:
                                             tytuł = String.Format("ZESTAWIENIE ROZLICZEN MIESIECZNYCH ZA ROK {0}", data.Year);
                                             nagłówki = new List<string>() { "m-c", "Wartość" };
 
@@ -623,7 +624,7 @@ namespace czynsze.Formularze
 
                                             break;
 
-                                        case Enumeratory.Raport.MiesiecznaAnalizaNaleznosciIObrotow:
+                                        case Enumeratory.Raport.AnalizaMiesięczna:
                                             tytuł = "ZESTAWIENIE ROZLICZEN MIESIECZNYCH";
                                             nagłówki = new List<string>() { "m-c", "suma WN w miesiącu", "suma MA w miesiącu", "saldo w miesiącu", "suma WN narastająco", "suma MA narastająco", "saldo narastająco" };
                                             List<decimal> kwotyWn = new List<decimal>();
@@ -644,7 +645,7 @@ namespace czynsze.Formularze
 
                                             break;
 
-                                        case Enumeratory.Raport.SzczegolowaAnalizaNaleznosciIObrotow:
+                                        case Enumeratory.Raport.AnalizaSzczegółowa:
                                             tytuł = "ZESTAWIENIE ROZLICZEN MIESIECZNYCH";
                                             nagłówki = new List<string>() { "m-c", "Dziennik komornego", "Wpłaty", "Zmniejszenia", "Zwiększenia", "Saldo miesiąca", "Saldo narastająco" };
                                             string[] nowyWiersz;

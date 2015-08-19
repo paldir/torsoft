@@ -13,14 +13,23 @@ namespace czynsze.Formularze
 
         protected T PobierzWartośćParametru<T>(string klucz)
         {
-            string wartość = Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith(klucz))];
+            string prawdziwyKlucz = Request.Params.AllKeys.SingleOrDefault(k => k.EndsWith(klucz));
+
+            if (!String.IsNullOrEmpty(prawdziwyKlucz) && prawdziwyKlucz.Contains('$'))
+                throw new Exception();
+
+            string wartość = Request.Params[prawdziwyKlucz];
             Type typ = typeof(T);
 
             if (wartość == null)
                 return default(T);
 
             if (typ.IsEnum)
-                return (T)Enum.Parse(typ, wartość);
+            {
+                wartość = wartość.Replace(" ", String.Empty);
+
+                return (T)Enum.Parse(typ, wartość, true);
+            }
             else
                 return (T)Convert.ChangeType(wartość, typ);
         }

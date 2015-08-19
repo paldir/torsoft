@@ -2,12 +2,12 @@
     var inactive = false;
     var buttons =
     [
-        document.getElementById("editaction"),
-        document.getElementById("deleteaction"),
-        document.getElementById("browseaction"),
-        document.getElementById("moveaction"),
+        document.getElementById("edit"),
+        document.getElementById("delete"),
+        document.getElementById("browse"),
+        document.getElementById("move"),
         document.getElementById("saldo"),
-        document.getElementById("MiesieczneSumySkladnikowraport"),
+        document.getElementById("SumyMiesięczneSkładnika"),
         document.getElementById("SumOfTurnoversOnraport"),
         document.getElementById("turnoversEditing")
     ];

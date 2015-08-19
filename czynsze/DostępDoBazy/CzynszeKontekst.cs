@@ -8,8 +8,6 @@ using System.Data.Entity.Infrastructure;
 using System.Reflection;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml;
-using System.IO;
-using System.Diagnostics;
 
 namespace czynsze.DostępDoBazy
 {
@@ -115,7 +113,7 @@ namespace czynsze.DostępDoBazy
             int kod = base.SaveChanges();
             XmlDocument upsize = new XmlDocument();
 
-            upsize.Load(Path.Combine(System.Web.Configuration.WebConfigurationManager.AppSettings["ścieżkaCzynszeUpsize"], "czynsze.upsize"));
+            upsize.Load(System.Web.Configuration.WebConfigurationManager.AppSettings["ścieżkaCzynszeUpsize"]);
 
             foreach (string nazwaTabeli in modyfikowaneTabele)
             {
@@ -125,14 +123,12 @@ namespace czynsze.DostępDoBazy
                 if (węzłyIndeksów.Count != 0)
                 {
                     foreach (XmlNode węzełIndeksu in węzłyIndeksów)
-                        listaArgumentów.Add(Path.GetFileNameWithoutExtension(węzełIndeksu.InnerText));
+                        listaArgumentów.Add(System.IO.Path.GetFileNameWithoutExtension(węzełIndeksu.InnerText));
 
                     string argumenty = String.Join(" ", listaArgumentów);
 
-                    using (Process proces = Process.Start(new ProcessStartInfo("NaprawaIndeksow.exe", argumenty)))
-                    {
-                        proces.WaitForExit();
-                    }
+                    /*using (Process proces = Process.Start(new ProcessStartInfo("NaprawaIndeksow.exe", argumenty)))
+                        proces.WaitForExit();*/
                 }
             }
 

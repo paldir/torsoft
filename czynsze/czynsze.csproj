@@ -234,6 +234,7 @@
     <Compile Include="Kontrolki\IKontrolkaZWartością.cs" />
     <Compile Include="Kontrolki\Label.cs" />
     <Compile Include="Kontrolki\LinkButton.cs" />
+    <Compile Include="Kontrolki\PisarzTekstuHtml.cs" />
     <Compile Include="Kontrolki\RadioButtonList.cs" />
     <Compile Include="Kontrolki\RadioButton.cs" />
     <Compile Include="Kontrolki\Table.cs" />

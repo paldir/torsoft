@@ -12,5 +12,10 @@ namespace czynsze.Kontrolki
             ID = id;
             Value = wartość.ToString();
         }
+
+        protected override void Render(System.Web.UI.HtmlTextWriter writer)
+        {
+            base.Render(new PisarzTekstuHtml(writer, ID));
+        }
     }
 }

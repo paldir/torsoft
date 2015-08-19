@@ -93,10 +93,10 @@ namespace czynsze.Formularze
             }
 
             miejscePodTabelą.Controls.Add(new LiteralControl(summary));
-            miejscePrzycisków.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.MiesieczneSumySkladnikow + "raport", "Sumy miesięczne składnika", "KonfiguracjaRaportu.aspx"));
-            miejscePrzycisków.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.NaleznosciIObrotyNajemcy + "raport", "Wydruk", "KonfiguracjaRaportu.aspx"));
-            miejscePrzycisków.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.MiesiecznaAnalizaNaleznosciIObrotow + "raport", "Analiza miesięczna", "KonfiguracjaRaportu.aspx"));
-            miejscePrzycisków.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.SzczegolowaAnalizaNaleznosciIObrotow + "raport", "Analiza szczegółowa", "KonfiguracjaRaportu.aspx"));
+            miejscePrzycisków.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.SumyMiesięczneSkładnika.ToString(), "Sumy miesięczne składnika", "KonfiguracjaRaportu.aspx", "raport"));
+            miejscePrzycisków.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.NaleznosciIObrotyNajemcy.ToString(), "Wydruk", "KonfiguracjaRaportu.aspx", "raport"));
+            miejscePrzycisków.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.AnalizaMiesięczna.ToString(), "Analiza miesięczna", "KonfiguracjaRaportu.aspx", "raport"));
+            miejscePrzycisków.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.AnalizaSzczegółowa.ToString(), "Analiza szczegółowa", "KonfiguracjaRaportu.aspx", "raport"));
             Start.ŚcieżkaStrony.Dodaj(nagłówek, ŚcieżkaIQuery);
         }
     }

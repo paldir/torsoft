@@ -106,6 +106,7 @@ namespace czynsze.Formularze
                 _sortowalna = true;
                 int id = PobierzWartośćParametru<int>("id");//-1;
                 IEnumerable<DostępDoBazy.IRekord> rekordyTabeli = null;
+                string nazwaPrzycisków = "action";
 
                 //if (Request.Params["id"] != null)
                 //  id = (int)Enum.Parse(typeof(int), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("dfsdf"))]);
@@ -114,7 +115,7 @@ namespace czynsze.Formularze
                 {
                     case Enumeratory.Tabela.NieaktywneLokale:
                     case Enumeratory.Tabela.NieaktywniNajemcy:
-                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "browseaction", "Przeglądaj", url));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "browse", "Przeglądaj", url, nazwaPrzycisków));
 
                         break;
 
@@ -125,10 +126,10 @@ namespace czynsze.Formularze
                         break;
 
                     default:
-                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "addaction", "Dodaj", url));
-                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "editaction", "Edytuj", url));
-                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "deleteaction", "Usuń", url));
-                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "browseaction", "Przeglądaj", url));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "add", "Dodaj", url, nazwaPrzycisków));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "edit", "Edytuj", url, nazwaPrzycisków));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "delete", "Usuń", url, nazwaPrzycisków));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "browse", "Przeglądaj", url, nazwaPrzycisków));
 
                         break;
                 }
@@ -152,7 +153,7 @@ namespace czynsze.Formularze
                         _indeksyKolumnNumerycznych = new List<int>() { 1, 2, 4 };
                         IEnumerable<DostępDoBazy.Lokal> lokale = null;
 
-                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "moveaction", "Przenieś", url));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "move", "Przenieś", url, nazwaPrzycisków));
 
                         switch (_tabela)
                         {
@@ -200,7 +201,7 @@ namespace czynsze.Formularze
                         _indeksyKolumnNumerycznych = new List<int>() { 1 };
                         IEnumerable<DostępDoBazy.Najemca> najemcy = null;
 
-                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "moveaction", "Przenieś", url));
+                        placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "move", "Przenieś", url, nazwaPrzycisków));
 
                         switch (_tabela)
                         {
