@@ -20,10 +20,6 @@ namespace czynsze.Kontrolki
             switch (key)
             {
                 case System.Web.UI.HtmlTextWriterAttribute.Name:
-                    /*int indeksOstatniegoDolara = value.LastIndexOf('$');
-
-                    if (indeksOstatniegoDolara != -1)
-                        value = value.Substring(indeksOstatniegoDolara + 1);*/
                     value = _nazwaKontrolki;
 
                     break;

@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 
 using System.Data.Entity;
+using System.Reflection;
 
 namespace czynsze.Formularze
 {
@@ -618,6 +619,22 @@ namespace czynsze.Formularze
                 else
                     placeOfButtons.Controls.Add(new Kontrolki.Button("button", "Back", "Powrót", backUrl));
             }
+        }
+
+        void UstawParametry(DostępDoBazy.IRekord rekord)
+        {
+            IEnumerable<PropertyInfo> właściwości = rekord.GetType().GetProperties().Where(p => p.GetSetMethod() != null);
+            List<string> nazwyPólZProblemami = new List<string>();
+
+            foreach (PropertyInfo właściwość in właściwości)
+                try
+                {
+                    właściwość.SetValue(rekord, PobierzWartośćParametru(właściwość.Name, właściwość.PropertyType));
+                }
+                catch (Exception)
+                {
+                    nazwyPólZProblemami.Add(właściwość.GetCustomAttribute<DostępDoBazy.PrzyjaznaNazwaPolaAttribute>().Nazwa);
+                }
         }
     }
 }

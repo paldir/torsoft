@@ -50,7 +50,7 @@ namespace czynsze.Formularze
                 string[] odLokalu = PobierzWartośćParametru<string>("odLokalu").Split('-');
                 string[] doLokalu = PobierzWartośćParametru<string>("doLokalu").Split('-');
 
-                Response.Redirect(String.Format("KonfiguracjaRaportu.aspx?{0}raport=dummy&odBudynku={1}&odLokalu={2}&doBudynku={3}&doLokalu={4}", raport, odLokalu[0], odLokalu[1], doLokalu[0], doLokalu[1]));
+                Response.Redirect(String.Format("KonfiguracjaRaportu.aspx?raport={0}&odBudynku={1}&odLokalu={2}&doBudynku={3}&doLokalu={4}", raport, odLokalu[0], odLokalu[1], doLokalu[0], doLokalu[1]));
             }
         }
     }

@@ -102,7 +102,7 @@ namespace czynsze.Formularze
                                 break;
                         }
 
-                        Response.Redirect(String.Format("KonfiguracjaRaportu.aspx?{0}raport=dummy&odBudynku={1}&odLokalu={2}&doBudynku={3}&doLokalu={4}&nrSkladnika={5}", Enumeratory.Raport.WykazWgSkladnika, pierwszyLokal[0], pierwszyLokal[1], ostatniLokal[0], ostatniLokal[1], nrSkładnika));
+                        Response.Redirect(String.Format("KonfiguracjaRaportu.aspx?raport={0}&odBudynku={1}&odLokalu={2}&doBudynku={3}&doLokalu={4}&nrSkladnika={5}", Enumeratory.Raport.WykazWgSkladnika, pierwszyLokal[0], pierwszyLokal[1], ostatniLokal[0], ostatniLokal[1], nrSkładnika));
                     }
                 }
             }

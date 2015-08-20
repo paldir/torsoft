@@ -94,7 +94,7 @@ namespace czynsze.Formularze
 
             miejscePodTabelą.Controls.Add(new LiteralControl(summary));
             miejscePrzycisków.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.SumyMiesięczneSkładnika.ToString(), "Sumy miesięczne składnika", "KonfiguracjaRaportu.aspx", "raport"));
-            miejscePrzycisków.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.NaleznosciIObrotyNajemcy.ToString(), "Wydruk", "KonfiguracjaRaportu.aspx", "raport"));
+            miejscePrzycisków.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.WydrukNależnościIObrotów.ToString(), "Wydruk należności i obrotów", "KonfiguracjaRaportu.aspx", "raport"));
             miejscePrzycisków.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.AnalizaMiesięczna.ToString(), "Analiza miesięczna", "KonfiguracjaRaportu.aspx", "raport"));
             miejscePrzycisków.Controls.Add(new Kontrolki.Button("button", Enumeratory.Raport.AnalizaSzczegółowa.ToString(), "Analiza szczegółowa", "KonfiguracjaRaportu.aspx", "raport"));
             Start.ŚcieżkaStrony.Dodaj(nagłówek, ŚcieżkaIQuery);

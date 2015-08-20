@@ -45,7 +45,7 @@ namespace czynsze
         {
             LokaleWBudynkach,
             SumyMiesięczneSkładnika,
-            NaleznosciIObrotyNajemcy,
+            WydrukNależnościIObrotów,
             AnalizaMiesięczna,
             AnalizaSzczegółowa,
             NaleznosciZaDanyMiesiacLokale,

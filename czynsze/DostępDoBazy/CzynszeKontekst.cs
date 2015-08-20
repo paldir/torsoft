@@ -128,8 +128,11 @@ namespace czynsze.DostępDoBazy
                     string argumenty = String.Join(" ", listaArgumentów);
 
                     /*using (Process proces = Process.Start(new ProcessStartInfo("NaprawaIndeksow.exe", argumenty)))
-                        proces.WaitForExit();*/
+                    {
+                        proces.WaitForExit();
+                    }*/
                 }
+
             }
 
             return kod;

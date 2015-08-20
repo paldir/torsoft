@@ -13,10 +13,10 @@ namespace czynsze.Formularze
 
         protected T PobierzWartośćParametru<T>(string klucz)
         {
-            string prawdziwyKlucz = Request.Params.AllKeys.SingleOrDefault(k => k.EndsWith(klucz));
+            /*string prawdziwyKlucz = Request.Params.AllKeys.SingleOrDefault(k => k.EndsWith(klucz));
 
             if (!String.IsNullOrEmpty(prawdziwyKlucz) && prawdziwyKlucz.Contains('$'))
-                throw new Exception();
+                throw new Exception("Błąd klucza parametru. Zawiera dolary. - PZ");
 
             string wartość = Request.Params[prawdziwyKlucz];
             Type typ = typeof(T);
@@ -31,7 +31,32 @@ namespace czynsze.Formularze
                 return (T)Enum.Parse(typ, wartość, true);
             }
             else
-                return (T)Convert.ChangeType(wartość, typ);
+                return (T)Convert.ChangeType(wartość, typ);*/
+
+            return (T)PobierzWartośćParametru(klucz, typeof(T));
+        }
+
+        protected object PobierzWartośćParametru(string klucz, Type zwracanyTyp)
+        {
+            string prawdziwyKlucz = Request.Params.AllKeys.SingleOrDefault(k => k.EndsWith(klucz));
+
+            if (!String.IsNullOrEmpty(prawdziwyKlucz) && prawdziwyKlucz.Contains('$'))
+                throw new Exception("Błąd klucza parametru. Zawiera dolary. - PZ");
+
+            string wartość = Request.Params[prawdziwyKlucz];
+
+            if (wartość == null)
+            {
+                if (zwracanyTyp.IsValueType)
+                    return Activator.CreateInstance(zwracanyTyp);
+                else
+                    return null;
+            }
+
+            if (zwracanyTyp.IsEnum)
+                return Enum.Parse(zwracanyTyp, wartość.Replace(" ", String.Empty), true);
+            else
+                return Convert.ChangeType(wartość, zwracanyTyp);
         }
 
         public static void DodajNowąLinię(Control pojemnik)

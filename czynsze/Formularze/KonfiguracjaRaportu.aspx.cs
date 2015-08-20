@@ -95,7 +95,7 @@ namespace czynsze.Formularze
 
                         break;
 
-                    case Enumeratory.Raport.NaleznosciIObrotyNajemcy:
+                    case Enumeratory.Raport.WydrukNależnościIObrotów:
                         nagłówek += "(Należności i obroty najemcy)";
 
                         break;
@@ -549,7 +549,7 @@ namespace czynsze.Formularze
                             break;
 
                         case Enumeratory.Raport.SumyMiesięczneSkładnika:
-                        case Enumeratory.Raport.NaleznosciIObrotyNajemcy:
+                        case Enumeratory.Raport.WydrukNależnościIObrotów:
                         case Enumeratory.Raport.AnalizaMiesięczna:
                         case Enumeratory.Raport.AnalizaSzczegółowa:
                             {
@@ -593,7 +593,7 @@ namespace czynsze.Formularze
 
                                             break;
 
-                                        case Enumeratory.Raport.NaleznosciIObrotyNajemcy:
+                                        case Enumeratory.Raport.WydrukNależnościIObrotów:
                                             tytuł = "ZESTAWIENIE NALEZNOSCI I WPLAT";
                                             nagłówki = new List<string> { "Kwota Wn", "Kwota Ma", "Data", "Operacja" };
 
