@@ -12,13 +12,13 @@ namespace czynsze.DostępDoBazy
     public class GrupaSkładnikówCzynszu : IRekord
     {
         [Key, DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
-        [PrzyjaznaNazwaPola("kod")]
+        [Display(Name = "kod")]
         public int kod { get; set; }
 
-        [PrzyjaznaNazwaPola("nazwa grupy składników czynszu")]
+        [Display(Name = "nazwa grupy składników czynszu")]
         public string nazwa { get; set; }
 
-        [PrzyjaznaNazwaPola("kod")]
+        [Display(Name = "kod")]
         [NotMapped]
         public int id
         {

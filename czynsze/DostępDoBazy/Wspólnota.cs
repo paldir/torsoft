@@ -12,37 +12,37 @@ namespace czynsze.DostępDoBazy
     public class Wspólnota : IRekord
     {
         [Key, DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
-        [PrzyjaznaNazwaPola("kod wspólnoty")]
+        [Display(Name = "kod wspólnoty")]
         public int kod { get; set; }
 
-        [PrzyjaznaNazwaPola("nazwa skrócona")]
+        [Display(Name = "nazwa skrócona")]
         public string nazwa_skr { get; set; }
 
-        [PrzyjaznaNazwaPola("ilość budynków")]
+        [Display(Name = "ilość budynków")]
         public int il_bud { get; set; }
 
-        [PrzyjaznaNazwaPola("ilości lokali")]
+        [Display(Name = "ilości lokali")]
         public int il_miesz { get; set; }
 
-        [PrzyjaznaNazwaPola("nazwa pełna")]
+        [Display(Name = "nazwa pełna")]
         public string nazwa_pel { get; set; }
 
-        [PrzyjaznaNazwaPola("adres")]
+        [Display(Name = "adres")]
         public string adres { get; set; }
 
-        [PrzyjaznaNazwaPola("adres cd.")]
+        [Display(Name = "adres cd.")]
         public string adres_2 { get; set; }
 
-        [PrzyjaznaNazwaPola("nr konta 1")]
+        [Display(Name = "nr konta 1")]
         public string nr1_konta { get; set; }
 
-        [PrzyjaznaNazwaPola("nr konta 2")]
+        [Display(Name = "nr konta 2")]
         public string nr2_konta { get; set; }
 
-        [PrzyjaznaNazwaPola("nr konta 3")]
+        [Display(Name = "nr konta 3")]
         public string nr3_konta { get; set; }
 
-        [PrzyjaznaNazwaPola("ścieżka do F-K")]
+        [Display(Name = "ścieżka do F-K")]
         public string sciezka_fk { get; set; }
 
         public string uwagi_1 { get; set; }
@@ -57,7 +57,7 @@ namespace czynsze.DostępDoBazy
 
         public string uwagi_6 { get; set; }
 
-        [PrzyjaznaNazwaPola("kod wspólnoty")]
+        [Display(Name = "kod wspólnoty")]
         [NotMapped]
         public int id
         {
@@ -65,7 +65,7 @@ namespace czynsze.DostępDoBazy
             set { kod = value; }
         }
 
-        [PrzyjaznaNazwaPola("uwagi")]
+        [Display(Name = "uwagi")]
         [NotMapped]
         public string uwagi
         {

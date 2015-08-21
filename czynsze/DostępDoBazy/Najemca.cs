@@ -10,38 +10,38 @@ namespace czynsze.DostępDoBazy
 {
     public class Najemca : IRekord
     {
-        [PrzyjaznaNazwaPola("nr kontr.")]
+        [Display(Name = "nr kontr.")]
         [Key, DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int nr_kontr { get; set; }
 
-        [PrzyjaznaNazwaPola("nazwisko")]
+        [Display(Name = "nazwisko")]
         public string nazwisko { get; set; }
 
-        [PrzyjaznaNazwaPola("imię")]
+        [Display(Name = "imię")]
         public string imie { get; set; }
 
-        [PrzyjaznaNazwaPola("adres")]
+        [Display(Name = "adres")]
         public string adres_1 { get; set; }
 
-        [PrzyjaznaNazwaPola("adres cd.")]
+        [Display(Name = "adres cd.")]
         public string adres_2 { get; set; }
 
-        [PrzyjaznaNazwaPola("najemca")]
+        [Display(Name = "najemca")]
         public int kod_najem { get; set; }
 
-        [PrzyjaznaNazwaPola("nr dowodu osobistego")]
+        [Display(Name = "nr dowodu osobistego")]
         public string nr_dow { get; set; }
 
-        [PrzyjaznaNazwaPola("pesel")]
+        [Display(Name = "pesel")]
         public string pesel { get; set; }
 
-        [PrzyjaznaNazwaPola("zakład pracy")]
+        [Display(Name = "zakład pracy")]
         public string nazwa_z { get; set; }
 
-        [PrzyjaznaNazwaPola("login/e-mail")]
+        [Display(Name = "login/e-mail")]
         public string e_mail { get; set; }
 
-        [PrzyjaznaNazwaPola("hasło")]
+        [Display(Name = "hasło")]
         public string l__has { get; set; }
 
         string uwagi_1 { get; set; }
@@ -55,7 +55,7 @@ namespace czynsze.DostępDoBazy
             set { nr_kontr = value; }
         }
 
-        [PrzyjaznaNazwaPola("uwagi")]
+        [Display(Name = "uwagi")]
         [NotMapped]
         public string uwagi
         {

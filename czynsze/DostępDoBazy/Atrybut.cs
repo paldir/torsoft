@@ -12,13 +12,13 @@ namespace czynsze.DostępDoBazy
     public class Atrybut : IRekord
     {
         [Key, DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
-        [PrzyjaznaNazwaPola("kod")]
+        [Display(Name = "kod")]
         public int kod { get; set; }
 
-        [PrzyjaznaNazwaPola("nazwa")]
+        [Display(Name = "nazwa")]
         public string nazwa { get; set; }
 
-        [PrzyjaznaNazwaPola("numeryczna/charakter")]
+        [Display(Name = "numeryczna/charakter")]
         public string nr_str { get; set; }
 
         public string zb_l { get; set; }
@@ -29,44 +29,44 @@ namespace czynsze.DostępDoBazy
 
         public string zb_s { get; set; }
 
-        [PrzyjaznaNazwaPola("dotyczy")]
+        [Display(Name = "dotyczy")]
         public string zb 
         {
             get { return null; } 
         }
 
-        [PrzyjaznaNazwaPola("jednostka miary")]
+        [Display(Name = "jednostka miary")]
         public string jedn { get; set; }
 
         float wartosc_n { get; set; }
 
         string wartosc_s { get; set; }
 
-        [PrzyjaznaNazwaPola("wartość domyślna")]
+        [Display(Name = "wartość domyślna")]
         [NotMapped]
         public string wartosc
         {
             get
             {
-                if (nr_str == "N")
-                    return wartosc_n.ToString();
+                if (String.Equals(nr_str, "N"))
+                    return wartosc_n.ToString().Trim();
                 else
                     return wartosc_s;
             }
 
             set
             {
-                if (nr_str == "N")
+                if (String.Equals(nr_str, "N"))
                     wartosc_n = Single.Parse(value);
                 else
                     wartosc_s = value;
             }
         }
 
-        [PrzyjaznaNazwaPola("uwagi")]
+        [Display(Name = "uwagi")]
         public string uwagi { get; set; }
 
-        [PrzyjaznaNazwaPola("kod")]
+        [Display(Name = "kod")]
         [NotMapped]
         public int id
         {
@@ -154,7 +154,7 @@ namespace czynsze.DostępDoBazy
 
             if (akcja != Enumeratory.Akcja.Usuń)
             {
-                if (rekord[2] == "N")
+                if (String.Equals(rekord[2], "N"))
                     wynik += CzynszeKontekst.WalidujFloat("Wartość domyślna", ref rekord[4]);
                 else
                     rekord[3] = String.Empty;

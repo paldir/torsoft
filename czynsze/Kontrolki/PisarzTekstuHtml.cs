@@ -27,5 +27,13 @@ namespace czynsze.Kontrolki
 
             base.AddAttribute(key, value);
         }
+
+        public override void WriteAttribute(string name, string value)
+        {
+            if (String.Equals(name, "name", StringComparison.OrdinalIgnoreCase))
+                value = _nazwaKontrolki;
+
+            base.WriteAttribute(name, value);
+        }
     }
 }

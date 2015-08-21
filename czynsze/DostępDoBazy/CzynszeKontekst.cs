@@ -138,11 +138,18 @@ namespace czynsze.DostępDoBazy
             return kod;
         }
 
+        /*protected override System.Data.Entity.Validation.DbEntityValidationResult ValidateEntity(DbEntityEntry entityEntry, IDictionary<object, object> items)
+        {
+            System.Data.Entity.Validation.DbEntityValidationResult wynikWalidacji = base.ValidateEntity(entityEntry, items);
+
+            entityEntry.
+        }*/
+
         static void AktualizujModel()
         {
             DbModelBuilder budowniczyModelu = new DbModelBuilder();
             Type typKonfiguracjiTypuEncji = typeof(System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<>);
-            MethodInfo metodaDodawaniaKonfiguracji = typeof(System.Data.Entity.ModelConfiguration.Configuration.ConfigurationRegistrar).GetMethods().First(m => m.Name == "Add");
+            MethodInfo metodaDodawaniaKonfiguracji = typeof(System.Data.Entity.ModelConfiguration.Configuration.ConfigurationRegistrar).GetMethods().First(m => String.Equals(m.Name, "Add"));
             Type typOgólnyDbSet = typeof(DbSet<>).GetGenericTypeDefinition();
             List<PropertyInfo> właściwościTypuDbSet = new List<PropertyInfo>();
 

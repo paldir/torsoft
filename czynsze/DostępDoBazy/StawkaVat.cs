@@ -14,10 +14,10 @@ namespace czynsze.DostępDoBazy
         [Key]
         public int __record { get; set; }
 
-        [PrzyjaznaNazwaPola("oznaczenie stawki")]
+        [Display(Name = "oznaczenie stawki")]
         public string nazwa { get; set; }
 
-        [PrzyjaznaNazwaPola("symbol fiskalny")]
+        [Display(Name = "symbol fiskalny")]
         public string symb_fisk { get; set; }
 
         [NotMapped]

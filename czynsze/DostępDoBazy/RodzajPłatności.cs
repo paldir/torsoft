@@ -12,34 +12,34 @@ namespace czynsze.DostępDoBazy
     public class RodzajPłatności : IRekord, IInformacjeOPozycji
     {
         [Key, DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
-        [PrzyjaznaNazwaPola("kod")]
+        [Display(Name = "kod")]
         public int kod_wplat { get; set; }
 
-        [PrzyjaznaNazwaPola("rodzaj wpłaty lub wypłaty")]
+        [Display(Name = "rodzaj wpłaty lub wypłaty")]
         public string typ_wplat { get; set; }
 
-        [PrzyjaznaNazwaPola("sposób rozliczenia")]
+        [Display(Name = "sposób rozliczenia")]
         public int s_rozli { get; set; }
 
-        [PrzyjaznaNazwaPola("grupa składników czynszu")]
+        [Display(Name = "grupa składników czynszu")]
         public int kod { get; set; }
 
-        [PrzyjaznaNazwaPola("czy naliczać odsetki")]
+        [Display(Name = "czy naliczać odsetki")]
         public int tn_odset { get; set; }
 
-        [PrzyjaznaNazwaPola("czy liczyć odsetki na nocie")]
+        [Display(Name = "czy liczyć odsetki na nocie")]
         public int nota_odset { get; set; }
 
-        [PrzyjaznaNazwaPola("rodzaj ewidencji")]
+        [Display(Name = "rodzaj ewidencji")]
         public int rodz_e { get; set; }
 
-        [PrzyjaznaNazwaPola("VAT")]
+        [Display(Name = "VAT")]
         public string vat { get; set; }
 
-        [PrzyjaznaNazwaPola("SWW")]
+        [Display(Name = "SWW")]
         public string sww { get; set; }
 
-        [PrzyjaznaNazwaPola("kod")]
+        [Display(Name = "kod")]
         [NotMapped]
         public int id
         {

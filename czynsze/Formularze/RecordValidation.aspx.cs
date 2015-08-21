@@ -222,7 +222,7 @@ namespace czynsze.Formularze
                                         PobierzWartośćParametru<string>("kod")
                                     };
 
-                                if (recordFields[3] == "6")
+                                if (String.Equals(recordFields[3], "6"))
                                     recordFields = recordFields.ToList().Concat(new string[] 
                                         {
                                             PobierzWartośćParametru<string>("stawka_00"),
@@ -633,7 +633,7 @@ namespace czynsze.Formularze
                 }
                 catch (Exception)
                 {
-                    nazwyPólZProblemami.Add(właściwość.GetCustomAttribute<DostępDoBazy.PrzyjaznaNazwaPolaAttribute>().Nazwa);
+                    nazwyPólZProblemami.Add(właściwość.GetCustomAttribute<System.ComponentModel.DataAnnotations.DisplayAttribute>().Name);
                 }
         }
     }

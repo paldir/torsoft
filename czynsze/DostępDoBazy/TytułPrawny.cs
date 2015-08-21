@@ -12,13 +12,13 @@ namespace czynsze.DostępDoBazy
     public class TytułPrawny : IRekord
     {
         [Key, DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
-        [PrzyjaznaNazwaPola("kod")]
+        [Display(Name = "kod")]
         public int kod_praw { get; set; }
 
-        [PrzyjaznaNazwaPola("tytuł prawny")]
+        [Display(Name = "tytuł prawny")]
         public string tyt_prawny { get; set; }
 
-        [PrzyjaznaNazwaPola("kod")]
+        [Display(Name = "kod")]
         [NotMapped]
         public int id
         {

@@ -116,7 +116,7 @@ namespace czynsze.Formularze
                     string dat_od = String.Empty;
                     string dat_do = String.Empty;
 
-                    if (okno == "Dodaj")
+                    if (String.Equals(okno, "Dodaj"))
                     {
                         pierwszaEtykieta = "Nowy składnik: ";
                         wartość = String.Empty;

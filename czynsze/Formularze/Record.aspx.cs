@@ -981,16 +981,16 @@ namespace czynsze.Formularze
 
                         List<string> selectedValues = new List<string>();
 
-                        if (atrybut.zb_l == "X")
+                        if (String.Equals(atrybut.zb_l, "X"))
                             selectedValues.Add("l");
 
-                        if (atrybut.zb_n == "X")
+                        if (String.Equals(atrybut.zb_n, "X"))
                             selectedValues.Add("n");
 
-                        if (atrybut.zb_b == "X")
+                        if (String.Equals(atrybut.zb_b, "X"))
                             selectedValues.Add("b");
 
-                        if (atrybut.zb_s == "X")
+                        if (String.Equals(atrybut.zb_s, "X"))
                             selectedValues.Add("s");
 
                         controls.Add(new Kontrolki.CheckBoxList("field", "zb", new List<string>() { "lokale", "najemcy", "budynki", "wspólnoty" }, new List<string>() { "l", "n", "b", "s" }, selectedValues, globalEnabled));
@@ -1126,7 +1126,7 @@ namespace czynsze.Formularze
                 int columnIndex = -1;
                 //values = rekord.WszystkiePola();
                 Type typRekordu = rekord.GetType();
-                IEnumerable<PropertyInfo> właściwościDoUstawienia = typRekordu.GetProperties();//.Where(p => Attribute.IsDefined(typRekordu, typeof(System.ComponentModel.DataAnnotations.Schema.ColumnAttribute)));
+                IEnumerable<PropertyInfo> właściwościDoUstawienia = typRekordu.GetProperties();
 
                 for (int i = 0; i < controls.Count; i++)
                 {
@@ -1147,7 +1147,7 @@ namespace czynsze.Formularze
                         if (właściwość != null)
                         {
                             object wartość = właściwość.GetValue(rekord);
-                            etykieta = właściwość.GetCustomAttribute<DostępDoBazy.PrzyjaznaNazwaPolaAttribute>(true).Nazwa;
+                            etykieta = właściwość.GetCustomAttribute<System.ComponentModel.DataAnnotations.DisplayAttribute>(true).Name;
                             etykieta = String.Concat(Char.ToUpper(etykieta[0]), etykieta.Substring(1), ": ");
 
                             if (wartość != null)

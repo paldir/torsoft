@@ -12,13 +12,13 @@ namespace czynsze.DostępDoBazy
     public class TypLokalu : IRekord
     {
         [Key, DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
-        [PrzyjaznaNazwaPola("kod")]
+        [Display(Name = "kod")]
         public int kod_typ { get; set; }
 
-        [PrzyjaznaNazwaPola("typ lokalu")]
+        [Display(Name = "typ lokalu")]
         public string typ_lok { get; set; }
 
-        [PrzyjaznaNazwaPola("kod")]
+        [Display(Name = "kod")]
         [NotMapped]
         public int id 
         { 

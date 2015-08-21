@@ -16,7 +16,7 @@ namespace czynsze.Kontrolki
 
         protected override void Render(System.Web.UI.HtmlTextWriter writer)
         {
-            base.Render(new PisarzTekstuHtml(writer, ID));
+            base.Render(new PisarzTekstuHtml(writer, GroupName));
         }
     }
 }

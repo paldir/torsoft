@@ -140,22 +140,22 @@ namespace czynsze.Formularze
                 switch (atrybutDotyczy)
                 {
                     case Enumeratory.Atrybut.Budynku:
-                        wierszeRozwijanejListy = atrybuty.Where(a => a.zb_b == "X").Select(a => a.WażnePolaDoRozwijanejListy()).ToList();
+                        wierszeRozwijanejListy = atrybuty.Where(a => String.Equals(a.zb_b, "X")).Select(a => a.WażnePolaDoRozwijanejListy()).ToList();
 
                         break;
 
                     case Enumeratory.Atrybut.Wspólnoty:
-                        wierszeRozwijanejListy = atrybuty.Where(a => a.zb_s == "X").Select(a => a.WażnePolaDoRozwijanejListy()).ToList();
+                        wierszeRozwijanejListy = atrybuty.Where(a => String.Equals(a.zb_s, "X")).Select(a => a.WażnePolaDoRozwijanejListy()).ToList();
 
                         break;
 
                     case Enumeratory.Atrybut.Lokalu:
-                        wierszeRozwijanejListy = atrybuty.Where(a => a.zb_l == "X").Select(a => a.WażnePolaDoRozwijanejListy()).ToList();
+                        wierszeRozwijanejListy = atrybuty.Where(a => String.Equals(a.zb_l, "X")).Select(a => a.WażnePolaDoRozwijanejListy()).ToList();
 
                         break;
 
                     case Enumeratory.Atrybut.Najemcy:
-                        wierszeRozwijanejListy = atrybuty.Where(a => a.zb_n == "X").Select(a => a.WażnePolaDoRozwijanejListy()).ToList();
+                        wierszeRozwijanejListy = atrybuty.Where(a => String.Equals(a.zb_n, "X")).Select(a => a.WażnePolaDoRozwijanejListy()).ToList();
 
                         break;
                 }

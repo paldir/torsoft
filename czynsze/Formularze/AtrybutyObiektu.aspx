@@ -37,12 +37,12 @@
             switch (attribute.nr_str)
             {
                 case "N":
-                    defaults += "'" + attribute.wartosc_n.ToString() + "', ";
+                    defaults += "'" + attribute.wartosc + "', ";
                     
                     break;
 
                 case "C":
-                    defaults += "'" + attribute.wartosc_s.Trim() + "', ";
+                    defaults += "'" + attribute.wartosc + "', ";
                     
                     break;
             }

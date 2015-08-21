@@ -12,13 +12,13 @@ namespace czynsze.DostępDoBazy
     public class TypKuchni : IRekord
     {
         [Key, DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
-        [PrzyjaznaNazwaPola("kod")]
+        [Display(Name = "kod")]
         public int kod_kuch { get; set; }
 
-        [PrzyjaznaNazwaPola("rodzaj kuchni")]
+        [Display(Name = "rodzaj kuchni")]
         public string typ_kuch { get; set; }
 
-        [PrzyjaznaNazwaPola("kod")]
+        [Display(Name = "kod")]
         [NotMapped]
         public int id 
         { 

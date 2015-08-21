@@ -12,67 +12,67 @@ namespace czynsze.DostępDoBazy
     public class SkładnikCzynszu : IRekord, IInformacjeOPozycji
     {
         [Key, DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
-        [PrzyjaznaNazwaPola("nr składnika")]
+        [Display(Name = "nr składnika")]
         public int nr_skl { get; set; }
 
-        [PrzyjaznaNazwaPola("nazwa składnika")]
+        [Display(Name = "nazwa składnika")]
         public string nazwa { get; set; }
 
-        [PrzyjaznaNazwaPola("sposób zapłaty")]
+        [Display(Name = "sposób zapłaty")]
         public int s_zaplat { get; set; }
 
-        [PrzyjaznaNazwaPola("typ składnika")]
+        [Display(Name = "typ składnika")]
         public int typ_skl { get; set; }
 
-        [PrzyjaznaNazwaPola("stawka")]
+        [Display(Name = "stawka")]
         public decimal stawka { get; set; }
 
-        [PrzyjaznaNazwaPola("rodzaj ewidencji")]
+        [Display(Name = "rodzaj ewidencji")]
         public int rodz_e { get; set; }
 
-        [PrzyjaznaNazwaPola("stawka informacyjna")]
+        [Display(Name = "stawka informacyjna")]
         public decimal stawka_inf { get; set; }
 
-        [PrzyjaznaNazwaPola("początek okresu naliczania")]
+        [Display(Name = "początek okresu naliczania")]
         public Nullable<DateTime> data_1 { get; set; }
 
-        [PrzyjaznaNazwaPola("koniec okresu naliczania")]
+        [Display(Name = "koniec okresu naliczania")]
         public Nullable<DateTime> data_2 { get; set; }
 
-        [PrzyjaznaNazwaPola("grupa składników")]
+        [Display(Name = "grupa składników")]
         public int kod { get; set; }
 
-        [PrzyjaznaNazwaPola("stawka za 0 osób")]
+        [Display(Name = "stawka za 0 osób")]
         public decimal stawka_00 { get; set; }
 
-        [PrzyjaznaNazwaPola("stawka za 1 osobę")]
+        [Display(Name = "stawka za 1 osobę")]
         public decimal stawka_01 { get; set; }
 
-        [PrzyjaznaNazwaPola("stawka za 2 osoby")]
+        [Display(Name = "stawka za 2 osoby")]
         public decimal stawka_02 { get; set; }
 
-        [PrzyjaznaNazwaPola("stawka za 3 osoby")]
+        [Display(Name = "stawka za 3 osoby")]
         public decimal stawka_03 { get; set; }
 
-        [PrzyjaznaNazwaPola("stawka za 4 osoby")]
+        [Display(Name = "stawka za 4 osoby")]
         public decimal stawka_04 { get; set; }
 
-        [PrzyjaznaNazwaPola("stawka za 5 osób")]
+        [Display(Name = "stawka za 5 osób")]
         public decimal stawka_05 { get; set; }
 
-        [PrzyjaznaNazwaPola("stawka za 6 osób")]
+        [Display(Name = "stawka za 6 osób")]
         public decimal stawka_06 { get; set; }
 
-        [PrzyjaznaNazwaPola("stawka za 7 osób")]
+        [Display(Name = "stawka za 7 osób")]
         public decimal stawka_07 { get; set; }
 
-        [PrzyjaznaNazwaPola("stawka za 8 osób")]
+        [Display(Name = "stawka za 8 osób")]
         public decimal stawka_08 { get; set; }
 
-        [PrzyjaznaNazwaPola("stawka za 9 osób")]
+        [Display(Name = "stawka za 9 osób")]
         public decimal stawka_09 { get; set; }
 
-        [PrzyjaznaNazwaPola("nr składnika")]
+        [Display(Name = "nr składnika")]
         [NotMapped]
         public int id
         {

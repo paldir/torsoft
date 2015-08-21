@@ -92,7 +92,7 @@ namespace czynsze.Formularze
                     string komentarze;
                     string tekstPrzyciskuZapisywania;
 
-                    if (okno == "Dodaj")
+                    if (String.Equals(okno, "Dodaj"))
                     {
                         pierwszaEtykieta = "Nowy budynek: ";
                         tekstPrzyciskuZapisywania = "Dodaj";

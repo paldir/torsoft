@@ -13,27 +13,27 @@ namespace czynsze.DostępDoBazy
         [Key]
         public int __record { get; set; }
 
-        [PrzyjaznaNazwaPola("kwota")]
+        [Display(Name = "kwota")]
         public decimal suma { get; set; }
 
-        [PrzyjaznaNazwaPola("data")]
+        [Display(Name = "data")]
         public DateTime data_obr { get; set; }
 
-        [PrzyjaznaNazwaPola("kwota")]
+        [Display(Name = "kwota")]
         public string opis { get; set; }
 
         public int nr_kontr { get; set; }
 
-        [PrzyjaznaNazwaPola("rodzaj obrotu")]
+        [Display(Name = "rodzaj obrotu")]
         public int kod_wplat { get; set; }
 
-        [PrzyjaznaNazwaPola("nr dowodu")]
+        [Display(Name = "nr dowodu")]
         public string nr_dowodu { get; set; }
 
-        [PrzyjaznaNazwaPola("pozycja")]
+        [Display(Name = "pozycja")]
         public int pozycja_d { get; set; }
 
-        [PrzyjaznaNazwaPola("uwagi")]
+        [Display(Name = "uwagi")]
         public string uwagi { get; set; }
 
         [NotMapped]

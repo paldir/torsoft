@@ -13,70 +13,70 @@ namespace czynsze.DostępDoBazy
         [Key, DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int nr_system { get; set; }
 
-        [PrzyjaznaNazwaPola("budynek")]
+        [Display(Name = "budynek"), Unique(1)]
         public int kod_lok { get; set; }
 
-        [PrzyjaznaNazwaPola("nr lokalu")]
+        [Display(Name = "nr lokalu"), Unique(1)]
         public int nr_lok { get; set; }
 
-        [PrzyjaznaNazwaPola("typ")]
+        [Display(Name = "typ")]
         public int kod_typ { get; set; }
 
-        [PrzyjaznaNazwaPola("powierzchnia użytkowa")]
+        [Display(Name = "powierzchnia użytkowa")]
         public float pow_uzyt { get; set; }
 
-        [PrzyjaznaNazwaPola("nazwisko")]
+        [Display(Name = "nazwisko")]
         public string nazwisko { get; set; }
 
-        [PrzyjaznaNazwaPola("imię")]
+        [Display(Name = "imię")]
         public string imie { get; set; }
 
-        [PrzyjaznaNazwaPola("adres")]
+        [Display(Name = "adres")]
         public string adres { get; set; }
 
-        [PrzyjaznaNazwaPola("adres cd.")]
+        [Display(Name = "adres cd.")]
         public string adres_2 { get; set; }
 
-        [PrzyjaznaNazwaPola("powierzchnia mieszkalna")]
+        [Display(Name = "powierzchnia mieszkalna")]
         public float pow_miesz { get; set; }
 
-        [PrzyjaznaNazwaPola("udział")]
+        [Display(Name = "udział")]
         public float udzial { get; set; }
 
-        [PrzyjaznaNazwaPola("początek zakresu dat")]
+        [Display(Name = "początek zakresu dat")]
         public Nullable<DateTime> dat_od { get; set; }
 
-        [PrzyjaznaNazwaPola("koniec zakresu dat")]
+        [Display(Name = "koniec zakresu dat")]
         public Nullable<DateTime> dat_do { get; set; }
 
-        [PrzyjaznaNazwaPola("powierzchnia I pokoju")]
+        [Display(Name = "powierzchnia I pokoju")]
         public float p_1 { get; set; }
 
-        [PrzyjaznaNazwaPola("powierzchnia II pokoju")]
+        [Display(Name = "powierzchnia II pokoju")]
         public float p_2 { get; set; }
 
-        [PrzyjaznaNazwaPola("powierzchnia III pokoju")]
+        [Display(Name = "powierzchnia III pokoju")]
         public float p_3 { get; set; }
 
-        [PrzyjaznaNazwaPola("powierzchnia IV pokoju")]
+        [Display(Name = "powierzchnia IV pokoju")]
         public float p_4 { get; set; }
 
-        [PrzyjaznaNazwaPola("powierzchnia V pokoju")]
+        [Display(Name = "powierzchnia V pokoju")]
         public float p_5 { get; set; }
 
-        [PrzyjaznaNazwaPola("powierzchnia VI pokoju")]
+        [Display(Name = "powierzchnia VI pokoju")]
         public float p_6 { get; set; }
 
-        [PrzyjaznaNazwaPola("typ kuchni")]
+        [Display(Name = "typ kuchni")]
         public Nullable<int> kod_kuch { get; set; }
 
-        [PrzyjaznaNazwaPola("najemca")]
+        [Display(Name = "najemca")]
         public Nullable<int> nr_kontr { get; set; }
 
-        [PrzyjaznaNazwaPola("ilość osób")]
+        [Display(Name = "ilość osób")]
         public Nullable<int> il_osob { get; set; }
 
-        [PrzyjaznaNazwaPola("tytuł prawny do lokalu")]
+        [Display(Name = "tytuł prawny do lokalu")]
         public Nullable<int> kod_praw { get; set; }
 
         string uwagi_1 { get; set; }
@@ -87,7 +87,7 @@ namespace czynsze.DostępDoBazy
 
         string uwagi_4 { get; set; }
 
-        [PrzyjaznaNazwaPola("uwagi")]
+        [Display(Name = "uwagi")]
         [NotMapped]
         public string uwagi
         {
