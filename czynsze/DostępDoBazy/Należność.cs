@@ -8,11 +8,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace czynsze.DostępDoBazy
 {
-    public abstract class Należność : PozycjaDoAnalizy, IRekord
+    public abstract class Należność : PozycjaDoAnalizy
     {
-        [Key]
-        public int __record { get; set; }
-
         public decimal kwota_nal { get; set; }
 
         public DateTime data_nal { get; set; }
@@ -31,8 +28,7 @@ namespace czynsze.DostępDoBazy
 
         public float ilosc { get; set; }
 
-        [NotMapped]
-        public int id 
+        public override int id 
         {
             get { return __record; }
             set { __record = value; }
@@ -84,22 +80,22 @@ namespace czynsze.DostępDoBazy
             get { return nr_lok; }
         }
 
-        public void Ustaw(string[] rekord)
+        public override void Ustaw(string[] rekord)
         {
             throw new InvalidOperationException();
         }
 
-        public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
+        public override string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             return String.Empty;
         }
 
-        public string[] WszystkiePola()
+        public override string[] WszystkiePola()
         {
             throw new InvalidOperationException();
         }
 
-        public string[] PolaDoTabeli()
+        public override string[] PolaDoTabeli()
         {
             return new string[]
             {

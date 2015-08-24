@@ -57,7 +57,7 @@ namespace czynsze.Formularze
                 //table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))]);
                 table = PobierzWartośćParametru<Enumeratory.Tabela>("table");
                 string backUrl = "javascript: Load('" + Request.UrlReferrer + "')";
-                DostępDoBazy.IRekord rekord = Session["rekord"] as DostępDoBazy.IRekord;
+                DostępDoBazy.Rekord rekord = Session["rekord"] as DostępDoBazy.Rekord;
                 Dictionary<bool, string> fromIdEnabledToIdSuffix = new Dictionary<bool, string>()
             {
                 {true, String.Empty},

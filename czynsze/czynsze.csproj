@@ -251,7 +251,7 @@
     <Compile Include="DostępDoBazy\AtrybutObiektu.cs" />
     <Compile Include="DostępDoBazy\GrupaFinansowa.cs" />
     <Compile Include="DostępDoBazy\GrupaSkładnikówCzynszu.cs" />
-    <Compile Include="DostępDoBazy\IRekord.cs" />
+    <Compile Include="DostępDoBazy\Rekord.cs" />
     <Compile Include="DostępDoBazy\NieaktywnyLokal.cs" />
     <Compile Include="DostępDoBazy\NieaktywnyNajemca.cs" />
     <Compile Include="DostępDoBazy\AktywnyLokal.cs" />

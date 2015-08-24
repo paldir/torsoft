@@ -9,25 +9,21 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DostępDoBazy
 {
     [Table("vat", Schema = "public")]
-    public class StawkaVat : IRekord
+    public class StawkaVat : Rekord
     {
-        [Key]
-        public int __record { get; set; }
-
         [Display(Name = "oznaczenie stawki")]
         public string nazwa { get; set; }
 
         [Display(Name = "symbol fiskalny")]
         public string symb_fisk { get; set; }
 
-        [NotMapped]
-        public int id
+        public override int id
         {
             get { return __record; }
             set { __record = value; }
         }
 
-        public string[] PolaDoTabeli()
+        public override string[] PolaDoTabeli()
         {
             return new string[]
             {
@@ -46,7 +42,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public string[] WszystkiePola()
+        public override string[] WszystkiePola()
         {
             return new string[]
             {
@@ -56,13 +52,13 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public void Ustaw(string[] rekord)
+        public override void Ustaw(string[] rekord)
         {
             nazwa = rekord[1];
             symb_fisk = rekord[2];
         }
 
-        public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
+        public override string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             string wynik = String.Empty;
             string nazwa = rekord[1];

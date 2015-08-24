@@ -105,7 +105,7 @@ namespace czynsze.Formularze
                 List<string[]> podMenu = null;
                 _sortowalna = true;
                 int id = PobierzWartośćParametru<int>("id");//-1;
-                IEnumerable<DostępDoBazy.IRekord> rekordyTabeli = null;
+                IEnumerable<DostępDoBazy.Rekord> rekordyTabeli = null;
                 string nazwaPrzycisków = "action";
 
                 //if (Request.Params["id"] != null)

@@ -8,10 +8,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace czynsze.DostępDoBazy
 {
-    public class Najemca : IRekord
+    public class Najemca : Rekord
     {
         [Display(Name = "nr kontr.")]
-        [Key, DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int nr_kontr { get; set; }
 
         [Display(Name = "nazwisko")]
@@ -48,8 +47,7 @@ namespace czynsze.DostępDoBazy
 
         string uwagi_2 { get; set; }
 
-        [NotMapped]
-        public int id
+        public override int id
         {
             get { return nr_kontr; }
             set { nr_kontr = value; }
@@ -71,7 +69,7 @@ namespace czynsze.DostępDoBazy
 
         public static List<AktywnyLokal> AktywneLokale { get; set; }
 
-        public string[] PolaDoTabeli()
+        public override string[] PolaDoTabeli()
         {
             return new string[] 
             { 
@@ -84,7 +82,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public string[] WszystkiePola()
+        public override string[] WszystkiePola()
         {
             return new string[] 
             { 
@@ -103,12 +101,12 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
+        public override string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             return String.Empty;
         }
 
-        public void Ustaw(string[] rekord)
+        public override void Ustaw(string[] rekord)
         {
             nr_kontr = Int32.Parse(rekord[0]);
             kod_najem = Int32.Parse(rekord[1]);

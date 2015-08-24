@@ -8,9 +8,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace czynsze.DostępDoBazy
 {
-    public class Lokal : IRekord
+    public class Lokal : Rekord
     {
-        [Key, DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         public int nr_system { get; set; }
 
         [Display(Name = "budynek"), Unique(1)]
@@ -103,8 +102,7 @@ namespace czynsze.DostępDoBazy
             }
         }
 
-        [NotMapped]
-        public int id
+        public override int id
         {
             get { return nr_system; }
             set { nr_system = value; }
@@ -112,7 +110,7 @@ namespace czynsze.DostępDoBazy
 
         public static List<TypLokalu> TypyLokali { get; set; }
 
-        public string[] PolaDoTabeli()
+        public override string[] PolaDoTabeli()
         {
 
 
@@ -138,7 +136,7 @@ namespace czynsze.DostępDoBazy
                 return typLokalu.typ_lok;
         }
 
-        public string[] WszystkiePola()
+        public override string[] WszystkiePola()
         {
             string dat_od, dat_do;
 
@@ -179,7 +177,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public void Ustaw(string[] rekord)
+        public override void Ustaw(string[] rekord)
         {
             nr_system = Int32.Parse(rekord[0]);
             kod_lok = Int32.Parse(rekord[1]);
@@ -224,7 +222,7 @@ namespace czynsze.DostępDoBazy
             uwagi = rekord[21];
         }
 
-        public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
+        public override string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             string wynik = "";
             int kod_lok, nr_lok;

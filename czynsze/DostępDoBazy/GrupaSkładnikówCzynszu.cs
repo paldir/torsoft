@@ -9,9 +9,8 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DostępDoBazy
 {
     [Table("grup_cz", Schema = "public")]
-    public class GrupaSkładnikówCzynszu : IRekord
+    public class GrupaSkładnikówCzynszu : Rekord
     {
-        [Key, DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         [Display(Name = "kod")]
         public int kod { get; set; }
 
@@ -19,14 +18,13 @@ namespace czynsze.DostępDoBazy
         public string nazwa { get; set; }
 
         [Display(Name = "kod")]
-        [NotMapped]
-        public int id
+        public override int id
         {
             get { return kod; }
             set { kod = value; }
         }
 
-        public string[] PolaDoTabeli()
+        public override string[] PolaDoTabeli()
         {
             return new string[]
             {
@@ -36,7 +34,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public string[] WszystkiePola()
+        public override string[] WszystkiePola()
         {
             return new string[]
             {
@@ -45,7 +43,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
+        public override string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             string wynik = String.Empty;
             int kod;
@@ -78,7 +76,7 @@ namespace czynsze.DostępDoBazy
             return wynik;
         }
 
-        public void Ustaw(string[] rekord)
+        public override void Ustaw(string[] rekord)
         {
             kod = Int32.Parse(rekord[0]);
             nazwa = rekord[1];

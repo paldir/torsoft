@@ -9,9 +9,8 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DostępDoBazy
 {
     [Table("cechy", Schema = "public")]
-    public class Atrybut : IRekord
+    public class Atrybut : Rekord
     {
-        [Key, DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         [Display(Name = "kod")]
         public int kod { get; set; }
 
@@ -67,14 +66,13 @@ namespace czynsze.DostępDoBazy
         public string uwagi { get; set; }
 
         [Display(Name = "kod")]
-        [NotMapped]
-        public int id
+        public override int id
         {
             get { return kod; }
             set { kod = value; }
         }
 
-        public string[] PolaDoTabeli()
+        public override string[] PolaDoTabeli()
         {
             return new string[]
             {
@@ -98,7 +96,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public string[] WszystkiePola()
+        public override string[] WszystkiePola()
         {
            return new string[]
             {
@@ -115,7 +113,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public void Ustaw(string[] record)
+        public override void Ustaw(string[] record)
         {
             kod = Int32.Parse(record[0]);
             nazwa = record[1];
@@ -129,7 +127,7 @@ namespace czynsze.DostępDoBazy
             zb_s = record[9];
         }
 
-        public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
+        public override string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             string wynik = String.Empty;
             int kod;

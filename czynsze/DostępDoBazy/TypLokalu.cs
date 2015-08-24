@@ -9,9 +9,8 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DostępDoBazy
 {
     [Table("typ_lok", Schema = "public")]
-    public class TypLokalu : IRekord
+    public class TypLokalu : Rekord
     {
-        [Key, DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         [Display(Name = "kod")]
         public int kod_typ { get; set; }
 
@@ -19,8 +18,7 @@ namespace czynsze.DostępDoBazy
         public string typ_lok { get; set; }
 
         [Display(Name = "kod")]
-        [NotMapped]
-        public int id 
+        public override int id 
         { 
             get { return kod_typ; }
             set { kod_typ = value; }
@@ -35,7 +33,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public string[] PolaDoTabeli()
+        public override string[] PolaDoTabeli()
         {
             return new string[] 
             { 
@@ -45,7 +43,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public string[] WszystkiePola()
+        public override string[] WszystkiePola()
         {
             return new string[]
             {
@@ -54,13 +52,13 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public void Ustaw(string[] rekord)
+        public override void Ustaw(string[] rekord)
         {
             kod_typ = Int32.Parse(rekord[0]);
             typ_lok = rekord[1];
         }
 
-        public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
+        public override string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             string wynik = String.Empty;
             int kod_typ;

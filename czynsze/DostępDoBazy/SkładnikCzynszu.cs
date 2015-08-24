@@ -9,9 +9,8 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DostępDoBazy
 {
     [Table("czynsz", Schema = "public")]
-    public class SkładnikCzynszu : IRekord, IInformacjeOPozycji
+    public class SkładnikCzynszu : Rekord, IInformacjeOPozycji
     {
-        [Key, DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         [Display(Name = "nr składnika")]
         public int nr_skl { get; set; }
 
@@ -73,8 +72,7 @@ namespace czynsze.DostępDoBazy
         public decimal stawka_09 { get; set; }
 
         [Display(Name = "nr składnika")]
-        [NotMapped]
-        public int id
+        public override int id
         {
             get { return nr_skl; }
             set { nr_skl = value; }
@@ -134,7 +132,7 @@ namespace czynsze.DostępDoBazy
             }
         }
 
-        public string[] PolaDoTabeli()
+        public override string[] PolaDoTabeli()
         {
             return new string[]
             {
@@ -157,7 +155,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public string[] WszystkiePola()
+        public override string[] WszystkiePola()
         {
             string data_1, data_2;
 
@@ -196,7 +194,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
+        public override string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             string wynik = "";
             int id;
@@ -246,7 +244,7 @@ namespace czynsze.DostępDoBazy
             return wynik;
         }
 
-        public void Ustaw(string[] rekord)
+        public override void Ustaw(string[] rekord)
         {
             nr_skl = Int32.Parse(rekord[0]);
             nazwa = rekord[1];

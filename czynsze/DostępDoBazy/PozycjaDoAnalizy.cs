@@ -5,7 +5,7 @@ using System.Web;
 
 namespace czynsze.DostępDoBazy
 {
-    public abstract class PozycjaDoAnalizy
+    public abstract class PozycjaDoAnalizy : Rekord
     {
         public abstract DateTime Data { get; }
         public abstract decimal Kwota { get; }
@@ -15,5 +15,10 @@ namespace czynsze.DostępDoBazy
         public abstract int KodBudynku { get; }
         public abstract int NrLokalu { get; }
         public IInformacjeOPozycji Informacje { get; set; }
+
+        public abstract override int id { get; set; }
+        public abstract override void Ustaw(string[] rekord);
+        public abstract override string Waliduj(Enumeratory.Akcja akcja, string[] rekord);
+        public abstract override string[] PolaDoTabeli();
     }
 }

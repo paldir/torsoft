@@ -10,11 +10,8 @@ using System.Text;
 namespace czynsze.DostępDoBazy
 {
     [Table("fk_tuz", Schema = "public")]
-    public class Użytkownik : IRekord
+    public class Użytkownik : Rekord
     {
-        [Key]
-        public int __record { get; set; }
-
         public string symbol { get; set; }
 
         public string nazwisko { get; set; }
@@ -25,14 +22,13 @@ namespace czynsze.DostępDoBazy
 
         public string haslo { get; set; }
 
-        [NotMapped]
-        public int id
+        public override int id
         {
             get { return __record; }
             set { __record = value; }
         }
 
-        public string[] PolaDoTabeli()
+        public override string[] PolaDoTabeli()
         {
             return new string[]
             {
@@ -43,7 +39,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public string[] WszystkiePola()
+        public override string[] WszystkiePola()
         {
             return new string[]
             {
@@ -56,7 +52,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public void Ustaw(string[] rekord)
+        public override void Ustaw(string[] rekord)
         {
             symbol = rekord[1];
             nazwisko = rekord[2];
@@ -65,7 +61,7 @@ namespace czynsze.DostępDoBazy
             haslo = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(rekord[4]).Select(b => (byte)(b + 10)).ToArray());
         }
 
-        public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
+        public override string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             string wynik = String.Empty;
             List<string> listaRekordów = rekord.ToList();

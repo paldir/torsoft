@@ -9,9 +9,8 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DostępDoBazy
 {
     [Table("t_wplat", Schema = "public")]
-    public class RodzajPłatności : IRekord, IInformacjeOPozycji
+    public class RodzajPłatności : Rekord, IInformacjeOPozycji
     {
-        [Key, DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         [Display(Name = "kod")]
         public int kod_wplat { get; set; }
 
@@ -40,8 +39,7 @@ namespace czynsze.DostępDoBazy
         public string sww { get; set; }
 
         [Display(Name = "kod")]
-        [NotMapped]
-        public int id
+        public override int id
         {
             get { return kod_wplat; }
             set { kod_wplat = value; }
@@ -108,7 +106,7 @@ namespace czynsze.DostępDoBazy
             }
         }
 
-        public string[] PolaDoTabeli()
+        public override string[] PolaDoTabeli()
         {
             return new string[]
             {
@@ -121,7 +119,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public string[] WszystkiePola()
+        public override string[] WszystkiePola()
         {
             return new string[]
             {
@@ -137,7 +135,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public void Ustaw(string[] record)
+        public override void Ustaw(string[] record)
         {
             kod_wplat = Int32.Parse(record[0]);
             typ_wplat = record[1];
@@ -150,7 +148,7 @@ namespace czynsze.DostępDoBazy
             sww = record[8];
         }
 
-        public string Waliduj(Enumeratory.Akcja action, string[] record)
+        public override string Waliduj(Enumeratory.Akcja action, string[] record)
         {
             string result = String.Empty;
             int kod_wplat;

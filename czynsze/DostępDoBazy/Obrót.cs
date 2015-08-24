@@ -8,11 +8,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace czynsze.DostępDoBazy
 {
-    public class Obrót : PozycjaDoAnalizy, IRekord
+    public class Obrót : PozycjaDoAnalizy
     {
-        [Key]
-        public int __record { get; set; }
-
         [Display(Name = "kwota")]
         public decimal suma { get; set; }
 
@@ -36,8 +33,7 @@ namespace czynsze.DostępDoBazy
         [Display(Name = "uwagi")]
         public string uwagi { get; set; }
 
-        [NotMapped]
-        public int id
+        public override int id
         {
             get { return __record; }
             set { __record = value; }
@@ -119,7 +115,7 @@ namespace czynsze.DostępDoBazy
             }
         }*/
 
-        public string[] PolaDoTabeli()
+        public override string[] PolaDoTabeli()
         {
             string data_obr = null;
 
@@ -210,7 +206,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public string[] WszystkiePola()
+        public override string[] WszystkiePola()
         {
             string data_obr = null;
 
@@ -231,7 +227,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public void Ustaw(string[] rekord)
+        public override void Ustaw(string[] rekord)
         {
             __record = Int32.Parse(rekord[0]);
             suma = Decimal.Parse(rekord[1]);
@@ -250,7 +246,7 @@ namespace czynsze.DostępDoBazy
                 opis = db.RodzajePłatności.FirstOrDefault(t => t.kod_wplat == kod_wplat).typ_wplat;
         }
 
-        public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
+        public override string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             string wynik = String.Empty;
 

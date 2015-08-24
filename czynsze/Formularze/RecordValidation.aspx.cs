@@ -48,7 +48,7 @@ namespace czynsze.Formularze
                 string backUrl = "javascript: Load('Lista.aspx?table=" + table + "')";
                 string nominativeCase = String.Empty;
                 string genitiveCase = String.Empty;
-                DostępDoBazy.IRekord record = null;
+                DostępDoBazy.Rekord record = null;
                 Type attributeType = null;
                 Type inactiveType = null;
 
@@ -491,7 +491,7 @@ namespace czynsze.Formularze
                                     break;
 
                                 case Enumeratory.Akcja.Edytuj:
-                                    record = (DostępDoBazy.IRekord)dbSet.Find(id);
+                                    record = (DostępDoBazy.Rekord)dbSet.Find(id);
 
                                     record.Ustaw(recordFields);
 
@@ -541,7 +541,7 @@ namespace czynsze.Formularze
                                     break;
 
                                 case Enumeratory.Akcja.Usuń:
-                                    record = (DostępDoBazy.IRekord)dbSet.Find(id);
+                                    record = (DostępDoBazy.Rekord)dbSet.Find(id);
 
                                     dbSet.Remove(record);
 
@@ -579,8 +579,8 @@ namespace czynsze.Formularze
                                     break;
 
                                 case Enumeratory.Akcja.Przenieś:
-                                    DostępDoBazy.IRekord inactive = (DostępDoBazy.IRekord)Activator.CreateInstance(inactiveType);
-                                    record = (DostępDoBazy.IRekord)dbSet.Find(id);
+                                    DostępDoBazy.Rekord inactive = (DostępDoBazy.Rekord)Activator.CreateInstance(inactiveType);
+                                    record = (DostępDoBazy.Rekord)dbSet.Find(id);
 
                                     dbSet.Remove(record);
                                     inactive.Ustaw(record.WszystkiePola());
@@ -621,7 +621,7 @@ namespace czynsze.Formularze
             }
         }
 
-        void UstawParametry(DostępDoBazy.IRekord rekord)
+        void UstawParametry(DostępDoBazy.Rekord rekord)
         {
             IEnumerable<PropertyInfo> właściwości = rekord.GetType().GetProperties().Where(p => p.GetSetMethod() != null);
             List<string> nazwyPólZProblemami = new List<string>();

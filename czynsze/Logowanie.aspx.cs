@@ -18,15 +18,6 @@ namespace czynsze
                 Formularze.Start.NazwaFirmy = companyName.InnerText = db.Konfiguracje.FirstOrDefault().nazwa_1;
                 Formularze.Start.LiczbaZbiorów = db.Konfiguracje.FirstOrDefault().p_32;
                 Formularze.Start.NazwyZbiorów = new string[] { "CZYNSZE", db.Konfiguracje.FirstOrDefault().nazwa_2zb, db.Konfiguracje.FirstOrDefault().nazwa_3zb };
-
-                var tmp = db.AktywneLokale;
-
-                DostępDoBazy.AktywnyLokal lokal = new DostępDoBazy.AktywnyLokal();
-                lokal.kod_lok = lokal.nr_lok = 1;
-
-                db.AktywneLokale.Add(lokal);
-
-                var rwA = db.GetValidationErrors();
             }
 
             Formularze.Start.Data = DateTime.Today;

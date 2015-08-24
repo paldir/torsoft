@@ -9,9 +9,8 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DostępDoBazy
 {
     [Table("wspol", Schema = "public")]
-    public class Wspólnota : IRekord
+    public class Wspólnota : Rekord
     {
-        [Key, DatabaseGenerated(databaseGeneratedOption: DatabaseGeneratedOption.None)]
         [Display(Name = "kod wspólnoty")]
         public int kod { get; set; }
 
@@ -58,8 +57,7 @@ namespace czynsze.DostępDoBazy
         public string uwagi_6 { get; set; }
 
         [Display(Name = "kod wspólnoty")]
-        [NotMapped]
-        public int id
+        public override int id
         {
             get { return kod; }
             set { kod = value; }
@@ -83,7 +81,7 @@ namespace czynsze.DostępDoBazy
             }
         }
 
-        public string[] PolaDoTabeli()
+        public override string[] PolaDoTabeli()
         {
             return new string[]
             {
@@ -95,7 +93,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public string[] WszystkiePola()
+        public override string[] WszystkiePola()
         {
             return new string[]
             {
@@ -114,7 +112,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public void Ustaw(string[] rekord)
+        public override void Ustaw(string[] rekord)
         {
             kod = Int32.Parse(rekord[0]);
             il_bud = Int32.Parse(rekord[1]);
@@ -130,7 +128,7 @@ namespace czynsze.DostępDoBazy
             uwagi = rekord[11];
         }
 
-        public string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
+        public override string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             string wynik = "";
             int kod;
