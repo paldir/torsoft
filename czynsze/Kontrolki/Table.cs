@@ -11,7 +11,7 @@ namespace czynsze.Kontrolki
 {
     public class Table : System.Web.UI.WebControls.Table
     {
-        public Table(string klasaCss, IList<string[]> wiersze, string[] wierszNagłówkowy, bool sortowalne, string prefiks, List<int> indeksyNumerycznychKolumn, List<int> indeksyKolumnZPodsumowaniem)
+        public Table(string klasaCss, List<string[]> wiersze, string[] wierszNagłówkowy, bool sortowalne, string prefiks, List<int> indeksyNumerycznychKolumn, List<int> indeksyKolumnZPodsumowaniem)
         {
             float[] szerokościKolumn = new float[wierszNagłówkowy.Length];
             Bitmap bitmapa = new Bitmap(500, 200);
@@ -59,13 +59,13 @@ namespace czynsze.Kontrolki
                     szerokościKolumn[0] = szerokośćKolumny;
             }
 
-            for (int i = 0; i < wiersze.Count; i++)
+            for (int i = 0; i < wiersze.Count(); i++)
             {
-                for (int j = 2; j < wiersze[i].Length; j++)
+                for (int j = 2; j < wiersze.ElementAt(i).Count(); j++)
                 {
                     TableCell komórka = new TableCell();
                     komórka.CssClass = "tableCell";
-                    tekstKomórki = wiersze.ElementAt(i)[j];
+                    tekstKomórki = wiersze.ElementAt(i).ElementAt(j);
 
                     if (indeksyNumerycznychKolumn.Contains(j))
                     {
@@ -76,10 +76,10 @@ namespace czynsze.Kontrolki
                     if (indeksyKolumnZPodsumowaniem.Contains(j) && !String.IsNullOrEmpty(tekstKomórki))
                         podsumowania[j - 1] += Decimal.Parse(tekstKomórki);
 
-                    komórka.Controls.Add(new Label("label", wiersze.ElementAt(i)[0], tekstKomórki, String.Empty));
+                    komórka.Controls.Add(new Label("label", wiersze.ElementAt(i).ElementAt(0), tekstKomórki, String.Empty));
                     Rows[i].Cells.Add(komórka);
 
-                    szerokośćKolumny = grafika.MeasureString(wiersze.ElementAt(i)[j], czcionka).Width;
+                    szerokośćKolumny = grafika.MeasureString(wiersze.ElementAt(i).ElementAt(j), czcionka).Width;
 
                     if (szerokośćKolumny > szerokościKolumn[j - 1])
                         szerokościKolumn[j - 1] = szerokośćKolumny;

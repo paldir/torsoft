@@ -33,12 +33,6 @@ namespace czynsze.DostępDoBazy
         [Display(Name = "uwagi")]
         public string uwagi { get; set; }
 
-        public override int id
-        {
-            get { return __record; }
-            set { __record = value; }
-        }
-
         public override DateTime Data
         {
             get { return data_obr; }
@@ -115,16 +109,15 @@ namespace czynsze.DostępDoBazy
             }
         }*/
 
-        public override string[] PolaDoTabeli()
+        public override IEnumerable<string> PolaDoTabeli()
         {
             string data_obr = null;
 
             if (this.data_obr != null)
                 data_obr = String.Format(DostępDoBazy.CzynszeKontekst.FormatDaty, this.data_obr);
 
-            return new string[] 
+            return base.PolaDoTabeli().Concat(new string[] 
             {
-                __record.ToString(),
                 String.Format("{0:N}", suma),
                 data_obr,
                 DateTime.Today.ToShortDateString(),
@@ -132,7 +125,7 @@ namespace czynsze.DostępDoBazy
                 nr_dowodu,
                 pozycja_d.ToString(),
                 uwagi
-            };
+            });
         }
 
         public string[] WażnePolaDoNależnościIObrotówNajemcy()
@@ -206,30 +199,9 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public override string[] WszystkiePola()
-        {
-            string data_obr = null;
-
-            if (this.data_obr != null)
-                data_obr = String.Format(DostępDoBazy.CzynszeKontekst.FormatDaty, this.data_obr);
-
-            return new string[]
-            {
-                __record.ToString(),
-                suma.ToString(),
-                data_obr,
-                DateTime.Today.ToShortDateString(),
-                kod_wplat.ToString(),
-                nr_dowodu.Trim(),
-                pozycja_d.ToString(),
-                uwagi.Trim(),
-                nr_kontr.ToString()
-            };
-        }
-
         public override void Ustaw(string[] rekord)
         {
-            __record = Int32.Parse(rekord[0]);
+            //__record = Int32.Parse(rekord[0]);
             suma = Decimal.Parse(rekord[1]);
 
             if (!String.IsNullOrEmpty(rekord[2]))

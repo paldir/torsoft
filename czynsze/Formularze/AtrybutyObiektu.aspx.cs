@@ -134,7 +134,7 @@ namespace czynsze.Formularze
                         break;
                 }
 
-                wiersze = _atrybutyObiektu.Select(a => a.PolaDoTabeli()).ToList();
+                wiersze = _atrybutyObiektu.Select(a => a.PolaDoTabeli().ToArray()).ToList();
                 IEnumerable<DostępDoBazy.Atrybut> atrybuty = db.Atrybuty.AsEnumerable<DostępDoBazy.Atrybut>();
 
                 switch (atrybutDotyczy)

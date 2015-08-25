@@ -23,7 +23,7 @@ namespace czynsze.DostępDoBazy
         [Column("uwagi")]
         public string uwagi { get; set; }
 
-        public string[] PolaDoTabeli()
+        public IEnumerable<string> PolaDoTabeli()
         {
             string adres;
 

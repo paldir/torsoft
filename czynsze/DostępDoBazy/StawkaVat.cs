@@ -17,20 +17,13 @@ namespace czynsze.DostępDoBazy
         [Display(Name = "symbol fiskalny")]
         public string symb_fisk { get; set; }
 
-        public override int id
+        public override IEnumerable<string> PolaDoTabeli()
         {
-            get { return __record; }
-            set { __record = value; }
-        }
-
-        public override string[] PolaDoTabeli()
-        {
-            return new string[]
+            return base.PolaDoTabeli().Concat(new string[]
             {
-                __record.ToString(),
                 nazwa,
                 symb_fisk
-            };
+            });
         }
 
         public string[] WażnePolaDoRozwijanejListy()
@@ -39,16 +32,6 @@ namespace czynsze.DostępDoBazy
             {
                 nazwa,
                 nazwa
-            };
-        }
-
-        public override string[] WszystkiePola()
-        {
-            return new string[]
-            {
-                __record.ToString(),
-                nazwa.Trim(),
-                symb_fisk.Trim()
             };
         }
 

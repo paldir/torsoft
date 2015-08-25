@@ -44,24 +44,17 @@ namespace czynsze.DostępDoBazy
         [Display(Name = "ścieżka do F-K")]
         public string sciezka_fk { get; set; }
 
-        public string uwagi_1 { get; set; }
+        string uwagi_1 { get; set; }
 
-        public string uwagi_2 { get; set; }
+        string uwagi_2 { get; set; }
 
-        public string uwagi_3 { get; set; }
+        string uwagi_3 { get; set; }
 
-        public string uwagi_4 { get; set; }
+        string uwagi_4 { get; set; }
 
-        public string uwagi_5 { get; set; }
+        string uwagi_5 { get; set; }
 
-        public string uwagi_6 { get; set; }
-
-        [Display(Name = "kod wspólnoty")]
-        public override int id
-        {
-            get { return kod; }
-            set { kod = value; }
-        }
+        string uwagi_6 { get; set; }
 
         [Display(Name = "uwagi")]
         [NotMapped]
@@ -81,35 +74,15 @@ namespace czynsze.DostępDoBazy
             }
         }
 
-        public override string[] PolaDoTabeli()
+        public override IEnumerable<string> PolaDoTabeli()
         {
-            return new string[]
+            return base.PolaDoTabeli().Concat(new string[]
             {
-                kod.ToString(),
                 kod.ToString(),
                 nazwa_skr,
                 il_bud.ToString(),
                 il_miesz.ToString()
-            };
-        }
-
-        public override string[] WszystkiePola()
-        {
-            return new string[]
-            {
-                kod.ToString(),
-                il_bud.ToString(),
-                il_miesz.ToString(),
-                nazwa_pel.Trim(),
-                nazwa_skr.Trim(),
-                adres.Trim(),
-                adres_2.Trim(),
-                nr1_konta.Trim(),
-                nr2_konta.Trim(),
-                nr3_konta.Trim(),
-                sciezka_fk.Trim(),
-                uwagi
-            };
+            });
         }
 
         public override void Ustaw(string[] rekord)

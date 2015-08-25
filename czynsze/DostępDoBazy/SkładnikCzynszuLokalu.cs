@@ -32,7 +32,7 @@ namespace czynsze.DostępDoBazy
         public static List<AktywnyLokal> Lokale { get; set; }
         public static List<SkładnikCzynszu> SkładnikiCzynszu { get; set; }
 
-        public string[] PolaDoTabeli()
+        public IEnumerable<string> PolaDoTabeli()
         {
             SkładnikCzynszu składnikCzynszu;
 

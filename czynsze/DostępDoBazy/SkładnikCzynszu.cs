@@ -71,13 +71,6 @@ namespace czynsze.DostępDoBazy
         [Display(Name = "stawka za 9 osób")]
         public decimal stawka_09 { get; set; }
 
-        [Display(Name = "nr składnika")]
-        public override int id
-        {
-            get { return nr_skl; }
-            set { nr_skl = value; }
-        }
-
         public int IdInformacji
         {
             get { return nr_skl; }
@@ -132,17 +125,16 @@ namespace czynsze.DostępDoBazy
             }
         }
 
-        public override string[] PolaDoTabeli()
+        public override IEnumerable<string> PolaDoTabeli()
         {
-            return new string[]
+            return base.PolaDoTabeli().Concat(new string[]
             {
-                nr_skl.ToString(), 
                 nr_skl.ToString(), 
                 nazwa, 
                 Rozpoznaj_s_zaplat(), 
                 Rozpoznaj_typ_skl(), 
                 stawka.ToString("F2") 
-            };
+            });
         }
 
         public string[] WażnePolaDoRozwijanejListy()
@@ -152,45 +144,6 @@ namespace czynsze.DostępDoBazy
                 nr_skl.ToString(),
                 nr_skl.ToString(),
                 nazwa
-            };
-        }
-
-        public override string[] WszystkiePola()
-        {
-            string data_1, data_2;
-
-            if (this.data_1 == null)
-                data_1 = null;
-            else
-                data_1 = String.Format(DostępDoBazy.CzynszeKontekst.FormatDaty, this.data_1);
-
-            if (this.data_2 == null)
-                data_2 = null;
-            else
-                data_2 = String.Format(DostępDoBazy.CzynszeKontekst.FormatDaty, this.data_2);
-
-            return new string[]
-            {
-                nr_skl.ToString(),
-                nazwa.Trim(),
-                rodz_e.ToString(),
-                s_zaplat.ToString(),
-                stawka.ToString("F2"),
-                stawka_inf.ToString("F2"),
-                typ_skl.ToString(), 
-                data_1,
-                data_2,
-                kod.ToString(),
-                stawka_00.ToString("F2"),
-                stawka_01.ToString("F2"),
-                stawka_02.ToString("F2"),
-                stawka_03.ToString("F2"),
-                stawka_04.ToString("F2"),
-                stawka_05.ToString("F2"),
-                stawka_06.ToString("F2"),
-                stawka_07.ToString("F2"),
-                stawka_08.ToString("F2"),
-                stawka_09.ToString("F2")
             };
         }
 

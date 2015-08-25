@@ -22,34 +22,14 @@ namespace czynsze.DostępDoBazy
 
         public string haslo { get; set; }
 
-        public override int id
+        public override IEnumerable<string> PolaDoTabeli()
         {
-            get { return __record; }
-            set { __record = value; }
-        }
-
-        public override string[] PolaDoTabeli()
-        {
-            return new string[]
+            return base.PolaDoTabeli().Concat(new string[]
             {
-                __record.ToString(),
                 symbol,
                 nazwisko,
                 imie
-            };
-        }
-
-        public override string[] WszystkiePola()
-        {
-            return new string[]
-            {
-                __record.ToString(),
-                symbol.Trim(),
-                nazwisko.Trim(),
-                imie.Trim(),
-                uzytkownik.Trim(),
-                haslo.Trim()
-            };
+            });
         }
 
         public override void Ustaw(string[] rekord)

@@ -583,7 +583,7 @@ namespace czynsze.Formularze
                                     record = (DostępDoBazy.Rekord)dbSet.Find(id);
 
                                     dbSet.Remove(record);
-                                    inactive.Ustaw(record.WszystkiePola());
+                                    //inactive.Ustaw(record.WszystkiePola());
                                     db.Set(inactiveType).Add(inactive);
 
                                     break;
@@ -611,7 +611,7 @@ namespace czynsze.Formularze
 
                 if (!String.IsNullOrEmpty(validationResult) || (!String.IsNullOrEmpty(dbWriteResult) && dbWriteResult.Contains("!")))
                 {
-                    placeOfButtons.Controls.Add(new Kontrolki.Button("button", "Repair", "Popraw", "Record.aspx"));
+                    placeOfButtons.Controls.Add(new Kontrolki.Button("button", "Repair", "Popraw", "Rekord.aspx"));
                     placeOfButtons.Controls.Add(new Kontrolki.Button("button", "Cancel", "Anuluj", backUrl));
 
                     Session["values"] = recordFields;

@@ -59,13 +59,6 @@ namespace czynsze.DostępDoBazy
             }
         }
 
-        [Display(Name = "kod budynku")]
-        public override int id
-        {
-            get { return kod_1; }
-            set { kod_1 = value; }
-        }
-
         public override void Ustaw(string[] rekord)
         {
             kod_1 = Int32.Parse(rekord[0]);
@@ -124,29 +117,14 @@ namespace czynsze.DostępDoBazy
             return wynik;
         }
 
-        public override string[] PolaDoTabeli()
+        public override IEnumerable<string> PolaDoTabeli()
         {
-            return new string[] 
+            return base.PolaDoTabeli().Concat(new string[] 
             { 
-                kod_1.ToString(), 
                 kod_1.ToString(), 
                 adres, 
                 adres_2 
-            };
-        }
-
-        public override string[] WszystkiePola()
-        {
-            return new string[] 
-            { 
-                kod_1.ToString(), 
-                il_miesz.ToString(), 
-                sp_rozl.ToString(), 
-                adres.Trim(), 
-                adres_2.Trim(), 
-                udzial_w_k.ToString(), 
-                uwagi.Trim()
-            };
+            });
         }
     }
 }

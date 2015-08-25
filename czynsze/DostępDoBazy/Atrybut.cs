@@ -65,18 +65,10 @@ namespace czynsze.DostępDoBazy
         [Display(Name = "uwagi")]
         public string uwagi { get; set; }
 
-        [Display(Name = "kod")]
-        public override int id
+        public override IEnumerable<string> PolaDoTabeli()
         {
-            get { return kod; }
-            set { kod = value; }
-        }
-
-        public override string[] PolaDoTabeli()
-        {
-            return new string[]
+            return base.PolaDoTabeli().Concat(new string[]
             {
-                kod.ToString(),
                 kod.ToString(),
                 nazwa,
                 nr_str,
@@ -84,7 +76,7 @@ namespace czynsze.DostępDoBazy
                 zb_n,
                 zb_b,
                 zb_s
-            };
+            });
         }
 
         public string[] WażnePolaDoRozwijanejListy()
@@ -93,23 +85,6 @@ namespace czynsze.DostępDoBazy
             {
                 kod.ToString(),
                 nazwa
-            };
-        }
-
-        public override string[] WszystkiePola()
-        {
-           return new string[]
-            {
-                kod.ToString(),
-                nazwa.Trim(),
-                nr_str,
-                jedn.Trim(),
-                wartosc,
-                uwagi.Trim(),
-                zb_l,
-                zb_n,
-                zb_b,
-                zb_s
             };
         }
 

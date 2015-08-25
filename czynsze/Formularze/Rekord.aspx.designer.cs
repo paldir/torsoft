@@ -10,7 +10,7 @@
 namespace czynsze.Formularze {
     
     
-    public partial class Record {
+    public partial class Rekord {
         
         /// <summary>
         /// placeOfHeading control.

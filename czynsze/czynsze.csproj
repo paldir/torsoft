@@ -102,7 +102,7 @@
     <Content Include="Formularze\Lista.aspx" />
     <Content Include="Formularze\Ladowanie.aspx" />
     <Content Include="Formularze\PostepGeneracjiNaleznosci.aspx" />
-    <Content Include="Formularze\Record.aspx" />
+    <Content Include="Formularze\Rekord.aspx" />
     <Content Include="Formularze\RecordValidation.aspx" />
     <Content Include="Formularze\Analiza.aspx" />
     <Content Include="Formularze\SkladnikiCzynszuLokalu.aspx" />
@@ -321,12 +321,12 @@
     <Compile Include="Formularze\Strona.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Formularze\Record.aspx.cs">
-      <DependentUpon>Record.aspx</DependentUpon>
+    <Compile Include="Formularze\Rekord.aspx.cs">
+      <DependentUpon>Rekord.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Formularze\Record.aspx.designer.cs">
-      <DependentUpon>Record.aspx</DependentUpon>
+    <Compile Include="Formularze\Rekord.aspx.designer.cs">
+      <DependentUpon>Rekord.aspx</DependentUpon>
     </Compile>
     <Compile Include="Formularze\RecordValidation.aspx.cs">
       <DependentUpon>RecordValidation.aspx</DependentUpon>

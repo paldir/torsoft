@@ -20,32 +20,14 @@ namespace czynsze.DostępDoBazy
         [Display(Name = "konto FK")]
         public string k_syn { get; set; }
 
-        [Display(Name = "kod")]
-        public override int id
+        public override IEnumerable<string> PolaDoTabeli()
         {
-            get { return kod; }
-            set { kod = value; }
-        }
-
-        public override string[] PolaDoTabeli()
-        {
-            return new string[]
+            return base.PolaDoTabeli().Concat(new string[]
             {
-                kod.ToString(),
                 kod.ToString(),
                 k_syn,
                 nazwa
-            };
-        }
-
-        public override string[] WszystkiePola()
-        {
-            return new string[]
-            {
-                kod.ToString(),
-                k_syn.Trim(),
-                nazwa.Trim()
-            };
+            });
         }
 
         public override string Waliduj(Enumeratory.Akcja akcja, string[] rekord)

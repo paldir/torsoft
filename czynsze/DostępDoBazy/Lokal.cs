@@ -10,7 +10,7 @@ namespace czynsze.DostępDoBazy
 {
     public class Lokal : Rekord
     {
-        public int nr_system { get; set; }
+        public int nr_system { get; private set; }
 
         [Display(Name = "budynek"), Unique(1)]
         public int kod_lok { get; set; }
@@ -102,28 +102,19 @@ namespace czynsze.DostępDoBazy
             }
         }
 
-        public override int id
-        {
-            get { return nr_system; }
-            set { nr_system = value; }
-        }
-
         public static List<TypLokalu> TypyLokali { get; set; }
 
-        public override string[] PolaDoTabeli()
+        public override IEnumerable<string> PolaDoTabeli()
         {
-
-
-            return new string[] 
+            return base.PolaDoTabeli().Concat(new string[] 
             { 
-                nr_system.ToString(), 
                 kod_lok.ToString(), 
                 nr_lok.ToString(), 
                 Rozpoznaj_kod_typ(),
                 pow_uzyt.ToString("F2"), 
                 nazwisko, 
                 imie 
-            };
+            });
         }
 
         public string Rozpoznaj_kod_typ()
@@ -134,47 +125,6 @@ namespace czynsze.DostępDoBazy
                 return String.Empty;
             else
                 return typLokalu.typ_lok;
-        }
-
-        public override string[] WszystkiePola()
-        {
-            string dat_od, dat_do;
-
-            if (this.dat_od == null)
-                dat_od = null;
-            else
-                dat_od = String.Format(DostępDoBazy.CzynszeKontekst.FormatDaty, this.dat_od);
-
-            if (this.dat_do == null)
-                dat_do = null;
-            else
-                dat_do = String.Format(DostępDoBazy.CzynszeKontekst.FormatDaty, this.dat_do);
-
-            return new string[] 
-            { 
-                nr_system.ToString(), 
-                kod_lok.ToString(), 
-                nr_lok.ToString(), 
-                kod_typ.ToString(), 
-                adres.Trim(), 
-                adres_2.Trim(), 
-                pow_uzyt.ToString("F2"),
-                pow_miesz.ToString("F2"), 
-                udzial.ToString("F2"), 
-                dat_od,
-                dat_do,
-                p_1.ToString("F2"),
-                p_2.ToString("F2"),
-                p_3.ToString("F2"), 
-                p_4.ToString("F2"), 
-                p_5.ToString("F2"), 
-                p_6.ToString("F2"),
-                kod_kuch.ToString(), 
-                nr_kontr.ToString(), 
-                il_osob.ToString(), 
-                kod_praw.ToString(), 
-                uwagi
-            };
         }
 
         public override void Ustaw(string[] rekord)

@@ -17,13 +17,6 @@ namespace czynsze.DostępDoBazy
         [Display(Name = "typ lokalu")]
         public string typ_lok { get; set; }
 
-        [Display(Name = "kod")]
-        public override int id 
-        { 
-            get { return kod_typ; }
-            set { kod_typ = value; }
-        }
-
         public string[] WażnePolaDoRozwijanejListy()
         {
             return new string[] 
@@ -33,23 +26,13 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public override string[] PolaDoTabeli()
+        public override IEnumerable<string> PolaDoTabeli()
         {
-            return new string[] 
+            return base.PolaDoTabeli().Concat(new string[] 
             { 
-                kod_typ.ToString(),
                 kod_typ.ToString(), 
                 typ_lok 
-            };
-        }
-
-        public override string[] WszystkiePola()
-        {
-            return new string[]
-            {
-                kod_typ.ToString(),
-                typ_lok.Trim()
-            };
+            });
         }
 
         public override void Ustaw(string[] rekord)

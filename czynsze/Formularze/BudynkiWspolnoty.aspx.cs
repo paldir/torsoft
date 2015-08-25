@@ -97,7 +97,7 @@ namespace czynsze.Formularze
                         pierwszaEtykieta = "Nowy budynek: ";
                         tekstPrzyciskuZapisywania = "Dodaj";
                         komentarze = String.Empty;
-                        pierwszaKontrolka = new Kontrolki.DropDownList("field", "kod_1", db.Budynki.AsEnumerable<DostępDoBazy.Budynek>().OrderBy(b => b.kod_1).Select(b => b.PolaDoTabeli()).ToList(), true, false);
+                        pierwszaKontrolka = new Kontrolki.DropDownList("field", "kod_1", db.Budynki.AsEnumerable().OrderBy(b => b.kod_1).Select(b => b.PolaDoTabeli().ToArray()).ToList(), true, false);
                     }
                     else
                     {

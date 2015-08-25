@@ -17,13 +17,6 @@ namespace czynsze.DostępDoBazy
         [Display(Name = "rodzaj najemcy")]
         public string r_najemcy { get; set; }
 
-        [Display(Name = "kod")]
-        public override int id
-        {
-            get { return kod_najem; }
-            set { kod_najem = value; }
-        }
-
         public string[] WażnePolaDoRozwijanejListy()
         {
             return new string[] 
@@ -33,23 +26,13 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public override string[] PolaDoTabeli()
+        public override IEnumerable<string> PolaDoTabeli()
         {
-            return new string[] 
+            return base.PolaDoTabeli().Concat(new string[] 
             { 
-                kod_najem.ToString(),
                 kod_najem.ToString(), 
                 r_najemcy 
-            };
-        }
-
-        public override string[] WszystkiePola()
-        {
-            return new string[] 
-            { 
-                kod_najem.ToString(), 
-                r_najemcy.Trim() 
-            };
+            });
         }
 
         public override void Ustaw(string[] rekord)

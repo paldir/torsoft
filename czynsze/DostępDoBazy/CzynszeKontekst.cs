@@ -276,5 +276,26 @@ namespace czynsze.DostępDoBazy
             {11, "listopad"},
             {12, "grudzień"}
         };
+
+        public static readonly Dictionary<Enumeratory.Tabela, Type> TabelaNaTypRekordu = new Dictionary<Enumeratory.Tabela, Type>()
+        {
+            {Enumeratory.Tabela.AktywneLokale, typeof(AktywnyLokal)},
+            {Enumeratory.Tabela.AktywniNajemcy, typeof(AktywnyNajemca)},
+            {Enumeratory.Tabela.Atrybuty, typeof(Atrybut)},
+            {Enumeratory.Tabela.Budynki, typeof(Budynek)},
+            {Enumeratory.Tabela.GrupyFinansowe, typeof(GrupaFinansowa)},
+            {Enumeratory.Tabela.GrupySkładnikowCzynszu, typeof(GrupaSkładnikówCzynszu)},
+            {Enumeratory.Tabela.NieaktywneLokale, typeof(NieaktywnyLokal)},
+            {Enumeratory.Tabela.NieaktywniNajemcy, typeof(NieaktywnyNajemca)},
+            {Enumeratory.Tabela.RodzajeNajemcy, typeof(TypNajemcy)},
+            {Enumeratory.Tabela.SkladnikiCzynszu, typeof(SkładnikCzynszu)},
+            {Enumeratory.Tabela.StawkiVat, typeof(StawkaVat)},
+            {Enumeratory.Tabela.TypyKuchni, typeof(TypKuchni)},
+            {Enumeratory.Tabela.TypyLokali, typeof(TypLokalu)},
+            {Enumeratory.Tabela.TypyWplat, typeof(RodzajPłatności)},
+            {Enumeratory.Tabela.TytulyPrawne, typeof(TytułPrawny)},
+            {Enumeratory.Tabela.Uzytkownicy, typeof(Użytkownik)},
+            {Enumeratory.Tabela.Wspolnoty, typeof(Wspólnota)},
+        };
     }
 }

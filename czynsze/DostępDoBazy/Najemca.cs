@@ -11,7 +11,7 @@ namespace czynsze.DostępDoBazy
     public class Najemca : Rekord
     {
         [Display(Name = "nr kontr.")]
-        public int nr_kontr { get; set; }
+        public int nr_kontr { get; private set; }
 
         [Display(Name = "nazwisko")]
         public string nazwisko { get; set; }
@@ -47,12 +47,6 @@ namespace czynsze.DostępDoBazy
 
         string uwagi_2 { get; set; }
 
-        public override int id
-        {
-            get { return nr_kontr; }
-            set { nr_kontr = value; }
-        }
-
         [Display(Name = "uwagi")]
         [NotMapped]
         public string uwagi
@@ -69,36 +63,16 @@ namespace czynsze.DostępDoBazy
 
         public static List<AktywnyLokal> AktywneLokale { get; set; }
 
-        public override string[] PolaDoTabeli()
+        public override IEnumerable<string> PolaDoTabeli()
         {
-            return new string[] 
+            return base.PolaDoTabeli().Concat(new string[] 
             { 
-                nr_kontr.ToString(), 
                 nr_kontr.ToString(), 
                 nazwisko, 
                 imie, 
                 adres_1, 
                 adres_2 
-            };
-        }
-
-        public override string[] WszystkiePola()
-        {
-            return new string[] 
-            { 
-                nr_kontr.ToString(), 
-                kod_najem.ToString(), 
-                nazwisko.Trim(), 
-                imie.Trim(), 
-                adres_1.Trim(),
-                adres_2.Trim(), 
-                nr_dow.Trim(), 
-                pesel.Trim(), 
-                nazwa_z.Trim(), 
-                e_mail.Trim(), 
-                l__has.Trim(), 
-                uwagi
-            };
+            });
         }
 
         public override string Waliduj(Enumeratory.Akcja akcja, string[] rekord)

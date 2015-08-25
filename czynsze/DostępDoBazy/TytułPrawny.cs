@@ -17,13 +17,6 @@ namespace czynsze.DostępDoBazy
         [Display(Name = "tytuł prawny")]
         public string tyt_prawny { get; set; }
 
-        [Display(Name = "kod")]
-        public override int id
-        {
-            get { return kod_praw; }
-            set { kod_praw = value; }
-        }
-
         public string[] WażnePolaDoRozwijanejListy()
         {
             return new string[] 
@@ -33,23 +26,13 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public override string[] PolaDoTabeli()
+        public override IEnumerable<string> PolaDoTabeli()
         {
-            return new string[] 
+            return base.PolaDoTabeli().Concat(new string[] 
             { 
-                kod_praw.ToString(), 
                 kod_praw.ToString(), 
                 tyt_prawny 
-            };
-        }
-
-        public override string[] WszystkiePola()
-        {
-            return new string[] 
-            { 
-                kod_praw.ToString(), 
-                tyt_prawny.Trim()
-            };
+            });
         }
 
         public override void Ustaw(string[] rekord)

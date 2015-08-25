@@ -28,12 +28,6 @@ namespace czynsze.DostępDoBazy
 
         public float ilosc { get; set; }
 
-        public override int id 
-        {
-            get { return __record; }
-            set { __record = value; }
-        }
-
         public override DateTime Data
         {
             get { return data_nal; }
@@ -90,22 +84,16 @@ namespace czynsze.DostępDoBazy
             return String.Empty;
         }
 
-        public override string[] WszystkiePola()
+        public override IEnumerable<string> PolaDoTabeli()
         {
-            throw new InvalidOperationException();
-        }
-
-        public override string[] PolaDoTabeli()
-        {
-            return new string[]
+            return base.PolaDoTabeli().Concat(new string[]
             {
-                __record.ToString(),
                 kwota_nal.ToString("F2"),
                 String.Format(DostępDoBazy.CzynszeKontekst.FormatDaty, data_nal),
                 opis,
                 kod_lok.ToString(),
                 nr_lok.ToString()
-            };
+            });
         }
 
         public string[] WażnePolaDoNależnościIObrotówNajemcy()

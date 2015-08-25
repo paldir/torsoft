@@ -18,7 +18,7 @@ namespace czynsze.DostępDoBazy
 
         public abstract string wartosc_s { get; set; }
 
-        public string[] PolaDoTabeli()
+        public IEnumerable<string> PolaDoTabeli()
         {
             Atrybut atrybut;
             string wartosc = String.Empty;

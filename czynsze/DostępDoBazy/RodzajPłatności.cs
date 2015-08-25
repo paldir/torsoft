@@ -38,13 +38,6 @@ namespace czynsze.DostępDoBazy
         [Display(Name = "SWW")]
         public string sww { get; set; }
 
-        [Display(Name = "kod")]
-        public override int id
-        {
-            get { return kod_wplat; }
-            set { kod_wplat = value; }
-        }
-
         public int IdInformacji
         {
             get { return -kod_wplat; }
@@ -106,33 +99,16 @@ namespace czynsze.DostępDoBazy
             }
         }
 
-        public override string[] PolaDoTabeli()
+        public override IEnumerable<string> PolaDoTabeli()
         {
-            return new string[]
+            return base.PolaDoTabeli().Concat(new string[]
             {
-                kod_wplat.ToString(),
                 kod_wplat.ToString(),
                 typ_wplat,
                 Rozpoznaj_s_rozli(),
                 Rozpoznaj_tn_odset(),
                 Rozpoznaj_nota_odset()
-            };
-        }
-
-        public override string[] WszystkiePola()
-        {
-            return new string[]
-            {
-                kod_wplat.ToString(),
-                typ_wplat.Trim(),
-                rodz_e.ToString(),
-                s_rozli.ToString(),
-                kod.ToString(),
-                tn_odset.ToString(),
-                nota_odset.ToString(),
-                vat.Trim(),
-                sww.Trim()
-            };
+            });
         }
 
         public override void Ustaw(string[] record)

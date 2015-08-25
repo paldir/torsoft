@@ -99,7 +99,7 @@ namespace czynsze.Formularze
             {
                 //table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))]);
                 _tabela = PobierzWartośćParametru<Enumeratory.Tabela>("table");
-                string url = "Record.aspx";
+                string url = "Rekord.aspx";
                 string nagłówek;
                 string węzełŚcieżkiStrony;
                 List<string[]> podMenu = null;
@@ -107,9 +107,6 @@ namespace czynsze.Formularze
                 int id = PobierzWartośćParametru<int>("id");//-1;
                 IEnumerable<DostępDoBazy.Rekord> rekordyTabeli = null;
                 string nazwaPrzycisków = "action";
-
-                //if (Request.Params["id"] != null)
-                //  id = (int)Enum.Parse(typeof(int), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("dfsdf"))]);
 
                 switch (_tabela)
                 {
@@ -455,7 +452,7 @@ namespace czynsze.Formularze
                 }
 
                 if (!IsPostBack)
-                    _wiersze = rekordyTabeli.Select(r => r.PolaDoTabeli()).ToList();
+                    _wiersze = rekordyTabeli.Select(r => r.PolaDoTabeli().ToArray()).ToList();
 
                 DostępDoBazy.Lokal.TypyLokali = null;
 
@@ -595,16 +592,16 @@ namespace czynsze.Formularze
             switch (_porządekSortowania)
             {
                 case Enumeratory.PorządekSortowania.Rosnaco:
-                    try { _wiersze = _wiersze.OrderByDescending(r => Single.Parse(r[numerKolumny])).ToList(); }
-                    catch { _wiersze = _wiersze.OrderByDescending(r => r[numerKolumny]).ToList(); }
+                    try { _wiersze = _wiersze.OrderByDescending(r => Single.Parse(r.ElementAt(numerKolumny))).ToList(); }
+                    catch { _wiersze = _wiersze.OrderByDescending(r => r.ElementAt(numerKolumny)).ToList(); }
 
                     _porządekSortowania = Enumeratory.PorządekSortowania.Malejaco;
 
                     break;
 
                 case Enumeratory.PorządekSortowania.Malejaco:
-                    try { _wiersze = _wiersze.OrderBy(r => Single.Parse(r[numerKolumny])).ToList(); }
-                    catch { _wiersze = _wiersze.OrderBy(r => r[numerKolumny]).ToList(); }
+                    try { _wiersze = _wiersze.OrderBy(r => Single.Parse(r.ElementAt(numerKolumny))).ToList(); }
+                    catch { _wiersze = _wiersze.OrderBy(r => r.ElementAt(numerKolumny)).ToList(); }
 
                     _porządekSortowania = Enumeratory.PorządekSortowania.Rosnaco;
 
@@ -621,12 +618,12 @@ namespace czynsze.Formularze
             switch (lista.SelectedValue)
             {
                 case "nazwisko":
-                    _wiersze = _wiersze.OrderBy(r => r[1]).ThenBy(r => r[2]).ToList();
+                    _wiersze = _wiersze.OrderBy(r => r.ElementAt(1)).ThenBy(r => r.ElementAt(2)).ToList();
 
                     break;
 
                 case "kod":
-                    _wiersze = _wiersze.OrderBy(r => Single.Parse(r[3])).ThenBy(r => Single.Parse(r[4])).ToList();
+                    _wiersze = _wiersze.OrderBy(r => Single.Parse(r.ElementAt(3))).ThenBy(r => Single.Parse(r.ElementAt(4))).ToList();
 
                     break;
             }
