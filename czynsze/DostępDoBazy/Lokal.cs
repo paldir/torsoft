@@ -12,10 +12,10 @@ namespace czynsze.DostępDoBazy
     {
         public int nr_system { get; private set; }
 
-        [Display(Name = "budynek"), Unique(1)]
+        [Display(Name = "budynek")]
         public int kod_lok { get; set; }
 
-        [Display(Name = "nr lokalu"), Unique(1)]
+        [Display(Name = "nr lokalu")]
         public int nr_lok { get; set; }
 
         [Display(Name = "typ")]

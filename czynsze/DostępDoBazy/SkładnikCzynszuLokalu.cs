@@ -11,22 +11,19 @@ namespace czynsze.DostępDoBazy
     [Table("skl_cz", Schema = "public")]
     public class SkładnikCzynszuLokalu
     {
-        [Key, Column("kod_lok", Order = 0)]
+        [Key, Column(Order = 0)]
         public int kod_lok { get; set; }
 
-        [Key, Column("nr_lok", Order = 1)]
+        [Key, Column(Order = 1)]
         public int nr_lok { get; set; }
 
-        [Key, Column("nr_skl", Order = 2)]
+        [Key, Column(Order = 2)]
         public int nr_skl { get; set; }
 
-        [Column("dan_p")]
         public float dan_p { get; set; }
 
-        [Column("dat_od")]
         public Nullable<DateTime> dat_od { get; set; }
 
-        [Column("dat_do")]
         public Nullable<DateTime> dat_do { get; set; }
 
         public static List<AktywnyLokal> Lokale { get; set; }

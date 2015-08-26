@@ -11,19 +11,15 @@ namespace czynsze.DostępDoBazy
     [Table("cechy_b", Schema = "public")]
     public class AtrybutBudynku : AtrybutObiektu
     {
-        [Key, Column("__record")]
+        /*[Key]
         public override int __record { get; set; }
 
-        [Column("kod")]
         public override int kod { get; set; }
 
-        [Column("kod_powiaz")]
         public override string kod_powiaz { get; set; }
 
-        [Column("wartosc_n")]
         public override float wartosc_n { get; set; }
 
-        [Column("wartosc_s")]
-        public override string wartosc_s { get; set; }
+        public override string wartosc_s { get; set; }*/
     }
 }

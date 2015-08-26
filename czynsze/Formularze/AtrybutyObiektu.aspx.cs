@@ -19,12 +19,9 @@ namespace czynsze.Formularze
         {
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
-                //EnumP.AttributeOf attributeOf = (EnumP.AttributeOf)Enum.Parse(typeof(EnumP.AttributeOf), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("attributeOf"))]);
                 Enumeratory.Atrybut atrybutDotyczy = PobierzWartośćParametru<Enumeratory.Atrybut>("attributeOf");
-                //EnumP.Action action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("action"))]);
                 Enumeratory.Akcja akcja = PobierzWartośćParametru<Enumeratory.Akcja>("action");
                 Enumeratory.Akcja akcjaDziecka = Enumeratory.Akcja.Przeglądaj;
-                //int parentId = Int32.Parse(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("parentId"))]);
                 int idRodzica = PobierzWartośćParametru<int>("parentId");
                 int id = PobierzWartośćParametru<int>("id");
                 string[] rekord;
@@ -120,7 +117,7 @@ namespace czynsze.Formularze
                         atrybut.__record.ToString(),
                         atrybut.kod.ToString(),
                         wartosc,
-                        atrybut.kod_powiaz
+                        atrybut.kod_powiaz_
                     };
 
                         if (DostępDoBazy.AtrybutObiektu.Waliduj(akcjaDziecka, rekord, _atrybutyObiektu))

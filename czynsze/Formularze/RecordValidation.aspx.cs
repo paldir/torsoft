@@ -41,9 +41,7 @@ namespace czynsze.Formularze
                 string[] recordFields = null;
                 string validationResult = null;
                 string dbWriteResult = null;
-                //table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(t => t.EndsWith("table"))]);
                 table = PobierzWartośćParametru<Enumeratory.Tabela>("table");
-                //action = (EnumP.Action)Enum.Parse(typeof(EnumP.Action), Request.Params[Request.Params.AllKeys.FirstOrDefault(t => t.EndsWith("action"))]);
                 action = PobierzWartośćParametru<Enumeratory.Akcja>("action");
                 string backUrl = "javascript: Load('Lista.aspx?table=" + table + "')";
                 string nominativeCase = String.Empty;
@@ -53,24 +51,23 @@ namespace czynsze.Formularze
                 Type inactiveType = null;
 
                 Dictionary<Enumeratory.Akcja, string> dictionaryOfActionInfinitives = new Dictionary<Enumeratory.Akcja, string>()
-            {
-                { Enumeratory.Akcja.Dodaj, "dodać" },
-                { Enumeratory.Akcja.Edytuj, "edytować" },
-                { Enumeratory.Akcja.Przenieś, "przenieść" },
-                { Enumeratory.Akcja.Usuń, "usunąć" }
-            };
+                {
+                    { Enumeratory.Akcja.Dodaj, "dodać" },
+                    { Enumeratory.Akcja.Edytuj, "edytować" },
+                    { Enumeratory.Akcja.Przenieś, "przenieść" },
+                    { Enumeratory.Akcja.Usuń, "usunąć" }
+                };
 
                 Dictionary<Enumeratory.Akcja, string> dictionaryOfActionParticiples = new Dictionary<Enumeratory.Akcja, string>()
-            {
-                { Enumeratory.Akcja.Dodaj, "dodany" },
-                { Enumeratory.Akcja.Edytuj, "wyedytowany" },
-                { Enumeratory.Akcja.Przenieś, "przeniesiony" },
-                { Enumeratory.Akcja.Usuń, "usunięty" }
-            };
+                {
+                    { Enumeratory.Akcja.Dodaj, "dodany" },
+                    { Enumeratory.Akcja.Edytuj, "wyedytowany" },
+                    { Enumeratory.Akcja.Przenieś, "przeniesiony" },
+                    { Enumeratory.Akcja.Usuń, "usunięty" }
+                };
 
                 if (action != Enumeratory.Akcja.Dodaj)
                 {
-                    //id = Int32.Parse(Request.Params[Request.Params.AllKeys.FirstOrDefault(t => t.EndsWith("id"))]);
                     id = PobierzWartośćParametru<int>("id");
 
                     form.Controls.Add(new Kontrolki.HtmlInputHidden("id", id.ToString()));
@@ -451,7 +448,7 @@ namespace czynsze.Formularze
                                     if (dbSetOfAttributes != null)
                                         foreach (DostępDoBazy.AtrybutObiektu attribute in attributesOfObject)
                                         {
-                                            attribute.kod_powiaz = recordFields[0];
+                                            attribute.kod_powiaz_ = recordFields[0];
 
                                             dbSetOfAttributes.Add(attribute);
                                         }
@@ -497,7 +494,9 @@ namespace czynsze.Formularze
 
                                     if (dbSetOfAttributes != null)
                                     {
-                                        foreach (DostępDoBazy.AtrybutObiektu attributeOfObject in dbSetOfAttributes.ToListAsync().Result.Cast<DostępDoBazy.AtrybutObiektu>().Where(a => a.kod_powiaz.Trim() == id.ToString()))
+                                        DostępDoBazy.AtrybutLokalu.Lokale = db.AktywneLokale.ToList();
+
+                                        foreach (DostępDoBazy.AtrybutObiektu attributeOfObject in dbSetOfAttributes.ToListAsync().Result.Cast<DostępDoBazy.AtrybutObiektu>().Where(a => a.kod_powiaz_.Trim() == id.ToString()))
                                             dbSetOfAttributes.Remove(attributeOfObject);
 
                                         foreach (DostępDoBazy.AtrybutObiektu attributeOfObject in attributesOfObject)
@@ -546,7 +545,7 @@ namespace czynsze.Formularze
                                     dbSet.Remove(record);
 
                                     if (dbSetOfAttributes != null)
-                                        foreach (DostępDoBazy.AtrybutObiektu attributeOfObject in dbSetOfAttributes.ToListAsync().Result.Cast<DostępDoBazy.AtrybutObiektu>().Where(a => a.kod_powiaz.Trim() == id.ToString()))
+                                        foreach (DostępDoBazy.AtrybutObiektu attributeOfObject in dbSetOfAttributes.ToListAsync().Result.Cast<DostępDoBazy.AtrybutObiektu>().Where(a => a.kod_powiaz_.Trim() == id.ToString()))
                                             dbSetOfAttributes.Remove(attributeOfObject);
 
                                     switch (table)
@@ -618,6 +617,8 @@ namespace czynsze.Formularze
                 }
                 else
                     placeOfButtons.Controls.Add(new Kontrolki.Button("button", "Back", "Powrót", backUrl));
+
+                DostępDoBazy.AtrybutLokalu.Lokale = null;
             }
         }
 
@@ -631,7 +632,7 @@ namespace czynsze.Formularze
                 {
                     właściwość.SetValue(rekord, PobierzWartośćParametru(właściwość.Name, właściwość.PropertyType));
                 }
-                catch (Exception)
+                catch (TargetInvocationException)
                 {
                     nazwyPólZProblemami.Add(właściwość.GetCustomAttribute<System.ComponentModel.DataAnnotations.DisplayAttribute>().Name);
                 }

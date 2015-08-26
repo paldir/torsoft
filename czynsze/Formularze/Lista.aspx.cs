@@ -97,14 +97,13 @@ namespace czynsze.Formularze
         {
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
-                //table = (EnumP.Table)Enum.Parse(typeof(EnumP.Table), Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))]);
                 _tabela = PobierzWartośćParametru<Enumeratory.Tabela>("table");
                 string url = "Rekord.aspx";
                 string nagłówek;
                 string węzełŚcieżkiStrony;
                 List<string[]> podMenu = null;
                 _sortowalna = true;
-                int id = PobierzWartośćParametru<int>("id");//-1;
+                int __record = PobierzWartośćParametru<int>("id");//-1;
                 IEnumerable<DostępDoBazy.Rekord> rekordyTabeli = null;
                 string nazwaPrzycisków = "action";
 
@@ -387,9 +386,9 @@ namespace czynsze.Formularze
                         _indeksyKolumnNumerycznych = new List<int>() { 1, 4, 5 };
                         _indeksyKolumnZPodsumowaniem = new List<int>() { 1 };
                         {
-                            DostępDoBazy.Najemca najemca = db.AktywniNajemcy.FirstOrDefault(t => t.nr_kontr == id);
+                            DostępDoBazy.Najemca najemca = db.AktywniNajemcy.Find(__record);
                             nagłówek = String.Format("Należności najemcy {0} {1}", najemca.nazwisko, najemca.imie);
-                            List<DostępDoBazy.Należność1> należności = db.Należności1.Where(r => r.nr_kontr == id).OrderBy(r => r.data_nal).ToList();
+                            List<DostępDoBazy.Należność1> należności = db.Należności1.Where(r => r.nr_kontr == najemca.nr_kontr).OrderBy(r => r.data_nal).ToList();
 
                             switch (_tabela)
                             {
@@ -416,7 +415,7 @@ namespace czynsze.Formularze
                         _indeksyKolumnNumerycznych = new List<int>() { 1, 6 };
                         {
                             IEnumerable<DostępDoBazy.Obrót> obroty = null;
-                            DostępDoBazy.Najemca najemca = db.AktywniNajemcy.FirstOrDefault(t => t.nr_kontr == id);
+                            DostępDoBazy.Najemca najemca = db.AktywniNajemcy.Find(__record);
                             nagłówek = węzełŚcieżkiStrony = "Obroty najemcy " + najemca.nazwisko + " " + najemca.imie;
 
                             switch (Start.AktywnyZbiór)
@@ -437,9 +436,9 @@ namespace czynsze.Formularze
                                     break;
                             }
 
-                            rekordyTabeli = obroty.Where(t => t.nr_kontr == id).OrderBy(t => t.data_obr);
+                            rekordyTabeli = obroty.Where(t => t.nr_kontr == najemca.nr_kontr).OrderBy(t => t.data_obr);
 
-                            placeOfMainTableButtons.Controls.Add(new Kontrolki.HtmlInputHidden("additionalId", id.ToString()));
+                            placeOfMainTableButtons.Controls.Add(new Kontrolki.HtmlInputHidden("additionalId", __record.ToString()));
                         }
 
                         break;

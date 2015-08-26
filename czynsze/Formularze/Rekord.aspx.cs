@@ -17,20 +17,26 @@ namespace czynsze.Formularze
 
         List<DostępDoBazy.AtrybutObiektu> _atrybutyObiektu
         {
-            get { return (List<DostępDoBazy.AtrybutObiektu>)Session["attributesOfObject"]; }
+            get { return Session["attributesOfObject"] as List<DostępDoBazy.AtrybutObiektu>; }
             set { Session["attributesOfObject"] = value; }
         }
 
         List<DostępDoBazy.SkładnikCzynszuLokalu> _składnikiCzynszuLokalu
         {
-            get { return (List<DostępDoBazy.SkładnikCzynszuLokalu>)Session["rentComponentsOfPlace"]; }
+            get { return Session["rentComponentsOfPlace"] as List<DostępDoBazy.SkładnikCzynszuLokalu>; }
             set { Session["rentComponentsOfPlace"] = value; }
         }
 
         List<DostępDoBazy.BudynekWspólnoty> _budynkiWspólnoty
         {
-            get { return (List<DostępDoBazy.BudynekWspólnoty>)Session["communityBuildings"]; }
+            get { return Session["communityBuildings"] as List<DostępDoBazy.BudynekWspólnoty>; }
             set { Session["communityBuildings"] = value; }
+        }
+
+        DostępDoBazy.Rekord _rekord
+        {
+            get { return Session["rekord"] as DostępDoBazy.Rekord; }
+            set { Session["rekord"] = value; }
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -52,7 +58,6 @@ namespace czynsze.Formularze
                 _akcja = PobierzWartośćParametru<Enumeratory.Akcja>("action");
                 _tabela = PobierzWartośćParametru<Enumeratory.Tabela>("table");
                 string zwrotnyUrl = "javascript: Load('" + Request.UrlReferrer + "')";
-                DostępDoBazy.Rekord rekord = Session["rekord"] as DostępDoBazy.Rekord;
                 Type typRekordu = DostępDoBazy.CzynszeKontekst.TabelaNaTypRekordu[_tabela];
                 System.Data.Entity.DbSet zbiór = db.Set(typRekordu);
                 /*Dictionary<bool, string> fromIdEnabledToIdSuffix = new Dictionary<bool, string>()
@@ -61,21 +66,21 @@ namespace czynsze.Formularze
                     {false, "_disabled"}
                 };*/
 
-                if (rekord == null)
+                if (_rekord == null)
                     switch (_akcja)
                     {
                         case Enumeratory.Akcja.Dodaj:
-                            rekord = Activator.CreateInstance(typRekordu) as DostępDoBazy.Rekord;
+                            _rekord = Activator.CreateInstance(typRekordu) as DostępDoBazy.Rekord;
 
                             break;
 
                         default:
-                            rekord = zbiór.Find(__record) as DostępDoBazy.Rekord;
+                            _rekord = zbiór.Find(__record) as DostępDoBazy.Rekord;
 
                             break;
                     }
 
-                if (rekord.GetType().GetProperty("__record") == null)
+                if (_rekord.GetType().GetProperty("__record") == null)
                     throw new Exception("Rekord nie zawiera pola __record.");
 
                 switch (_akcja)
@@ -140,7 +145,7 @@ namespace czynsze.Formularze
                         Title = "Budynek";
                         nagłówek += "budynku";
                         zmianaKolumn = new List<int>() { 0, 6 };
-                        DostępDoBazy.Budynek budynek = rekord as DostępDoBazy.Budynek;
+                        DostępDoBazy.Budynek budynek = _rekord as DostępDoBazy.Budynek;
                         int kodBudynku = budynek.kod_1;
                         etykiety = new string[] 
                         { 
@@ -157,22 +162,25 @@ namespace czynsze.Formularze
                         {
                             new Kontrolki.HtmlInputRadioButton("tabRadio", "dane", "tabRadios", "dane", true),
                             new Kontrolki.HtmlInputRadioButton("tabRadio", "cechy", "tabRadios", "cechy", false),
+                            new Kontrolki.HtmlInputRadioButton("tabRadio", "dokumenty", "tabRadios", "dokumenty", false)
                         };
 
                         etykietyZakładek = new List<Kontrolki.Label>()
                         {
                             new Kontrolki.Label("tabLabel", przyciskiZakładek.ElementAt(0).ID, "Dane", String.Empty),
                             new Kontrolki.Label("tabLabel", przyciskiZakładek.ElementAt(1).ID, "Cechy", String.Empty),
+                            new Kontrolki.Label("tabLabel", przyciskiZakładek.ElementAt(2).ID, "Dokumenty", String.Empty)
                         };
 
                         zakładki = new List<Kontrolki.HtmlIframe>()
                         {
-                            new Kontrolki.HtmlIframe("tab", "cechy_tab", "AtrybutyObiektu.aspx?attributeOf="+Enumeratory.Atrybut.Budynku+"&parentId="+kodBudynku+"&action="+_akcja.ToString()+"&childAction=Przeglądaj", "hidden")
+                            new Kontrolki.HtmlIframe("tab", "cechy_tab", "AtrybutyObiektu.aspx?attributeOf="+Enumeratory.Atrybut.Budynku+"&parentId="+kodBudynku+"&action="+_akcja.ToString()+"&childAction=Przeglądaj", "hidden"),
+                            new Kontrolki.HtmlIframe("tab", "dokumenty_tab", String.Empty, "hidden")
                         };
 
                         _atrybutyObiektu = new List<DostępDoBazy.AtrybutObiektu>();
 
-                        foreach (DostępDoBazy.AtrybutBudynku attributeOfBuilding in db.AtrybutyBudynków.ToList().Where(a => Int32.Parse(a.kod_powiaz) == kodBudynku))
+                        foreach (DostępDoBazy.AtrybutBudynku attributeOfBuilding in db.AtrybutyBudynków.ToList().Where(a => Int32.Parse(a.kod_powiaz_) == kodBudynku))
                             _atrybutyObiektu.Add(attributeOfBuilding);
 
                         podgląd = new List<Control>()
@@ -234,7 +242,7 @@ namespace czynsze.Formularze
                             "Uwagi: " 
                         };
 
-                        DostępDoBazy.Lokal lokal = rekord as DostępDoBazy.Lokal;
+                        DostępDoBazy.Lokal lokal = _rekord as DostępDoBazy.Lokal;
 
                         /*if (rekord == null)
                         {
@@ -273,9 +281,12 @@ namespace czynsze.Formularze
 
                         _atrybutyObiektu = new List<DostępDoBazy.AtrybutObiektu>();
                         _składnikiCzynszuLokalu = new List<DostępDoBazy.SkładnikCzynszuLokalu>();
-                        lokal = rekord as DostępDoBazy.Lokal;
+                        lokal = _rekord as DostępDoBazy.Lokal;
 
-                        _atrybutyObiektu.AddRange(db.AtrybutyLokali.AsEnumerable().Where(a => Int32.Parse(a.kod_powiaz) == __record));
+                        DostępDoBazy.AtrybutLokalu.Lokale = db.AktywneLokale.ToList();
+                        _atrybutyObiektu.AddRange(db.AtrybutyLokali.AsEnumerable().Where(a => Int32.Parse(a.kod_powiaz_) == __record));
+                        DostępDoBazy.AtrybutLokalu.Lokale = null;
+
                         _składnikiCzynszuLokalu.AddRange(db.SkładnikiCzynszuLokalu.AsEnumerable().Where(c => c.kod_lok == lokal.kod_lok && c.nr_lok == lokal.nr_lok));
                         //}
 
@@ -436,7 +447,7 @@ namespace czynsze.Formularze
                             nagłówek += "(nieaktywnego)";
                         }
 
-                        DostępDoBazy.Najemca najemca = rekord as DostępDoBazy.Najemca;
+                        DostępDoBazy.Najemca najemca = _rekord as DostępDoBazy.Najemca;
 
                         /*if (rekord == null)
                         {
@@ -471,7 +482,7 @@ namespace czynsze.Formularze
 
                         _atrybutyObiektu = new List<DostępDoBazy.AtrybutObiektu>();
 
-                        foreach (DostępDoBazy.AtrybutNajemcy attributeOfTenant in db.AtrybutyNajemców.ToList().Where(a => Int32.Parse(a.kod_powiaz) == __record))
+                        foreach (DostępDoBazy.AtrybutNajemcy attributeOfTenant in db.AtrybutyNajemców.ToList().Where(a => Int32.Parse(a.kod_powiaz_) == __record))
                             _atrybutyObiektu.Add(attributeOfTenant);
                         //}
 
@@ -540,7 +551,7 @@ namespace czynsze.Formularze
                             "Przedziały za osobę (dotyczy sposoby naliczania &quot;za osobę - przedziały&quot): "
                         };
 
-                        DostępDoBazy.SkładnikCzynszu składnikCzynszu = rekord as DostępDoBazy.SkładnikCzynszu;
+                        DostępDoBazy.SkładnikCzynszu składnikCzynszu = _rekord as DostępDoBazy.SkładnikCzynszu;
 
                         kontrolki.Add(new Kontrolki.TextBox("field", "nr_skl", Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 3, 1, kontrolkiWłączone));
                         kontrolki.Add(new Kontrolki.TextBox("field", "nazwa", Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 30, 1, kontrolkiWłączone));
@@ -589,7 +600,7 @@ namespace czynsze.Formularze
                         Title = "Wspólnota";
                         nagłówek += "wspólnoty";
                         zmianaKolumn = new List<int>() { 0, 7 };
-                        DostępDoBazy.Wspólnota wspólnota = rekord as DostępDoBazy.Wspólnota;
+                        DostępDoBazy.Wspólnota wspólnota = _rekord as DostępDoBazy.Wspólnota;
                         int kodWspólnoty = wspólnota.kod;
                         etykiety = new string[]
                         {
@@ -617,7 +628,7 @@ namespace czynsze.Formularze
                         _atrybutyObiektu = new List<DostępDoBazy.AtrybutObiektu>();
                         _budynkiWspólnoty = new List<DostępDoBazy.BudynekWspólnoty>();
 
-                        _atrybutyObiektu.AddRange(db.AtrybutyWspólnot.AsEnumerable().Where(a => Int32.Parse(a.kod_powiaz) == kodWspólnoty));
+                        _atrybutyObiektu.AddRange(db.AtrybutyWspólnot.AsEnumerable().Where(a => Int32.Parse(a.kod_powiaz_) == kodWspólnoty));
                         _budynkiWspólnoty.AddRange(db.BudynkiWspólnot.Where(c => c.kod == kodWspólnoty).OrderBy(b => b.kod_1));
                         //}
 
@@ -807,7 +818,7 @@ namespace czynsze.Formularze
                         Title = "Stawka VAT";
                         nagłówek += "stawki VAT";
                         zmianaKolumn = new List<int>() { 0 };
-                        DostępDoBazy.StawkaVat stawkaVat = rekord as DostępDoBazy.StawkaVat;
+                        DostępDoBazy.StawkaVat stawkaVat = _rekord as DostępDoBazy.StawkaVat;
                         etykiety = new string[]
                         {
                             "Oznaczenie stawki: ",
@@ -834,7 +845,7 @@ namespace czynsze.Formularze
                             "Dotyczy: "
                         };
 
-                        DostępDoBazy.Atrybut atrybut = rekord as DostępDoBazy.Atrybut;
+                        DostępDoBazy.Atrybut atrybut = _rekord as DostępDoBazy.Atrybut;
 
                         switch (_akcja)
                         {
@@ -886,19 +897,19 @@ namespace czynsze.Formularze
 
                         DostępDoBazy.Użytkownik użytkownik;
 
-                        if (rekord == null)
+                        if (_rekord == null)
                         {
                             if (_akcja != Enumeratory.Akcja.Dodaj)
                             {
-                                rekord = db.Użytkownicy.Single(u => u.__record == __record);
-                                użytkownik = rekord as DostępDoBazy.Użytkownik;
+                                _rekord = db.Użytkownicy.Single(u => u.__record == __record);
+                                użytkownik = _rekord as DostępDoBazy.Użytkownik;
                                 użytkownik.haslo = String.Empty;
                             }
                             else
-                                rekord = new DostępDoBazy.Użytkownik();
+                                _rekord = new DostępDoBazy.Użytkownik();
                         }
 
-                        użytkownik = rekord as DostępDoBazy.Użytkownik;
+                        użytkownik = _rekord as DostępDoBazy.Użytkownik;
 
                         form.Controls.Add(new Kontrolki.HtmlInputHidden("id", użytkownik.__record));
                         kontrolki.Add(new Kontrolki.TextBox("field", "symbol", Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 2, 1, kontrolkiWłączone));
@@ -932,46 +943,40 @@ namespace czynsze.Formularze
                             "Uwagi"
                         };
 
-                        DostępDoBazy.Obrót obrót = rekord as DostępDoBazy.Obrót;
+                        DostępDoBazy.Obrót obrót = _rekord as DostępDoBazy.Obrót;
 
-                        if (rekord == null)
+                        if (_rekord == null)
                         {
-                            IEnumerable<DostępDoBazy.Obrót> turnOvers = null;
-
                             switch (Start.AktywnyZbiór)
                             {
                                 case Enumeratory.Zbiór.Czynsze:
-                                    turnOvers = db.Obroty1.AsEnumerable<DostępDoBazy.Obrót>();
+                                    zbiór = db.Obroty1;
 
                                     break;
 
                                 case Enumeratory.Zbiór.Drugi:
-                                    turnOvers = db.Obroty2.AsEnumerable<DostępDoBazy.Obrót>();
+                                    zbiór = db.Obroty2;
 
                                     break;
 
                                 case Enumeratory.Zbiór.Trzeci:
-                                    turnOvers = db.Obroty3.AsEnumerable<DostępDoBazy.Obrót>();
+                                    zbiór = db.Obroty3;
 
                                     break;
                             }
 
                             if (_akcja != Enumeratory.Akcja.Dodaj)
-                                rekord = turnOvers.Single(t => t.__record == __record);
+                                _rekord = zbiór.Find(__record) as DostępDoBazy.Rekord;
                             else
-                            {
-                                obrót.nr_kontr = PobierzWartośćParametru<int>("additionalId");
-                            }
+                                (_rekord as DostępDoBazy.Obrót).nr_kontr = PobierzWartośćParametru<int>("additionalId");
                         }
 
-                        form.Controls.Add(new Kontrolki.HtmlInputHidden("id", obrót.__record));
                         kontrolki.Add(new Kontrolki.TextBox("field", "suma", Kontrolki.TextBox.TextBoxMode.LiczbaNiecałkowita, 14, 1, kontrolkiWłączone));
                         kontrolki.Add(new Kontrolki.TextBox("field", "data_obr", Kontrolki.TextBox.TextBoxMode.Data, 10, 1, kontrolkiWłączone));
                         kontrolki.Add(new Kontrolki.TextBox("field", String.Empty, Kontrolki.TextBox.TextBoxMode.Data, 10, 1, kontrolkiWłączone));
 
                         List<DostępDoBazy.RodzajPłatności> typesOfPayment = db.RodzajePłatności.ToList();
 
-                        //controls.Add(new Kontrolki.RadioButtonList("field", "kod_wplat", typesOfPayment.Select(t => t.typ_wplat).ToList(), typesOfPayment.Select(t => t.kod_wplat.ToString()).ToList(), values[4], globalEnabled, false));
                         kontrolki.Add(new Kontrolki.DropDownList("field", "kod_wplat", typesOfPayment.Select(t => t.ImportantFieldsForDropdown()).ToList(), kontrolkiWłączone, false));
                         kontrolki.Add(new Kontrolki.TextBox("field", "nr_dowodu", Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 11, 1, kontrolkiWłączone));
                         kontrolki.Add(new Kontrolki.TextBox("field", "pozycja_d", Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 2, 1, kontrolkiWłączone));
@@ -1005,7 +1010,7 @@ namespace czynsze.Formularze
                     if (!String.IsNullOrEmpty(idKontrolki))
                     {
                         PropertyInfo właściwość = właściwościDoPobrania.Single(w => w.Name == idKontrolki);
-                        object wartość = właściwość.GetValue(rekord);
+                        object wartość = właściwość.GetValue(_rekord);
                         etykieta = właściwość.GetCustomAttribute<System.ComponentModel.DataAnnotations.DisplayAttribute>(true).Name;
                         etykieta = String.Concat(Char.ToUpper(etykieta[0]), etykieta.Substring(1), ": ");
 

@@ -25,53 +25,53 @@
         Init();
 
         <%
-        string table = Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("table"))];
+        czynsze.Enumeratory.Tabela table = PobierzWartośćParametru<czynsze.Enumeratory.Tabela>("table");
 
         switch (table)
         {
-            case "Buildings":
+            case czynsze.Enumeratory.Tabela.Budynki:
                 %>
                     InitBuilding();
                 <%
     
                 break;
 
-            case "Tenants":
+            case czynsze.Enumeratory.Tabela.AktywniNajemcy:
                 %>
                     InitTenant();
                 <%
     
                 break;
 
-            case "Places":
+            case czynsze.Enumeratory.Tabela.AktywneLokale:
                 %>
                     InitPlace();
                 <%
     
                 break;
 
-            case "Communities":
+            case czynsze.Enumeratory.Tabela.Wspolnoty:
                 %>
                     InitCommunity();
                 <%
     
                 break;
 
-            case "RentComponents":
+            case czynsze.Enumeratory.Tabela.SkladnikiCzynszu:
                 %>
                     InitRentComponent();
                 <%
     
                 break;
 
-            case "Attributes":
+            case czynsze.Enumeratory.Tabela.Atrybuty:
                 %>
                     InitAttribute();
                 <%
     
                 break;
-  
-                case "Users":
+
+            case czynsze.Enumeratory.Tabela.Uzytkownicy:
                 %>
                     InitUser();
                 <%

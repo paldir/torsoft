@@ -4,19 +4,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
 namespace czynsze.DostępDoBazy
 {
     public abstract class AtrybutObiektu
-    {
-        public abstract int __record { get; set; }
+    { 
+        [Key]
+        public int __record { get; set; }
 
-        public abstract int kod { get; set; }
+        public int kod { get; set; }
 
-        public abstract string kod_powiaz { get; set; }
+        protected string kod_powiaz { get; set; }
 
-        public abstract float wartosc_n { get; set; }
+        [NotMapped]
+        public virtual string kod_powiaz_
+        {
+            get { return kod_powiaz; }
+            set { kod_powiaz = value; }
+        }
 
-        public abstract string wartosc_s { get; set; }
+        public float wartosc_n { get; set; }
+
+        public string wartosc_s { get; set; }
 
         public IEnumerable<string> PolaDoTabeli()
         {

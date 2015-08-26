@@ -11,7 +11,7 @@ namespace czynsze.DostępDoBazy
     [Table("cechy_s", Schema = "public")]
     public class AtrybutWspólnoty : AtrybutObiektu
     {
-        [Key, Column("__record")]
+        /*[Key, Column("__record")]
         public override int __record { get; set; }
 
         [Column("kod")]
@@ -24,6 +24,6 @@ namespace czynsze.DostępDoBazy
         public override float wartosc_n { get; set; }
 
         [Column("wartosc_s")]
-        public override string wartosc_s { get; set; }
+        public override string wartosc_s { get; set; }*/
     }
 }

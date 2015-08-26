@@ -92,7 +92,7 @@ namespace czynsze.DostępDoBazy
 
         public override int SaveChanges()
         {
-            IEnumerable<DbEntityEntry> pozycjeModyfikowanychEncji = ChangeTracker.Entries().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
+            /*IEnumerable<DbEntityEntry> pozycjeModyfikowanychEncji = ChangeTracker.Entries().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
             List<string> modyfikowaneTabele = new List<string>();
             Type typAtrybutuTabeli = typeof(TableAttribute);
 
@@ -108,10 +108,10 @@ namespace czynsze.DostępDoBazy
 
                 if (!modyfikowaneTabele.Contains(nazwaTabeli))
                     modyfikowaneTabele.Add(nazwaTabeli);
-            }
+            }*/
 
             int kod = base.SaveChanges();
-            XmlDocument upsize = new XmlDocument();
+            /*XmlDocument upsize = new XmlDocument();
 
             upsize.Load(System.Web.Configuration.WebConfigurationManager.AppSettings["ścieżkaCzynszeUpsize"]);
 
@@ -127,13 +127,13 @@ namespace czynsze.DostępDoBazy
 
                     string argumenty = String.Join(" ", listaArgumentów);
 
-                    /*using (Process proces = Process.Start(new ProcessStartInfo("NaprawaIndeksow.exe", argumenty)))
+                    using (Process proces = Process.Start(new ProcessStartInfo("NaprawaIndeksow.exe", argumenty)))
                     {
                         proces.WaitForExit();
-                    }*/
+                    }
                 }
 
-            }
+            }*/
 
             return kod;
         }
@@ -296,6 +296,7 @@ namespace czynsze.DostępDoBazy
             {Enumeratory.Tabela.TytulyPrawne, typeof(TytułPrawny)},
             {Enumeratory.Tabela.Uzytkownicy, typeof(Użytkownik)},
             {Enumeratory.Tabela.Wspolnoty, typeof(Wspólnota)},
+            {Enumeratory.Tabela.ObrotyNajemcy, typeof(Obrót1)}
         };
     }
 }

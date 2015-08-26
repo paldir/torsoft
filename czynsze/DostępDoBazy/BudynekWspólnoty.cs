@@ -11,16 +11,13 @@ namespace czynsze.DostępDoBazy
     [Table("bud_ws", Schema = "public")]
     public class BudynekWspólnoty
     {
-        [Column("__record"), Key]
+        [Key]
         public int __record { get; set; }
 
-        [Column("kod")]
         public int kod { get; set; }
 
-        [Column("kod_1")]
         public int kod_1 { get; set; }
 
-        [Column("uwagi")]
         public string uwagi { get; set; }
 
         public IEnumerable<string> PolaDoTabeli()

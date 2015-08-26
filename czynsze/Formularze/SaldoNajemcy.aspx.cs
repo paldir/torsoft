@@ -12,33 +12,34 @@ namespace czynsze.Formularze
         protected void Page_Load(object sender, EventArgs e)
         {
             List<int> indexesOfNumericColumns = new List<int>() { 1, 2, 3 };
-            int id = PobierzWartośćParametru<int>("id");
+            int __record = PobierzWartośćParametru<int>("id");
             string nagłówek;
 
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
                 IEnumerable<DostępDoBazy.Należność> receivables = null;
                 IEnumerable<DostępDoBazy.Obrót> turnovers = null;
-                DostępDoBazy.Najemca tenant = db.AktywniNajemcy.FirstOrDefault(t => t.nr_kontr == id);
+                DostępDoBazy.Najemca tenant = db.AktywniNajemcy.Find(__record);
+                int nrKontr = tenant.nr_kontr;
                 nagłówek = Title = "Saldo najemcy " + tenant.nazwisko + " " + tenant.imie;
 
                 switch (Start.AktywnyZbiór)
                 {
                     case Enumeratory.Zbiór.Czynsze:
-                        receivables = db.Należności1.Where(r => r.nr_kontr == id).AsEnumerable<DostępDoBazy.Należność>();
-                        turnovers = db.Obroty1.Where(r => r.nr_kontr == id).AsEnumerable<DostępDoBazy.Obrót>();
+                        receivables = db.Należności1.Where(r => r.nr_kontr == nrKontr).AsEnumerable<DostępDoBazy.Należność>();
+                        turnovers = db.Obroty1.Where(r => r.nr_kontr == nrKontr).AsEnumerable<DostępDoBazy.Obrót>();
 
                         break;
 
                     case Enumeratory.Zbiór.Drugi:
-                        receivables = db.Należności2.Where(r => r.nr_kontr == id).AsEnumerable<DostępDoBazy.Należność>();
-                        turnovers = db.Obroty2.Where(r => r.nr_kontr == id).AsEnumerable<DostępDoBazy.Obrót>();
+                        receivables = db.Należności2.Where(r => r.nr_kontr == nrKontr).AsEnumerable<DostępDoBazy.Należność>();
+                        turnovers = db.Obroty2.Where(r => r.nr_kontr == nrKontr).AsEnumerable<DostępDoBazy.Obrót>();
 
                         break;
 
                     case Enumeratory.Zbiór.Trzeci:
-                        receivables = db.Należności3.Where(r => r.nr_kontr == id).AsEnumerable<DostępDoBazy.Należność>();
-                        turnovers = db.Obroty3.Where(r => r.nr_kontr == id).AsEnumerable<DostępDoBazy.Obrót>();
+                        receivables = db.Należności3.Where(r => r.nr_kontr == nrKontr).AsEnumerable<DostępDoBazy.Należność>();
+                        turnovers = db.Obroty3.Where(r => r.nr_kontr == nrKontr).AsEnumerable<DostępDoBazy.Obrót>();
 
                         break;
                 }
