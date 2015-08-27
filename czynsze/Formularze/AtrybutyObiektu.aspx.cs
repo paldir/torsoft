@@ -9,11 +9,11 @@ namespace czynsze.Formularze
 {
     public partial class AtrybutyObiektu : Strona
     {
-        List<DostępDoBazy.AtrybutObiektu> _atrybutyObiektu
+        /*List<DostępDoBazy.AtrybutObiektu> _atrybutyObiektu
         {
             get { return (List<DostępDoBazy.AtrybutObiektu>)Session["attributesOfObject"]; }
             set { Session["attributesOfObject"] = value; }
-        }
+        }*/
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -43,6 +43,7 @@ namespace czynsze.Formularze
 
                 List<string[]> wiersze = null;
                 List<string[]> wierszeRozwijanejListy = null;
+                DostępDoBazy.AtrybutLokalu.Lokale = db.AktywneLokale.ToList();
 
                 switch (akcjaDziecka)
                 {
@@ -59,10 +60,10 @@ namespace czynsze.Formularze
                         idRodzica.ToString()
                     };
 
-                        if (DostępDoBazy.AtrybutObiektu.Waliduj(akcjaDziecka, rekord, _atrybutyObiektu))
+                        if (DostępDoBazy.AtrybutObiektu.Waliduj(akcjaDziecka, rekord, WartościSesji.AtrybutyObiektu))
                         {
-                            if (_atrybutyObiektu.Any())
-                                maksymalneIdTmp = _atrybutyObiektu.Max(a => a.__record);
+                            if (WartościSesji.AtrybutyObiektu.Any())
+                                maksymalneIdTmp = WartościSesji.AtrybutyObiektu.Max(a => a.__record);
 
                             switch (atrybutDotyczy)
                             {
@@ -102,7 +103,7 @@ namespace czynsze.Formularze
                             rekord[0] = (Math.Max(maksymalneId, maksymalneIdTmp) + 1).ToString();
 
                             atrybutObiektu.Ustaw(rekord);
-                            _atrybutyObiektu.Add(atrybutObiektu);
+                            WartościSesji.AtrybutyObiektu.Add(atrybutObiektu);
                         }
 
                         break;
@@ -110,28 +111,29 @@ namespace czynsze.Formularze
                     case Enumeratory.Akcja.Edytuj:
                         string wartosc = Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("wartosc_edit"))];
                         int id_edycja = Int32.Parse(Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("id_edit"))]);
-                        DostępDoBazy.AtrybutObiektu atrybut = _atrybutyObiektu.FirstOrDefault(a => a.__record == id_edycja);
+                        DostępDoBazy.AtrybutObiektu atrybut = WartościSesji.AtrybutyObiektu.FirstOrDefault(a => a.__record == id_edycja);
 
                         rekord = new string[]
                     {
                         atrybut.__record.ToString(),
                         atrybut.kod.ToString(),
                         wartosc,
-                        atrybut.kod_powiaz_
+                        atrybut.kod_powiaz
                     };
 
-                        if (DostępDoBazy.AtrybutObiektu.Waliduj(akcjaDziecka, rekord, _atrybutyObiektu))
+                        if (DostępDoBazy.AtrybutObiektu.Waliduj(akcjaDziecka, rekord, WartościSesji.AtrybutyObiektu))
                             atrybut.Ustaw(rekord);
 
                         break;
 
                     case Enumeratory.Akcja.Usuń:
-                        _atrybutyObiektu.Remove(_atrybutyObiektu.FirstOrDefault(a => a.__record == id));
+                        WartościSesji.AtrybutyObiektu.Remove(WartościSesji.AtrybutyObiektu.FirstOrDefault(a => a.__record == id));
 
                         break;
                 }
 
-                wiersze = _atrybutyObiektu.Select(a => a.PolaDoTabeli().ToArray()).ToList();
+                DostępDoBazy.AtrybutLokalu.Lokale = null;
+                wiersze = WartościSesji.AtrybutyObiektu.Select(a => a.PolaDoTabeli().ToArray()).ToList();
                 IEnumerable<DostępDoBazy.Atrybut> atrybuty = db.Atrybuty.AsEnumerable<DostępDoBazy.Atrybut>();
 
                 switch (atrybutDotyczy)
@@ -170,7 +172,7 @@ namespace czynsze.Formularze
                     case Enumeratory.Akcja.Edytuj:
                         if (Request.Params[Request.Params.AllKeys.FirstOrDefault(k => k.EndsWith("showEditingWindow"))] != null)
                         {
-                            DostępDoBazy.AtrybutObiektu atrybutyObiektu = _atrybutyObiektu.FirstOrDefault(a => a.__record == id);
+                            DostępDoBazy.AtrybutObiektu atrybutyObiektu = WartościSesji.AtrybutyObiektu.FirstOrDefault(a => a.__record == id);
                             DostępDoBazy.Atrybut atrybut = db.Atrybuty.FirstOrDefault(a => a.kod == atrybutyObiektu.kod);
 
                             placeOfEditingWindow.Controls.Add(new Kontrolki.HtmlInputHidden("id_edit", atrybutyObiektu.__record.ToString()));

@@ -214,7 +214,7 @@ namespace czynsze.Formularze
                                 identyfikatory[5] = PobierzWartośćParametru<int>("doWspólnoty");
                                 _analiza = true;
 
-                                switch ((Enumeratory.Analiza)Session["trybAnalizy"])
+                                switch (WartościSesji.TrybAnalizy)
                                 {
                                     case Enumeratory.Analiza.NaleznosciBiezace:
                                         nagłówek += "(Bieżące należności)";
@@ -310,7 +310,7 @@ namespace czynsze.Formularze
                             case Enumeratory.Raport.WykazWgSkladnika:
                                 identyfikatory[4] = PobierzWartośćParametru<int>("nrSkladnika");
 
-                                switch ((Enumeratory.WykazWedługSkładnika)Convert.ChangeType(Session["trybWykazuWgSkładnika"], typeof(Enumeratory.WykazWedługSkładnika)))
+                                switch (WartościSesji.TrybWykazuWgSkładnika)
                                 {
                                     case Enumeratory.WykazWedługSkładnika.Obecny:
                                         nagłówek += "(Wykaz wg składnika - obecny)";
@@ -734,7 +734,7 @@ namespace czynsze.Formularze
                         case Enumeratory.Raport.OgolemZaDanyMiesiacBudynki:
                         case Enumeratory.Raport.OgolemZaDanyMiesiacWspolnoty:
                             {
-                                Enumeratory.Analiza rodzajAnalizy = ((Enumeratory.Analiza)Convert.ChangeType(Session["trybAnalizy"], typeof(Enumeratory.Analiza)));
+                                Enumeratory.Analiza rodzajAnalizy = WartościSesji.TrybAnalizy;
                                 DateTime początekMiesiąca = new DateTime(data.Year, data.Month, 1);
                                 DateTime koniecMiesiąca = początekMiesiąca.AddDays(DateTime.DaysInMonth(początekMiesiąca.Year, początekMiesiąca.Month)).AddSeconds(-1);
                                 List<DostępDoBazy.PozycjaDoAnalizy> pozycjeZaDanyMiesiąc = null;
@@ -1094,14 +1094,14 @@ namespace czynsze.Formularze
                                 IEnumerable<DostępDoBazy.Należność> należnościDoAnalizy = null;
                                 nagłówki = new List<string>() { "L.p.", "Kod budynku", "Nr lokalu", "Nazwisko", "Imię", "Adres" };
                                 tytuł = "Wykaz wedlug skladnika ";
-                                Enumeratory.WykazWedługSkładnika tryb = (Enumeratory.WykazWedługSkładnika)Convert.ChangeType(Session["trybWykazuWgSkładnika"], typeof(Enumeratory.WykazWedługSkładnika));
+                                Enumeratory.WykazWedługSkładnika tryb = WartościSesji.TrybWykazuWgSkładnika;
 
                                 switch (tryb)
                                 {
                                     case Enumeratory.WykazWedługSkładnika.HistoriaOgolem:
                                     case Enumeratory.WykazWedługSkładnika.HistoriaSpecyfikacja:
                                         string rodzajHistorii = null;
-                                        początekMiesiąca = Convert.ToDateTime(Session["dataWykazuWgSkładnika"]);
+                                        początekMiesiąca = WartościSesji.DataWykazuWgSkładnika;
                                         należnościDoAnalizy = należnościDotycząceDanegoSkładnika.Where(n => n.data_nal >= początekMiesiąca);
 
                                         switch (tryb)
@@ -1645,7 +1645,7 @@ namespace czynsze.Formularze
                                 DateTime początekMiesiąca = new DateTime(data.Year, data.Month, 1);
                                 DateTime koniecMiesiąca = początekMiesiąca.AddMonths(1).AddSeconds(-1);
                                 tytuł = String.Format("{0} - ANALIZA WG GRUP CZYNSZOWYCH ZA M-C {1:D2} - {2}", obiektRaportu, data.Month, data.Year);
-                                List<int> grupySkładnikówCzynszu = (List<int>)Session["grupySkładnikówCzynszu"];
+                                List<int> grupySkładnikówCzynszu = WartościSesji.NumeryGrupWybranychSkładnikówCzynszu;
 
                                 grupySkładnikówCzynszu.Sort();
 
@@ -2071,12 +2071,12 @@ namespace czynsze.Formularze
                     }
                 }
 
-                Session["nagłówki"] = nagłówki;
-                Session["tabele"] = tabele;
-                Session["podpisy"] = podpisy;
-                Session["format"] = ((RadioButtonList)placeOfConfigurationFields.FindControl("format")).SelectedValue;
-                Session["tytuł"] = tytuł;
-                Session["gotowaDefinicjaHtml"] = gotowaDefinicjaHtml;
+                WartościSesji.NagłówkiRaportu = nagłówki;
+                WartościSesji.TabeleRaportu = tabele;
+                WartościSesji.PodpisyRaportu = podpisy;
+                WartościSesji.FormatRaportu = ((RadioButtonList)placeOfConfigurationFields.FindControl("format")).SelectedValue;
+                WartościSesji.TytułRaportu = tytuł;
+                WartościSesji.GotowaDefinicjaHtmlRaportu = gotowaDefinicjaHtml;
 
                 Response.Redirect("Raport.aspx");
             }

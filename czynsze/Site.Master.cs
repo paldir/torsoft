@@ -11,13 +11,13 @@ namespace czynsze
     {
         protected void Page_Init(object sender, EventArgs e)
         {
-            if (Session["uzytkownik"] == null)
+            if (Sesja.Obecna.AktualnieZalogowanyUżytkownik == null)
                 Response.Redirect("../Logowanie.aspx?przyczyna=" + Enumeratory.PowódPrzeniesieniaNaStronęLogowania.NiezalogowanyLubSesjaWygasla);
         }
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            user.InnerText = Session["uzytkownik"].ToString();
+            user.InnerText = Sesja.Obecna.AktualnieZalogowanyUżytkownik;
             placeOfSiteMapPath.InnerHtml = String.Empty;
 
             /*foreach (string siteMapNode in Formularze.Start.ŚcieżkaStrony)

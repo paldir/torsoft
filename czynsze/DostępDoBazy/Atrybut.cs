@@ -37,9 +37,9 @@ namespace czynsze.DostępDoBazy
         [Display(Name = "jednostka miary")]
         public string jedn { get; set; }
 
-        float wartosc_n { get; set; }
+        public float wartosc_n { get; private set; }
 
-        string wartosc_s { get; set; }
+        public string wartosc_s { get; private set; }
 
         [Display(Name = "wartość domyślna")]
         [NotMapped]
@@ -47,10 +47,14 @@ namespace czynsze.DostępDoBazy
         {
             get
             {
+                string wartośćDoObcięcia;
+
                 if (String.Equals(nr_str, "N"))
-                    return wartosc_n.ToString().Trim();
+                    wartośćDoObcięcia = wartosc_n.ToString();
                 else
-                    return wartosc_s;
+                    wartośćDoObcięcia = wartosc_s;
+
+                return wartośćDoObcięcia.Trim();
             }
 
             set

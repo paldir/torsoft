@@ -11,7 +11,7 @@ namespace czynsze
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Session.Clear();
+            Sesja.Obecna.Wyczyść();
 
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {

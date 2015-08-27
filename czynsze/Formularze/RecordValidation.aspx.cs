@@ -16,23 +16,23 @@ namespace czynsze.Formularze
         Enumeratory.Akcja action;
         int id;
 
-        List<DostępDoBazy.AtrybutObiektu> attributesOfObject
+        /*List<DostępDoBazy.AtrybutObiektu> attributesOfObject
         {
             get { return (List<DostępDoBazy.AtrybutObiektu>)Session["attributesOfObject"]; }
             set { Session["attributesOfObject"] = value; }
-        }
+        }*/
 
-        List<DostępDoBazy.SkładnikCzynszuLokalu> rentComponentsOfPlace
+        /*List<DostępDoBazy.SkładnikCzynszuLokalu> rentComponentsOfPlace
         {
             get { return (List<DostępDoBazy.SkładnikCzynszuLokalu>)Session["rentComponentsOfPlace"]; }
             set { Session["rentComponentsOfPlace"] = value; }
-        }
+        }*/
 
-        List<DostępDoBazy.BudynekWspólnoty> communityBuildings
+        /*List<DostępDoBazy.BudynekWspólnoty> communityBuildings
         {
             get { return (List<DostępDoBazy.BudynekWspólnoty>)Session["communityBuildings"]; }
             set { Session["communityBuildings"] = value; }
-        }
+        }*/
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -446,9 +446,9 @@ namespace czynsze.Formularze
                                     dbSet.Add(record);
 
                                     if (dbSetOfAttributes != null)
-                                        foreach (DostępDoBazy.AtrybutObiektu attribute in attributesOfObject)
+                                        foreach (DostępDoBazy.AtrybutObiektu attribute in WartościSesji.AtrybutyObiektu)
                                         {
-                                            attribute.kod_powiaz_ = recordFields[0];
+                                            attribute.kod_powiaz = recordFields[0];
 
                                             dbSetOfAttributes.Add(attribute);
                                         }
@@ -456,7 +456,7 @@ namespace czynsze.Formularze
                                     switch (table)
                                     {
                                         case Enumeratory.Tabela.AktywneLokale:
-                                            foreach (DostępDoBazy.SkładnikCzynszuLokalu rentComponentOfPlace in rentComponentsOfPlace)
+                                            foreach (DostępDoBazy.SkładnikCzynszuLokalu rentComponentOfPlace in WartościSesji.SkładnikiCzynszuLokalu)
                                             {
                                                 rentComponentOfPlace.kod_lok = Int32.Parse(recordFields[1]);
                                                 rentComponentOfPlace.nr_lok = Int32.Parse(recordFields[2]);
@@ -475,7 +475,7 @@ namespace czynsze.Formularze
                                             break;
 
                                         case Enumeratory.Tabela.Wspolnoty:
-                                            foreach (DostępDoBazy.BudynekWspólnoty communityBuilding in communityBuildings)
+                                            foreach (DostępDoBazy.BudynekWspólnoty communityBuilding in WartościSesji.BudynkiWspólnoty)
                                             {
                                                 communityBuilding.kod = Int32.Parse(recordFields[0]);
 
@@ -496,10 +496,10 @@ namespace czynsze.Formularze
                                     {
                                         DostępDoBazy.AtrybutLokalu.Lokale = db.AktywneLokale.ToList();
 
-                                        foreach (DostępDoBazy.AtrybutObiektu attributeOfObject in dbSetOfAttributes.ToListAsync().Result.Cast<DostępDoBazy.AtrybutObiektu>().Where(a => a.kod_powiaz_.Trim() == id.ToString()))
+                                        foreach (DostępDoBazy.AtrybutObiektu attributeOfObject in dbSetOfAttributes.ToListAsync().Result.Cast<DostępDoBazy.AtrybutObiektu>().Where(a => a.kod_powiaz.Trim() == id.ToString()))
                                             dbSetOfAttributes.Remove(attributeOfObject);
 
-                                        foreach (DostępDoBazy.AtrybutObiektu attributeOfObject in attributesOfObject)
+                                        foreach (DostępDoBazy.AtrybutObiektu attributeOfObject in WartościSesji.AtrybutyObiektu)
                                             dbSetOfAttributes.Add(attributeOfObject);
                                     }
 
@@ -511,7 +511,7 @@ namespace czynsze.Formularze
                                             foreach (DostępDoBazy.SkładnikCzynszuLokalu rentComponentOfPlace in db.SkładnikiCzynszuLokalu.Where(c => c.kod_lok == place.kod_lok && c.nr_lok == place.nr_lok))
                                                 db.SkładnikiCzynszuLokalu.Remove(rentComponentOfPlace);
 
-                                            foreach (DostępDoBazy.SkładnikCzynszuLokalu rentComponentOfPlace in rentComponentsOfPlace)
+                                            foreach (DostępDoBazy.SkładnikCzynszuLokalu rentComponentOfPlace in WartościSesji.SkładnikiCzynszuLokalu)
                                                 db.SkładnikiCzynszuLokalu.Add(rentComponentOfPlace);
 
                                             //
@@ -531,7 +531,7 @@ namespace czynsze.Formularze
                                             foreach (DostępDoBazy.BudynekWspólnoty communityBuilding in db.BudynkiWspólnot.Where(c => c.kod == community.kod))
                                                 db.BudynkiWspólnot.Remove(communityBuilding);
 
-                                            foreach (DostępDoBazy.BudynekWspólnoty communityBuilding in communityBuildings)
+                                            foreach (DostępDoBazy.BudynekWspólnoty communityBuilding in WartościSesji.BudynkiWspólnoty)
                                                 db.BudynkiWspólnot.Add(communityBuilding);
 
                                             break;
@@ -545,7 +545,7 @@ namespace czynsze.Formularze
                                     dbSet.Remove(record);
 
                                     if (dbSetOfAttributes != null)
-                                        foreach (DostępDoBazy.AtrybutObiektu attributeOfObject in dbSetOfAttributes.ToListAsync().Result.Cast<DostępDoBazy.AtrybutObiektu>().Where(a => a.kod_powiaz_.Trim() == id.ToString()))
+                                        foreach (DostępDoBazy.AtrybutObiektu attributeOfObject in dbSetOfAttributes.ToListAsync().Result.Cast<DostępDoBazy.AtrybutObiektu>().Where(a => a.kod_powiaz.Trim() == id.ToString()))
                                             dbSetOfAttributes.Remove(attributeOfObject);
 
                                     switch (table)

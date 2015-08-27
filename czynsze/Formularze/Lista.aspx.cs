@@ -106,6 +106,7 @@ namespace czynsze.Formularze
                 int __record = PobierzWartośćParametru<int>("id");//-1;
                 IEnumerable<DostępDoBazy.Rekord> rekordyTabeli = null;
                 string nazwaPrzycisków = "action";
+                WartościSesji.Rekord = null;
 
                 switch (_tabela)
                 {

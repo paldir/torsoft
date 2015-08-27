@@ -9,11 +9,11 @@ namespace czynsze.Formularze
 {
     public partial class SkladnikiCzynszuLokalu : Strona
     {
-        List<DostępDoBazy.SkładnikCzynszuLokalu> _składnikiCzynszuLokalu
+        /*List<DostępDoBazy.SkładnikCzynszuLokalu> _składnikiCzynszuLokalu
         {
             get { return (List<DostępDoBazy.SkładnikCzynszuLokalu>)Session["rentComponentsOfPlace"]; }
             set { Session["rentComponentsOfPlace"] = value; }
-        }
+        }*/
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -32,7 +32,7 @@ namespace czynsze.Formularze
                 DostępDoBazy.SkładnikCzynszuLokalu obecnySkładnik = null;
 
                 if (id != 0)
-                    obecnySkładnik = _składnikiCzynszuLokalu.ElementAt(id - 1);
+                    obecnySkładnik = WartościSesji.SkładnikiCzynszuLokalu.ElementAt(id - 1);
 
                 wszystkieSkładnikiZWartością = db.SkładnikiCzynszu.Where(c => c.s_zaplat == 2).Select(c => c.nr_skl).ToList();
 
@@ -56,7 +56,7 @@ namespace czynsze.Formularze
                                 DostępDoBazy.SkładnikCzynszuLokalu składnikCzynszuLokalu = new DostępDoBazy.SkładnikCzynszuLokalu();
 
                                 składnikCzynszuLokalu.Ustaw(rekord);
-                                _składnikiCzynszuLokalu.Add(składnikCzynszuLokalu);
+                                WartościSesji.SkładnikiCzynszuLokalu.Add(składnikCzynszuLokalu);
                             }
 
                             break;
@@ -68,7 +68,7 @@ namespace czynsze.Formularze
                             break;
 
                         case Enumeratory.Akcja.Usuń:
-                            _składnikiCzynszuLokalu.Remove(obecnySkładnik);
+                            WartościSesji.SkładnikiCzynszuLokalu.Remove(obecnySkładnik);
 
                             break;
                     }
@@ -79,11 +79,11 @@ namespace czynsze.Formularze
                     DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
                 }
 
-                for (int i = 0; i < _składnikiCzynszuLokalu.Count; i++)
+                for (int i = 0; i < WartościSesji.SkładnikiCzynszuLokalu.Count; i++)
                 {
                     string indeks = (i + 1).ToString();
 
-                    wiersze.Add(new string[] { indeks, indeks }.Concat(_składnikiCzynszuLokalu.ElementAt(i).PolaDoTabeli()).ToArray());
+                    wiersze.Add(new string[] { indeks, indeks }.Concat(WartościSesji.SkładnikiCzynszuLokalu.ElementAt(i).PolaDoTabeli()).ToArray());
                 }
 
                 DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;

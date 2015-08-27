@@ -10,19 +10,20 @@ using System.ComponentModel.DataAnnotations;
 namespace czynsze.DostępDoBazy
 {
     public abstract class AtrybutObiektu
-    { 
+    {
         [Key]
         public int __record { get; set; }
 
         public int kod { get; set; }
 
-        protected string kod_powiaz { get; set; }
+        [Column("kod_powiaz")]
+        public string kod_powiaz_ { get; protected set; }
 
         [NotMapped]
-        public virtual string kod_powiaz_
+        public virtual string kod_powiaz
         {
-            get { return kod_powiaz; }
-            set { kod_powiaz = value; }
+            get { return kod_powiaz_; }
+            set { kod_powiaz_ = value; }
         }
 
         public float wartosc_n { get; set; }

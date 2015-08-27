@@ -21,7 +21,7 @@ namespace czynsze.Formularze
         protected void Page_Load(object sender, EventArgs e)
         {
             company.InnerText = NazwaFirmy;
-            user.InnerText = Session["uzytkownik"].ToString();
+            user.InnerText = Sesja.Obecna.AktualnieZalogowanyUżytkownik;
             month.InnerText = String.Format("{0} {1}", DostępDoBazy.CzynszeKontekst.NumerMiesiącaNaNazwęZPolskimiZnakami[Data.Month], Data.Year);
 
             /*AssemblyBuilder budowniczyBiblioteki = AppDomain.CurrentDomain.DefineDynamicAssembly(new System.Reflection.AssemblyName("ass"), AssemblyBuilderAccess.Run);

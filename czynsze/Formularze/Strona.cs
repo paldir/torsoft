@@ -10,6 +10,7 @@ namespace czynsze.Formularze
     public abstract class Strona : System.Web.UI.Page
     {
         protected string ŚcieżkaIQuery { get { return Request.Url.PathAndQuery; } }
+        public static Sesja WartościSesji { get { return Sesja.Obecna; } }
 
         protected T PobierzWartośćParametru<T>(string klucz)
         {

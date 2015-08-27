@@ -79,7 +79,7 @@ namespace czynsze.Formularze
                         string[] pierwszyLokal = PobierzWartośćParametru<string>("odLokalu").Split('-');
                         string[] ostatniLokal = PobierzWartośćParametru<string>("doLokalu").Split('-');
                         int nrSkładnika = PobierzWartośćParametru<int>("składnik");
-                        Session["trybWykazuWgSkładnika"] = tryb;
+                        WartościSesji.TrybWykazuWgSkładnika = tryb;
 
                         switch (tryb)
                         {
@@ -97,7 +97,7 @@ namespace czynsze.Formularze
                                     data = new DateTime(dziś.Year, dziś.Month, 1);
                                 }
 
-                                Session["dataWykazuWgSkładnika"] = data;
+                                WartościSesji.DataWykazuWgSkładnika = data;
 
                                 break;
                         }

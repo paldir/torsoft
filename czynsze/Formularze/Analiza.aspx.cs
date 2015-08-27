@@ -171,7 +171,7 @@ namespace czynsze.Formularze
                             break;
                     }
 
-                    Session["trybAnalizy"] = rodzaj;
+                    WartościSesji.TrybAnalizy = rodzaj;
 
                     switch (rodzaj)
                     {
@@ -196,7 +196,7 @@ namespace czynsze.Formularze
                                     wybraneGrupy.Add(Int32.Parse(numer));
                             }
 
-                            Session["grupySkładnikówCzynszu"] = wybraneGrupy;
+                            WartościSesji.NumeryGrupWybranychSkładnikówCzynszu = wybraneGrupy;
 
                             break;
                     }

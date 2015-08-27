@@ -21,12 +21,12 @@ namespace czynsze.Formularze
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Enumeratory.FormatRaportu format = (Enumeratory.FormatRaportu)Enum.Parse(typeof(Enumeratory.FormatRaportu), Session["format"].ToString());
-            nagłówki = (List<string>)Session["nagłówki"];
-            tabele = (List<List<string[]>>)Session["tabele"];
-            podpisy = (List<string>)Session["podpisy"];
-            tytuł = Session["tytuł"].ToString();
-            object potencjalnaGotowaDefinicjaHtml = Session["gotowaDefinicjaHtml"];
+            Enumeratory.FormatRaportu format = (Enumeratory.FormatRaportu)Enum.Parse(typeof(Enumeratory.FormatRaportu), Sesja.Obecna.FormatRaportu);
+            nagłówki = Sesja.Obecna.NagłówkiRaportu;
+            tabele = Sesja.Obecna.TabeleRaportu;
+            podpisy = Sesja.Obecna.PodpisyRaportu;
+            tytuł = Sesja.Obecna.TytułRaportu;
+            object potencjalnaGotowaDefinicjaHtml = Sesja.Obecna.GotowaDefinicjaHtmlRaportu;
 
             /*if (potencjalnaGotowaDefinicjaHtml != null)
                 html = potencjalnaGotowaDefinicjaHtml.ToString();*/

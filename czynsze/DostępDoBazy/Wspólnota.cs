@@ -44,17 +44,17 @@ namespace czynsze.DostępDoBazy
         [Display(Name = "ścieżka do F-K")]
         public string sciezka_fk { get; set; }
 
-        string uwagi_1 { get; set; }
+        public string uwagi_1 { get; private set; }
 
-        string uwagi_2 { get; set; }
+        public string uwagi_2 { get; private set; }
 
-        string uwagi_3 { get; set; }
+        public string uwagi_3 { get; private set; }
 
-        string uwagi_4 { get; set; }
+        public string uwagi_4 { get; private set; }
 
-        string uwagi_5 { get; set; }
+        public string uwagi_5 { get; private set; }
 
-        string uwagi_6 { get; set; }
+        public string uwagi_6 { get; private set; }
 
         [Display(Name = "uwagi")]
         [NotMapped]

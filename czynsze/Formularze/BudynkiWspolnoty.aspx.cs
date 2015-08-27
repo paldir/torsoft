@@ -9,11 +9,11 @@ namespace czynsze.Formularze
 {
     public partial class BudynkiWspolnoty : Strona
     {
-        List<DostępDoBazy.BudynekWspólnoty> _budynkiWspólnoty
+        /*List<DostępDoBazy.BudynekWspólnoty> _budynkiWspólnoty
         {
             get { return (List<DostępDoBazy.BudynekWspólnoty>)Session["communityBuildings"]; }
             set { Session["communityBuildings"] = value; }
-        }
+        }*/
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -29,7 +29,7 @@ namespace czynsze.Formularze
                 DostępDoBazy.BudynekWspólnoty obecnyBudynekWspólnoty = null;
 
                 if (id != 0)
-                    obecnyBudynekWspólnoty = _budynkiWspólnoty.ElementAt(id - 1);
+                    obecnyBudynekWspólnoty = WartościSesji.BudynkiWspólnoty.ElementAt(id - 1);
 
                 if ((int)akcjaDziecka != 0)
                 {
@@ -46,7 +46,7 @@ namespace czynsze.Formularze
                             DostępDoBazy.BudynekWspólnoty budynekWspólnoty = new DostępDoBazy.BudynekWspólnoty();
 
                             budynekWspólnoty.Ustaw(rekord);
-                            _budynkiWspólnoty.Add(budynekWspólnoty);
+                            WartościSesji.BudynkiWspólnoty.Add(budynekWspólnoty);
 
                             break;
 
@@ -56,17 +56,17 @@ namespace czynsze.Formularze
                             break;
 
                         case Enumeratory.Akcja.Usuń:
-                            _budynkiWspólnoty.Remove(obecnyBudynekWspólnoty);
+                            WartościSesji.BudynkiWspólnoty.Remove(obecnyBudynekWspólnoty);
 
                             break;
                     }
                 }
 
-                for (int i = 0; i < _budynkiWspólnoty.Count; i++)
+                for (int i = 0; i < WartościSesji.BudynkiWspólnoty.Count; i++)
                 {
                     string indeks = (i + 1).ToString();
 
-                    wiersze.Add(new string[] { indeks, indeks }.Concat(_budynkiWspólnoty.ElementAt(i).PolaDoTabeli()).ToArray());
+                    wiersze.Add(new string[] { indeks, indeks }.Concat(WartościSesji.BudynkiWspólnoty.ElementAt(i).PolaDoTabeli()).ToArray());
                 }
 
                 ViewState["id"] = id;

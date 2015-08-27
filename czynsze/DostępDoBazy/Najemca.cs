@@ -43,9 +43,9 @@ namespace czynsze.DostępDoBazy
         [Display(Name = "hasło")]
         public string l__has { get; set; }
 
-        string uwagi_1 { get; set; }
+        public string uwagi_1 { get; private set; }
 
-        string uwagi_2 { get; set; }
+        public string uwagi_2 { get; private set; }
 
         [Display(Name = "uwagi")]
         [NotMapped]
