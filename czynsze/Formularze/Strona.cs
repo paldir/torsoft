@@ -14,26 +14,6 @@ namespace czynsze.Formularze
 
         protected T PobierzWartośćParametru<T>(string klucz)
         {
-            /*string prawdziwyKlucz = Request.Params.AllKeys.SingleOrDefault(k => k.EndsWith(klucz));
-
-            if (!String.IsNullOrEmpty(prawdziwyKlucz) && prawdziwyKlucz.Contains('$'))
-                throw new Exception("Błąd klucza parametru. Zawiera dolary. - PZ");
-
-            string wartość = Request.Params[prawdziwyKlucz];
-            Type typ = typeof(T);
-
-            if (wartość == null)
-                return default(T);
-
-            if (typ.IsEnum)
-            {
-                wartość = wartość.Replace(" ", String.Empty);
-
-                return (T)Enum.Parse(typ, wartość, true);
-            }
-            else
-                return (T)Convert.ChangeType(wartość, typ);*/
-
             return (T)PobierzWartośćParametru(klucz, typeof(T));
         }
 

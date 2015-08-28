@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace czynsze.Formularze
 {
-    public partial class Start : System.Web.UI.Page
+    public partial class Start : Strona
     {
         public static string NazwaFirmy { get; set; }
         public static DateTime Data { get; set; }
@@ -21,7 +21,7 @@ namespace czynsze.Formularze
         protected void Page_Load(object sender, EventArgs e)
         {
             company.InnerText = NazwaFirmy;
-            user.InnerText = Sesja.Obecna.AktualnieZalogowanyUżytkownik;
+            user.InnerText = WartościSesji.AktualnieZalogowanyUżytkownik;
             month.InnerText = String.Format("{0} {1}", DostępDoBazy.CzynszeKontekst.NumerMiesiącaNaNazwęZPolskimiZnakami[Data.Month], Data.Year);
 
             /*AssemblyBuilder budowniczyBiblioteki = AppDomain.CurrentDomain.DefineDynamicAssembly(new System.Reflection.AssemblyName("ass"), AssemblyBuilderAccess.Run);

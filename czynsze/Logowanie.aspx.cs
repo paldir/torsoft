@@ -7,11 +7,11 @@ using System.Web.UI.WebControls;
 
 namespace czynsze
 {
-    public partial class Logowanie : System.Web.UI.Page
+    public partial class Logowanie : Formularze.Strona
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Sesja.Obecna.Wyczyść();
+            WartościSesji.Wyczyść();
 
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {

@@ -175,10 +175,11 @@ namespace czynsze.Formularze
                         zakładki = new List<Kontrolki.HtmlIframe>()
                         {
                             new Kontrolki.HtmlIframe("tab", "cechy_tab", "AtrybutyObiektu.aspx?attributeOf="+Enumeratory.Atrybut.Budynku+"&parentId="+kodBudynku+"&action="+_akcja.ToString()+"&childAction=Przeglądaj", "hidden"),
-                            new Kontrolki.HtmlIframe("tab", "dokumenty_tab", String.Empty, "hidden")
+                            new Kontrolki.HtmlIframe("tab", "dokumenty_tab", String.Format("Pliki.aspx?id_obiektu={0}&tabela={1}", kodBudynku, _tabela), "hidden")
                         };
 
                         WartościSesji.AtrybutyObiektu = new List<DostępDoBazy.AtrybutObiektu>();
+                        WartościSesji.Pliki = db.PlikiBudynków.Where(p => p.id_obiektu == __record).AsEnumerable<DostępDoBazy.Plik>().ToList();
 
                         foreach (DostępDoBazy.AtrybutBudynku attributeOfBuilding in db.AtrybutyBudynków.ToList().Where(a => Int32.Parse(a.kod_powiaz) == kodBudynku))
                             WartościSesji.AtrybutyObiektu.Add(attributeOfBuilding);
@@ -277,22 +278,21 @@ namespace czynsze.Formularze
                                     lokal.nr_system = 1;
 
                                 lokal.kod_lok = lokal.nr_lok = 0;
-                            }*/
-
+                            }*/                    
+                               
+                        int kodLokalu = lokal.kod_lok;
+                        int nrLokalu = lokal.nr_lok;
+                        int nrSystem = lokal.nr_system;
                         WartościSesji.AtrybutyObiektu = new List<DostępDoBazy.AtrybutObiektu>();
                         WartościSesji.SkładnikiCzynszuLokalu = new List<DostępDoBazy.SkładnikCzynszuLokalu>();
+                        WartościSesji.Pliki = db.PlikiLokalów.Where(p => p.id_obiektu == __record).AsEnumerable<DostępDoBazy.Plik>().ToList();
                         lokal = WartościSesji.Rekord as DostępDoBazy.Lokal;
-
                         DostępDoBazy.AtrybutLokalu.Lokale = db.AktywneLokale.ToList();
                         WartościSesji.AtrybutyObiektu.AddRange(db.AtrybutyLokali.AsEnumerable().Where(a => Int32.Parse(a.kod_powiaz) == __record));
                         DostępDoBazy.AtrybutLokalu.Lokale = null;
 
                         WartościSesji.SkładnikiCzynszuLokalu.AddRange(db.SkładnikiCzynszuLokalu.AsEnumerable().Where(c => c.kod_lok == lokal.kod_lok && c.nr_lok == lokal.nr_lok));
                         //}
-
-                        int kodLokalu = lokal.kod_lok;
-                        int nrLokalu = lokal.nr_lok;
-                        int nrSystem = lokal.nr_system;
 
                         przyciskiZakładek = new List<Kontrolki.HtmlInputRadioButton>()
                         {
@@ -322,42 +322,11 @@ namespace czynsze.Formularze
                             new Kontrolki.Label("previewLabel", String.Empty, lokal.adres_2, "adres_2_preview")
                         };
 
-                        //
-                        //CXP PART
-                        //
-                        string parentAction;
-
-                        switch (_akcja)
-                        {
-                            case Enumeratory.Akcja.Dodaj:
-                                parentAction = "add";
-
-                                break;
-
-                            case Enumeratory.Akcja.Edytuj:
-                                parentAction = "edit";
-
-                                break;
-
-                            case Enumeratory.Akcja.Usuń:
-                                parentAction = "delete";
-
-                                break;
-
-                            default:
-                                parentAction = "browse";
-
-                                break;
-                        }
-                        //
-                        //TO DUMP BEHIND THE WALL
-                        //
-
                         zakładki = new List<Kontrolki.HtmlIframe>()
                         {
                             new Kontrolki.HtmlIframe("tab", "skladnikiCzynszu_tab", String.Format("SkladnikiCzynszuLokalu.aspx?parentAction={0}&kod_lok={1}&nr_lok={2}", _akcja, kodLokalu, nrLokalu), "hidden"),
                             new Kontrolki.HtmlIframe("tab", "cechy_tab", String.Format("AtrybutyObiektu.aspx?attributeOf={0}&parentId={1}&action={2}&childAction=Przeglądaj", Enumeratory.Atrybut.Lokalu, __record, _akcja), "hidden"),
-                            new Kontrolki.HtmlIframe("tab", "dokumenty_tab", String.Format("/czynsze1/PlikiNajemcy.cxp?parentAction={0}&nr_system={1}", parentAction, nrSystem), "hidden")
+                            new Kontrolki.HtmlIframe("tab", "dokumenty_tab", String.Format("Pliki.aspx?id_obiektu={0}&tabela={1}", nrSystem, _tabela), "hidden")
                         };
 
                         //form.Controls.Add(new Kontrolki.HtmlInputHidden("id", nrSystem));
@@ -389,34 +358,6 @@ namespace czynsze.Formularze
                         kontrolki.Add(new Kontrolki.TextBox("field", "il_osob", Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 3, 1, kontrolkiWłączone));
                         kontrolki.Add(new Kontrolki.DropDownList("field", "kod_praw", db.TytułyPrawne.AsEnumerable<DostępDoBazy.TytułPrawny>().Select(t => t.WażnePolaDoRozwijanejListy()).ToList(), kontrolkiWłączone, false));
                         kontrolki.Add(new Kontrolki.TextBox("field", "uwagi", Kontrolki.TextBox.TextBoxMode.KilkaLinii, 240, 4, kontrolkiWłączone));
-
-                        //
-                        //CXP PART
-                        //
-                        try
-                        {
-                            switch (_akcja)
-                            {
-                                case Enumeratory.Akcja.Dodaj:
-                                    //db.Database.ExecuteSqlCommand("CREATE TABLE skl_cz_tmp AS SELECT * FROM skl_cz WHERE 1=2");
-                                    //db.Database.ExecuteSqlCommand("CREATE TABLE pliki_tmp AS SELECT * FROM pliki WHERE 1=2");
-                                    db.Database.ExecuteSqlCommand("CREATE TABLE pliki_tmp(nr_system numeric(14,0),id numeric(14,0) NOT NULL,plik text,nazwa_pliku character(100),opis character(100), PRIMARY KEY (id))WITH (OIDS=FALSE)");
-
-                                    break;
-
-                                default:
-                                    //db.Database.ExecuteSqlCommand("CREATE TABLE skl_cz_tmp AS SELECT * FROM skl_cz WHERE kod_lok=" + values[1] + " AND nr_lok=" + values[2]);
-                                    //db.Database.ExecuteSqlCommand(String.Format("CREATE TABLE pliki_tmp AS SELECT * FROM pliki WHERE nr_system={0}", nrSystem));
-                                    db.Database.ExecuteSqlCommand("CREATE TABLE pliki_tmp(nr_system numeric(14,0),id numeric(14,0) NOT NULL,plik text,nazwa_pliku character(100),opis character(100), PRIMARY KEY (id))WITH (OIDS=FALSE)");
-                                    db.Database.ExecuteSqlCommand(String.Format("INSERT INTO pliki_tmp SELECT * FROM pliki WHERE nr_system={0}", nrSystem));
-
-                                    break;
-                            }
-                        }
-                        catch { }
-                        //
-                        //TO DUMP BEHIND THE WALL
-                        //
 
                         break;
 

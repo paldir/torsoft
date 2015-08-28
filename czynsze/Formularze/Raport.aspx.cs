@@ -10,7 +10,7 @@ using Pechkin;
 
 namespace czynsze.Formularze
 {
-    public partial class Raport : System.Web.UI.Page
+    public partial class Raport : Strona
     {
         string html;
         List<string> nagłówki;
@@ -21,12 +21,12 @@ namespace czynsze.Formularze
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Enumeratory.FormatRaportu format = (Enumeratory.FormatRaportu)Enum.Parse(typeof(Enumeratory.FormatRaportu), Sesja.Obecna.FormatRaportu);
-            nagłówki = Sesja.Obecna.NagłówkiRaportu;
-            tabele = Sesja.Obecna.TabeleRaportu;
-            podpisy = Sesja.Obecna.PodpisyRaportu;
-            tytuł = Sesja.Obecna.TytułRaportu;
-            object potencjalnaGotowaDefinicjaHtml = Sesja.Obecna.GotowaDefinicjaHtmlRaportu;
+            Enumeratory.FormatRaportu format = (Enumeratory.FormatRaportu)Enum.Parse(typeof(Enumeratory.FormatRaportu), WartościSesji.FormatRaportu);
+            nagłówki = WartościSesji.NagłówkiRaportu;
+            tabele = WartościSesji.TabeleRaportu;
+            podpisy = WartościSesji.PodpisyRaportu;
+            tytuł = WartościSesji.TytułRaportu;
+            object potencjalnaGotowaDefinicjaHtml = WartościSesji.GotowaDefinicjaHtmlRaportu;
 
             /*if (potencjalnaGotowaDefinicjaHtml != null)
                 html = potencjalnaGotowaDefinicjaHtml.ToString();*/

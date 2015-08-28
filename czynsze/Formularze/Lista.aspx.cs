@@ -542,28 +542,6 @@ namespace czynsze.Formularze
                 }
 
                 Start.ŚcieżkaStrony.Dodaj(węzełŚcieżkiStrony, ŚcieżkaIQuery);
-
-                //
-                //CXP PART
-                //
-                switch (_tabela)
-                {
-                    case Enumeratory.Tabela.AktywneLokale:
-                    case Enumeratory.Tabela.NieaktywneLokale:
-                        {
-                            try
-                            {
-                                //db.Database.ExecuteSqlCommand("DROP TABLE skl_cz_tmp");
-                                db.Database.ExecuteSqlCommand("DROP TABLE pliki_tmp");
-                            }
-                            catch { }
-                        }
-
-                        break;
-                }
-                //
-                //TO DUMP BEHIND THE WALL
-                //
             }
         }
 

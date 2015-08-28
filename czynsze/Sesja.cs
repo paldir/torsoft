@@ -9,8 +9,7 @@ namespace czynsze
     {
         const string _klucz = "__mojaSesja__";
 
-        Sesja()
-        { }
+        Sesja() { }
 
         public static Sesja Obecna
         {
@@ -40,6 +39,7 @@ namespace czynsze
         public List<string> GotowaDefinicjaHtmlRaportu { get; set; }
         public DostępDoBazy.Rekord Rekord { get; set; }
         public List<DostępDoBazy.SkładnikCzynszuLokalu> SkładnikiCzynszuLokalu { get; set; }
+        public List<DostępDoBazy.Plik> Pliki { get; set; }
 
         public void Wyczyść()
         {

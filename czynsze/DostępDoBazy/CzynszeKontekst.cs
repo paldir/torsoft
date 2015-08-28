@@ -47,6 +47,8 @@ namespace czynsze.DostępDoBazy
         public DbSet<Zamknięty> Zamknięte { get; set; }
         public DbSet<BudynekWspólnoty> BudynkiWspólnot { get; set; }
         public DbSet<Treść> Treści { get; set; }
+        public DbSet<PlikLokalu> PlikiLokalów { get; set; }
+        public DbSet<PlikBudynku> PlikiBudynków { get; set; }
 
         static DbCompiledModel _model;
         public const string FormatDaty = "{0:yyyy-MM-dd}";

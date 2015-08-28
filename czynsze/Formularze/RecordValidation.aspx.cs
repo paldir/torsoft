@@ -49,6 +49,7 @@ namespace czynsze.Formularze
                 DostępDoBazy.Rekord record = null;
                 Type attributeType = null;
                 Type inactiveType = null;
+                Type typPlików = null;
 
                 Dictionary<Enumeratory.Akcja, string> dictionaryOfActionInfinitives = new Dictionary<Enumeratory.Akcja, string>()
                 {
@@ -84,6 +85,7 @@ namespace czynsze.Formularze
                             case Enumeratory.Tabela.Budynki:
                                 record = new DostępDoBazy.Budynek();
                                 attributeType = typeof(DostępDoBazy.AtrybutBudynku);
+                                typPlików = typeof(DostępDoBazy.PlikBudynku);
                                 nominativeCase = "budynek";
                                 genitiveCase = "budynku";
 
@@ -103,6 +105,7 @@ namespace czynsze.Formularze
                             case Enumeratory.Tabela.AktywneLokale:
                                 record = new DostępDoBazy.AktywnyLokal();
                                 attributeType = typeof(DostępDoBazy.AtrybutLokalu);
+                                typPlików = typeof(DostępDoBazy.PlikLokalu);
                                 inactiveType = typeof(DostępDoBazy.NieaktywnyLokal);
                                 nominativeCase = "lokal";
                                 genitiveCase = "lokalu";
@@ -138,6 +141,7 @@ namespace czynsze.Formularze
                             case Enumeratory.Tabela.NieaktywneLokale:
                                 record = new DostępDoBazy.NieaktywnyLokal();
                                 inactiveType = typeof(DostępDoBazy.AktywnyLokal);
+                                typPlików = typeof(DostępDoBazy.PlikLokalu);
                                 nominativeCase = "lokal (nieaktywny)";
                                 genitiveCase = "lokalu (nieaktywnego)";
 
@@ -435,9 +439,13 @@ namespace czynsze.Formularze
                         {
                             DbSet dbSet = db.Set(record.GetType());
                             DbSet dbSetOfAttributes = null;
+                            DbSet zbiórPlików = null;
 
                             if (attributeType != null)
                                 dbSetOfAttributes = db.Set(attributeType);
+
+                            if (typPlików != null)
+                                zbiórPlików = db.Set(typPlików);
 
                             switch (action)
                             {
@@ -453,6 +461,14 @@ namespace czynsze.Formularze
                                             dbSetOfAttributes.Add(attribute);
                                         }
 
+                                    if(zbiórPlików!=null)
+                                        foreach (DostępDoBazy.Plik plik in WartościSesji.Pliki)
+                                        {
+                                            plik.id_obiektu = record.__record;
+
+                                            zbiórPlików.Add(plik);
+                                        }
+
                                     switch (table)
                                     {
                                         case Enumeratory.Tabela.AktywneLokale:
@@ -463,14 +479,6 @@ namespace czynsze.Formularze
 
                                                 db.SkładnikiCzynszuLokalu.Add(rentComponentOfPlace);
                                             }
-
-                                            //
-                                            // CXP PART
-                                            //
-                                            db.Database.ExecuteSqlCommand("INSERT INTO pliki(id, plik, nazwa_pliku, opis, nr_system) SELECT id, plik, nazwa_pliku, opis, nr_system FROM pliki_tmp");
-                                            //
-                                            // TO DUMP INTO UNDERDARK
-                                            //
 
                                             break;
 
@@ -501,10 +509,16 @@ namespace czynsze.Formularze
 
                                         foreach (DostępDoBazy.AtrybutObiektu attributeOfObject in WartościSesji.AtrybutyObiektu)
                                             dbSetOfAttributes.Add(attributeOfObject);
+
+                                        foreach (DostępDoBazy.Plik plik in zbiórPlików.ToListAsync().Result.Cast<DostępDoBazy.Plik>().Where(p => p.id_obiektu == record.__record))
+                                            zbiórPlików.Remove(plik);
+
+                                        foreach (DostępDoBazy.Plik plik in WartościSesji.Pliki)
+                                            zbiórPlików.Add(plik);
                                     }
 
                                     switch (table)
-                                    {
+                                    { 
                                         case Enumeratory.Tabela.AktywneLokale:
                                             DostępDoBazy.Lokal place = (DostępDoBazy.Lokal)record;
 
@@ -513,15 +527,6 @@ namespace czynsze.Formularze
 
                                             foreach (DostępDoBazy.SkładnikCzynszuLokalu rentComponentOfPlace in WartościSesji.SkładnikiCzynszuLokalu)
                                                 db.SkładnikiCzynszuLokalu.Add(rentComponentOfPlace);
-
-                                            //
-                                            // CXP PART
-                                            //
-                                            db.Database.ExecuteSqlCommand("DELETE FROM pliki WHERE nr_system=" + recordFields[0]);
-                                            db.Database.ExecuteSqlCommand("INSERT INTO pliki(id, plik, nazwa_pliku, opis, nr_system) SELECT id, plik, nazwa_pliku, opis, nr_system FROM pliki_tmp");
-                                            //
-                                            // TO DUMP INTO UNDERDARK
-                                            //
 
                                             break;
 
@@ -555,14 +560,6 @@ namespace czynsze.Formularze
 
                                             foreach (DostępDoBazy.SkładnikCzynszuLokalu component in db.SkładnikiCzynszuLokalu.Where(c => c.kod_lok == place.kod_lok && c.nr_lok == place.nr_lok))
                                                 db.SkładnikiCzynszuLokalu.Remove(component);
-
-                                            //
-                                            // CXP PART
-                                            //
-                                            db.Database.ExecuteSqlCommand("DELETE FROM pliki WHERE nr_system=" + recordFields[0]);
-                                            //
-                                            // TO DUMP INTO UNDERDARK
-                                            //
 
                                             break;
 

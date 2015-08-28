@@ -9,7 +9,7 @@ using System.Text;
 
 namespace czynsze.Formularze
 {
-    public partial class WalidacjaUzytkownika : System.Web.UI.Page
+    public partial class WalidacjaUzytkownika : Strona
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -26,7 +26,7 @@ namespace czynsze.Formularze
 
                 if (walidacjaPomyślna)
                 {
-                    Sesja.Obecna.AktualnieZalogowanyUżytkownik = użytkownik;
+                    WartościSesji.AktualnieZalogowanyUżytkownik = użytkownik;
 
                     Response.Redirect("Start.aspx");
                 }

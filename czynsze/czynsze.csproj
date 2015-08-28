@@ -91,6 +91,8 @@
   <ItemGroup>
     <Content Include="Formularze\AtrybutyObiektu.aspx" />
     <Content Include="Formularze\NaleznosciIObrotyNajemcy.aspx" />
+    <Content Include="Formularze\Plik.aspx" />
+    <Content Include="Formularze\Pliki.aspx" />
     <Content Include="Formularze\SaldoNajemcy.aspx" />
     <Content Include="Formularze\ZmianaDaty.aspx" />
     <Content Include="Formularze\ZmianaZbioru.aspx" />
@@ -118,6 +120,7 @@
     <Content Include="JavaScripts\AttributeOfObject.js" />
     <Content Include="JavaScripts\CommunityBuildings.js" />
     <Content Include="JavaScripts\List.js" />
+    <Content Include="JavaScripts\Pliki.js" />
     <Content Include="JavaScripts\Record.js" />
     <Content Include="JavaScripts\RentComponentsOfPlace.js" />
     <Content Include="JavaScripts\ReportConfiguration.js" />
@@ -149,6 +152,9 @@
   <ItemGroup>
     <Compile Include="DostępDoBazy\BudynekWspólnoty.cs" />
     <Compile Include="DostępDoBazy\IInformacjeOPozycji.cs" />
+    <Compile Include="DostępDoBazy\Plik.cs" />
+    <Compile Include="DostępDoBazy\PlikBudynku.cs" />
+    <Compile Include="DostępDoBazy\PlikLokalu.cs" />
     <Compile Include="DostępDoBazy\PozycjaDoAnalizy.cs" />
     <Compile Include="DostępDoBazy\UniqueAttribute.cs" />
     <Compile Include="DostępDoBazy\Zamknięty.cs" />
@@ -167,6 +173,20 @@
     </Compile>
     <Compile Include="Formularze\NaleznosciIObrotyNajemcy.aspx.designer.cs">
       <DependentUpon>NaleznosciIObrotyNajemcy.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\Plik.aspx.cs">
+      <DependentUpon>Plik.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\Plik.aspx.designer.cs">
+      <DependentUpon>Plik.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\Pliki.aspx.cs">
+      <DependentUpon>Pliki.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\Pliki.aspx.designer.cs">
+      <DependentUpon>Pliki.aspx</DependentUpon>
     </Compile>
     <Compile Include="Formularze\SaldoNajemcy.aspx.cs">
       <DependentUpon>SaldoNajemcy.aspx</DependentUpon>
