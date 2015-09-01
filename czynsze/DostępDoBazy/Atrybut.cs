@@ -29,9 +29,28 @@ namespace czynsze.DostępDoBazy
         public string zb_s { get; set; }
 
         [Display(Name = "dotyczy")]
-        public string zb 
+        public string zb
         {
-            get { return null; } 
+            get
+            {
+                string dotyczy = String.Empty;
+                string iks = "X";
+                string średnik = ";";
+
+                if (String.Equals(zb_b, iks))
+                    dotyczy = String.Concat(dotyczy, "b", średnik);
+
+                if (String.Equals(zb_l, iks))
+                    dotyczy = String.Concat(dotyczy, "l", średnik);
+
+                if (String.Equals(zb_n, iks))
+                    dotyczy = String.Concat(dotyczy, "n", średnik);
+
+                if (String.Equals(zb_s, iks))
+                    dotyczy = String.Concat(dotyczy, "s", średnik);
+
+                return dotyczy;
+            }
         }
 
         [Display(Name = "jednostka miary")]

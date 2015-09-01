@@ -73,7 +73,7 @@ namespace czynsze.Formularze
                             nazwy.Add(grupa.nazwa);
                         }
 
-                        placeOfOthers.Controls.Add(new Kontrolki.CheckBoxList("kontrolka", "grupyCzynszu", nazwy, id, id, true));
+                        placeOfOthers.Controls.Add(new Kontrolki.CheckBoxList("kontrolka", "grupyCzynszu", nazwy, id, true, id));
 
                         switch (rodzaj)
                         {

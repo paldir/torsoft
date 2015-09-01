@@ -77,7 +77,7 @@ namespace czynsze.Formularze
                             {
                                 pierwszyBudynek,
                                 drugiBudynek,
-                                new Kontrolki.CheckBoxList("field", "kod_typ", db.TypyLokali.Select(t=>t.typ_lok).ToList(), db.TypyLokali.Select(t=>t.kod_typ.ToString()).ToList(), db.TypyLokali.Select(t=>t.kod_typ.ToString()).ToList(), true)
+                                new Kontrolki.CheckBoxList("field", "kod_typ", db.TypyLokali.Select(t=>t.typ_lok).ToList(), db.TypyLokali.Select(t=>t.kod_typ.ToString()).ToList(), true, db.TypyLokali.Select(t=>t.kod_typ.ToString()).ToList())
                             };
                         }
 

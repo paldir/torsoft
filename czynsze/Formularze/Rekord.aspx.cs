@@ -818,7 +818,7 @@ namespace czynsze.Formularze
                         if (String.Equals(atrybut.zb_s, "X"))
                             selectedValues.Add("s");
 
-                        kontrolki.Add(new Kontrolki.CheckBoxList("field", "zb", new List<string>() { "lokale", "najemcy", "budynki", "wspólnoty" }, new List<string>() { "l", "n", "b", "s" }, selectedValues, kontrolkiWłączone));
+                        kontrolki.Add(new Kontrolki.CheckBoxList("field", "zb", new List<string>() { "lokale", "najemcy", "budynki", "wspólnoty" }, new List<string>() { "l", "n", "b", "s" }, kontrolkiWłączone));
 
                         break;
 
