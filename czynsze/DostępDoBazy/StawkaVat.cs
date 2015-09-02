@@ -35,7 +35,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public override void Ustaw(string[] rekord)
+        /*public override void Ustaw(string[] rekord)
         {
             nazwa = rekord[1];
             symb_fisk = rekord[2];
@@ -52,6 +52,6 @@ namespace czynsze.DostępDoBazy
                         wynik += "Nie można usunąć stawki VAT, ponieważ jest ona wykorzystywana w innych tabelach! <br />";
 
             return wynik;
-        }
+        }*/
     }
 }

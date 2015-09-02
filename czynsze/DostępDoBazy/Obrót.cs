@@ -199,7 +199,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public override void Ustaw(string[] rekord)
+        /*public override void Ustaw(string[] rekord)
         {
             //__record = Int32.Parse(rekord[0]);
             suma = Decimal.Parse(rekord[1]);
@@ -231,7 +231,7 @@ namespace czynsze.DostępDoBazy
             }
 
             return wynik;
-        }
+        }*/
 
         void UstawLokal()
         {

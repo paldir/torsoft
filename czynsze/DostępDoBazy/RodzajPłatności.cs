@@ -111,7 +111,7 @@ namespace czynsze.DostępDoBazy
             });
         }
 
-        public override void Ustaw(string[] record)
+        /*public override void Ustaw(string[] record)
         {
             kod_wplat = Int32.Parse(record[0]);
             typ_wplat = record[1];
@@ -160,7 +160,7 @@ namespace czynsze.DostępDoBazy
             }
 
             return result;
-        }
+        }*/
 
         public string[] ImportantFieldsForDropdown()
         {

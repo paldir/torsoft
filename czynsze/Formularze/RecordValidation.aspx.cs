@@ -125,23 +125,6 @@ namespace czynsze.Formularze
                                 nominativeCase = "składnik opłat";
                                 genitiveCase = "składnika opłat";
 
-                                /*if (String.Equals(recordFields[3], "6"))
-                                    recordFields = recordFields.ToList().Concat(new string[] 
-                                        {
-                                            PobierzWartośćParametru<string>("stawka_00"),
-                                            PobierzWartośćParametru<string>("stawka_01"),
-                                            PobierzWartośćParametru<string>("stawka_02"),
-                                            PobierzWartośćParametru<string>("stawka_03"),
-                                            PobierzWartośćParametru<string>("stawka_04"),
-                                            PobierzWartośćParametru<string>("stawka_05"),
-                                            PobierzWartośćParametru<string>("stawka_06"),
-                                            PobierzWartośćParametru<string>("stawka_07"),
-                                            PobierzWartośćParametru<string>("stawka_08"),
-                                            PobierzWartośćParametru<string>("stawka_09")
-                                        }).ToArray();
-                                else
-                                    recordFields = recordFields.ToList().Concat(new string[] { "", "", "", "", "", "", "", "", "", "" }).ToArray();*/
-
                                 break;
 
                             case Enumeratory.Tabela.TypyLokali:
@@ -236,7 +219,7 @@ namespace czynsze.Formularze
                                         break;
                                 }
 
-                                throw new NotImplementedException("Brak adresu zwrtonego.");
+                                throw new NotImplementedException("Brak adresu zwrotnego.");
 
                             //backUrl = backUrl.Insert(backUrl.LastIndexOf('\''), "&id=" + recordFields[8]);
                         }
@@ -335,6 +318,9 @@ namespace czynsze.Formularze
                                     if (dbSetOfAttributes != null)
                                     {
                                         DostępDoBazy.AtrybutLokalu.Lokale = db.AktywneLokale.ToList();
+                                        DostępDoBazy.AtrybutBudynku.Budynki = db.Budynki.ToList();
+                                        DostępDoBazy.AtrybutNajemcy.Najemcy = db.AktywniNajemcy.ToList();
+                                        DostępDoBazy.AtrybutWspólnoty.Wspólnoty = db.Wspólnoty.ToList();
 
                                         foreach (DostępDoBazy.AtrybutObiektu attributeOfObject in dbSetOfAttributes.ToListAsync().Result.Cast<DostępDoBazy.AtrybutObiektu>().Where(a => a.kod_powiaz.Trim() == id.ToString()))
                                             dbSetOfAttributes.Remove(attributeOfObject);
@@ -443,6 +429,9 @@ namespace czynsze.Formularze
                     placeOfButtons.Controls.Add(new Kontrolki.Button("button", "Back", "Powrót", backUrl));
 
                 DostępDoBazy.AtrybutLokalu.Lokale = null;
+                DostępDoBazy.AtrybutBudynku.Budynki = null;
+                DostępDoBazy.AtrybutNajemcy.Najemcy = null;
+                DostępDoBazy.AtrybutWspólnoty.Wspólnoty = null;
             }
         }
 
@@ -456,7 +445,7 @@ namespace czynsze.Formularze
                 {
                     właściwość.SetValue(rekord, PobierzWartośćParametru(właściwość.Name, właściwość.PropertyType));
                 }
-                catch (TargetInvocationException)
+                catch (InvalidCastException)
                 {
                     nazwyPólZProblemami.Add(właściwość.GetCustomAttribute<System.ComponentModel.DataAnnotations.DisplayAttribute>().Name);
                 }

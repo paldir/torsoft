@@ -20,36 +20,58 @@ namespace czynsze.DostępDoBazy
         [Display(Name = "numeryczna/charakter")]
         public string nr_str { get; set; }
 
-        public string zb_l { get; set; }
+        public string zb_l { get; private set; }
 
-        public string zb_n { get; set; }
+        public string zb_n { get; private set; }
 
-        public string zb_b { get; set; }
+        public string zb_b { get; private set; }
 
-        public string zb_s { get; set; }
+        public string zb_s { get; private set; }
 
         [Display(Name = "dotyczy")]
+        [NotMapped]
         public string zb
         {
             get
             {
                 string dotyczy = String.Empty;
                 string iks = "X";
-                string średnik = ";";
-
-                if (String.Equals(zb_b, iks))
-                    dotyczy = String.Concat(dotyczy, "b", średnik);
+                string przecinek = ",";
 
                 if (String.Equals(zb_l, iks))
-                    dotyczy = String.Concat(dotyczy, "l", średnik);
+                    dotyczy = String.Concat(dotyczy, "l", przecinek);
 
                 if (String.Equals(zb_n, iks))
-                    dotyczy = String.Concat(dotyczy, "n", średnik);
+                    dotyczy = String.Concat(dotyczy, "n", przecinek);
+
+                if (String.Equals(zb_b, iks))
+                    dotyczy = String.Concat(dotyczy, "b", przecinek);
 
                 if (String.Equals(zb_s, iks))
-                    dotyczy = String.Concat(dotyczy, "s", średnik);
+                    dotyczy = String.Concat(dotyczy, "s", przecinek);
+
+                if (!String.IsNullOrEmpty(dotyczy))
+                    dotyczy = dotyczy.Substring(0, dotyczy.Length - 1);
 
                 return dotyczy;
+            }
+
+            set
+            {
+                string[] wybraneWartości = value.Split(',');
+                string iks = "X";
+
+                if (wybraneWartości.Contains("l"))
+                    zb_l = iks;
+
+                if (wybraneWartości.Contains("n"))
+                    zb_n = iks;
+
+                if (wybraneWartości.Contains("b"))
+                    zb_b = iks;
+
+                if (wybraneWartości.Contains("s"))
+                    zb_s = iks;
             }
         }
 
@@ -111,7 +133,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public override void Ustaw(string[] record)
+        /*public override void Ustaw(string[] record)
         {
             kod = Int32.Parse(record[0]);
             nazwa = record[1];
@@ -172,6 +194,6 @@ namespace czynsze.DostępDoBazy
             }
 
             return wynik;
-        }
+        }*/
     }
 }

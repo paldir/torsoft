@@ -35,7 +35,7 @@ namespace czynsze.DostępDoBazy
             });
         }
 
-        public override void Ustaw(string[] rekord)
+        /*public override void Ustaw(string[] rekord)
         {
             kod_praw = Int32.Parse(rekord[0]);
             tyt_prawny = rekord[1];
@@ -74,6 +74,6 @@ namespace czynsze.DostępDoBazy
             }
 
             return wynik;
-        }
+        }*/
     }
 }

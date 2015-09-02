@@ -74,7 +74,7 @@ namespace czynsze.DostępDoBazy
             get { return nr_lok; }
         }
 
-        public override void Ustaw(string[] rekord)
+        /*public override void Ustaw(string[] rekord)
         {
             throw new InvalidOperationException();
         }
@@ -82,7 +82,7 @@ namespace czynsze.DostępDoBazy
         public override string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             return String.Empty;
-        }
+        }*/
 
         public override IEnumerable<string> PolaDoTabeli()
         {

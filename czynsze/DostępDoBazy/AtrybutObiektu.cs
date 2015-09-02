@@ -20,11 +20,7 @@ namespace czynsze.DostępDoBazy
         public string kod_powiaz_ { get; protected set; }
 
         [NotMapped]
-        public virtual string kod_powiaz
-        {
-            get { return kod_powiaz_; }
-            set { kod_powiaz_ = value; }
-        }
+        public abstract string kod_powiaz { get; set; }
 
         public float wartosc_n { get; set; }
 

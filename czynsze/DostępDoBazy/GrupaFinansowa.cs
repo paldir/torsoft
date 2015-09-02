@@ -30,7 +30,7 @@ namespace czynsze.DostępDoBazy
             });
         }
 
-        public override string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
+        /*public override string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             string wynik = String.Empty;
             int kod;
@@ -68,6 +68,6 @@ namespace czynsze.DostępDoBazy
             kod = Int32.Parse(rekord[0]);
             k_syn = rekord[1];
             nazwa = rekord[2];
-        }
+        }*/
     }
 }

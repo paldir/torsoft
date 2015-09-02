@@ -44,6 +44,9 @@ namespace czynsze.Formularze
                 List<string[]> wiersze = null;
                 List<string[]> wierszeRozwijanejListy = null;
                 DostępDoBazy.AtrybutLokalu.Lokale = db.AktywneLokale.ToList();
+                DostępDoBazy.AtrybutBudynku.Budynki = db.Budynki.ToList();
+                DostępDoBazy.AtrybutNajemcy.Najemcy = db.AktywniNajemcy.ToList();
+                DostępDoBazy.AtrybutWspólnoty.Wspólnoty = db.Wspólnoty.ToList();
 
                 switch (akcjaDziecka)
                 {
@@ -133,6 +136,9 @@ namespace czynsze.Formularze
                 }
 
                 DostępDoBazy.AtrybutLokalu.Lokale = null;
+                DostępDoBazy.AtrybutBudynku.Budynki = null;
+                DostępDoBazy.AtrybutNajemcy.Najemcy = null;
+                DostępDoBazy.AtrybutWspólnoty.Wspólnoty = null;
                 wiersze = WartościSesji.AtrybutyObiektu.Select(a => a.PolaDoTabeli().ToArray()).ToList();
                 IEnumerable<DostępDoBazy.Atrybut> atrybuty = db.Atrybuty.AsEnumerable<DostępDoBazy.Atrybut>();
 

@@ -26,7 +26,7 @@ namespace czynsze.Formularze
 
             string wartość = Request.Params[prawdziwyKlucz];
 
-            if (wartość == null)
+            if (String.IsNullOrEmpty(wartość))
             {
                 if (zwracanyTyp.IsValueType)
                     return Activator.CreateInstance(zwracanyTyp);

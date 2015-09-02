@@ -75,7 +75,7 @@ namespace czynsze.DostępDoBazy
             });
         }
 
-        public override string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
+        /*public override string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             return String.Empty;
         }
@@ -108,7 +108,7 @@ namespace czynsze.DostępDoBazy
             e_mail = rekord[9];
             l__has = rekord[10];
             uwagi = rekord[11];
-        }
+        }*/
 
         public string[] ZLokalem()
         {

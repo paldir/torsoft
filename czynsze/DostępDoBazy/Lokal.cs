@@ -127,7 +127,7 @@ namespace czynsze.DostępDoBazy
                 return typLokalu.typ_lok;
         }
 
-        public override void Ustaw(string[] rekord)
+        /*public override void Ustaw(string[] rekord)
         {
             nr_system = Int32.Parse(rekord[0]);
             kod_lok = Int32.Parse(rekord[1]);
@@ -213,6 +213,6 @@ namespace czynsze.DostępDoBazy
             }
 
             return wynik;
-        }
+        }*/
     }
 }

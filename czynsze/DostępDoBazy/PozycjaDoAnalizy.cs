@@ -16,8 +16,8 @@ namespace czynsze.DostępDoBazy
         public abstract int NrLokalu { get; }
         public IInformacjeOPozycji Informacje { get; set; }
 
-        public abstract override void Ustaw(string[] rekord);
-        public abstract override string Waliduj(Enumeratory.Akcja akcja, string[] rekord);
+        /*public abstract override void Ustaw(string[] rekord);
+        public abstract override string Waliduj(Enumeratory.Akcja akcja, string[] rekord);*/
         public override IEnumerable<string> PolaDoTabeli() { return base.PolaDoTabeli(); }
     }
 }

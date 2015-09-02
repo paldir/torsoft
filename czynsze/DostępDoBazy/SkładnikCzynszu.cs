@@ -147,7 +147,7 @@ namespace czynsze.DostępDoBazy
             };
         }
 
-        public override string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
+        /*public override string Waliduj(Enumeratory.Akcja akcja, string[] rekord)
         {
             string wynik = "";
             int id;
@@ -224,6 +224,6 @@ namespace czynsze.DostępDoBazy
             stawka_07 = Decimal.Parse(rekord[17]);
             stawka_08 = Decimal.Parse(rekord[18]);
             stawka_09 = Decimal.Parse(rekord[19]);
-        }
+        }*/
     }
 }

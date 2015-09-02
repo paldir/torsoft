@@ -11,8 +11,8 @@ namespace czynsze.DostępDoBazy
         [System.ComponentModel.DataAnnotations.Key]
         public int __record { get; private set; }
 
-        public abstract void Ustaw(string[] rekord);
-        public abstract string Waliduj(Enumeratory.Akcja akcja, string[] rekord);
+        /*public abstract void Ustaw(string[] rekord);
+        public abstract string Waliduj(Enumeratory.Akcja akcja, string[] rekord);*/
 
         public virtual IEnumerable<string> PolaDoTabeli()
         {

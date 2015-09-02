@@ -32,7 +32,7 @@ namespace czynsze.DostępDoBazy
             });
         }
 
-        public override void Ustaw(string[] rekord)
+        /*public override void Ustaw(string[] rekord)
         {
             symbol = rekord[1];
             nazwisko = rekord[2];
@@ -73,6 +73,6 @@ namespace czynsze.DostępDoBazy
             }
 
             return wynik;
-        }
+        }*/
     }
 }

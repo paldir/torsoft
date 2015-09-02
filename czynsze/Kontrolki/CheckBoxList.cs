@@ -13,11 +13,18 @@ namespace czynsze.Kontrolki
         {
             get
             {
-                throw new NotImplementedException("Nie zaimplementowano gettera wartości dla kontrolki CheckBoxList.");
+                List<string> wybraneWartości = new List<string>();
+
+                foreach (ListItem pozycja in Items)
+                    if (pozycja.Selected)
+                        wybraneWartości.Add(pozycja.Value);
+
+                return String.Join(",", wybraneWartości);
             }
+
             set
             {
-                string[] wybraneWartości = value.Split(';');
+                string[] wybraneWartości = value.Split(',');
 
                 ZaznaczPozycje(wybraneWartości);
             }

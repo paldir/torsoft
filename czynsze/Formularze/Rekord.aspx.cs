@@ -44,8 +44,6 @@ namespace czynsze.Formularze
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
                 bool kontrolkiWłączone = false;
-                //bool idEnabled = false;
-                string[] etykiety = null;
                 string nagłówek = null;
                 List<Kontrolki.Button> przyciski = new List<Kontrolki.Button>();
                 List<Control> kontrolki = new List<Control>();
@@ -60,11 +58,6 @@ namespace czynsze.Formularze
                 string zwrotnyUrl = "javascript: Load('" + Request.UrlReferrer + "')";
                 Type typRekordu = DostępDoBazy.CzynszeKontekst.TabelaNaTypRekordu[_tabela];
                 System.Data.Entity.DbSet zbiór = db.Set(typRekordu);
-                /*Dictionary<bool, string> fromIdEnabledToIdSuffix = new Dictionary<bool, string>()
-                {
-                    {true, String.Empty},
-                    {false, "_disabled"}
-                };*/
 
                 if (WartościSesji.Rekord == null)
                     switch (_akcja)
@@ -147,16 +140,6 @@ namespace czynsze.Formularze
                         zmianaKolumn = new List<int>() { 0, 6 };
                         DostępDoBazy.Budynek budynek = WartościSesji.Rekord as DostępDoBazy.Budynek;
                         int kodBudynku = budynek.kod_1;
-                        etykiety = new string[] 
-                        { 
-                            "Kod budynku: ", 
-                            "Ilość lokali: ", 
-                            "Sposób rozliczania: ", 
-                            "Adres: ", 
-                            "Adres cd.: ",
-                            "Udział w koszt.: ",
-                            "Uwagi: " 
-                        };
 
                         przyciskiZakładek = new List<Kontrolki.HtmlInputRadioButton>()
                         {
@@ -175,14 +158,17 @@ namespace czynsze.Formularze
                         zakładki = new List<Kontrolki.HtmlIframe>()
                         {
                             new Kontrolki.HtmlIframe("tab", "cechy_tab", "AtrybutyObiektu.aspx?attributeOf="+Enumeratory.Atrybut.Budynku+"&parentId="+kodBudynku+"&action="+_akcja.ToString()+"&childAction=Przeglądaj", "hidden"),
-                            new Kontrolki.HtmlIframe("tab", "dokumenty_tab", String.Format("Pliki.aspx?id_obiektu={0}&tabela={1}", kodBudynku, _tabela), "hidden")
+                            new Kontrolki.HtmlIframe("tab", "dokumenty_tab", String.Format("Pliki.aspx?id_obiektu={0}&tabela={1}", __record, _tabela), "hidden")
                         };
 
                         WartościSesji.AtrybutyObiektu = new List<DostępDoBazy.AtrybutObiektu>();
                         WartościSesji.Pliki = db.PlikiBudynków.Where(p => p.id_obiektu == __record).AsEnumerable<DostępDoBazy.Plik>().ToList();
+                        DostępDoBazy.AtrybutBudynku.Budynki = db.Budynki.ToList();
 
                         foreach (DostępDoBazy.AtrybutBudynku attributeOfBuilding in db.AtrybutyBudynków.ToList().Where(a => Int32.Parse(a.kod_powiaz) == kodBudynku))
                             WartościSesji.AtrybutyObiektu.Add(attributeOfBuilding);
+
+                        DostępDoBazy.AtrybutBudynku.Budynki = null;
 
                         podgląd = new List<Control>()
                         {
@@ -217,31 +203,6 @@ namespace czynsze.Formularze
                         }
 
                         zmianaKolumn = new List<int> { 0, 5, 10, 17 };
-                        etykiety = new string[] 
-                        { 
-                            //"Nr system: ", 
-                            "Budynek: ", 
-                            "Nr lokalu: ",
-                            "Typ: ", 
-                            "Adres: ",
-                            "Adres cd.: ",
-                            "Powierzchnia użytkowa: ", 
-                            "Powierzchnia mieszkalna: ", 
-                            "Udział: ", 
-                            "Początek zakresu dat: ",
-                            "Koniec zakresu dat: ", 
-                            "Powierzchnia I pokoju: ",
-                            "Powierzchnia II pokoju: ", 
-                            "Powierzchnia III pokoju: ", 
-                            "Powierzchnia IV pokoju: ", 
-                            "Powierzchnia V pokoju: ",
-                            "Powierzchnia VI pokoju: ", 
-                            "Typ kuchni: ", 
-                            "Najemca: ", 
-                            "Ilość osób: ", 
-                            "Tytuł prawny do lokalu: ", 
-                            "Uwagi: " 
-                        };
 
                         DostępDoBazy.Lokal lokal = WartościSesji.Rekord as DostępDoBazy.Lokal;
 
@@ -288,7 +249,9 @@ namespace czynsze.Formularze
                         WartościSesji.Pliki = db.PlikiLokalów.Where(p => p.id_obiektu == __record).AsEnumerable<DostępDoBazy.Plik>().ToList();
                         lokal = WartościSesji.Rekord as DostępDoBazy.Lokal;
                         DostępDoBazy.AtrybutLokalu.Lokale = db.AktywneLokale.ToList();
+
                         WartościSesji.AtrybutyObiektu.AddRange(db.AtrybutyLokali.AsEnumerable().Where(a => Int32.Parse(a.kod_powiaz) == __record));
+
                         DostępDoBazy.AtrybutLokalu.Lokale = null;
 
                         WartościSesji.SkładnikiCzynszuLokalu.AddRange(db.SkładnikiCzynszuLokalu.AsEnumerable().Where(c => c.kod_lok == lokal.kod_lok && c.nr_lok == lokal.nr_lok));
@@ -366,21 +329,6 @@ namespace czynsze.Formularze
                         Title = "Najemca";
                         nagłówek += "najemcy";
                         zmianaKolumn = new List<int> { 0, 6 };
-                        etykiety = new string[] 
-                        { 
-                            "Nr kontrolny: ", 
-                            "Najemca: ", 
-                            "Nazwisko: ",
-                            "Imię: ", 
-                            "Adres: ", 
-                            "Adres cd.: ", 
-                            "Numer dowodu osobistego: ", 
-                            "Pesel: ", 
-                            "Zakład pracy: ",
-                            "Login/e-mail: ", 
-                            "Hasło: ", 
-                            "Uwagi: " 
-                        };
 
                         if (_tabela == Enumeratory.Tabela.NieaktywniNajemcy)
                         {
@@ -422,9 +370,12 @@ namespace czynsze.Formularze
                             }*/
 
                         WartościSesji.AtrybutyObiektu = new List<DostępDoBazy.AtrybutObiektu>();
+                        DostępDoBazy.AtrybutNajemcy.Najemcy = db.AktywniNajemcy.ToList();
 
                         foreach (DostępDoBazy.AtrybutNajemcy attributeOfTenant in db.AtrybutyNajemców.ToList().Where(a => Int32.Parse(a.kod_powiaz) == __record))
                             WartościSesji.AtrybutyObiektu.Add(attributeOfTenant);
+
+                        DostępDoBazy.AtrybutNajemcy.Najemcy = null;
                         //}
 
                         podgląd = new List<Control>()
@@ -477,20 +428,6 @@ namespace czynsze.Formularze
                         Title = "Składnik opłat";
                         nagłówek += "składnika opłat";
                         zmianaKolumn = new List<int> { 0, 6, 9 };
-                        etykiety = new string[]
-                        {
-                            "Nr składnika: ",
-                            "Nazwa: ",
-                            "Rodzaj ewidencji: ",
-                            "Sposób naliczania: ",
-                            "Stawka: ",
-                            "Stawka do korespondencji: ",
-                            "Typ składnika: ",
-                            "Początek okresu naliczania: ",
-                            "Koniec okresu naliczania: ",
-                            "Grupa składników czynszu: ",
-                            "Przedziały za osobę (dotyczy sposoby naliczania &quot;za osobę - przedziały&quot): "
-                        };
 
                         DostępDoBazy.SkładnikCzynszu składnikCzynszu = WartościSesji.Rekord as DostępDoBazy.SkładnikCzynszu;
 
@@ -543,21 +480,6 @@ namespace czynsze.Formularze
                         zmianaKolumn = new List<int>() { 0, 7 };
                         DostępDoBazy.Wspólnota wspólnota = WartościSesji.Rekord as DostępDoBazy.Wspólnota;
                         int kodWspólnoty = wspólnota.kod;
-                        etykiety = new string[]
-                        {
-                            "Kod wspólnoty: ",
-                            "Ilość budynków: ",
-                            "Ilość lokali: ",
-                            "Nazwa pełna wspólnoty: ",
-                            "Nazwa skrócona: ",
-                            "Adres wspólnoty: ",
-                            "Adres cd.: ",
-                            "Nr konta 1: ",
-                            "Nr konta 2: ",
-                            "Nr konta 3: ",
-                            "Ścieżka do F-K: ",
-                            "Uwagi: "
-                        };
 
                         /*if (rekord == null)
                         {
@@ -568,9 +490,12 @@ namespace czynsze.Formularze
 
                         WartościSesji.AtrybutyObiektu = new List<DostępDoBazy.AtrybutObiektu>();
                         WartościSesji.BudynkiWspólnoty = new List<DostępDoBazy.BudynekWspólnoty>();
+                        DostępDoBazy.AtrybutWspólnoty.Wspólnoty = db.Wspólnoty.ToList();
 
                         WartościSesji.AtrybutyObiektu.AddRange(db.AtrybutyWspólnot.AsEnumerable().Where(a => Int32.Parse(a.kod_powiaz) == kodWspólnoty));
                         WartościSesji.BudynkiWspólnoty.AddRange(db.BudynkiWspólnot.Where(c => c.kod == kodWspólnoty).OrderBy(b => b.kod_1));
+
+                        DostępDoBazy.AtrybutWspólnoty.Wspólnoty = null;
                         //}
 
                         podgląd = new List<Control>()
@@ -624,11 +549,6 @@ namespace czynsze.Formularze
                         Title = "Typ lokali";
                         nagłówek += "typu lokalu";
                         zmianaKolumn = new List<int>() { 0 };
-                        etykiety = new string[]
-                        {
-                            "Kod: ",
-                            "Typ lokalu: "
-                        };
 
                         kontrolki.Add(new Kontrolki.TextBox("field", "kod_typ", Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 3, 1, kontrolkiWłączone));
                         kontrolki.Add(new Kontrolki.TextBox("field", "typ_lok", Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 6, 1, kontrolkiWłączone));
@@ -639,11 +559,6 @@ namespace czynsze.Formularze
                         Title = "Rodzaj kuchni";
                         nagłówek += "rodzaju kuchni";
                         zmianaKolumn = new List<int>() { 0 };
-                        etykiety = new string[]
-                        {
-                            "Kod: ",
-                            "Rodzaj kuchni: "
-                        };
 
                         kontrolki.Add(new Kontrolki.TextBox("field", "kod_kuch", Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 3, 1, kontrolkiWłączone));
                         kontrolki.Add(new Kontrolki.TextBox("field", "typ_kuch", Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 15, 1, kontrolkiWłączone));
@@ -654,11 +569,6 @@ namespace czynsze.Formularze
                         Title = "Rodzaj najemców";
                         nagłówek += "rodzaju najemców";
                         zmianaKolumn = new List<int>() { 0 };
-                        etykiety = new string[]
-                        {
-                            "Kod: ",
-                            "Rodzaj najemcy: "
-                        };
 
                         kontrolki.Add(new Kontrolki.TextBox("field", "kod_najem", Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 3, 1, kontrolkiWłączone));
                         kontrolki.Add(new Kontrolki.TextBox("field", "r_najemcy", Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 15, 1, kontrolkiWłączone));
@@ -669,11 +579,6 @@ namespace czynsze.Formularze
                         Title = "Tytuł prawny do lokali";
                         nagłówek += "tytułu prawnego do lokali";
                         zmianaKolumn = new List<int>() { 0 };
-                        etykiety = new string[]
-                        {
-                            "Kod: ",
-                            "Tytuł prawny: "
-                        };
 
                         kontrolki.Add(new Kontrolki.TextBox("field", "kod_praw", Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 3, 1, kontrolkiWłączone));
                         kontrolki.Add(new Kontrolki.TextBox("field", "tyt_prawny", Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 15, 1, kontrolkiWłączone));
@@ -684,18 +589,6 @@ namespace czynsze.Formularze
                         Title = "Rodzaj wpłaty lub wypłaty";
                         nagłówek += "rodzaju wpłaty lub wypłaty";
                         zmianaKolumn = new List<int>() { 0, 5 };
-                        etykiety = new string[]
-                        {
-                            "Kod: ",
-                            "Rodzaj wpłaty lub wypłaty: ",
-                            "Rodzaj ewidencji: ",
-                            "Sposób rozliczenia: ",
-                            "Grupa składników czynszu: ",
-                            "Czy naliczać odsetki? ",
-                            "Czy liczyć odsetki na nocie? ",
-                            "VAT: ",
-                            "SWW: "
-                        };
 
                         kontrolki.Add(new Kontrolki.TextBox("field", "kod_wplat", Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 3, 1, kontrolkiWłączone));
                         kontrolki.Add(new Kontrolki.TextBox("field", "typ_wplat", Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 15, 1, kontrolkiWłączone));
@@ -727,11 +620,6 @@ namespace czynsze.Formularze
                         Title = "Grupa składników czynszu";
                         nagłówek += "grupy składników czynszu";
                         zmianaKolumn = new List<int>() { 0 };
-                        etykiety = new string[]
-                        {
-                            "Kod: ",
-                            "Nazwa grupy składników czynszu: "
-                        };
 
                         kontrolki.Add(new Kontrolki.TextBox("field", "kod", Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 3, 1, kontrolkiWłączone));
                         kontrolki.Add(new Kontrolki.TextBox("field", "nazwa", Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 15, 1, kontrolkiWłączone));
@@ -742,12 +630,6 @@ namespace czynsze.Formularze
                         Title = "Grupa finansowa";
                         nagłówek += "grupy finansowej";
                         zmianaKolumn = new List<int>() { 0 };
-                        etykiety = new string[]
-                        {
-                            "Kod: ",
-                            "Konto FK: ",
-                            "Nazwa grupy finansowej: "
-                        };
 
                         kontrolki.Add(new Kontrolki.TextBox("field", "kod", Kontrolki.TextBox.TextBoxMode.LiczbaCałkowita, 3, 1, kontrolkiWłączone));
                         kontrolki.Add(new Kontrolki.TextBox("field", "k_syn", Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 3, 1, kontrolkiWłączone));
@@ -760,11 +642,6 @@ namespace czynsze.Formularze
                         nagłówek += "stawki VAT";
                         zmianaKolumn = new List<int>() { 0 };
                         DostępDoBazy.StawkaVat stawkaVat = WartościSesji.Rekord as DostępDoBazy.StawkaVat;
-                        etykiety = new string[]
-                        {
-                            "Oznaczenie stawki: ",
-                            "Symbol fiskalny: "
-                        };
 
                         kontrolki.Add(new Kontrolki.TextBox("field", "nazwa", Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 2, 1, kontrolkiWłączone));
                         kontrolki.Add(new Kontrolki.TextBox("field", "symb_fisk", Kontrolki.TextBox.TextBoxMode.PojedynczaLinia, 2, 1, kontrolkiWłączone));
@@ -775,24 +652,13 @@ namespace czynsze.Formularze
                         Title = "Cecha obiektów";
                         nagłówek += "cechy obiektów";
                         zmianaKolumn = new List<int>() { 0 };
-                        etykiety = new string[]
-                        {
-                            "Kod: ",
-                            "Nazwa: ",
-                            "Numeryczna/charakter: ",
-                            "Jednostka miary: ",
-                            "Wartość domyślna: ",
-                            "Uwagi: ",
-                            "Dotyczy: "
-                        };
-
                         DostępDoBazy.Atrybut atrybut = WartościSesji.Rekord as DostępDoBazy.Atrybut;
 
                         switch (_akcja)
                         {
                             case Enumeratory.Akcja.Dodaj:
                                 atrybut.nr_str = "N";
-                                atrybut.zb_b = atrybut.zb_l = atrybut.zb_n = atrybut.zb_s = "X";
+                                atrybut.zb = "l,n,b,s";
 
                                 break;
                         }
@@ -826,16 +692,6 @@ namespace czynsze.Formularze
                         Title = "Użytkownik";
                         nagłówek += "użytkownika";
                         zmianaKolumn = new List<int>() { 0 };
-                        etykiety = new string[]
-                        {
-                            "Symbol: ",
-                            "Nazwisko: ",
-                            "Imię: ",
-                            "Użytkownik: ",
-                            "Hasło: ",
-                            "Potwierdź hasło: "
-                        };
-
                         DostępDoBazy.Użytkownik użytkownik;
 
                         if (WartościSesji.Rekord == null)
@@ -873,17 +729,6 @@ namespace czynsze.Formularze
                         Title = "Obrót najemcy";
                         nagłówek += "obrotu najemcy";
                         zmianaKolumn = new List<int>() { 0, 3, 4 };
-                        etykiety = new string[]
-                        {
-                            "Kwota: ",
-                            "Data: ",
-                            "Data NO: ",
-                            "Rodzaj obrotu: ",
-                            "Nr dowodu: ",
-                            "Pozycja",
-                            "Uwagi"
-                        };
-
                         DostępDoBazy.Obrót obrót = WartościSesji.Rekord as DostępDoBazy.Obrót;
 
                         if (WartościSesji.Rekord == null)
@@ -951,30 +796,34 @@ namespace czynsze.Formularze
                     if (!String.IsNullOrEmpty(idKontrolki))
                     {
                         PropertyInfo właściwość = właściwościDoPobrania.Single(w => w.Name == idKontrolki);
-                        object wartość = właściwość.GetValue(WartościSesji.Rekord);
                         etykieta = właściwość.GetCustomAttribute<System.ComponentModel.DataAnnotations.DisplayAttribute>(true).Name;
                         etykieta = String.Concat(Char.ToUpper(etykieta[0]), etykieta.Substring(1), ": ");
 
-                        if (wartość != null)
+                        if (_akcja != Enumeratory.Akcja.Dodaj)
                         {
-                            string wartośćDoZapisania;
-                            Type typWartości = wartość.GetType();
+                            object wartość = właściwość.GetValue(WartościSesji.Rekord);
 
-                            if (typWartości == typeof(decimal))
-                                wartośćDoZapisania = Convert.ToDecimal(wartość).ToString("N");
-                            else if (typWartości == typeof(DateTime))
-                                wartośćDoZapisania = Convert.ToDateTime(wartość).ToShortDateString();
-                            else
-                                wartośćDoZapisania = wartość.ToString();
+                            if (wartość != null)
+                            {
+                                string wartośćDoZapisania;
+                                Type typWartości = wartość.GetType();
 
-                            (kontrolka as Kontrolki.IKontrolkaZWartością).Wartość = wartośćDoZapisania.Trim();
-                        }
+                                if (typWartości == typeof(decimal))
+                                    wartośćDoZapisania = Convert.ToDecimal(wartość).ToString("N");
+                                else if (typWartości == typeof(DateTime))
+                                    wartośćDoZapisania = Convert.ToDateTime(wartość).ToShortDateString();
+                                else
+                                    wartośćDoZapisania = wartość.ToString();
 
-                        if (!kontrolkiWłączone)
-                        {
-                            kontrolka.ID = String.Concat(idKontrolki, "_disabled");
+                                (kontrolka as Kontrolki.IKontrolkaZWartością).Wartość = wartośćDoZapisania.Trim();
+                            }
 
-                            form.Controls.Add(new Kontrolki.HtmlInputHidden(idKontrolki, wartość));
+                            if (!kontrolkiWłączone)
+                            {
+                                kontrolka.ID = String.Concat(idKontrolki, "_disabled");
+
+                                form.Controls.Add(new Kontrolki.HtmlInputHidden(idKontrolki, wartość));
+                            }
                         }
                     }
 
