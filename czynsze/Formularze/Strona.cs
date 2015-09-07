@@ -12,6 +12,16 @@ namespace czynsze.Formularze
         protected string ŚcieżkaIQuery { get { return Request.Url.PathAndQuery; } }
         public static Sesja WartościSesji { get { return Sesja.Obecna; } }
 
+        protected string PobierzWartośćParametru(string klucz)
+        {
+            string prawdziwyKlucz = Request.Params.AllKeys.SingleOrDefault(k => k.EndsWith(klucz));
+
+            if (!String.IsNullOrEmpty(prawdziwyKlucz) && prawdziwyKlucz.Contains('$'))
+                throw new Exception("Błąd klucza parametru. Zawiera dolary. - PZ");
+
+            return Request.Params[klucz];
+        }
+        
         protected T PobierzWartośćParametru<T>(string klucz)
         {
             return (T)PobierzWartośćParametru(klucz, typeof(T));
@@ -19,12 +29,7 @@ namespace czynsze.Formularze
 
         protected object PobierzWartośćParametru(string klucz, Type zwracanyTyp)
         {
-            string prawdziwyKlucz = Request.Params.AllKeys.SingleOrDefault(k => k.EndsWith(klucz));
-
-            if (!String.IsNullOrEmpty(prawdziwyKlucz) && prawdziwyKlucz.Contains('$'))
-                throw new Exception("Błąd klucza parametru. Zawiera dolary. - PZ");
-
-            string wartość = Request.Params[prawdziwyKlucz];
+            string wartość = PobierzWartośćParametru(klucz);
 
             if (String.IsNullOrEmpty(wartość))
             {

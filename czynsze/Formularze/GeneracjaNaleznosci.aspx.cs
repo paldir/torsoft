@@ -85,8 +85,8 @@ namespace czynsze.Formularze
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
                 int ilośćDniWMiesiącu = DateTime.DaysInMonth(Start.Data.Year, Start.Data.Month);
-                string trybGeneracji = PobierzWartośćParametru<string>("Generacja");
-                string powtarzanieGeneracji = PobierzWartośćParametru<string>("Powtarzanie");
+                string trybGeneracji = PobierzWartośćParametru("Generacja");
+                string powtarzanieGeneracji = PobierzWartośćParametru("Powtarzanie");
                 Start.ŚcieżkaStrony = new czynsze.ŚcieżkaStrony("Rozliczenia finansowe", "Generacja należności");
 
                 {
@@ -141,8 +141,8 @@ namespace czynsze.Formularze
 
                         if (trybGeneracji.Contains("od-do"))
                         {
-                            string[] od_ = PobierzWartośćParametru<string>("odLokalu").Split('-');
-                            string[] do_ = PobierzWartośćParametru<string>("doLokalu").Split('-');
+                            string[] od_ = PobierzWartośćParametru("odLokalu").Split('-');
+                            string[] do_ = PobierzWartośćParametru("doLokalu").Split('-');
                             odBudynku = Convert.ToInt32(od_[0]);
                             odLokalu = Convert.ToInt32(od_[1]);
                             doBudynku = Convert.ToInt32(do_[0]);

@@ -134,8 +134,8 @@ namespace czynsze.Formularze
                             break;
 
                         case "odDoLokalu":
-                            string[] odLokalu = PobierzWartośćParametru<string>("odLokalu").Split('-');
-                            string[] doLokalu = PobierzWartośćParametru<string>("doLokalu").Split('-');
+                            string[] odLokalu = PobierzWartośćParametru("odLokalu").Split('-');
+                            string[] doLokalu = PobierzWartośćParametru("doLokalu").Split('-');
                             kod_1_1 = Int32.Parse(odLokalu[0]);
                             nr1 = Int32.Parse(odLokalu[1]);
                             kod_1_2 = Int32.Parse(doLokalu[0]);
@@ -190,7 +190,7 @@ namespace czynsze.Formularze
 
                             for (int i = 0; i < db.GrupySkładnikówCzynszu.Count(); i++)
                             {
-                                string numer = PobierzWartośćParametru<string>(String.Format("grupyCzynszu_{0}", i));
+                                string numer = PobierzWartośćParametru(String.Format("grupyCzynszu_{0}", i));
 
                                 if (!String.IsNullOrEmpty(numer))
                                     wybraneGrupy.Add(Int32.Parse(numer));

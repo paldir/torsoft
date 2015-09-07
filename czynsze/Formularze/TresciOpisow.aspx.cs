@@ -62,7 +62,7 @@ namespace czynsze.Formularze
                     DostępDoBazy.Treść treści = db.Treści.FirstOrDefault();
                     string[] pola = new string[liczbaPól];
 
-                    if (String.IsNullOrEmpty(PobierzWartośćParametru<string>("Save")))
+                    if (String.IsNullOrEmpty(PobierzWartośćParametru("Save")))
                     {
                         if (treści == null)
                         {
@@ -97,7 +97,7 @@ namespace czynsze.Formularze
                         {
                             string właściwość = String.Format(format, prefiks, i + 1);
 
-                            treści.GetType().GetProperty(właściwość).SetValue(treści, PobierzWartośćParametru<string>(właściwość));
+                            treści.GetType().GetProperty(właściwość).SetValue(treści, PobierzWartośćParametru(właściwość));
                         }
 
                         db.SaveChanges();

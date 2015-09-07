@@ -21,7 +21,7 @@ namespace czynsze.Formularze
             {
                 int kod = PobierzWartośćParametru<int>("kod");
                 List<string[]> wiersze = new List<string[]>();
-                string okno = PobierzWartośćParametru<string>("ShowWindow");
+                string okno = PobierzWartośćParametru("ShowWindow");
                 Enumeratory.Akcja akcjaRodzica = PobierzWartośćParametru<Enumeratory.Akcja>("parentAction");
                 Enumeratory.Akcja akcjaDziecka = PobierzWartośćParametru<Enumeratory.Akcja>("ChildAction");
                 int id = PobierzWartośćParametru<int>("id");
@@ -36,8 +36,8 @@ namespace czynsze.Formularze
                     string[] rekord = new string[]
                 {
                     kod.ToString(),
-                    PobierzWartośćParametru<string>("kod_1"),
-                    PobierzWartośćParametru<string>("uwagi")
+                    PobierzWartośćParametru("kod_1"),
+                    PobierzWartośćParametru("uwagi")
                 };
 
                     switch (akcjaDziecka)

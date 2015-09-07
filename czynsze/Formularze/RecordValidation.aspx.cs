@@ -423,7 +423,7 @@ namespace czynsze.Formularze
                     placeOfButtons.Controls.Add(new Kontrolki.Button("button", "Repair", "Popraw", "Rekord.aspx"));
                     placeOfButtons.Controls.Add(new Kontrolki.Button("button", "Cancel", "Anuluj", backUrl));
 
-                    //Session["values"] = recordFields;
+                    WartościSesji.Rekord = record;
                 }
                 else
                     placeOfButtons.Controls.Add(new Kontrolki.Button("button", "Back", "Powrót", backUrl));

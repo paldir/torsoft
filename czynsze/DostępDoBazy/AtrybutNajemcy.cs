@@ -17,7 +17,7 @@ namespace czynsze.DostępDoBazy
         {
             get
             {
-                Najemca najemca = Najemcy.Single(n => n.nr_kontr == Int32.Parse(kod_powiaz_));
+                Najemca najemca = Najemcy.Single(n => n.nr_kontr == Int32.Parse(kod_powiaz_NIE_UŻYWAĆ));
 
                 return najemca.__record.ToString();
             }
@@ -25,7 +25,7 @@ namespace czynsze.DostępDoBazy
             set
             {
                 Najemca najemca = Najemcy.Single(n => n.__record == Int32.Parse(value));
-                kod_powiaz_ = najemca.nr_kontr.ToString();
+                kod_powiaz_NIE_UŻYWAĆ = najemca.nr_kontr.ToString();
             }
         }
     }

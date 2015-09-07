@@ -22,7 +22,7 @@ namespace czynsze.Formularze
                 int kod_lok = PobierzWartośćParametru<int>("kod_lok");
                 int nr_lok = PobierzWartośćParametru<int>("nr_lok");
                 List<string[]> wiersze = new List<string[]>();
-                string okno = PobierzWartośćParametru<string>("ShowWindow");
+                string okno = PobierzWartośćParametru("ShowWindow");
                 Enumeratory.Akcja akcjaRodzica = PobierzWartośćParametru<Enumeratory.Akcja>("parentAction");
                 Enumeratory.Akcja akcjaDziecka = PobierzWartośćParametru<Enumeratory.Akcja>("ChildAction");
                 int id = PobierzWartośćParametru<int>("id");
@@ -42,10 +42,10 @@ namespace czynsze.Formularze
                 {
                     kod_lok.ToString(),
                     nr_lok.ToString(),
-                    PobierzWartośćParametru<string>("nr_skl"),
-                    PobierzWartośćParametru<string>("dan_p"),
-                    PobierzWartośćParametru<string>("dat_od"),
-                    PobierzWartośćParametru<string>("dat_do")
+                    PobierzWartośćParametru("nr_skl"),
+                    PobierzWartośćParametru("dan_p"),
+                    PobierzWartośćParametru("dat_od"),
+                    PobierzWartośćParametru("dat_do")
                 };
 
                     switch (akcjaDziecka)

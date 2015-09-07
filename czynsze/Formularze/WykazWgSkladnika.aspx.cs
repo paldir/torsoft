@@ -14,7 +14,7 @@ namespace czynsze.Formularze
             using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
                 Start.ŚcieżkaStrony = new czynsze.ŚcieżkaStrony("Raporty", "Wykaz wg składnika");
-                string przycisk = PobierzWartośćParametru<string>("przycisk");
+                string przycisk = PobierzWartośćParametru("przycisk");
                 Enumeratory.WykazWedługSkładnika tryb = PobierzWartośćParametru<Enumeratory.WykazWedługSkładnika>("tryb");
                 string trybTekstowo = null;
 
@@ -76,8 +76,8 @@ namespace czynsze.Formularze
                     }
                     else
                     {
-                        string[] pierwszyLokal = PobierzWartośćParametru<string>("odLokalu").Split('-');
-                        string[] ostatniLokal = PobierzWartośćParametru<string>("doLokalu").Split('-');
+                        string[] pierwszyLokal = PobierzWartośćParametru("odLokalu").Split('-');
+                        string[] ostatniLokal = PobierzWartośćParametru("doLokalu").Split('-');
                         int nrSkładnika = PobierzWartośćParametru<int>("składnik");
                         WartościSesji.TrybWykazuWgSkładnika = tryb;
 

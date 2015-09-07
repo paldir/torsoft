@@ -20,9 +20,9 @@ namespace czynsze.Formularze
                 int id_obiektu = PobierzWartośćParametru<int>("id_obiektu");
                 int idPliku = PobierzWartośćParametru<int>("id");
                 Enumeratory.Tabela tabela = PobierzWartośćParametru<Enumeratory.Tabela>("tabela");
-                bool otwieraćOknoDodawania = !String.IsNullOrEmpty(PobierzWartośćParametru<string>("otwarcieOknaDodawania"));
-                bool usunąćPlik = !String.IsNullOrEmpty(PobierzWartośćParametru<string>("delete"));
-                bool dodaćPlik = !String.IsNullOrEmpty(PobierzWartośćParametru<string>("potwierdźDodawanie"));
+                bool otwieraćOknoDodawania = !String.IsNullOrEmpty(PobierzWartośćParametru("otwarcieOknaDodawania"));
+                bool usunąćPlik = !String.IsNullOrEmpty(PobierzWartośćParametru("delete"));
+                bool dodaćPlik = !String.IsNullOrEmpty(PobierzWartośćParametru("potwierdźDodawanie"));
                 List<DostępDoBazy.Plik> pliki = WartościSesji.Pliki;
 
                 form.Controls.Add(new Kontrolki.HtmlInputHidden("tabela", tabela));
@@ -76,7 +76,7 @@ namespace czynsze.Formularze
 
                     plik.id_obiektu = id_obiektu;
                     plik.nazwa_pliku = Path.GetFileName(zawartośćPliku.FileName);
-                    plik.opis = PobierzWartośćParametru<string>("opis");
+                    plik.opis = PobierzWartośćParametru("opis");
                     Stream strumień = zawartośćPliku.InputStream;
                     List<byte> bajty = new List<byte>();
 

@@ -47,8 +47,8 @@ namespace czynsze.Formularze
             else
             {
                 Enumeratory.Raport raport = PobierzWartośćParametru<Enumeratory.Raport>("stawka");
-                string[] odLokalu = PobierzWartośćParametru<string>("odLokalu").Split('-');
-                string[] doLokalu = PobierzWartośćParametru<string>("doLokalu").Split('-');
+                string[] odLokalu = PobierzWartośćParametru("odLokalu").Split('-');
+                string[] doLokalu = PobierzWartośćParametru("doLokalu").Split('-');
 
                 Response.Redirect(String.Format("KonfiguracjaRaportu.aspx?raport={0}&odBudynku={1}&odLokalu={2}&doBudynku={3}&doLokalu={4}", raport, odLokalu[0], odLokalu[1], doLokalu[0], doLokalu[1]));
             }

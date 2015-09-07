@@ -17,45 +17,71 @@ namespace czynsze.DostępDoBazy
         public int kod { get; set; }
 
         [Column("kod_powiaz")]
-        public string kod_powiaz_ { get; protected set; }
+        public string kod_powiaz_NIE_UŻYWAĆ { get; protected set; }
 
         [NotMapped]
         public abstract string kod_powiaz { get; set; }
 
-        public float wartosc_n { get; set; }
+        public string nr_str { get; set; }
 
-        public string wartosc_s { get; set; }
+        public float wartosc_n { get; private set; }
+
+        public string wartosc_s { get; private set; }
+
+        [NotMapped]
+        public object wartosc
+        {
+            get
+            {
+                switch (nr_str)
+                {
+                    case "N":
+                        return wartosc_n;
+
+                    case "C":
+                        return wartosc_s;
+
+                    default:
+                        throw new Exception("nr_str nie ustawiony.");
+                }
+            }
+
+            set
+            {
+                switch (nr_str)
+                {
+                    case "N":
+                        wartosc_n = Convert.ToSingle(value);
+
+                        break;
+
+                    case "C":
+                        wartosc_s = value.ToString();
+
+                        break;
+
+                    default:
+                        throw new Exception("nr_str nie ustawiony.");
+                }
+            }
+        }
 
         public IEnumerable<string> PolaDoTabeli()
         {
             Atrybut atrybut;
-            string wartosc = String.Empty;
 
             using (CzynszeKontekst db = new CzynszeKontekst())
                 atrybut = db.Atrybuty.FirstOrDefault(a => a.kod == kod);
-
-            switch (atrybut.nr_str)
-            {
-                case "N":
-                    wartosc = wartosc_n.ToString("F2");
-
-                    break;
-
-                case "C":
-                    wartosc = wartosc_s;
-
-                    break;
-            }
 
             return new string[]
             {
                 __record.ToString(),
                 atrybut.nazwa,
-                wartosc
+                wartosc.ToString()
             };
         }
 
-        public void Ustaw(string[] rekord)
+        /*public void Ustaw(string[] rekord)
         {
             __record = Int32.Parse(rekord[0]);
             kod = Int32.Parse(rekord[1]);
@@ -75,7 +101,7 @@ namespace czynsze.DostępDoBazy
                 }
 
             kod_powiaz = rekord[3];
-        }
+        }*/
 
         public static bool Waliduj(Enumeratory.Akcja akcja, string[] rekord, List<DostępDoBazy.AtrybutObiektu> atrybutyObiektu)
         {

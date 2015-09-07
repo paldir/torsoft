@@ -17,7 +17,7 @@ namespace czynsze.DostępDoBazy
         {
             get
             {
-                Budynek budynek = Budynki.Single(b => b.kod_1 == Int32.Parse(kod_powiaz_));
+                Budynek budynek = Budynki.Single(b => b.kod_1 == Int32.Parse(kod_powiaz_NIE_UŻYWAĆ));
 
                 return budynek.__record.ToString();
             }
@@ -25,7 +25,7 @@ namespace czynsze.DostępDoBazy
             set
             {
                 Budynek budynek = Budynki.Single(b => b.__record == Int32.Parse(value));
-                kod_powiaz_ = budynek.kod_1.ToString();
+                kod_powiaz_NIE_UŻYWAĆ = budynek.kod_1.ToString();
             }
         }
     }

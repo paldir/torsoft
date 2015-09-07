@@ -17,14 +17,14 @@ namespace czynsze.DostępDoBazy
         {
             get
             {
-                Wspólnota wspólnota = Wspólnoty.Single(w => w.kod == Int32.Parse(kod_powiaz_));
+                Wspólnota wspólnota = Wspólnoty.Single(w => w.kod == Int32.Parse(kod_powiaz_NIE_UŻYWAĆ));
 
                 return wspólnota.__record.ToString();
             }
             set
             {
                 Wspólnota wspólnota = Wspólnoty.Single(w => w.__record == Int32.Parse(value));
-                kod_powiaz_ = wspólnota.kod.ToString();
+                kod_powiaz_NIE_UŻYWAĆ = wspólnota.kod.ToString();
             }
         }
     }

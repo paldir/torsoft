@@ -52,62 +52,37 @@ namespace czynsze.Formularze
                 {
                     case Enumeratory.Akcja.Dodaj:
                         DostępDoBazy.AtrybutObiektu atrybutObiektu = null;
-                        int maksymalneIdTmp = 0;
-                        int maksymalneId = 0;
 
-                        rekord = new string[]
-                    {
-                        String.Empty,
-                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("kod"))],
-                        Request.Params[Request.Params.AllKeys.FirstOrDefault(k=>k.EndsWith("wartosc"))],
-                        idRodzica.ToString()
-                    };
-
-                        if (DostępDoBazy.AtrybutObiektu.Waliduj(akcjaDziecka, rekord, WartościSesji.AtrybutyObiektu))
+                        switch (atrybutDotyczy)
                         {
-                            if (WartościSesji.AtrybutyObiektu.Any())
-                                maksymalneIdTmp = WartościSesji.AtrybutyObiektu.Max(a => a.__record);
+                            case Enumeratory.Atrybut.Budynku:
+                                atrybutObiektu = new DostępDoBazy.AtrybutBudynku();
 
-                            switch (atrybutDotyczy)
-                            {
-                                case Enumeratory.Atrybut.Budynku:
-                                    atrybutObiektu = new DostępDoBazy.AtrybutBudynku();
+                                break;
 
-                                    if (db.AtrybutyBudynków.Any())
-                                        maksymalneId = db.AtrybutyBudynków.Max(a => a.__record);
+                            case Enumeratory.Atrybut.Wspólnoty:
+                                atrybutObiektu = new DostępDoBazy.AtrybutWspólnoty();
 
-                                    break;
+                                break;
 
-                                case Enumeratory.Atrybut.Wspólnoty:
-                                    atrybutObiektu = new DostępDoBazy.AtrybutWspólnoty();
+                            case Enumeratory.Atrybut.Lokalu:
+                                atrybutObiektu = new DostępDoBazy.AtrybutLokalu();
 
-                                    if (db.AtrybutyWspólnot.Any())
-                                        maksymalneId = db.AtrybutyWspólnot.Max(a => a.__record);
+                                break;
 
-                                    break;
+                            case Enumeratory.Atrybut.Najemcy:
+                                atrybutObiektu = new DostępDoBazy.AtrybutNajemcy();
 
-                                case Enumeratory.Atrybut.Lokalu:
-                                    atrybutObiektu = new DostępDoBazy.AtrybutLokalu();
-
-                                    if (db.AtrybutyLokali.Any())
-                                        maksymalneId = db.AtrybutyLokali.Max(a => a.__record);
-
-                                    break;
-
-                                case Enumeratory.Atrybut.Najemcy:
-                                    atrybutObiektu = new DostępDoBazy.AtrybutNajemcy();
-
-                                    if (db.AtrybutyNajemców.Any())
-                                        maksymalneId = db.AtrybutyNajemców.Max(a => a.__record);
-
-                                    break;
-                            }
-
-                            rekord[0] = (Math.Max(maksymalneId, maksymalneIdTmp) + 1).ToString();
-
-                            atrybutObiektu.Ustaw(rekord);
-                            WartościSesji.AtrybutyObiektu.Add(atrybutObiektu);
+                                break;
                         }
+
+                        int kod = PobierzWartośćParametru<int>("kod");
+                        atrybutObiektu.kod = kod;
+                        atrybutObiektu.wartosc = PobierzWartośćParametru<object>("wartosc");
+                        atrybutObiektu.kod_powiaz = idRodzica.ToString();
+                        atrybutObiektu.nr_str = db.Atrybuty.Single(a => a.kod == kod).nr_str;
+
+                        WartościSesji.AtrybutyObiektu.Add(atrybutObiektu);
 
                         break;
 
@@ -117,15 +92,15 @@ namespace czynsze.Formularze
                         DostępDoBazy.AtrybutObiektu atrybut = WartościSesji.AtrybutyObiektu.FirstOrDefault(a => a.__record == id_edycja);
 
                         rekord = new string[]
-                    {
-                        atrybut.__record.ToString(),
-                        atrybut.kod.ToString(),
-                        wartosc,
-                        atrybut.kod_powiaz
-                    };
+                        {
+                            atrybut.__record.ToString(),
+                            atrybut.kod.ToString(),
+                            wartosc,
+                            atrybut.kod_powiaz
+                        };
 
                         if (DostępDoBazy.AtrybutObiektu.Waliduj(akcjaDziecka, rekord, WartościSesji.AtrybutyObiektu))
-                            atrybut.Ustaw(rekord);
+                            atrybut.wartosc = PobierzWartośćParametru<object>("wartosc_edit");
 
                         break;
 
