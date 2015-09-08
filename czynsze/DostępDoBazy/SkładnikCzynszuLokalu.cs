@@ -26,8 +26,8 @@ namespace czynsze.DostępDoBazy
 
         public Nullable<DateTime> dat_do { get; set; }
 
-        public static List<AktywnyLokal> Lokale { get; set; }
-        public static List<SkładnikCzynszu> SkładnikiCzynszu { get; set; }
+        //public static List<AktywnyLokal> Lokale { get; set; }
+        //public static List<SkładnikCzynszu> SkładnikiCzynszu { get; set; }
 
         public IEnumerable<string> PolaDoTabeli()
         {
@@ -82,9 +82,10 @@ namespace czynsze.DostępDoBazy
         {
             SkładnikCzynszu składnikCzynszu;
             Lokal lokal;
+            Sesja sesja = Sesja.Obecna;
 
-            składnikCzynszu = SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == nr_skl);
-            lokal = Lokale.FirstOrDefault(p => p.kod_lok == kod_lok && p.nr_lok == nr_lok);
+            składnikCzynszu = sesja.SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == nr_skl);
+            lokal = sesja.Lokale.FirstOrDefault(p => p.kod_lok == kod_lok && p.nr_lok == nr_lok);
 
             if (lokal == null)
                 using (CzynszeKontekst db = new CzynszeKontekst())

@@ -213,8 +213,6 @@ namespace czynsze.Formularze
                         int indeksOstatniego = aktywneLokale.FindLastIndex(l => l.kod_lok == doBudynku && l.nr_lok == doLokalu);
                         aktywneLokale = aktywneLokale.GetRange(indeksPierwszego, indeksOstatniego - indeksPierwszego + 1);
                         int liczbaAktywnychLokali = aktywneLokale.Count;
-                        DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
-                        DostępDoBazy.SkładnikCzynszuLokalu.Lokale = aktywneLokale;
                         IEnumerable<DostępDoBazy.Należność1> należnościZBieżącegoMiesiąca = db.Należności1.Where(należnościZBieżącegoMiesiącaFunc).Cast<DostępDoBazy.Należność1>();
 
                         for (int i = 0; i < liczbaAktywnychLokali; i++)
@@ -279,8 +277,6 @@ namespace czynsze.Formularze
                         db.SaveChanges();
 
                         PostępPrzetwarzaniaNależności = 100;
-                        DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
-                        DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
                     }
                 }
                 catch (Exception wyjątek)

@@ -441,14 +441,18 @@ namespace czynsze.Formularze
             List<string> nazwyPólZProblemami = new List<string>();
 
             foreach (PropertyInfo właściwość in właściwości)
+            {
+                object wartośćParametru = PobierzWartośćParametru(właściwość.Name, właściwość.PropertyType);
+
                 try
                 {
-                    właściwość.SetValue(rekord, PobierzWartośćParametru(właściwość.Name, właściwość.PropertyType));
+                    właściwość.SetValue(rekord, wartośćParametru);
                 }
                 catch (InvalidCastException)
                 {
                     nazwyPólZProblemami.Add(właściwość.GetCustomAttribute<System.ComponentModel.DataAnnotations.DisplayAttribute>().Name);
                 }
+            }
 
             return nazwyPólZProblemami;
         }

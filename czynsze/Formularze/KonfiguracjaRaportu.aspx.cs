@@ -48,7 +48,7 @@ namespace czynsze.Formularze
                 if (indeks != -1)
                     identyfikatory[1] = Int32.Parse(Request.UrlReferrer.Query.Substring(indeks + 3));
 
-                placeOfConfigurationFields.Controls.Add(new Kontrolki.HtmlInputHidden(_raport + "raport", "#"));
+                //placeOfConfigurationFields.Controls.Add(new Kontrolki.HtmlInputHidden(_raport + "raport", "#"));
 
                 switch (_raport)
                 {
@@ -769,7 +769,6 @@ namespace czynsze.Formularze
                                             int kod2 = identyfikatory[2];
                                             int nr2 = identyfikatory[3];
                                             DostępDoBazy.Lokal.TypyLokali = db.TypyLokali.ToList();
-                                            DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
                                             int indeks = 1;
                                             decimal ogólnaSuma = 0;
                                             List<DostępDoBazy.AktywnyLokal> wszystkieLokale = db.AktywneLokale.OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok).ToList();
@@ -783,7 +782,6 @@ namespace czynsze.Formularze
 
                                                 if (aktywneLokale.Any())
                                                 {
-                                                    DostępDoBazy.SkładnikCzynszuLokalu.Lokale = aktywneLokale;
                                                     DostępDoBazy.Budynek budynek = db.Budynki.Single(b => b.kod_1 == i);
                                                     List<string[]> tabela = new List<string[]>();
                                                     List<DostępDoBazy.PozycjaDoAnalizy> pozycjeBudynku = null;
@@ -839,13 +837,11 @@ namespace czynsze.Formularze
                                                     tabele.Add(tabela);
                                                     podpisy.Add(String.Empty);
 
-                                                    DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
                                                     ogólnaSuma += sumaBudynku;
                                                 }
                                             }
 
                                             DostępDoBazy.Lokal.TypyLokali = null;
-                                            DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
 
                                             if (tabele.Any())
                                                 tabele.Last().Add(new string[] { String.Empty, String.Empty, String.Empty, String.Empty, "<b>RAZEM</b>", "<b>WSZYSTKIE</b>", "<b>BUDYNKI</b>", String.Format("{0:N}", ogólnaSuma) });
@@ -863,7 +859,6 @@ namespace czynsze.Formularze
                                             int kod1 = identyfikatory[0];
                                             int kod2 = identyfikatory[2];
                                             decimal sumaGłówna = 0;
-                                            DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
                                             List<string[]> tabela = new List<string[]>();
 
                                             for (int i = kod1; i <= kod2; i++)
@@ -874,7 +869,6 @@ namespace czynsze.Formularze
                                                 {
                                                     decimal suma = 0;
                                                     List<DostępDoBazy.AktywnyLokal> aktywneLokale = db.AktywneLokale.Where(p => p.kod_lok == i).ToList();
-                                                    DostępDoBazy.SkładnikCzynszuLokalu.Lokale = aktywneLokale;
 
                                                     //foreach (DostępDoBazy.AktywnyLokal aktywnyLokal in aktywneLokale)
                                                     switch (rodzajAnalizy)
@@ -902,13 +896,10 @@ namespace czynsze.Formularze
                                                     }
 
                                                     sumaGłówna += suma;
-                                                    DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
 
                                                     tabela.Add(new string[] { String.Format("{0}", i - kod1 + 1), budynek.kod_1.ToString(), String.Format("{0} {1}", budynek.adres, budynek.adres_2), String.Format("{0:N}", suma) });
                                                 }
                                             }
-
-                                            DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
 
                                             tabela.Add(new string[] { String.Empty, String.Empty, "<b>RAZEM</b>", String.Format("{0:N}", sumaGłówna) });
                                             podpisy.Add(String.Empty);
@@ -927,7 +918,6 @@ namespace czynsze.Formularze
                                             int kod1 = identyfikatory[4];
                                             int kod2 = identyfikatory[5];
                                             decimal sumaOgólna = 0;
-                                            DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
 
                                             for (int i = kod1; i <= kod2; i++)
                                             {
@@ -944,7 +934,6 @@ namespace czynsze.Formularze
                                                         DostępDoBazy.Budynek budynek = db.Budynki.FirstOrDefault(b => b.kod_1 == budynekWspólnoty.kod_1);
                                                         int kodBudynku = budynek.kod_1;
                                                         List<DostępDoBazy.AktywnyLokal> aktywneLokale = db.AktywneLokale.Where(p => p.kod_lok == kodBudynku).ToList();
-                                                        DostępDoBazy.SkładnikCzynszuLokalu.Lokale = aktywneLokale;
                                                         decimal suma = 0;
 
                                                         //foreach (DostępDoBazy.AktywnyLokal aktywnyLokal in aktywneLokale)
@@ -973,7 +962,6 @@ namespace czynsze.Formularze
                                                         }
 
                                                         sumaWspólnoty += suma;
-                                                        DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
 
                                                         tabela.Add(new string[] { String.Format("{0}", i - kod1 + 1), kodBudynku.ToString(), String.Format("{0} {1}", budynek.adres, budynek.adres_2), String.Format("{0:N}", suma) });
                                                     }
@@ -985,8 +973,6 @@ namespace czynsze.Formularze
                                                     podpisy.Add(String.Format("{0} {1} {2}", wspólnota.nazwa_pel, wspólnota.adres, wspólnota.adres_2));
                                                 }
                                             }
-
-                                            DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
                                         }
 
                                         break;
@@ -1005,7 +991,6 @@ namespace czynsze.Formularze
 
                                 XmlNode druk = dokument.SelectSingleNode(XPathZnajdźElementPoId("druk"));
                                 gotowaDefinicjaHtml = new List<string>();
-                                DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
                                 int kod_1_1 = identyfikatory[0];
                                 int nr1 = identyfikatory[1];
                                 int kod_1_2 = identyfikatory[2];
@@ -1013,9 +998,8 @@ namespace czynsze.Formularze
                                 List<DostępDoBazy.AktywnyLokal> wszystkieLokale = db.AktywneLokale.OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok).ToList();
                                 int indeksPierwszego = wszystkieLokale.FindIndex(l => l.kod_lok == kod_1_1 && l.nr_lok == nr1);
                                 int indeksDrugiego = wszystkieLokale.FindLastIndex(l => l.kod_lok == kod_1_2 && l.nr_lok == nr2);
-                                DostępDoBazy.SkładnikCzynszuLokalu.Lokale = wszystkieLokale.GetRange(indeksPierwszego, indeksDrugiego - indeksPierwszego + 1);
 
-                                foreach (DostępDoBazy.AktywnyLokal lokal in DostępDoBazy.SkładnikCzynszuLokalu.Lokale)
+                                foreach (DostępDoBazy.AktywnyLokal lokal in Sesja.Obecna.Lokale)
                                 {
                                     XmlNode nowyDruk = druk.CloneNode(true);
                                     XmlNode razem = nowyDruk.SelectSingleNode(XPathZnajdźElementPoId("razem"));
@@ -1047,7 +1031,7 @@ namespace czynsze.Formularze
                                         decimal stawka;
                                         float ilość;
                                         XmlNode nowySkładnikOpłat = składnikOpłat.CloneNode(true);
-                                        DostępDoBazy.SkładnikCzynszu składnikCzynszu = DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu.FirstOrDefault(s => s.nr_skl == składnikCzynszuLokalu.nr_skl);
+                                        DostępDoBazy.SkładnikCzynszu składnikCzynszu = Sesja.Obecna.SkładnikiCzynszu.FirstOrDefault(s => s.nr_skl == składnikCzynszuLokalu.nr_skl);
 
                                         składnikCzynszuLokalu.Rozpoznaj_ilosc_i_stawka(out ilość, out stawka);
 
@@ -1073,9 +1057,6 @@ namespace czynsze.Formularze
                                     składnikOpłat.ParentNode.RemoveChild(składnikOpłat);
                                     gotowaDefinicjaHtml.Add(nowyDruk.OuterXml);
                                 }
-
-                                DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
-                                DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
                             }
 
                             break;

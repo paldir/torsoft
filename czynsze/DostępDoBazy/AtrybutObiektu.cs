@@ -22,7 +22,22 @@ namespace czynsze.DostępDoBazy
         [NotMapped]
         public abstract string kod_powiaz { get; set; }
 
-        public string nr_str { get; set; }
+        string _nr_str;
+
+        [NotMapped]
+        public string nr_str
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(_nr_str))
+                    using (DostępDoBazy.CzynszeKontekst db = new CzynszeKontekst())
+                        _nr_str = db.Atrybuty.Single(a => a.kod == kod).nr_str;
+
+                return _nr_str;
+            }
+
+            set { _nr_str = value; }
+        }
 
         public float wartosc_n { get; private set; }
 

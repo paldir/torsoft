@@ -16,7 +16,7 @@ namespace czynsze.DostępDoBazy
             get
             {
                 int kodLokalu = Int32.Parse(kod_powiaz_NIE_UŻYWAĆ.Substring(0, 5));
-                int nrLokalu = Int32.Parse(kod_powiaz_NIE_UŻYWAĆ.Substring(5, 5));
+                int nrLokalu = Int32.Parse(kod_powiaz_NIE_UŻYWAĆ.Substring(5));
                 DostępDoBazy.Lokal lokal = Lokale.Single(l => l.kod_lok == kodLokalu && l.nr_lok == nrLokalu);
 
                 return lokal.__record.ToString();

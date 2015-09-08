@@ -30,6 +30,7 @@ namespace czynsze.Formularze
         protected object PobierzWartośćParametru(string klucz, Type zwracanyTyp)
         {
             string wartość = PobierzWartośćParametru(klucz);
+            Type typNullable = Nullable.GetUnderlyingType(zwracanyTyp);
 
             if (String.IsNullOrEmpty(wartość))
             {
@@ -41,6 +42,8 @@ namespace czynsze.Formularze
 
             if (zwracanyTyp.IsEnum)
                 return Enum.Parse(zwracanyTyp, wartość.Replace(" ", String.Empty), true);
+            else if (typNullable != null)
+                return Convert.ChangeType(wartość, typNullable);
             else
                 return Convert.ChangeType(wartość, zwracanyTyp);
         }

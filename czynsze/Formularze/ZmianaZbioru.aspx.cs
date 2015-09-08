@@ -7,40 +7,39 @@ using System.Web.UI.WebControls;
 
 namespace czynsze.Formularze
 {
-    public partial class ZmianaZbioru : System.Web.UI.Page
+    public partial class ZmianaZbioru : Strona
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Start.ŚcieżkaStrony.Wyczyść();
-
-            List<string> texts = new List<string>() { "CZYNSZE" };
-            List<string> values = new List<string>() { Enumeratory.Zbiór.Czynsze.ToString() };
-
-            if (Start.LiczbaZbiorów >= 1)
+            if (String.IsNullOrEmpty(PobierzWartośćParametru<string>("zmiana")))
             {
-                texts.Add(Start.NazwyZbiorów[1]);
-                values.Add(Enumeratory.Zbiór.Drugi.ToString());
-            }
+                Start.ŚcieżkaStrony.Wyczyść();
 
-            if (Start.LiczbaZbiorów == 3)
+                List<string> texts = new List<string>() { "CZYNSZE" };
+                List<string> values = new List<string>() { Enumeratory.Zbiór.Czynsze.ToString() };
+
+                if (Start.LiczbaZbiorów >= 1)
+                {
+                    texts.Add(Start.NazwyZbiorów[1]);
+                    values.Add(Enumeratory.Zbiór.Drugi.ToString());
+                }
+
+                if (Start.LiczbaZbiorów == 3)
+                {
+                    texts.Add(Start.NazwyZbiorów[2]);
+                    values.Add(Enumeratory.Zbiór.Trzeci.ToString());
+                }
+
+                Kontrolki.Button button = new Kontrolki.Button("field", "zmiana", "Zmień", String.Empty);
+
+                placeOfRadioButtons.Controls.Add(new Kontrolki.RadioButtonList("list", "numberOfSets", texts, values, true, false, Start.AktywnyZbiór.ToString()));
+                placeOfButton.Controls.Add(button);
+            }
+            else
             {
-                texts.Add(Start.NazwyZbiorów[2]);
-                values.Add(Enumeratory.Zbiór.Trzeci.ToString());
+                Enumeratory.Zbiór zbiór = PobierzWartośćParametru<Enumeratory.Zbiór>("numberOfSets");
+                Start.AktywnyZbiór = zbiór;
             }
-
-            Button button = new Button();
-            button.Text = "Zmień";
-            button.Click += button_Click;
-
-            placeOfRadioButtons.Controls.Add(new Kontrolki.RadioButtonList("list", "numberOfSets", texts, values, true, false, Start.AktywnyZbiór.ToString()));
-            placeOfButton.Controls.Add(button);
-        }
-
-        void button_Click(object sender, EventArgs e)
-        {
-            Start.AktywnyZbiór = (Enumeratory.Zbiór)Enum.Parse(typeof(Enumeratory.Zbiór), ((RadioButtonList)placeOfRadioButtons.FindControl("numberOfSets")).SelectedValue);
-
-            Response.Redirect("Start.aspx");
         }
     }
 }

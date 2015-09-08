@@ -74,20 +74,12 @@ namespace czynsze.Formularze
                     }
                 }
 
-                {
-                    DostępDoBazy.SkładnikCzynszuLokalu.Lokale = db.AktywneLokale.ToList();
-                    DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = db.SkładnikiCzynszu.ToList();
-                }
-
                 for (int i = 0; i < WartościSesji.SkładnikiCzynszuLokalu.Count; i++)
                 {
                     string indeks = (i + 1).ToString();
 
                     wiersze.Add(new string[] { indeks, indeks }.Concat(WartościSesji.SkładnikiCzynszuLokalu.ElementAt(i).PolaDoTabeli()).ToArray());
                 }
-
-                DostępDoBazy.SkładnikCzynszuLokalu.Lokale = null;
-                DostępDoBazy.SkładnikCzynszuLokalu.SkładnikiCzynszu = null;
 
                 ViewState["componentsWithAmount"] = wszystkieSkładnikiZWartością;
                 ViewState["id"] = id;
