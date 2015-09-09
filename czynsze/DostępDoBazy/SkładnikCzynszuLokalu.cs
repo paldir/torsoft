@@ -82,10 +82,10 @@ namespace czynsze.DostępDoBazy
         {
             SkładnikCzynszu składnikCzynszu;
             Lokal lokal;
-            Sesja sesja = Sesja.Obecna;
+            MagazynRekordów rekordy = Sesja.Obecna.MagazynRekordów;
 
-            składnikCzynszu = sesja.SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == nr_skl);
-            lokal = sesja.Lokale.FirstOrDefault(p => p.kod_lok == kod_lok && p.nr_lok == nr_lok);
+            składnikCzynszu = rekordy.SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == nr_skl);
+            lokal = rekordy.Lokale.FirstOrDefault(p => p.kod_lok == kod_lok && p.nr_lok == nr_lok);
 
             if (lokal == null)
                 using (CzynszeKontekst db = new CzynszeKontekst())

@@ -9,7 +9,10 @@ namespace czynsze
     {
         const string _klucz = "__mojaSesja__";
 
-        Sesja() { }
+        Sesja()
+        {
+            MagazynRekordów = new MagazynRekordów();
+        }
 
         public static Sesja Obecna
         {
@@ -41,16 +44,27 @@ namespace czynsze
         public List<DostępDoBazy.SkładnikCzynszuLokalu> SkładnikiCzynszuLokalu { get; set; }
         public List<DostępDoBazy.Plik> Pliki { get; set; }
 
+        /*public List<DostępDoBazy.AktywnyLokal> Lokale { get; set; }
+        public List<DostępDoBazy.Najemca> Najemcy { get; set; }
+        public List<DostępDoBazy.Wspólnota> Wspólnoty { get; set; }
+        public List<DostępDoBazy.Budynek> Budynki { get; set; }
+        public List<DostępDoBazy.TypLokalu> TypyLokali { get; set; }
+        public List<DostępDoBazy.SkładnikCzynszu> SkładnikiCzynszu { get; set; }*/
+        public MagazynRekordów MagazynRekordów { get; set; }
+
+        public void Wyczyść()
+        {
+            HttpContext.Current.Session[_klucz] = null;
+        }
+    }
+
+    public class MagazynRekordów
+    {
         public List<DostępDoBazy.AktywnyLokal> Lokale { get; set; }
         public List<DostępDoBazy.Najemca> Najemcy { get; set; }
         public List<DostępDoBazy.Wspólnota> Wspólnoty { get; set; }
         public List<DostępDoBazy.Budynek> Budynki { get; set; }
         public List<DostępDoBazy.TypLokalu> TypyLokali { get; set; }
         public List<DostępDoBazy.SkładnikCzynszu> SkładnikiCzynszu { get; set; }
-
-        public void Wyczyść()
-        {
-            HttpContext.Current.Session[_klucz] = null;
-        }
     }
 }

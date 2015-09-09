@@ -999,7 +999,7 @@ namespace czynsze.Formularze
                                 int indeksPierwszego = wszystkieLokale.FindIndex(l => l.kod_lok == kod_1_1 && l.nr_lok == nr1);
                                 int indeksDrugiego = wszystkieLokale.FindLastIndex(l => l.kod_lok == kod_1_2 && l.nr_lok == nr2);
 
-                                foreach (DostępDoBazy.AktywnyLokal lokal in Sesja.Obecna.Lokale)
+                                foreach (DostępDoBazy.AktywnyLokal lokal in WartościSesji.MagazynRekordów.Lokale)
                                 {
                                     XmlNode nowyDruk = druk.CloneNode(true);
                                     XmlNode razem = nowyDruk.SelectSingleNode(XPathZnajdźElementPoId("razem"));
@@ -1031,7 +1031,7 @@ namespace czynsze.Formularze
                                         decimal stawka;
                                         float ilość;
                                         XmlNode nowySkładnikOpłat = składnikOpłat.CloneNode(true);
-                                        DostępDoBazy.SkładnikCzynszu składnikCzynszu = Sesja.Obecna.SkładnikiCzynszu.FirstOrDefault(s => s.nr_skl == składnikCzynszuLokalu.nr_skl);
+                                        DostępDoBazy.SkładnikCzynszu składnikCzynszu = WartościSesji.MagazynRekordów.SkładnikiCzynszu.FirstOrDefault(s => s.nr_skl == składnikCzynszuLokalu.nr_skl);
 
                                         składnikCzynszuLokalu.Rozpoznaj_ilosc_i_stawka(out ilość, out stawka);
 

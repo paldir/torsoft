@@ -37,8 +37,9 @@ namespace czynsze.Formularze
             }
             else
             {
-                Enumeratory.Zbiór zbiór = PobierzWartośćParametru<Enumeratory.Zbiór>("numberOfSets");
-                Start.AktywnyZbiór = zbiór;
+                Start.AktywnyZbiór = PobierzWartośćParametru<Enumeratory.Zbiór>("numberOfSets");
+
+                Response.Redirect("Start.aspx");
             }
         }
     }
