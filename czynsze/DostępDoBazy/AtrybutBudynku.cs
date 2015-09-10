@@ -11,20 +11,19 @@ namespace czynsze.DostępDoBazy
     [Table("cechy_b", Schema = "public")]
     public class AtrybutBudynku : AtrybutObiektu
     {
-        public static List<Budynek> Budynki { get; set; }
 
         public override string kod_powiaz
         {
             get
             {
-                Budynek budynek = Budynki.Single(b => b.kod_1 == Int32.Parse(kod_powiaz_NIE_UŻYWAĆ));
+                Budynek budynek = Sesja.Obecna.MagazynRekordów.KodNaBudynek[Int32.Parse(kod_powiaz_NIE_UŻYWAĆ)];
 
                 return budynek.__record.ToString();
             }
 
             set
             {
-                Budynek budynek = Budynki.Single(b => b.__record == Int32.Parse(value));
+                Budynek budynek = Sesja.Obecna.MagazynRekordów.KluczNaBudynek[Int32.Parse(value)];
                 kod_powiaz_NIE_UŻYWAĆ = budynek.kod_1.ToString();
             }
         }

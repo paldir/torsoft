@@ -11,20 +11,18 @@ namespace czynsze.DostępDoBazy
     [Table("cechy_n", Schema = "public")]
     public class AtrybutNajemcy : AtrybutObiektu
     {
-        public static List<AktywnyNajemca> Najemcy { get; set; }
-        
         public override string kod_powiaz
         {
             get
             {
-                Najemca najemca = Najemcy.Single(n => n.nr_kontr == Int32.Parse(kod_powiaz_NIE_UŻYWAĆ));
+                Najemca najemca = Sesja.Obecna.MagazynRekordów.NrKontrNaNajemcę[Int32.Parse(kod_powiaz_NIE_UŻYWAĆ)];
 
                 return najemca.__record.ToString();
             }
 
             set
             {
-                Najemca najemca = Najemcy.Single(n => n.__record == Int32.Parse(value));
+                Najemca najemca = Sesja.Obecna.MagazynRekordów.KluczNaNajemcę[Int32.Parse(value)];
                 kod_powiaz_NIE_UŻYWAĆ = najemca.nr_kontr.ToString();
             }
         }

@@ -163,12 +163,9 @@ namespace czynsze.Formularze
 
                         WartościSesji.AtrybutyObiektu = new List<DostępDoBazy.AtrybutObiektu>();
                         WartościSesji.Pliki = db.PlikiBudynków.Where(p => p.id_obiektu == __record).AsEnumerable<DostępDoBazy.Plik>().ToList();
-                        DostępDoBazy.AtrybutBudynku.Budynki = db.Budynki.ToList();
 
                         foreach (DostępDoBazy.AtrybutBudynku attributeOfBuilding in db.AtrybutyBudynków.ToList().Where(a => Int32.Parse(a.kod_powiaz) == kodBudynku))
                             WartościSesji.AtrybutyObiektu.Add(attributeOfBuilding);
-
-                        DostępDoBazy.AtrybutBudynku.Budynki = null;
 
                         podgląd = new List<Control>()
                         {
@@ -248,11 +245,8 @@ namespace czynsze.Formularze
                         WartościSesji.SkładnikiCzynszuLokalu = new List<DostępDoBazy.SkładnikCzynszuLokalu>();
                         WartościSesji.Pliki = db.PlikiLokalów.Where(p => p.id_obiektu == __record).AsEnumerable<DostępDoBazy.Plik>().ToList();
                         lokal = WartościSesji.Rekord as DostępDoBazy.Lokal;
-                        DostępDoBazy.AtrybutLokalu.Lokale = db.AktywneLokale.ToList();
 
                         WartościSesji.AtrybutyObiektu.AddRange(db.AtrybutyLokali.AsEnumerable().Where(a => Int32.Parse(a.kod_powiaz) == __record));
-
-                        DostępDoBazy.AtrybutLokalu.Lokale = null;
 
                         WartościSesji.SkładnikiCzynszuLokalu.AddRange(db.SkładnikiCzynszuLokalu.AsEnumerable().Where(c => c.kod_lok == lokal.kod_lok && c.nr_lok == lokal.nr_lok));
                         //}
@@ -370,12 +364,9 @@ namespace czynsze.Formularze
                             }*/
 
                         WartościSesji.AtrybutyObiektu = new List<DostępDoBazy.AtrybutObiektu>();
-                        DostępDoBazy.AtrybutNajemcy.Najemcy = db.AktywniNajemcy.ToList();
 
                         foreach (DostępDoBazy.AtrybutNajemcy attributeOfTenant in db.AtrybutyNajemców.ToList().Where(a => Int32.Parse(a.kod_powiaz) == __record))
                             WartościSesji.AtrybutyObiektu.Add(attributeOfTenant);
-
-                        DostępDoBazy.AtrybutNajemcy.Najemcy = null;
                         //}
 
                         podgląd = new List<Control>()
@@ -490,12 +481,9 @@ namespace czynsze.Formularze
 
                         WartościSesji.AtrybutyObiektu = new List<DostępDoBazy.AtrybutObiektu>();
                         WartościSesji.BudynkiWspólnoty = new List<DostępDoBazy.BudynekWspólnoty>();
-                        DostępDoBazy.AtrybutWspólnoty.Wspólnoty = db.Wspólnoty.ToList();
 
                         WartościSesji.AtrybutyObiektu.AddRange(db.AtrybutyWspólnot.AsEnumerable().Where(a => Int32.Parse(a.kod_powiaz) == kodWspólnoty));
                         WartościSesji.BudynkiWspólnoty.AddRange(db.BudynkiWspólnot.Where(c => c.kod == kodWspólnoty).OrderBy(b => b.kod_1));
-
-                        DostępDoBazy.AtrybutWspólnoty.Wspólnoty = null;
                         //}
 
                         podgląd = new List<Control>()

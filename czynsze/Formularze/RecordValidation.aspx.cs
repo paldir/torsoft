@@ -317,11 +317,6 @@ namespace czynsze.Formularze
                                 case Enumeratory.Akcja.Edytuj:
                                     if (dbSetOfAttributes != null)
                                     {
-                                        DostępDoBazy.AtrybutLokalu.Lokale = db.AktywneLokale.ToList();
-                                        DostępDoBazy.AtrybutBudynku.Budynki = db.Budynki.ToList();
-                                        DostępDoBazy.AtrybutNajemcy.Najemcy = db.AktywniNajemcy.ToList();
-                                        DostępDoBazy.AtrybutWspólnoty.Wspólnoty = db.Wspólnoty.ToList();
-
                                         foreach (DostępDoBazy.AtrybutObiektu attributeOfObject in dbSetOfAttributes.ToListAsync().Result.Cast<DostępDoBazy.AtrybutObiektu>().Where(a => a.kod_powiaz.Trim() == id.ToString()))
                                             dbSetOfAttributes.Remove(attributeOfObject);
 
@@ -427,11 +422,6 @@ namespace czynsze.Formularze
                 }
                 else
                     placeOfButtons.Controls.Add(new Kontrolki.Button("button", "Back", "Powrót", backUrl));
-
-                DostępDoBazy.AtrybutLokalu.Lokale = null;
-                DostępDoBazy.AtrybutBudynku.Budynki = null;
-                DostępDoBazy.AtrybutNajemcy.Najemcy = null;
-                DostępDoBazy.AtrybutWspólnoty.Wspólnoty = null;
             }
         }
 

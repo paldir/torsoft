@@ -23,16 +23,7 @@ namespace czynsze.Formularze
             company.InnerText = NazwaFirmy;
             user.InnerText = WartościSesji.AktualnieZalogowanyUżytkownik;
             month.InnerText = String.Format("{0} {1}", DostępDoBazy.CzynszeKontekst.NumerMiesiącaNaNazwęZPolskimiZnakami[Data.Month], Data.Year);
-
-            /*AssemblyBuilder budowniczyBiblioteki = AppDomain.CurrentDomain.DefineDynamicAssembly(new System.Reflection.AssemblyName("ass"), AssemblyBuilderAccess.Run);
-            ModuleBuilder budowniczyModułu = budowniczyBiblioteki.DefineDynamicModule("tmp");
-            TypeBuilder budowniczyTypu = budowniczyModułu.DefineType("tmpclass");
-            CustomAttributeBuilder budowniczyAtrybutu = new CustomAttributeBuilder(typeof(System.ComponentModel.DataAnnotations.Schema.TableAttribute).GetConstructor(new Type[] { typeof(string) }), new object[] { "fdsfs" });
-
-            budowniczyTypu.SetParent(typeof(DostępDoBazy.Należność));
-            budowniczyTypu.SetCustomAttribute(budowniczyAtrybutu);
-
-            Type typ = budowniczyTypu.CreateType();*/
+            WartościSesji.MagazynRekordów = new MagazynRekordów();
         }
 
         public static string ExceptionMessage(Exception wyjątek)

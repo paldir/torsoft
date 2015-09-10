@@ -26,9 +26,6 @@ namespace czynsze.DostępDoBazy
 
         public Nullable<DateTime> dat_do { get; set; }
 
-        //public static List<AktywnyLokal> Lokale { get; set; }
-        //public static List<SkładnikCzynszu> SkładnikiCzynszu { get; set; }
-
         public IEnumerable<string> PolaDoTabeli()
         {
             SkładnikCzynszu składnikCzynszu;
@@ -84,8 +81,8 @@ namespace czynsze.DostępDoBazy
             Lokal lokal;
             MagazynRekordów rekordy = Sesja.Obecna.MagazynRekordów;
 
-            składnikCzynszu = rekordy.SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == nr_skl);
-            lokal = rekordy.Lokale.FirstOrDefault(p => p.kod_lok == kod_lok && p.nr_lok == nr_lok);
+            składnikCzynszu = rekordy.NumerSkładnikaNaSkładnikCzynszu[nr_skl];
+            lokal = rekordy.KodINumerNaLokal[kod_lok][nr_lok];
 
             if (lokal == null)
                 using (CzynszeKontekst db = new CzynszeKontekst())
