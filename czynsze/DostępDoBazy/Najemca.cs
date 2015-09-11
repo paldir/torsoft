@@ -61,8 +61,6 @@ namespace czynsze.DostępDoBazy
             }
         }
 
-        public static List<AktywnyLokal> AktywneLokale { get; set; }
-
         public override IEnumerable<string> PolaDoTabeli()
         {
             return base.PolaDoTabeli().Concat(new string[] 
@@ -118,7 +116,7 @@ namespace czynsze.DostępDoBazy
 
             //using (DostępDoBazy.Czynsze_Entities db = new Czynsze_Entities())
             {
-                DostępDoBazy.Lokal place = AktywneLokale.FirstOrDefault(p => p.nr_kontr == nr_kontr);
+                DostępDoBazy.Lokal place = Sesja.Obecna.MagazynRekordów.Lokale.FirstOrDefault(l => l.nr_kontr == nr_kontr);
 
                 if (place == null)
                     kod = nr = lokal = "0";

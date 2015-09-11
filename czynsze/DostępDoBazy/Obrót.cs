@@ -91,8 +91,6 @@ namespace czynsze.DostępDoBazy
             }
         }
 
-        public static DostępDoBazy.CzynszeKontekst BazaDanych { get; set; }
-
         //public static Dictionary<Enums.SettlementTable, List<Turnover>> SettlementTableToListOfTurnovers { get; private set; }
 
         enum Konto { Wn, Ma };
@@ -236,7 +234,7 @@ namespace czynsze.DostępDoBazy
         void UstawLokal()
         {
             if (_lokal == null)
-                _lokal = BazaDanych.AktywneLokale.FirstOrDefault(l => l.nr_kontr == nr_kontr);
+                _lokal = Sesja.Obecna.MagazynRekordów.Lokale.FirstOrDefault(l => l.nr_kontr == nr_kontr);
 
             if (_lokal == null)
             {

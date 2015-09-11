@@ -184,10 +184,7 @@ namespace czynsze.Formularze
                         węzełŚcieżkiStrony = nagłówek;
 
                         if (lokale != null)
-                        {
-                            DostępDoBazy.Lokal.TypyLokali = db.TypyLokali.ToList();
                             rekordyTabeli = lokale.OrderBy(p => p.kod_lok).ThenBy(p => p.nr_lok);
-                        }
 
                         break;
 
@@ -366,11 +363,7 @@ namespace czynsze.Formularze
                         };
 
                         if (!IsPostBack)
-                        {
-                            DostępDoBazy.Najemca.AktywneLokale = db.AktywneLokale.ToList();
                             rekordyTabeli = db.AktywniNajemcy.OrderBy(t => t.nazwisko).ThenBy(t => t.imie);
-                            DostępDoBazy.Najemca.AktywneLokale = null;
-                        }
 
                         Kontrolki.RadioButtonList lista = new Kontrolki.RadioButtonList("list", "by", new List<string> { "wg nazwiska", "wg kodu lokalu" }, new List<string> { "nazwisko", "kod" }, true, true, "nazwisko");
                         lista.SelectedIndexChanged += list_SelectedIndexChanged;
@@ -453,8 +446,6 @@ namespace czynsze.Formularze
 
                 if (!IsPostBack)
                     _wiersze = rekordyTabeli.Select(r => r.PolaDoTabeli().ToArray()).ToList();
-
-                DostępDoBazy.Lokal.TypyLokali = null;
 
                 placeOfHeading.Controls.Add(new LiteralControl("<h2>" + nagłówek + "</h2>"));
                 placeOfMainTableButtons.Controls.Add(new Kontrolki.HtmlInputHidden("table", _tabela.ToString()));

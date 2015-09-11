@@ -359,7 +359,7 @@ namespace czynsze.Formularze
                 string tytuł = null;
                 List<string> gotowaDefinicjaHtml = null;
                 DateTime data = Start.Data;
-                DostępDoBazy.Obrót.BazaDanych = db;
+                MagazynRekordów magazyn = WartościSesji.MagazynRekordów;
 
                 {
                     IEnumerable<DostępDoBazy.Należność> należności = null;
@@ -529,8 +529,6 @@ namespace czynsze.Formularze
                                 catch { }
 
                                 {
-                                    DostępDoBazy.Lokal.TypyLokali = db.TypyLokali.ToList();
-
                                     for (int i = kod_1_start; i <= kod_1_koniec; i++)
                                     {
                                         DostępDoBazy.Budynek budynek = db.Budynki.Where(b => b.kod_1 == i).FirstOrDefault();
@@ -541,8 +539,6 @@ namespace czynsze.Formularze
                                             tabele.Add(db.AktywneLokale.Where(p => p.kod_lok == i && wybraneTypyLokali.Contains(p.kod_typ)).OrderBy(p => p.nr_lok).Select(p => p.PolaDoTabeli().ToList().GetRange(2, p.PolaDoTabeli().Count() - 2).ToArray()).ToList());
                                         }
                                     }
-
-                                    DostępDoBazy.Lokal.TypyLokali = null;
                                 }
                             }
 
@@ -560,7 +556,7 @@ namespace czynsze.Formularze
 
                                 //DostępDoBazy.CzynszeKontekst db = DostępDoBazy.CzynszeKontekst.BazaDanych;
                                 {
-                                    DostępDoBazy.Najemca najemca = db.AktywniNajemcy.FirstOrDefault(t => t.nr_kontr == nr_kontr);
+                                    DostępDoBazy.Najemca najemca = magazyn.NrKontrNaNajemcę[nr_kontr];
                                     podpisy = new List<string>() { najemca.nazwisko + " " + najemca.imie + "<br />" + najemca.adres_1 + " " + najemca.adres_2 + "<br />" };
                                     List<DostępDoBazy.Należność> należnościNajemcy = należności.Where(r => r.nr_kontr == nr_kontr).ToList();
                                     List<DostępDoBazy.Obrót> obrotyNajemcy = obroty.Where(r => r.nr_kontr == nr_kontr).ToList();
@@ -575,7 +571,7 @@ namespace czynsze.Formularze
                                             {
 
                                                 int nr_skl = należnościNajemcy.FirstOrDefault(r => r.__record == -1 * identyfikatory[0]).nr_skl;
-                                                podpisy[0] += db.SkładnikiCzynszu.FirstOrDefault(c => c.nr_skl == nr_skl).nazwa;
+                                                podpisy[0] += magazyn.NumerSkładnikaNaSkładnikCzynszu[nr_skl].nazwa;
 
                                                 for (int i = 1; i <= 12; i++)
                                                     tabele[0].Add(new string[] { i.ToString(), String.Format("{0:N}", należnościNajemcy.Where(r => r.nr_skl == nr_skl).ToList().Where(r => r.data_nal.Year == data.Year && r.data_nal.Month == i).Sum(r => r.kwota_nal)) });
@@ -768,7 +764,6 @@ namespace czynsze.Formularze
                                             int nr1 = identyfikatory[1];
                                             int kod2 = identyfikatory[2];
                                             int nr2 = identyfikatory[3];
-                                            DostępDoBazy.Lokal.TypyLokali = db.TypyLokali.ToList();
                                             int indeks = 1;
                                             decimal ogólnaSuma = 0;
                                             List<DostępDoBazy.AktywnyLokal> wszystkieLokale = db.AktywneLokale.OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok).ToList();
@@ -840,8 +835,6 @@ namespace czynsze.Formularze
                                                     ogólnaSuma += sumaBudynku;
                                                 }
                                             }
-
-                                            DostępDoBazy.Lokal.TypyLokali = null;
 
                                             if (tabele.Any())
                                                 tabele.Last().Add(new string[] { String.Empty, String.Empty, String.Empty, String.Empty, "<b>RAZEM</b>", "<b>WSZYSTKIE</b>", "<b>BUDYNKI</b>", String.Format("{0:N}", ogólnaSuma) });
@@ -995,68 +988,84 @@ namespace czynsze.Formularze
                                 int nr1 = identyfikatory[1];
                                 int kod_1_2 = identyfikatory[2];
                                 int nr2 = identyfikatory[3];
-                                List<DostępDoBazy.AktywnyLokal> wszystkieLokale = db.AktywneLokale.OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok).ToList();
+                                /*List<DostępDoBazy.AktywnyLokal> wszystkieLokale = db.AktywneLokale.OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok).ToList();
                                 int indeksPierwszego = wszystkieLokale.FindIndex(l => l.kod_lok == kod_1_1 && l.nr_lok == nr1);
-                                int indeksDrugiego = wszystkieLokale.FindLastIndex(l => l.kod_lok == kod_1_2 && l.nr_lok == nr2);
+                                int indeksDrugiego = wszystkieLokale.FindLastIndex(l => l.kod_lok == kod_1_2 && l.nr_lok == nr2);*/
+                                SortedDictionary<int, SortedDictionary<int, DostępDoBazy.AktywnyLokal>> kodINumerNaLokal = magazyn.KodINumerNaLokal;
 
-                                foreach (DostępDoBazy.AktywnyLokal lokal in WartościSesji.MagazynRekordów.Lokale)
-                                {
-                                    XmlNode nowyDruk = druk.CloneNode(true);
-                                    XmlNode razem = nowyDruk.SelectSingleNode(XPathZnajdźElementPoId("razem"));
-                                    XmlNode składnikOpłat = nowyDruk.SelectSingleNode(XPathZnajdźElementPoId("składnikOpłat"));
-                                    decimal suma = 0;
-
-                                    WypełnijTagXml(nowyDruk, "nazwiskoImię", String.Format("{0} {1}", lokal.nazwisko, lokal.imie));
-                                    WypełnijTagXml(nowyDruk, "adres1", lokal.adres);
-                                    WypełnijTagXml(nowyDruk, "adres2", lokal.adres_2);
-                                    WypełnijTagXml(nowyDruk, "kodLokalu", String.Format("{0} - {1}", lokal.kod_lok, lokal.nr_lok));
-                                    WypełnijTagXml(nowyDruk, "powierzchnia", lokal.pow_uzyt);
-                                    WypełnijTagXml(nowyDruk, "ilośćOsób", lokal.il_osob);
-                                    WypełnijTagXml(nowyDruk, "data", DateTime.Now.ToShortDateString());
-
-                                    if (db.Treści.Any())
+                                for (int kodLokalu = kod_1_1; kodLokalu <= kod_1_2; kodLokalu++)
+                                    if (kodINumerNaLokal.ContainsKey(kodLokalu))
                                     {
-                                        DostępDoBazy.Treść treść = db.Treści.FirstOrDefault();
+                                        SortedDictionary<int, DostępDoBazy.AktywnyLokal> numerNaLokal = kodINumerNaLokal[kodLokalu];
+                                        int numerPierwszego = numerNaLokal.First().Key;
+                                        int numerOstatniego = numerNaLokal.Last().Key;
 
-                                        for (int i = 1; i <= 15; i++)
-                                        {
-                                            string op = typeof(DostępDoBazy.Treść).GetProperty(String.Format("op_{0}", i)).GetValue(treść).ToString();
+                                        if (kodLokalu == kod_1_1)
+                                            numerPierwszego = nr1;
+                                        else if (kodLokalu == kod_1_2)
+                                            numerOstatniego = nr2;
 
-                                            WypełnijTagXml(nowyDruk, String.Format("op{0}", i), op);
-                                        }
+                                        for (int numerLokalu = numerPierwszego; numerLokalu <= numerOstatniego; numerLokalu++)
+                                            if (numerNaLokal.ContainsKey(numerLokalu))
+                                            {
+                                                DostępDoBazy.AktywnyLokal lokal = numerNaLokal[numerLokalu];
+                                                XmlNode nowyDruk = druk.CloneNode(true);
+                                                XmlNode razem = nowyDruk.SelectSingleNode(XPathZnajdźElementPoId("razem"));
+                                                XmlNode składnikOpłat = nowyDruk.SelectSingleNode(XPathZnajdźElementPoId("składnikOpłat"));
+                                                decimal suma = 0;
+
+                                                WypełnijTagXml(nowyDruk, "nazwiskoImię", String.Format("{0} {1}", lokal.nazwisko, lokal.imie));
+                                                WypełnijTagXml(nowyDruk, "adres1", lokal.adres);
+                                                WypełnijTagXml(nowyDruk, "adres2", lokal.adres_2);
+                                                WypełnijTagXml(nowyDruk, "kodLokalu", String.Format("{0} - {1}", lokal.kod_lok, lokal.nr_lok));
+                                                WypełnijTagXml(nowyDruk, "powierzchnia", lokal.pow_uzyt);
+                                                WypełnijTagXml(nowyDruk, "ilośćOsób", lokal.il_osob);
+                                                WypełnijTagXml(nowyDruk, "data", DateTime.Now.ToShortDateString());
+
+                                                if (db.Treści.Any())
+                                                {
+                                                    DostępDoBazy.Treść treść = db.Treści.FirstOrDefault();
+
+                                                    for (int i = 1; i <= 15; i++)
+                                                    {
+                                                        string op = typeof(DostępDoBazy.Treść).GetProperty(String.Format("op_{0}", i)).GetValue(treść).ToString();
+
+                                                        WypełnijTagXml(nowyDruk, String.Format("op{0}", i), op);
+                                                    }
+                                                }
+
+                                                foreach (DostępDoBazy.SkładnikCzynszuLokalu składnikCzynszuLokalu in db.SkładnikiCzynszuLokalu.Where(s => s.kod_lok == lokal.kod_lok && s.nr_lok == lokal.nr_lok).ToList())
+                                                {
+                                                    decimal stawka;
+                                                    float ilość;
+                                                    XmlNode nowySkładnikOpłat = składnikOpłat.CloneNode(true);
+                                                    DostępDoBazy.SkładnikCzynszu składnikCzynszu = db.SkładnikiCzynszu.FirstOrDefault(s => s.nr_skl == składnikCzynszuLokalu.nr_skl);
+
+                                                    składnikCzynszuLokalu.Rozpoznaj_ilosc_i_stawka(out ilość, out stawka);
+
+                                                    switch (_raport)
+                                                    {
+                                                        case Enumeratory.Raport.SkladnikiCzynszuStawkaInformacyjna:
+                                                            stawka = składnikCzynszu.stawka_inf;
+
+                                                            break;
+                                                    }
+
+                                                    decimal wartość = Decimal.Round(Convert.ToDecimal(ilość) * stawka, 2, MidpointRounding.AwayFromZero);
+                                                    suma += wartość;
+
+                                                    WypełnijTagXml(nowySkładnikOpłat, "nazwa", składnikCzynszu.nazwa);
+                                                    WypełnijTagXml(nowySkładnikOpłat, "stawka", stawka.ToString("N"));
+                                                    WypełnijTagXml(nowySkładnikOpłat, "ilość", ilość.ToString("N"));
+                                                    WypełnijTagXml(nowySkładnikOpłat, "wartość", wartość.ToString("N"));
+                                                    składnikOpłat.ParentNode.InsertBefore(nowySkładnikOpłat, składnikOpłat);
+                                                }
+
+                                                WypełnijTagXml(nowyDruk, "razem", suma.ToString("N"));
+                                                składnikOpłat.ParentNode.RemoveChild(składnikOpłat);
+                                                gotowaDefinicjaHtml.Add(nowyDruk.OuterXml);
+                                            }
                                     }
-
-                                    foreach (DostępDoBazy.SkładnikCzynszuLokalu składnikCzynszuLokalu in db.SkładnikiCzynszuLokalu.Where(s => s.kod_lok == lokal.kod_lok && s.nr_lok == lokal.nr_lok).ToList())
-                                    {
-                                        decimal stawka;
-                                        float ilość;
-                                        XmlNode nowySkładnikOpłat = składnikOpłat.CloneNode(true);
-                                        DostępDoBazy.SkładnikCzynszu składnikCzynszu = WartościSesji.MagazynRekordów.SkładnikiCzynszu.FirstOrDefault(s => s.nr_skl == składnikCzynszuLokalu.nr_skl);
-
-                                        składnikCzynszuLokalu.Rozpoznaj_ilosc_i_stawka(out ilość, out stawka);
-
-                                        switch (_raport)
-                                        {
-                                            case Enumeratory.Raport.SkladnikiCzynszuStawkaInformacyjna:
-                                                stawka = składnikCzynszu.stawka_inf;
-
-                                                break;
-                                        }
-
-                                        decimal wartość = Decimal.Round(Convert.ToDecimal(ilość) * stawka, 2, MidpointRounding.AwayFromZero);
-                                        suma += wartość;
-
-                                        WypełnijTagXml(nowySkładnikOpłat, "nazwa", składnikCzynszu.nazwa);
-                                        WypełnijTagXml(nowySkładnikOpłat, "stawka", stawka.ToString("N"));
-                                        WypełnijTagXml(nowySkładnikOpłat, "ilość", ilość.ToString("N"));
-                                        WypełnijTagXml(nowySkładnikOpłat, "wartość", wartość.ToString("N"));
-                                        składnikOpłat.ParentNode.InsertBefore(nowySkładnikOpłat, składnikOpłat);
-                                    }
-
-                                    WypełnijTagXml(nowyDruk, "razem", suma.ToString("N"));
-                                    składnikOpłat.ParentNode.RemoveChild(składnikOpłat);
-                                    gotowaDefinicjaHtml.Add(nowyDruk.OuterXml);
-                                }
                             }
 
                             break;

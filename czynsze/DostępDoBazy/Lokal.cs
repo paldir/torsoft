@@ -102,8 +102,6 @@ namespace czynsze.DostępDoBazy
             }
         }
 
-        public static List<TypLokalu> TypyLokali { get; set; }
-
         public override IEnumerable<string> PolaDoTabeli()
         {
             return base.PolaDoTabeli().Concat(new string[] 
@@ -119,7 +117,7 @@ namespace czynsze.DostępDoBazy
 
         public string Rozpoznaj_kod_typ()
         {
-            TypLokalu typLokalu = TypyLokali.FirstOrDefault(t => t.kod_typ == this.kod_typ);
+            TypLokalu typLokalu = Sesja.Obecna.MagazynRekordów.KodNaTypLokalu[kod_typ];
 
             if (typLokalu == null)
                 return String.Empty;
