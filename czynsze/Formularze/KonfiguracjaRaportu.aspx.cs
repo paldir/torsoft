@@ -1074,12 +1074,12 @@ namespace czynsze.Formularze
 
                         case Enumeratory.Raport.WykazWgSkladnika:
                             {
-                                List<DostępDoBazy.AktywnyLokal> wszystkieLokale = db.AktywneLokale.OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok).ToList();
+                                List<DostępDoBazy.AktywnyLokal> wszystkieLokale = magazyn.Lokale;
                                 int indeksPierwszego = wszystkieLokale.FindIndex(l => l.kod_lok == identyfikatory[0] && l.nr_lok == identyfikatory[1]);
                                 int indeksOstatniego = wszystkieLokale.FindIndex(l => l.kod_lok == identyfikatory[2] && l.nr_lok == identyfikatory[3]);
                                 wszystkieLokale = wszystkieLokale.GetRange(indeksPierwszego, indeksOstatniego - indeksPierwszego + 1);
                                 int nrSkładnika = identyfikatory[4];
-                                DostępDoBazy.SkładnikCzynszu składnikCzynszu = db.SkładnikiCzynszu.First(s => s.nr_skl == nrSkładnika);
+                                DostępDoBazy.SkładnikCzynszu składnikCzynszu = magazyn.SkładnikiCzynszu[nrSkładnika];
                                 DateTime początekMiesiąca = DateTime.MaxValue;
                                 DateTime koniecMiesiąca = new DateTime(data.Year, data.Month, 1).AddMonths(1).AddSeconds(-1);
                                 IEnumerable<DostępDoBazy.Należność> należnościDotycząceDanegoSkładnika = należności.Where(n => n.nr_skl == nrSkładnika && n.data_nal <= koniecMiesiąca);
@@ -1088,7 +1088,6 @@ namespace czynsze.Formularze
                                 tytuł = "Wykaz wedlug skladnika ";
                                 Enumeratory.WykazWedługSkładnika tryb = WartościSesji.TrybWykazuWgSkładnika;
                                 int[] array = { 1, 2, 3, 4, 5 };
-
 
                                 switch (tryb)
                                 {
