@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace czynsze.DostępDoBazy
 {
     public abstract class Plik
@@ -10,7 +12,11 @@ namespace czynsze.DostępDoBazy
         [System.ComponentModel.DataAnnotations.Key]
         public int __record { get; set; }
 
-        public int id_obiektu { get; set; }
+        [Column("id_obiektu")]
+        public int id_obiektu_NIE_UŻYWAĆ { get; protected set; }
+
+        [NotMapped]
+        public abstract int id_obiektu { get; set; }
 
         public string plik { get; set; }
 

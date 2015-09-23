@@ -351,7 +351,7 @@ namespace czynsze.Formularze
 
         void generationButton_Click(object sender, EventArgs e)
         {
-            //using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
+            using (DostępDoBazy.CzynszeKontekst db = new DostępDoBazy.CzynszeKontekst())
             {
                 List<List<string[]>> tabele = new List<List<string[]>>();
                 List<string> nagłówki = null;
@@ -1429,10 +1429,11 @@ namespace czynsze.Formularze
                                             int kodOstatniejWspólnoty = identyfikatory[5];
                                             nagłówki = new List<string>() { "Kod budynku", "Adres budynku", "Nazwa składnika", "Kwota" };
 
-                                            for (int kodWspólnoty = 1; kodWspólnoty <= wspólnotyDoAnalizy.Count; kodWspólnoty++)
+                                            for (int kodWspólnoty = kodPierwszejWspólnoty; kodWspólnoty <= kodOstatniejWspólnoty; kodWspólnoty++)
                                             {
                                                 DostępDoBazy.Wspólnota wspólnota;
                                                 
+                                                if(magazyn.KodNaWspólnotę.TryGetValue(kodWspólnoty, out wspólnota))
                                                 {
                                                     List<DostępDoBazy.BudynekWspólnoty> budynkiWspólnoty = db.BudynkiWspólnot.Where(b => b.kod == wspólnota.kod).OrderBy(b => b.kod_1).ToList();
                                                     List<string[]> tabela = new List<string[]>();
@@ -1440,7 +1441,7 @@ namespace czynsze.Formularze
 
                                                     foreach (DostępDoBazy.BudynekWspólnoty budynekWspólnoty in budynkiWspólnoty)
                                                     {
-                                                        DostępDoBazy.Budynek budynek = db.Budynki.First(b => b.kod_1 == budynekWspólnoty.kod_1);
+                                                        DostępDoBazy.Budynek budynek = magazyn.KodNaBudynek[budynekWspólnoty.kod_1];
                                                         Dictionary<int, decimal> nrSkładnikaNaSumę = new Dictionary<int, decimal>();
                                                         int kodBudynku = budynek.kod_1;
                                                         decimal sumaBudynku = 0;
@@ -1508,6 +1509,11 @@ namespace czynsze.Formularze
                                     case Enumeratory.Raport.ObrotyWgEwidencjiLokale:
                                     case Enumeratory.Raport.OgolemWgEwidencjiLokale:
                                         {
+                                            int kodPierwszegoBudynku = identyfikatory[0];
+                                            int kodOstatniegoBudynku = identyfikatory[2];
+                                            int numerPierwszegoLokalu = identyfikatory[1];
+                                            int numerOstatniegoLokalu = identyfikatory[3];
+
                                             List<DostępDoBazy.AktywnyLokal> lokale = db.AktywneLokale.OrderBy(l => l.kod_lok).ThenBy(l => l.nr_lok).ToList();
                                             int indeksPierwszego = lokale.FindIndex(l => l.kod_lok == identyfikatory[0] && l.nr_lok == identyfikatory[1]);
                                             int indeksOstatniego = lokale.FindIndex(l => l.kod_lok == identyfikatory[2] && l.nr_lok == identyfikatory[3]);
