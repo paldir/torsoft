@@ -82,7 +82,8 @@ namespace czynsze.DostępDoBazy
             MagazynRekordów rekordy = Sesja.Obecna.MagazynRekordów;
 
             składnikCzynszu = rekordy.NumerSkładnikaNaSkładnikCzynszu[nr_skl];
-            lokal = rekordy.KodINumerNaLokal[kod_lok][nr_lok];
+
+            rekordy.KodINumerNaLokal[kod_lok].TryGetValue(nr_lok, out lokal);
 
             if (lokal == null)
                 using (CzynszeKontekst db = new CzynszeKontekst())

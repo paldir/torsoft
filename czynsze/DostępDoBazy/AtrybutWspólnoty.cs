@@ -15,14 +15,14 @@ namespace czynsze.DostępDoBazy
         {
             get
             {
-                Wspólnota wspólnota = Sesja.Obecna.MagazynRekordów.KodNaWspólnotę[Int32.Parse(kod_powiaz_NIE_UŻYWAĆ)];
+                Wspólnota wspólnota = Sesja.Obecna.MagazynRekordów.KodNaWspólnotę[Int32.Parse(kod_powiaz_W_BAZIE)];
 
                 return wspólnota.__record.ToString();
             }
             set
             {
                 Wspólnota wspólnota = Sesja.Obecna.MagazynRekordów.KluczNaWspólnotę[Int32.Parse(value)];
-                kod_powiaz_NIE_UŻYWAĆ = wspólnota.kod.ToString();
+                kod_powiaz_W_BAZIE = wspólnota.kod.ToString();
             }
         }
     }

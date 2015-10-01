@@ -23,7 +23,7 @@ namespace czynsze.Formularze
                 bool otwieraćOknoDodawania = !String.IsNullOrEmpty(PobierzWartośćParametru("otwarcieOknaDodawania"));
                 bool usunąćPlik = !String.IsNullOrEmpty(PobierzWartośćParametru("delete"));
                 bool dodaćPlik = !String.IsNullOrEmpty(PobierzWartośćParametru("potwierdźDodawanie"));
-                List<DostępDoBazy.Plik> pliki = WartościSesji.Pliki;
+                List<DostępDoBazy.Plik> pliki = WartościSesji.PlikiObiektu;
 
                 form.Controls.Add(new Kontrolki.HtmlInputHidden("tabela", tabela));
                 form.Controls.Add(new Kontrolki.HtmlInputHidden("id_obiektu", id_obiektu));

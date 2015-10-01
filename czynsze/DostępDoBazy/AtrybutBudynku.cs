@@ -16,7 +16,7 @@ namespace czynsze.DostępDoBazy
         {
             get
             {
-                Budynek budynek = Sesja.Obecna.MagazynRekordów.KodNaBudynek[Int32.Parse(kod_powiaz_NIE_UŻYWAĆ)];
+                Budynek budynek = Sesja.Obecna.MagazynRekordów.KodNaBudynek[Int32.Parse(kod_powiaz_W_BAZIE)];
 
                 return budynek.__record.ToString();
             }
@@ -24,7 +24,7 @@ namespace czynsze.DostępDoBazy
             set
             {
                 Budynek budynek = Sesja.Obecna.MagazynRekordów.KluczNaBudynek[Int32.Parse(value)];
-                kod_powiaz_NIE_UŻYWAĆ = budynek.kod_1.ToString();
+                kod_powiaz_W_BAZIE = budynek.kod_1.ToString();
             }
         }
     }

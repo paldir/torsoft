@@ -281,7 +281,7 @@ namespace czynsze.Formularze
                 }
                 catch (Exception wyjątek)
                 {
-                    BłądPrzetwarzaniaNależności = Start.ExceptionMessage(wyjątek);
+                    BłądPrzetwarzaniaNależności = Start.KomunikatWyjątku(wyjątek);
                 }
             }
         }

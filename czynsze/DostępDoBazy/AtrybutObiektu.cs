@@ -17,7 +17,7 @@ namespace czynsze.DostępDoBazy
         public int kod { get; set; }
 
         [Column("kod_powiaz")]
-        public string kod_powiaz_NIE_UŻYWAĆ { get; protected set; }
+        public string kod_powiaz_W_BAZIE { get; protected set; }
 
         [NotMapped]
         public abstract string kod_powiaz { get; set; }

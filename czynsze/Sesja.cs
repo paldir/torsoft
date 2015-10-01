@@ -41,7 +41,7 @@ namespace czynsze
         public List<string> GotowaDefinicjaHtmlRaportu { get; set; }
         public DostępDoBazy.Rekord Rekord { get; set; }
         public List<DostępDoBazy.SkładnikCzynszuLokalu> SkładnikiCzynszuLokalu { get; set; }
-        public List<DostępDoBazy.Plik> Pliki { get; set; }
+        public List<DostępDoBazy.Plik> PlikiObiektu { get; set; }
         public MagazynRekordów MagazynRekordów { get; set; }
 
         public void Wyczyść()
@@ -59,7 +59,7 @@ namespace czynsze
         public List<DostępDoBazy.TypLokalu> TypyLokali { get; set; }
         public List<DostępDoBazy.SkładnikCzynszu> SkładnikiCzynszu { get; set; }
 
-        public SortedDictionary<int, SortedDictionary<int, DostępDoBazy.AktywnyLokal>> KodINumerNaLokal { get; set; }
+        public SortedDictionary<int, SortedDictionary<int, DostępDoBazy.Lokal>> KodINumerNaLokal { get; set; }
         public Dictionary<int, DostępDoBazy.AktywnyLokal> KluczNaLokal { get; set; }
 
         public SortedDictionary<int, DostępDoBazy.Budynek> KodNaBudynek { get; set; }
@@ -86,14 +86,14 @@ namespace czynsze
                 SkładnikiCzynszu = db.SkładnikiCzynszu.OrderBy(s => s.nr_skl).ToList();
 
                 KluczNaLokal = new Dictionary<int, DostępDoBazy.AktywnyLokal>();
-                KodINumerNaLokal = new SortedDictionary<int, SortedDictionary<int, DostępDoBazy.AktywnyLokal>>();
+                KodINumerNaLokal = new SortedDictionary<int, SortedDictionary<int, DostępDoBazy.Lokal>>();
 
                 foreach (DostępDoBazy.AktywnyLokal lokal in db.AktywneLokale)
                 {
                     int kodBudynku = lokal.kod_lok;
 
                     if (!KodINumerNaLokal.ContainsKey(kodBudynku))
-                        KodINumerNaLokal.Add(kodBudynku, new SortedDictionary<int, DostępDoBazy.AktywnyLokal>());
+                        KodINumerNaLokal.Add(kodBudynku, new SortedDictionary<int, DostępDoBazy.Lokal>());
 
                     KodINumerNaLokal[kodBudynku].Add(lokal.nr_lok, lokal);
                     KluczNaLokal.Add(lokal.__record, lokal);

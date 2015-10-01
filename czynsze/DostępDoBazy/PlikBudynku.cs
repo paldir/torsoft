@@ -12,7 +12,7 @@ namespace czynsze.DostępDoBazy
         {
             get
             {
-                DostępDoBazy.Budynek budynek = Sesja.Obecna.MagazynRekordów.KodNaBudynek[id_obiektu_NIE_UŻYWAĆ];
+                DostępDoBazy.Budynek budynek = Sesja.Obecna.MagazynRekordów.KodNaBudynek[id_obiektu_W_BAZIE];
 
                 return budynek.__record;
             }
@@ -20,7 +20,7 @@ namespace czynsze.DostępDoBazy
             set
             {
                 DostępDoBazy.Budynek budynek = Sesja.Obecna.MagazynRekordów.KluczNaBudynek[value];
-                id_obiektu_NIE_UŻYWAĆ = budynek.kod_1;
+                id_obiektu_W_BAZIE = budynek.kod_1;
             }
         }
     }

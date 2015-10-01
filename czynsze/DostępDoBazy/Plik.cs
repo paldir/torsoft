@@ -13,7 +13,7 @@ namespace czynsze.DostępDoBazy
         public int __record { get; set; }
 
         [Column("id_obiektu")]
-        public int id_obiektu_NIE_UŻYWAĆ { get; protected set; }
+        public int id_obiektu_W_BAZIE { get; protected set; }
 
         [NotMapped]
         public abstract int id_obiektu { get; set; }

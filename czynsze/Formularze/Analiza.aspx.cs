@@ -186,16 +186,7 @@ namespace czynsze.Formularze
                         case Enumeratory.Analiza.ObrotyWgGrupSumy:
                         case Enumeratory.Analiza.OgolemWgGrupSkladniki:
                         case Enumeratory.Analiza.OgolemWgGrupSumy:
-                            List<int> wybraneGrupy = new List<int>();
-
-                            for (int i = 0; i < db.GrupySkładnikówCzynszu.Count(); i++)
-                            {
-                                string numer = PobierzWartośćParametru(String.Format("grupyCzynszu_{0}", i));
-
-                                if (!String.IsNullOrEmpty(numer))
-                                    wybraneGrupy.Add(Int32.Parse(numer));
-                            }
-
+                            List<int> wybraneGrupy = PobierzWartośćParametru("grupyCzynszu").Split(',').Select(p => Int32.Parse(p)).ToList();
                             WartościSesji.NumeryGrupWybranychSkładnikówCzynszu = wybraneGrupy;
 
                             break;

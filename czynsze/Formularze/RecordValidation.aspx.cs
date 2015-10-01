@@ -277,7 +277,7 @@ namespace czynsze.Formularze
                                         }
 
                                     if (zbiórPlików != null)
-                                        foreach (DostępDoBazy.Plik plik in WartościSesji.Pliki)
+                                        foreach (DostępDoBazy.Plik plik in WartościSesji.PlikiObiektu)
                                         {
                                             plik.id_obiektu = record.__record;
 
@@ -326,7 +326,7 @@ namespace czynsze.Formularze
                                         foreach (DostępDoBazy.Plik plik in zbiórPlików.ToListAsync().Result.Cast<DostępDoBazy.Plik>().Where(p => p.id_obiektu == record.__record))
                                             zbiórPlików.Remove(plik);
 
-                                        foreach (DostępDoBazy.Plik plik in WartościSesji.Pliki)
+                                        foreach (DostępDoBazy.Plik plik in WartościSesji.PlikiObiektu)
                                             zbiórPlików.Add(plik);
                                     }
 

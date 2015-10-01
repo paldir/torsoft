@@ -162,7 +162,7 @@ namespace czynsze.Formularze
                         };
 
                         WartościSesji.AtrybutyObiektu = new List<DostępDoBazy.AtrybutObiektu>();
-                        WartościSesji.Pliki = db.PlikiBudynków.Where(p => p.id_obiektu == __record).AsEnumerable<DostępDoBazy.Plik>().ToList();
+                        WartościSesji.PlikiObiektu = db.PlikiBudynków.AsEnumerable<DostępDoBazy.Plik>().Where(p => p.id_obiektu == __record).ToList();
 
                         foreach (DostępDoBazy.AtrybutBudynku attributeOfBuilding in db.AtrybutyBudynków.ToList().Where(a => Int32.Parse(a.kod_powiaz) == kodBudynku))
                             WartościSesji.AtrybutyObiektu.Add(attributeOfBuilding);
@@ -243,7 +243,7 @@ namespace czynsze.Formularze
                         int nrSystem = lokal.nr_system;
                         WartościSesji.AtrybutyObiektu = new List<DostępDoBazy.AtrybutObiektu>();
                         WartościSesji.SkładnikiCzynszuLokalu = new List<DostępDoBazy.SkładnikCzynszuLokalu>();
-                        WartościSesji.Pliki = db.PlikiLokalów.Where(p => p.id_obiektu == __record).AsEnumerable<DostępDoBazy.Plik>().ToList();
+                        WartościSesji.PlikiObiektu = db.PlikiLokalów.AsEnumerable<DostępDoBazy.Plik>().Where(p => p.id_obiektu == __record).ToList();
                         lokal = WartościSesji.Rekord as DostępDoBazy.Lokal;
 
                         WartościSesji.AtrybutyObiektu.AddRange(db.AtrybutyLokali.AsEnumerable().Where(a => Int32.Parse(a.kod_powiaz) == __record));

@@ -12,7 +12,7 @@ namespace czynsze.Formularze
         protected void Page_Load(object sender, EventArgs e)
         {
             int id = PobierzWartośćParametru<int>("id");
-            DostępDoBazy.Plik plik = WartościSesji.Pliki.Single(p => p.__record == id);
+            DostępDoBazy.Plik plik = WartościSesji.PlikiObiektu.Single(p => p.__record == id);
             byte[] tablicaBajtów = Convert.FromBase64String(plik.plik);
 
             Response.ClearHeaders();

@@ -10,7 +10,9 @@ namespace czynsze.Kontrolki
         public HtmlInputHidden(string id, object wartość)
         {
             ID = id;
-            Value = wartość.ToString();
+
+            if (wartość != null)
+                Value = wartość.ToString();
         }
 
         protected override void Render(System.Web.UI.HtmlTextWriter writer)

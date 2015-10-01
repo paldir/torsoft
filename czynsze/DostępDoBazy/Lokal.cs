@@ -117,7 +117,9 @@ namespace czynsze.DostępDoBazy
 
         public string Rozpoznaj_kod_typ()
         {
-            TypLokalu typLokalu = Sesja.Obecna.MagazynRekordów.KodNaTypLokalu[kod_typ];
+            TypLokalu typLokalu;
+
+            Sesja.Obecna.MagazynRekordów.KodNaTypLokalu.TryGetValue(kod_typ, out typLokalu);
 
             if (typLokalu == null)
                 return String.Empty;

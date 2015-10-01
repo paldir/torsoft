@@ -15,8 +15,8 @@ namespace czynsze.DostępDoBazy
         {
             get
             {
-                int kodLokalu = Int32.Parse(kod_powiaz_NIE_UŻYWAĆ.Substring(0, 5));
-                int nrLokalu = Int32.Parse(kod_powiaz_NIE_UŻYWAĆ.Substring(5));
+                int kodLokalu = Int32.Parse(kod_powiaz_W_BAZIE.Substring(0, 5));
+                int nrLokalu = Int32.Parse(kod_powiaz_W_BAZIE.Substring(5));
                 DostępDoBazy.Lokal lokal = Sesja.Obecna.MagazynRekordów.KodINumerNaLokal[kodLokalu][nrLokalu];
 
                 return lokal.__record.ToString();
@@ -25,7 +25,7 @@ namespace czynsze.DostępDoBazy
             set
             {
                 DostępDoBazy.AktywnyLokal lokal = Sesja.Obecna.MagazynRekordów.KluczNaLokal[Int32.Parse(value)];
-                kod_powiaz_NIE_UŻYWAĆ = String.Format("{0, 5}{1, 3}", lokal.kod_lok, lokal.nr_lok);
+                kod_powiaz_W_BAZIE = String.Format("{0, 5}{1, 3}", lokal.kod_lok, lokal.nr_lok);
             }
         }
     }

@@ -12,7 +12,7 @@ namespace czynsze.DostępDoBazy
         {
             get
             {
-                DostępDoBazy.AktywnyLokal lokal = Sesja.Obecna.MagazynRekordów.Lokale.Single(l => l.nr_system == id_obiektu_NIE_UŻYWAĆ);
+                DostępDoBazy.AktywnyLokal lokal = Sesja.Obecna.MagazynRekordów.Lokale.Single(l => l.nr_system == id_obiektu_W_BAZIE);
 
                 return lokal.__record;
             }
@@ -20,7 +20,7 @@ namespace czynsze.DostępDoBazy
             set
             {
                 DostępDoBazy.AktywnyLokal lokal = Sesja.Obecna.MagazynRekordów.KluczNaLokal[value];
-                id_obiektu_NIE_UŻYWAĆ = lokal.nr_system;
+                id_obiektu_W_BAZIE = lokal.nr_system;
             }
         }
     }

@@ -15,7 +15,7 @@ namespace czynsze.DostępDoBazy
         {
             get
             {
-                Najemca najemca = Sesja.Obecna.MagazynRekordów.NrKontrNaNajemcę[Int32.Parse(kod_powiaz_NIE_UŻYWAĆ)];
+                Najemca najemca = Sesja.Obecna.MagazynRekordów.NrKontrNaNajemcę[Int32.Parse(kod_powiaz_W_BAZIE)];
 
                 return najemca.__record.ToString();
             }
@@ -23,7 +23,7 @@ namespace czynsze.DostępDoBazy
             set
             {
                 Najemca najemca = Sesja.Obecna.MagazynRekordów.KluczNaNajemcę[Int32.Parse(value)];
-                kod_powiaz_NIE_UŻYWAĆ = najemca.nr_kontr.ToString();
+                kod_powiaz_W_BAZIE = najemca.nr_kontr.ToString();
             }
         }
     }

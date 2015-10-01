@@ -26,12 +26,12 @@ namespace czynsze.Formularze
             WartościSesji.MagazynRekordów = new MagazynRekordów();
         }
 
-        public static string ExceptionMessage(Exception wyjątek)
+        public static string KomunikatWyjątku(Exception wyjątek)
         {
             if (wyjątek == null)
                 return String.Empty;
             else
-                return String.Format("{0}<br />{1}", wyjątek.Message, ExceptionMessage(wyjątek.InnerException));
+                return String.Concat(wyjątek.Message, "<br />", KomunikatWyjątku(wyjątek.InnerException));
         }
     }
 }
