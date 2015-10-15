@@ -13,7 +13,7 @@ namespace czynsze.Formularze
     {
         Enumeratory.Tabela _tabela;
 
-        IEnumerable<string[]> _wiersze
+        List<string[]> _wiersze
         {
             get
             {
@@ -22,7 +22,7 @@ namespace czynsze.Formularze
                 if (wartość == null)
                     return null;
                 else
-                    return (IEnumerable<string[]>)wartość;
+                    return (List<string[]>)wartość;
             }
 
             set { ViewState["wiersze"] = value; }
@@ -52,6 +52,12 @@ namespace czynsze.Formularze
             }
 
             set { ViewState["sortOrder"] = value; }
+        }
+
+        int _numerKolumnySortownia
+        {
+            get { return (int)ViewState["numerKolumnySortowania"]; }
+            set { ViewState["numerKolumnySortowania"] = value; }
         }
 
         bool _sortowalna
@@ -556,37 +562,52 @@ namespace czynsze.Formularze
 
         void LinkButtonOfColumn_Click(object sender, EventArgs e)
         {
-            int numerKolumny = Int32.Parse(((Kontrolki.LinkButton)sender).ID.Replace("column", String.Empty)) + 1;
+            _numerKolumnySortownia = Int32.Parse(((Kontrolki.LinkButton)sender).ID.Replace("column", String.Empty)) + 1;
 
-            switch (_porządekSortowania)
+            if (_wiersze.Any())
             {
-                case Enumeratory.PorządekSortowania.Rosnaco:
-                    if (_wiersze.Any())
+                string pierwszaWartość = _wiersze.First().ElementAt(_numerKolumnySortownia);
+
+                switch (_porządekSortowania)
+                {
+                    case Enumeratory.PorządekSortowania.Rosnaco:
                         try
                         {
-                            Single.Parse(_wiersze.First().ElementAt(numerKolumny));
+                            if (String.IsNullOrEmpty(pierwszaWartość))
+                                throw new FormatException();
+                            else
+                                Single.Parse(pierwszaWartość);
 
-                            _wiersze = _wiersze.OrderByDescending(r => Single.Parse(r.ElementAt(numerKolumny)));
+                            _wiersze.Sort((x, y) => Single.Parse(x[_numerKolumnySortownia]).CompareTo(Single.Parse(y[_numerKolumnySortownia])));
                         }
-                        catch (FormatException) { _wiersze = _wiersze.OrderByDescending(r => r.ElementAt(numerKolumny)); }
+                        catch (FormatException)
+                        {
+                            _wiersze.Sort((x, y) => String.Compare(x[_numerKolumnySortownia], y[_numerKolumnySortownia]));
+                        }
 
-                    _porządekSortowania = Enumeratory.PorządekSortowania.Malejaco;
+                        _porządekSortowania = Enumeratory.PorządekSortowania.Malejaco;
 
-                    break;
+                        break;
 
-                case Enumeratory.PorządekSortowania.Malejaco:
-                    if (_wiersze.Any())
+                    case Enumeratory.PorządekSortowania.Malejaco:
                         try
                         {
-                            Single.Parse(_wiersze.First().ElementAt(numerKolumny));
+                            if (String.IsNullOrEmpty(pierwszaWartość))
+                                throw new FormatException();
+                            else
+                                Single.Parse(pierwszaWartość);
 
-                            _wiersze = _wiersze.OrderBy(r => Single.Parse(r.ElementAt(numerKolumny)));
+                            _wiersze.Sort((x, y) => -Single.Parse(x[_numerKolumnySortownia]).CompareTo(Single.Parse(y[_numerKolumnySortownia])));
                         }
-                        catch { _wiersze = _wiersze.OrderBy(r => r.ElementAt(numerKolumny)); }
+                        catch (FormatException)
+                        {
+                            _wiersze.Sort((x, y) => -String.Compare(x[_numerKolumnySortownia], y[_numerKolumnySortownia]));
+                        }
 
-                    _porządekSortowania = Enumeratory.PorządekSortowania.Rosnaco;
+                        _porządekSortowania = Enumeratory.PorządekSortowania.Rosnaco;
 
-                    break;
+                        break;
+                }
             }
 
             CreateMainTable();
@@ -598,7 +619,7 @@ namespace czynsze.Formularze
 
             switch (lista.SelectedValue)
             {
-                case "nazwisko":
+                /*case "nazwisko":
                     _wiersze = _wiersze.OrderBy(r => r.ElementAt(1)).ThenBy(r => r.ElementAt(2));
 
                     break;
@@ -606,7 +627,7 @@ namespace czynsze.Formularze
                 case "kod":
                     _wiersze = _wiersze.OrderBy(r => Single.Parse(r.ElementAt(3))).ThenBy(r => Single.Parse(r.ElementAt(4)));
 
-                    break;
+                    break;*/
             }
 
             CreateMainTable();

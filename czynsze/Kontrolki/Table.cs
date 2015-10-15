@@ -11,7 +11,7 @@ namespace czynsze.Kontrolki
 {
     public class Table : System.Web.UI.WebControls.Table
     {
-        public Table(string klasaCss, IEnumerable<string[]> wiersze, string[] wierszNagłówkowy, bool sortowalne, string prefiks, List<int> indeksyNumerycznychKolumn, List<int> indeksyKolumnZPodsumowaniem)
+        public Table(string klasaCss, List<string[]> wiersze, string[] wierszNagłówkowy, bool sortowalne, string prefiks, List<int> indeksyNumerycznychKolumn, List<int> indeksyKolumnZPodsumowaniem)
         {
             float[] szerokościKolumn = new float[wierszNagłówkowy.Length];
             Bitmap bitmapa = new Bitmap(500, 200);
