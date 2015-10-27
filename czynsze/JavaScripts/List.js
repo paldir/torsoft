@@ -37,6 +37,15 @@
             idRadio[i].checked = false;
             idRadio[i].onchange = function () { ChangeRow(this.id, inactive, buttons, subMenu); }
         }
+
+    var naglowki = document.getElementsByClassName("sortLink");
+
+    for (var i = 0; i < naglowki.length; i++) {
+        var naglowek = naglowki[i];
+        naglowek.id = i;
+
+        naglowek.addEventListener("click", function () { naglowek_onclick(this) });
+    }
 }
 
 function Redirect(href) {
@@ -46,5 +55,25 @@ function Redirect(href) {
         var id = selectedRow[0].id.replace("_row", "");
 
         window.location.href = href + "&id=" + id;
+    }
+}
+
+function naglowek_onclick(zrodlo) {
+    var tbody = document.getElementById("tablica").tBodies[0];
+    var wiersze = Array.prototype.slice.call(tbody.rows, 0);
+    var indeks = zrodlo.id;
+
+    if (wiersze.length > 0) {
+        var funkcjaSortujaca;
+
+        if (isNaN(wiersze[0].cells[indeks].textContent))
+            funkcjaSortujaca = function (a, b) { return a.cells[indeks].textContent.localeCompare(b.cells[indeks].textContent) };
+        else
+            funkcjaSortujaca = function (a, b) { return Number(a.cells[indeks].textContent) - Number(b.cells[indeks].textContent) };
+
+        wiersze = wiersze.sort(funkcjaSortujaca);
+
+        for (var i = 0; i < wiersze.length; i++)
+            tbody.appendChild(wiersze[i]);
     }
 }

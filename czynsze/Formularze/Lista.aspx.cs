@@ -552,9 +552,9 @@ namespace czynsze.Formularze
         {
             Kontrolki.Table głównaTabela = new Kontrolki.Table("mainTable", _wiersze, _nagłówki, _sortowalna, String.Empty, _indeksyKolumnNumerycznych, _indeksyKolumnZPodsumowaniem);
 
-            if (_sortowalna)
+            /*if (_sortowalna)
                 foreach (TableCell komórka in głównaTabela.Rows[0].Cells)
-                    ((Kontrolki.LinkButton)komórka.Controls[0]).Click += LinkButtonOfColumn_Click;
+                    ((Kontrolki.LinkButton)komórka.Controls[0]).Click += LinkButtonOfColumn_Click;*/
 
             placeOfMainTable.Controls.Clear();
             placeOfMainTable.Controls.Add(głównaTabela);

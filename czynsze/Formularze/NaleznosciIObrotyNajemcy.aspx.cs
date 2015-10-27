@@ -90,7 +90,7 @@ namespace czynsze.Formularze
                                     </tr>
                                 </table>";
 
-                miejsceTabeli.Controls.Add(new Kontrolki.Table("mainTable", rekordyTabeli, headers, sortable, String.Empty, indexesOfNumericColumns, new List<int>()));
+                miejsceTabeli.Controls.Add(new Kontrolki.Table("mainTable", rekordyTabeli, headers, sortable, String.Empty, indexesOfNumericColumns, new List<int>(), String.Empty));
             }
 
             miejscePodTabelą.Controls.Add(new LiteralControl(summary));

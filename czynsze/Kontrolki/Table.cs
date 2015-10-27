@@ -11,7 +11,7 @@ namespace czynsze.Kontrolki
 {
     public class Table : System.Web.UI.WebControls.Table
     {
-        public Table(string klasaCss, List<string[]> wiersze, string[] wierszNagłówkowy, bool sortowalne, string prefiks, List<int> indeksyNumerycznychKolumn, List<int> indeksyKolumnZPodsumowaniem)
+        public Table(string klasaCss, List<string[]> wiersze, string[] wierszNagłówkowy, bool sortowalne, string prefiks, List<int> indeksyNumerycznychKolumn, List<int> indeksyKolumnZPodsumowaniem, string Id)
         {
             float[] szerokościKolumn = new float[wierszNagłówkowy.Length];
             Bitmap bitmapa = new Bitmap(500, 200);
@@ -96,7 +96,8 @@ namespace czynsze.Kontrolki
                 komórkaNagłówka.CssClass = "tableHeaderCell";
 
                 if (sortowalne)
-                    komórkaNagłówka.Controls.Add(new LinkButton("sortLink", prefiks + "column" + i.ToString(), wierszNagłówkowy[i]));
+                    komórkaNagłówka.Controls.Add(new LiteralControl(String.Format("<a href=\"#\" id=\"{0}\" class=\"sortLink\">{1}</a>", i, wierszNagłówkowy[i])));
+                //new LinkButton("sortLink", prefiks + "column" + i.ToString(), wierszNagłówkowy[i]));
                 else
                     komórkaNagłówka.Controls.Add(new LiteralControl(wierszNagłówkowy[i]));
 
