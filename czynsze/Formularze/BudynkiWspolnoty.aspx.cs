@@ -120,7 +120,7 @@ namespace czynsze.Formularze
                     placeOfButtonsOfWindow.Controls.Add(new Kontrolki.Button("button", String.Empty, "Anuluj", url));
                 }
 
-                placeOfTable.Controls.Add(new Kontrolki.Table("mainTable tabTable", wiersze, new string[] { "Lp.", "Nr budynku", "Adres", "Uwagi" }, false, String.Empty, new List<int>() { 1, 2 }, new List<int>()));
+                placeOfTable.Controls.Add(new Kontrolki.Table("mainTable tabTable", wiersze, new string[] { "Lp.", "Nr budynku", "Adres", "Uwagi" }, false, String.Empty, new List<int>() { 1, 2 }, new List<int>(), String.Empty));
             }
         }
     }

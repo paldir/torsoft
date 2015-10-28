@@ -44,7 +44,7 @@
         var naglowek = naglowki[i];
         naglowek.id = i;
 
-        naglowek.addEventListener("click", function () { naglowek_onclick(this) });
+        naglowek.addEventListener("click", function () { naglowek_onclick(naglowki, this) });
     }
 }
 
@@ -58,22 +58,42 @@ function Redirect(href) {
     }
 }
 
-function naglowek_onclick(zrodlo) {
-    var tbody = document.getElementById("tablica").tBodies[0];
-    var wiersze = Array.prototype.slice.call(tbody.rows, 0);
-    var indeks = zrodlo.id;
+function naglowek_onclick(wszystkieNaglowki, zrodlo) {
+    var tablica = document.getElementById("tablica");
 
-    if (wiersze.length > 0) {
-        var funkcjaSortujaca;
+    if (tablica != null) {
+        var tbody = tablica.tBodies[0];
+        var wiersze = Array.prototype.slice.call(tbody.getElementsByTagName("tr"), 0);
+        var indeks = zrodlo.id;
+        var mnoznik;
+        var sortowacRosnaco = zrodlo.className.indexOf("asc") == -1;
 
-        if (isNaN(wiersze[0].cells[indeks].textContent))
-            funkcjaSortujaca = function (a, b) { return a.cells[indeks].textContent.localeCompare(b.cells[indeks].textContent) };
-        else
-            funkcjaSortujaca = function (a, b) { return Number(a.cells[indeks].textContent) - Number(b.cells[indeks].textContent) };
+        for (var i = 0; i < wszystkieNaglowki.length; i++)
+            wszystkieNaglowki[i].className = "sortLink";
 
-        wiersze = wiersze.sort(funkcjaSortujaca);
+        if (sortowacRosnaco) {
+            mnoznik = 1;
+            zrodlo.className += " asc";
+        }
+        else {
 
-        for (var i = 0; i < wiersze.length; i++)
-            tbody.appendChild(wiersze[i]);
+            mnoznik = -1;
+            zrodlo.className += " desc";
+        }
+
+        if (wiersze.length > 0) {
+            var funkcjaSortujaca;
+            var tekstPierwszegoWiersza = wiersze[0].cells[indeks].textContent.replace(",", ".");
+
+            if (isNaN(tekstPierwszegoWiersza) || tekstPierwszegoWiersza.length == 0)
+                funkcjaSortujaca = function (a, b) { return mnoznik * a.cells[indeks].textContent.localeCompare(b.cells[indeks].textContent) };
+            else
+                funkcjaSortujaca = function (a, b) { return mnoznik * (Number(a.cells[indeks].textContent.replace(",", ".")) - Number(b.cells[indeks].textContent.replace(",", "."))) };
+
+            wiersze = wiersze.sort(funkcjaSortujaca);
+
+            for (var i = 0; i < wiersze.length; i++)
+                tbody.appendChild(wiersze[i]);
+        }
     }
 }

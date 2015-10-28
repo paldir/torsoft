@@ -166,6 +166,20 @@ input, select, textarea {
             color: black;
         }
 
+.asc, .desc {
+    background-repeat: no-repeat;
+    background-position: right;
+    padding-right: 10px;
+}
+
+.asc {
+    background-image: url(Images/down.png);
+}
+
+.desc {
+        background-image: url(Images/up.png);
+}
+
     .mainTable th {
         background-color: #E8E8E8;
         font-weight: bold;

@@ -21,6 +21,7 @@ namespace czynsze.Kontrolki
             decimal[] podsumowania = new decimal[wierszNagłówkowy.Length];
             float szerokośćKolumny;
             string tekstKomórki;
+            ID = Id;
 
             for (int i = 0; i < szerokościKolumn.Length; i++)
             {

@@ -550,7 +550,7 @@ namespace czynsze.Formularze
 
         void CreateMainTable()
         {
-            Kontrolki.Table głównaTabela = new Kontrolki.Table("mainTable", _wiersze, _nagłówki, _sortowalna, String.Empty, _indeksyKolumnNumerycznych, _indeksyKolumnZPodsumowaniem);
+            Kontrolki.Table głównaTabela = new Kontrolki.Table("mainTable", _wiersze, _nagłówki, _sortowalna, String.Empty, _indeksyKolumnNumerycznych, _indeksyKolumnZPodsumowaniem, "tablica");
 
             /*if (_sortowalna)
                 foreach (TableCell komórka in głównaTabela.Rows[0].Cells)
