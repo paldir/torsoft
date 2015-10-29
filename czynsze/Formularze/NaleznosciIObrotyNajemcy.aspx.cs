@@ -12,7 +12,6 @@ namespace czynsze.Formularze
         protected void Page_Load(object sender, EventArgs e)
         {
             string[] headers = new string[] { "Kwota Wn", "Kwota Ma", "Data", "Operacja" };
-            bool sortable = false;
             List<int> indexesOfNumericColumns = new List<int>() { 1, 2 };
             string summary;
             int __record = PobierzWartośćParametru<int>("id");
@@ -90,7 +89,7 @@ namespace czynsze.Formularze
                                     </tr>
                                 </table>";
 
-                miejsceTabeli.Controls.Add(new Kontrolki.Table("mainTable", rekordyTabeli, headers, sortable, String.Empty, indexesOfNumericColumns, new List<int>(), String.Empty));
+                miejsceTabeli.Controls.Add(new Kontrolki.Table("mainTable", rekordyTabeli, headers, new Kontrolki.InformacjeOSortowalnościTablicy(), String.Empty, indexesOfNumericColumns, new List<int>(), String.Empty));
             }
 
             miejscePodTabelą.Controls.Add(new LiteralControl(summary));

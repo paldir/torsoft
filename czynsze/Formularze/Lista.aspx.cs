@@ -60,17 +60,10 @@ namespace czynsze.Formularze
             set { ViewState["numerKolumnySortowania"] = value; }
         }
 
-        bool _sortowalna
+        Kontrolki.InformacjeOSortowalnościTablicy _informacjeOSortowaniu
         {
-            get
-            {
-                if (ViewState["sortable"] == null)
-                    return true;
-
-                return (bool)ViewState["sortable"];
-            }
-
-            set { ViewState["sortable"] = value; }
+            get { return ViewState["_informacjeOSortowaniu"] as Kontrolki.InformacjeOSortowalnościTablicy; }
+            set { ViewState["_informacjeOSortowaniu"] = value; }
         }
 
         List<int> _indeksyKolumnNumerycznych
@@ -108,7 +101,8 @@ namespace czynsze.Formularze
                 string nagłówek;
                 string węzełŚcieżkiStrony;
                 List<string[]> podMenu = null;
-                _sortowalna = true;
+                bool sortowalna = true;
+                int indeksKolumnySortującej;
                 int __record = PobierzWartośćParametru<int>("id");//-1;
                 IEnumerable<DostępDoBazy.Rekord> rekordyTabeli = null;
                 string nazwaPrzycisków = "action";
@@ -143,6 +137,7 @@ namespace czynsze.Formularze
                         nagłówek = węzełŚcieżkiStrony = "Budynki";
                         _nagłówki = new string[] { "Kod", "Adres", "Adres cd." };
                         _indeksyKolumnNumerycznych = new List<int>() { 1 };
+                        indeksKolumnySortującej = 0;
 
                         if (!IsPostBack)
                             rekordyTabeli = _db.Budynki.OrderBy(b => b.kod_1);
@@ -155,6 +150,7 @@ namespace czynsze.Formularze
                         _nagłówki = new string[] { "Kod budynku", "Numer lokalu", "Typ lokalu", "Powierzchnia użytkowa", "Nazwisko", "Imię" };
                         _indeksyKolumnNumerycznych = new List<int>() { 1, 2, 4 };
                         IEnumerable<DostępDoBazy.Lokal> lokale = null;
+                        indeksKolumnySortującej = 0;
 
                         placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "move", "Przenieś", url, nazwaPrzycisków));
 
@@ -200,6 +196,7 @@ namespace czynsze.Formularze
                         _nagłówki = new string[] { "Numer kontrolny", "Nazwisko", "Imię", "Adres", "Adres cd." };
                         _indeksyKolumnNumerycznych = new List<int>() { 1 };
                         IEnumerable<DostępDoBazy.Najemca> najemcy = null;
+                        indeksKolumnySortującej = 1;
 
                         placeOfMainTableButtons.Controls.Add(new Kontrolki.Button("mainTableButton", "move", "Przenieś", url, nazwaPrzycisków));
 
@@ -233,6 +230,7 @@ namespace czynsze.Formularze
                         nagłówek = węzełŚcieżkiStrony = "Składniki opłat";
                         _nagłówki = new string[] { "Numer", "Nazwa", "Sposób naliczania", "Typ", "Stawka zł" };
                         _indeksyKolumnNumerycznych = new List<int>() { 1, 5 };
+                        indeksKolumnySortującej = 0;
 
                         if (!IsPostBack)
                             rekordyTabeli = _db.SkładnikiCzynszu.OrderBy(c => c.nr_skl);
@@ -243,6 +241,7 @@ namespace czynsze.Formularze
                         nagłówek = węzełŚcieżkiStrony = "Wspólnoty";
                         _nagłówki = new string[] { "Kod", "Nazwa wspólnoty", "Il. bud.", "Il. miesz." };
                         _indeksyKolumnNumerycznych = new List<int>() { 1, 3, 4 };
+                        indeksKolumnySortującej = 0;
 
                         if (!IsPostBack)
                             rekordyTabeli = _db.Wspólnoty.OrderBy(c => c.kod);
@@ -253,6 +252,7 @@ namespace czynsze.Formularze
                         nagłówek = węzełŚcieżkiStrony = "Typy lokali";
                         _nagłówki = new string[] { "Kod", "Typ lokalu" };
                         _indeksyKolumnNumerycznych = new List<int>() { 1 };
+                        indeksKolumnySortującej = 0;
 
                         if (!IsPostBack)
                             rekordyTabeli = _db.TypyLokali.OrderBy(t => t.kod_typ);
@@ -263,6 +263,7 @@ namespace czynsze.Formularze
                         nagłówek = węzełŚcieżkiStrony = "Rodzaje kuchni";
                         _nagłówki = new string[] { "Kod", "Rodzaj kuchni" };
                         _indeksyKolumnNumerycznych = new List<int>() { 1 };
+                        indeksKolumnySortującej = 0;
 
                         if (!IsPostBack)
                             rekordyTabeli = _db.TypyKuchni.OrderBy(t => t.kod_kuch);
@@ -273,6 +274,7 @@ namespace czynsze.Formularze
                         nagłówek = węzełŚcieżkiStrony = "Rodzaje najemców";
                         _nagłówki = new string[] { "Kod", "Rodzaj najemcy" };
                         _indeksyKolumnNumerycznych = new List<int>() { 1 };
+                        indeksKolumnySortującej = 0;
 
                         if (!IsPostBack)
                             rekordyTabeli = _db.TypyNajemców.OrderBy(t => t.kod_najem);
@@ -283,6 +285,7 @@ namespace czynsze.Formularze
                         nagłówek = węzełŚcieżkiStrony = "Tytuły prawne do lokali";
                         _nagłówki = new string[] { "Kod", "Tytuł prawny" };
                         _indeksyKolumnNumerycznych = new List<int>() { 1 };
+                        indeksKolumnySortującej = 0;
 
                         if (!IsPostBack)
                             rekordyTabeli = _db.TytułyPrawne.OrderBy(t => t.kod_praw);
@@ -293,6 +296,7 @@ namespace czynsze.Formularze
                         nagłówek = węzełŚcieżkiStrony = "Rodzaje wpłat i wypłat";
                         _nagłówki = new string[] { "Kod", "Rodzaj wpłaty lub wypłaty", "Sposób rozliczania", "Odsetki", "NO" };
                         _indeksyKolumnNumerycznych = new List<int>() { 1 };
+                        indeksKolumnySortującej = 0;
 
                         if (!IsPostBack)
                             rekordyTabeli = _db.RodzajePłatności.OrderBy(t => t.kod_wplat);
@@ -303,6 +307,7 @@ namespace czynsze.Formularze
                         nagłówek = węzełŚcieżkiStrony = "Grupy składników czynszu";
                         _nagłówki = new string[] { "Kod", "Nazwa grupy" };
                         _indeksyKolumnNumerycznych = new List<int>() { 1 };
+                        indeksKolumnySortującej = 0;
 
                         if (!IsPostBack)
                             rekordyTabeli = _db.GrupySkładnikówCzynszu.OrderBy(g => g.kod);
@@ -313,6 +318,7 @@ namespace czynsze.Formularze
                         nagłówek = węzełŚcieżkiStrony = "Grupy finansowe";
                         _nagłówki = new string[] { "Kod", "Konto", "Nazwa grupy" };
                         _indeksyKolumnNumerycznych = new List<int>() { 1 };
+                        indeksKolumnySortującej = 0;
 
                         if (!IsPostBack)
                             rekordyTabeli = _db.GrupyFinansowe.OrderBy(g => g.kod);
@@ -322,6 +328,7 @@ namespace czynsze.Formularze
                     case Enumeratory.Tabela.StawkiVat:
                         nagłówek = węzełŚcieżkiStrony = "Stawki VAT";
                         _nagłówki = new string[] { "Oznaczenie stawki", "Symbol fiskalny" };
+                        indeksKolumnySortującej = 1;
 
                         if (!IsPostBack)
                             rekordyTabeli = _db.StawkiVat.OrderBy(r => r.symb_fisk);
@@ -332,6 +339,7 @@ namespace czynsze.Formularze
                         nagłówek = węzełŚcieżkiStrony = "Cechy obiektów";
                         _nagłówki = new string[] { "Kod", "Nazwa", "N/C", "L.", "N.", "B.", "Wsp." };
                         _indeksyKolumnNumerycznych = new List<int>() { 1 };
+                        indeksKolumnySortującej = 0;
 
                         if (!IsPostBack)
                             rekordyTabeli = _db.Atrybuty.OrderBy(a => a.kod);
@@ -341,6 +349,7 @@ namespace czynsze.Formularze
                     case Enumeratory.Tabela.Uzytkownicy:
                         nagłówek = węzełŚcieżkiStrony = "Użytkownicy";
                         _nagłówki = new string[] { "Symbol", "Nazwisko", "Imię" };
+                        indeksKolumnySortującej = 0;
 
                         if (!IsPostBack)
                             rekordyTabeli = _db.Użytkownicy.OrderBy(u => u.symbol);
@@ -350,8 +359,9 @@ namespace czynsze.Formularze
                     case Enumeratory.Tabela.NaleznosciWedlugNajemcow:
                         nagłówek = węzełŚcieżkiStrony = "Należności i obroty według najemców";
                         _nagłówki = new string[] { "Numer kontrolny", "Nazwisko", "Imię", "Adres", "Adres cd." };
-                        _sortowalna = false;
+                        sortowalna = false;
                         _indeksyKolumnNumerycznych = new List<int>();// { 3, 4 };
+                        indeksKolumnySortującej = 1;
                         podMenu = new List<string[]>()
                         {
                             new string[]
@@ -382,7 +392,8 @@ namespace czynsze.Formularze
                     case Enumeratory.Tabela.WszystkieNaleznosciNajemcy:
                     case Enumeratory.Tabela.NieprzeterminowaneNaleznosciNajemcy:
                         _nagłówki = new string[] { "Kwota należności", "Termin zapłaty", "Uwagi", "Kod lokalu", "Nr lokalu" };
-                        _sortowalna = false;
+                        sortowalna = false;
+                        indeksKolumnySortującej = 1;
                         _indeksyKolumnNumerycznych = new List<int>() { 1, 4, 5 };
                         _indeksyKolumnZPodsumowaniem = new List<int>() { 1 };
                         {
@@ -411,7 +422,8 @@ namespace czynsze.Formularze
 
                     case Enumeratory.Tabela.ObrotyNajemcy:
                         _nagłówki = new string[] { "Kwota", "Data", "Data NO", "Operacja", "Nr dowodu", "Pozycja", "Uwagi" };
-                        _sortowalna = false;
+                        sortowalna = false;
+                        indeksKolumnySortującej = 1;
                         _indeksyKolumnNumerycznych = new List<int>() { 1, 6 };
                         {
                             IEnumerable<DostępDoBazy.Obrót> obroty = null;
@@ -446,6 +458,7 @@ namespace czynsze.Formularze
                     default:
                         nagłówek = null;
                         węzełŚcieżkiStrony = null;
+                        indeksKolumnySortującej = -1;
 
                         break;
                 }
@@ -484,6 +497,11 @@ namespace czynsze.Formularze
 
                 Title = nagłówek;
                 Session["values"] = null;
+
+                if (sortowalna)
+                    _informacjeOSortowaniu = new Kontrolki.InformacjeOSortowalnościTablicy(indeksKolumnySortującej);
+                else
+                    _informacjeOSortowaniu = new Kontrolki.InformacjeOSortowalnościTablicy();
 
                 switch (_tabela)
                 {
@@ -550,11 +568,7 @@ namespace czynsze.Formularze
 
         void CreateMainTable()
         {
-            Kontrolki.Table głównaTabela = new Kontrolki.Table("mainTable", _wiersze, _nagłówki, _sortowalna, String.Empty, _indeksyKolumnNumerycznych, _indeksyKolumnZPodsumowaniem, "tablica");
-
-            /*if (_sortowalna)
-                foreach (TableCell komórka in głównaTabela.Rows[0].Cells)
-                    ((Kontrolki.LinkButton)komórka.Controls[0]).Click += LinkButtonOfColumn_Click;*/
+            Kontrolki.Table głównaTabela = new Kontrolki.Table("mainTable", _wiersze, _nagłówki, _informacjeOSortowaniu, String.Empty, _indeksyKolumnNumerycznych, _indeksyKolumnZPodsumowaniem, "tablica");
 
             placeOfMainTable.Controls.Clear();
             placeOfMainTable.Controls.Add(głównaTabela);

@@ -254,6 +254,7 @@
     <Compile Include="Kontrolki\HtmlInputHidden.cs" />
     <Compile Include="Kontrolki\HtmlInputRadioButton.cs" />
     <Compile Include="Kontrolki\IKontrolkaZWartością.cs" />
+    <Compile Include="Kontrolki\InformacjeOSortowalnościTablicy.cs" />
     <Compile Include="Kontrolki\Label.cs" />
     <Compile Include="Kontrolki\LinkButton.cs" />
     <Compile Include="Kontrolki\PisarzTekstuHtml.cs" />

@@ -111,7 +111,7 @@ namespace czynsze.Formularze
                     wiersze.Add(wiersz);
                 }
 
-                miejsceTabeli.Controls.Add(new Kontrolki.Table("mainTable tabTable", wiersze, new string[] { "L.p.", "Nazwa pliku", "Opis" }, false, String.Empty, new List<int>() { 1 }, new List<int>(), String.Empty));
+                miejsceTabeli.Controls.Add(new Kontrolki.Table("mainTable tabTable", wiersze, new string[] { "L.p.", "Nazwa pliku", "Opis" }, new Kontrolki.InformacjeOSortowalnościTablicy(), String.Empty, new List<int>() { 1 }, new List<int>(), String.Empty));
             }
         }
     }

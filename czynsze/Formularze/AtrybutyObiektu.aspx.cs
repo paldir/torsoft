@@ -137,7 +137,7 @@ namespace czynsze.Formularze
                 form.Controls.Add(new Kontrolki.HtmlInputHidden("parentId", idRodzica.ToString()));
                 form.Controls.Add(new Kontrolki.HtmlInputHidden("attributeOf", atrybutDotyczy.ToString()));
                 form.Controls.Add(new Kontrolki.HtmlInputHidden("action", akcja.ToString()));
-                placeOfTable.Controls.Add(new Kontrolki.Table("mainTable tabTable", wiersze, new string[] { "Cecha", "Wartość" }, false, String.Empty, new List<int>(), new List<int>(), String.Empty));
+                placeOfTable.Controls.Add(new Kontrolki.Table("mainTable tabTable", wiersze, new string[] { "Cecha", "Wartość" }, new Kontrolki.InformacjeOSortowalnościTablicy(), String.Empty, new List<int>(), new List<int>(), String.Empty));
 
                 switch (akcja)
                 {
