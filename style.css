@@ -1,0 +1,169 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2015-01-19, 14:36:59
+    Author     : Zawaś
+*/
+
+body
+{
+    font-family: Arial;
+    font-size: 12px;
+    background-color: paleturquoise;
+}
+
+.menu
+{
+    text-align: center;
+    margin: 10px 10px 10px 10px;
+    padding: 10px 10px 10px 10px;
+    background-color: cadetblue;
+}
+
+.menu a
+{
+    color: white;
+    text-decoration: none;
+    padding: 5px;
+    margin: 5px;
+    background-color: cadetblue;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.menu a:hover
+{
+    background: lightcyan;
+    color: black;
+}
+
+.content {
+    display: table; 
+    margin: 0 auto;
+    background: white;
+    padding: 10px;
+    border: 2px solid cadetblue;
+}
+
+input[type="submit"], input[type="button"]
+{
+    background: cadetblue;
+    color: white;
+    border: 1px solid;
+    border-color: cadetblue;
+    padding: 5px;
+    margin: 5px;
+    font-weight: bold;
+}
+
+input[type="submit"][disabled], input[type="button"][disabled]
+{
+    background: gray;
+    border-color: gray;
+    color: white;
+}
+
+input[type="submit"][disabled]:hover, input[type="button"][disabled]:hover
+{
+    background: gray;
+    border-color: gray;
+    color: white;
+    cursor: default;
+}
+
+input[type="submit"]:hover, input[type="button"]:hover
+{
+    background: teal;
+    cursor: pointer;
+}
+
+fieldset
+{
+    margin: 10px;
+    border: 1px solid cadetblue;
+}
+
+.tableOfReports
+{
+    border-collapse: collapse;
+}
+
+.rowOfTableOfReports, .tableOfReports tr
+{
+    border: 1px solid teal;
+}
+
+.tableOfReports th, .tableOfReports label
+{
+    padding: 5px 10px 5px 10px;
+}
+
+.tableOfReports input
+{
+    display: none;
+}
+
+.tableOfReports label
+{
+    cursor: pointer;
+    display: block;
+}
+
+.rowOfTableOfReports:hover
+{
+    color: white;
+    background-color: cadetblue;
+}
+
+.tableOfReports .selectedRow
+{
+    background-color: teal;
+    color: white;
+}
+
+.column {
+    float: left;
+}
+
+.numericalInput
+{
+    text-align: right;
+}
+
+.imageContainer
+{
+    width: 100px;
+    height: 75px;
+    margin: 5px;
+}
+
+.miniature
+{
+    width: 100%;
+    height: auto;
+}
+
+.pageSelectors
+{
+    text-align: center;
+}
+
+.gallery
+{
+    margin: auto;
+}
+
+br
+{
+    clear: left;
+}
+
+#map-canvas {
+    height: 500px;
+    width: 500px;
+    margin: 0px;
+    padding: 0px;
+}
