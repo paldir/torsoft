@@ -6,6 +6,8 @@ using System.Data.OleDb;
 using System.Data;
 using System.Xml;
 using System.IO;
+using System.Threading;
+using System.Globalization;
 
 namespace dbfToXml
 {
@@ -16,11 +18,17 @@ namespace dbfToXml
 
         static XmlDocument dokumentXml;
 
+        const string formatDaty = "{0:yyyy-MM-dd}";
+        const string formatDatyAmerykański = "{0:yyyy-dd-MM}";
+        const string formatDatyOdwrotny = "{0:dd-MM-yyyy}";
+        const string formatDatyAmerykańskiOdwrotny = "{0:MM-dd-yyyy}";
+
         static void Main(string[] args)
         {
-            System.Globalization.CultureInfo infoOKulturze = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+            CultureInfo infoOKulturze = Thread.CurrentThread.CurrentCulture.Clone() as CultureInfo;
             infoOKulturze.NumberFormat.NumberDecimalSeparator = ".";
-            System.Threading.Thread.CurrentThread.CurrentCulture = infoOKulturze;
+            Thread.CurrentThread.CurrentCulture = infoOKulturze;
+            string format = formatDatyAmerykańskiOdwrotny;
 
             switch (args.Length)
             {
@@ -112,8 +120,8 @@ namespace dbfToXml
                         XmlNode kontrahent = wzórKontrahenta.CloneNode(true);
                         XmlNode rejestr = wzórRejestru.CloneNode(true);
                         DateTime data = Convert.ToDateTime(polaFk[nazwaKolumnyDoJejNumeruFk["data"]]);
-                        string napisDaty = data.ToShortDateString();
-                        string napisTerminu = data.AddDays(Convert.ToDouble(polaFk[nazwaKolumnyDoJejNumeruFk["termin"]])).ToShortDateString();
+                        string napisDaty = String.Format(format, data);
+                        string napisTerminu = String.Format(format, data.AddDays(Convert.ToDouble(polaFk[nazwaKolumnyDoJejNumeruFk["termin"]])));
                         string nip = polaFk[nazwaKolumnyDoJejNumeruFk["nr_ident"]].ToString().Replace("-", String.Empty);
                         string sposóbPłatności = polaFk[nazwaKolumnyDoJejNumeruFk["spos_zap"]].ToString().ToLower().Replace("em", String.Empty);
                         string kwota = String.Format("{0:N2}", polaFk[nazwaKolumnyDoJejNumeruFk["wartosc"]]);
@@ -135,7 +143,7 @@ namespace dbfToXml
                         wzórKontrahenta.ParentNode.AppendChild(kontrahent);
 
                         ZapiszWWęźleXml(ref rejestr, "data_wystawienia", napisDaty, true);
-                        ZapiszWWęźleXml(ref rejestr, "data_sprzedazy", Convert.ToDateTime(polaFk[nazwaKolumnyDoJejNumeruFk["data_sprz"]]).ToShortDateString(), true);
+                        ZapiszWWęźleXml(ref rejestr, "data_sprzedazy", String.Format(format, Convert.ToDateTime(polaFk[nazwaKolumnyDoJejNumeruFk["data_sprz"]])), true);
                         ZapiszWWęźleXml(ref rejestr, "data_dataobowiazkupodatkowego", napisDaty, true);
                         ZapiszWWęźleXml(ref rejestr, "data_dataprawaodliczenia", napisDaty, true);
                         ZapiszWWęźleXml(ref rejestr, "termin", napisTerminu, true);
@@ -356,7 +364,7 @@ namespace dbfToXml
 
         static void ZapiszWHtml(DataTable tabela, Dictionary<string, int> nazwaKolumnyDoJejNumeru)
         {
-            using (System.IO.StreamWriter strumień = new System.IO.StreamWriter("dbf.html"))
+            using (StreamWriter strumień = new StreamWriter("dbf.html"))
             {
                 strumień.Write("<html><head><title></title></head><body><table border='1'><tr>");
 
