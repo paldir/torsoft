@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<dataBase>
+  <dataRow>
+    <nazwa></nazwa>
+    <wartosc></wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Poradnia zdrowia psychicznego</nazwa>
+    <wartosc>4</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Poradnia Leczenia Odwykowego</nazwa>
+    <wartosc>5</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Poradnia Psychiatr. dla dzieci</nazwa>
+    <wartosc>6</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Poradnia Terapii Odwykowej</nazwa>
+    <wartosc>7</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Dzienny Oddział Leczenia Odwykowego</nazwa>
+    <wartosc>8</wartosc>
+  </dataRow>
+</dataBase>

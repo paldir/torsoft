@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<konfiguracja>
+  <ścieżki>
+    <bazy>c:\bazyTmp</bazy>
+    <czynsze>C:\Users\paldir\Desktop\czynsze_lokum</czynsze>
+    <sqlBrowse></sqlBrowse>
+  </ścieżki>
+</konfiguracja>

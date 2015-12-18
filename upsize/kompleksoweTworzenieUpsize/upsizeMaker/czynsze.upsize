@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+<config>
+  <database_engines>
+    <dbebuild name="DBFNTX">
+      <storage name="DBFDBE" />
+      <order name="NTXDBE" />
+    </dbebuild>
+    <dbeload name="pgdbe" />
+  </database_engines>
+  <connection name="test" dbe="pgdbe" srv="localhost" uid="postgres" pwd="postgres" database="czynsze" />
+  <!-- data\customer files -->
+</config>

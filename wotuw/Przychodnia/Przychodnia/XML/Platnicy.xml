@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<dataBase>
+  <dataRow>
+    <nazwa></nazwa>
+    <wartosc></wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Kasa Chorych (umowa)</nazwa>
+    <wartosc>51</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Promesa - Kasa chorych</nazwa>
+    <wartosc>52</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Zachorowanie nagłe - Kasa Chorych</nazwa>
+    <wartosc>53</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Nieubezpieczeni - Min. Zdrowia</nazwa>
+    <wartosc>54</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Areszt śledczy - Min. Zdrowia</nazwa>
+    <wartosc>55</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Na koszt pacjenta</nazwa>
+    <wartosc>56</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Kasa Chorych - student</nazwa>
+    <wartosc>57</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Biuro d/s Narkomanii</nazwa>
+    <wartosc>58</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Inne - konsultacja</nazwa>
+    <wartosc>91</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Inne - kons. prokuratura</nazwa>
+    <wartosc>92</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Inne - kons. policja</nazwa>
+    <wartosc>93</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>inne - kons. szpital</nazwa>
+    <wartosc>97</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Inne - pobór</nazwa>
+    <wartosc>98</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Inne - nieokreślone</nazwa>
+    <wartosc>99</wartosc>
+  </dataRow>
+</dataBase>

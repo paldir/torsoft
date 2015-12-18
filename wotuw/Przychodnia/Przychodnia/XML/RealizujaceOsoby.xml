@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<dataBase>
+  <dataRow>
+    <nazwa></nazwa>
+    <wartosc></wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Celebucka Jolanta, terapeuta</nazwa>
+    <wartosc>72</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Czerwińska Magdalena, lekarz</nazwa>
+    <wartosc>63</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Dąbkowski Michał, terapeuta</nazwa>
+    <wartosc>74</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Gawrońska Anna, terapeuta</nazwa>
+    <wartosc>57</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Grodzki Lech, lekarz</nazwa>
+    <wartosc>33</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Janke Aleksandra, terapeuta</nazwa>
+    <wartosc>34</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Janowska Danuta, terapeuta</nazwa>
+    <wartosc>37</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Kraska Ryszard, terapeuta</nazwa>
+    <wartosc>59</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Ligocki Piotr, terapeuta</nazwa>
+    <wartosc>53</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Powichrowska Joanna, psycholog</nazwa>
+    <wartosc>49</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Sobczyk Jolanta, lekarz</nazwa>
+    <wartosc>65</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Sobecka Elżbieta, terapeuta</nazwa>
+    <wartosc>38</wartosc>
+  </dataRow>
+</dataBase>

@@ -1,0 +1,57 @@
+﻿<Window x:Class="Przychodnia.XAML.DanePacjenta"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Dane Pacjenta" Height="400" Width="400">
+    <Grid>
+        <TextBlock HorizontalAlignment="Left" Margin="77,10,0,0" TextWrapping="Wrap" Text="Nazwisko:" VerticalAlignment="Top"/>
+        <TextBox x:Name="NazwiskoBox" HorizontalAlignment="Left" Margin="140,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="20"/>
+        
+        <TextBlock HorizontalAlignment="Left" Margin="105,30,0,0" TextWrapping="Wrap" Text="Imię:" VerticalAlignment="Top"/>
+        <TextBox x:Name="ImieBox" HorizontalAlignment="Left" Margin="140,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="20"/>
+        
+        <TextBlock HorizontalAlignment="Left" Margin="80,50,0,0" TextWrapping="Wrap" Text="Nr PESEL:" VerticalAlignment="Top"/>
+        <TextBox x:Name="PeselBox" HorizontalAlignment="Left" Margin="140,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="20" KeyUp="WpisywaniePeselu"/>
+        
+        <TextBlock HorizontalAlignment="Left" Margin="47,70,0,0" TextWrapping="Wrap" Text="Data urodzenia:" VerticalAlignment="Top"/>
+        <DatePicker x:Name="DataUrodzeniaDate" HorizontalAlignment="Left" Margin="140,68,0,0" VerticalAlignment="Top" Width="120"/>
+        
+        <TextBlock HorizontalAlignment="Left" Margin="106,90,0,0" TextWrapping="Wrap" Text="Płeć:" VerticalAlignment="Top"/>
+        <ComboBox x:Name="PlecBox" HorizontalAlignment="Left" Margin="140,90,0,0" VerticalAlignment="Top" Width="120" Height="20"/>
+
+        <TextBlock HorizontalAlignment="Left" Margin="61,110,0,0" TextWrapping="Wrap" Text="Miejscowość:" VerticalAlignment="Top"/>
+        <TextBox x:Name="MiejscowoscBox" HorizontalAlignment="Left" Margin="140,110,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="20"/>
+        
+        <TextBlock HorizontalAlignment="Left" Margin="102,130,0,0" TextWrapping="Wrap" Text="Ulica:" VerticalAlignment="Top"/>
+        <TextBox x:Name="UlicaBox" HorizontalAlignment="Left" Margin="140,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="20"/>
+        
+        <TextBlock HorizontalAlignment="Left" Margin="80,150,0,0" TextWrapping="Wrap" Text="Nr domu:" VerticalAlignment="Top"/>
+        <TextBox x:Name="NrDomuBox" HorizontalAlignment="Left" Margin="140,150,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="20"/>
+        
+        <TextBlock HorizontalAlignment="Left" Margin="52,170,0,0" TextWrapping="Wrap" Text="Kod pocztowy:" VerticalAlignment="Top"/>
+        <TextBox x:Name="KodPocztowyBox" HorizontalAlignment="Left" Margin="140,170,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="20"/>
+
+        <TextBlock HorizontalAlignment="Left" Margin="93,190,0,0" TextWrapping="Wrap" Text="Poczta:" VerticalAlignment="Top"/>
+        <TextBox x:Name="PocztaBox" HorizontalAlignment="Left" Margin="140,190,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="20"/>
+
+        <TextBlock HorizontalAlignment="Left" Margin="93,210,0,0" TextWrapping="Wrap" Text="Gmina:" VerticalAlignment="Top"/>
+        <TextBox x:Name="GminaBox" HorizontalAlignment="Left" Margin="140,210,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="20"/>
+
+        <TextBlock HorizontalAlignment="Left" Margin="58,230,0,0" TextWrapping="Wrap" Text="Kasa chorych:" VerticalAlignment="Top"/>
+        <ComboBox x:Name="KasaChorychBox" HorizontalAlignment="Left" Margin="140,230,0,0" VerticalAlignment="Top" Width="120" Height="20"/>
+
+        <TextBlock HorizontalAlignment="Left" Margin="36,250,0,0" TextWrapping="Wrap" Text="Nr ubezpieczenia:" VerticalAlignment="Top"/>
+        <TextBox x:Name="NrUbezpieczeniaBox" HorizontalAlignment="Left" Margin="140,250,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="20"/>
+
+        <TextBlock HorizontalAlignment="Left" Margin="15,270,0,0" TextWrapping="Wrap" Text="Data pierwszej wizyty:" VerticalAlignment="Top"/>
+        <DatePicker x:Name="DataPierWizyDate" HorizontalAlignment="Left" Margin="140,268,0,0" VerticalAlignment="Top" Width="120"/>
+        
+        <TextBlock HorizontalAlignment="Left" Margin="74,290,0,0" TextWrapping="Wrap" Text="Poborowy:" VerticalAlignment="Top"/>
+        <CheckBox x:Name="PoborowyBox" Content="" HorizontalAlignment="Left" Margin="140,292,0,0" VerticalAlignment="Top"/>
+
+        <GroupBox Header="Grupa poradniana" HorizontalAlignment="Left" Margin="267,268,0,0" VerticalAlignment="Top"/>
+        
+        
+        <Button Content="Zapisz" HorizontalAlignment="Left" Margin="10,321,0,0" VerticalAlignment="Top" Width="120" Height="26" Click="ZapiszClick"/>
+        <Button Content="Anuluj" HorizontalAlignment="Left" Margin="140,321,0,0" VerticalAlignment="Top" Width="120" Height="26" Click="AnulujClick"/>
+    </Grid>
+</Window>

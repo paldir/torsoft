@@ -1,0 +1,52 @@
+[version]
+    signature="$CHICAGO$"
+    AdvancedINF=2.0
+[Add.Code]
+  ec2activex.dll=ec2activex.dll
+  xerces-c_3_0.dll=xerces-c_3_0.dll
+  Xalan-C_1_10.dll=Xalan-C_1_10.dll
+  XalanMessages_1_10.dll=XalanMessages_1_10.dll
+  ec2xades.dll=ec2xades.dll
+  ec2xml.dll=ec2xml.dll
+  ec2core.dll=ec2core.dll
+  msvcp71.dll=msvcp71.dll
+  msvcr71.dll=msvcr71.dll
+[msvcp71.dll]
+  file-win32-x86=thiscab
+  DestDir=11
+  FileVersion=0,0,0,0
+[msvcr71.dll]
+  file-win32-x86=thiscab
+  DestDir=11
+  FileVersion=0,0,0,0
+[xerces-c_3_0.dll]
+   file-win32-x86=thiscab
+   DestDir=11
+   FileVersion=0,0,0,0
+[XalanMessages_1_10.dll]
+   file-win32-x86=thiscab
+   DestDir=11
+   FileVersion=0,0,0,0
+[Xalan-C_1_10.dll]
+   file-win32-x86=thiscab
+   DestDir=11
+   FileVersion=0,0,0,0
+[ec2core.dll]
+   file-win32-x86=thiscab
+   DestDir=11
+   FileVersion=0,3,1,2748
+[ec2xml.dll]
+   file-win32-x86=thiscab
+   DestDir=11
+   FileVersion=0,3,1,1688
+[ec2xades.dll]
+   file-win32-x86=thiscab
+   DestDir=11
+   FileVersion=0,3,1,11712
+[ec2activex.dll]
+   file-win32-x86=thiscab
+   DestDir=11
+   clsid={330288CB-4EEC-4C6A-B001-BD4FD0356E91}
+   FileVersion=0,3,1,2104
+   RegisterServer=yesVersion=0,3,1,2068
+   RegisterServer=yes

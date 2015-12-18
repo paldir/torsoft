@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="https://bramka.e-deklaracje.mf.gov.pl/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="https://bramka.e-deklaracje.mf.gov.pl/xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="sendDocument">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="document" type="xs:base64Binary" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="sendDocumentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="refId" type="xs:string" />
+        <xs:element name="status" type="xs:int" />
+        <xs:element name="statusOpis" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="sendUnsignDocument">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="document" type="xs:base64Binary" />
+        <xs:element minOccurs="0" maxOccurs="1" name="language">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="de" />
+              <xs:enumeration value="en" />
+              <xs:enumeration value="pl" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element minOccurs="0" maxOccurs="1" name="signatureType">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="PIT" />
+              <xs:enumeration value="MPO" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="sendUnsignDocumentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="refId" type="xs:string" />
+        <xs:element name="status" type="xs:int" />
+        <xs:element name="statusOpis" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="sendDocumentWithAttachment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="attachment" type="xs:base64Binary" />
+        <xs:element name="document" type="xs:base64Binary" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="sendDocumentWithAttachmentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="refId" type="xs:string" />
+        <xs:element name="status" type="xs:int" />
+        <xs:element name="statusOpis" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="requestUPO">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="refId" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="language">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="de" />
+              <xs:enumeration value="en" />
+              <xs:enumeration value="pl" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="requestUPOResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="upo" type="xs:string" />
+        <xs:element name="status" type="xs:int" />
+        <xs:element name="statusOpis" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

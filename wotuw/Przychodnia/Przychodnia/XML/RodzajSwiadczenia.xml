@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<dataBase>
+  <dataRow>
+    <nazwa></nazwa>
+    <wartosc></wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Poradnia diagnostyczna</nazwa>
+    <wartosc>1</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Porada kolejna</nazwa>
+    <wartosc>2</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Porada instr. ter. uzal.</nazwa>
+    <wartosc>3</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Psychoter. indywidual.</nazwa>
+    <wartosc>4</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Psychoterapia grupowa</nazwa>
+    <wartosc>5</wartosc>
+  </dataRow>
+  <dataRow>
+    <nazwa>Psychoterapia rodzinna</nazwa>
+    <wartosc>6</wartosc>
+  </dataRow>
+</dataBase>
