@@ -1,0 +1,469 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{78E725B0-B718-4CAF-8A66-933976B8B2CD}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>czynsze</RootNamespace>
+    <AssemblyName>czynsze</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common.Logging, Version=2.1.2.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Mono.Security">
+      <HintPath>..\packages\Npgsql.2.2.0\lib\net45\Mono.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql">
+      <HintPath>..\packages\Npgsql.2.2.0\lib\net45\Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql.EntityFramework">
+      <HintPath>..\packages\Npgsql.EntityFramework.2.2.0\lib\net45\Npgsql.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Pechkin, Version=0.5.8.1, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Pechkin.0.5.8.1\lib\net40\Pechkin.dll</HintPath>
+    </Reference>
+    <Reference Include="Pechkin.Synchronized, Version=0.5.8.1, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Pechkin.Synchronized.0.5.8.1\lib\net40\Pechkin.Synchronized.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Formularze\AtrybutyObiektu.aspx" />
+    <Content Include="Formularze\NaleznosciIObrotyNajemcy.aspx" />
+    <Content Include="Formularze\Plik.aspx" />
+    <Content Include="Formularze\Pliki.aspx" />
+    <Content Include="Formularze\SaldoNajemcy.aspx" />
+    <Content Include="Formularze\ZmianaDaty.aspx" />
+    <Content Include="Formularze\ZmianaZbioru.aspx" />
+    <Content Include="Formularze\BudynkiWspolnoty.aspx" />
+    <Content Include="Formularze\TresciOpisow.aspx" />
+    <Content Include="Formularze\GeneracjaNaleznosci.aspx" />
+    <Content Include="Formularze\SkladnikiCzynszu.aspx" />
+    <Content Include="Formularze\Start.aspx" />
+    <Content Include="Formularze\Lista.aspx" />
+    <Content Include="Formularze\Ladowanie.aspx" />
+    <Content Include="Formularze\PostepGeneracjiNaleznosci.aspx" />
+    <Content Include="Formularze\Rekord.aspx" />
+    <Content Include="Formularze\RecordValidation.aspx" />
+    <Content Include="Formularze\Analiza.aspx" />
+    <Content Include="Formularze\SkladnikiCzynszuLokalu.aspx" />
+    <Content Include="Formularze\Raport.aspx" />
+    <Content Include="Formularze\KonfiguracjaRaportu.aspx" />
+    <Content Include="Formularze\Szablon.html" />
+    <Content Include="Formularze\WalidacjaUzytkownika.aspx" />
+    <Content Include="Formularze\WykazWgSkladnika.aspx" />
+    <Content Include="Images\down.png" />
+    <Content Include="Images\icon.ico" />
+    <Content Include="Images\loading.gif" />
+    <Content Include="Images\up.png" />
+    <Content Include="Images\waterMark.bmp" />
+    <Content Include="Images\logo.png" />
+    <Content Include="JavaScripts\AttributeOfObject.js" />
+    <Content Include="JavaScripts\CommunityBuildings.js" />
+    <Content Include="JavaScripts\List.js" />
+    <Content Include="JavaScripts\Pliki.js" />
+    <Content Include="JavaScripts\Record.js" />
+    <Content Include="JavaScripts\RentComponentsOfPlace.js" />
+    <Content Include="JavaScripts\ReportConfiguration.js" />
+    <Content Include="JavaScripts\Script.js" />
+    <Content Include="libeay32.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libgcc_s_dw2-1.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Logowanie.aspx" />
+    <Content Include="mingwm10.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="NaprawaIndeksow.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ssleay32.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="StyleSheet.css" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="wkhtmltox0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DostępDoBazy\BudynekWspólnoty.cs" />
+    <Compile Include="DostępDoBazy\IInformacjeOPozycji.cs" />
+    <Compile Include="DostępDoBazy\Plik.cs" />
+    <Compile Include="DostępDoBazy\PlikBudynku.cs" />
+    <Compile Include="DostępDoBazy\PlikLokalu.cs" />
+    <Compile Include="DostępDoBazy\PozycjaDoAnalizy.cs" />
+    <Compile Include="DostępDoBazy\UniqueAttribute.cs" />
+    <Compile Include="DostępDoBazy\Zamknięty.cs" />
+    <Compile Include="DostępDoBazy\Treść.cs" />
+    <Compile Include="ElementŚcieżkiStrony.cs" />
+    <Compile Include="Formularze\BudynkiWspolnoty.aspx.cs">
+      <DependentUpon>BudynkiWspolnoty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\BudynkiWspolnoty.aspx.designer.cs">
+      <DependentUpon>BudynkiWspolnoty.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\NaleznosciIObrotyNajemcy.aspx.cs">
+      <DependentUpon>NaleznosciIObrotyNajemcy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\NaleznosciIObrotyNajemcy.aspx.designer.cs">
+      <DependentUpon>NaleznosciIObrotyNajemcy.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\Plik.aspx.cs">
+      <DependentUpon>Plik.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\Plik.aspx.designer.cs">
+      <DependentUpon>Plik.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\Pliki.aspx.cs">
+      <DependentUpon>Pliki.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\Pliki.aspx.designer.cs">
+      <DependentUpon>Pliki.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\SaldoNajemcy.aspx.cs">
+      <DependentUpon>SaldoNajemcy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\SaldoNajemcy.aspx.designer.cs">
+      <DependentUpon>SaldoNajemcy.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\TresciOpisow.aspx.cs">
+      <DependentUpon>TresciOpisow.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\TresciOpisow.aspx.designer.cs">
+      <DependentUpon>TresciOpisow.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\GeneracjaNaleznosci.aspx.cs">
+      <DependentUpon>GeneracjaNaleznosci.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\GeneracjaNaleznosci.aspx.designer.cs">
+      <DependentUpon>GeneracjaNaleznosci.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\PostepGeneracjiNaleznosci.aspx.cs">
+      <DependentUpon>PostepGeneracjiNaleznosci.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\PostepGeneracjiNaleznosci.aspx.designer.cs">
+      <DependentUpon>PostepGeneracjiNaleznosci.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\Analiza.aspx.cs">
+      <DependentUpon>Analiza.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\Analiza.aspx.designer.cs">
+      <DependentUpon>Analiza.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\SkladnikiCzynszuLokalu.aspx.cs">
+      <DependentUpon>SkladnikiCzynszuLokalu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\SkladnikiCzynszuLokalu.aspx.designer.cs">
+      <DependentUpon>SkladnikiCzynszuLokalu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\SkladnikiCzynszu.aspx.cs">
+      <DependentUpon>SkladnikiCzynszu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\SkladnikiCzynszu.aspx.designer.cs">
+      <DependentUpon>SkladnikiCzynszu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\WykazWgSkladnika.aspx.cs">
+      <DependentUpon>WykazWgSkladnika.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\WykazWgSkladnika.aspx.designer.cs">
+      <DependentUpon>WykazWgSkladnika.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Kontrolki\Button.cs" />
+    <Compile Include="Kontrolki\CheckBoxList.cs" />
+    <Compile Include="Kontrolki\DropDownList.cs" />
+    <Compile Include="Kontrolki\HtmlGenericControl.cs" />
+    <Compile Include="Kontrolki\HtmlIframe.cs" />
+    <Compile Include="Kontrolki\HtmlInputHidden.cs" />
+    <Compile Include="Kontrolki\HtmlInputRadioButton.cs" />
+    <Compile Include="Kontrolki\IKontrolkaZWartością.cs" />
+    <Compile Include="Kontrolki\InformacjeOSortowalnościTablicy.cs" />
+    <Compile Include="Kontrolki\Label.cs" />
+    <Compile Include="Kontrolki\LinkButton.cs" />
+    <Compile Include="Kontrolki\PisarzTekstuHtml.cs" />
+    <Compile Include="Kontrolki\RadioButtonList.cs" />
+    <Compile Include="Kontrolki\RadioButton.cs" />
+    <Compile Include="Kontrolki\Table.cs" />
+    <Compile Include="Kontrolki\TextBox.cs" />
+    <Compile Include="DostępDoBazy\Atrybut.cs" />
+    <Compile Include="DostępDoBazy\AtrybutBudynku.cs" />
+    <Compile Include="DostępDoBazy\AtrybutWspólnoty.cs" />
+    <Compile Include="DostępDoBazy\AtrybutLokalu.cs" />
+    <Compile Include="DostępDoBazy\AtrybutNajemcy.cs" />
+    <Compile Include="DostępDoBazy\Budynek.cs" />
+    <Compile Include="DostępDoBazy\Wspólnota.cs" />
+    <Compile Include="DostępDoBazy\Konfiguracja.cs" />
+    <Compile Include="DostępDoBazy\CzynszeKontekst.cs" />
+    <Compile Include="DostępDoBazy\AtrybutObiektu.cs" />
+    <Compile Include="DostępDoBazy\GrupaFinansowa.cs" />
+    <Compile Include="DostępDoBazy\GrupaSkładnikówCzynszu.cs" />
+    <Compile Include="DostępDoBazy\Rekord.cs" />
+    <Compile Include="DostępDoBazy\NieaktywnyLokal.cs" />
+    <Compile Include="DostępDoBazy\NieaktywnyNajemca.cs" />
+    <Compile Include="DostępDoBazy\AktywnyLokal.cs" />
+    <Compile Include="DostępDoBazy\Lokal.cs" />
+    <Compile Include="DostępDoBazy\Należność.cs" />
+    <Compile Include="DostępDoBazy\Należność1.cs" />
+    <Compile Include="DostępDoBazy\Należność2.cs" />
+    <Compile Include="DostępDoBazy\Należność3.cs" />
+    <Compile Include="DostępDoBazy\SkładnikCzynszu.cs" />
+    <Compile Include="DostępDoBazy\SkładnikCzynszuLokalu.cs" />
+    <Compile Include="DostępDoBazy\AktywnyNajemca.cs" />
+    <Compile Include="DostępDoBazy\Najemca.cs" />
+    <Compile Include="DostępDoBazy\TytułPrawny.cs" />
+    <Compile Include="DostępDoBazy\Obrót.cs" />
+    <Compile Include="DostępDoBazy\Obrót1.cs" />
+    <Compile Include="DostępDoBazy\Obrót2.cs" />
+    <Compile Include="DostępDoBazy\Obrót3.cs" />
+    <Compile Include="DostępDoBazy\TypKuchni.cs" />
+    <Compile Include="DostępDoBazy\RodzajPłatności.cs" />
+    <Compile Include="DostępDoBazy\TypLokalu.cs" />
+    <Compile Include="DostępDoBazy\TypNajemcy.cs" />
+    <Compile Include="DostępDoBazy\Użytkownik.cs" />
+    <Compile Include="DostępDoBazy\StawkaVat.cs" />
+    <Compile Include="Enumeratory.cs" />
+    <Compile Include="Formularze\AtrybutyObiektu.aspx.cs">
+      <DependentUpon>AtrybutyObiektu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\AtrybutyObiektu.aspx.designer.cs">
+      <DependentUpon>AtrybutyObiektu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\ZmianaDaty.aspx.cs">
+      <DependentUpon>ZmianaDaty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\ZmianaDaty.aspx.designer.cs">
+      <DependentUpon>ZmianaDaty.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\ZmianaZbioru.aspx.cs">
+      <DependentUpon>ZmianaZbioru.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\ZmianaZbioru.aspx.designer.cs">
+      <DependentUpon>ZmianaZbioru.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\Start.aspx.cs">
+      <DependentUpon>Start.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\Start.aspx.designer.cs">
+      <DependentUpon>Start.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\Lista.aspx.cs">
+      <DependentUpon>Lista.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\Lista.aspx.designer.cs">
+      <DependentUpon>Lista.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\Ladowanie.aspx.cs">
+      <DependentUpon>Ladowanie.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\Ladowanie.aspx.designer.cs">
+      <DependentUpon>Ladowanie.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\Strona.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\Rekord.aspx.cs">
+      <DependentUpon>Rekord.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\Rekord.aspx.designer.cs">
+      <DependentUpon>Rekord.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\RecordValidation.aspx.cs">
+      <DependentUpon>RecordValidation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\RecordValidation.aspx.designer.cs">
+      <DependentUpon>RecordValidation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\Raport.aspx.cs">
+      <DependentUpon>Raport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\Raport.aspx.designer.cs">
+      <DependentUpon>Raport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\KonfiguracjaRaportu.aspx.cs">
+      <DependentUpon>KonfiguracjaRaportu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\KonfiguracjaRaportu.aspx.designer.cs">
+      <DependentUpon>KonfiguracjaRaportu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Formularze\WalidacjaUzytkownika.aspx.cs">
+      <DependentUpon>WalidacjaUzytkownika.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Formularze\WalidacjaUzytkownika.aspx.designer.cs">
+      <DependentUpon>WalidacjaUzytkownika.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Logowanie.aspx.cs">
+      <DependentUpon>Logowanie.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Logowanie.aspx.designer.cs">
+      <DependentUpon>Logowanie.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="NiebieskieOkno.master.cs">
+      <DependentUpon>NiebieskieOkno.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NiebieskieOkno.master.designer.cs">
+      <DependentUpon>NiebieskieOkno.master</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sesja.cs" />
+    <Compile Include="Site.Master.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Site.Master.designer.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+    </Compile>
+    <Compile Include="ŚcieżkaStrony.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <Content Include="Site.Master" />
+    <Content Include="NiebieskieOkno.master" />
+    <None Include="Properties\PublishProfiles\pz.pubxml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>13436</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:5949/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

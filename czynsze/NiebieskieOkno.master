@@ -1,0 +1,11 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="NiebieskieOkno.master.cs" Inherits="czynsze.NiebieskieOkno" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder" runat="server">
+    <div class="placeOfResultWindow">
+        <div class="resultWindow">
+            <asp:ContentPlaceHolder ID="ZawartośćNiebieskiegoOkna" runat="server"></asp:ContentPlaceHolder>
+        </div>
+    </div>
+</asp:Content>
