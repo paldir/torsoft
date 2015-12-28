@@ -147,9 +147,19 @@ namespace OdpadyDostępDoDanych
                 budowniczyZapytania.AppendFormat(format, właściwość.Name, wartość);
             }
 
-            throw new Exception("WHERE");
+            budowniczyZapytania.AppendFormat("WHERE ID={0};", id);
 
             return 0;
+        }
+
+        public int Aktualizuj<T>(T nowaWersja) where T : Rekord
+        {
+            long id = nowaWersja.ID;
+
+            if (id == 0)
+                throw new Exception("Rekord nie istnieje. - PZ");
+
+            return Aktualizuj<T>(id, nowaWersja);
         }
 
         public void UtwórzKlasęNaPodstawieTabeli(string nazwaTabeli, string nazwaKlasy)
