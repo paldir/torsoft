@@ -12,7 +12,16 @@ namespace Testy
     {
         static void Main(string[] args)
         {
-            Połączenie p = new Połączenie();
+            using (Połączenie połączenie = new Połączenie())
+            {
+                Kontrahent k = new Kontrahent();
+                k.KOD_POCZTOWY = "87-500";
+                k.MIASTO = "Rypin";
+                k.ULICA = "Lubicka";
+                k.NR_DOMU = 23;
+
+                int kod = połączenie.Aktualizuj(k.ID, k);
+            }
         }
     }
 }
