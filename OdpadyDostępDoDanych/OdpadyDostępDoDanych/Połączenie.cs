@@ -9,21 +9,28 @@ using System.Data;
 using System.IO;
 using System.Reflection;
 using System.Configuration;
+using System.Collections.Specialized;
 
 namespace OdpadyDostępDoDanych
 {
     public class Połączenie : IDisposable
     {
+        const int KodBłęduPz = 144000;
+        static readonly Dictionary<Type, string> _typRekorduNaNazwęTabeli;
+        
         FbConnection _połączenie;
-        Dictionary<Type, string> _typRekorduNaNazwęTabeli;
+        string _ścieżkaPlikuBazy;
 
         public Połączenie()
         {
+            NameValueCollection ustawienia = ConfigurationManager.AppSettings;
+            _ścieżkaPlikuBazy = ustawienia["Database"];
+
             string parametry =
             "User=SYSDBA;" +
             "Password=masterkey;" +
-            "Database=" + Path.Combine(Environment.CurrentDirectory, "BazaDanych", "odpady.fdb;") +
-            "DataSource=localhost;" +
+            "Database=" + _ścieżkaPlikuBazy + ";" +
+            "DataSource=" + ustawienia["DataSource"] + ";" +
             "Port=3050;" +
             "Dialect=3;" +
             "Charset=NONE;" +
@@ -36,20 +43,32 @@ namespace OdpadyDostępDoDanych
             "ServerType=0";
 
             _połączenie = new FbConnection(parametry);
+
+            try
+            {
+                _połączenie.Open();
+            }
+            catch (FbException wyjątek)
+            {
+                ZapiszWyjątekDoLogu(wyjątek, "Otwarcie połączenia.");
+            }
+        }
+
+        static Połączenie()
+        {
             _typRekorduNaNazwęTabeli = new Dictionary<Type, string>();
 
             _typRekorduNaNazwęTabeli.Add(typeof(Kontrahent), "KONTRAHENCI");
-
-            _połączenie.Open();
+            _typRekorduNaNazwęTabeli.Add(typeof(Oddział), "ODDZIALY");
         }
 
         public List<T> PobierzWszystkie<T>() where T : Rekord
         {
             List<T> rekordy = new List<T>();
             Type typRekordu = typeof(T);
-            PropertyInfo[] właściwości = typRekordu.GetProperties();
+            IEnumerable<PropertyInfo> właściwości = typRekordu.GetProperties().Where(w => w.GetSetMethod() != null);
             StringBuilder budowniczyZapytania = new StringBuilder("SELECT ");
-            int liczbaPól = właściwości.Length;
+            int liczbaPól = właściwości.Count();
 
             foreach (PropertyInfo właściwość in właściwości)
                 budowniczyZapytania.AppendFormat("{0}, ", właściwość.Name);
@@ -57,24 +76,35 @@ namespace OdpadyDostępDoDanych
             budowniczyZapytania.Remove(budowniczyZapytania.Length - 2, 1);
             budowniczyZapytania.AppendFormat("FROM {0};", _typRekorduNaNazwęTabeli[typRekordu]);
 
-            using (FbCommand komenda = new FbCommand(budowniczyZapytania.ToString(), _połączenie))
-            using (FbDataReader czytacz = komenda.ExecuteReader())
-                while (czytacz.Read())
-                {
-                    T rekord = Activator.CreateInstance<T>();
+            string zapytanie = budowniczyZapytania.ToString();
 
-                    for (int i = 0; i < liczbaPól; i++)
+            try
+            {
+                using (FbCommand komenda = new FbCommand(zapytanie, _połączenie))
+                using (FbDataReader czytacz = komenda.ExecuteReader())
+                    while (czytacz.Read())
                     {
-                        object wartość = czytacz.GetValue(i);
+                        T rekord = Activator.CreateInstance<T>();
 
-                        if (wartość != DBNull.Value)
-                            właściwości[i].SetValue(rekord, wartość, null);
+                        for (int i = 0; i < liczbaPól; i++)
+                        {
+                            object wartość = czytacz.GetValue(i);
+
+                            if (wartość != DBNull.Value)
+                                właściwości.ElementAt(i).SetValue(rekord, wartość, null);
+                        }
+
+                        rekordy.Add(rekord);
                     }
 
-                    rekordy.Add(rekord);
-                }
+                return rekordy;
+            }
+            catch (FbException wyjątek)
+            {
+                ZapiszWyjątekDoLogu(wyjątek, zapytanie);
 
-            return rekordy;
+                return null;
+            }
         }
 
         public int Dodaj<T>(T nowyRekord) where T : Rekord
@@ -92,9 +122,9 @@ namespace OdpadyDostępDoDanych
             budowniczyZapytania.Remove(budowniczyZapytania.Length - 2, 1);
             budowniczyZapytania.Append(") VALUES (");
 
-            for (int i = 0; i < liczbaPól; i++)
+            foreach (PropertyInfo właściwość in właściwości)
             {
-                object wartość = właściwości.ElementAt(i).GetValue(nowyRekord, null);
+                object wartość = właściwość.GetValue(nowyRekord, null);
                 string format;
 
                 if (wartość == null)
@@ -111,8 +141,19 @@ namespace OdpadyDostępDoDanych
             budowniczyZapytania.Remove(budowniczyZapytania.Length - 2, 1);
             budowniczyZapytania.Append(");");
 
-            using (FbCommand komenda = new FbCommand(budowniczyZapytania.ToString(), _połączenie))
-                return komenda.ExecuteNonQuery();
+            string zapytanie = budowniczyZapytania.ToString();
+
+            try
+            {
+                using (FbCommand komenda = new FbCommand(zapytanie, _połączenie))
+                    return komenda.ExecuteNonQuery();
+            }
+            catch (FbException wyjątek)
+            {
+                ZapiszWyjątekDoLogu(wyjątek, zapytanie);
+
+                return KodBłęduPz;
+            }
         }
 
         public T Pobierz<T>(long id) where T : Rekord
@@ -147,9 +188,22 @@ namespace OdpadyDostępDoDanych
                 budowniczyZapytania.AppendFormat(format, właściwość.Name, wartość);
             }
 
+            budowniczyZapytania.Remove(budowniczyZapytania.Length - 2, 1);
             budowniczyZapytania.AppendFormat("WHERE ID={0};", id);
 
-            return 0;
+            string zapytanie = budowniczyZapytania.ToString();
+
+            try
+            {
+                using (FbCommand komenda = new FbCommand(zapytanie, _połączenie))
+                    return komenda.ExecuteNonQuery();
+            }
+            catch (FbException wyjątek)
+            {
+                ZapiszWyjątekDoLogu(wyjątek, zapytanie);
+
+                return KodBłęduPz;
+            }
         }
 
         public int Aktualizuj<T>(T nowaWersja) where T : Rekord
@@ -160,6 +214,33 @@ namespace OdpadyDostępDoDanych
                 throw new Exception("Rekord nie istnieje. - PZ");
 
             return Aktualizuj<T>(id, nowaWersja);
+        }
+
+        public int Usuń<T>(long id) where T : Rekord
+        {
+            string zapytanie = String.Format("DELETE FROM {0} WHERE ID={1}", _typRekorduNaNazwęTabeli[typeof(T)], id);
+
+            try
+            {
+                using (FbCommand komenda = new FbCommand(zapytanie, _połączenie))
+                    return komenda.ExecuteNonQuery();
+            }
+            catch (FbException wyjątek)
+            {
+                ZapiszWyjątekDoLogu(wyjątek, zapytanie);
+
+                return KodBłęduPz;
+            }
+        }
+
+        public int Usuń<T>(T rekord) where T : Rekord
+        {
+            long id = rekord.ID;
+
+            if (id == 0)
+                throw new Exception("Rekord nie istnieje. - PZ");
+
+            return Usuń<T>(id);
         }
 
         public void UtwórzKlasęNaPodstawieTabeli(string nazwaTabeli, string nazwaKlasy)
@@ -178,7 +259,6 @@ namespace OdpadyDostępDoDanych
                 if (!String.Equals(nazwaPola, "ID"))
                 {
                     string typPola = wiersz["COLUMN_DATA_TYPE"].ToString();
-                    bool nullable = (bool)wiersz["IS_NULLABLE"];
                     bool wartościowy;
 
                     switch (typPola)
@@ -211,7 +291,7 @@ namespace OdpadyDostępDoDanych
                             throw new Exception("Brak mapowania typów.");
                     }
 
-                    if (nullable && wartościowy)
+                    if (wartościowy)
                         typPola = String.Format("Nullable<{0}>", typPola);
 
                     budowniczyNapisu.AppendFormat("public {0} {1} {{get;set;}}", typPola, nazwaPola);
@@ -228,6 +308,28 @@ namespace OdpadyDostępDoDanych
         public void Dispose()
         {
             _połączenie.Dispose();
+        }
+
+        void ZapiszWyjątekDoLogu(FbException wyjątekFb, string zapytanie)
+        {
+            StringBuilder budowniczy = new StringBuilder();
+            Exception wyjątek = wyjątekFb;
+
+            budowniczy.AppendFormat("{0} {1} ", DateTime.Now, zapytanie);
+            budowniczy.AppendLine();
+
+            while (wyjątek != null)
+            {
+                budowniczy.AppendLine(wyjątek.Message);
+
+                wyjątek = wyjątek.InnerException;
+            }
+
+            budowniczy.AppendLine();
+            budowniczy.AppendLine();
+            budowniczy.AppendLine();
+
+            File.AppendAllText(Path.ChangeExtension(_ścieżkaPlikuBazy, "log.txt"), budowniczy.ToString());
         }
     }
 }

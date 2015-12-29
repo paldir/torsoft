@@ -159,10 +159,14 @@ namespace PdfBrowser
                         int długośćDaty = 0;
 
                         for (int i = indeksDaty; i < nazwaPliku.Length; i++)
-                            if (Char.IsLetter(nazwaPliku[i]))
+                        {
+                            char znak = nazwaPliku[i];
+
+                            if (Char.IsLetter(znak) || znak == '.')
                                 break;
                             else
                                 długośćDaty++;
+                        }
 
                         string napisDaty = nazwaPliku.Substring(indeksDaty, długośćDaty).Trim();
                         DateTime data;

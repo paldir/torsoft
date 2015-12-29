@@ -81,8 +81,7 @@
     <Reference Include="itextsharp">
       <HintPath>..\packages\iTextSharp.5.5.3\lib\itextsharp.dll</HintPath>
     </Reference>
-    <Reference Include="PdfFiller, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="PdfFiller">
       <HintPath>..\..\PdfFiller\PdfFiller\bin\x86\Release\PdfFiller.dll</HintPath>
     </Reference>
     <Reference Include="System" />
