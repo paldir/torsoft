@@ -14,7 +14,7 @@ namespace Testy
         {
             using (Połączenie połączenie = new Połączenie())
             {
-                połączenie.UtwórzKlasęNaPodstawieTabeli("fk_tuz", "Użytkownik");
+                połączenie.UtwórzKlasęNaPodstawieTabeli("dostawy", "Dostawa");
             }
         }
     }

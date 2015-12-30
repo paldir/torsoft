@@ -1,4 +1,8 @@
 using System;
+using System.Linq;
+using System.Collections.Generic;
+
+using System.Text;
 
 namespace OdpadyDostępDoDanych
 {
@@ -36,5 +40,31 @@ namespace OdpadyDostępDoDanych
         public Nullable<short> P24 { get; set; }
         public Nullable<short> P25 { get; set; }
         public Nullable<short> P26 { get; set; }
+
+        public static bool DostępPrzyznany(string nazwaUżytkownika, string hasło)
+        {
+            Użytkownik użytkownik;
+
+            using (Połączenie połączenie = new Połączenie())
+            {
+                List<Użytkownik> użytkownicy = połączenie.PobierzWszystkie<Użytkownik>();
+                użytkownik = użytkownicy.SingleOrDefault(u => String.Equals(u.UZYTKOWNIK, nazwaUżytkownika));
+            }
+
+            if (użytkownik == null)
+                return false;
+            else
+            {
+                StringBuilder odkodowaneHasło = new StringBuilder();
+
+                foreach (char znak in użytkownik.HASLO)
+                    odkodowaneHasło.Append(Convert.ToChar((Convert.ToByte(znak) - 10)));
+
+                if (String.Equals(odkodowaneHasło.ToString(), hasło))
+                    return true;
+                else
+                    return false;
+            }
+        }
     }
 }

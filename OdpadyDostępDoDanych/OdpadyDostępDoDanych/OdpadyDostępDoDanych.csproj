@@ -60,12 +60,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Kontrahent.cs" />
-    <Compile Include="Oddział.cs" />
+    <Compile Include="Encje\Dostawa.cs" />
+    <Compile Include="Encje\JednostkaMiary.cs" />
+    <Compile Include="Encje\Kontrahent.cs" />
+    <Compile Include="Encje\Limit.cs" />
+    <Compile Include="Encje\Oddział.cs" />
+    <Compile Include="Encje\Szpieg.cs" />
     <Compile Include="Połączenie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rekord.cs" />
-    <Compile Include="Użytkownik.cs" />
+    <Compile Include="Encje\RodzajOdpadów.cs" />
+    <Compile Include="Encje\Użytkownik.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -93,6 +98,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
