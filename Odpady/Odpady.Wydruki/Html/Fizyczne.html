@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        #adres {
+            font-size: 14pt;
+            font-weight: bold;
+        }
+
+        #dataIMiejsce {
+            right: 50px;
+            top: 10px;
+        }
+
+        #tytuł {
+            text-align: center;
+            font-size: 16pt;
+            font-weight: bold;
+        }
+
+        #treść {
+        }
+
+        #tabela {
+        }
+
+        #daneDoFaktury {
+        }
+
+        #dostarczył {
+            left: 50px;
+        }
+
+        #przyjął {
+            right: 50px;
+        }
+
+        .sekcja {
+            margin: 50pt 0pt 50pt 0pt;
+        }
+
+        .tekst {
+            font-size: 12pt;
+        }
+
+        .skrajny {
+            width: 300px;
+            text-align: center;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div id="adres">
+        Zakład Gospodarki Komunalnej Sp. z o.o.<br />
+        87-140 Chełmża, ul. Toruńska 1<br />
+        Tel.: 56-675-22-06, Fax.: 56-675-60-89
+    </div>
+    <div id="dataIMiejsce" class="tekst skrajny">Chełmża, dnia {data}</div>
+    <div id="tytuł" class="sekcja">Odpady dostarczony do Punktu Selektywnej Zbiórki Odpadów Komunalnych ponad limit</div>
+    <div id="treść" class="sekcja tekst">
+        Dnia {data} Pan/Pani {imięNazwisko} nr PESEL {pesel} dostarczył/dostarczyła odpady z nieruchomości  w {miasto} ul. {ulica} na teren Zakładu Gospodarki Komunalnej Sp. z o.o. w Chełmży.
+    </div>
+    <div id="tabela" class="sekcja tekst">
+        <table>
+            <thead>
+                <tr><th>Nazwa odpadu</th><th>Ilość</th></tr>
+            </thead>
+            <tbody>
+                {tabela}
+            </tbody>
+        </table>
+    </div>
+    <div id="daneDoFaktury" class="sekcja tekst">
+        Dane do wystawienia faktury:<br />
+        <br />
+        {daneDoFaktury}
+    </div>
+    <div id="dostarczył" class="skrajny tekst">
+        ..................................................................<br />
+        Dostarczył
+    </div>
+    <div id="przyjął" class="skrajny tekst">
+        ..................................................................<br />
+        Przyjął
+    </div>
+</body>
+</html>
