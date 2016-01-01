@@ -24,8 +24,22 @@
         #treść {
         }
 
-        #tabela {
+        #poleTabeli {
+            text-align: center;
         }
+
+        #tabela {
+            text-align: left;
+            margin: 0 auto;
+        }
+
+            #tabela th {
+                padding: 5px;
+            }
+
+            #tabela td {
+                padding: 3px;
+            }
 
         #daneDoFaktury {
         }
@@ -62,10 +76,10 @@
     <div id="dataIMiejsce" class="tekst skrajny">Chełmża, dnia {data}</div>
     <div id="tytuł" class="sekcja">Odpady dostarczony do Punktu Selektywnej Zbiórki Odpadów Komunalnych ponad limit</div>
     <div id="treść" class="sekcja tekst">
-        Dnia {data} Pan/Pani {imięNazwisko} nr PESEL {pesel} dostarczył/dostarczyła odpady z nieruchomości  w {miasto} ul. {ulica} na teren Zakładu Gospodarki Komunalnej Sp. z o.o. w Chełmży.
+        Dnia {data} {rodzajDostarczającego} {nazwa} nr {rodzajIdentyfikatora} {identyfikator} dostarczył/dostarczyła odpady z nieruchomości  w {miasto} ul. {ulica} na teren Zakładu Gospodarki Komunalnej Sp. z o.o. w Chełmży.
     </div>
-    <div id="tabela" class="sekcja tekst">
-        <table>
+    <div id="poleTabeli" class="sekcja tekst">
+        <table id="tabela">
             <thead>
                 <tr><th>Nazwa odpadu</th><th>Ilość</th></tr>
             </thead>
