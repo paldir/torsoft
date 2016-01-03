@@ -10,12 +10,12 @@ namespace Odpady.DostępDoDanych
         public Nullable<float> LIMIT { get; set; }
         public Nullable<float> KARA { get; set; }
 
-        public RodzajOdpadów RodzajOdpadów
+        public RodzajOdpadów RODZAJ_ODPADOW
         {
             get { return PołączenieDlaObcychObiektów.Pobierz<RodzajOdpadów>(FK_RODZAJ_ODPADOW.Value); }
         }
 
-        public Oddział Oddział
+        public Oddział ODDZIAL
         {
             get { return PołączenieDlaObcychObiektów.Pobierz<Oddział>(FK_ODDZIAL.Value); }
         }
