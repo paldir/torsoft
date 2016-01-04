@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using Pechkin;
 using Pechkin.Synchronized;
 using System.IO;
 using System.Drawing.Printing;
+using System.Diagnostics;
 
 namespace Odpady.Wydruki
 {
@@ -24,12 +23,12 @@ namespace Odpady.Wydruki
             odpady.Add(new InformacjeOOdpadzie("złom", "2000 kg"));
             odpady.Add(new InformacjeOOdpadzie("olej silnikowy", "13 l"));
 
-            byte[] bajty = Wydruki.PrzyjęcieOdpadów(DostawcaOdpadów.OsobaFizyczna, "Jan Kowalski", "00010112345", "Toruń", "Lubicka 23/1", odpady, daneDoFaktury);
+            byte[] bajty = Wydruk.PrzyjęcieOdpadów(DostawcaOdpadów.OsobaFizyczna, "Jan Kowalski", "00010112345", "Toruń", "Lubicka 23/1", odpady, daneDoFaktury);
 
-            Wydruki.ZapiszBajtyJakoPdf(bajty, "test.pdf");
+            Wydruk.ZapiszBajtyJakoPdfIOtwórz(bajty, "test.pdf");
      */
 
-    public static class Wydruki
+    public static class Wydruk
     {
         public static byte[] PrzyjęcieOdpadów(DostawcaOdpadów dostawca, string nazwaDostarczającego, string numerIdentyfikujący, string miasto, string ulica, IEnumerable<InformacjeOOdpadzie> odpady, string daneDoFaktury)
         {
@@ -73,9 +72,10 @@ namespace Odpady.Wydruki
             return bajty;
         }
 
-        public static void ZapiszBajtyJakoPdf(byte[] bajty, string ścieżkaDoPliku)
+        public static void ZapiszBajtyJakoPdfIOtwórz(byte[] bajty, string ścieżkaDoPliku)
         {
             File.WriteAllBytes(ścieżkaDoPliku, bajty);
+            Process.Start(ścieżkaDoPliku);
         }
     }
 }

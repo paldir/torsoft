@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Security.Authentication.ExtendedProtection;
 
 namespace Odpady.DostępDoDanych
 {

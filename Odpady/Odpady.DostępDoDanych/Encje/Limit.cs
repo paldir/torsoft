@@ -1,14 +1,12 @@
-using System;
-
 namespace Odpady.DostępDoDanych
 {
     public class Limit : Rekord
     {
-        public Nullable<long> FK_RODZAJ_ODPADOW { get; set; }
-        public Nullable<long> FK_ODDZIAL { get; set; }
-        public Nullable<short> OSOBA_FIZYCZNA { get; set; }
-        public Nullable<float> LIMIT { get; set; }
-        public Nullable<float> KARA { get; set; }
+        public long? FK_RODZAJ_ODPADOW { get; set; }
+        public long? FK_ODDZIAL { get; set; }
+        public short? OSOBA_FIZYCZNA { get; set; }
+        public float? LIMIT { get; set; }
+        public float? KARA { get; set; }
 
         public RodzajOdpadów RODZAJ_ODPADOW
         {

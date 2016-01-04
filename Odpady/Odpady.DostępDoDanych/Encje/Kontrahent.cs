@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Odpady.DostępDoDanych
@@ -19,8 +18,8 @@ namespace Odpady.DostępDoDanych
         public string REGON_NR_DOKUMENTU { get; set; }
         public string TELEFON { get; set; }
         public string EMAIL { get; set; }
-        public Nullable<short> OSOBA_FIZYCZNA { get; set; }
-        public Nullable<long> FK_ODDZIAL { get; set; }
+        public short? OSOBA_FIZYCZNA { get; set; }
+        public long? FK_ODDZIAL { get; set; }
 
         public Oddział ODDZIAL
         {

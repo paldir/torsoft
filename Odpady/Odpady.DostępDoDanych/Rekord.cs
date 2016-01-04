@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using System.Data;
 
 namespace Odpady.DostępDoDanych
@@ -25,6 +21,7 @@ namespace Odpady.DostępDoDanych
         }
 
         long _id;
+
         public long ID
         {
             get { return _id; }

@@ -1,5 +1,3 @@
-using System;
-
 namespace Odpady.DostępDoDanych
 {
     public class JednostkaMiary : Rekord

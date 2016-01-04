@@ -55,7 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InformacjeOOdpadzie.cs" />
-    <Compile Include="Wydruki.cs" />
+    <Compile Include="Wydruk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

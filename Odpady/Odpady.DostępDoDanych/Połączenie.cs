@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using FirebirdSql.Data.FirebirdClient;
 using System.Data;
@@ -15,14 +14,14 @@ namespace Odpady.DostępDoDanych
 {
     public class Połączenie : IDisposable
     {
-        static readonly Dictionary<Type, string> _typRekorduNaNazwęTabeli;
-        static string _parametry;
-        static string _ścieżkaPlikuBazy;
+        static readonly Dictionary<Type, string> TypRekorduNaNazwęTabeli;
+        static readonly string Parametry;
+        static readonly string ŚcieżkaPlikuBazy;
 
         public const int KodBłęduPz = 144000;
 
-        FbConnection _połączenie;
-        
+        readonly FbConnection _połączenie;
+
         public ConnectionState Stan
         {
             get { return _połączenie.State; }
@@ -30,7 +29,7 @@ namespace Odpady.DostępDoDanych
 
         public Połączenie()
         {
-            _połączenie = new FbConnection(_parametry);
+            _połączenie = new FbConnection(Parametry);
 
             try
             {
@@ -45,40 +44,42 @@ namespace Odpady.DostępDoDanych
         static Połączenie()
         {
             NameValueCollection ustawienia = ConfigurationManager.AppSettings;
-            _ścieżkaPlikuBazy = ustawienia["Database"];
-            _typRekorduNaNazwęTabeli = new Dictionary<Type, string>();
+            ŚcieżkaPlikuBazy = ustawienia["Database"];
+            TypRekorduNaNazwęTabeli = new Dictionary<Type, string>();
 
-            _parametry = "User=SYSDBA;" +
-            "Password=masterkey;" +
-            "Database=" + _ścieżkaPlikuBazy + ";" +
-            "DataSource=" + ustawienia["DataSource"] + ";" +
-            "Port=3050;" +
-            "Dialect=3;" +
-            "Charset=NONE;" +
-            "Role=;" +
-            "Connection lifetime=15;" +
-            "Pooling=true;" +
-            "MinPoolSize=0;" +
-            "MaxPoolSize=50;" +
-            "Packet Size=8192;" +
-            "ServerType=0";
+            Parametry = "User=SYSDBA;" +
+                        "Password=masterkey;" +
+                        "Database=" + ŚcieżkaPlikuBazy + ";" +
+                        "DataSource=" + ustawienia["DataSource"] + ";" +
+                        "Port=3050;" +
+                        "Dialect=3;" +
+                        "Charset=NONE;" +
+                        "Role=;" +
+                        "Connection lifetime=15;" +
+                        "Pooling=true;" +
+                        "MinPoolSize=0;" +
+                        "MaxPoolSize=50;" +
+                        "Packet Size=8192;" +
+                        "ServerType=0";
 
-            _typRekorduNaNazwęTabeli.Add(typeof(Kontrahent), "KONTRAHENCI");
-            _typRekorduNaNazwęTabeli.Add(typeof(Oddział), "ODDZIALY");
-            _typRekorduNaNazwęTabeli.Add(typeof(Użytkownik), "UZYTKOWNICY");
-            _typRekorduNaNazwęTabeli.Add(typeof(RodzajOdpadów), "RODZAJE_ODPADOW");
-            _typRekorduNaNazwęTabeli.Add(typeof(Limit), "LIMITY");
-            _typRekorduNaNazwęTabeli.Add(typeof(JednostkaMiary), "JEDNOSTKI_MIARY");
-            _typRekorduNaNazwęTabeli.Add(typeof(Szpieg), "ESPIONAGE");
+            TypRekorduNaNazwęTabeli.Add(typeof (Kontrahent), "KONTRAHENCI");
+            TypRekorduNaNazwęTabeli.Add(typeof (Oddział), "ODDZIALY");
+            TypRekorduNaNazwęTabeli.Add(typeof (Użytkownik), "UZYTKOWNICY");
+            TypRekorduNaNazwęTabeli.Add(typeof (RodzajOdpadów), "RODZAJE_ODPADOW");
+            TypRekorduNaNazwęTabeli.Add(typeof (Limit), "LIMITY");
+            TypRekorduNaNazwęTabeli.Add(typeof (JednostkaMiary), "JEDNOSTKI_MIARY");
+            TypRekorduNaNazwęTabeli.Add(typeof (Szpieg), "ESPIONAGE");
+            TypRekorduNaNazwęTabeli.Add(typeof (Dostawa), "DOSTAWY");
+            TypRekorduNaNazwęTabeli.Add(typeof (SzczegółDostawy), "SZCZEGOLY_DOSTAW");
         }
 
         public List<T> PobierzWszystkie<T>() where T : Rekord
         {
             List<T> rekordy = new List<T>();
-            Type typRekordu = typeof(T);
-            IEnumerable<PropertyInfo> właściwości;
+            Type typRekordu = typeof (T);
+            PropertyInfo[] właściwości;
             string zapytanie = ZbudujSelect(typRekordu, out właściwości).ToString();
-            int liczbaPól = właściwości.Count();
+            int liczbaPól = właściwości.Length;
 
             try
             {
@@ -93,7 +94,7 @@ namespace Odpady.DostępDoDanych
                             object wartość = czytacz.GetValue(i);
 
                             if (wartość != DBNull.Value)
-                                właściwości.ElementAt(i).SetValue(rekord, wartość, null);
+                                właściwości[i].SetValue(rekord, wartość, null);
                         }
 
                         rekordy.Add(rekord);
@@ -111,10 +112,10 @@ namespace Odpady.DostępDoDanych
 
         public T Pobierz<T>(long id) where T : Rekord
         {
-            Type typRekordu = typeof(T);
-            IEnumerable<PropertyInfo> właściwości;
+            Type typRekordu = typeof (T);
+            PropertyInfo[] właściwości;
             StringBuilder budowniczyZapytania = ZbudujSelect(typRekordu, out właściwości);
-            int liczbaPól = właściwości.Count();
+            int liczbaPól = właściwości.Length;
 
             budowniczyZapytania.AppendFormat(" WHERE ID={0};", id);
 
@@ -134,7 +135,7 @@ namespace Odpady.DostępDoDanych
                             object wartość = czytacz.GetValue(i);
 
                             if (wartość != DBNull.Value)
-                                właściwości.ElementAt(i).SetValue(rekord, wartość, null);
+                                właściwości[i].SetValue(rekord, wartość, null);
                         }
                     }
             }
@@ -148,12 +149,11 @@ namespace Odpady.DostępDoDanych
 
         public long Dodaj<T>(T nowyRekord) where T : Rekord
         {
-            Type typRekordu = typeof(T);
-            IEnumerable<PropertyInfo> właściwości = typRekordu.GetProperties().Where(w => w.Name != "ID" && w.GetSetMethod() != null);
+            Type typRekordu = typeof (T);
+            PropertyInfo[] właściwości = typRekordu.GetProperties().Where(w => w.Name != "ID" && w.GetSetMethod() != null).ToArray();
             StringBuilder budowniczyZapytania = new StringBuilder("INSERT INTO ");
-            int liczbaPól = właściwości.Count();
 
-            budowniczyZapytania.AppendFormat("{0} (", _typRekorduNaNazwęTabeli[typRekordu]);
+            budowniczyZapytania.AppendFormat("{0} (", TypRekorduNaNazwęTabeli[typRekordu]);
 
             foreach (PropertyInfo właściwość in właściwości)
                 budowniczyZapytania.AppendFormat("{0}, ", właściwość.Name);
@@ -172,7 +172,12 @@ namespace Odpady.DostępDoDanych
                     wartość = "null";
                 }
                 else
+                {
                     format = "'{0}', ";
+
+                    if (wartość is DateTime)
+                        wartość = Convert.ToDateTime(wartość).ToShortDateString();
+                }
 
                 budowniczyZapytania.AppendFormat(format, wartość);
             }
@@ -186,8 +191,10 @@ namespace Odpady.DostępDoDanych
             {
                 using (FbCommand komenda = new FbCommand(zapytanie, _połączenie))
                 {
-                    FbParameter parametr = new FbParameter("ID", FbDbType.BigInt);
-                    parametr.Direction = ParameterDirection.Output;
+                    FbParameter parametr = new FbParameter("ID", FbDbType.BigInt)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
 
                     komenda.Parameters.Add(parametr);
 
@@ -207,11 +214,11 @@ namespace Odpady.DostępDoDanych
 
         public int Aktualizuj<T>(long id, T nowaWersja) where T : Rekord
         {
-            Type typRekordu = typeof(T);
+            Type typRekordu = typeof (T);
             IEnumerable<PropertyInfo> właściwości = typRekordu.GetProperties().Where(w => w.Name != "ID" && w.GetSetMethod() != null);
             StringBuilder budowniczyZapytania = new StringBuilder("UPDATE ");
 
-            budowniczyZapytania.AppendFormat("{0} SET ", _typRekorduNaNazwęTabeli[typRekordu]);
+            budowniczyZapytania.AppendFormat("{0} SET ", TypRekorduNaNazwęTabeli[typRekordu]);
 
             foreach (PropertyInfo właściwość in właściwości)
             {
@@ -225,7 +232,12 @@ namespace Odpady.DostępDoDanych
                     wartość = "null";
                 }
                 else
+                {
                     format = "{0}='{1}', ";
+
+                    if (wartość is DateTime)
+                        wartość = Convert.ToDateTime(wartość).ToShortDateString();
+                }
 
                 budowniczyZapytania.AppendFormat(format, właściwość.Name, wartość);
             }
@@ -255,12 +267,12 @@ namespace Odpady.DostępDoDanych
             if (id == 0)
                 throw new Exception("Rekord nie istnieje. - PZ");
 
-            return Aktualizuj<T>(id, nowaWersja);
+            return Aktualizuj(id, nowaWersja);
         }
 
         public int Usuń<T>(long id) where T : Rekord
         {
-            string zapytanie = String.Format("DELETE FROM {0} WHERE ID={1}", _typRekorduNaNazwęTabeli[typeof(T)], id);
+            string zapytanie = String.Format("DELETE FROM {0} WHERE ID={1}", TypRekorduNaNazwęTabeli[typeof (T)], id);
 
             try
             {
@@ -293,81 +305,92 @@ namespace Odpady.DostępDoDanych
         public void UtwórzKlasęNaPodstawieTabeli(string nazwaTabeli, string nazwaKlasy)
         {
             StringBuilder budowniczyNapisu = new StringBuilder();
-            DataTable kolumny = _połączenie.GetSchema("Columns", new string[] { null, null, nazwaTabeli.ToUpper() });
 
-            budowniczyNapisu.AppendLine("using System;");
-            budowniczyNapisu.AppendLine();
-            budowniczyNapisu.AppendFormat("namespace Odpady.DostępDoDanych {{ public class {0}:Rekord {{", nazwaKlasy);
-
-            foreach (DataRow wiersz in kolumny.Rows)
+            using (DataTable kolumny = _połączenie.GetSchema("Columns", new[] {null, null, nazwaTabeli.ToUpper()}))
             {
-                string nazwaPola = wiersz["COLUMN_NAME"].ToString();
+                budowniczyNapisu.AppendFormat("namespace Odpady.DostępDoDanych {{ public class {0}:Rekord {{", nazwaKlasy);
 
-                if (!String.Equals(nazwaPola, "ID"))
+                foreach (DataRow wiersz in kolumny.Rows)
                 {
-                    string typPola = wiersz["COLUMN_DATA_TYPE"].ToString();
-                    bool wartościowy;
+                    string nazwaPola = wiersz["COLUMN_NAME"].ToString();
 
-                    switch (typPola)
+                    if (!String.Equals(nazwaPola, "ID"))
                     {
-                        case "bigint":
-                            typPola = "long";
-                            wartościowy = true;
+                        string typPola = wiersz["COLUMN_DATA_TYPE"].ToString();
+                        bool wartościowy;
 
-                            break;
+                        switch (typPola)
+                        {
+                            case "bigint":
+                                typPola = "long";
+                                wartościowy = true;
 
-                        case "varchar":
-                            typPola = "string";
-                            wartościowy = false;
+                                break;
 
-                            break;
+                            case "varchar":
+                                typPola = "string";
+                                wartościowy = false;
 
-                        case "integer":
-                            typPola = "int";
-                            wartościowy = true;
+                                break;
 
-                            break;
+                            case "integer":
+                                typPola = "int";
+                                wartościowy = true;
 
-                        case "smallint":
-                            typPola = "short";
-                            wartościowy = true;
+                                break;
 
-                            break;
+                            case "smallint":
+                                typPola = "short";
+                                wartościowy = true;
 
-                        case "float":
-                            typPola = "float";
-                            wartościowy = true;
+                                break;
 
-                            break;
+                            case "float":
+                                typPola = "float";
+                                wartościowy = true;
 
-                        case "date":
-                            typPola = "DateTime";
-                            wartościowy = true;
+                                break;
 
-                            break;
+                            case "date":
+                                typPola = "DateTime";
+                                wartościowy = true;
 
-                        case "time":
-                            typPola = "TimeSpan";
-                            wartościowy = true;
+                                break;
 
-                            break;
+                            case "time":
+                                typPola = "TimeSpan";
+                                wartościowy = true;
 
-                        default:
-                            throw new Exception("Brak mapowania typów.");
+                                break;
+
+                            default:
+                                throw new Exception("Brak mapowania typów.");
+                        }
+
+                        if (wartościowy)
+                            typPola = String.Format("{0}?", typPola);
+
+                        budowniczyNapisu.AppendFormat("public {0} {1} {{get;set;}}", typPola, nazwaPola);
                     }
 
-                    if (wartościowy)
-                        typPola = String.Format("Nullable<{0}>", typPola);
-
-                    budowniczyNapisu.AppendFormat("public {0} {1} {{get;set;}}", typPola, nazwaPola);
                     budowniczyNapisu.AppendLine();
                 }
             }
 
-            string ścieżkaPliku = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName, "OdpadyDostępDoDanych", "Encje", String.Concat(nazwaKlasy, ".cs"));
+            DirectoryInfo folderProjektuExe = Directory.GetParent(Environment.CurrentDirectory).Parent;
 
-            budowniczyNapisu.Append("}}");
-            File.WriteAllText(ścieżkaPliku, budowniczyNapisu.ToString());
+            if (folderProjektuExe != null)
+            {
+                DirectoryInfo folderSolucji = folderProjektuExe.Parent;
+
+                if (folderSolucji != null)
+                {
+                    string ścieżkaPliku = Path.Combine(folderSolucji.FullName, "Odpady.DostępDoDanych", "Encje", String.Concat(nazwaKlasy, ".cs"));
+
+                    budowniczyNapisu.Append("}}");
+                    File.WriteAllText(ścieżkaPliku, budowniczyNapisu.ToString());
+                }
+            }
         }
 
         void ZapiszWyjątekDoLogu(FbException wyjątekFb, string zapytanie)
@@ -389,19 +412,19 @@ namespace Odpady.DostępDoDanych
             budowniczy.AppendLine();
             budowniczy.AppendLine();
 
-            File.AppendAllText(Path.ChangeExtension(_ścieżkaPlikuBazy, "log.txt"), budowniczy.ToString());
+            File.AppendAllText(Path.ChangeExtension(ŚcieżkaPlikuBazy, "log.txt"), budowniczy.ToString());
         }
 
-        StringBuilder ZbudujSelect(Type typRekordu, out IEnumerable<PropertyInfo> właściwości)
+        StringBuilder ZbudujSelect(Type typRekordu, out PropertyInfo[] właściwości)
         {
             StringBuilder budowniczyZapytania = new StringBuilder("SELECT ");
-            właściwości = typRekordu.GetProperties().Where(w => w.GetSetMethod() != null);
+            właściwości = typRekordu.GetProperties().Where(w => w.GetSetMethod() != null).ToArray();
 
             foreach (PropertyInfo właściwość in właściwości)
                 budowniczyZapytania.AppendFormat("{0}, ", właściwość.Name);
 
             budowniczyZapytania.Remove(budowniczyZapytania.Length - 2, 1);
-            budowniczyZapytania.AppendFormat("FROM {0}", _typRekorduNaNazwęTabeli[typRekordu]);
+            budowniczyZapytania.AppendFormat("FROM {0}", TypRekorduNaNazwęTabeli[typRekordu]);
 
             return budowniczyZapytania;
         }

@@ -66,6 +66,7 @@
     <Compile Include="Encje\Kontrahent.cs" />
     <Compile Include="Encje\Limit.cs" />
     <Compile Include="Encje\Oddział.cs" />
+    <Compile Include="Encje\SzczegółDostawy.cs" />
     <Compile Include="Encje\Szpieg.cs" />
     <Compile Include="Połączenie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
