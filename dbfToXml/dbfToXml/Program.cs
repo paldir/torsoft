@@ -13,44 +13,47 @@ namespace dbfToXml
 {
     class Program
     {
-        static int numerPierwszejFaktury;
-        static int numerOstatniejFaktury;
+        static int _numerPierwszejFaktury;
+        static int _numerOstatniejFaktury;
+        static XmlDocument _dokumentXml;
 
-        static XmlDocument dokumentXml;
-
-        const string formatDaty = "{0:yyyy-MM-dd}";
-        const string formatDatyAmerykański = "{0:yyyy-dd-MM}";
-        const string formatDatyOdwrotny = "{0:dd-MM-yyyy}";
-        const string formatDatyAmerykańskiOdwrotny = "{0:MM-dd-yyyy}";
+        /*const string FormatDaty = "{0:yyyy-MM-dd}";
+        const string FormatDatyAmerykański = "{0:yyyy-dd-MM}";
+        const string FormatDatyOdwrotny = "{0:dd-MM-yyyy}";*/
+        const string FormatDatyAmerykańskiOdwrotny = "{0:MM-dd-yyyy}";
 
         static void Main(string[] args)
         {
             CultureInfo infoOKulturze = Thread.CurrentThread.CurrentCulture.Clone() as CultureInfo;
-            infoOKulturze.NumberFormat.NumberDecimalSeparator = ".";
-            Thread.CurrentThread.CurrentCulture = infoOKulturze;
-            string format = formatDatyAmerykańskiOdwrotny;
+            string format = FormatDatyAmerykańskiOdwrotny;
+
+            if (infoOKulturze != null)
+            {
+                infoOKulturze.NumberFormat.NumberDecimalSeparator = ".";
+                Thread.CurrentThread.CurrentCulture = infoOKulturze;
+            }
 
             switch (args.Length)
             {
                 case 0:
-                    numerPierwszejFaktury = 1;
-                    numerOstatniejFaktury = Int32.MaxValue;
+                    _numerPierwszejFaktury = 1;
+                    _numerOstatniejFaktury = Int32.MaxValue;
 
                     break;
 
                 case 1:
-                    numerPierwszejFaktury = numerOstatniejFaktury = Int32.Parse(args[0]);
+                    _numerPierwszejFaktury = _numerOstatniejFaktury = Int32.Parse(args[0]);
 
                     break;
 
                 case 2:
-                    numerPierwszejFaktury = Int32.Parse(args[0]);
-                    numerOstatniejFaktury = Int32.Parse(args[1]);
+                    _numerPierwszejFaktury = Int32.Parse(args[0]);
+                    _numerOstatniejFaktury = Int32.Parse(args[1]);
 
                     break;
 
                 default:
-                    numerPierwszejFaktury = numerOstatniejFaktury = 0;
+                    _numerPierwszejFaktury = _numerOstatniejFaktury = 0;
 
                     break;
             }
@@ -103,18 +106,18 @@ namespace dbfToXml
                 {
                     object[] polaFk = wiersz.ItemArray;
                     string napisNumeruFaktury = polaFk[nazwaKolumnyDoJejNumeruFk["nr_fk"]].ToString();
-                    int numerFaktury = Int32.Parse(napisNumeruFaktury.Substring(0, napisNumeruFaktury.IndexOf("/")));
+                    int numerFaktury = Int32.Parse(napisNumeruFaktury.Substring(0, napisNumeruFaktury.IndexOf("/", StringComparison.Ordinal)));
 
-                    if (numerFaktury >= numerPierwszejFaktury && numerFaktury <= numerOstatniejFaktury)
+                    if (numerFaktury >= _numerPierwszejFaktury && numerFaktury <= _numerOstatniejFaktury)
                     {
-                        dokumentXml = new XmlDocument();
+                        _dokumentXml = new XmlDocument();
                         string plik = Path.Combine("fk", String.Format("fk{0}.xml", numerFaktury));
 
-                        dokumentXml.Load("wzor_fk.xml");
+                        _dokumentXml.Load("wzor_fk.xml");
 
-                        XmlNode wzórKontrahenta = dokumentXml.GetElementsByTagName("KONTRAHENT")[0];
-                        XmlNode wzórRejestru = dokumentXml.GetElementsByTagName("REJESTR_SPRZEDAZY_VAT")[0];
-                        XmlNode wzórPozycji = dokumentXml.GetElementsByTagName("POZYCJA")[0];
+                        XmlNode wzórKontrahenta = _dokumentXml.GetElementsByTagName("KONTRAHENT")[0];
+                        XmlNode wzórRejestru = _dokumentXml.GetElementsByTagName("REJESTR_SPRZEDAZY_VAT")[0];
+                        XmlNode wzórPozycji = _dokumentXml.GetElementsByTagName("POZYCJA")[0];
                         string kod, miasto, ulica;
                         double id = Convert.ToDouble(polaFk[nazwaKolumnyDoJejNumeruFk["nr_system"]]);
                         XmlNode kontrahent = wzórKontrahenta.CloneNode(true);
@@ -164,7 +167,7 @@ namespace dbfToXml
                         {
                             object[] polaFkVat = wierszFkVat.ItemArray;
 
-                            if (Convert.ToDouble(polaFkVat[nazwaKolumnyDoJejNumeruFkVat["nr_system"]]) == id)
+                            if (Math.Abs(Convert.ToDouble(polaFkVat[nazwaKolumnyDoJejNumeruFkVat["nr_system"]]) - id) < 0.1)
                             {
                                 decimal wartość = Convert.ToDecimal(polaFkVat[nazwaKolumnyDoJejNumeruFkVat["wartosc"]]);
 
@@ -213,11 +216,11 @@ namespace dbfToXml
                         wzórKontrahenta.ParentNode.RemoveChild(wzórKontrahenta);
                         wzórRejestru.ParentNode.RemoveChild(wzórRejestru);
 
-                        foreach (XmlNode węzełPozycji in dokumentXml.GetElementsByTagName("POZYCJE"))
+                        foreach (XmlNode węzełPozycji in _dokumentXml.GetElementsByTagName("POZYCJE"))
                             węzełPozycji.RemoveChild(węzełPozycji.ChildNodes[0]);
 
                         using (StreamWriter strumień = new StreamWriter(plik, false, Encoding.GetEncoding("Windows-1250")))
-                            dokumentXml.Save(strumień);
+                            _dokumentXml.Save(strumień);
                     }
                 }
 
@@ -236,17 +239,18 @@ namespace dbfToXml
                 napisWartości = wartość.ToString().Trim();
 
             if (tagXmlAlboXPath.IndexOf('/') != -1)
-                węzły = dokumentXml.SelectNodes(tagXmlAlboXPath);
+                węzły = _dokumentXml.SelectNodes(tagXmlAlboXPath);
             else
-                węzły = dokumentXml.GetElementsByTagName(tagXmlAlboXPath);
+                węzły = _dokumentXml.GetElementsByTagName(tagXmlAlboXPath);
 
             if (dodaćCData)
-                zawartość = dokumentXml.CreateCDataSection(napisWartości);
+                zawartość = _dokumentXml.CreateCDataSection(napisWartości);
             else
-                zawartość = dokumentXml.CreateTextNode(napisWartości);
+                zawartość = _dokumentXml.CreateTextNode(napisWartości);
 
-            foreach (XmlNode węzeł in węzły)
-                węzeł.AppendChild(zawartość.CloneNode(true));
+            if (węzły != null)
+                foreach (XmlNode węzeł in węzły)
+                    węzeł.AppendChild(zawartość.CloneNode(true));
         }
 
         static void ZapiszWWęźleXml(ref XmlNode węzeł, string tagXml, object wartość, bool dodaćCData)
@@ -270,7 +274,7 @@ namespace dbfToXml
             foreach (XmlNode element in xml.GetElementsByTagName(tagXml))
                 element.AppendChild(zawartość.CloneNode(true));
 
-            węzeł = dokumentXml.ImportNode(xml.FirstChild, true);
+            węzeł = _dokumentXml.ImportNode(xml.FirstChild, true);
         }
 
         static void AnalizujAdres(string adres, out string kod, out string miasto, out string ulica)
@@ -307,7 +311,7 @@ namespace dbfToXml
 
             try
             {
-                int indeksPrzecinka = adres.IndexOf(adres, indeksMiasta);
+                int indeksPrzecinka = adres.IndexOf(adres, indeksMiasta, StringComparison.Ordinal);
 
                 if (indeksPrzecinka == -1)
                     indeksPrzecinka = Int32.MaxValue;
@@ -332,7 +336,7 @@ namespace dbfToXml
             try
             {
                 ulica = adres.Replace(kod, String.Empty).Replace(miasto, String.Empty).Replace(",", String.Empty).Replace(";", String.Empty);
-                ulica = ulica.Substring(ulica.ToLower().IndexOf("ul.")).Trim();
+                ulica = ulica.Substring(ulica.ToLower().IndexOf("ul.", StringComparison.Ordinal)).Trim();
             }
             catch
             {
@@ -369,7 +373,7 @@ namespace dbfToXml
                 strumień.Write("<html><head><title></title></head><body><table border='1'><tr>");
 
                 foreach (string kolumna in nazwaKolumnyDoJejNumeru.Keys)
-                    strumień.Write(String.Format("<th>{0}</th>", kolumna));
+                    strumień.Write("<th>{0}</th>", kolumna);
 
                 strumień.Write("</tr>");
 
@@ -378,7 +382,7 @@ namespace dbfToXml
                     strumień.Write("<tr>");
 
                     foreach (object field in dataRow.ItemArray)
-                        strumień.Write(String.Format("<td>{0}</td>", field));
+                        strumień.Write("<td>{0}</td>", field);
 
                     strumień.Write("</tr>");
                 }
