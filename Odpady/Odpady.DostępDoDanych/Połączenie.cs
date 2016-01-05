@@ -395,10 +395,11 @@ namespace Odpady.DostępDoDanych
 
                         budowniczyNapisu.AppendFormat("public {0} {1} {{get;set;}}", typPola, nazwaPola);
                     }
-
-                    budowniczyNapisu.AppendLine();
                 }
             }
+
+            budowniczyNapisu.AppendLine();
+            budowniczyNapisu.Append("}}");
 
             DirectoryInfo folderProjektuExe = Directory.GetParent(Environment.CurrentDirectory).Parent;
 
@@ -410,7 +411,6 @@ namespace Odpady.DostępDoDanych
                 {
                     string ścieżkaPliku = Path.Combine(folderSolucji.FullName, "Odpady.DostępDoDanych", "Encje", String.Concat(nazwaKlasy, ".cs"));
 
-                    budowniczyNapisu.Append("}}");
                     File.WriteAllText(ścieżkaPliku, budowniczyNapisu.ToString());
                 }
             }
