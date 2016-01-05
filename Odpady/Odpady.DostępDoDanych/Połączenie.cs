@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using FirebirdSql.Data.FirebirdClient;
 using System.Data;
 using System.IO;
 using System.Reflection;
 using System.Configuration;
 using System.Collections.Specialized;
+using System.Globalization;
 
 namespace Odpady.DostępDoDanych
 {
@@ -17,6 +17,7 @@ namespace Odpady.DostępDoDanych
         static readonly Dictionary<Type, string> TypRekorduNaNazwęTabeli;
         static readonly string Parametry;
         static readonly string ŚcieżkaPlikuBazy;
+        static readonly CultureInfo Kultura;
 
         public const int KodBłęduPz = 144000;
 
@@ -61,6 +62,11 @@ namespace Odpady.DostępDoDanych
                         "MaxPoolSize=50;" +
                         "Packet Size=8192;" +
                         "ServerType=0";
+
+            Kultura = CultureInfo.CurrentCulture.Clone() as CultureInfo;
+
+            if (Kultura != null)
+                Kultura.NumberFormat.NumberDecimalSeparator = ".";
 
             TypRekorduNaNazwęTabeli.Add(typeof (Kontrahent), "KONTRAHENCI");
             TypRekorduNaNazwęTabeli.Add(typeof (Oddział), "ODDZIALY");
@@ -179,7 +185,7 @@ namespace Odpady.DostępDoDanych
                         wartość = Convert.ToDateTime(wartość).ToShortDateString();
                 }
 
-                budowniczyZapytania.AppendFormat(format, wartość);
+                budowniczyZapytania.AppendFormat(Kultura, format, wartość);
             }
 
             budowniczyZapytania.Remove(budowniczyZapytania.Length - 2, 1);
@@ -189,7 +195,8 @@ namespace Odpady.DostępDoDanych
 
             try
             {
-                using (FbCommand komenda = new FbCommand(zapytanie, _połączenie))
+                using (FbTransaction transakcja = _połączenie.BeginTransaction(IsolationLevel.Serializable))
+                using (FbCommand komenda = new FbCommand(zapytanie, _połączenie, transakcja))
                 {
                     FbParameter parametr = new FbParameter("ID", FbDbType.BigInt)
                     {
@@ -200,6 +207,8 @@ namespace Odpady.DostępDoDanych
 
                     object skalar = komenda.ExecuteScalar();
                     nowyRekord.ID = Convert.ToInt64(skalar);
+
+                    transakcja.Commit();
 
                     return 1;
                 }
@@ -239,7 +248,7 @@ namespace Odpady.DostępDoDanych
                         wartość = Convert.ToDateTime(wartość).ToShortDateString();
                 }
 
-                budowniczyZapytania.AppendFormat(format, właściwość.Name, wartość);
+                budowniczyZapytania.AppendFormat(Kultura, format, właściwość.Name, wartość);
             }
 
             budowniczyZapytania.Remove(budowniczyZapytania.Length - 2, 1);
@@ -249,8 +258,15 @@ namespace Odpady.DostępDoDanych
 
             try
             {
-                using (FbCommand komenda = new FbCommand(zapytanie, _połączenie))
-                    return komenda.ExecuteNonQuery();
+                using (FbTransaction transakcja = _połączenie.BeginTransaction(IsolationLevel.Serializable))
+                using (FbCommand komenda = new FbCommand(zapytanie, _połączenie, transakcja))
+                {
+                    int wynik = komenda.ExecuteNonQuery();
+
+                    transakcja.Commit();
+
+                    return wynik;
+                }
             }
             catch (FbException wyjątek)
             {
@@ -276,8 +292,15 @@ namespace Odpady.DostępDoDanych
 
             try
             {
-                using (FbCommand komenda = new FbCommand(zapytanie, _połączenie))
-                    return komenda.ExecuteNonQuery();
+                using (FbTransaction transakcja = _połączenie.BeginTransaction(IsolationLevel.Serializable))
+                using (FbCommand komenda = new FbCommand(zapytanie, _połączenie, transakcja))
+                {
+                    int wynik = komenda.ExecuteNonQuery();
+
+                    transakcja.Commit();
+
+                    return wynik;
+                }
             }
             catch (FbException wyjątek)
             {

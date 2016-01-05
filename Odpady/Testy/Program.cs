@@ -12,6 +12,9 @@ namespace Testy
         {
             using (Połączenie połączenie = new Połączenie())
             {
+                JednostkaMiary j = połączenie.Pobierz<JednostkaMiary>(2);
+
+                połączenie.Usuń(j);
             }
         }
 
