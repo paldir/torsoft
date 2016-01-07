@@ -2,7 +2,8 @@ namespace Odpady.DostępDoDanych
 {
     public class SzczegółDostawy : Rekord
     {
-        public float? ILOSC { get; set; }
+        public decimal? ILOSC { get; set; }
+        public decimal? PONAD { get; set; }
         public long? FK_RODZAJ_ODPADOW { get; set; }
         public long? FK_DOSTAWA { get; set; }
 

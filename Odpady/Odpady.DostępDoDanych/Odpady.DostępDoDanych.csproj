@@ -73,6 +73,7 @@
     <Compile Include="Rekord.cs" />
     <Compile Include="Encje\RodzajOdpadów.cs" />
     <Compile Include="Encje\Użytkownik.cs" />
+    <Compile Include="WarunekZapytania.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

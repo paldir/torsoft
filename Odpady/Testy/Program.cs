@@ -12,15 +12,14 @@ namespace Testy
         {
             using (Połączenie połączenie = new Połączenie())
             {
-                JednostkaMiary j = połączenie.Pobierz<JednostkaMiary>(2);
+                List<WarunekZapytania> warunki = new List<WarunekZapytania>
+                {
+                    new WarunekZapytania("opis", ZnakPorównania.Zawiera, "rud"),
+                    new WarunekZapytania("id", ZnakPorównania.RównaSię, 1)
+                };
 
-                połączenie.Usuń(j);
+                var tmp = połączenie.Pobierz<RodzajOdpadów>(1);
             }
-        }
-
-        static InformacjeOOdpadzie[] MapujSzczegółyDostawyNaInformacjeOOdpadach(IEnumerable<SzczegółDostawy> szczegółyDostawy)
-        {
-            return (from szczegółDostawy in szczegółyDostawy let rodzajOdpadów = szczegółDostawy.RODZAJ_ODPADOW select new InformacjeOOdpadzie(rodzajOdpadów.OPIS, String.Format("{0} {1}", szczegółDostawy.ILOSC, rodzajOdpadów.JEDNOSTKA_MIARY.NAZWA))).ToArray();
         }
     }
 }

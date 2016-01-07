@@ -1,11 +1,11 @@
-﻿using Pechkin;
-using Pechkin.Synchronized;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing.Printing;
-using System.IO;
 using System.Text;
+using Pechkin;
+using Pechkin.Synchronized;
+using System.IO;
+using System.Drawing.Printing;
+using System.Diagnostics;
 
 namespace Odpady.Wydruki
 {
@@ -62,7 +62,7 @@ namespace Odpady.Wydruki
             }
 
             foreach (InformacjeOOdpadzie odpad in odpady)
-                budowniczyTabeli.AppendFormat("<tr><td>{0}</td><td>{1}</td></tr>", odpad.Nazwa, odpad.Ilość);
+                budowniczyTabeli.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td></tr>", odpad.Nazwa, odpad.Ilość, odpad.JednMiary);
 
             dokument = dokument.Replace("{tabela}", budowniczyTabeli.ToString());
 

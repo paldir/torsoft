@@ -79,32 +79,30 @@ namespace Odpady.DostępDoDanych
             TypRekorduNaNazwęTabeli.Add(typeof (SzczegółDostawy), "SZCZEGOLY_DOSTAW");
         }
 
-        public List<T> PobierzWszystkie<T>() where T : Rekord
+        public List<T> PobierzWszystkie<T>(List<WarunekZapytania> warunki = null) where T : Rekord
         {
-            List<T> rekordy = new List<T>();
-            Type typRekordu = typeof (T);
             PropertyInfo[] właściwości;
-            string zapytanie = ZbudujSelect(typRekordu, out właściwości).ToString();
-            int liczbaPól = właściwości.Length;
+            StringBuilder budowniczyZapytania = ZbudujSelect<T>(out właściwości);
+
+            if (warunki != null && warunki.Any())
+            {
+                int liczbaWarunków = warunki.Count;
+
+                budowniczyZapytania.Append(" WHERE ");
+                warunki[0].GenerujWarunek(budowniczyZapytania);
+
+                for (int i = 1; i < liczbaWarunków; i++)
+                {
+                    budowniczyZapytania.Append(" and ");
+                    warunki[i].GenerujWarunek(budowniczyZapytania);
+                }
+            }
+
+            string zapytanie = budowniczyZapytania.ToString();
 
             try
             {
-                using (FbCommand komenda = new FbCommand(zapytanie, _połączenie))
-                using (FbDataReader czytacz = komenda.ExecuteReader())
-                    while (czytacz.Read())
-                    {
-                        T rekord = Activator.CreateInstance<T>();
-
-                        for (int i = 0; i < liczbaPól; i++)
-                        {
-                            object wartość = czytacz.GetValue(i);
-
-                            if (wartość != DBNull.Value)
-                                właściwości[i].SetValue(rekord, wartość, null);
-                        }
-
-                        rekordy.Add(rekord);
-                    }
+                List<T> rekordy = PobierzRekordy<T>(zapytanie, właściwości);
 
                 return rekordy;
             }
@@ -118,39 +116,9 @@ namespace Odpady.DostępDoDanych
 
         public T Pobierz<T>(long id) where T : Rekord
         {
-            Type typRekordu = typeof (T);
-            PropertyInfo[] właściwości;
-            StringBuilder budowniczyZapytania = ZbudujSelect(typRekordu, out właściwości);
-            int liczbaPól = właściwości.Length;
+            List<T> rekordy = PobierzWszystkie<T>(new List<WarunekZapytania>() {new WarunekZapytania("ID", ZnakPorównania.RównaSię, id)});
 
-            budowniczyZapytania.AppendFormat(" WHERE ID={0};", id);
-
-            string zapytanie = budowniczyZapytania.ToString();
-            T rekord = null;
-
-            try
-            {
-                using (FbCommand komenda = new FbCommand(zapytanie, _połączenie))
-                using (FbDataReader czytacz = komenda.ExecuteReader())
-                    if (czytacz.Read())
-                    {
-                        rekord = Activator.CreateInstance<T>();
-
-                        for (int i = 0; i < liczbaPól; i++)
-                        {
-                            object wartość = czytacz.GetValue(i);
-
-                            if (wartość != DBNull.Value)
-                                właściwości[i].SetValue(rekord, wartość, null);
-                        }
-                    }
-            }
-            catch (FbException wyjątek)
-            {
-                ZapiszWyjątekDoLogu(wyjątek, zapytanie);
-            }
-
-            return rekord;
+            return rekordy.SingleOrDefault();
         }
 
         public long Dodaj<T>(T nowyRekord) where T : Rekord
@@ -195,8 +163,7 @@ namespace Odpady.DostępDoDanych
 
             try
             {
-                using (FbTransaction transakcja = _połączenie.BeginTransaction(IsolationLevel.Serializable))
-                using (FbCommand komenda = new FbCommand(zapytanie, _połączenie, transakcja))
+                using (FbCommand komenda = new FbCommand(zapytanie, _połączenie))
                 {
                     FbParameter parametr = new FbParameter("ID", FbDbType.BigInt)
                     {
@@ -207,8 +174,6 @@ namespace Odpady.DostępDoDanych
 
                     object skalar = komenda.ExecuteScalar();
                     nowyRekord.ID = Convert.ToInt64(skalar);
-
-                    transakcja.Commit();
 
                     return 1;
                 }
@@ -258,15 +223,8 @@ namespace Odpady.DostępDoDanych
 
             try
             {
-                using (FbTransaction transakcja = _połączenie.BeginTransaction(IsolationLevel.Serializable))
-                using (FbCommand komenda = new FbCommand(zapytanie, _połączenie, transakcja))
-                {
-                    int wynik = komenda.ExecuteNonQuery();
-
-                    transakcja.Commit();
-
-                    return wynik;
-                }
+                using (FbCommand komenda = new FbCommand(zapytanie, _połączenie))
+                    return komenda.ExecuteNonQuery();
             }
             catch (FbException wyjątek)
             {
@@ -292,15 +250,8 @@ namespace Odpady.DostępDoDanych
 
             try
             {
-                using (FbTransaction transakcja = _połączenie.BeginTransaction(IsolationLevel.Serializable))
-                using (FbCommand komenda = new FbCommand(zapytanie, _połączenie, transakcja))
-                {
-                    int wynik = komenda.ExecuteNonQuery();
-
-                    transakcja.Commit();
-
-                    return wynik;
-                }
+                using (FbCommand komenda = new FbCommand(zapytanie, _połączenie))
+                    return komenda.ExecuteNonQuery();
             }
             catch (FbException wyjątek)
             {
@@ -368,8 +319,8 @@ namespace Odpady.DostępDoDanych
 
                                 break;
 
-                            case "float":
-                                typPola = "float";
+                            case "numeric":
+                                typPola = "decimal";
                                 wartościowy = true;
 
                                 break;
@@ -395,11 +346,10 @@ namespace Odpady.DostępDoDanych
 
                         budowniczyNapisu.AppendFormat("public {0} {1} {{get;set;}}", typPola, nazwaPola);
                     }
+
+                    budowniczyNapisu.AppendLine();
                 }
             }
-
-            budowniczyNapisu.AppendLine();
-            budowniczyNapisu.Append("}}");
 
             DirectoryInfo folderProjektuExe = Directory.GetParent(Environment.CurrentDirectory).Parent;
 
@@ -411,6 +361,7 @@ namespace Odpady.DostępDoDanych
                 {
                     string ścieżkaPliku = Path.Combine(folderSolucji.FullName, "Odpady.DostępDoDanych", "Encje", String.Concat(nazwaKlasy, ".cs"));
 
+                    budowniczyNapisu.Append("}}");
                     File.WriteAllText(ścieżkaPliku, budowniczyNapisu.ToString());
                 }
             }
@@ -438,8 +389,34 @@ namespace Odpady.DostępDoDanych
             File.AppendAllText(Path.ChangeExtension(ŚcieżkaPlikuBazy, "log.txt"), budowniczy.ToString());
         }
 
-        StringBuilder ZbudujSelect(Type typRekordu, out PropertyInfo[] właściwości)
+        List<T> PobierzRekordy<T>(string zapytanie, PropertyInfo[] właściwości) where T : Rekord
         {
+            List<T> rekordy = new List<T>();
+            int liczbaPól = właściwości.Length;
+
+            using (FbCommand komenda = new FbCommand(zapytanie, _połączenie))
+            using (FbDataReader czytacz = komenda.ExecuteReader())
+                while (czytacz.Read())
+                {
+                    T rekord = Activator.CreateInstance<T>();
+
+                    for (int i = 0; i < liczbaPól; i++)
+                    {
+                        object wartość = czytacz.GetValue(i);
+
+                        if (wartość != DBNull.Value)
+                            właściwości[i].SetValue(rekord, wartość, null);
+                    }
+
+                    rekordy.Add(rekord);
+                }
+
+            return rekordy;
+        }
+
+        static StringBuilder ZbudujSelect<T>(out PropertyInfo[] właściwości) where T : Rekord
+        {
+            Type typRekordu = typeof(T);
             StringBuilder budowniczyZapytania = new StringBuilder("SELECT ");
             właściwości = typRekordu.GetProperties().Where(w => w.GetSetMethod() != null).ToArray();
 
