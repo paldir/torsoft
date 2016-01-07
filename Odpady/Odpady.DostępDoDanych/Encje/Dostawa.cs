@@ -5,7 +5,7 @@ namespace Odpady.DostępDoDanych
     public class Dostawa : Rekord
     {
         public long? FK_KONTRAHENT { get; set; }
-        public DateTime DATA { get; set; }
+        public DateTime? DATA { get; set; }
         public long? FK_ODDZIAL { get; set; }
         public string NAZWA_NAZWISKO { get; set; }
         public string NAZWA_SKROCONA_IMIE { get; set; }
