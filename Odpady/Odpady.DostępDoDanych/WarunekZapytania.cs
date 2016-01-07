@@ -26,7 +26,7 @@ namespace Odpady.DostępDoDanych
             Wartość = wartość;
         }
 
-        public void GenerujWarunek(StringBuilder budowniczyZapytania)
+        internal void GenerujWarunek(StringBuilder budowniczyZapytania)
         {
             string format;
             object wartośćSql;

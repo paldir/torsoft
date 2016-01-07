@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using FirebirdSql.Data.FirebirdClient;
 using System.Data;
 using System.IO;
 using System.Reflection;
 using System.Configuration;
 using System.Collections.Specialized;
+using System.Data.Common;
 using System.Globalization;
 
 namespace Odpady.DostępDoDanych
@@ -21,7 +21,7 @@ namespace Odpady.DostępDoDanych
 
         public const int KodBłęduPz = 144000;
 
-        readonly FbConnection _połączenie;
+        readonly DbConnection _połączenie;
 
         public ConnectionState Stan
         {
@@ -30,13 +30,13 @@ namespace Odpady.DostępDoDanych
 
         public Połączenie()
         {
-            _połączenie = new FbConnection(Parametry);
+            _połączenie = new FirebirdSql.Data.FirebirdClient.FbConnection(Parametry);
 
             try
             {
                 _połączenie.Open();
             }
-            catch (FbException wyjątek)
+            catch (DbException wyjątek)
             {
                 ZapiszWyjątekDoLogu(wyjątek, "Otwarcie połączenia.");
             }
@@ -138,22 +138,27 @@ namespace Odpady.DostępDoDanych
 
             try
             {
-                using (FbCommand komenda = new FbCommand(zapytanie, _połączenie))
+                using (DbTransaction transakcja = _połączenie.BeginTransaction(IsolationLevel.Serializable))
+                using (DbCommand komenda = _połączenie.CreateCommand())
                 {
-                    FbParameter parametr = new FbParameter("ID", FbDbType.BigInt)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
+                    komenda.CommandText = zapytanie;
+                    komenda.Transaction = transakcja;
+                    DbParameter parametr = komenda.CreateParameter();
+                    parametr.DbType = DbType.Int64;
+                    parametr.ParameterName = "ID";
+                    parametr.Direction = ParameterDirection.Output;
 
                     komenda.Parameters.Add(parametr);
 
                     object skalar = komenda.ExecuteScalar();
                     nowyRekord.ID = Convert.ToInt64(skalar);
 
+                    transakcja.Commit();
+
                     return 1;
                 }
             }
-            catch (FbException wyjątek)
+            catch (DbException wyjątek)
             {
                 ZapiszWyjątekDoLogu(wyjątek, zapytanie);
 
@@ -198,10 +203,19 @@ namespace Odpady.DostępDoDanych
 
             try
             {
-                using (FbCommand komenda = new FbCommand(zapytanie, _połączenie))
-                    return komenda.ExecuteNonQuery();
+                using (DbTransaction transakcja = _połączenie.BeginTransaction(IsolationLevel.Serializable))
+                using (DbCommand komenda = _połączenie.CreateCommand())
+                {
+                    komenda.Transaction = transakcja;
+                    komenda.CommandText = zapytanie;
+                    int wynik = komenda.ExecuteNonQuery();
+
+                    transakcja.Commit();
+
+                    return wynik;
+                }
             }
-            catch (FbException wyjątek)
+            catch (DbException wyjątek)
             {
                 ZapiszWyjątekDoLogu(wyjątek, zapytanie);
 
@@ -225,10 +239,19 @@ namespace Odpady.DostępDoDanych
 
             try
             {
-                using (FbCommand komenda = new FbCommand(zapytanie, _połączenie))
-                    return komenda.ExecuteNonQuery();
+                using (DbTransaction transakcja = _połączenie.BeginTransaction(IsolationLevel.Serializable))
+                using (DbCommand komenda = _połączenie.CreateCommand())
+                {
+                    komenda.Transaction = transakcja;
+                    komenda.CommandText = zapytanie;
+                    int wynik = komenda.ExecuteNonQuery();
+
+                    transakcja.Commit();
+
+                    return wynik;
+                }
             }
-            catch (FbException wyjątek)
+            catch (DbException wyjątek)
             {
                 ZapiszWyjątekDoLogu(wyjątek, zapytanie);
 
@@ -369,7 +392,7 @@ namespace Odpady.DostępDoDanych
 
                 return rekordy;
             }
-            catch (FbException wyjątek)
+            catch (DbException wyjątek)
             {
                 ZapiszWyjątekDoLogu(wyjątek, zapytanie);
 
@@ -382,27 +405,31 @@ namespace Odpady.DostępDoDanych
             List<T> rekordy = new List<T>();
             int liczbaPól = właściwości.Length;
 
-            using (FbCommand komenda = new FbCommand(zapytanie, _połączenie))
-            using (FbDataReader czytacz = komenda.ExecuteReader())
-                while (czytacz.Read())
-                {
-                    T rekord = Activator.CreateInstance<T>();
+            using (DbCommand komenda = _połączenie.CreateCommand())
+            {
+                komenda.CommandText = zapytanie;
 
-                    for (int i = 0; i < liczbaPól; i++)
+                using (DbDataReader czytacz = komenda.ExecuteReader())
+                    while (czytacz.Read())
                     {
-                        object wartość = czytacz.GetValue(i);
+                        T rekord = Activator.CreateInstance<T>();
 
-                        if (wartość != DBNull.Value)
-                            właściwości[i].SetValue(rekord, wartość, null);
+                        for (int i = 0; i < liczbaPól; i++)
+                        {
+                            object wartość = czytacz.GetValue(i);
+
+                            if (wartość != DBNull.Value)
+                                właściwości[i].SetValue(rekord, wartość, null);
+                        }
+
+                        rekordy.Add(rekord);
                     }
-
-                    rekordy.Add(rekord);
-                }
+            }
 
             return rekordy;
         }
 
-        void ZapiszWyjątekDoLogu(FbException wyjątekFb, string zapytanie)
+        void ZapiszWyjątekDoLogu(DbException wyjątekFb, string zapytanie)
         {
             StringBuilder budowniczy = new StringBuilder();
             Exception wyjątek = wyjątekFb;

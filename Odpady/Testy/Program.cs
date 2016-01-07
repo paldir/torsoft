@@ -11,15 +11,7 @@ namespace Testy
     {
         static void Main()
         {
-            using (Połączenie połączenie = new Połączenie())
-            {
-                List<WarunekZapytania> warunki = new List<WarunekZapytania>()
-                {
-                    new WarunekZapytania("opis", ZnakPorównania.Zawiera, String.Empty)
-                };
-
-                var tmp = połączenie.PobierzWszystkie<RodzajOdpadów>(warunki);
-            }
+            // remove remove
         }
     }
 }
