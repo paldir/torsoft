@@ -79,44 +79,19 @@ namespace Odpady.DostępDoDanych
             TypRekorduNaNazwęTabeli.Add(typeof (SzczegółDostawy), "SZCZEGOLY_DOSTAW");
         }
 
-        public List<T> PobierzWszystkie<T>(List<WarunekZapytania> warunki = null) where T : Rekord
+        public List<T> PobierzWszystkie<T>() where T : Rekord
         {
-            PropertyInfo[] właściwości;
-            StringBuilder budowniczyZapytania = ZbudujSelect<T>(out właściwości);
+            return PobierzWszystkieRekordy<T>(null);
+        }
 
-            if (warunki != null && warunki.Any())
-            {
-                int liczbaWarunków = warunki.Count;
-
-                budowniczyZapytania.Append(" WHERE ");
-                warunki[0].GenerujWarunek(budowniczyZapytania);
-
-                for (int i = 1; i < liczbaWarunków; i++)
-                {
-                    budowniczyZapytania.Append(" and ");
-                    warunki[i].GenerujWarunek(budowniczyZapytania);
-                }
-            }
-
-            string zapytanie = budowniczyZapytania.ToString();
-
-            try
-            {
-                List<T> rekordy = PobierzRekordy<T>(zapytanie, właściwości);
-
-                return rekordy;
-            }
-            catch (FbException wyjątek)
-            {
-                ZapiszWyjątekDoLogu(wyjątek, zapytanie);
-
-                return null;
-            }
+        public List<T> PobierzWszystkie<T>(List<WarunekZapytania> warunki) where T : Rekord
+        {
+            return PobierzWszystkieRekordy<T>(warunki);
         }
 
         public T Pobierz<T>(long id) where T : Rekord
         {
-            List<T> rekordy = PobierzWszystkie<T>(new List<WarunekZapytania>() {new WarunekZapytania("ID", ZnakPorównania.RównaSię, id)});
+            List<T> rekordy = PobierzWszystkieRekordy<T>(new List<WarunekZapytania>() {new WarunekZapytania("ID", ZnakPorównania.RównaSię, id)});
 
             return rekordy.SingleOrDefault();
         }
@@ -367,29 +342,42 @@ namespace Odpady.DostępDoDanych
             }
         }
 
-        void ZapiszWyjątekDoLogu(FbException wyjątekFb, string zapytanie)
+        List<T> PobierzWszystkieRekordy<T>(List<WarunekZapytania> warunki) where T : Rekord
         {
-            StringBuilder budowniczy = new StringBuilder();
-            Exception wyjątek = wyjątekFb;
+            PropertyInfo[] właściwości;
+            StringBuilder budowniczyZapytania = ZbudujSelect<T>(out właściwości);
 
-            budowniczy.AppendFormat("{0} {1} ", DateTime.Now, zapytanie);
-            budowniczy.AppendLine();
-
-            while (wyjątek != null)
+            if (warunki != null && warunki.Any())
             {
-                budowniczy.AppendLine(wyjątek.Message);
+                int liczbaWarunków = warunki.Count;
 
-                wyjątek = wyjątek.InnerException;
+                budowniczyZapytania.Append(" WHERE ");
+                warunki[0].GenerujWarunek(budowniczyZapytania);
+
+                for (int i = 1; i < liczbaWarunków; i++)
+                {
+                    budowniczyZapytania.Append(" AND ");
+                    warunki[i].GenerujWarunek(budowniczyZapytania);
+                }
             }
 
-            budowniczy.AppendLine();
-            budowniczy.AppendLine();
-            budowniczy.AppendLine();
+            string zapytanie = budowniczyZapytania.ToString();
 
-            File.AppendAllText(Path.ChangeExtension(ŚcieżkaPlikuBazy, "log.txt"), budowniczy.ToString());
+            try
+            {
+                List<T> rekordy = WykonajZapytanie<T>(zapytanie, właściwości);
+
+                return rekordy;
+            }
+            catch (FbException wyjątek)
+            {
+                ZapiszWyjątekDoLogu(wyjątek, zapytanie);
+
+                return null;
+            }
         }
 
-        List<T> PobierzRekordy<T>(string zapytanie, PropertyInfo[] właściwości) where T : Rekord
+        List<T> WykonajZapytanie<T>(string zapytanie, PropertyInfo[] właściwości) where T : Rekord
         {
             List<T> rekordy = new List<T>();
             int liczbaPól = właściwości.Length;
@@ -412,6 +400,28 @@ namespace Odpady.DostępDoDanych
                 }
 
             return rekordy;
+        }
+
+        void ZapiszWyjątekDoLogu(FbException wyjątekFb, string zapytanie)
+        {
+            StringBuilder budowniczy = new StringBuilder();
+            Exception wyjątek = wyjątekFb;
+
+            budowniczy.AppendFormat("{0} {1} ", DateTime.Now, zapytanie);
+            budowniczy.AppendLine();
+
+            while (wyjątek != null)
+            {
+                budowniczy.AppendLine(wyjątek.Message);
+
+                wyjątek = wyjątek.InnerException;
+            }
+
+            budowniczy.AppendLine();
+            budowniczy.AppendLine();
+            budowniczy.AppendLine();
+
+            File.AppendAllText(Path.ChangeExtension(ŚcieżkaPlikuBazy, "log.txt"), budowniczy.ToString());
         }
 
         static StringBuilder ZbudujSelect<T>(out PropertyInfo[] właściwości) where T : Rekord

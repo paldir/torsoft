@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Odpady.DostępDoDanych;
 using Odpady.Wydruki;
 
@@ -12,13 +13,12 @@ namespace Testy
         {
             using (Połączenie połączenie = new Połączenie())
             {
-                List<WarunekZapytania> warunki = new List<WarunekZapytania>
+                List<WarunekZapytania> warunki = new List<WarunekZapytania>()
                 {
-                    new WarunekZapytania("opis", ZnakPorównania.Zawiera, "rud"),
-                    new WarunekZapytania("id", ZnakPorównania.RównaSię, 1)
+                    new WarunekZapytania("opis", ZnakPorównania.Zawiera, String.Empty)
                 };
 
-                var tmp = połączenie.Pobierz<RodzajOdpadów>(1);
+                var tmp = połączenie.PobierzWszystkie<RodzajOdpadów>(warunki);
             }
         }
     }

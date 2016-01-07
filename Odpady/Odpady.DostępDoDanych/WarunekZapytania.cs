@@ -11,35 +11,11 @@ namespace Odpady.DostępDoDanych
 
     public class WarunekZapytania
     {
-        object _wartość;
-
-        public object Wartość
-        {
-            get { return _wartość; }
-
-            set
-            {
-                if (value is string)
-                {
-                    string napisWartości = value.ToString();
-
-                    if (!napisWartości.StartsWith("'"))
-                        napisWartości = String.Concat("'", napisWartości);
-
-                    if (!napisWartości.EndsWith("'"))
-                        napisWartości = String.Concat(napisWartości, "'");
-
-                    _wartość = napisWartości;
-                }
-                else
-                    _wartość = value;
-            }
-        }
-
         public string NazwaPola { get; set; }
         public ZnakPorównania Znak { get; set; }
+        public object Wartość { get; set; }
 
-        public WarunekZapytania()
+        public WarunekZapytania(string nazwaPola, object wartość) : this(nazwaPola, ZnakPorównania.RównaSię, wartość)
         {
         }
 
@@ -53,6 +29,7 @@ namespace Odpady.DostępDoDanych
         public void GenerujWarunek(StringBuilder budowniczyZapytania)
         {
             string format;
+            object wartośćSql;
 
             switch (Znak)
             {
@@ -62,7 +39,7 @@ namespace Odpady.DostępDoDanych
                     break;
 
                 case ZnakPorównania.Zawiera:
-                    format = "{0} CONTAINING {1}";
+                    format = "{0} CONTAINING LOWER({1})";
 
                     break;
 
@@ -72,7 +49,24 @@ namespace Odpady.DostępDoDanych
                     break;
             }
 
-            budowniczyZapytania.AppendFormat(format, NazwaPola, Wartość);
+            if (Wartość == null)
+                wartośćSql = "null";
+            else if (Wartość is string)
+            {
+                string napisWartości = Wartość.ToString();
+
+                if (!napisWartości.StartsWith("'"))
+                    napisWartości = String.Concat("'", napisWartości);
+
+                if (!napisWartości.EndsWith("'") || napisWartości.Length == 1)
+                    napisWartości = String.Concat(napisWartości, "'");
+
+                wartośćSql = napisWartości;
+            }
+            else
+                wartośćSql = Wartość;
+
+            budowniczyZapytania.AppendFormat(format, NazwaPola, wartośćSql);
         }
     }
 }
