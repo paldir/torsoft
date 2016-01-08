@@ -39,7 +39,7 @@ namespace Odpady.DostępDoDanych
                     break;
 
                 case ZnakPorównania.Zawiera:
-                    format = "{0} CONTAINING LOWER({1})";
+                    format = "{0} CONTAINING {1}";
 
                     break;
 

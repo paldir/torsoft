@@ -7,8 +7,8 @@ using System.IO;
 using System.Reflection;
 using System.Configuration;
 using System.Collections.Specialized;
-using System.Data.Common;
 using System.Globalization;
+using FirebirdSql.Data.FirebirdClient;
 
 namespace Odpady.DostępDoDanych
 {
@@ -16,12 +16,11 @@ namespace Odpady.DostępDoDanych
     {
         static readonly Dictionary<Type, string> TypRekorduNaNazwęTabeli;
         static readonly string Parametry;
-        static readonly string ŚcieżkaPlikuBazy;
         static readonly CultureInfo Kultura;
 
         public const int KodBłęduPz = 144000;
 
-        readonly DbConnection _połączenie;
+        readonly FbConnection _połączenie;
 
         public ConnectionState Stan
         {
@@ -30,13 +29,13 @@ namespace Odpady.DostępDoDanych
 
         public Połączenie()
         {
-            _połączenie = new FirebirdSql.Data.FirebirdClient.FbConnection(Parametry);
+            _połączenie = new FbConnection(Parametry);
 
             try
             {
                 _połączenie.Open();
             }
-            catch (DbException wyjątek)
+            catch (FbException wyjątek)
             {
                 ZapiszWyjątekDoLogu(wyjątek, "Otwarcie połączenia.");
             }
@@ -45,12 +44,11 @@ namespace Odpady.DostępDoDanych
         static Połączenie()
         {
             NameValueCollection ustawienia = ConfigurationManager.AppSettings;
-            ŚcieżkaPlikuBazy = ustawienia["Database"];
             TypRekorduNaNazwęTabeli = new Dictionary<Type, string>();
 
             Parametry = "User=SYSDBA;" +
                         "Password=masterkey;" +
-                        "Database=" + ŚcieżkaPlikuBazy + ";" +
+                        "Database=" + ustawienia["Database"] + ";" +
                         "DataSource=" + ustawienia["DataSource"] + ";" +
                         "Port=3050;" +
                         "Dialect=3;" +
@@ -101,52 +99,58 @@ namespace Odpady.DostępDoDanych
             Type typRekordu = typeof (T);
             PropertyInfo[] właściwości = typRekordu.GetProperties().Where(w => w.Name != "ID" && w.GetSetMethod() != null).ToArray();
             StringBuilder budowniczyZapytania = new StringBuilder("INSERT INTO ");
+            int liczbaWłaściwości = właściwości.Length;
+            int pozycjaOstatniejWłaściwości = liczbaWłaściwości - 1;
 
             budowniczyZapytania.AppendFormat("{0} (", TypRekorduNaNazwęTabeli[typRekordu]);
 
-            foreach (PropertyInfo właściwość in właściwości)
-                budowniczyZapytania.AppendFormat("{0}, ", właściwość.Name);
+            if (właściwości.Any())
+            {
+                budowniczyZapytania.Append(właściwości[0].Name);
 
-            budowniczyZapytania.Remove(budowniczyZapytania.Length - 2, 1);
+                for (int i = 1; i < liczbaWłaściwości; i++)
+                    budowniczyZapytania.AppendFormat(", {0}", właściwości[i].Name);
+            }
+
             budowniczyZapytania.Append(") VALUES (");
 
-            foreach (PropertyInfo właściwość in właściwości)
+            for (int i = 0; i < liczbaWłaściwości; i++)
             {
-                object wartość = właściwość.GetValue(nowyRekord, null);
+                object wartość = właściwości[i].GetValue(nowyRekord, null);
                 string format;
 
                 if (wartość == null)
                 {
-                    format = "{0}, ";
+                    format = "{0}";
                     wartość = "null";
                 }
                 else
                 {
-                    format = "'{0}', ";
+                    format = "'{0}'";
 
                     if (wartość is DateTime)
                         wartość = Convert.ToDateTime(wartość).ToShortDateString();
                 }
 
+                if (i != pozycjaOstatniejWłaściwości)
+                    format = String.Concat(format, ", ");
+
                 budowniczyZapytania.AppendFormat(Kultura, format, wartość);
             }
 
-            budowniczyZapytania.Remove(budowniczyZapytania.Length - 2, 1);
             budowniczyZapytania.Append(") RETURNING ID;");
 
             string zapytanie = budowniczyZapytania.ToString();
 
             try
             {
-                using (DbTransaction transakcja = _połączenie.BeginTransaction(IsolationLevel.Serializable))
-                using (DbCommand komenda = _połączenie.CreateCommand())
+                using (FbTransaction transakcja = _połączenie.BeginTransaction(IsolationLevel.Serializable))
+                using (FbCommand komenda = new FbCommand(zapytanie, _połączenie, transakcja))
                 {
-                    komenda.CommandText = zapytanie;
-                    komenda.Transaction = transakcja;
-                    DbParameter parametr = komenda.CreateParameter();
-                    parametr.DbType = DbType.Int64;
-                    parametr.ParameterName = "ID";
-                    parametr.Direction = ParameterDirection.Output;
+                    FbParameter parametr = new FbParameter("ID", FbDbType.BigInt)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
 
                     komenda.Parameters.Add(parametr);
 
@@ -158,7 +162,7 @@ namespace Odpady.DostępDoDanych
                     return 1;
                 }
             }
-            catch (DbException wyjątek)
+            catch (FbException wyjątek)
             {
                 ZapiszWyjątekDoLogu(wyjątek, zapytanie);
 
@@ -169,45 +173,48 @@ namespace Odpady.DostępDoDanych
         public int Aktualizuj<T>(long id, T nowaWersja) where T : Rekord
         {
             Type typRekordu = typeof (T);
-            IEnumerable<PropertyInfo> właściwości = typRekordu.GetProperties().Where(w => w.Name != "ID" && w.GetSetMethod() != null);
+            PropertyInfo[] właściwości = typRekordu.GetProperties().Where(w => w.Name != "ID" && w.GetSetMethod() != null).ToArray();
             StringBuilder budowniczyZapytania = new StringBuilder("UPDATE ");
+            int liczbaWłaściwości = właściwości.Length;
+            int pozycjaOstatniejWłaściwości = liczbaWłaściwości - 1;
 
             budowniczyZapytania.AppendFormat("{0} SET ", TypRekorduNaNazwęTabeli[typRekordu]);
 
-            foreach (PropertyInfo właściwość in właściwości)
+            for (int i = 0; i < liczbaWłaściwości; i++)
             {
+                PropertyInfo właściwość = właściwości[i];
                 object wartość = właściwość.GetValue(nowaWersja, null);
 
                 string format;
 
                 if (wartość == null)
                 {
-                    format = "{0}={1}, ";
+                    format = "{0}={1}";
                     wartość = "null";
                 }
                 else
                 {
-                    format = "{0}='{1}', ";
+                    format = "{0}='{1}'";
 
                     if (wartość is DateTime)
                         wartość = Convert.ToDateTime(wartość).ToShortDateString();
                 }
 
+                if (i != pozycjaOstatniejWłaściwości)
+                    format = String.Concat(format, ", ");
+
                 budowniczyZapytania.AppendFormat(Kultura, format, właściwość.Name, wartość);
             }
 
-            budowniczyZapytania.Remove(budowniczyZapytania.Length - 2, 1);
-            budowniczyZapytania.AppendFormat("WHERE ID={0};", id);
+            budowniczyZapytania.AppendFormat(" WHERE ID={0};", id);
 
             string zapytanie = budowniczyZapytania.ToString();
 
             try
             {
-                using (DbTransaction transakcja = _połączenie.BeginTransaction(IsolationLevel.Serializable))
-                using (DbCommand komenda = _połączenie.CreateCommand())
+                using (FbTransaction transakcja = _połączenie.BeginTransaction(IsolationLevel.Serializable))
+                using (FbCommand komenda = new FbCommand(zapytanie, _połączenie, transakcja))
                 {
-                    komenda.Transaction = transakcja;
-                    komenda.CommandText = zapytanie;
                     int wynik = komenda.ExecuteNonQuery();
 
                     transakcja.Commit();
@@ -215,7 +222,7 @@ namespace Odpady.DostępDoDanych
                     return wynik;
                 }
             }
-            catch (DbException wyjątek)
+            catch (FbException wyjątek)
             {
                 ZapiszWyjątekDoLogu(wyjątek, zapytanie);
 
@@ -239,11 +246,9 @@ namespace Odpady.DostępDoDanych
 
             try
             {
-                using (DbTransaction transakcja = _połączenie.BeginTransaction(IsolationLevel.Serializable))
-                using (DbCommand komenda = _połączenie.CreateCommand())
+                using (FbTransaction transakcja = _połączenie.BeginTransaction(IsolationLevel.Serializable))
+                using (FbCommand komenda = new FbCommand(zapytanie, _połączenie, transakcja))
                 {
-                    komenda.Transaction = transakcja;
-                    komenda.CommandText = zapytanie;
                     int wynik = komenda.ExecuteNonQuery();
 
                     transakcja.Commit();
@@ -251,7 +256,7 @@ namespace Odpady.DostępDoDanych
                     return wynik;
                 }
             }
-            catch (DbException wyjątek)
+            catch (FbException wyjątek)
             {
                 ZapiszWyjątekDoLogu(wyjątek, zapytanie);
 
@@ -392,7 +397,7 @@ namespace Odpady.DostępDoDanych
 
                 return rekordy;
             }
-            catch (DbException wyjątek)
+            catch (FbException wyjątek)
             {
                 ZapiszWyjątekDoLogu(wyjątek, zapytanie);
 
@@ -405,31 +410,27 @@ namespace Odpady.DostępDoDanych
             List<T> rekordy = new List<T>();
             int liczbaPól = właściwości.Length;
 
-            using (DbCommand komenda = _połączenie.CreateCommand())
-            {
-                komenda.CommandText = zapytanie;
+            using (FbCommand komenda = new FbCommand(zapytanie, _połączenie))
+            using (FbDataReader czytacz = komenda.ExecuteReader())
+                while (czytacz.Read())
+                {
+                    T rekord = Activator.CreateInstance<T>();
 
-                using (DbDataReader czytacz = komenda.ExecuteReader())
-                    while (czytacz.Read())
+                    for (int i = 0; i < liczbaPól; i++)
                     {
-                        T rekord = Activator.CreateInstance<T>();
+                        object wartość = czytacz.GetValue(i);
 
-                        for (int i = 0; i < liczbaPól; i++)
-                        {
-                            object wartość = czytacz.GetValue(i);
-
-                            if (wartość != DBNull.Value)
-                                właściwości[i].SetValue(rekord, wartość, null);
-                        }
-
-                        rekordy.Add(rekord);
+                        if (wartość != DBNull.Value)
+                            właściwości[i].SetValue(rekord, wartość, null);
                     }
-            }
+
+                    rekordy.Add(rekord);
+                }
 
             return rekordy;
         }
 
-        void ZapiszWyjątekDoLogu(DbException wyjątekFb, string zapytanie)
+        void ZapiszWyjątekDoLogu(FbException wyjątekFb, string zapytanie)
         {
             StringBuilder budowniczy = new StringBuilder();
             Exception wyjątek = wyjątekFb;
@@ -448,20 +449,25 @@ namespace Odpady.DostępDoDanych
             budowniczy.AppendLine();
             budowniczy.AppendLine();
 
-            File.AppendAllText(Path.ChangeExtension(ŚcieżkaPlikuBazy, "log.txt"), budowniczy.ToString());
+            File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "firebird.log.txt"), budowniczy.ToString());
         }
 
         static StringBuilder ZbudujSelect<T>(out PropertyInfo[] właściwości) where T : Rekord
         {
-            Type typRekordu = typeof(T);
+            Type typRekordu = typeof (T);
             StringBuilder budowniczyZapytania = new StringBuilder("SELECT ");
             właściwości = typRekordu.GetProperties().Where(w => w.GetSetMethod() != null).ToArray();
+            int liczbaWłaściwości = właściwości.Length;
 
-            foreach (PropertyInfo właściwość in właściwości)
-                budowniczyZapytania.AppendFormat("{0}, ", właściwość.Name);
+            if (właściwości.Any())
+            {
+                budowniczyZapytania.Append(właściwości[0].Name);
 
-            budowniczyZapytania.Remove(budowniczyZapytania.Length - 2, 1);
-            budowniczyZapytania.AppendFormat("FROM {0}", TypRekorduNaNazwęTabeli[typRekordu]);
+                for (int i = 1; i < liczbaWłaściwości; i++)
+                    budowniczyZapytania.AppendFormat(", {0}", właściwości[i].Name);
+            }
+
+            budowniczyZapytania.AppendFormat(" FROM {0}", TypRekorduNaNazwęTabeli[typRekordu]);
 
             return budowniczyZapytania;
         }

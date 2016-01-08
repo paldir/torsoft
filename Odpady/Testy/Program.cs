@@ -11,7 +11,10 @@ namespace Testy
     {
         static void Main()
         {
-            // remove remove
+            using (Połączenie połączenie = new Połączenie())
+            {
+                RodzajOdpadów r = połączenie.Pobierz<RodzajOdpadów>(1);
+            }
         }
     }
 }
