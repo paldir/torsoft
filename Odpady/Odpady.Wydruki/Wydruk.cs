@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+
 using Pechkin;
 using Pechkin.Synchronized;
 using System.IO;
@@ -9,7 +10,11 @@ using System.Diagnostics;
 
 namespace Odpady.Wydruki
 {
-    public enum DostawcaOdpadów { OsobaFizyczna, Firma }
+    public enum DostawcaOdpadów
+    {
+        OsobaFizyczna,
+        Firma
+    }
 
     /*
             List<InformacjeOOdpadzie> odpady = new List<InformacjeOOdpadzie>();
@@ -29,7 +34,17 @@ namespace Odpady.Wydruki
 
     public static class Wydruk
     {
-        public static byte[] PrzyjęcieOdpadów(DostawcaOdpadów dostawca, string nazwaDostarczającego, string numerIdentyfikujący, string miasto, string ulica, IEnumerable<InformacjeOOdpadzie> odpady, string daneDoFaktury)
+        public static byte[] PrzyjęcieOdpadów
+            (
+            DostawcaOdpadów dostawca,
+            string nazwaDostarczającego,
+            string numerIdentyfikujący,
+            string miasto,
+            string ulica,
+            IEnumerable<InformacjeOOdpadzie> odpady,
+            string daneDoFaktury,
+            bool ponadLimit
+            )
         {
             GlobalConfig konfiguracjaGlobalna = new GlobalConfig();
 
@@ -45,6 +60,7 @@ namespace Odpady.Wydruki
             dokument = dokument.Replace("{ulica}", String.Format(format, ulica));
             dokument = dokument.Replace("{daneDoFaktury}", daneDoFaktury.Replace(Environment.NewLine, "<br />"));
             StringBuilder budowniczyTabeli = new StringBuilder();
+            string zamiennikPonadLimit;
 
             switch (dostawca)
             {
@@ -66,6 +82,12 @@ namespace Odpady.Wydruki
 
             dokument = dokument.Replace("{tabela}", budowniczyTabeli.ToString());
 
+            if (ponadLimit)
+                zamiennikPonadLimit = "ponad limit";
+            else
+                zamiennikPonadLimit = String.Empty;
+
+            dokument = dokument.Replace("{ponadLimit}", zamiennikPonadLimit);
             byte[] bajty = pechkin.Convert(dokument);
 
             return bajty;

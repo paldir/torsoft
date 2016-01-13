@@ -18,14 +18,14 @@ namespace dbfToXml
         static XmlDocument _dokumentXml;
 
         /*const string FormatDaty = "{0:yyyy-MM-dd}";
-        const string FormatDatyAmerykański = "{0:yyyy-dd-MM}";
-        const string FormatDatyOdwrotny = "{0:dd-MM-yyyy}";*/
-        const string FormatDatyAmerykańskiOdwrotny = "{0:MM-dd-yyyy}";
+        const string FormatDatyAmerykański = "{0:yyyy-dd-MM}";*/
+        const string FormatDatyOdwrotny = "{0:dd-MM-yyyy}";
+        //const string FormatDatyAmerykańskiOdwrotny = "{0:MM-dd-yyyy}";
 
         static void Main(string[] args)
         {
             CultureInfo infoOKulturze = Thread.CurrentThread.CurrentCulture.Clone() as CultureInfo;
-            string format = FormatDatyAmerykańskiOdwrotny;
+            string format = FormatDatyOdwrotny;
 
             if (infoOKulturze != null)
             {

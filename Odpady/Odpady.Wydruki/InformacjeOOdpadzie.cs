@@ -1,4 +1,9 @@
-﻿namespace Odpady.Wydruki
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Odpady.Wydruki
 {
     public class InformacjeOOdpadzie
     {
