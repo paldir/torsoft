@@ -8,19 +8,19 @@ using System.Reflection;
 using System.Configuration;
 using System.Collections.Specialized;
 using System.Globalization;
+using System.Threading;
 using FirebirdSql.Data.FirebirdClient;
 
 namespace Odpady.DostępDoDanych
 {
     public class Połączenie : IDisposable
     {
-        static readonly Dictionary<Type, string> TypRekorduNaNazwęTabeli;
-        static readonly string Parametry;
-        static readonly CultureInfo Kultura;
+        private static readonly Dictionary<Type, string> TypRekorduNaNazwęTabeli;
+        private static readonly string Parametry;
 
         public const int KodBłęduPz = 144000;
 
-        readonly FbConnection _połączenie;
+        private readonly FbConnection _połączenie;
 
         public ConnectionState Stan
         {
@@ -61,10 +61,16 @@ namespace Odpady.DostępDoDanych
                         "Packet Size=8192;" +
                         "ServerType=0";
 
-            Kultura = CultureInfo.CurrentCulture.Clone() as CultureInfo;
+            CultureInfo kultura = CultureInfo.CurrentCulture.Clone() as CultureInfo;
 
-            if (Kultura != null)
-                Kultura.NumberFormat.NumberDecimalSeparator = ".";
+            if (kultura != null)
+            {
+                kultura.NumberFormat.NumberDecimalSeparator = ".";
+                DateTimeFormatInfo formatDaty = kultura.DateTimeFormat;
+                formatDaty.ShortDatePattern = "yyyy-MM-dd";
+                formatDaty.ShortTimePattern = "HH:mm:ss";
+                Thread.CurrentThread.CurrentCulture = kultura;
+            }
 
             TypRekorduNaNazwęTabeli.Add(typeof (Kontrahent), "KONTRAHENCI");
             TypRekorduNaNazwęTabeli.Add(typeof (Oddział), "ODDZIALY");
@@ -97,7 +103,7 @@ namespace Odpady.DostępDoDanych
         public long Dodaj<T>(T nowyRekord) where T : Rekord
         {
             Type typRekordu = typeof (T);
-            PropertyInfo[] właściwości = typRekordu.GetProperties().Where(w => w.Name != "ID" && w.GetSetMethod() != null).ToArray();
+            PropertyInfo[] właściwości = typRekordu.GetProperties().Where(w => (w.Name != "ID") && (w.GetSetMethod() != null)).ToArray();
             StringBuilder budowniczyZapytania = new StringBuilder("INSERT INTO ");
             int liczbaWłaściwości = właściwości.Length;
             int pozycjaOstatniejWłaściwości = liczbaWłaściwości - 1;
@@ -133,9 +139,9 @@ namespace Odpady.DostępDoDanych
                 }
 
                 if (i != pozycjaOstatniejWłaściwości)
-                    format = String.Concat(format, ", ");
+                    format = string.Concat(format, ", ");
 
-                budowniczyZapytania.AppendFormat(Kultura, format, wartość);
+                budowniczyZapytania.AppendFormat(format, wartość);
             }
 
             budowniczyZapytania.Append(") RETURNING ID;");
@@ -173,7 +179,7 @@ namespace Odpady.DostępDoDanych
         public int Aktualizuj<T>(long id, T nowaWersja) where T : Rekord
         {
             Type typRekordu = typeof (T);
-            PropertyInfo[] właściwości = typRekordu.GetProperties().Where(w => w.Name != "ID" && w.GetSetMethod() != null).ToArray();
+            PropertyInfo[] właściwości = typRekordu.GetProperties().Where(w => (w.Name != "ID") && (w.GetSetMethod() != null)).ToArray();
             StringBuilder budowniczyZapytania = new StringBuilder("UPDATE ");
             int liczbaWłaściwości = właściwości.Length;
             int pozycjaOstatniejWłaściwości = liczbaWłaściwości - 1;
@@ -201,9 +207,9 @@ namespace Odpady.DostępDoDanych
                 }
 
                 if (i != pozycjaOstatniejWłaściwości)
-                    format = String.Concat(format, ", ");
+                    format = string.Concat(format, ", ");
 
-                budowniczyZapytania.AppendFormat(Kultura, format, właściwość.Name, wartość);
+                budowniczyZapytania.AppendFormat(format, właściwość.Name, wartość);
             }
 
             budowniczyZapytania.AppendFormat(" WHERE ID={0};", id);
@@ -242,7 +248,7 @@ namespace Odpady.DostępDoDanych
 
         public int Usuń<T>(long id) where T : Rekord
         {
-            string zapytanie = String.Format("DELETE FROM {0} WHERE ID={1}", TypRekorduNaNazwęTabeli[typeof (T)], id);
+            string zapytanie = string.Format("DELETE FROM {0} WHERE ID={1}", TypRekorduNaNazwęTabeli[typeof (T)], id);
 
             try
             {
@@ -291,7 +297,7 @@ namespace Odpady.DostępDoDanych
                 {
                     string nazwaPola = wiersz["COLUMN_NAME"].ToString();
 
-                    if (!String.Equals(nazwaPola, "ID"))
+                    if (!string.Equals(nazwaPola, "ID"))
                     {
                         string typPola = wiersz["COLUMN_DATA_TYPE"].ToString();
                         bool wartościowy;
@@ -345,7 +351,7 @@ namespace Odpady.DostępDoDanych
                         }
 
                         if (wartościowy)
-                            typPola = String.Format("{0}?", typPola);
+                            typPola = string.Format("{0}?", typPola);
 
                         budowniczyNapisu.AppendFormat("public {0} {1} {{get;set;}}", typPola, nazwaPola);
                     }
@@ -362,7 +368,7 @@ namespace Odpady.DostępDoDanych
 
                 if (folderSolucji != null)
                 {
-                    string ścieżkaPliku = Path.Combine(folderSolucji.FullName, "Odpady.DostępDoDanych", "Encje", String.Concat(nazwaKlasy, ".cs"));
+                    string ścieżkaPliku = Path.Combine(folderSolucji.FullName, "Odpady.DostępDoDanych", "Encje", string.Concat(nazwaKlasy, ".cs"));
 
                     budowniczyNapisu.Append("}}");
                     File.WriteAllText(ścieżkaPliku, budowniczyNapisu.ToString());
@@ -370,12 +376,12 @@ namespace Odpady.DostępDoDanych
             }
         }
 
-        List<T> PobierzWszystkieRekordy<T>(List<WarunekZapytania> warunki) where T : Rekord
+        private List<T> PobierzWszystkieRekordy<T>(List<WarunekZapytania> warunki) where T : Rekord
         {
             PropertyInfo[] właściwości;
             StringBuilder budowniczyZapytania = ZbudujSelect<T>(out właściwości);
 
-            if (warunki != null && warunki.Any())
+            if ((warunki != null) && warunki.Any())
             {
                 int liczbaWarunków = warunki.Count;
 
@@ -405,7 +411,7 @@ namespace Odpady.DostępDoDanych
             }
         }
 
-        List<T> WykonajZapytanie<T>(string zapytanie, PropertyInfo[] właściwości) where T : Rekord
+        private List<T> WykonajZapytanie<T>(string zapytanie, PropertyInfo[] właściwości) where T : Rekord
         {
             List<T> rekordy = new List<T>();
             int liczbaPól = właściwości.Length;
@@ -430,7 +436,7 @@ namespace Odpady.DostępDoDanych
             return rekordy;
         }
 
-        void ZapiszWyjątekDoLogu(FbException wyjątekFb, string zapytanie)
+        private void ZapiszWyjątekDoLogu(FbException wyjątekFb, string zapytanie)
         {
             StringBuilder budowniczy = new StringBuilder();
             Exception wyjątek = wyjątekFb;
@@ -452,7 +458,7 @@ namespace Odpady.DostępDoDanych
             File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "firebird.log.txt"), budowniczy.ToString());
         }
 
-        static StringBuilder ZbudujSelect<T>(out PropertyInfo[] właściwości) where T : Rekord
+        private static StringBuilder ZbudujSelect<T>(out PropertyInfo[] właściwości) where T : Rekord
         {
             Type typRekordu = typeof (T);
             StringBuilder budowniczyZapytania = new StringBuilder("SELECT ");

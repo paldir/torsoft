@@ -48,7 +48,7 @@ namespace Odpady.DostępDoDanych
             using (Połączenie połączenie = new Połączenie())
             {
                 List<Użytkownik> użytkownicy = połączenie.PobierzWszystkie<Użytkownik>();
-                użytkownik = użytkownicy.SingleOrDefault(u => String.Equals(u.UZYTKOWNIK, nazwaUżytkownika));
+                użytkownik = użytkownicy.SingleOrDefault(u => string.Equals(u.UZYTKOWNIK, nazwaUżytkownika));
             }
 
             if (użytkownik == null)
@@ -58,12 +58,9 @@ namespace Odpady.DostępDoDanych
                 StringBuilder odkodowaneHasło = new StringBuilder();
 
                 foreach (char znak in użytkownik.HASLO)
-                    odkodowaneHasło.Append(Convert.ToChar((Convert.ToByte(znak) - 10)));
+                    odkodowaneHasło.Append(Convert.ToChar(Convert.ToByte(znak) - 10));
 
-                if (String.Equals(odkodowaneHasło.ToString(), hasło))
-                    return true;
-                else
-                    return false;
+                return string.Equals(odkodowaneHasło.ToString(), hasło);
             }
         }
     }

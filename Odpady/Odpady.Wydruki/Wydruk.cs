@@ -50,17 +50,16 @@ namespace Odpady.Wydruki
 
             konfiguracjaGlobalna.SetPaperSize(PaperKind.A4);
 
-            string format = "<b>{0}</b>";
+            const string format = "<b>{0}</b>";
             IPechkin pechkin = new SynchronizedPechkin(konfiguracjaGlobalna);
             string dokument = File.ReadAllText(Path.Combine("Wzór.html"));
             dokument = dokument.Replace("{data}", DateTime.Now.ToString("dd.MM.yyyy"));
-            dokument = dokument.Replace("{nazwa}", String.Format(format, nazwaDostarczającego));
-            dokument = dokument.Replace("{identyfikator}", String.Format(format, numerIdentyfikujący));
-            dokument = dokument.Replace("{miasto}", String.Format(format, miasto));
-            dokument = dokument.Replace("{ulica}", String.Format(format, ulica));
+            dokument = dokument.Replace("{nazwa}", string.Format(format, nazwaDostarczającego));
+            dokument = dokument.Replace("{identyfikator}", string.Format(format, numerIdentyfikujący));
+            dokument = dokument.Replace("{miasto}", string.Format(format, miasto));
+            dokument = dokument.Replace("{ulica}", string.Format(format, ulica));
             dokument = dokument.Replace("{daneDoFaktury}", daneDoFaktury.Replace(Environment.NewLine, "<br />"));
             StringBuilder budowniczyTabeli = new StringBuilder();
-            string zamiennikPonadLimit;
 
             switch (dostawca)
             {
@@ -80,13 +79,8 @@ namespace Odpady.Wydruki
             foreach (InformacjeOOdpadzie odpad in odpady)
                 budowniczyTabeli.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td></tr>", odpad.Nazwa, odpad.Ilość, odpad.JednMiary);
 
+            string zamiennikPonadLimit = ponadLimit ? "ponad limit" : string.Empty;
             dokument = dokument.Replace("{tabela}", budowniczyTabeli.ToString());
-
-            if (ponadLimit)
-                zamiennikPonadLimit = "ponad limit";
-            else
-                zamiennikPonadLimit = String.Empty;
-
             dokument = dokument.Replace("{ponadLimit}", zamiennikPonadLimit);
             byte[] bajty = pechkin.Convert(dokument);
 

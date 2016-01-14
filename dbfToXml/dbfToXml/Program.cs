@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Text;
 
 using System.Data.OleDb;
@@ -11,21 +12,25 @@ using System.Globalization;
 
 namespace dbfToXml
 {
-    class Program
+    internal class Program
     {
-        static int _numerPierwszejFaktury;
-        static int _numerOstatniejFaktury;
-        static XmlDocument _dokumentXml;
+        private static int _numerPierwszejFaktury;
+        private static int _numerOstatniejFaktury;
+        private static XmlDocument _dokumentXml;
 
-        /*const string FormatDaty = "{0:yyyy-MM-dd}";
-        const string FormatDatyAmerykański = "{0:yyyy-dd-MM}";*/
-        const string FormatDatyOdwrotny = "{0:dd-MM-yyyy}";
-        //const string FormatDatyAmerykańskiOdwrotny = "{0:MM-dd-yyyy}";
+        private static readonly string[] FormatDaty = new string[]
+        {
+            "{0:yyyy-MM-dd}", 
+            "{0:yyyy-dd-MM}", 
+            "{0:dd-MM-yyyy}", 
+            "{0:MM-dd-yyyy}"
+        };
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             CultureInfo infoOKulturze = Thread.CurrentThread.CurrentCulture.Clone() as CultureInfo;
-            string format = FormatDatyOdwrotny;
+            string indeksFormatu = ConfigurationManager.AppSettings["formatDaty"];
+            string format = FormatDaty[Convert.ToInt32(indeksFormatu) - 1];
 
             if (infoOKulturze != null)
             {
@@ -37,18 +42,18 @@ namespace dbfToXml
             {
                 case 0:
                     _numerPierwszejFaktury = 1;
-                    _numerOstatniejFaktury = Int32.MaxValue;
+                    _numerOstatniejFaktury = int.MaxValue;
 
                     break;
 
                 case 1:
-                    _numerPierwszejFaktury = _numerOstatniejFaktury = Int32.Parse(args[0]);
+                    _numerPierwszejFaktury = _numerOstatniejFaktury = int.Parse(args[0]);
 
                     break;
 
                 case 2:
-                    _numerPierwszejFaktury = Int32.Parse(args[0]);
-                    _numerOstatniejFaktury = Int32.Parse(args[1]);
+                    _numerPierwszejFaktury = int.Parse(args[0]);
+                    _numerOstatniejFaktury = int.Parse(args[1]);
 
                     break;
 
@@ -58,7 +63,7 @@ namespace dbfToXml
                     break;
             }
 
-            using (OleDbConnection połączenie = new OleDbConnection(String.Format(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Extended Properties=dBASE IV;", Environment.CurrentDirectory)))
+            using (OleDbConnection połączenie = new OleDbConnection(string.Format(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Extended Properties=dBASE IV;", Environment.CurrentDirectory)))
             {
                 połączenie.Open();
 
@@ -106,12 +111,12 @@ namespace dbfToXml
                 {
                     object[] polaFk = wiersz.ItemArray;
                     string napisNumeruFaktury = polaFk[nazwaKolumnyDoJejNumeruFk["nr_fk"]].ToString();
-                    int numerFaktury = Int32.Parse(napisNumeruFaktury.Substring(0, napisNumeruFaktury.IndexOf("/", StringComparison.Ordinal)));
+                    int numerFaktury = int.Parse(napisNumeruFaktury.Substring(0, napisNumeruFaktury.IndexOf("/", StringComparison.Ordinal)));
 
-                    if (numerFaktury >= _numerPierwszejFaktury && numerFaktury <= _numerOstatniejFaktury)
+                    if ((numerFaktury >= _numerPierwszejFaktury) && (numerFaktury <= _numerOstatniejFaktury))
                     {
                         _dokumentXml = new XmlDocument();
-                        string plik = Path.Combine("fk", String.Format("fk{0}.xml", numerFaktury));
+                        string plik = Path.Combine("fk", string.Format("fk{0}.xml", numerFaktury));
 
                         _dokumentXml.Load("wzor_fk.xml");
 
@@ -123,11 +128,11 @@ namespace dbfToXml
                         XmlNode kontrahent = wzórKontrahenta.CloneNode(true);
                         XmlNode rejestr = wzórRejestru.CloneNode(true);
                         DateTime data = Convert.ToDateTime(polaFk[nazwaKolumnyDoJejNumeruFk["data"]]);
-                        string napisDaty = String.Format(format, data);
-                        string napisTerminu = String.Format(format, data.AddDays(Convert.ToDouble(polaFk[nazwaKolumnyDoJejNumeruFk["termin"]])));
-                        string nip = polaFk[nazwaKolumnyDoJejNumeruFk["nr_ident"]].ToString().Replace("-", String.Empty);
-                        string sposóbPłatności = polaFk[nazwaKolumnyDoJejNumeruFk["spos_zap"]].ToString().ToLower().Replace("em", String.Empty);
-                        string kwota = String.Format("{0:N2}", polaFk[nazwaKolumnyDoJejNumeruFk["wartosc"]]);
+                        string napisDaty = string.Format(format, data);
+                        string napisTerminu = string.Format(format, data.AddDays(Convert.ToDouble(polaFk[nazwaKolumnyDoJejNumeruFk["termin"]])));
+                        string nip = polaFk[nazwaKolumnyDoJejNumeruFk["nr_ident"]].ToString().Replace("-", string.Empty);
+                        string sposóbPłatności = polaFk[nazwaKolumnyDoJejNumeruFk["spos_zap"]].ToString().ToLower().Replace("em", string.Empty);
+                        string kwota = string.Format("{0:N2}", polaFk[nazwaKolumnyDoJejNumeruFk["wartosc"]]);
                         XmlNode rodzicWzoruKontrahenta = wzórKontrahenta.ParentNode;
                         XmlNode rodzicWzoruRejestru = wzórRejestru.ParentNode;
 
@@ -135,7 +140,7 @@ namespace dbfToXml
                             sposóbPłatności = "gotówka";
 
                         Console.WriteLine("Generowanie XML dla faktury nr {0}.", numerFaktury);
-                        AnalizujAdres(String.Format("{0};{1}", polaFk[nazwaKolumnyDoJejNumeruFk["adres1"]], polaFk[nazwaKolumnyDoJejNumeruFk["adres2"]]), out kod, out miasto, out ulica);
+                        AnalizujAdres(string.Format("{0};{1}", polaFk[nazwaKolumnyDoJejNumeruFk["adres1"]], polaFk[nazwaKolumnyDoJejNumeruFk["adres2"]]), out kod, out miasto, out ulica);
 
                         ZapiszWWęźleXml(ref kontrahent, "akronim", polaFk[nazwaKolumnyDoJejNumeruFk["indeks_kon"]], true);
                         ZapiszWWęźleXml(ref kontrahent, "nazwa1", polaFk[nazwaKolumnyDoJejNumeruFk["platnik"]], true);
@@ -150,7 +155,7 @@ namespace dbfToXml
                             rodzicWzoruKontrahenta.AppendChild(kontrahent);
 
                             ZapiszWWęźleXml(ref rejestr, "data_wystawienia", napisDaty, true);
-                            ZapiszWWęźleXml(ref rejestr, "data_sprzedazy", String.Format(format, Convert.ToDateTime(polaFk[nazwaKolumnyDoJejNumeruFk["data_sprz"]])), true);
+                            ZapiszWWęźleXml(ref rejestr, "data_sprzedazy", string.Format(format, Convert.ToDateTime(polaFk[nazwaKolumnyDoJejNumeruFk["data_sprz"]])), true);
                             ZapiszWWęźleXml(ref rejestr, "data_dataobowiazkupodatkowego", napisDaty, true);
                             ZapiszWWęźleXml(ref rejestr, "data_dataprawaodliczenia", napisDaty, true);
                             ZapiszWWęźleXml(ref rejestr, "termin", napisTerminu, true);
@@ -211,13 +216,13 @@ namespace dbfToXml
                                 ZapiszWXml("typ_podmiotu", "kontrahent", true);
                                 ZapiszWXml("kierunek", "przychód", false);
                                 //ZapiszWXml("kod_atr", "SALDEO", false);
-                                ZapiszWXml("nazwa3", String.Empty, true);
-                                ZapiszWXml("telefon1", String.Empty, true);
-                                ZapiszWXml("email", String.Empty, true);
-                                ZapiszWXml("korekta_numer", String.Empty, true);
+                                ZapiszWXml("nazwa3", string.Empty, true);
+                                ZapiszWXml("telefon1", string.Empty, true);
+                                ZapiszWXml("email", string.Empty, true);
+                                ZapiszWXml("korekta_numer", string.Empty, true);
                                 ZapiszWXml("root/rejestry_sprzedazy_vat/rejestr_sprzedazy_vat/eksport", "nie", false);
-                                ZapiszWXml("waluta_dok", String.Empty, true);
-                                ZapiszWXml("baza_zrd_id", String.Empty, false);
+                                ZapiszWXml("waluta_dok", string.Empty, true);
+                                ZapiszWXml("baza_zrd_id", string.Empty, false);
 
                                 #endregion
 
@@ -238,7 +243,7 @@ namespace dbfToXml
             }
         }
 
-        static void ZapiszWXml(string tagXmlAlboXPath, object wartość, bool dodaćCData)
+        private static void ZapiszWXml(string tagXmlAlboXPath, object wartość, bool dodaćCData)
         {
             tagXmlAlboXPath = tagXmlAlboXPath.ToUpper();
             XmlNodeList węzły=tagXmlAlboXPath.IndexOf('/') == -1 ? _dokumentXml.GetElementsByTagName(tagXmlAlboXPath) : _dokumentXml.SelectNodes(tagXmlAlboXPath);
@@ -258,7 +263,7 @@ namespace dbfToXml
                     węzeł.AppendChild(zawartość.CloneNode(true));
         }
 
-        static void ZapiszWWęźleXml(ref XmlNode węzeł, string tagXml, object wartość, bool dodaćCData)
+        private static void ZapiszWWęźleXml(ref XmlNode węzeł, string tagXml, object wartość, bool dodaćCData)
         {
             tagXml = tagXml.ToUpper();
             string napisWartości = null;
@@ -282,7 +287,7 @@ namespace dbfToXml
             węzeł = _dokumentXml.ImportNode(xml.FirstChild, true);
         }
 
-        static void AnalizujAdres(string adres, out string kod, out string miasto, out string ulica)
+        private static void AnalizujAdres(string adres, out string kod, out string miasto, out string ulica)
         {
             int pierwszaCzęśćKoduPocztowego = 0;
             int drugaCzęśćKoduPocztowego = 0;
@@ -290,17 +295,17 @@ namespace dbfToXml
             int indeksŚrednika = adres.IndexOf(';');
             int indeksMiasta = -1;
 
-            for (int i = 0; i < adres.Length && !kodPocztowyZnaleziony; i++)
-                if (Char.IsNumber(adres[i]))
+            for (int i = 0; (i < adres.Length) && !kodPocztowyZnaleziony; i++)
+                if (char.IsNumber(adres[i]))
                     try
                     {
                         int indeksMyślnika = adres.IndexOf('-', i + 1);
-                        pierwszaCzęśćKoduPocztowego = Int32.Parse(adres.Substring(i, indeksMyślnika - i));
+                        pierwszaCzęśćKoduPocztowego = int.Parse(adres.Substring(i, indeksMyślnika - i));
 
                         for (int j = indeksMyślnika + 1; j < adres.Length - 1; j++)
-                            if (!Char.IsNumber(adres[j + 1]))
+                            if (!char.IsNumber(adres[j + 1]))
                             {
-                                drugaCzęśćKoduPocztowego = Int32.Parse(adres.Substring(indeksMyślnika + 1, j - indeksMyślnika + 1));
+                                drugaCzęśćKoduPocztowego = int.Parse(adres.Substring(indeksMyślnika + 1, j - indeksMyślnika + 1));
                                 indeksMiasta = j + 1;
                                 kodPocztowyZnaleziony = true;
 
@@ -311,20 +316,20 @@ namespace dbfToXml
                     {
                     }
 
-            kod = kodPocztowyZnaleziony ? String.Format("{0}-{1}", pierwszaCzęśćKoduPocztowego, drugaCzęśćKoduPocztowego) : null;
+            kod = kodPocztowyZnaleziony ? string.Format("{0}-{1}", pierwszaCzęśćKoduPocztowego, drugaCzęśćKoduPocztowego) : null;
 
             try
             {
                 int indeksPrzecinka = adres.IndexOf(adres, indeksMiasta, StringComparison.Ordinal);
 
                 if (indeksPrzecinka == -1)
-                    indeksPrzecinka = Int32.MaxValue;
+                    indeksPrzecinka = int.MaxValue;
 
                 List<int> indeksy = new List<int>() {indeksPrzecinka, indeksŚrednika, adres.Length};
 
                 indeksy.RemoveAll(i => i <= indeksMiasta);
 
-                int minimum = Int32.MaxValue;
+                int minimum = int.MaxValue;
 
                 foreach (int indeks in indeksy)
                     if (indeks < minimum)
@@ -339,9 +344,9 @@ namespace dbfToXml
 
             try
             {
-                if (!String.IsNullOrEmpty(kod) && !String.IsNullOrEmpty(miasto))
+                if (!string.IsNullOrEmpty(kod) && !string.IsNullOrEmpty(miasto))
                 {
-                    ulica = adres.Replace(kod, String.Empty).Replace(miasto, String.Empty).Replace(",", String.Empty).Replace(";", String.Empty);
+                    ulica = adres.Replace(kod, string.Empty).Replace(miasto, string.Empty).Replace(",", string.Empty).Replace(";", string.Empty);
                     ulica = ulica.Substring(ulica.ToLower().IndexOf("ul.", StringComparison.Ordinal)).Trim();
                 }
                 else
@@ -353,7 +358,7 @@ namespace dbfToXml
             }
         }
 
-        static string ZamieńBoolNaPolskąNazwę(object wartość)
+        private static string ZamieńBoolNaPolskąNazwę(object wartość)
         {
             bool wartośćBoolowska = Convert.ToBoolean(wartość);
 
@@ -363,7 +368,7 @@ namespace dbfToXml
                 return "Nie";
         }
 
-        static void DodajPozycję(XmlNode rodzic, XmlNode węzełPozycji, decimal stawkaVat, string statusVat, decimal netto, decimal vat, string rodzajSprzedaży, bool uwzględnionoWProporcji)
+        private static void DodajPozycję(XmlNode rodzic, XmlNode węzełPozycji, decimal stawkaVat, string statusVat, decimal netto, decimal vat, string rodzajSprzedaży, bool uwzględnionoWProporcji)
         {
             CultureInfo kultura = CultureInfo.CurrentCulture.Clone() as CultureInfo;
 
@@ -372,8 +377,8 @@ namespace dbfToXml
 
             węzełPozycji.ChildNodes[0].InnerText = stawkaVat.ToString(kultura);
             węzełPozycji.ChildNodes[1].InnerText = statusVat.Trim();
-            węzełPozycji.ChildNodes[2].InnerText = węzełPozycji.ChildNodes[3].InnerText = węzełPozycji.ChildNodes[4].InnerText = String.Format("{0:N2}", netto);
-            węzełPozycji.ChildNodes[5].InnerText = węzełPozycji.ChildNodes[6].InnerText = węzełPozycji.ChildNodes[7].InnerText = String.Format("{0:N2}", vat);
+            węzełPozycji.ChildNodes[2].InnerText = węzełPozycji.ChildNodes[3].InnerText = węzełPozycji.ChildNodes[4].InnerText = string.Format("{0:N2}", netto);
+            węzełPozycji.ChildNodes[5].InnerText = węzełPozycji.ChildNodes[6].InnerText = węzełPozycji.ChildNodes[7].InnerText = string.Format("{0:N2}", vat);
             węzełPozycji.ChildNodes[8].InnerText = rodzajSprzedaży.Trim();
             węzełPozycji.ChildNodes[9].InnerText = ZamieńBoolNaPolskąNazwę(uwzględnionoWProporcji);
 

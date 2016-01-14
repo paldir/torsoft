@@ -13,13 +13,17 @@ namespace Odpady.DostępDoDanych
         public string UWAGI { get; set; }
         public string STACJA { get; set; }
 
-        public Szpieg(string użytkownik, string uwagi = null)
+        public Szpieg(string użytkownik)
         {
             UZYTKOWNIK = użytkownik;
-            UWAGI = uwagi;
             STACJA = Environment.MachineName;
 
             In();
+        }
+
+        public Szpieg(string użytkownik, string uwagi) : this(użytkownik)
+        {
+            UWAGI = uwagi;
         }
 
         public void Out()
@@ -31,7 +35,7 @@ namespace Odpady.DostępDoDanych
             PołączenieDlaObcychObiektów.Aktualizuj(this);
         }
 
-        void In()
+        private void In()
         {
             DateTime teraz = DateTime.Now;
             DATA_IN = teraz.ToShortDateString();
