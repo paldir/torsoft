@@ -4,21 +4,21 @@ using System.Collections.Generic;
 using System.IO;
 using iTextSharp.text.pdf;
 using System.Xml;
-using System.Security.Cryptography;
-using System.Security.Cryptography.Xml;
 
 namespace PdfBrowser
 {
-    class PdfFile
+    internal class PdfFile
     {
         #region pola prywatne
-        static string[] _ścieżkiWszystkichPlikówTxt;
-        static string[] _ścieżkiWszystkichPlikówXades;
-        static int _licznik;
+
+        private static string[] _ścieżkiWszystkichPlikówTxt;
+        private static string[] _ścieżkiWszystkichPlikówXades;
+        private static int _licznik;
         #endregion
 
         #region właściwości
-        static int _rok;
+
+        private static int _rok;
         public static int Rok
         {
             get { return _rok; }
@@ -27,7 +27,7 @@ namespace PdfBrowser
             {
                 int obecnyRok = DateTime.Now.Year;
 
-                if (value < 2014 || value > obecnyRok)
+                if ((value < 2014) || (value > obecnyRok))
                     _rok = obecnyRok;
                 else
                     _rok = value;
@@ -41,7 +41,7 @@ namespace PdfBrowser
 
         public static string Katalog { get; private set; }
 
-        string _ścieżkaPdf;
+        private string _ścieżkaPdf;
         public string ŚcieżkaPdf
         {
             get { return _ścieżkaPdf; }
@@ -55,7 +55,7 @@ namespace PdfBrowser
             }
         }
 
-        List<string> _ścieżkiTxt = new List<string>();
+        private List<string> _ścieżkiTxt = new List<string>();
         public List<string> ŚcieżkiTxt
         {
             get
@@ -69,7 +69,7 @@ namespace PdfBrowser
             private set { _ścieżkiTxt = value; }
         }
 
-        string _ścieżkaUpo;
+        private string _ścieżkaUpo;
         public string ŚcieżkaUpo
         {
             get
@@ -77,13 +77,13 @@ namespace PdfBrowser
                 if (UpoIstnieje)
                     return _ścieżkaUpo;
                 else
-                    return String.Empty;
+                    return string.Empty;
             }
 
             private set { _ścieżkaUpo = value; }
         }
 
-        string _numerReferencyjny;
+        private string _numerReferencyjny;
         public string NumerReferencyjny
         {
             get
@@ -91,7 +91,7 @@ namespace PdfBrowser
                 if (TxtIstnieje)
                     return _numerReferencyjny;
                 else
-                    return String.Empty;
+                    return string.Empty;
             }
 
             private set { _numerReferencyjny = value; }
@@ -110,7 +110,7 @@ namespace PdfBrowser
                 if (SigIstnieje)
                     return Path.ChangeExtension(ŚcieżkaPdf, "sig");
                 else
-                    return String.Empty;
+                    return string.Empty;
             }
         }
         #endregion
@@ -134,129 +134,123 @@ namespace PdfBrowser
         #endregion
 
         #region metody prywatne
-        static void SetPrefixDeep(XmlNode xmlNode, string prefix)
+
+        /*private static void SetPrefixDeep(XmlNode xmlNode, string prefix)
         {
             xmlNode.Prefix = prefix;
 
             foreach (XmlNode child in xmlNode.ChildNodes)
                 SetPrefixDeep(child, prefix);
-        }
+        }*/
 
-        bool SprawdźCzyIstniejeTxt()
+        private bool SprawdźCzyIstniejeTxt()
         {
-            if (Katalog != String.Empty)
+            if (Katalog == string.Empty) return false;
+
+            List<DateTime> datyPlikówTxt = new List<DateTime>();
+            List<string> ścieżkiPlikówTxt = new List<string>();
+
+            foreach (string ścieżka in _ścieżkiWszystkichPlikówTxt)
             {
-                List<DateTime> datyPlikówTxt = new List<DateTime>();
-                List<string> ścieżkiPlikówTxt = new List<string>();
+                string nazwaPliku = Path.GetFileName(ścieżka);
 
-                foreach (string ścieżka in _ścieżkiWszystkichPlikówTxt)
+                if (string.IsNullOrEmpty(nazwaPliku) || string.IsNullOrEmpty(NazwaPliku) || !nazwaPliku.StartsWith(Path.GetFileNameWithoutExtension(NazwaPliku))) continue;
+
+                int indeksDaty = nazwaPliku.LastIndexOf("_", StringComparison.Ordinal) + 1;
+                int długośćDaty = 0;
+
+                for (int i = indeksDaty; i < nazwaPliku.Length; i++)
                 {
-                    string nazwaPliku = Path.GetFileName(ścieżka);
+                    char znak = nazwaPliku[i];
 
-                    if (nazwaPliku.StartsWith(Path.GetFileNameWithoutExtension(NazwaPliku)))
-                    {
-                        int indeksDaty = nazwaPliku.LastIndexOf("_") + 1;
-                        int długośćDaty = 0;
-
-                        for (int i = indeksDaty; i < nazwaPliku.Length; i++)
-                        {
-                            char znak = nazwaPliku[i];
-
-                            if (Char.IsLetter(znak) || znak == '.')
-                                break;
-                            else
-                                długośćDaty++;
-                        }
-
-                        string napisDaty = nazwaPliku.Substring(indeksDaty, długośćDaty).Trim();
-                        DateTime data;
-
-                        try
-                        {
-                            data = Convert.ToDateTime(napisDaty);
-                        }
-                        catch (FormatException)
-                        {
-                            data = DateTime.ParseExact(napisDaty, "yyyyMMdd", null);
-                        }
-
-                        datyPlikówTxt.Add(data);
-                        ścieżkiPlikówTxt.Add(ścieżka);
-                    }
+                    if (char.IsLetter(znak) || (znak == '.'))
+                        break;
+                    else
+                        długośćDaty++;
                 }
 
-                if (ścieżkiPlikówTxt.Count == 0)
-                    return false;
-                else
+                string napisDaty = nazwaPliku.Substring(indeksDaty, długośćDaty).Trim();
+                DateTime data;
+
+                try
                 {
-                    int n = datyPlikówTxt.Count;
+                    data = Convert.ToDateTime(napisDaty);
+                }
+                catch (FormatException)
+                {
+                    data = DateTime.ParseExact(napisDaty, "yyyyMMdd", null);
+                }
 
-                    do
-                    {
-                        for (int i = 0; i < n - 1; i++)
-                            if (datyPlikówTxt[i] < datyPlikówTxt[i + 1])
-                            {
-                                datyPlikówTxt.Reverse(i, 2);
-                                ścieżkiPlikówTxt.Reverse(i, 2);
-                            }
+                datyPlikówTxt.Add(data);
+                ścieżkiPlikówTxt.Add(ścieżka);
+            }
 
-                        n--;
-                    }
-                    while (n > 1);
+            if (ścieżkiPlikówTxt.Count == 0)
+                return false;
+            else
+            {
+                int n = datyPlikówTxt.Count;
 
-                    /*for (int i = 1; i < datesOfTxtFiles.Count; i++)
+                do
+                {
+                    for (int i = 0; i < n - 1; i++)
+                        if (datyPlikówTxt[i] < datyPlikówTxt[i + 1])
+                        {
+                            datyPlikówTxt.Reverse(i, 2);
+                            ścieżkiPlikówTxt.Reverse(i, 2);
+                        }
+
+                    n--;
+                }
+                while (n > 1);
+
+                /*for (int i = 1; i < datesOfTxtFiles.Count; i++)
                         TxtPaths.Add(pathsOfTxtFiles[i]);*/
 
-                    ŚcieżkiTxt = ścieżkiPlikówTxt;
+                ŚcieżkiTxt = ścieżkiPlikówTxt;
+
+                return true;
+            }
+        }
+
+        private bool SprawdźCzyIstniejeUpo()
+        {
+            if (string.IsNullOrEmpty(NumerReferencyjny)) return false;
+
+            foreach (string ścieżkaPlikuXades in _ścieżkiWszystkichPlikówXades)
+                if (ścieżkaPlikuXades.IndexOf(NumerReferencyjny, StringComparison.Ordinal) != -1)
+                {
+                    ŚcieżkaUpo = ścieżkaPlikuXades;
 
                     return true;
                 }
-            }
 
             return false;
         }
 
-        bool SprawdźCzyIstniejeUpo()
+        private string PobierzNumerReferencyjny()
         {
-            if (NumerReferencyjny != String.Empty)
-                foreach (string ścieżkaPlikuXades in _ścieżkiWszystkichPlikówXades)
-                    if (ścieżkaPlikuXades.IndexOf(NumerReferencyjny) != -1)
-                    {
-                        ŚcieżkaUpo = ścieżkaPlikuXades;
+            if (!TxtIstnieje) return string.Empty;
 
-                        return true;
-                    }
+            string[] txt = File.ReadAllLines(ŚcieżkiTxt[0]);
 
-            return false;
+            if (txt.Length <= 0) return string.Empty;
+
+            string pierwszaLinia = txt[0];
+
+            return pierwszaLinia.Substring(pierwszaLinia.IndexOf(':') + 2);
         }
 
-        string PobierzNumerReferencyjny()
-        {
-            if (TxtIstnieje)
-            {
-                string[] txt = File.ReadAllLines(ŚcieżkiTxt[0]);
-
-                if (txt.Length > 0)
-                {
-                    string pierwszaLinia = txt[0];
-
-                    return pierwszaLinia.Substring(pierwszaLinia.IndexOf(':') + 2);
-                }
-            }
-
-            return String.Empty;
-        }
-
-        static void UsuńPusteWęzły(XmlNode węzełXml)
+        /*private static void UsuńPusteWęzły(XmlNode węzełXml)
         {
             foreach (XmlNode węzełPotomny in węzełXml.ChildNodes)
-                if (węzełPotomny.ChildNodes.Count == 0 && węzełPotomny.InnerText == String.Empty)
+                if ((węzełPotomny.ChildNodes.Count == 0) && (węzełPotomny.InnerText == string.Empty))
                     węzełXml.RemoveChild(węzełPotomny);
                 else
                     UsuńPusteWęzły(węzełPotomny);
 
             //return xmlElement;
-        }
+        }*/
         #endregion
 
         #region metody publiczne
@@ -276,19 +270,29 @@ namespace PdfBrowser
                 {
                     XmlDocument dokumentXml = new XmlDocument();
                     string xml = czytelnik.AcroFields.Xfa.DatasetsNode.OuterXml;
-                    xml = xml.Substring(xml.IndexOf("<xfa:data>") + "<xfa:data>".Length);
+                    xml = xml.Substring(xml.IndexOf("<xfa:data>", StringComparison.Ordinal) + "<xfa:data>".Length);
 
-                    dokumentXml.LoadXml("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + xml.Substring(0, xml.IndexOf("</Deklaracja>") + "</Deklaracja>".Length));
+                    dokumentXml.LoadXml("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + xml.Substring(0, xml.IndexOf("</Deklaracja>", StringComparison.Ordinal) + "</Deklaracja>".Length));
 
                     XmlNodeList pusteWęzły = dokumentXml.SelectNodes("//*[count(@*) = 0 and count(child::*) = 0 and not(text())]");
 
+                    if (pusteWęzły == null) return dokumentXml.OuterXml;
+
                     foreach (XmlNode pustyWęzeł in pusteWęzły)
-                        pustyWęzeł.ParentNode.RemoveChild(pustyWęzeł);
+                    {
+                        XmlNode parent = pustyWęzeł.ParentNode;
+
+                        if (parent != null)
+                            parent.RemoveChild(pustyWęzeł);
+                    }
 
                     return dokumentXml.OuterXml;
                 }
             }
-            catch { return String.Empty; }
+            catch
+            {
+                return string.Empty;
+            }
         }
         #endregion
     }

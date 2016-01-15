@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace PdfBrowser
@@ -25,15 +20,15 @@ namespace PdfBrowser
                     radioButton2.Checked = true;
 
                     break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (radioButton1.Checked)
-                MainForm.Gate = Gate.Test;
-            else
-                MainForm.Gate = Gate.Production;
+            MainForm.Gate = radioButton1.Checked ? Gate.Test : Gate.Production;
 
             Close();
         }

@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 using System.IO;
@@ -23,10 +18,9 @@ namespace PdfBrowser
 
     public partial class FileViewer : Form
     {
-        string file;
-        string filePath;
-        FileType fileType;
-        string bufferedFilePath;
+        //private string _filePath;
+        //private FileType _fileType;
+        private readonly string _bufferedFilePath;
 
         public FileViewer(string filePath, FileType fileType)
         {
@@ -41,7 +35,14 @@ namespace PdfBrowser
                     WindowState = FormWindowState.Maximized;
 
                     break;
+                case FileType.Txt:
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException("fileType", fileType, null);
             }
+
+            string file;
 
             using (StreamReader streamReader = new StreamReader(filePath))
                 file = streamReader.ReadToEnd();
@@ -50,7 +51,7 @@ namespace PdfBrowser
             {
                 case FileType.Sig:
                 case FileType.Upo:
-                    string formattedXml = String.Empty;
+                    string formattedXml;
 
                     using (MemoryStream memoryStream = new MemoryStream())
                     using (XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, System.Text.Encoding.Unicode))
@@ -72,10 +73,22 @@ namespace PdfBrowser
                     file = formattedXml;
 
                     break;
+
+                case FileType.Txt:
+                    break;
+
+                case FileType.SigningReport:
+                    break;
+
+                case FileType.ReportOfUpoDownloading:
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException("fileType", fileType, null);
             }
 
-            this.fileType = fileType;
-            this.filePath = filePath;
+            //_fileType = fileType;
+            //_filePath = filePath;
             textBox.Text = file;
             string bufferPath = Path.Combine(PdfFile.Katalog, "buffer");
 
@@ -85,14 +98,13 @@ namespace PdfBrowser
                 foreach (string fileName in Directory.GetFiles(bufferPath, "*.txt"))
                     File.Delete(fileName);
 
-            using (StreamWriter streamWriter = new StreamWriter(bufferedFilePath = Path.Combine(bufferPath, Path.GetFileNameWithoutExtension(filePath) + ".txt")))
+            using (StreamWriter streamWriter = new StreamWriter(_bufferedFilePath = Path.Combine(bufferPath, Path.GetFileNameWithoutExtension(filePath) + ".txt")))
                 streamWriter.Write(file);
         }
 
-        void printButton_Click(object sender, EventArgs e)
+        private void printButton_Click(object sender, EventArgs e)
         {
-            ProcessStartInfo processStartInfo = new ProcessStartInfo(bufferedFilePath);
-            processStartInfo.Verb = "print";
+            ProcessStartInfo processStartInfo = new ProcessStartInfo(_bufferedFilePath) {Verb = "print"};
 
             Process.Start(processStartInfo);
         }

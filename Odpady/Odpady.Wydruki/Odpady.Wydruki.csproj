@@ -64,7 +64,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Wzór.html">
+    <Content Include="Wzory\MiesięcznyWykazOdpadów.html" />
+    <Content Include="Wzory\PrzyjęcieOdpadów.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="libeay32.dll">

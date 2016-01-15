@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -13,16 +14,19 @@ namespace Testy
     {
         private static void Main()
         {
-            using (Połączenie połączenie = new Połączenie())
-            {
-                DateTime teraz = DateTime.Now;
-                const decimal liczba = 1.11m;
+            List<InformacjeOOdpadzie> odpady = new List<InformacjeOOdpadzie>();
+            string daneDoFaktury = @"Janina Nowak
+                87-100 Toruń
+                ul. Wały gen. Sikorskiego 1
+                NIP 123456789";
 
-                Console.WriteLine(teraz.ToShortDateString());
-                Console.WriteLine(teraz.ToShortTimeString());
-                Console.WriteLine(liczba.ToString());
-                Console.ReadKey();
-            }
+            odpady.Add(new InformacjeOOdpadzie("opony", "4", "szt."));
+            odpady.Add(new InformacjeOOdpadzie("złom", "2000", "kg"));
+            odpady.Add(new InformacjeOOdpadzie("olej silnikowy", "13", "l"));
+
+            byte[] bajty = Wydruk.PrzyjęcieOdpadów(DostawcaOdpadów.OsobaFizyczna, "Jan Kowalski", "00010112345", "Toruń", "Lubicka 23/1", odpady, daneDoFaktury, true);
+
+            Wydruk.ZapiszBajtyJakoPdfIOtwórz(bajty, Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "test.pdf"));
         }
     }
 }

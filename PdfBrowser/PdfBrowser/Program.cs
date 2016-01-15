@@ -4,20 +4,15 @@ using System.Windows.Forms;
 
 namespace PdfBrowser
 {
-    static class Program
+    internal static class Program
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            int rok;
-
-            if (args.Length > 0)
-                rok = Convert.ToInt32(args[0]);
-            else
-                rok = DateTime.Now.Year;
+            int rok = args.Length > 0 ? Convert.ToInt32(args[0]) : DateTime.Now.Year;
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

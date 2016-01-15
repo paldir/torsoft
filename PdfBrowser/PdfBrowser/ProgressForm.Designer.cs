@@ -1,6 +1,6 @@
 ﻿namespace PdfBrowser
 {
-    partial class ProgressForm
+    sealed partial class ProgressForm
     {
         /// <summary>
         /// Required designer variable.
