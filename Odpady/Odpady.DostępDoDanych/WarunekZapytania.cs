@@ -6,7 +6,8 @@ namespace Odpady.DostępDoDanych
     public enum ZnakPorównania
     {
         RównaSię,
-        Zawiera
+        Zawiera,
+        Różne
     }
 
     public class WarunekZapytania
@@ -40,6 +41,11 @@ namespace Odpady.DostępDoDanych
 
                 case ZnakPorównania.Zawiera:
                     format = "{0} CONTAINING {1}";
+
+                    break;
+
+                case ZnakPorównania.Różne:
+                    format = "{0} != {1}";
 
                     break;
 

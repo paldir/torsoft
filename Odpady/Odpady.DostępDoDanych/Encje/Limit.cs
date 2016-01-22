@@ -4,6 +4,7 @@ namespace Odpady.DostępDoDanych
     {
         public long? FK_RODZAJ_ODPADOW { get; set; }
         public long? FK_ODDZIAL { get; set; }
+        public long? FK_GRUPA { get; set; }
         public short? OSOBA_FIZYCZNA { get; set; }
         public decimal? LIMIT { get; set; }
         public decimal? KARA { get; set; }
@@ -16,6 +17,11 @@ namespace Odpady.DostępDoDanych
         public Oddział ODDZIAL
         {
             get { return PołączenieDlaObcychObiektów.Pobierz<Oddział>(FK_ODDZIAL.Value); }
+        }
+
+        public Limit GRUPA
+        {
+            get { return FK_GRUPA!=0 ? PołączenieDlaObcychObiektów.Pobierz<Limit>(FK_GRUPA.Value) : null; }
         }
     }
 }
