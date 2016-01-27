@@ -376,7 +376,7 @@ namespace Odpady.DostępDoDanych
             }
         }
 
-        private List<T> PobierzWszystkieRekordy<T>(List<WarunekZapytania> warunki) where T : Rekord
+        private List<T> PobierzWszystkieRekordy<T>(IList<WarunekZapytania> warunki) where T : Rekord
         {
             PropertyInfo[] właściwości;
             StringBuilder budowniczyZapytania = ZbudujSelect<T>(out właściwości);
@@ -411,10 +411,10 @@ namespace Odpady.DostępDoDanych
             }
         }
 
-        private List<T> WykonajZapytanie<T>(string zapytanie, PropertyInfo[] właściwości) where T : Rekord
+        private List<T> WykonajZapytanie<T>(string zapytanie, IList<PropertyInfo> właściwości) where T : Rekord
         {
             List<T> rekordy = new List<T>();
-            int liczbaPól = właściwości.Length;
+            int liczbaPól = właściwości.Count;
 
             using (FbCommand komenda = new FbCommand(zapytanie, _połączenie))
             using (FbDataReader czytacz = komenda.ExecuteReader())
@@ -436,7 +436,7 @@ namespace Odpady.DostępDoDanych
             return rekordy;
         }
 
-        private void ZapiszWyjątekDoLogu(FbException wyjątekFb, string zapytanie)
+        private static void ZapiszWyjątekDoLogu(Exception wyjątekFb, string zapytanie)
         {
             StringBuilder budowniczy = new StringBuilder();
             Exception wyjątek = wyjątekFb;

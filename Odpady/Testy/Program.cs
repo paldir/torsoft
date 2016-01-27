@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
+﻿using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using Odpady.DostępDoDanych;
 using Odpady.Wydruki;
 
 namespace Testy
@@ -14,19 +8,15 @@ namespace Testy
     {
         private static void Main()
         {
-            List<InformacjeOOdpadzie> odpady = new List<InformacjeOOdpadzie>();
-            string daneDoFaktury = @"Janina Nowak
-                87-100 Toruń
-                ul. Wały gen. Sikorskiego 1
-                NIP 123456789";
+            /*Użytkownik u = new Użytkownik();
+            string hasło = Console.ReadLine();
 
-            odpady.Add(new InformacjeOOdpadzie("opony", "4", "szt."));
-            odpady.Add(new InformacjeOOdpadzie("złom", "2000", "kg"));
-            odpady.Add(new InformacjeOOdpadzie("olej silnikowy", "13", "l"));
+            u.HASLO = new string(hasło.Select(znak => Convert.ToChar((Convert.ToByte(znak) - 10 - 32 + 95)%95 + 32)).ToArray());*/
 
-            byte[] bajty = Wydruk.PrzyjęcieOdpadów(DostawcaOdpadów.OsobaFizyczna, "Jan Kowalski", "00010112345", "Toruń", "Lubicka 23/1", odpady, daneDoFaktury, true);
+            foreach (var proces in Process.GetProcessesByName("AcroRd32"))
+                proces.Kill();
 
-            Wydruk.ZapiszBajtyJakoPdfIOtwórz(bajty, Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "test.pdf"));
+            Wydruk.Kpo();
         }
     }
 }

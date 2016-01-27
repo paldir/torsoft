@@ -14,11 +14,13 @@ namespace PdfBrowser
         private static string[] _ścieżkiWszystkichPlikówTxt;
         private static string[] _ścieżkiWszystkichPlikówXades;
         private static int _licznik;
+
         #endregion
 
         #region właściwości
 
         private static int _rok;
+
         public static int Rok
         {
             get { return _rok; }
@@ -42,6 +44,7 @@ namespace PdfBrowser
         public static string Katalog { get; private set; }
 
         private string _ścieżkaPdf;
+
         public string ŚcieżkaPdf
         {
             get { return _ścieżkaPdf; }
@@ -56,6 +59,7 @@ namespace PdfBrowser
         }
 
         private List<string> _ścieżkiTxt = new List<string>();
+
         public List<string> ŚcieżkiTxt
         {
             get
@@ -70,6 +74,7 @@ namespace PdfBrowser
         }
 
         private string _ścieżkaUpo;
+
         public string ŚcieżkaUpo
         {
             get
@@ -84,6 +89,7 @@ namespace PdfBrowser
         }
 
         private string _numerReferencyjny;
+
         public string NumerReferencyjny
         {
             get
@@ -98,8 +104,17 @@ namespace PdfBrowser
         }
 
         public int Id { get; private set; }
-        public string NazwaPliku { get { return Path.GetFileName(ŚcieżkaPdf); } }
-        public bool SigIstnieje { get { return File.Exists(Path.ChangeExtension(ŚcieżkaPdf, "sig")); } }
+
+        public string NazwaPliku
+        {
+            get { return Path.GetFileName(ŚcieżkaPdf); }
+        }
+
+        public bool SigIstnieje
+        {
+            get { return File.Exists(Path.ChangeExtension(ŚcieżkaPdf, "sig")); }
+        }
+
         public bool TxtIstnieje { get; private set; }
         public bool UpoIstnieje { get; private set; }
 
@@ -113,9 +128,11 @@ namespace PdfBrowser
                     return string.Empty;
             }
         }
+
         #endregion
 
         #region konstruktory
+
         static PdfFile()
         {
             Rok = DateTime.Now.Year;
@@ -131,6 +148,7 @@ namespace PdfBrowser
             NumerReferencyjny = PobierzNumerReferencyjny();
             UpoIstnieje = SprawdźCzyIstniejeUpo();
         }
+
         #endregion
 
         #region metody prywatne
@@ -201,8 +219,7 @@ namespace PdfBrowser
                         }
 
                     n--;
-                }
-                while (n > 1);
+                } while (n > 1);
 
                 /*for (int i = 1; i < datesOfTxtFiles.Count; i++)
                         TxtPaths.Add(pathsOfTxtFiles[i]);*/
@@ -251,9 +268,11 @@ namespace PdfBrowser
 
             //return xmlElement;
         }*/
+
         #endregion
 
         #region metody publiczne
+
         public static void Inicjalizuj()
         {
             _ścieżkiWszystkichPlikówTxt = Directory.GetFiles(Katalog, "*.txt");
@@ -271,12 +290,10 @@ namespace PdfBrowser
                     XmlDocument dokumentXml = new XmlDocument();
                     string xml = czytelnik.AcroFields.Xfa.DatasetsNode.OuterXml;
                     xml = xml.Substring(xml.IndexOf("<xfa:data>", StringComparison.Ordinal) + "<xfa:data>".Length);
+                    List<XmlNode> pusteWęzły = new List<XmlNode>();
 
                     dokumentXml.LoadXml("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + xml.Substring(0, xml.IndexOf("</Deklaracja>", StringComparison.Ordinal) + "</Deklaracja>".Length));
-
-                    XmlNodeList pusteWęzły = dokumentXml.SelectNodes("//*[count(@*) = 0 and count(child::*) = 0 and not(text())]");
-
-                    if (pusteWęzły == null) return dokumentXml.OuterXml;
+                    DodajJeśliPusty(pusteWęzły, dokumentXml.DocumentElement);
 
                     foreach (XmlNode pustyWęzeł in pusteWęzły)
                     {
@@ -294,6 +311,16 @@ namespace PdfBrowser
                 return string.Empty;
             }
         }
+
         #endregion
+
+        private static void DodajJeśliPusty(ICollection<XmlNode> pusteWęzły, XmlNode węzeł)
+        {
+            if (string.IsNullOrEmpty(węzeł.InnerText))
+                pusteWęzły.Add(węzeł);
+            else
+                foreach (XmlNode węzełPotomny in węzeł.ChildNodes)
+                    DodajJeśliPusty(pusteWęzły, węzełPotomny);
+        }
     }
 }

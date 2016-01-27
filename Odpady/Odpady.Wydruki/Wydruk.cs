@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using Pechkin;
 using Pechkin.Synchronized;
 using System.IO;
 using System.Drawing.Printing;
 using System.Diagnostics;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 
 namespace Odpady.Wydruki
 {
@@ -34,6 +35,8 @@ namespace Odpady.Wydruki
 
     public static class Wydruk
     {
+        private const string KatalogZWzorami = "Wzory";
+
         public static byte[] PrzyjęcieOdpadów
             (
             DostawcaOdpadów dostawca,
@@ -52,7 +55,7 @@ namespace Odpady.Wydruki
 
             const string format = "<b>{0}</b>";
             IPechkin pechkin = new SynchronizedPechkin(konfiguracjaGlobalna);
-            string dokument = File.ReadAllText(Path.Combine("Wzory", "Wzór.html"));
+            string dokument = File.ReadAllText(Path.Combine(KatalogZWzorami, "Wzór.html"));
             dokument = dokument.Replace("{data}", DateTime.Now.ToString("dd.MM.yyyy"));
             dokument = dokument.Replace("{nazwa}", string.Format(format, nazwaDostarczającego));
             dokument = dokument.Replace("{identyfikator}", string.Format(format, numerIdentyfikujący));
@@ -90,12 +93,54 @@ namespace Odpady.Wydruki
             return bajty;
         }
 
-        public static byte[] MiesięcznyWykazOdpadów(IEnumerable<InformacjeOOdpadzie> odpady)
+        public static void Kpo()
         {
+            PdfReader.unethicalreading = true;
 
+            using (PdfReader czytaczPdf = new PdfReader(Path.Combine(KatalogZWzorami, "Kpo.pdf")))
+            {
+                Rectangle rozmiar = czytaczPdf.GetPageSizeWithRotation(1);
+                Document dokument = new Document(rozmiar);
+                PdfWriter pisarzPdf;
+
+                dokument.SetPageSize(PageSize.A4.Rotate());
+
+                using (FileStream strumień = new FileStream("test.pdf", FileMode.Create, FileAccess.Write))
+                {
+                    pisarzPdf = PdfWriter.GetInstance(dokument, strumień);
+
+                    dokument.Open();
+
+                    PdfContentByte zawartośćPdf = pisarzPdf.DirectContent;
+                    Font czcionka = FontFactory.GetFont("Calibri", BaseFont.CP1257, false, 11, Font.BOLD);
+
+                    //miejsce prowadzenia działalności
+                    WypełnijPole(zawartośćPdf, czcionka, 20.5f, 455, 265, "Kujawsko - Pomorskie");
+
+                    PdfImportedPage strona = pisarzPdf.GetImportedPage(czytaczPdf, 1);
+
+                    zawartośćPdf.AddTemplate(strona,0,0);//, 0, -1f, 1f, 0, 0, rozmiar.Height);
+                    dokument.Close();
+                }
+
+                pisarzPdf.Close();
+            }
+
+            Process.Start("test.pdf");
         }
 
-        public static void ZapiszBajtyJakoPdfIOtwórz(byte[] bajty, string ścieżkaDoPliku)
+        private static void WypełnijPole(PdfContentByte zawartość, Font czcionka, float x, float y, float szerokość, string tekst)
+        {
+            Rectangle pole = new Rectangle(x, y, szerokość, 0);
+            ColumnText kolumna = new ColumnText(zawartość);
+
+            kolumna.SetSimpleColumn(pole);
+            kolumna.AddElement(new Paragraph(tekst, czcionka));
+            kolumna.Go();
+        }
+
+        public static
+            void ZapiszBajtyJakoPdfIOtwórz(byte[] bajty, string ścieżkaDoPliku)
         {
             File.WriteAllBytes(ścieżkaDoPliku, bajty);
             Process.Start(ścieżkaDoPliku);

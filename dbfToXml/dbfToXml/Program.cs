@@ -18,11 +18,11 @@ namespace dbfToXml
         private static int _numerOstatniejFaktury;
         private static XmlDocument _dokumentXml;
 
-        private static readonly string[] FormatDaty = new string[]
+        private static readonly string[] FormatDaty =
         {
-            "{0:yyyy-MM-dd}", 
-            "{0:yyyy-dd-MM}", 
-            "{0:dd-MM-yyyy}", 
+            "{0:yyyy-MM-dd}",
+            "{0:yyyy-dd-MM}",
+            "{0:dd-MM-yyyy}",
             "{0:MM-dd-yyyy}"
         };
 

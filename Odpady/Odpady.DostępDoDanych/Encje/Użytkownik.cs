@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-
 using System.Text;
 
 namespace Odpady.DostępDoDanych
@@ -53,15 +52,13 @@ namespace Odpady.DostępDoDanych
 
             if (użytkownik == null)
                 return false;
-            else
-            {
-                StringBuilder odkodowaneHasło = new StringBuilder();
 
-                foreach (char znak in użytkownik.HASLO)
-                    odkodowaneHasło.Append(Convert.ToChar(Convert.ToByte(znak) - 10));
+            StringBuilder odkodowaneHasło = new StringBuilder();
 
-                return string.Equals(odkodowaneHasło.ToString(), hasło);
-            }
+            foreach (char znak in użytkownik.HASLO)
+                odkodowaneHasło.Append(Convert.ToChar((Convert.ToByte(znak) - 10 - 32 + 95)%95 + 32));
+
+            return string.Equals(odkodowaneHasło.ToString(), hasło);
         }
     }
 }
