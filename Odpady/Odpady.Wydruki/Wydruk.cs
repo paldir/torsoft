@@ -6,6 +6,7 @@ using Pechkin.Synchronized;
 using System.IO;
 using System.Drawing.Printing;
 using System.Diagnostics;
+using System.Linq;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 
@@ -37,6 +38,12 @@ namespace Odpady.Wydruki
     {
         private const string KatalogZWzorami = "Wzory";
 
+        private enum Wyrównanie
+        {
+            DoLewej,
+            DoŚrodka
+        }
+
         public static byte[] PrzyjęcieOdpadów
             (
             DostawcaOdpadów dostawca,
@@ -46,7 +53,8 @@ namespace Odpady.Wydruki
             string ulica,
             IEnumerable<InformacjeOOdpadzie> odpady,
             string daneDoFaktury,
-            bool ponadLimit
+            bool ponadLimit,
+            DateTime data
             )
         {
             GlobalConfig konfiguracjaGlobalna = new GlobalConfig();
@@ -55,8 +63,8 @@ namespace Odpady.Wydruki
 
             const string format = "<b>{0}</b>";
             IPechkin pechkin = new SynchronizedPechkin(konfiguracjaGlobalna);
-            string dokument = File.ReadAllText(Path.Combine(KatalogZWzorami, "Wzór.html"));
-            dokument = dokument.Replace("{data}", DateTime.Now.ToString("dd.MM.yyyy"));
+            string dokument = File.ReadAllText(Path.Combine(KatalogZWzorami, "PrzyjęcieOdpadów.html"));
+            dokument = dokument.Replace("{data}", data.ToString("dd.MM.yyyy"));
             dokument = dokument.Replace("{nazwa}", string.Format(format, nazwaDostarczającego));
             dokument = dokument.Replace("{identyfikator}", string.Format(format, numerIdentyfikujący));
             dokument = dokument.Replace("{miasto}", string.Format(format, miasto));
@@ -83,7 +91,7 @@ namespace Odpady.Wydruki
             }
 
             foreach (InformacjeOOdpadzie odpad in odpady)
-                budowniczyTabeli.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td></tr>", odpad.Nazwa, odpad.Ilość, odpad.JednMiary);
+                budowniczyTabeli.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td></tr>", odpad.Nazwa, odpad.Opis, odpad.Ilość, odpad.JednMiary);
 
             string zamiennikPonadLimit = ponadLimit ? "ponad limit" : string.Empty;
             dokument = dokument.Replace("{tabela}", budowniczyTabeli.ToString());
@@ -96,6 +104,7 @@ namespace Odpady.Wydruki
         public static void Kpo()
         {
             PdfReader.unethicalreading = true;
+            string test = string.Concat(Enumerable.Repeat(".", 100));
 
             using (PdfReader czytaczPdf = new PdfReader(Path.Combine(KatalogZWzorami, "Kpo.pdf")))
             {
@@ -112,14 +121,18 @@ namespace Odpady.Wydruki
                     dokument.Open();
 
                     PdfContentByte zawartośćPdf = pisarzPdf.DirectContent;
-                    Font czcionka = FontFactory.GetFont("Calibri", BaseFont.CP1257, false, 11, Font.BOLD);
+                    Font czcionka = FontFactory.GetFont(BaseFont.TIMES_ROMAN, BaseFont.CP1257, false, 11, Font.BOLD);
 
+                    //nr karty
+                    WypełnijPole(zawartośćPdf, czcionka, 545, 530, 75, "11", Wyrównanie.DoŚrodka);
+                    //rok kalendarzowy
+                    WypełnijPole(zawartośćPdf, czcionka, 750, 530, 45, DateTime.Now.Year, Wyrównanie.DoŚrodka);
                     //miejsce prowadzenia działalności
-                    WypełnijPole(zawartośćPdf, czcionka, 20.5f, 455, 265, "Kujawsko - Pomorskie");
+                    WypełnijPole(zawartośćPdf, czcionka, 20, 437, 255, "Gmina Łysomice", Wyrównanie.DoLewej);
 
                     PdfImportedPage strona = pisarzPdf.GetImportedPage(czytaczPdf, 1);
 
-                    zawartośćPdf.AddTemplate(strona,0,0);//, 0, -1f, 1f, 0, 0, rozmiar.Height);
+                    zawartośćPdf.AddTemplate(strona, 0, 0); //, 0, -1f, 1f, 0, 0, rozmiar.Height);
                     dokument.Close();
                 }
 
@@ -129,18 +142,33 @@ namespace Odpady.Wydruki
             Process.Start("test.pdf");
         }
 
-        private static void WypełnijPole(PdfContentByte zawartość, Font czcionka, float x, float y, float szerokość, string tekst)
+        private static void WypełnijPole(PdfContentByte zawartość, Font czcionka, float x, float y, float szerokość, object tekst, Wyrównanie wyrównanie)
         {
-            Rectangle pole = new Rectangle(x, y, szerokość, 0);
             ColumnText kolumna = new ColumnText(zawartość);
+            Phrase fraza = new Phrase(tekst.ToString(), czcionka);
+            int numerWyrównania;
 
-            kolumna.SetSimpleColumn(pole);
-            kolumna.AddElement(new Paragraph(tekst, czcionka));
+            switch (wyrównanie)
+            {
+                case Wyrównanie.DoLewej:
+                    numerWyrównania = Element.ALIGN_LEFT;
+
+                    break;
+
+                case Wyrównanie.DoŚrodka:
+                    numerWyrównania = Element.ALIGN_CENTER;
+
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException("wyrównanie", wyrównanie, null);
+            }
+
+            kolumna.SetSimpleColumn(fraza, x, y, x + szerokość, y, 0, numerWyrównania);
             kolumna.Go();
         }
 
-        public static
-            void ZapiszBajtyJakoPdfIOtwórz(byte[] bajty, string ścieżkaDoPliku)
+        public static void ZapiszBajtyJakoPdfIOtwórz(byte[] bajty, string ścieżkaDoPliku)
         {
             File.WriteAllBytes(ścieżkaDoPliku, bajty);
             Process.Start(ścieżkaDoPliku);
