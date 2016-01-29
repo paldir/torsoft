@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using Odpady.Wydruki;
 
@@ -13,10 +14,14 @@ namespace Testy
 
             u.HASLO = new string(hasło.Select(znak => Convert.ToChar((Convert.ToByte(znak) - 10 - 32 + 95)%95 + 32)).ToArray());*/
 
-            foreach (var proces in Process.GetProcessesByName("AcroRd32"))
-                proces.Kill();
+            /*foreach (var proces in Process.GetProcessesByName("AcroRd32"))
+                proces.Kill();*/
 
-            Wydruk.Kpo();
+            while (true)
+            {
+                Wydruk.ZapiszBajtyJakoPdfIOtwórz(Wydruk.Kpo(), "test.pdf");
+                Console.ReadKey();
+            }
         }
     }
 }
