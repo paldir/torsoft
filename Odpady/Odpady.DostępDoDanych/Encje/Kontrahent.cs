@@ -26,6 +26,11 @@ namespace Odpady.DostępDoDanych
             get { return PołączenieDlaObcychObiektów.Pobierz<Oddział>(FK_ODDZIAL.Value); }
         }
 
+        public string FIRMA
+        {
+            get { return OSOBA_FIZYCZNA==1 ? "" : NAZWA_SKROCONA_IMIE; }
+        }
+
         public List<string> ToList()
         {
             return new List<string>

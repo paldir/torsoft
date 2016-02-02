@@ -90,7 +90,7 @@ namespace Odpady.Wydruki
             }
 
             foreach (InformacjeOOdpadzie odpad in odpady)
-                budowniczyTabeli.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td></tr>", odpad.Nazwa, odpad.Opis, odpad.Ilość, odpad.JednMiary);
+                budowniczyTabeli.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td></tr>", odpad.Nazwa, odpad.Opis, odpad.Ilość, odpad.PozLimit, odpad.JednMiary);
 
             string zamiennikPonadLimit = ponadLimit ? "ponad limit" : string.Empty;
             dokument = dokument.Replace("{tabela}", budowniczyTabeli.ToString());

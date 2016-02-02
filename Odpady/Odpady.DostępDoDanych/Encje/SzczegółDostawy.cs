@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -46,6 +47,28 @@ namespace Odpady.DostępDoDanych
 
                 FK_LIMIT = limit.ID;
             }
+        }
+
+        public decimal ObliczLacznie(long idKontrahent, DateTime data, long fkGrupa)
+        {
+            IEnumerable<SzczegółDostawy> lacznie;
+            using (var polaczenie = new Odpady.DostępDoDanych.Połączenie())
+            {
+                lacznie =
+                    polaczenie.PobierzWszystkie<SzczegółDostawy>().Where(o =>
+                        o.DOSTAWA.FK_KONTRAHENT == idKontrahent &&
+                        o.DOSTAWA.DATA <= data &&
+                        (fkGrupa > 0 ? o.LIMIT.FK_GRUPA == fkGrupa : o.FK_RODZAJ_ODPADOW == FK_RODZAJ_ODPADOW));
+            }
+
+            return lacznie.Sum(tmp => (decimal) tmp.ILOSC);
+        }
+
+        public decimal LacznyLimit()
+        {
+            if (FK_LIMIT == 0) return 0;
+            var limit = LIMIT;
+            return (decimal)(limit.FK_GRUPA > 0 ? limit.GRUPA.LIMIT : limit.LIMIT);
         }
     }
 }
