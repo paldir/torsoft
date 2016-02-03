@@ -100,7 +100,7 @@ namespace Odpady.Wydruki
             return bajty;
         }
 
-        public static byte[] Kpo()
+        public static byte[] Kpo(InformacjeDoKpo info)
         {
             PdfReader.unethicalreading = true;
             byte[] bajty;
@@ -123,49 +123,49 @@ namespace Odpady.Wydruki
                     Font czcionka = FontFactory.GetFont(BaseFont.TIMES_ROMAN, BaseFont.CP1257, false, 11, Font.BOLD);
 
                     //Nr karty
-                    WypełnijPole(zawartośćPdf, czcionka, 545, 530, 75, "11", Wyrównanie.DoŚrodka);
+                    WypełnijPole(zawartośćPdf, czcionka, 545, 530, 75, info.NrKarty, Wyrównanie.DoŚrodka);
                     //Rok kalendarzowy
-                    WypełnijPole(zawartośćPdf, czcionka, 750, 530, 45, DateTime.Now.Year, Wyrównanie.DoŚrodka);
+                    WypełnijPole(zawartośćPdf, czcionka, 750, 530, 45, info.RokKalendarzowy, Wyrównanie.DoŚrodka);
                     //Miejsce prowadzenia działalności
-                    WypełnijPole(zawartośćPdf, czcionka, 20, 437, 250, "GMINA ŁYSOMICE", Wyrównanie.DoLewej);
+                    WypełnijPole(zawartośćPdf, czcionka, 20, 437, 250, info.MiejsceProwadzeniaDziałalności1, Wyrównanie.DoLewej);
                     //Nazwa i adres posiadacza odpadów transportującego odpad.
-                    WypełnijPole(zawartośćPdf, czcionka, 285, 500, 250, "Zakład Gospodarki Komunalnej Sp. z o.o. 87-140 Chełmża, ul. Toruńska 1", Wyrównanie.DoLewej);
+                    WypełnijPole(zawartośćPdf, czcionka, 285, 500, 250, info.NazwaIAdresPosiadaczaOdpadówTransportującegoOdpad, Wyrównanie.DoLewej);
                     //Nazwa i adres posiadacza odpadów, który przejmuje odpad.
-                    WypełnijPole(zawartośćPdf, czcionka, 545, 500, 250, "Miejskie Przedsiębiorstwo Oczyszczania Sp. z o.o. ul. Grudziądzka 159, 87-100 Toruń", Wyrównanie.DoLewej);
+                    WypełnijPole(zawartośćPdf, czcionka, 545, 500, 250, info.NazwaIAdresPosiadaczaOdpadówKtóryPrzejmujeOdpad, Wyrównanie.DoLewej);
                     //Miejsce prowadzenia działalności
-                    WypełnijPole(zawartośćPdf, czcionka, 545, 450, 250, "ul. Kociewska 37-53, 87-100 Toruń", Wyrównanie.DoLewej);
+                    WypełnijPole(zawartośćPdf, czcionka, 545, 450, 250, info.MiejsceProwadzeniaDziałalności2, Wyrównanie.DoLewej);
                     //Nr rejestrowy
-                    WypełnijPole(zawartośćPdf, czcionka, 345, 415, 190, "E0008276Z", Wyrównanie.DoLewej);
+                    WypełnijPole(zawartośćPdf, czcionka, 345, 415, 190, info.NrRejestrowy1, Wyrównanie.DoLewej);
                     //Nr rejestrowy
-                    WypełnijPole(zawartośćPdf, czcionka, 605, 415, 190, "E0008276Z", Wyrównanie.DoLewej);
+                    WypełnijPole(zawartośćPdf, czcionka, 605, 415, 190, info.NrRejestrowy2, Wyrównanie.DoLewej);
                     //NIP
-                    WypełnijPole(zawartośćPdf, czcionka, 315, 380, 75, "879-20-61-345", Wyrównanie.DoLewej);
+                    WypełnijPole(zawartośćPdf, czcionka, 315, 380, 75, info.Nip1, Wyrównanie.DoLewej);
                     //REGON
-                    WypełnijPole(zawartośćPdf, czcionka, 460, 380, 75, 871097485, Wyrównanie.DoLewej);
+                    WypełnijPole(zawartośćPdf, czcionka, 460, 380, 75, info.Regon1, Wyrównanie.DoLewej);
                     //NIP
-                    WypełnijPole(zawartośćPdf, czcionka, 575, 380, 75, "879-016-92-80", Wyrównanie.DoLewej);
+                    WypełnijPole(zawartośćPdf, czcionka, 575, 380, 75, info.Nip2, Wyrównanie.DoLewej);
                     //REGON
-                    WypełnijPole(zawartośćPdf, czcionka, 720, 380, 75, 871097485, Wyrównanie.DoLewej);
+                    WypełnijPole(zawartośćPdf, czcionka, 720, 380, 75, info.Regon2, Wyrównanie.DoLewej);
                     //Posiadacz odpadu, któremu należy przekazać odpad
-                    WypełnijPole(zawartośćPdf, czcionka, 285, 340, 510, "ZUOK Toruń ul. Kociewska 37-53", Wyrównanie.DoLewej);
+                    WypełnijPole(zawartośćPdf, czcionka, 285, 340, 510, info.PosiadaczOdpaduKtóremuNależyPrzekazaćOdpad, Wyrównanie.DoLewej);
                     //Kod odpadu
-                    WypełnijPole(zawartośćPdf, czcionka, 110, 240, 165, "20 03 07", Wyrównanie.DoŚrodka);
+                    WypełnijPole(zawartośćPdf, czcionka, 110, 240, 165, info.KodOdpadu, Wyrównanie.DoŚrodka);
                     //Rodzaj odpadu
-                    WypełnijPole(zawartośćPdf, czcionka, 345, 240, 450, "ODPADY WIELKOGABARYTOWE", Wyrównanie.DoLewej);
+                    WypełnijPole(zawartośćPdf, czcionka, 345, 240, 450, info.RodzajOdpadu, Wyrównanie.DoLewej);
                     //Data
-                    WypełnijPole(zawartośćPdf, czcionka, 20, 193, 250, "13.01.2016", Wyrównanie.DoŚrodka);
+                    WypełnijPole(zawartośćPdf, czcionka, 20, 193, 250, info.Data, Wyrównanie.DoŚrodka);
                     //Masa przekazanych odpadów [Mg]
-                    WypełnijPole(zawartośćPdf, czcionka, 285, 193, 250, 2000, Wyrównanie.DoŚrodka);
+                    WypełnijPole(zawartośćPdf, czcionka, 285, 193, 250, info.MasaPrzekazanychOdpadów, Wyrównanie.DoŚrodka);
                     //Numer rejestracyjny pojazdu, przyczepy lub naczepy                    
-                    WypełnijPole(zawartośćPdf, czcionka, 545, 193, 135, "CTR 70NY", Wyrównanie.DoŚrodka);
+                    WypełnijPole(zawartośćPdf, czcionka, 545, 193, 135, info.NumerRejestracyjnyPojazduPrzyczepyLubNaczepy, Wyrównanie.DoŚrodka);
                     //Odpad pochodzi z
-                    WypełnijPole(zawartośćPdf, czcionka, 95, 180, 180, "GMINA ŁYSOMICE", Wyrównanie.DoŚrodka);
+                    WypełnijPole(zawartośćPdf, czcionka, 95, 180, 180, info.OdpadPochodziZ, Wyrównanie.DoŚrodka);
                     //Data
-                    WypełnijPole(zawartośćPdf, czcionka, 140, 73, 130, "13.01.2016", Wyrównanie.DoŚrodka);
+                    WypełnijPole(zawartośćPdf, czcionka, 140, 73, 130, info.Data, Wyrównanie.DoŚrodka);
                     //Data
-                    WypełnijPole(zawartośćPdf, czcionka, 400, 73, 130, "13.01.2016", Wyrównanie.DoŚrodka);
+                    WypełnijPole(zawartośćPdf, czcionka, 400, 73, 130, info.Data, Wyrównanie.DoŚrodka);
                     //Data
-                    WypełnijPole(zawartośćPdf, czcionka, 660, 73, 130, "13.01.2016", Wyrównanie.DoŚrodka);
+                    WypełnijPole(zawartośćPdf, czcionka, 660, 73, 130, info.Data, Wyrównanie.DoŚrodka);
 
                     PdfImportedPage strona = pisarzPdf.GetImportedPage(czytaczPdf, 1);
 
@@ -179,6 +179,14 @@ namespace Odpady.Wydruki
             }
 
             return bajty;
+        }
+
+        public static void Ewidencja(IEnumerable<InformacjeOOdpadzie> informacje)
+        {
+            //center, bold, duża czcionka: Karty ewidencji odpadów
+            //center: ewidencja od DATA do DATA
+            //
+            //center: tabela jak wyżej czyli: | Kod odpadu | Opis | Stan | Jedn. miary | - przekazana z tabeli
         }
 
         private static void WypełnijPole(PdfContentByte zawartość, Font czcionka, float x, float y, float szerokość, object tekst, Wyrównanie wyrównanie)

@@ -65,8 +65,10 @@
     <Compile Include="Encje\Dostawa.cs" />
     <Compile Include="Encje\JednostkaMiary.cs" />
     <Compile Include="Encje\Kontrahent.cs" />
+    <Compile Include="Encje\Kpo.cs" />
     <Compile Include="Encje\Limit.cs" />
     <Compile Include="Encje\Oddział.cs" />
+    <Compile Include="Encje\Posiadacz.cs" />
     <Compile Include="Encje\SzczegółDostawy.cs" />
     <Compile Include="Encje\Szpieg.cs" />
     <Compile Include="Połączenie.cs" />

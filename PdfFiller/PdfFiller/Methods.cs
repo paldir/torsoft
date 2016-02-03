@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using System.IO;
+﻿using System.IO;
 using iTextSharp.text.pdf;
 using RGiesecke.DllExport;
 using System.Diagnostics;
@@ -11,9 +7,9 @@ namespace PdfFiller
 {
     public static class Methods
     {
-        const System.Runtime.InteropServices.CallingConvention callingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl;
+        private const System.Runtime.InteropServices.CallingConvention CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl;
 
-        static void _Fill(string pdfPath, string filledPdfPath, string xmlPath)
+        private static void _Fill(string pdfPath, string filledPdfPath, string xmlPath)
         {
             using (FileStream pdf = new FileStream(pdfPath, FileMode.Open))
             using (FileStream xml = new FileStream(xmlPath, FileMode.Open))
@@ -27,19 +23,20 @@ namespace PdfFiller
             }
         }
 
-        static void _Print(string pdfPath)
+        private static void _Print(string pdfPath)
         {
-            ProcessStartInfo processStartInfo = new ProcessStartInfo(pdfPath);
-            processStartInfo.Verb = "print";
-            processStartInfo.CreateNoWindow = true;
-            processStartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            Process process = new Process();
-            process.StartInfo = processStartInfo;
+            ProcessStartInfo processStartInfo = new ProcessStartInfo(pdfPath)
+            {
+                Verb = "print",
+                CreateNoWindow = true,
+                WindowStyle = ProcessWindowStyle.Hidden
+            };
+            Process process = new Process {StartInfo = processStartInfo};
 
             process.Start();
         }
 
-        [DllExport("Fill", CallingConvention = callingConvention)]
+        [DllExport("Fill", CallingConvention = CallingConvention)]
         public static int Fill(string pdfPath, string filledPdfPath, string xmlPath)
         {
             try
@@ -51,7 +48,7 @@ namespace PdfFiller
             catch { return -1; }
         }
 
-        [DllExport("FillAndOpen", CallingConvention = callingConvention)]
+        [DllExport("FillAndOpen", CallingConvention = CallingConvention)]
         public static int FillAndOpen(string pdfPath, string filledPdfPath, string xmlPath, int print)
         {
             try
@@ -68,7 +65,7 @@ namespace PdfFiller
             catch { return -1; }
         }
 
-        [DllExport("Print", CallingConvention = callingConvention)]
+        [DllExport("Print", CallingConvention = CallingConvention)]
         public static int Print(string pdfPath)
         {
             try
