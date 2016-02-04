@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using Odpady.DostępDoDanych;
 using Odpady.Wydruki;
@@ -10,37 +12,48 @@ namespace Testy
     {
         private static void Main()
         {
-            /*foreach (var proces in Process.GetProcessesByName("AcroRd32"))
+            foreach (var proces in Process.GetProcessesByName("AcroRd32"))
                 proces.Kill();
 
-            InformacjeDoKpo i = new InformacjeDoKpo(DateTime.Now)
+            List<InformacjeOOdpadzie> odpady = new List<InformacjeOOdpadzie>
             {
-                NrKarty = "11",
-                RokKalendarzowy = "11",
-                NazwaIAdresPosiadaczaOdpadówTransportującegoOdpad = "Zakład Gospodarki Komunalnej Sp. z o.o. 87-140 Chełmża, ul. Toruńska 1",
-                NazwaIAdresPosiadaczaOdpadówKtóryPrzejmujeOdpad = "Miejskie Przedsiębiorstwo Oczyszczania Sp. z o.o. ul.Grudziądzka 159, 87-100 Toruń",
-                MiejsceProwadzeniaDziałalności1 = "GMINA ŁYSOMICE",
-                MiejsceProwadzeniaDziałalności2 = "ul. Kociewska 37-53, 87-100 Toruń",
-                NrRejestrowy1 = "E0008276Z",
-                NrRejestrowy2 = "E0008276Z",
-                Nip1 = "879-20-61-345",
-                Regon1 = "871097485",
-                Nip2 = "879-016-92-80",
-                Regon2 = "871097485",
-                PosiadaczOdpaduKtóremuNależyPrzekazaćOdpad = "ZUOK Toruń, ul. Kociewska 37-53",
-                KodOdpadu = "20 03 07",
-                RodzajOdpadu = "ODPADY WIELKOGABARYTOWE",
-                MasaPrzekazanychOdpadów = "2000",
-                NumerRejestracyjnyPojazduPrzyczepyLubNaczepy = "CTR 70NY",
-                OdpadPochodziZ = "GMINA ŁYSOMICE"
+                new InformacjeOOdpadzie("01 01 01", "opony", "4", "0", "szt."),
+                new InformacjeOOdpadzie("01 01 01", "złom", "2000", "0", "kg"),
+                new InformacjeOOdpadzie("01 01 01", "olej silnikowy", "13", "0", "l")
             };
 
-            Wydruk.ZapiszBajtyJakoPdfIOtwórz(Wydruk.Kpo(i), "test.pdf");*/
+            Wydruk.ZapiszBajtyJakoPdfIOtwórz(Wydruk.Ewidencja(DateTime.Now.AddDays(-7), DateTime.Now, odpady), "test.pdf");
+        }
 
-            using (Połączenie p = new Połączenie())
-            {
-                p.UtwórzKlasęNaPodstawieTabeli("kpo", "Kpo");
-            }
+        private static InformacjeDoKpo KonwertujZEncjiNaInfoDoWydruku(Kpo kpo)
+        {
+            DateTime? data = kpo.DATA;
+            RodzajOdpadów odpad = kpo.ODPAD;
+            decimal? masa = kpo.MASA;
+            InformacjeDoKpo info = data.HasValue ? new InformacjeDoKpo(data.Value) : new InformacjeDoKpo();
+            info.NrKarty = kpo.NR_KARTY;
+            info.RokKalendarzowy = kpo.ROK_KALENDARZOWY;
+            info.MiejsceProwadzeniaDziałalności1 = kpo.MIEJSCE_DZIALALNOSCI_1;
+            info.NazwaIAdresPosiadaczaOdpadówTransportującegoOdpad = kpo.TRANSPORTUJACY_2;
+            info.NazwaIAdresPosiadaczaOdpadówKtóryPrzejmujeOdpad = kpo.PRZEJMUJACY_3;
+            info.MiejsceProwadzeniaDziałalności3 = kpo.MIEJSCE_DZIALALNOSCI_3;
+            info.NrRejestrowy2 = kpo.NR_REJESTROWY_2;
+            info.NrRejestrowy3 = kpo.NR_REJESTROWY_3;
+            info.Nip2 = kpo.NIP_2;
+            info.Regon2 = kpo.REGON_2;
+            info.Nip3 = kpo.NIP_3;
+            info.Regon3 = kpo.REGON_3;
+            info.PosiadaczOdpaduKtóremuNależyPrzekazaćOdpad = kpo.ODBIORCA;
+            info.KodOdpadu = odpad.KOD;
+            info.RodzajOdpadu = odpad.OPIS;
+            info.DataMiesiąc = kpo.DATA_MIESIAC;
+            info.NumerRejestracyjnyPojazduPrzyczepyLubNaczepy = kpo.NUMER_REJESTRACYJNY;
+            info.OdpadPochodziZ = kpo.ODPAD_POCHODZI_Z;
+
+            if (masa.HasValue)
+                info.MasaPrzekazanychOdpadów = masa.Value.ToString(CultureInfo.CurrentCulture);
+
+            return info;
         }
     }
 }

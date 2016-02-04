@@ -17,22 +17,6 @@ namespace Odpady.Wydruki
         Firma
     }
 
-    /*
-            List<InformacjeOOdpadzie> odpady = new List<InformacjeOOdpadzie>();
-            string daneDoFaktury = @"Janina Nowak
-                87-100 Toruń
-                ul. Wały gen. Sikorskiego 1
-                NIP 123456789";
-
-            odpady.Add(new InformacjeOOdpadzie("opony", "4", "szt."));
-            odpady.Add(new InformacjeOOdpadzie("złom", "2000", "kg"));
-            odpady.Add(new InformacjeOOdpadzie("olej silnikowy", "13", "l"));
-
-            byte[] bajty = Wydruk.PrzyjęcieOdpadów(DostawcaOdpadów.OsobaFizyczna, "Jan Kowalski", "00010112345", "Toruń", "Lubicka 23/1", odpady, daneDoFaktury, true);
-
-            Wydruk.ZapiszBajtyJakoPdfIOtwórz(bajty, Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "test.pdf"));
-     */
-
     public static class Wydruk
     {
         private const string KatalogZWzorami = "Wzory";
@@ -56,12 +40,7 @@ namespace Odpady.Wydruki
             DateTime data
             )
         {
-            GlobalConfig konfiguracjaGlobalna = new GlobalConfig();
-
-            konfiguracjaGlobalna.SetPaperSize(PaperKind.A4);
-
             const string format = "<b>{0}</b>";
-            IPechkin pechkin = new SynchronizedPechkin(konfiguracjaGlobalna);
             string dokument = File.ReadAllText(Path.Combine(KatalogZWzorami, "PrzyjęcieOdpadów.html"));
             dokument = dokument.Replace("{data}", data.ToString("dd.MM.yyyy"));
             dokument = dokument.Replace("{nazwa}", string.Format(format, nazwaDostarczającego));
@@ -95,7 +74,7 @@ namespace Odpady.Wydruki
             string zamiennikPonadLimit = ponadLimit ? "ponad limit" : string.Empty;
             dokument = dokument.Replace("{tabela}", budowniczyTabeli.ToString());
             dokument = dokument.Replace("{ponadLimit}", zamiennikPonadLimit);
-            byte[] bajty = pechkin.Convert(dokument);
+            byte[] bajty = StwórzPdfZHtml(dokument);
 
             return bajty;
         }
@@ -123,49 +102,49 @@ namespace Odpady.Wydruki
                     Font czcionka = FontFactory.GetFont(BaseFont.TIMES_ROMAN, BaseFont.CP1257, false, 11, Font.BOLD);
 
                     //Nr karty
-                    WypełnijPole(zawartośćPdf, czcionka, 545, 530, 75, info.NrKarty, Wyrównanie.DoŚrodka);
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka, 545, 530, 75, info.NrKarty, Wyrównanie.DoŚrodka);
                     //Rok kalendarzowy
-                    WypełnijPole(zawartośćPdf, czcionka, 750, 530, 45, info.RokKalendarzowy, Wyrównanie.DoŚrodka);
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka, 750, 530, 45, info.RokKalendarzowy, Wyrównanie.DoŚrodka);
                     //Miejsce prowadzenia działalności
-                    WypełnijPole(zawartośćPdf, czcionka, 20, 437, 250, info.MiejsceProwadzeniaDziałalności1, Wyrównanie.DoLewej);
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka, 20, 437, 250, info.MiejsceProwadzeniaDziałalności1, Wyrównanie.DoLewej);
                     //Nazwa i adres posiadacza odpadów transportującego odpad.
-                    WypełnijPole(zawartośćPdf, czcionka, 285, 500, 250, info.NazwaIAdresPosiadaczaOdpadówTransportującegoOdpad, Wyrównanie.DoLewej);
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka, 285, 500, 250, info.NazwaIAdresPosiadaczaOdpadówTransportującegoOdpad, Wyrównanie.DoLewej);
                     //Nazwa i adres posiadacza odpadów, który przejmuje odpad.
-                    WypełnijPole(zawartośćPdf, czcionka, 545, 500, 250, info.NazwaIAdresPosiadaczaOdpadówKtóryPrzejmujeOdpad, Wyrównanie.DoLewej);
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka, 545, 500, 250, info.NazwaIAdresPosiadaczaOdpadówKtóryPrzejmujeOdpad, Wyrównanie.DoLewej);
                     //Miejsce prowadzenia działalności
-                    WypełnijPole(zawartośćPdf, czcionka, 545, 450, 250, info.MiejsceProwadzeniaDziałalności2, Wyrównanie.DoLewej);
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka, 545, 450, 250, info.MiejsceProwadzeniaDziałalności3, Wyrównanie.DoLewej);
                     //Nr rejestrowy
-                    WypełnijPole(zawartośćPdf, czcionka, 345, 415, 190, info.NrRejestrowy1, Wyrównanie.DoLewej);
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka, 345, 415, 190, info.NrRejestrowy2, Wyrównanie.DoLewej);
                     //Nr rejestrowy
-                    WypełnijPole(zawartośćPdf, czcionka, 605, 415, 190, info.NrRejestrowy2, Wyrównanie.DoLewej);
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka, 605, 415, 190, info.NrRejestrowy3, Wyrównanie.DoLewej);
                     //NIP
-                    WypełnijPole(zawartośćPdf, czcionka, 315, 380, 75, info.Nip1, Wyrównanie.DoLewej);
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka, 315, 380, 75, info.Nip2, Wyrównanie.DoLewej);
                     //REGON
-                    WypełnijPole(zawartośćPdf, czcionka, 460, 380, 75, info.Regon1, Wyrównanie.DoLewej);
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka, 460, 380, 75, info.Regon2, Wyrównanie.DoLewej);
                     //NIP
-                    WypełnijPole(zawartośćPdf, czcionka, 575, 380, 75, info.Nip2, Wyrównanie.DoLewej);
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka, 575, 380, 75, info.Nip3, Wyrównanie.DoLewej);
                     //REGON
-                    WypełnijPole(zawartośćPdf, czcionka, 720, 380, 75, info.Regon2, Wyrównanie.DoLewej);
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka, 720, 380, 75, info.Regon3, Wyrównanie.DoLewej);
                     //Posiadacz odpadu, któremu należy przekazać odpad
-                    WypełnijPole(zawartośćPdf, czcionka, 285, 340, 510, info.PosiadaczOdpaduKtóremuNależyPrzekazaćOdpad, Wyrównanie.DoLewej);
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka, 285, 340, 510, info.PosiadaczOdpaduKtóremuNależyPrzekazaćOdpad, Wyrównanie.DoLewej);
                     //Kod odpadu
-                    WypełnijPole(zawartośćPdf, czcionka, 110, 240, 165, info.KodOdpadu, Wyrównanie.DoŚrodka);
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka, 110, 240, 165, info.KodOdpadu, Wyrównanie.DoŚrodka);
                     //Rodzaj odpadu
-                    WypełnijPole(zawartośćPdf, czcionka, 345, 240, 450, info.RodzajOdpadu, Wyrównanie.DoLewej);
-                    //Data
-                    WypełnijPole(zawartośćPdf, czcionka, 20, 193, 250, info.Data, Wyrównanie.DoŚrodka);
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka, 345, 240, 450, info.RodzajOdpadu, Wyrównanie.DoLewej);
+                    //Data/miesiąc
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka, 20, 193, 250, info.DataMiesiąc, Wyrównanie.DoŚrodka);
                     //Masa przekazanych odpadów [Mg]
-                    WypełnijPole(zawartośćPdf, czcionka, 285, 193, 250, info.MasaPrzekazanychOdpadów, Wyrównanie.DoŚrodka);
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka, 285, 193, 250, info.MasaPrzekazanychOdpadów, Wyrównanie.DoŚrodka);
                     //Numer rejestracyjny pojazdu, przyczepy lub naczepy                    
-                    WypełnijPole(zawartośćPdf, czcionka, 545, 193, 135, info.NumerRejestracyjnyPojazduPrzyczepyLubNaczepy, Wyrównanie.DoŚrodka);
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka, 545, 193, 135, info.NumerRejestracyjnyPojazduPrzyczepyLubNaczepy, Wyrównanie.DoŚrodka);
                     //Odpad pochodzi z
-                    WypełnijPole(zawartośćPdf, czcionka, 95, 180, 180, info.OdpadPochodziZ, Wyrównanie.DoŚrodka);
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka, 95, 180, 180, info.OdpadPochodziZ, Wyrównanie.DoŚrodka);
                     //Data
-                    WypełnijPole(zawartośćPdf, czcionka, 140, 73, 130, info.Data, Wyrównanie.DoŚrodka);
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka, 140, 73, 130, info.Data, Wyrównanie.DoŚrodka);
                     //Data
-                    WypełnijPole(zawartośćPdf, czcionka, 400, 73, 130, info.Data, Wyrównanie.DoŚrodka);
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka, 400, 73, 130, info.Data, Wyrównanie.DoŚrodka);
                     //Data
-                    WypełnijPole(zawartośćPdf, czcionka, 660, 73, 130, info.Data, Wyrównanie.DoŚrodka);
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka, 660, 73, 130, info.Data, Wyrównanie.DoŚrodka);
 
                     PdfImportedPage strona = pisarzPdf.GetImportedPage(czytaczPdf, 1);
 
@@ -181,15 +160,42 @@ namespace Odpady.Wydruki
             return bajty;
         }
 
-        public static void Ewidencja(IEnumerable<InformacjeOOdpadzie> informacje)
+        public static byte[] Ewidencja(DateTime dataOd, DateTime dataDo, IEnumerable<InformacjeOOdpadzie> odpady)
         {
-            //center, bold, duża czcionka: Karty ewidencji odpadów
-            //center: ewidencja od DATA do DATA
-            //
-            //center: tabela jak wyżej czyli: | Kod odpadu | Opis | Stan | Jedn. miary | - przekazana z tabeli
+            const string formatDaty = "dd.MM.yyyy";
+            string dokument = File.ReadAllText(Path.Combine(KatalogZWzorami, "Ewidencja.html"));
+            dokument = dokument.Replace("{data1}", dataOd.ToString(formatDaty));
+            dokument = dokument.Replace("{data2}", dataDo.ToString(formatDaty));
+            StringBuilder budowniczyTabeli = new StringBuilder();
+
+            foreach (InformacjeOOdpadzie informacje in odpady)
+                budowniczyTabeli.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td></tr>", informacje.Nazwa, informacje.Opis, informacje.Ilość, informacje.JednMiary);
+
+            dokument = dokument.Replace("{tablica}", budowniczyTabeli.ToString());
+            byte[] bajty = StwórzPdfZHtml(dokument);
+
+            return bajty;
         }
 
-        private static void WypełnijPole(PdfContentByte zawartość, Font czcionka, float x, float y, float szerokość, object tekst, Wyrównanie wyrównanie)
+        public static void ZapiszBajtyJakoPdfIOtwórz(byte[] bajty, string ścieżkaDoPliku)
+        {
+            File.WriteAllBytes(ścieżkaDoPliku, bajty);
+            Process.Start(ścieżkaDoPliku);
+        }
+
+        private static byte[] StwórzPdfZHtml(string html)
+        {
+            GlobalConfig konfiguracja = new GlobalConfig();
+
+            konfiguracja.SetPaperSize(PaperKind.A4);
+
+            IPechkin pechkin = new SynchronizedPechkin(konfiguracja);
+            byte[] bajty = pechkin.Convert(html);
+
+            return bajty;
+        }
+
+        private static void WypełnijPoleWPdf(PdfContentByte zawartość, Font czcionka, float x, float y, float szerokość, object tekst, Wyrównanie wyrównanie)
         {
             ColumnText kolumna = new ColumnText(zawartość);
             int numerWyrównania;
@@ -213,12 +219,6 @@ namespace Odpady.Wydruki
 
             kolumna.SetSimpleColumn(new Phrase(new Chunk(tekst.ToString(), czcionka)), x, y + wysokośćLinii, x + szerokość, 0, wysokośćLinii, numerWyrównania);
             kolumna.Go();
-        }
-
-        public static void ZapiszBajtyJakoPdfIOtwórz(byte[] bajty, string ścieżkaDoPliku)
-        {
-            File.WriteAllBytes(ścieżkaDoPliku, bajty);
-            Process.Start(ścieżkaDoPliku);
         }
     }
 }

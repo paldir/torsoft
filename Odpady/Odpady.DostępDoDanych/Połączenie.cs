@@ -81,6 +81,8 @@ namespace Odpady.DostępDoDanych
             TypRekorduNaNazwęTabeli.Add(typeof (Szpieg), "ESPIONAGE");
             TypRekorduNaNazwęTabeli.Add(typeof (Dostawa), "DOSTAWY");
             TypRekorduNaNazwęTabeli.Add(typeof (SzczegółDostawy), "SZCZEGOLY_DOSTAW");
+            TypRekorduNaNazwęTabeli.Add(typeof (Kpo), "KPO");
+            TypRekorduNaNazwęTabeli.Add(typeof (Odbiorca), "ODBIORCY");
         }
 
         public List<T> PobierzWszystkie<T>() where T : Rekord

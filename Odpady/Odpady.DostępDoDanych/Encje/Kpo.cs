@@ -22,10 +22,17 @@ namespace Odpady.DostępDoDanych
         public string ODPAD_POCHODZI_Z { get; set; }
         public string REGON_2 { get; set; }
         public string REGON_3 { get; set; }
+        public long? FK_ODDZIAL { get; set; }
+        public string DATA_MIESIAC { get; set; }
 
         public RodzajOdpadów ODPAD
         {
             get { return PołączenieDlaObcychObiektów.Pobierz<RodzajOdpadów>(FK_ODPAD.Value); }
+        }
+
+        public Oddział ODDZIAL
+        {
+            get { return PołączenieDlaObcychObiektów.Pobierz<Oddział>(FK_ODDZIAL.Value); }
         }
     }
 }
