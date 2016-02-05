@@ -43,30 +43,40 @@ namespace Odpady.Wydruki
             const string format = "<b>{0}</b>";
             string dokument = File.ReadAllText(Path.Combine(KatalogZWzorami, "PrzyjęcieOdpadów.html"));
             dokument = dokument.Replace("{data}", data.ToString("dd.MM.yyyy"));
-            dokument = dokument.Replace("{nazwa}", string.Format(format, nazwaDostarczającego));
-            dokument = dokument.Replace("{identyfikator}", string.Format(format, numerIdentyfikujący));
             dokument = dokument.Replace("{miasto}", string.Format(format, miasto));
             dokument = dokument.Replace("{ulica}", string.Format(format, ulica));
             dokument = dokument.Replace("{daneDoFaktury}", daneDoFaktury.Replace(Environment.NewLine, "<br />"));
             StringBuilder budowniczyTabeli = new StringBuilder();
+            string wydarzenie;
 
-            switch (dostawca)
+            if (string.IsNullOrEmpty(nazwaDostarczającego))
+                wydarzenie = "dostarczono";
+            else
             {
-                case DostawcaOdpadów.OsobaFizyczna:
-                    dokument = dokument.Replace("{rodzajDostarczającego}", "Pan / Pani");
-                    dokument = dokument.Replace("{rodzajIdentyfikatora}", "PESEL");
+                wydarzenie = "{rodzajDostarczającego} {nazwa} nr {rodzajIdentyfikatora} {identyfikator} dostarczył/dostarczyła";
+                wydarzenie = wydarzenie.Replace("{nazwa}", string.Format(format, nazwaDostarczającego));
+                wydarzenie = wydarzenie.Replace("{identyfikator}", string.Format(format, numerIdentyfikujący));
 
-                    break;
+                switch (dostawca)
+                {
+                    case DostawcaOdpadów.OsobaFizyczna:
+                        wydarzenie = wydarzenie.Replace("{rodzajDostarczającego}", "Pan / Pani");
+                        wydarzenie = wydarzenie.Replace("{rodzajIdentyfikatora}", "PESEL");
 
-                case DostawcaOdpadów.Firma:
-                    dokument = dokument.Replace("{rodzajDostarczającego}", "Nazwa Firmy / Przedsiębiorstwa");
-                    dokument = dokument.Replace("{rodzajIdentyfikatora}", "NIP");
+                        break;
 
-                    break;
+                    case DostawcaOdpadów.Firma:
+                        wydarzenie = wydarzenie.Replace("{rodzajDostarczającego}", "Nazwa Firmy / Przedsiębiorstwa");
+                        wydarzenie = wydarzenie.Replace("{rodzajIdentyfikatora}", "NIP");
 
-                default:
-                    throw new ArgumentOutOfRangeException("dostawca", dostawca, null);
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException("dostawca", dostawca, null);
+                }
             }
+
+            dokument = dokument.Replace("{wydarzenie}", wydarzenie);
 
             foreach (InformacjeOOdpadzie odpad in odpady)
                 budowniczyTabeli.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td></tr>", odpad.Nazwa, odpad.Opis, odpad.Ilość, odpad.PozLimit, odpad.JednMiary);

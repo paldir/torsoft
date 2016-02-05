@@ -22,7 +22,7 @@ namespace Testy
                 new InformacjeOOdpadzie("01 01 01", "olej silnikowy", "13", "0", "l")
             };
 
-            Wydruk.ZapiszBajtyJakoPdfIOtwórz(Wydruk.Ewidencja(DateTime.Now.AddDays(-7), DateTime.Now, odpady), "test.pdf");
+            Wydruk.ZapiszBajtyJakoPdfIOtwórz(Wydruk.PrzyjęcieOdpadów(DostawcaOdpadów.OsobaFizyczna, "", "1234", "Toruń", "Lubicka", odpady, "brak", false, DateTime.Now), "test.pdf");
         }
 
         private static InformacjeDoKpo KonwertujZEncjiNaInfoDoWydruku(Kpo kpo)
