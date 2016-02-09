@@ -49,7 +49,7 @@ namespace Odpady.Wydruki
             StringBuilder budowniczyTabeli = new StringBuilder();
             string wydarzenie;
 
-            if (string.IsNullOrEmpty(nazwaDostarczającego))
+            if (string.IsNullOrEmpty(nazwaDostarczającego) || (nazwaDostarczającego.Length < 3))
                 wydarzenie = "dostarczono";
             else
             {
