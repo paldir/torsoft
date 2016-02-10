@@ -6,8 +6,11 @@ using Pechkin.Synchronized;
 using System.IO;
 using System.Drawing.Printing;
 using System.Diagnostics;
+using System.Linq;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using Odpady.DostępDoDanych;
+using Org.BouncyCastle.Crypto.Paddings;
 
 namespace Odpady.Wydruki
 {
@@ -77,6 +80,7 @@ namespace Odpady.Wydruki
             }
 
             dokument = dokument.Replace("{wydarzenie}", wydarzenie);
+            
 
             foreach (InformacjeOOdpadzie odpad in odpady)
                 budowniczyTabeli.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td></tr>", odpad.Nazwa, odpad.Opis, odpad.Ilość, odpad.PozLimit, odpad.JednMiary);
@@ -173,13 +177,51 @@ namespace Odpady.Wydruki
         public static byte[] Ewidencja(DateTime dataOd, DateTime dataDo, IEnumerable<InformacjeOOdpadzie> odpady)
         {
             const string formatDaty = "dd.MM.yyyy";
+            InformacjeOOdpadzie[] tablicaOdpadów = odpady.ToArray();
             string dokument = File.ReadAllText(Path.Combine(KatalogZWzorami, "Ewidencja.html"));
             dokument = dokument.Replace("{data1}", dataOd.ToString(formatDaty));
             dokument = dokument.Replace("{data2}", dataDo.ToString(formatDaty));
+            dokument = dokument.Replace("{zestawienieDotyczy}", tablicaOdpadów.Length > 1 ? "przyjętych odpadów" : "przyjętego odpadu");
             StringBuilder budowniczyTabeli = new StringBuilder();
 
-            foreach (InformacjeOOdpadzie informacje in odpady)
+            foreach (InformacjeOOdpadzie informacje in tablicaOdpadów)
                 budowniczyTabeli.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td></tr>", informacje.Nazwa, informacje.Opis, informacje.Ilość, informacje.JednMiary);
+
+            dokument = dokument.Replace("{tablica}", budowniczyTabeli.ToString());
+            byte[] bajty = StwórzPdfZHtml(dokument);
+
+            return bajty;
+        }
+
+        public static byte[] ZestawienieOdpadu(DateTime dataOd, DateTime dataDo, IEnumerable<SzczegółDostawy> szczegółyDostaw)
+        {
+            const string formatDaty = "dd.MM.yyyy";
+            SzczegółDostawy[] tabelaSzczegółów = szczegółyDostaw.ToArray();
+            RodzajOdpadów odpad = tabelaSzczegółów.First().RODZAJ_ODPADOW;
+            string dokument = File.ReadAllText(Path.Combine(KatalogZWzorami, "ZestawienieOdpadu.html"));
+            dokument = dokument.Replace("{data1}", dataOd.ToString(formatDaty));
+            dokument = dokument.Replace("{data2}", dataDo.ToString(formatDaty));
+            dokument = dokument.Replace("{kod}", odpad.KOD);
+            dokument = dokument.Replace("{opis}", odpad.OPIS);
+            StringBuilder budowniczyTabeli = new StringBuilder();
+            decimal suma = 0;
+
+            foreach (SzczegółDostawy szczegółDostawy in tabelaSzczegółów)
+            {
+                Dostawa dostawa = szczegółDostawy.DOSTAWA;
+                Kontrahent kontrahent = dostawa.KONTRAHENT;
+                decimal? potencjalnaIlość = szczegółDostawy.ILOSC;
+
+                if (potencjalnaIlość.HasValue)
+                {
+                    decimal ilość = potencjalnaIlość.Value;
+                    suma += ilość;
+
+                    budowniczyTabeli.AppendFormat("<tr><td>{0:dd.MM.yyyy}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td></tr>", dostawa.DATA, kontrahent.ULICA, kontrahent.NR_DOMU, kontrahent.NR_LOKALU, ilość, odpad.JEDNOSTKA_MIARY.NAZWA);
+                }
+            }
+
+            budowniczyTabeli.AppendFormat("<tr><td></td><td></td><td></td><td></td><td>{0}</td><td></td></tr>", suma);
 
             dokument = dokument.Replace("{tablica}", budowniczyTabeli.ToString());
             byte[] bajty = StwórzPdfZHtml(dokument);

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using Odpady.DostępDoDanych;
 using Odpady.Wydruki;
@@ -15,45 +14,12 @@ namespace Testy
             foreach (var proces in Process.GetProcessesByName("AcroRd32"))
                 proces.Kill();
 
-            List<InformacjeOOdpadzie> odpady = new List<InformacjeOOdpadzie>
+            using (Połączenie p = new Połączenie())
             {
-                new InformacjeOOdpadzie("01 01 01", "opony", "4", "0", "szt."),
-                new InformacjeOOdpadzie("01 01 01", "złom", "2000", "0", "kg"),
-                new InformacjeOOdpadzie("01 01 01", "olej silnikowy", "13", "0", "l")
-            };
+                IEnumerable<SzczegółDostawy> sd = p.PobierzWszystkie<SzczegółDostawy>().Where(s => s.RODZAJ_ODPADOW.KOD == "17 01 01");
 
-            Wydruk.ZapiszBajtyJakoPdfIOtwórz(Wydruk.PrzyjęcieOdpadów(DostawcaOdpadów.OsobaFizyczna, "", "1234", "Toruń", "Lubicka", odpady, "brak", false, DateTime.Now), "test.pdf");
-        }
-
-        private static InformacjeDoKpo KonwertujZEncjiNaInfoDoWydruku(Kpo kpo)
-        {
-            DateTime? data = kpo.DATA;
-            RodzajOdpadów odpad = kpo.ODPAD;
-            decimal? masa = kpo.MASA;
-            InformacjeDoKpo info = data.HasValue ? new InformacjeDoKpo(data.Value) : new InformacjeDoKpo();
-            info.NrKarty = kpo.NR_KARTY;
-            info.RokKalendarzowy = kpo.ROK_KALENDARZOWY;
-            info.MiejsceProwadzeniaDziałalności1 = kpo.MIEJSCE_DZIALALNOSCI_1;
-            info.NazwaIAdresPosiadaczaOdpadówTransportującegoOdpad = kpo.TRANSPORTUJACY_2;
-            info.NazwaIAdresPosiadaczaOdpadówKtóryPrzejmujeOdpad = kpo.PRZEJMUJACY_3;
-            info.MiejsceProwadzeniaDziałalności3 = kpo.MIEJSCE_DZIALALNOSCI_3;
-            info.NrRejestrowy2 = kpo.NR_REJESTROWY_2;
-            info.NrRejestrowy3 = kpo.NR_REJESTROWY_3;
-            info.Nip2 = kpo.NIP_2;
-            info.Regon2 = kpo.REGON_2;
-            info.Nip3 = kpo.NIP_3;
-            info.Regon3 = kpo.REGON_3;
-            info.PosiadaczOdpaduKtóremuNależyPrzekazaćOdpad = kpo.ODBIORCA;
-            info.KodOdpadu = odpad.KOD;
-            info.RodzajOdpadu = odpad.OPIS;
-            info.DataMiesiąc = kpo.DATA_MIESIAC;
-            info.NumerRejestracyjnyPojazduPrzyczepyLubNaczepy = kpo.NUMER_REJESTRACYJNY;
-            info.OdpadPochodziZ = kpo.ODPAD_POCHODZI_Z;
-
-            if (masa.HasValue)
-                info.MasaPrzekazanychOdpadów = masa.Value.ToString(CultureInfo.CurrentCulture);
-
-            return info;
+                Wydruk.ZapiszBajtyJakoPdfIOtwórz(Wydruk.ZestawienieOdpadu(DateTime.Now, DateTime.Now, sd), "test.pdf");
+            }
         }
     }
 }
