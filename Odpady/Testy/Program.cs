@@ -11,14 +11,15 @@ namespace Testy
     {
         private static void Main()
         {
-            foreach (var proces in Process.GetProcessesByName("AcroRd32"))
-                proces.Kill();
-
             using (Połączenie p = new Połączenie())
             {
-                IEnumerable<SzczegółDostawy> sd = p.PobierzWszystkie<SzczegółDostawy>().Where(s => s.RODZAJ_ODPADOW.KOD == "17 01 01");
+                foreach (Kontrahent kontrahent in p.PobierzWszystkie<Kontrahent>())
+                {
+                    var tmp1 = kontrahent.ODDZIAL.PELNA_NAZWA;
+                    var tmp2 = kontrahent.ODDZIAL.SKROCONA_NAZWA;
 
-                Wydruk.ZapiszBajtyJakoPdfIOtwórz(Wydruk.ZestawienieOdpadu(DateTime.Now, DateTime.Now, sd), "test.pdf");
+
+                }
             }
         }
     }

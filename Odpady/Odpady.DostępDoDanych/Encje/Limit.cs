@@ -9,19 +9,33 @@ namespace Odpady.DostępDoDanych
         public decimal? LIMIT { get; set; }
         public decimal? KARA { get; set; }
 
+        private RodzajOdpadów _rodzaj_odpadow;
+
         public RodzajOdpadów RODZAJ_ODPADOW
         {
-            get { return PołączenieDlaObcychObiektów.Pobierz<RodzajOdpadów>(FK_RODZAJ_ODPADOW.Value); }
+            get
+            {
+                UstawObcyObiekt(ref _rodzaj_odpadow, FK_RODZAJ_ODPADOW.Value);
+
+                return _rodzaj_odpadow;
+            }
         }
+
+        private Oddział _oddzial;
 
         public Oddział ODDZIAL
         {
-            get { return PołączenieDlaObcychObiektów.Pobierz<Oddział>(FK_ODDZIAL.Value); }
+            get
+            {
+                UstawObcyObiekt(ref _oddzial, FK_ODDZIAL.Value);
+
+                return _oddzial;
+            }
         }
 
         public Limit GRUPA
         {
-            get { return FK_GRUPA!=0 ? PołączenieDlaObcychObiektów.Pobierz<Limit>(FK_GRUPA.Value) : null; }
+            get { return FK_GRUPA != 0 ? PołączenieDlaObcychObiektów.Pobierz<Limit>(FK_GRUPA.Value) : null; }
         }
     }
 }

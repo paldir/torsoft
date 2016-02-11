@@ -21,14 +21,26 @@ namespace Odpady.DostępDoDanych
         public short? OSOBA_FIZYCZNA { get; set; }
         public long? FK_ODDZIAL { get; set; }
 
+        private Oddział _oddzial;
+
         public Oddział ODDZIAL
         {
-            get { return PołączenieDlaObcychObiektów.Pobierz<Oddział>(FK_ODDZIAL.Value); }
+            get
+            {
+                UstawObcyObiekt(ref _oddzial, FK_ODDZIAL.Value);
+
+                return _oddzial;
+            }
         }
 
         public string FIRMA
         {
             get { return OSOBA_FIZYCZNA==1 ? "" : NAZWA_SKROCONA_IMIE; }
+        }
+
+        public string FIRMA_PELNA
+        {
+            get { return OSOBA_FIZYCZNA == 1 ? "" : NAZWA_NAZWISKO; }
         }
 
         public List<string> ToList()

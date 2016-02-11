@@ -11,14 +11,28 @@ namespace Odpady.DostępDoDanych
         public string NAZWA_SKROCONA_IMIE { get; set; }
         public string NIP_PESEL { get; set; }
 
+        private Kontrahent _kontrahent;
+
         public Kontrahent KONTRAHENT
         {
-            get { return PołączenieDlaObcychObiektów.Pobierz<Kontrahent>(FK_KONTRAHENT.Value); }
+            get
+            {
+                UstawObcyObiekt(ref _kontrahent, FK_KONTRAHENT.Value);
+
+                return _kontrahent;
+            }
         }
+
+        private Oddział _oddzial;
 
         public Oddział ODDZIAL
         {
-            get { return PołączenieDlaObcychObiektów.Pobierz<Oddział>(FK_ODDZIAL.Value); }
+            get
+            {
+                UstawObcyObiekt(ref _oddzial, FK_ODDZIAL.Value);
+
+                return _oddzial;
+            }
         }
     }
 }

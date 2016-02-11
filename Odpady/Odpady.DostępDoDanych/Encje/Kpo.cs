@@ -25,14 +25,28 @@ namespace Odpady.DostępDoDanych
         public long? FK_ODDZIAL { get; set; }
         public string DATA_MIESIAC { get; set; }
 
+        private RodzajOdpadów _odpad;
+
         public RodzajOdpadów ODPAD
         {
-            get { return PołączenieDlaObcychObiektów.Pobierz<RodzajOdpadów>(FK_ODPAD.Value); }
+            get
+            {
+                UstawObcyObiekt(ref _odpad, FK_ODPAD.Value);
+
+                return _odpad;
+            }
         }
+
+        private Oddział _oddzial;
 
         public Oddział ODDZIAL
         {
-            get { return PołączenieDlaObcychObiektów.Pobierz<Oddział>(FK_ODDZIAL.Value); }
+            get
+            {
+                UstawObcyObiekt(ref _oddzial, FK_ODDZIAL.Value);
+
+                return _oddzial;
+            }
         }
     }
 }

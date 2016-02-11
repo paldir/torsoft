@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>...</title>
+
+    <style>
+        body {
+            text-align: center;
+        }
+
+        #poleTabeli {
+            margin: 50px 0 50px 0;
+        }
+
+        #tabela {
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Zestawienie dla kontrahenta</h1>
+    <h2>{adres}</h2>
+    <h3>od {data1} do {data2}</h3>
+    <div id="poleTabeli">
+        <table id="tabela">
+            <thead><tr><th> Data </th><th> Kod </th><th> Opis </th><th> Ilość </th><th> Jedn. miary </th></tr></thead>
+            <tbody>{tablica}</tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -5,7 +5,7 @@ namespace Odpady.DostępDoDanych
 {
     public abstract class Rekord
     {
-        static Połączenie _połączenieDlaObcychObiektów;
+        private static Połączenie _połączenieDlaObcychObiektów;
 
         protected static Połączenie PołączenieDlaObcychObiektów
         {
@@ -20,7 +20,7 @@ namespace Odpady.DostępDoDanych
             private set { _połączenieDlaObcychObiektów = value; }
         }
 
-        long _id;
+        private long _id;
 
         public long ID
         {
@@ -33,6 +33,12 @@ namespace Odpady.DostępDoDanych
 
                 _id = value;
             }
+        }
+
+        protected static void UstawObcyObiekt<T>(ref T obiekt, long kluczObcy) where T : Rekord
+        {
+            if ((obiekt == null) || (kluczObcy != obiekt.ID))
+                obiekt = PołączenieDlaObcychObiektów.Pobierz<T>(kluczObcy);
         }
 
         static Rekord()

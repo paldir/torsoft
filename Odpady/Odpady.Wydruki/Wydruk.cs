@@ -221,12 +221,35 @@ namespace Odpady.Wydruki
                 }
             }
 
-            budowniczyTabeli.AppendFormat("<tr><td></td><td></td><td></td><td></td><td>{0}</td><td></td></tr>", suma);
+            budowniczyTabeli.AppendFormat("<tr><td></td><td></td><td></td><td>Łącznie: </td><td>{0}</td><td>{1}</td></tr>", suma, odpad.JEDNOSTKA_MIARY.NAZWA);
 
             dokument = dokument.Replace("{tablica}", budowniczyTabeli.ToString());
             byte[] bajty = StwórzPdfZHtml(dokument);
 
             return bajty;
+        }
+
+        public static byte[] ZestawienieKontrahenta(DateTime dataOd, DateTime dataDo, Kontrahent kontrahent, IEnumerable<SzczegółDostawy> szczegółyDostaw)
+        {
+            const string formatDaty = "dd.MM.yyyy";
+            var tabelaSzczegółów = szczegółyDostaw.ToArray();
+            var dokument = File.ReadAllText(Path.Combine(KatalogZWzorami, "ZestawienieKontrahent.html"));
+            dokument = dokument.Replace("{data1}", dataOd.ToString(formatDaty));
+            dokument = dokument.Replace("{data2}", dataDo.ToString(formatDaty));
+            dokument = dokument.Replace("{adres}", "ul. " + kontrahent.ULICA + " " + kontrahent.NR_DOMU + (string.IsNullOrEmpty(kontrahent.NR_LOKALU) ? "" : " m." + kontrahent.NR_LOKALU));
+            var budowniczyTabeli = new StringBuilder();
+
+            foreach (SzczegółDostawy szczegółDostawy in tabelaSzczegółów)
+            {
+                var dostawa = szczegółDostawy.DOSTAWA;
+                var odpad = szczegółDostawy.RODZAJ_ODPADOW;
+
+                budowniczyTabeli.AppendFormat("<tr><td>{0:dd.MM.yyyy}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td></tr>", dostawa.DATA, odpad.KOD, odpad.OPIS, szczegółDostawy.ILOSC, odpad.JEDNOSTKA_MIARY.NAZWA);
+            }
+
+            dokument = dokument.Replace("{tablica}", budowniczyTabeli.ToString());
+
+            return StwórzPdfZHtml(dokument);
         }
 
         public static void ZapiszBajtyJakoPdfIOtwórz(byte[] bajty, string ścieżkaDoPliku)

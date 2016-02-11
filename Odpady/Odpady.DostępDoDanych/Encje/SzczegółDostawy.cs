@@ -12,19 +12,40 @@ namespace Odpady.DostępDoDanych
         public long? FK_DOSTAWA { get; set; }
         public long? FK_LIMIT { get; set; }
 
+        private RodzajOdpadów _rodzaj_odpadow;
+
         public RodzajOdpadów RODZAJ_ODPADOW
         {
-            get { return PołączenieDlaObcychObiektów.Pobierz<RodzajOdpadów>(FK_RODZAJ_ODPADOW.Value); }
+            get
+            {
+                UstawObcyObiekt(ref _rodzaj_odpadow, FK_RODZAJ_ODPADOW.Value);
+
+                return _rodzaj_odpadow;
+            }
         }
+
+        private Dostawa _dostawa;
 
         public Dostawa DOSTAWA
         {
-            get { return PołączenieDlaObcychObiektów.Pobierz<Dostawa>(FK_DOSTAWA.Value); }
+            get
+            {
+                UstawObcyObiekt(ref _dostawa, FK_DOSTAWA.Value);
+
+                return _dostawa;
+            }
         }
+
+        private Limit _limit;
 
         public Limit LIMIT
         {
-            get { return PołączenieDlaObcychObiektów.Pobierz<Limit>(FK_LIMIT.Value); }
+            get
+            {
+                UstawObcyObiekt(ref _limit, FK_LIMIT.Value);
+
+                return _limit;
+            }
         }
 
         public void UstalLimit(short osFiz, long idOddzial)
