@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Statystyka.Generowanie", "Statystyka.Generowanie\Statystyka.Generowanie.csproj", "{989C75DC-67CE-4BC6-86FF-FCC86D0A40F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{BFD7B300-2E40-4C6E-973E-DA2D91F27B40}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{989C75DC-67CE-4BC6-86FF-FCC86D0A40F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{989C75DC-67CE-4BC6-86FF-FCC86D0A40F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{989C75DC-67CE-4BC6-86FF-FCC86D0A40F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{989C75DC-67CE-4BC6-86FF-FCC86D0A40F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFD7B300-2E40-4C6E-973E-DA2D91F27B40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFD7B300-2E40-4C6E-973E-DA2D91F27B40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFD7B300-2E40-4C6E-973E-DA2D91F27B40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFD7B300-2E40-4C6E-973E-DA2D91F27B40}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

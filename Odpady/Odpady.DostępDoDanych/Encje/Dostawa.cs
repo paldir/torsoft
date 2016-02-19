@@ -10,6 +10,7 @@ namespace Odpady.DostępDoDanych
         public string NAZWA_NAZWISKO { get; set; }
         public string NAZWA_SKROCONA_IMIE { get; set; }
         public string NIP_PESEL { get; set; }
+        public string UWAGI { get; set; }
 
         private Kontrahent _kontrahent;
 

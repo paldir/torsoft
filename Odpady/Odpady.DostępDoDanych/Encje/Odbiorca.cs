@@ -11,6 +11,7 @@ namespace Odpady.DostępDoDanych
         public string ULICA { get; set; }
         public string NR_DOMU { get; set; }
         public string NR_LOKALU { get; set; }
+        public string NAZWA_1 { get; set; }
         public string KOD_POCZTOWY_1 { get; set; }
         public string MIASTO_1 { get; set; }
         public string ULICA_1 { get; set; }
@@ -26,7 +27,7 @@ namespace Odpady.DostępDoDanych
         {
             return new List<string>
             {
-                NAZWA, NAZWA_SKROCONA, KOD_POCZTOWY, MIASTO, ULICA, NR_DOMU, NR_LOKALU,
+                NAZWA, NAZWA_SKROCONA, KOD_POCZTOWY, MIASTO, ULICA, NR_DOMU, NR_LOKALU, NAZWA_1,
                 KOD_POCZTOWY_1, MIASTO_1, ULICA_1, NR_DOMU_1, NR_LOKALU_1, NIP, REGON, NR_REJESTROWY, TELEFON, EMAIL
             };
         }

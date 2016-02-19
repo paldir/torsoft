@@ -144,7 +144,7 @@ namespace Odpady.Wydruki
                     //Kod odpadu
                     WypełnijPoleWPdf(zawartośćPdf, czcionka, 110, 240, 165, info.KodOdpadu, Wyrównanie.DoŚrodka);
                     //Rodzaj odpadu
-                    WypełnijPoleWPdf(zawartośćPdf, czcionka, 345, 240, 450, info.RodzajOdpadu, Wyrównanie.DoLewej);
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka, 345, 245, 450, info.RodzajOdpadu, Wyrównanie.DoLewej);
                     //Data/miesiąc
                     WypełnijPoleWPdf(zawartośćPdf, czcionka, 20, 193, 250, info.DataMiesiąc, Wyrównanie.DoŚrodka);
                     //Masa przekazanych odpadów [Mg]
