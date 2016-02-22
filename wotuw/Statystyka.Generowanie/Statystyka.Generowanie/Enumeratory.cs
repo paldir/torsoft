@@ -15,7 +15,7 @@
         /// </summary>
         W64,
         /// <summary>
-        /// 64 i więcej
+        /// 65 i więcej
         /// </summary>
         W200
     }

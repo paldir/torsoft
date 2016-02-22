@@ -4,6 +4,8 @@ namespace Statystyka.Generowanie
 {
     public class ZabiegPacjenta
     {
+        public static int Rok { get; set; }
+        
         public int Nr { get; set; }
         public Płeć Płeć { get; set; }
         public DateTime DataUrodzenia { get; set; }
@@ -14,8 +16,7 @@ namespace Statystyka.Generowanie
         public ZabiegPacjenta(DateTime dataUrodzenia)
         {
             DataUrodzenia = dataUrodzenia;
-            TimeSpan czasPacjenta = DateTime.Now - DataUrodzenia;
-            int wiek = czasPacjenta.Days/365;
+            int wiek = Rok - DataUrodzenia.Year;
             PrzedziałWiekowy = WiekNaPrzedziałWiekowy(wiek);
         }
 
