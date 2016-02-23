@@ -47,7 +47,7 @@ namespace Statystyka.Generowanie
 
             WierszZestawienia mężczyźni = new WierszZestawienia()
             {
-                Zabieg = "mężcz.",
+                Zabieg = "mężczyźni",
                 W18 = przedziałWiekowyNaLiczbęMężczyzn[PrzedziałWiekowy.W18],
                 W29 = przedziałWiekowyNaLiczbęMężczyzn[PrzedziałWiekowy.W29],
                 W64 = przedziałWiekowyNaLiczbęMężczyzn[PrzedziałWiekowy.W64],
@@ -67,7 +67,12 @@ namespace Statystyka.Generowanie
                 };
 
                 foreach (PrzedziałWiekowy przedziałWiekowy in Enum.GetValues(typeof (PrzedziałWiekowy)))
-                    typWierszaZestawienia.GetProperty(przedziałWiekowy.ToString()).SetValue(wiersz, ZabiegNaPrzedziałWiekowyNaZabiegiPacjentów[zabieg][przedziałWiekowy].Count, null);
+                {
+                    List<ZabiegPacjenta> zabiegiPacjentów = ZabiegNaPrzedziałWiekowyNaZabiegiPacjentów[zabieg][przedziałWiekowy];
+
+                    typWierszaZestawienia.GetProperty(przedziałWiekowy.ToString()).SetValue(wiersz, zabiegiPacjentów.Count, null);
+                    typWierszaZestawienia.GetProperty(string.Concat(przedziałWiekowy, "PierwszyRaz")).SetValue(wiersz, zabiegiPacjentów.Count(z => !z.PierwszaWizyta.HasValue), null);
+                }
 
                 wiersze.Add(wiersz);
             }
