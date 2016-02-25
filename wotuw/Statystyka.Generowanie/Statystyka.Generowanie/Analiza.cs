@@ -20,6 +20,10 @@ namespace Statystyka.Generowanie
         public Dictionary<Grupa, Dictionary<PrzedziałWiekowy, int>> GrupaNaPrzedziałWiekowyNaLiczbęOgółem { get; private set; }
         public Dictionary<string, int> ZabiegNaLiczbęMężczyzn { get; private set; }
         public Dictionary<string, int> ZabiegNaLiczbęOgółem { get; private set; }
+        public Dictionary<Grupa, Dictionary<PrzedziałWiekowy, int>> GrupaNaPrzedziałWiekowyNaLiczbęMężczyznPierwszyRaz { get; private set; }
+        public Dictionary<Grupa, Dictionary<PrzedziałWiekowy, int>> GrupaNaPrzedziałWiekowyNaLiczbęOgółemPierwszyRaz { get; private set; }
+        public Dictionary<string, int> ZabiegNaLiczbęMężczyznPierwszyRaz { get; private set; }
+        public Dictionary<string, int> ZabiegNaLiczbęOgółemPierwszyRaz { get; private set; }
 
         public Analiza(string ścieżkaPliku)
         {
@@ -31,9 +35,11 @@ namespace Statystyka.Generowanie
         public IEnumerable<WierszZestawienia> OstateczneZestawienie(Grupa grupa)
         {
             List<WierszZestawienia> wiersze = new List<WierszZestawienia>();
-            Type typWierszaZestawienia = typeof (WierszZestawienia);
+            Type typWierszaZestawienia = typeof(WierszZestawienia);
             Dictionary<PrzedziałWiekowy, int> przedziałWiekowyNaLiczbęOgółem = GrupaNaPrzedziałWiekowyNaLiczbęOgółem[grupa];
             Dictionary<PrzedziałWiekowy, int> przedziałWiekowyNaLiczbęMężczyzn = GrupaNaPrzedziałWiekowyNaLiczbęMężczyzn[grupa];
+            Dictionary<PrzedziałWiekowy, int> przedziałWiekowyNaLiczbęOgółemPierwszyRaz = GrupaNaPrzedziałWiekowyNaLiczbęOgółemPierwszyRaz[grupa];
+            Dictionary<PrzedziałWiekowy, int> przedziałWiekowyNaLiczbęMężczyznPierwszyRaz = GrupaNaPrzedziałWiekowyNaLiczbęMężczyznPierwszyRaz[grupa];
             WierszZestawienia ogółem = new WierszZestawienia
             {
                 Zabieg = "Ogółem",
@@ -42,7 +48,13 @@ namespace Statystyka.Generowanie
                 W18 = przedziałWiekowyNaLiczbęOgółem[PrzedziałWiekowy.W18],
                 W29 = przedziałWiekowyNaLiczbęOgółem[PrzedziałWiekowy.W29],
                 W64 = przedziałWiekowyNaLiczbęOgółem[PrzedziałWiekowy.W64],
-                W200 = przedziałWiekowyNaLiczbęOgółem[PrzedziałWiekowy.W200]
+                W200 = przedziałWiekowyNaLiczbęOgółem[PrzedziałWiekowy.W200],
+                OgółemPierwszyRaz = przedziałWiekowyNaLiczbęOgółemPierwszyRaz.Sum(p => p.Value),
+                WTymMężczyźniPierwszyRaz = przedziałWiekowyNaLiczbęMężczyznPierwszyRaz.Sum(p => p.Value),
+                W18PierwszyRaz = przedziałWiekowyNaLiczbęOgółemPierwszyRaz[PrzedziałWiekowy.W18],
+                W29PierwszyRaz = przedziałWiekowyNaLiczbęOgółemPierwszyRaz[PrzedziałWiekowy.W29],
+                W64PierwszyRaz = przedziałWiekowyNaLiczbęOgółemPierwszyRaz[PrzedziałWiekowy.W64],
+                W200PierwszyRaz = przedziałWiekowyNaLiczbęOgółemPierwszyRaz[PrzedziałWiekowy.W200]
             };
 
             WierszZestawienia mężczyźni = new WierszZestawienia()
@@ -51,7 +63,11 @@ namespace Statystyka.Generowanie
                 W18 = przedziałWiekowyNaLiczbęMężczyzn[PrzedziałWiekowy.W18],
                 W29 = przedziałWiekowyNaLiczbęMężczyzn[PrzedziałWiekowy.W29],
                 W64 = przedziałWiekowyNaLiczbęMężczyzn[PrzedziałWiekowy.W64],
-                W200 = przedziałWiekowyNaLiczbęMężczyzn[PrzedziałWiekowy.W200]
+                W200 = przedziałWiekowyNaLiczbęMężczyzn[PrzedziałWiekowy.W200],
+                W18PierwszyRaz = przedziałWiekowyNaLiczbęMężczyznPierwszyRaz[PrzedziałWiekowy.W18],
+                W29PierwszyRaz = przedziałWiekowyNaLiczbęMężczyznPierwszyRaz[PrzedziałWiekowy.W29],
+                W64PierwszyRaz = przedziałWiekowyNaLiczbęMężczyznPierwszyRaz[PrzedziałWiekowy.W64],
+                W200PierwszyRaz = przedziałWiekowyNaLiczbęMężczyznPierwszyRaz[PrzedziałWiekowy.W200]
             };
 
             wiersze.Add(ogółem);
@@ -63,10 +79,12 @@ namespace Statystyka.Generowanie
                 {
                     Zabieg = zabieg,
                     Ogółem = ZabiegNaLiczbęOgółem[zabieg],
-                    WTymMężczyźni = ZabiegNaLiczbęMężczyzn[zabieg]
+                    WTymMężczyźni = ZabiegNaLiczbęMężczyzn[zabieg],
+                    OgółemPierwszyRaz = ZabiegNaLiczbęOgółemPierwszyRaz[zabieg],
+                    WTymMężczyźniPierwszyRaz = ZabiegNaLiczbęMężczyznPierwszyRaz[zabieg]
                 };
 
-                foreach (PrzedziałWiekowy przedziałWiekowy in Enum.GetValues(typeof (PrzedziałWiekowy)))
+                foreach (PrzedziałWiekowy przedziałWiekowy in Enum.GetValues(typeof(PrzedziałWiekowy)))
                 {
                     List<ZabiegPacjenta> zabiegiPacjentów = ZabiegNaPrzedziałWiekowyNaZabiegiPacjentów[zabieg][przedziałWiekowy];
 
@@ -96,7 +114,7 @@ namespace Statystyka.Generowanie
                         {
                             Zabieg = dane[0],
                             Nr = int.Parse(dane[1]),
-                            Płeć = (Płeć) Enum.Parse(typeof (Płeć), dane[4])
+                            Płeć = (Płeć)Enum.Parse(typeof(Płeć), dane[4])
                         };
 
                         string pierwszaWizyta = dane[6];
@@ -118,7 +136,7 @@ namespace Statystyka.Generowanie
 
             foreach (string zabieg in GrupaNaZabiegi[Grupa.G1].Concat(GrupaNaZabiegi[Grupa.G2]).Concat(GrupaNaZabiegi[Grupa.G3]))
             {
-                Dictionary<PrzedziałWiekowy, List<ZabiegPacjenta>> przedziałWiekowyNaZabiegiPacjentów = Enum.GetValues(typeof (PrzedziałWiekowy)).Cast<PrzedziałWiekowy>().ToDictionary(przedziałWiekowy => przedziałWiekowy, przedziałWiekowy => new List<ZabiegPacjenta>());
+                Dictionary<PrzedziałWiekowy, List<ZabiegPacjenta>> przedziałWiekowyNaZabiegiPacjentów = Enum.GetValues(typeof(PrzedziałWiekowy)).Cast<PrzedziałWiekowy>().ToDictionary(przedziałWiekowy => przedziałWiekowy, przedziałWiekowy => new List<ZabiegPacjenta>());
 
                 ZabiegNaPrzedziałWiekowyNaZabiegiPacjentów.Add(zabieg, przedziałWiekowyNaZabiegiPacjentów);
             }
@@ -139,25 +157,37 @@ namespace Statystyka.Generowanie
             GrupaNaPrzedziałWiekowyNaLiczbęOgółem = new Dictionary<Grupa, Dictionary<PrzedziałWiekowy, int>>();
             ZabiegNaLiczbęMężczyzn = new Dictionary<string, int>();
             ZabiegNaLiczbęOgółem = new Dictionary<string, int>();
+            GrupaNaPrzedziałWiekowyNaLiczbęMężczyznPierwszyRaz = new Dictionary<Grupa, Dictionary<PrzedziałWiekowy, int>>();
+            GrupaNaPrzedziałWiekowyNaLiczbęOgółemPierwszyRaz = new Dictionary<Grupa, Dictionary<PrzedziałWiekowy, int>>();
+            ZabiegNaLiczbęMężczyznPierwszyRaz = new Dictionary<string, int>();
+            ZabiegNaLiczbęOgółemPierwszyRaz = new Dictionary<string, int>();
 
-            foreach (Grupa grupa in Enum.GetValues(typeof (Grupa)))
+            foreach (Grupa grupa in Enum.GetValues(typeof(Grupa)))
             {
                 Dictionary<PrzedziałWiekowy, int> przedziałWiekowyNaLiczbęMężczyzn = new Dictionary<PrzedziałWiekowy, int>();
                 Dictionary<PrzedziałWiekowy, int> przedziałWiekowyNaLiczbęOgółem = new Dictionary<PrzedziałWiekowy, int>();
+                Dictionary<PrzedziałWiekowy, int> przedziałWiekowyNaLiczbęMężczyznPierwszyRaz = new Dictionary<PrzedziałWiekowy, int>();
+                Dictionary<PrzedziałWiekowy, int> przedziałWiekowyNaLiczbęOgółemPierwszyRaz = new Dictionary<PrzedziałWiekowy, int>();
 
-                foreach (PrzedziałWiekowy przedziałWiekowy in Enum.GetValues(typeof (PrzedziałWiekowy)))
+                foreach (PrzedziałWiekowy przedziałWiekowy in Enum.GetValues(typeof(PrzedziałWiekowy)))
                 {
                     przedziałWiekowyNaLiczbęMężczyzn.Add(przedziałWiekowy, 0);
                     przedziałWiekowyNaLiczbęOgółem.Add(przedziałWiekowy, 0);
+                    przedziałWiekowyNaLiczbęMężczyznPierwszyRaz.Add(przedziałWiekowy, 0);
+                    przedziałWiekowyNaLiczbęOgółemPierwszyRaz.Add(przedziałWiekowy, 0);
                 }
 
                 GrupaNaPrzedziałWiekowyNaLiczbęMężczyzn.Add(grupa, przedziałWiekowyNaLiczbęMężczyzn);
                 GrupaNaPrzedziałWiekowyNaLiczbęOgółem.Add(grupa, przedziałWiekowyNaLiczbęOgółem);
+                GrupaNaPrzedziałWiekowyNaLiczbęMężczyznPierwszyRaz.Add(grupa, przedziałWiekowyNaLiczbęMężczyznPierwszyRaz);
+                GrupaNaPrzedziałWiekowyNaLiczbęOgółemPierwszyRaz.Add(grupa, przedziałWiekowyNaLiczbęOgółemPierwszyRaz);
 
                 foreach (string zabieg in GrupaNaZabiegi[grupa])
                 {
                     ZabiegNaLiczbęMężczyzn.Add(zabieg, 0);
                     ZabiegNaLiczbęOgółem.Add(zabieg, 0);
+                    ZabiegNaLiczbęMężczyznPierwszyRaz.Add(zabieg, 0);
+                    ZabiegNaLiczbęOgółemPierwszyRaz.Add(zabieg, 0);
                 }
             }
 
@@ -167,14 +197,27 @@ namespace Statystyka.Generowanie
                 string zabieg = zabiegPacjenta.Zabieg;
                 Dictionary<Grupa, IEnumerable<string>> grupaNaZabiegi = GrupaNaZabiegi;
                 Grupa grupa = grupaNaZabiegi.Keys.Single(k => grupaNaZabiegi[k].Contains(zabieg));
+                DateTime? pierwszaWizyta = zabiegPacjenta.PierwszaWizyta;
 
                 GrupaNaPrzedziałWiekowyNaLiczbęOgółem[grupa][przedziałWiekowy]++;
                 ZabiegNaLiczbęOgółem[zabieg]++;
+
+                if (!pierwszaWizyta.HasValue)
+                {
+                    GrupaNaPrzedziałWiekowyNaLiczbęOgółemPierwszyRaz[grupa][przedziałWiekowy]++;
+                    ZabiegNaLiczbęOgółemPierwszyRaz[zabieg]++;
+                }
 
                 if (zabiegPacjenta.Płeć == Płeć.M)
                 {
                     GrupaNaPrzedziałWiekowyNaLiczbęMężczyzn[grupa][przedziałWiekowy]++;
                     ZabiegNaLiczbęMężczyzn[zabieg]++;
+
+                    if (!pierwszaWizyta.HasValue)
+                    {
+                        GrupaNaPrzedziałWiekowyNaLiczbęMężczyznPierwszyRaz[grupa][przedziałWiekowy]++;
+                        ZabiegNaLiczbęMężczyznPierwszyRaz[zabieg]++;
+                    }
                 }
             }
         }

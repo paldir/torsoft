@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Text;
-
 using System.Data.OleDb;
 using System.Data;
-using System.Xml;
-using System.IO;
-using System.Threading;
 using System.Globalization;
+using System.IO;
+using System.Text;
+using System.Threading;
+using System.Xml;
 
 namespace dbfToXml
 {
@@ -16,6 +15,8 @@ namespace dbfToXml
     {
         private static int _numerPierwszejFaktury;
         private static int _numerOstatniejFaktury;
+        private static DateTime _dataOd;
+        private static DateTime _dataDo;
         private static XmlDocument _dokumentXml;
 
         private static readonly string[] FormatDaty =
@@ -31,6 +32,10 @@ namespace dbfToXml
             CultureInfo infoOKulturze = Thread.CurrentThread.CurrentCulture.Clone() as CultureInfo;
             string indeksFormatu = ConfigurationManager.AppSettings["formatDaty"];
             string format = FormatDaty[Convert.ToInt32(indeksFormatu) - 1];
+            _dataOd = DateTime.MinValue;
+            _dataDo = DateTime.MaxValue;
+            _numerPierwszejFaktury = 1;
+            _numerOstatniejFaktury = int.MaxValue;
 
             if (infoOKulturze != null)
             {
@@ -40,20 +45,23 @@ namespace dbfToXml
 
             switch (args.Length)
             {
-                case 0:
-                    _numerPierwszejFaktury = 1;
-                    _numerOstatniejFaktury = int.MaxValue;
-
-                    break;
-
                 case 1:
                     _numerPierwszejFaktury = _numerOstatniejFaktury = int.Parse(args[0]);
 
                     break;
 
                 case 2:
-                    _numerPierwszejFaktury = int.Parse(args[0]);
-                    _numerOstatniejFaktury = int.Parse(args[1]);
+                    string argument1 = args[0];
+                    string argument2 = args[1];
+
+                    if (int.TryParse(argument1, out _numerPierwszejFaktury))
+                        _numerOstatniejFaktury = int.Parse(args[1]);
+                    else
+                    {
+                        const string formatDaty = "yyyy-MM-dd";
+                        _dataOd = DateTime.ParseExact(argument1, formatDaty, null);
+                        _dataDo = DateTime.ParseExact(argument2, formatDaty, null);
+                    }
 
                     break;
 
@@ -112,8 +120,9 @@ namespace dbfToXml
                     object[] polaFk = wiersz.ItemArray;
                     string napisNumeruFaktury = polaFk[nazwaKolumnyDoJejNumeruFk["nr_fk"]].ToString();
                     int numerFaktury = int.Parse(napisNumeruFaktury.Substring(0, napisNumeruFaktury.IndexOf("/", StringComparison.Ordinal)));
+                    DateTime data = Convert.ToDateTime(polaFk[nazwaKolumnyDoJejNumeruFk["data"]]);
 
-                    if ((numerFaktury >= _numerPierwszejFaktury) && (numerFaktury <= _numerOstatniejFaktury))
+                    if ((numerFaktury >= _numerPierwszejFaktury) && (numerFaktury <= _numerOstatniejFaktury) && (data >= _dataOd) && (data <= _dataDo))
                     {
                         _dokumentXml = new XmlDocument();
                         string plik = Path.Combine("fk", string.Format("fk{0}.xml", numerFaktury));
@@ -127,7 +136,6 @@ namespace dbfToXml
                         double id = Convert.ToDouble(polaFk[nazwaKolumnyDoJejNumeruFk["nr_system"]]);
                         XmlNode kontrahent = wzórKontrahenta.CloneNode(true);
                         XmlNode rejestr = wzórRejestru.CloneNode(true);
-                        DateTime data = Convert.ToDateTime(polaFk[nazwaKolumnyDoJejNumeruFk["data"]]);
                         string napisDaty = string.Format(format, data);
                         string napisTerminu = string.Format(format, data.AddDays(Convert.ToDouble(polaFk[nazwaKolumnyDoJejNumeruFk["termin"]])));
                         string nip = polaFk[nazwaKolumnyDoJejNumeruFk["nr_ident"]].ToString().Replace("-", string.Empty);
@@ -362,10 +370,7 @@ namespace dbfToXml
         {
             bool wartośćBoolowska = Convert.ToBoolean(wartość);
 
-            if (wartośćBoolowska)
-                return "Tak";
-            else
-                return "Nie";
+            return wartośćBoolowska ? "Tak" : "Nie";
         }
 
         private static void DodajPozycję(XmlNode rodzic, XmlNode węzełPozycji, decimal stawkaVat, string statusVat, decimal netto, decimal vat, string rodzajSprzedaży, bool uwzględnionoWProporcji)
