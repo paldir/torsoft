@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<%#Page trace="no"%>
+<%#Code locality="page-global"%>
+<%
+     #include "C:\inetpub\wwwroot\pdfFtp\HTMLWriter.ch"
+     #include "C:\inetpub\wwwroot\pdfFtp\DbHelper.ch"
+%>
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+   <script type="text/javascript" src="scripts.js"></script>
+   <link rel="stylesheet" type="text/css" href="styl.css" />
+   <title>Grupy</title>
+</head>
+
+<body>
+
+<%
+
+dbHelper:=DbHelper(): new(::Session: host, ::Session: baza)
+akcja:=::Params: action
+ostatecznaAkcja:=::Params: ostatecznaAkcja
+
+IF Len(ostatecznaAkcja)>0
+   nazwa:=::Params: nazwa
+   id:=::Params: id
+
+   DO CASE
+      CASE ostatecznaAkcja=="add"
+         dbHelper: SQLInsert("pliki_grupa", {"nazwa_grupy"}, {nazwa})
+
+      CASE ostatecznaAkcja=="edit"
+         dbHelper: SQLUpdate("pliki_grupa", {"nazwa_grupy"}, {nazwa}, "__record="+id)
+
+      CASE ostatecznaAkcja=="delete"
+         usuwac:=.T.
+
+         dbHelper: SQLSelect({"__record"}, "pliki_lokal", "id_grupy="+id)
+
+         IF LastRec()>0
+            usuwac:=.F.
+         ENDIF
+
+         dbHelper: SQLSelect({"__record"}, "pliki_budynek", "id_grupy="+id)
+
+         IF LastRec()>0
+            usuwac:=.F.
+         ENDIF
+
+         dbHelper: SQLSelect({"__record"}, "pliki_wspolnota", "id_grupy="+id)
+
+         IF LastRec()>0
+            usuwac:=.F.
+         ENDIF
+
+         IF usuwac
+            dbHelper: SQLDelete("pliki_grupa", "__record="+id)
+         ELSE
+         %>
+
+         <script>alert('Grupa nie jest pusta!')</script>
+
+         <%
+         ENDIF
+   END
+ENDIF
+
+dbHelper: SQLSelect({"__record", "nazwa_grupy"}, "pliki_grupa", , "__record")
+
+%>
+
+<form method="get" class="formularz">
+
+<%
+
+IF Len(akcja)==0
+   ? HTMLWriter(): buttonSubmit("action", "add", "Dodaj", "addingButton", "")
+   ? HTMLWriter(): buttonSubmit("ostatecznaAkcja", "delete", "Usu"+HTMLWriter(): _n(), "deletingButton", "disabled")
+   ? HTMLWriter(): buttonSubmit("action", "edit", "Edytuj", "editingButton", "disabled")+"<br />"
+ENDIF
+
+? HTMLWriter(): table({"Numer", "Nazwa grupy"}, , , , "id", "mainTable")
+
+%>
+
+</form>
+
+<%
+
+IF Len(akcja)>0
+
+%>
+
+<form method="get" class="formularz">
+
+<%
+
+   DO CASE
+      CASE akcja=="add"
+         nazwa:=""
+      CASE akcja=="edit"
+         id:=::Params: id
+
+         dbHelper: SQLSelect({"nazwa_grupy"}, "pliki_grupa", "__record="+id)
+
+         nazwa:=FieldGet(1)
+
+         ? HTMLWriter(): inputHidden("id", id)
+   END
+
+   ? HTMLWriter(): inputText("nazwa", "Nazwa grupy: ", "50", nazwa)+"<br />"
+   ? HTMLWriter(): buttonSubmit("ostatecznaAkcja", akcja, "Zapisz", "addingButton", "")
+   ? HTMLWriter(): buttonSubmit("ostatecznaAkcja", "cancel", "Anuluj", "cancelButton", "")
+
+   %>
+
+   </form>
+   <table
+
+   <%
+ENDIF
+
+dbHelper: CloseConnection()
+
+%>
+
+<form action="Pliki.cxp">
+ <%
+    ? HTMLWriter(): buttonSubmit("back", "back", "Powr"+HTMLWriter(): _o()+"t", "back", "")
+ %>
+</form>
+
+<script>
+   Init();
+</script>
+
+</body>
+
+</html>

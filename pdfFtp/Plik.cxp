@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<%#Page trace="no"%>
+
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+   <title>Plik</title>
+</head>
+
+<body>
+<%#Code locality="page-global"%>
+<%
+     #include "C:\inetpub\wwwroot\pdfFtp\HTMLWriter.ch"
+     #include "C:\inetpub\wwwroot\pdfFtp\DbHelper.ch"
+%>
+
+<%
+   dbHelper:=DbHelper(): new(::Session: host, ::Session: baza)
+   dbHelper: SQLSelect({"length(plik)"}, ::Session: tabela, "__record="+::Params: id)
+   table:=::Session: tabela
+
+   IF LastRec()==0
+      dbHelper: SQLSelect({"length(plik)"}, ::Session: tabela, "__record="+::Params: id)
+      table:=::Session: tabela
+   ENDIF
+
+   length:=FieldGet(1)
+   file:=""
+   pointer:=1
+   segment:=100000
+
+   DO WHILE pointer<length
+      dbHelper: SQLSelect({"substring(plik FROM "+Str(pointer)+" FOR "+Str(segment)+")"}, table, "__record="+::Params: id)
+
+      file+=FieldGet(1)
+      pointer+=segment
+   ENDDO
+
+   file:=Base642Bin(file)
+   dbHelper: CloseConnection()
+
+   ::HttpResponse: ContentType:="application/pdf"
+   ::HttpResponse: WriteBinary(file)
+%>
+
+</body>
+
+</html>

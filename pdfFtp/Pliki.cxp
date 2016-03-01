@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<%#Page trace="no"%>
+<%#Code locality="page-global"%>
+<%
+     #include "C:\inetpub\wwwroot\pdfFtp\HTMLWriter.ch"
+     #include "C:\inetpub\wwwroot\pdfFtp\DbHelper.ch"
+%>
+<html lang="pl-PL">
+<head>
+   <link rel="stylesheet" type="text/css" href="styl.css" />
+   <link type="text/css" rel="stylesheet" href="dhtmlgoodies_calendar/dhtmlgoodies_calendar.css?random=20051112" media="screen" />
+   <!--<script type="text/javascript" src="jquery-1.11.1.js"></script>    -->
+   <script type="text/javascript" src="scripts.js"></script>
+   <script type="text/javascript" src="dhtmlgoodies_calendar/dhtmlgoodies_calendar.js?random=20060118"></script>
+   <title>Pliki</title>
+</head>
+<body>
+<%
+   SET DATE format TO "dd-mm-yyyy"
+
+   IF ::Params: start=="1"
+      ::Session: linia1:=::Params: linia1
+      ::Session: linia2:=::Params: linia2
+      ::Session: linia3:=::Params: linia3
+      ::Session: host:=DbHelper(): CzytajZIni("C:\inetpub\wwwroot\pdfFtp\konfig.ini", "parametry_polaczenia", "host")
+      ::Session: baza:=DbHelper(): CzytajZIni("C:\inetpub\wwwroot\pdfFtp\konfig.ini", "parametry_polaczenia", "baza")
+      ::Session: tabela:="pliki_"+::Params: dotyczy
+      ::Session: nr_system:=::Params: nr_system
+   ENDIF
+
+   dbHelper:=DbHelper(): new(::Session: host, ::Session: baza)
+   tabela:=::Session: tabela
+   nr_system:=::Session: nr_system
+   linia1=StrTran(StrTran(StrTran(::Session: linia1, "}", " "), "[", "&#"), "]", ";")
+   linia2=StrTran(StrTran(StrTran(::Session: linia2, "}", " "), "[", "&#"), "]", ";")
+   linia3=StrTran(StrTran(StrTran(::Session: linia3, "}", " "), "[", "&#"), "]", ";")
+
+   ? HTMLWriter(): TabelaZPodgladem(linia1, linia2, linia3)
+
+   IF ::Params: dostepny=="dostepny"
+      dostepny:="1"
+   ELSE
+      dostepny:="0"
+   ENDIF
+
+   DO CASE
+      CASE ::Params: action=="saveadding"
+         IF ::HttpRequest: Files: NumItems>0 .AND. Lower(SubStr(::HttpRequest: Files: plik: Name, Len(::HttpRequest: Files: plik: Name)-2))=="pdf"
+            t_nazwa_pliku:=HTMLWriter(): NaUtf8(::HttpRequest: Files: plik: Name)
+            t_plik:=Bin2Base64(::HttpRequest: Files: plik: Data)
+            columns:={"plik", "nazwa_pliku", "opis"}
+//            values:={t_plik, t_nazwa_pliku, ::Params: opis}
+            values:={t_plik, t_nazwa_pliku, ::Params: opis}
+
+            dbHelper: SQLSelect({"MAX(__record)+1"}, tabela)
+
+            t_id:=FieldGet(1)
+            pozycjaUkosnika:=RAt("\", t_nazwa_pliku)
+
+            IF pozycjaUkosnika!=0
+               t_nazwa_pliku:=SubStr(t_nazwa_pliku, pozycjaUkosnika+1)
+            ENDIF
+
+            IF t_id==0
+               t_id:=1
+            ENDIF
+
+            opis=HTMLWriter(): NaUtf8(::Params: opis)
+            data=CtoD(::Params: data)
+
+            SET DATE format TO "yyyy-mm-dd"
+
+            data=DtoC(data)
+
+            SET DATE format TO "dd-mm-yyyy"
+
+            dbHelper: SQLInsert(tabela, {"__record", "plik", "nazwa_pliku", "opis", "id_obiektu", "data", "dostepny_w_necie", "id_grupy"}, {Var2Char(t_id), t_plik, t_nazwa_pliku, opis, nr_system, data, dostepny, ::Params: grupa})
+            ? dbHelper: GetLastMessage()
+         ENDIF
+      CASE ::Params: action=="saveediting"
+         opis=HTMLWriter(): NaUtf8(::Params: opis)
+         dataa=CtoD(::Params: data)
+
+         SET DATE format TO "yyyy-mm-dd"
+
+         dataa=DtoC(dataa)
+
+         SET DATE format TO "dd-mm-yyyy"
+
+         dbHelper: SQLUpdate(tabela, {"opis", "data", "dostepny_w_necie", "id_grupy"}, {opis, dataa, dostepny, ::Params: grupa}, "__record="+::Params: id)
+      CASE ::Params: action=="delete"
+         dbHelper: SQLDelete(tabela, "__record="+::Params: id)
+      CASE ::Params: action=="browse"
+         ::HttpResponse: Redirect("Plik.cxp?id="+::Params: id)
+   ENDCASE
+
+   filtr:=::Params: filtr
+   klauzulaWhere:=""
+
+   IF len(filtr)>0 .AND. filtr!="0"
+      klauzulaWhere:=" AND id_grupy="+filtr
+   ENDIF
+
+   dbHelper: SQLSelect({"p.__record", "to_char(data, 'DD-MM-YYYY')", "nazwa_pliku", "CASE WHEN dostepny_w_necie>0 THEN 'tak' ELSE 'nie' END", "nazwa_grupy", "substring(opis from 1 for 25)||CASE WHEN char_length(opis)>25 THEN '...' ELSE '' END"}, tabela+" p LEFT OUTER JOIN pliki_grupa g ON p.id_grupy=g.__record", "id_obiektu="+nr_system+klauzulaWhere, "data")
+%>
+<form id="formOfDocumentRemoval" method="get" action="Pliki.cxp">
+   <div class="lewaKolumna">
+
+   <%
+      ? "<div class='floatingMenu'>"
+
+      IF ::Params: parentAction!="delete" .AND. ::Params: parentAction!="browse" .AND. ::Params: action!="add" .AND. ::Params: action!="edit"
+         ? HTMLWriter(): buttonSubmit("action", "add", "Dodaj", "addingButton", "")
+         ? HTMLWriter(): buttonSubmit("action", "delete", "Usu"+HTMLWriter(): _n(), "deletingButton", "disabled")
+         ? HTMLWriter(): buttonSubmit("action", "edit", "Edytuj", "editingButton", "disabled")
+      ENDIF
+
+      ? HTMLWriter(): buttonSubmit("action", "browse", "Przegl"+HTMLWriter(): _a()+"daj", "browsingButton", "disabled")
+      ? "</div>"
+      ? HTMLWriter(): table({"Id", "Data", "Nazwa pliku", "Udost." ,"Grupa", "Opis"}, , , , "id", "mainTable")
+   %>
+
+   </div>
+   <div class="prawaKolumna">
+   <%
+
+      IF ::Params: action!="add" .AND. ::Params: action!="edit"
+         ? HTMLWriter(): selectHTML(dbHelper, "filtr", "Grupa: ", ::Params: filtr, "", {"__record", "nazwa_grupy"}, "pliki_grupa")+"<br />"
+         ? HTMLWriter(): buttonSubmit("filtruj", "filtruj", "Wybierz", "przyciskFiltrowania", "")
+         ? "<a href='Grupy.cxp'>Edytuj grupy</a>"
+      ENDIF
+
+   %>
+   </div>
+</form>
+<br />
+<%
+   IF ::Params: action=="add" .OR. ::Params:action=="edit"
+
+%>
+<form id="formOfDocumentAdding" method="post" enctype="multipart/form-data" action="Pliki.cxp">
+<%
+   ? HTMLWriter(): inputHidden("id", ::Params: id)
+
+   IF ::Params: action=="add"
+      akcja="saveAdding"
+      nazwaPliku=""
+      data=DtoC(Date())
+      opis=""
+      dostepny:=""
+      grupa="0"
+   ENDIF
+
+   IF ::Params:action=="edit"
+      dbHelper: SQLSelect({"nazwa_pliku", "to_char(data, 'DD-MM-YYYY')", "opis", "dostepny_w_necie", "id_grupy"}, tabela, "__record="+::Params: id)
+
+      akcja="saveEditing"
+      nazwaPliku=FieldGet(1)
+      data=FieldGet(2)
+      opis=FieldGet(3)
+
+      IF FieldGet(4)==1
+         dostepny:="checked"
+      ELSE
+         dostepny:=""
+      ENDIF
+
+      grupa=Var2Char(FieldGet(5))
+   ENDIF
+
+   ? "<div class='lewa'>"
+   ? HTMLWriter(): inputText("data", "Data (DD-MM-RRRR): ", "10", data, "", "", "" , "", "readonly")
+   %>
+
+   <input type="button" value="Kalendarz" onclick="displayCalendar(document.forms.namedItem('formOfDocumentAdding').data,'dd-mm-yyyy',this)">
+
+   <%
+
+   ? "<br /><br />"+HTMLWriter(): inputCheckBox("dostepny", "dostepny", "dostepny", "Dost"+HTMLWriter(): _e()+"pny w internecie: ", dostepny)+"<br /><br />"
+
+   IF akcja=="saveAdding"
+      ? "Nowy dokument: <br />"
+      ? HTMLWriter(): inputFile("plik", , "", "")
+   ENDIF
+
+   IF akcja=="saveEditing"
+      ? HTMLWriter(): inputText("nazwa", "Nazwa pliku: ", "75", nazwaPliku, "disabled")
+   ENDIF
+
+   ? "</div><div class='prawa'>"
+   ? HTMLWriter(): textarea("opis", "Opis: ", "2", "100", HTMLWriter(): NaHtml(opis), "")+"<br /><br />"
+   ? HTMLWriter(): selectHTML(dbHelper, "grupa", "Grupa: ", grupa, "", {"__record", "nazwa_grupy"}, "pliki_grupa")
+   ? "</div><div class='przyciski'>"
+   ? HTMLWriter(): buttonSubmit("action", akcja, "Zapisz", "addingButton", "")
+   ? HTMLWriter(): buttonSubmit("action", "cancel", "Anuluj", "cancelButton", "")
+   ? "</div>"
+
+   /*IF ::Params:action=="edit"
+      dbHelper: SQLSelect({"nazwa_pliku", "to_char(data, 'DD-MM-YYYY')", "opis", "dostepny_w_necie"}, tabela, "__record="+::Params: id)
+
+      IF FieldGet(4)==1
+         dostepny:="checked"
+      ELSE
+         dostepny:=""
+      ENDIF
+
+      ? HTMLWriter(): inputText("data", "Data (DD-MM-RRRR): ", "10", FieldGet(2), "", "", "" , "", "readonly")
+      %>
+
+      <input type="button" value="Kalendarz" onclick="displayCalendar(document.forms.namedItem('formOfDocumentAdding').data,'dd-mm-yyyy',this)">
+
+      <%
+      ? "<br /><br />"+HTMLWriter(): inputText("nazwa", "Nazwa pliku: ", "100", FieldGet(1), "disabled")+"<br /><br />"
+      ? HTMLWriter(): textarea("opis", "Opis: ", "2", "100", HTMLWriter(): NaHtml(FieldGet(3)), "")+"<br /><br />"
+      ? HTMLWriter(): inputCheckBox("dostepny", "dostepny", "dostepny", "Dost"+HTMLWriter(): _e()+"pny w internecie: ", dostepny)+"<br />"
+      ? HTMLWriter(): buttonSubmit("action", "saveEditing", "Zapisz", "editingButton", "")
+      //? HTMLWriter(): inputButton("javascript: history.back()", "Anuluj")
+      ? HTMLWriter(): buttonSubmit("action", "cancel", "Anuluj", "cancelButton", "")
+   ENDIF*/
+%>
+</form>
+<%
+
+   ENDIF
+   dbHelper: CloseConnection()
+%>
+<script>
+   Init();
+</script>
+
+<div class="znakWodny">
+   <% ? nr_system %><br />
+   <% ? tabela %>
+</div>
+</body>
+</html>
