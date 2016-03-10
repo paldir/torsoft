@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="Encje\Dostawa.cs" />
     <Compile Include="Encje\JednostkaMiary.cs" />
+    <Compile Include="Encje\KarEwiOdpa.cs" />
     <Compile Include="Encje\Kontrahent.cs" />
     <Compile Include="Encje\Kpo.cs" />
     <Compile Include="Encje\Limit.cs" />

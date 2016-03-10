@@ -174,7 +174,135 @@ namespace Odpady.Wydruki
             return bajty;
         }
 
-        public static byte[] Ewidencja(DateTime dataOd, DateTime dataDo, IEnumerable<InformacjeOOdpadzie> odpady)
+        public static byte[] Keo(InformacjeDoKeo info)
+        {
+            PdfReader.unethicalreading = true;
+            byte[] bajty;
+            string ścieżka = Path.Combine(KatalogZWzorami, "KartaEwidencjiOdpadu.pdf");
+
+            using (PdfReader czytaczPdf = new PdfReader(ścieżka))
+            {
+                Rectangle rozmiar = czytaczPdf.GetPageSizeWithRotation(1);
+                Document dokument = new Document(rozmiar);
+                PdfWriter pisarzPdf;
+
+                dokument.SetPageSize(PageSize.A4.Rotate());
+
+                using (MemoryStream strumień = new MemoryStream())
+                {
+                    pisarzPdf = PdfWriter.GetInstance(dokument, strumień);
+
+                    dokument.Open();
+
+                    PdfContentByte zawartośćPdf = pisarzPdf.DirectContent;
+                    Font czcionka8 = FontFactory.GetFont(BaseFont.TIMES_ROMAN, BaseFont.CP1257, false, 8);
+                    Font czcionka9 = FontFactory.GetFont(BaseFont.TIMES_ROMAN, BaseFont.CP1257, false, 9);
+                    Font czcionka10 = FontFactory.GetFont(BaseFont.TIMES_ROMAN, BaseFont.CP1257, false, 10, Font.BOLD);
+                    Font czcionka12 = FontFactory.GetFont(BaseFont.TIMES_ROMAN, BaseFont.CP1257, false, 12, Font.BOLD);
+                    Font czcionka14 = FontFactory.GetFont(BaseFont.TIMES_ROMAN, BaseFont.CP1257, false, 14, Font.BOLD);
+
+                    //Nr karty
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka12, 635, 472, 50, info.NR_KARTY, Wyrównanie.DoŚrodka);
+                    //Rok kalendarzowy
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka12, 760, 472, 50, info.ROK_KALENDARZOWY, Wyrównanie.DoŚrodka);
+                    //KOD_ODPADU
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka10, 225, 447, 250, info.KOD_ODPADU, Wyrównanie.DoLewej);
+                    //OPIS_ODPADU
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka9, 225, 437, 700, info.OPIS_ODPADU, Wyrównanie.DoLewej);
+                    //POSIADACZ_ODPADU
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka14, 162, 410, 700, info.POSIADACZ_ODPADU, Wyrównanie.DoLewej);
+                    //NR_REJESTROWY
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka14, 162, 387, 150, info.NR_REJESTROWY, Wyrównanie.DoLewej);
+                    //NIP
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka14, 422, 387, 150, info.NIP, Wyrównanie.DoLewej);
+                    //REGON
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka14, 682, 387, 150, info.REGON, Wyrównanie.DoLewej);
+                    //WOJ_POS
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka14, 105, 357, 75, info.WOJ_POS, Wyrównanie.DoLewej);
+                    //GMINA_POS
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka14, 218, 357, 75, info.GMINA_POS, Wyrównanie.DoLewej);
+                    //MIEJS_POS
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka14, 382, 357, 75, info.MIEJS_POS, Wyrównanie.DoLewej);
+                    //TEL_POS
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka10, 588, 357, 75, info.TEL_POS, Wyrównanie.DoLewej);
+                    //EMAIL_POS
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka8, 742, 362, 75, info.EMAIL_POS, Wyrównanie.DoLewej);
+                    //UL_POS
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka14, 70, 340, 250, info.UL_POS, Wyrównanie.DoLewej);
+                    //NR_DOMU_POS
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka14, 382, 340, 50, info.NR_DOMU_POS, Wyrównanie.DoLewej);
+                    //NR_LOK_POS
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka14, 589, 340, 50, info.NR_LOK_POS, Wyrównanie.DoLewej);
+                    //KOD_POCZ_POS
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka14, 743, 340, 50, info.KOD_POCZ_POS, Wyrównanie.DoLewej);
+                    //WOJ_PRO
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka14, 105, 309, 75, info.WOJ_PRO, Wyrównanie.DoLewej);
+                    //GMINA_PRO
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka14, 218, 309, 75, info.GMINA_PRO, Wyrównanie.DoLewej);
+                    //MIEJS_PRO
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka14, 382, 309, 75, info.MIEJS_PRO, Wyrównanie.DoLewej);
+                    //TEL_PRO
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka10, 588, 309, 75, info.TEL_PRO, Wyrównanie.DoLewej);
+                    //EMAIL_PRO
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka8, 742, 314, 75, info.EMAIL_PRO, Wyrównanie.DoLewej);
+                    //UL_PRO
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka14, 70, 292, 250, info.UL_PRO, Wyrównanie.DoLewej);
+                    //NR_DOMU_PRO
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka14, 382, 292, 50, info.NR_DOMU_PRO, Wyrównanie.DoLewej);
+                    //NR_LOK_PRO
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka14, 589, 292, 50, info.NR_LOK_PRO, Wyrównanie.DoLewej);
+                    //KOD_POCZ_PRO
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka14, 743, 292, 50, info.KOD_POCZ_PRO, Wyrównanie.DoLewej);
+                    //ZB
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka14, 351, 263, 50, info.ZB, Wyrównanie.DoLewej);
+                    //OK
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka14, 742, 263, 50, info.OK, Wyrównanie.DoLewej);
+                    //DATA_MIESIAC
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka10, 30, 189, 50, info.DATA_MIESIAC, Wyrównanie.DoLewej);
+                    //PRZY_MASA
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka10, 304, 189, 50, info.PRZY_MASA, Wyrównanie.DoLewej);
+                    //PRZY_NR_KAR
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka10, 353, 189, 50, info.PRZY_NR_KAR, Wyrównanie.DoLewej);
+                    //PRZE_MASA
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka10, 592, 189, 50, info.PRZE_MASA, Wyrównanie.DoLewej);
+                    //PRZE_NR_KAR
+                    WypełnijPoleWPdf(zawartośćPdf, czcionka10, 634, 189, 50, info.PRZE_NR_KAR, Wyrównanie.DoLewej);
+
+                    PdfImportedPage strona = pisarzPdf.GetImportedPage(czytaczPdf, 1);
+
+                    zawartośćPdf.AddTemplate(strona, 0, 0);
+
+                    dokument.Close();
+
+                    bajty = strumień.GetBuffer();
+                }
+
+                pisarzPdf.Close();
+            }
+
+            int ms = DateTime.Now.Millisecond;
+            string pierwszaStrona = string.Concat("pierwszaStrona", ms, ".pdf");
+            string wynik = string.Concat("wynik", ms, ".pdf");
+
+            File.WriteAllBytes(pierwszaStrona, bajty);
+
+            using (PdfReader pdf1 = new PdfReader(pierwszaStrona))
+            using (PdfReader pdf2 = new PdfReader(ścieżka))
+            using (FileStream strumień = new FileStream(wynik, FileMode.Append))
+            using (PdfStamper pisarz = new PdfStamper(pdf2, strumień))
+            {
+                pisarz.ReplacePage(pdf1, 1, 1);
+            }
+
+            bajty = File.ReadAllBytes(wynik);
+
+            File.Delete(pierwszaStrona);
+            File.Delete(wynik);
+
+            return bajty;
+        }
+
+        public static byte[] Ewidencja(DateTime dataOd, DateTime dataDo, IEnumerable<InformacjeOOdpadzie> odpady, Oddział oddzial)
         {
             const string formatDaty = "dd.MM.yyyy";
             InformacjeOOdpadzie[] tablicaOdpadów = odpady.ToArray();
@@ -182,6 +310,7 @@ namespace Odpady.Wydruki
             dokument = dokument.Replace("{data1}", dataOd.ToString(formatDaty));
             dokument = dokument.Replace("{data2}", dataDo.ToString(formatDaty));
             dokument = dokument.Replace("{zestawienieDotyczy}", tablicaOdpadów.Length > 1 ? "przyjętych odpadów" : "przyjętego odpadu");
+            dokument = dokument.Replace("{oddzial}", oddzial.SKROCONA_NAZWA);
             StringBuilder budowniczyTabeli = new StringBuilder();
 
             foreach (InformacjeOOdpadzie informacje in tablicaOdpadów)
@@ -193,7 +322,7 @@ namespace Odpady.Wydruki
             return bajty;
         }
 
-        public static byte[] ZestawienieOdpadu(DateTime dataOd, DateTime dataDo, IEnumerable<SzczegółDostawy> szczegółyDostaw)
+        public static byte[] ZestawienieOdpadu(DateTime dataOd, DateTime dataDo, IEnumerable<SzczegółDostawy> szczegółyDostaw, Oddział oddzial)
         {
             const string formatDaty = "dd.MM.yyyy";
             SzczegółDostawy[] tabelaSzczegółów = szczegółyDostaw.ToArray();
@@ -203,6 +332,7 @@ namespace Odpady.Wydruki
             dokument = dokument.Replace("{data2}", dataDo.ToString(formatDaty));
             dokument = dokument.Replace("{kod}", odpad.KOD);
             dokument = dokument.Replace("{opis}", odpad.OPIS);
+            dokument = dokument.Replace("{oddzial}", oddzial.SKROCONA_NAZWA);
             StringBuilder budowniczyTabeli = new StringBuilder();
             decimal suma = 0;
 

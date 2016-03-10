@@ -6,9 +6,15 @@
     <title>...</title>
 
     <style>
-        body {
-            text-align: center;
+        #adres {
+            text-align: left;
+            font-size: 12pt;
+            font-weight: bold;
         }
+
+         body {
+             text-align: center;
+         }
 
         #poleTabeli {
             margin: 50px 0 50px 0;
@@ -20,14 +26,21 @@
     </style>
 </head>
 <body>
+    <div id="adres">
+        Zakład Gospodarki Komunalnej Sp. z o.o.<br />
+        Punkt Selektywnej Zbiórki Odpadów Komunalnych<br />
+        87-140 Chełmża, ul. Toruńska 1<br />
+        Tel.: 56-675-22-06, Fax.: 56-675-60-89
+    </div>
     <h1>Zestawienie odpadu {kod}</h1>
     <h2>{opis}</h2>
     <h3>od {data1} do {data2}</h3>
+    <h4>odpad pochodzi z terenu {oddzial}</h4>
     <div id="poleTabeli">
-        <table id="tabela">
-            <thead><tr><th>Data</th><th>Ulica</th><th>Nr domu</th><th>Nr lokalu</th><th>Ilość</th><th>Jedn. miary</th></tr></thead>
-            <tbody>{tablica}</tbody>
-        </table>
-    </div>
+    <table id="tabela">
+        <thead><tr><th>Data</th><th>Ulica</th><th>Nr domu</th><th>Nr lokalu</th><th>Ilość</th><th>Jedn. miary</th></tr></thead>
+        <tbody>{tablica}</tbody>
+    </table>
+</div>
 </body>
 </html>

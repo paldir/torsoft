@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InformacjeDoKeo.cs" />
     <Compile Include="InformacjeDoKpo.cs" />
     <Compile Include="InformacjeOOdpadzie.cs" />
     <Compile Include="Wydruk.cs" />
@@ -74,6 +75,9 @@
     <None Include="app.config" />
     <None Include="packages.config" />
     <Content Include="Wzory\Kpo.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Wzory\KartaEwidencjiOdpadu.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

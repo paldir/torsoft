@@ -83,6 +83,7 @@ namespace Odpady.DostępDoDanych
             TypRekorduNaNazwęTabeli.Add(typeof (SzczegółDostawy), "SZCZEGOLY_DOSTAW");
             TypRekorduNaNazwęTabeli.Add(typeof (Kpo), "KPO");
             TypRekorduNaNazwęTabeli.Add(typeof (Odbiorca), "ODBIORCY");
+            TypRekorduNaNazwęTabeli.Add(typeof (KarEwiOdpa), "KARTY_EWIDENCJI_ODPADOW");
         }
 
         public List<T> PobierzWszystkie<T>() where T : Rekord
