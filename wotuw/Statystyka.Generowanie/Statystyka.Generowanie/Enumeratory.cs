@@ -32,4 +32,10 @@
         G2,
         G3
     }
+
+    public enum Poradnia
+    {
+        Alkohol,
+        Narkotyki
+    }
 }

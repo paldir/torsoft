@@ -10,7 +10,7 @@ namespace Test
         private static void Main()
         {
             ZabiegPacjenta.Rok = 2015;
-            Analiza analiza = new Analiza("wynik.txt");
+            Analiza analiza = new Analiza("wynik.txt", Poradnia.Alkohol);
             IEnumerable<WierszZestawienia> z1 = analiza.OstateczneZestawienie(Grupa.G1);
             IEnumerable<WierszZestawienia> z2 = analiza.OstateczneZestawienie(Grupa.G2);
             IEnumerable<WierszZestawienia> z3 = analiza.OstateczneZestawienie(Grupa.G3);

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
+using Oracle.ManagedDataAccess.Client;
 
 namespace Statystyka.Generowanie
 {
@@ -25,9 +27,9 @@ namespace Statystyka.Generowanie
         public Dictionary<string, int> ZabiegNaLiczbęMężczyznPierwszyRaz { get; private set; }
         public Dictionary<string, int> ZabiegNaLiczbęOgółemPierwszyRaz { get; private set; }
 
-        public Analiza(string ścieżkaPliku)
+        public Analiza(string ścieżkaPliku, Poradnia poradnia)
         {
-            PobierzDaneZPliku(ścieżkaPliku);
+            PobierzDaneZPliku(ścieżkaPliku, poradnia);
             Zestawienie();
             ObliczStatystykę();
         }
@@ -98,8 +100,41 @@ namespace Statystyka.Generowanie
             return wiersze;
         }
 
-        private void PobierzDaneZPliku(string ścieżka)
+        private void PobierzDaneZPliku(string ścieżka, Poradnia poradnia)
         {
+            const string parametry = "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=wotuiw-server)  (PORT=1521)))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=KS)));User Id=PPS;Password=KSPPS;";
+            string nazwaPliku = ścieżka;
+            DataTable tabela = new DataTable();
+
+            using (OracleConnection połączenie = new OracleConnection(parametry))
+            {
+                połączenie.Open();
+
+                string kodPoradni = poradnia == Poradnia.Alkohol ? "200016825" : "200016822";
+                int rok = ZabiegPacjenta.Rok;
+                string treść = @"select KNK.NJ10,EPD.NPAC,PAC.PESL,NLKR,PAC.PLEC,PAC.DATU,PAC.DTWO from KNK JOIN EPD ON EPD.NINS=KNK.NINS_EPD
+                         and EPD.NEPD=KNK.NEPD
+                         and EPD.AKTW = 'T'
+                         and EPD.WERS > 0
+                         JOIN PAC ON EPD.NINS_PAC = PAC.NINS
+                         and EPD.NPAC = PAC.NPAC
+                         and KNK.NMWU = '" + kodPoradni + @"'
+                         where KNK.DTOD >='" + rok + @"-01-01' and KNK.DTOD<='" + rok + @"-12-31'
+                        order by PAC.DATU ASC";
+
+                using (OracleDataAdapter adapter = new OracleDataAdapter(treść, połączenie))
+                    adapter.Fill(tabela);
+            }
+
+            using (StreamWriter pisarz = new StreamWriter(nazwaPliku))
+                foreach (DataRow wiersz in tabela.Rows)
+                {
+                    foreach (object pole in wiersz.ItemArray)
+                        pisarz.Write("{0}\t", pole);
+
+                    pisarz.WriteLine();
+                }
+
             List<ZabiegPacjenta> zabiegiPacjentów = new List<ZabiegPacjenta>();
 
             using (StreamReader strumień = new StreamReader(ścieżka))
@@ -110,7 +145,7 @@ namespace Statystyka.Generowanie
                     if (!string.IsNullOrEmpty(linia))
                     {
                         string[] dane = linia.Split('\t');
-                        ZabiegPacjenta zabiegPacjenta = new ZabiegPacjenta(DateTime.ParseExact(dane[5], "yyyy-MM-dd", null))
+                        ZabiegPacjenta zabiegPacjenta = new ZabiegPacjenta(DateTime.ParseExact(dane[5], "yyyy-MM-dd HH:mm:ss", null))
                         {
                             Zabieg = dane[0],
                             Nr = int.Parse(dane[1]),
