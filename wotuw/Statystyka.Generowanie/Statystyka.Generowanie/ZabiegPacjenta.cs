@@ -10,7 +10,7 @@ namespace Statystyka.Generowanie
         public Płeć Płeć { get; set; }
         public DateTime DataUrodzenia { get; set; }
         public string Zabieg { get; set; }
-        public DateTime? PierwszaWizyta { get; set; }
+        public DateTime PierwszaWizyta { get; set; }
         public PrzedziałWiekowy PrzedziałWiekowy { get; private set; }
 
         public ZabiegPacjenta(DateTime dataUrodzenia)

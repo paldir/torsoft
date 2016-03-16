@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Linq;
 using Oracle.ManagedDataAccess.Client;
 
@@ -27,9 +26,9 @@ namespace Statystyka.Generowanie
         public Dictionary<string, int> ZabiegNaLiczbęMężczyznPierwszyRaz { get; private set; }
         public Dictionary<string, int> ZabiegNaLiczbęOgółemPierwszyRaz { get; private set; }
 
-        public Analiza(string ścieżkaPliku, Poradnia poradnia)
+        public Analiza(Poradnia poradnia)
         {
-            PobierzDaneZPliku(ścieżkaPliku, poradnia);
+            PobierzDane(poradnia);
             Zestawienie();
             ObliczStatystykę();
         }
@@ -37,7 +36,7 @@ namespace Statystyka.Generowanie
         public IEnumerable<WierszZestawienia> OstateczneZestawienie(Grupa grupa)
         {
             List<WierszZestawienia> wiersze = new List<WierszZestawienia>();
-            Type typWierszaZestawienia = typeof(WierszZestawienia);
+            Type typWierszaZestawienia = typeof (WierszZestawienia);
             Dictionary<PrzedziałWiekowy, int> przedziałWiekowyNaLiczbęOgółem = GrupaNaPrzedziałWiekowyNaLiczbęOgółem[grupa];
             Dictionary<PrzedziałWiekowy, int> przedziałWiekowyNaLiczbęMężczyzn = GrupaNaPrzedziałWiekowyNaLiczbęMężczyzn[grupa];
             Dictionary<PrzedziałWiekowy, int> przedziałWiekowyNaLiczbęOgółemPierwszyRaz = GrupaNaPrzedziałWiekowyNaLiczbęOgółemPierwszyRaz[grupa];
@@ -86,12 +85,12 @@ namespace Statystyka.Generowanie
                     WTymMężczyźniPierwszyRaz = ZabiegNaLiczbęMężczyznPierwszyRaz[zabieg]
                 };
 
-                foreach (PrzedziałWiekowy przedziałWiekowy in Enum.GetValues(typeof(PrzedziałWiekowy)))
+                foreach (PrzedziałWiekowy przedziałWiekowy in Enum.GetValues(typeof (PrzedziałWiekowy)))
                 {
                     List<ZabiegPacjenta> zabiegiPacjentów = ZabiegNaPrzedziałWiekowyNaZabiegiPacjentów[zabieg][przedziałWiekowy];
 
                     typWierszaZestawienia.GetProperty(przedziałWiekowy.ToString()).SetValue(wiersz, zabiegiPacjentów.Count, null);
-                    typWierszaZestawienia.GetProperty(string.Concat(przedziałWiekowy, "PierwszyRaz")).SetValue(wiersz, zabiegiPacjentów.Count(z => !z.PierwszaWizyta.HasValue), null);
+                    typWierszaZestawienia.GetProperty(string.Concat(przedziałWiekowy, "PierwszyRaz")).SetValue(wiersz, zabiegiPacjentów.Count(z => z.PierwszaWizyta.Year < ZabiegPacjenta.Rok), null);
                 }
 
                 wiersze.Add(wiersz);
@@ -100,11 +99,10 @@ namespace Statystyka.Generowanie
             return wiersze;
         }
 
-        private void PobierzDaneZPliku(string ścieżka, Poradnia poradnia)
+        private void PobierzDane(Poradnia poradnia)
         {
             const string parametry = "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=wotuiw-server)  (PORT=1521)))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=KS)));User Id=PPS;Password=KSPPS;";
-            string nazwaPliku = ścieżka;
-            DataTable tabela = new DataTable();
+            List<ZabiegPacjenta> zabiegiPacjentów = new List<ZabiegPacjenta>();
 
             using (OracleConnection połączenie = new OracleConnection(parametry))
             {
@@ -112,7 +110,8 @@ namespace Statystyka.Generowanie
 
                 string kodPoradni = poradnia == Poradnia.Alkohol ? "200016825" : "200016822";
                 int rok = ZabiegPacjenta.Rok;
-                string treść = @"select KNK.NJ10,EPD.NPAC,PAC.PESL,NLKR,PAC.PLEC,PAC.DATU,PAC.DTWO from KNK JOIN EPD ON EPD.NINS=KNK.NINS_EPD
+                DataTable tabela = new DataTable();
+                string zapytanie = @"select KNK.NJ10,EPD.NPAC,PAC.PESL,NLKR,PAC.PLEC,PAC.DATU,PAC.DTWO,KNK.DTOD from KNK JOIN EPD ON EPD.NINS=KNK.NINS_EPD
                          and EPD.NEPD=KNK.NEPD
                          and EPD.AKTW = 'T'
                          and EPD.WERS > 0
@@ -122,45 +121,45 @@ namespace Statystyka.Generowanie
                          where KNK.DTOD >='" + rok + @"-01-01' and KNK.DTOD<='" + rok + @"-12-31'
                         order by PAC.DATU ASC";
 
-                using (OracleDataAdapter adapter = new OracleDataAdapter(treść, połączenie))
+                using (OracleDataAdapter adapter = new OracleDataAdapter(zapytanie, połączenie))
                     adapter.Fill(tabela);
-            }
 
-            using (StreamWriter pisarz = new StreamWriter(nazwaPliku))
-                foreach (DataRow wiersz in tabela.Rows)
+                DataRow[] wiersze = tabela.Select();
+                const string nazwaDtod = "DTOD";
+                const string nazwaNpac = "NPAC";
+                const string nazwaNj10 = "NJ10";
+
+                foreach (DataRow wiersz in from wiersz in wiersze let dtod = Convert.ToDateTime(wiersz[nazwaDtod]) where dtod.Year == rok select wiersz)
                 {
-                    foreach (object pole in wiersz.ItemArray)
-                        pisarz.Write("{0}\t", pole);
+                    DataTable tabelaŚwiadczeniaPacjenta = new DataTable();
+                    int npac = Convert.ToInt32(wiersz[nazwaNpac]);
+                    string nj10 = wiersz[nazwaNj10].ToString();
+                    string zapytanieŚwiadczeniaPacjenta = @"select KNK.NJ10,EPD.NPAC,PAC.PESL,NLKR,PAC.PLEC,PAC.DATU,PAC.DTWO,KNK.DTOD from KNK JOIN EPD ON EPD.NINS=KNK.NINS_EPD
+                         and EPD.NEPD=KNK.NEPD
+                         and EPD.AKTW = 'T'
+                         and EPD.WERS > 0
+                         JOIN PAC ON EPD.NINS_PAC = PAC.NINS
+                         and EPD.NPAC = PAC.NPAC
+                         and KNK.NMWU = '" + kodPoradni + @"'
+                         where PAC.NPAC ='" + npac + @"' and KNK.NJ10 ='" + nj10 + @"'
+                         order by PAC.DATU ASC";
 
-                    pisarz.WriteLine();
-                }
+                    using (OracleDataAdapter adapter = new OracleDataAdapter(zapytanieŚwiadczeniaPacjenta, połączenie))
+                        adapter.Fill(tabelaŚwiadczeniaPacjenta);
 
-            List<ZabiegPacjenta> zabiegiPacjentów = new List<ZabiegPacjenta>();
-
-            using (StreamReader strumień = new StreamReader(ścieżka))
-                while (!strumień.EndOfStream)
-                {
-                    string linia = strumień.ReadLine();
-
-                    if (!string.IsNullOrEmpty(linia))
+                    DateTime dataPierwszegoŚwiadczenia = tabelaŚwiadczeniaPacjenta.AsEnumerable().Min(w => Convert.ToDateTime(w[nazwaDtod]));
+                    ZabiegPacjenta zabiegPacjenta = new ZabiegPacjenta(DateTime.ParseExact(wiersz[5].ToString(), "yyyy-MM-dd HH:mm:ss", null))
                     {
-                        string[] dane = linia.Split('\t');
-                        ZabiegPacjenta zabiegPacjenta = new ZabiegPacjenta(DateTime.ParseExact(dane[5], "yyyy-MM-dd HH:mm:ss", null))
-                        {
-                            Zabieg = dane[0],
-                            Nr = int.Parse(dane[1]),
-                            Płeć = (Płeć)Enum.Parse(typeof(Płeć), dane[4])
-                        };
+                        Zabieg = wiersz[0].ToString(),
+                        Nr = Convert.ToInt32(wiersz[1]),
+                        Płeć = (Płeć) Enum.Parse(typeof (Płeć), wiersz[4].ToString()),
+                        PierwszaWizyta = dataPierwszegoŚwiadczenia
+                    };
 
-                        string pierwszaWizyta = dane[6];
-
-                        if (!string.IsNullOrEmpty(pierwszaWizyta))
-                            zabiegPacjenta.PierwszaWizyta = DateTime.ParseExact(pierwszaWizyta, "yyyy-MM-dd HH:mm:ss", null);
-
-                        if (!zabiegiPacjentów.Exists(z => (z.Nr == zabiegPacjenta.Nr) && (z.Zabieg == zabiegPacjenta.Zabieg)))
-                            zabiegiPacjentów.Add(zabiegPacjenta);
-                    }
+                    if (!zabiegiPacjentów.Exists(z => (z.Nr == zabiegPacjenta.Nr) && (z.Zabieg == zabiegPacjenta.Zabieg)))
+                        zabiegiPacjentów.Add(zabiegPacjenta);
                 }
+            }
 
             ZabiegiPacjentów = zabiegiPacjentów;
         }
@@ -171,7 +170,7 @@ namespace Statystyka.Generowanie
 
             foreach (string zabieg in GrupaNaZabiegi[Grupa.G1].Concat(GrupaNaZabiegi[Grupa.G2]).Concat(GrupaNaZabiegi[Grupa.G3]))
             {
-                Dictionary<PrzedziałWiekowy, List<ZabiegPacjenta>> przedziałWiekowyNaZabiegiPacjentów = Enum.GetValues(typeof(PrzedziałWiekowy)).Cast<PrzedziałWiekowy>().ToDictionary(przedziałWiekowy => przedziałWiekowy, przedziałWiekowy => new List<ZabiegPacjenta>());
+                Dictionary<PrzedziałWiekowy, List<ZabiegPacjenta>> przedziałWiekowyNaZabiegiPacjentów = Enum.GetValues(typeof (PrzedziałWiekowy)).Cast<PrzedziałWiekowy>().ToDictionary(przedziałWiekowy => przedziałWiekowy, przedziałWiekowy => new List<ZabiegPacjenta>());
 
                 ZabiegNaPrzedziałWiekowyNaZabiegiPacjentów.Add(zabieg, przedziałWiekowyNaZabiegiPacjentów);
             }
@@ -197,14 +196,14 @@ namespace Statystyka.Generowanie
             ZabiegNaLiczbęMężczyznPierwszyRaz = new Dictionary<string, int>();
             ZabiegNaLiczbęOgółemPierwszyRaz = new Dictionary<string, int>();
 
-            foreach (Grupa grupa in Enum.GetValues(typeof(Grupa)))
+            foreach (Grupa grupa in Enum.GetValues(typeof (Grupa)))
             {
                 Dictionary<PrzedziałWiekowy, int> przedziałWiekowyNaLiczbęMężczyzn = new Dictionary<PrzedziałWiekowy, int>();
                 Dictionary<PrzedziałWiekowy, int> przedziałWiekowyNaLiczbęOgółem = new Dictionary<PrzedziałWiekowy, int>();
                 Dictionary<PrzedziałWiekowy, int> przedziałWiekowyNaLiczbęMężczyznPierwszyRaz = new Dictionary<PrzedziałWiekowy, int>();
                 Dictionary<PrzedziałWiekowy, int> przedziałWiekowyNaLiczbęOgółemPierwszyRaz = new Dictionary<PrzedziałWiekowy, int>();
 
-                foreach (PrzedziałWiekowy przedziałWiekowy in Enum.GetValues(typeof(PrzedziałWiekowy)))
+                foreach (PrzedziałWiekowy przedziałWiekowy in Enum.GetValues(typeof (PrzedziałWiekowy)))
                 {
                     przedziałWiekowyNaLiczbęMężczyzn.Add(przedziałWiekowy, 0);
                     przedziałWiekowyNaLiczbęOgółem.Add(przedziałWiekowy, 0);
@@ -232,12 +231,13 @@ namespace Statystyka.Generowanie
                 string zabieg = zabiegPacjenta.Zabieg;
                 Dictionary<Grupa, IEnumerable<string>> grupaNaZabiegi = GrupaNaZabiegi;
                 Grupa grupa = grupaNaZabiegi.Keys.Single(k => grupaNaZabiegi[k].Contains(zabieg));
-                DateTime? pierwszaWizyta = zabiegPacjenta.PierwszaWizyta;
+                int rokPierwszejWizyty = zabiegPacjenta.PierwszaWizyta.Year;
+                int rok = ZabiegPacjenta.Rok;
 
                 GrupaNaPrzedziałWiekowyNaLiczbęOgółem[grupa][przedziałWiekowy]++;
                 ZabiegNaLiczbęOgółem[zabieg]++;
 
-                if (!pierwszaWizyta.HasValue)
+                if (rokPierwszejWizyty < rok)
                 {
                     GrupaNaPrzedziałWiekowyNaLiczbęOgółemPierwszyRaz[grupa][przedziałWiekowy]++;
                     ZabiegNaLiczbęOgółemPierwszyRaz[zabieg]++;
@@ -248,7 +248,7 @@ namespace Statystyka.Generowanie
                     GrupaNaPrzedziałWiekowyNaLiczbęMężczyzn[grupa][przedziałWiekowy]++;
                     ZabiegNaLiczbęMężczyzn[zabieg]++;
 
-                    if (!pierwszaWizyta.HasValue)
+                    if (rokPierwszejWizyty < rok)
                     {
                         GrupaNaPrzedziałWiekowyNaLiczbęMężczyznPierwszyRaz[grupa][przedziałWiekowy]++;
                         ZabiegNaLiczbęMężczyznPierwszyRaz[zabieg]++;
