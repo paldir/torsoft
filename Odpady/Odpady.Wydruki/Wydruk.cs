@@ -384,6 +384,8 @@ namespace Odpady.Wydruki
 
         public static void ZapiszBajtyJakoPdfIOtwórz(byte[] bajty, string ścieżkaDoPliku)
         {
+            ścieżkaDoPliku = ścieżkaDoPliku.Replace("*", "");
+
             File.WriteAllBytes(ścieżkaDoPliku, bajty);
             Process.Start(ścieżkaDoPliku);
         }
