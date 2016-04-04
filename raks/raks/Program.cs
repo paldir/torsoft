@@ -18,8 +18,12 @@ namespace raks
                 using (OleDbCommand komenda = new OleDbCommand("SELECT * FROM KONTRA.DBF", połączenie))
                 using (OleDbDataAdapter adapter = new OleDbDataAdapter(komenda))
                     adapter.Fill(kontrahenci);
+            }
 
-
+            foreach (DataRow dataRow in kontrahenci.Rows)
+            {
+                Console.WriteLine(string.Join(" ", dataRow.ItemArray));
+                Console.ReadKey();
             }
         }
     }
