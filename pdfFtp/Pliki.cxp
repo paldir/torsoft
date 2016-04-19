@@ -26,11 +26,17 @@
       ::Session: baza:=DbHelper(): CzytajZIni("C:\inetpub\wwwroot\pdfFtp\konfig.ini", "parametry_polaczenia", "baza")
       ::Session: tabela:="pliki_"+::Params: dotyczy
       ::Session: nr_system:=::Params: nr_system
+      ::Session: udost:="0"
+
+      IF(Len(::Params: udost)>0 .AND. ::Params: udost=="1")
+         ::Session: udost:="1"
+      ENDIF
    ENDIF
 
    dbHelper:=DbHelper(): new(::Session: host, ::Session: baza)
    tabela:=::Session: tabela
    nr_system:=::Session: nr_system
+   udost:=::Session: udost
    linia1=StrTran(StrTran(StrTran(::Session: linia1, "}", " "), "[", "&#"), "]", ";")
    linia2=StrTran(StrTran(StrTran(::Session: linia2, "}", " "), "[", "&#"), "]", ";")
    linia3=StrTran(StrTran(StrTran(::Session: linia3, "}", " "), "[", "&#"), "]", ";")
@@ -101,6 +107,10 @@
       klauzulaWhere:=" AND id_grupy="+filtr
    ENDIF
 
+   IF udost=="1"
+      klauzulaWhere+=" AND dostepny_w_necie=1"
+   ENDIF
+
    dbHelper: SQLSelect({"p.__record", "to_char(data, 'DD-MM-YYYY')", "nazwa_pliku", "CASE WHEN dostepny_w_necie>0 THEN 'tak' ELSE 'nie' END", "nazwa_grupy", "substring(opis from 1 for 25)||CASE WHEN char_length(opis)>25 THEN '...' ELSE '' END"}, tabela+" p LEFT OUTER JOIN pliki_grupa g ON p.id_grupy=g.__record", "id_obiektu="+nr_system+klauzulaWhere, "data")
 %>
 <form id="formOfDocumentRemoval" method="get" action="Pliki.cxp">
@@ -109,7 +119,7 @@
    <%
       ? "<div class='floatingMenu'>"
 
-      IF ::Params: parentAction!="delete" .AND. ::Params: parentAction!="browse" .AND. ::Params: action!="add" .AND. ::Params: action!="edit"
+      IF ::Params: parentAction!="delete" .AND. ::Params: parentAction!="browse" .AND. ::Params: action!="add" .AND. ::Params: action!="edit" .AND. udost!="1"
          ? HTMLWriter(): buttonSubmit("action", "add", "Dodaj", "addingButton", "")
          ? HTMLWriter(): buttonSubmit("action", "delete", "Usu"+HTMLWriter(): _n(), "deletingButton", "disabled")
          ? HTMLWriter(): buttonSubmit("action", "edit", "Edytuj", "editingButton", "disabled")
@@ -230,7 +240,8 @@
 
 <div class="znakWodny">
    <% ? nr_system %><br />
-   <% ? tabela %>
+   <% ? tabela %><br />
+   <% ? udost %>
 </div>
 </body>
 </html>
