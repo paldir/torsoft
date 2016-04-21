@@ -1,3 +1,5 @@
+var idWiersza=0;
+
 function isInteger(evt) {
     var charCode = (evt.which) ? evt.which : event.keyCode
     if (charCode > 31 && (charCode < 48 || charCode > 57))
@@ -125,10 +127,12 @@ function ClearSelectionOfRow() {
 }
 
 function ChangeRow(rowId) {
+	idWiersza=rowId;
     var buttons = Array(4)
     buttons[1] = document.getElementById("editingButton");
     buttons[2] = document.getElementById("deletingButton");
     buttons[3] = document.getElementById("browsingButton");
+	buttons[4] = document.getElementById("przyciskOpisu");
 
     for (var i = 0; i < buttons.length; i++)
         if (buttons[i] != null)
@@ -190,4 +194,30 @@ function Init() {
 
     if (addingButton != null)
         addingButton.onclick = funkcja;
+}
+
+function opis(tabela)
+{
+	$.ajax({
+		url: "Opis.cxp",
+		data:{
+			id: idWiersza,
+			tabela: tabela
+		},
+		success: function(dane){
+			dane=dane.replace(/\\n/g, "\n");
+
+			dane=dane.replace(/&#185;/, "¹"); //a
+			dane=dane.replace(/&#230;/, "æ"); //c
+			dane=dane.replace(/&#234;/, "ê"); //e
+			dane=dane.replace(/&#179;/, "³"); //l
+			dane=dane.replace(/&#241;/, "ñ"); //n
+			dane=dane.replace(/&#243;/, "ó"); //o
+			dane=dane.replace(/&#156;/, "œ"); //s
+			dane=dane.replace(/&#159;/, "Ÿ"); //x
+			dane=dane.replace(/&#191;/, "¿"); //z
+				
+			alert(dane);
+		}
+	});
 }

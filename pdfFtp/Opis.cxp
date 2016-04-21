@@ -1,0 +1,17 @@
+<%#Page trace="no"%>
+<%#Code locality="page-global"%>
+<%
+     #include "C:\inetpub\wwwroot\pdfFtp\HTMLWriter.ch"
+     #include "C:\inetpub\wwwroot\pdfFtp\DbHelper.ch"
+%>
+
+<%
+   dbHelper:=DbHelper(): new(::Session: host, ::Session: baza)
+   dbHelper: SQLSelect({"data", "nazwa_pliku", "opis"}, ::Params: tabela, "__record="+::Params: id)
+
+   SET DATE format TO "dd-mm-yyyy"
+
+   ? DtoC(FieldGet(1))+'\n'+Var2Char(FieldGet(2))+"\n\n"+Var2Char(FieldGet(3))
+
+   dbHelper: CloseConnection()
+%>
